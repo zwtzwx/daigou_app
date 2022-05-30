@@ -1,0 +1,60 @@
+// ignore_for_file: constant_identifier_names
+
+import 'package:jiyun_app_client/common/http_client.dart';
+import 'package:flutter/material.dart';
+import 'package:jiyun_app_client/models/warehouse_model.dart';
+import 'package:jiyun_app_client/storage/warehouse_storage.dart';
+
+class WarehouseService extends ChangeNotifier {
+  // 获取包裹的仓库数据
+  static const String LISTAPI = 'warehouse-address/get-list';
+  // 获取某个国家的仓库
+  static const String LISTBYCOUNTRYAPI = 'warehouse-address/get-list';
+
+  // 获取仓库列表
+  static Future<List<WareHouseModel>> getList(
+      [Map<String, dynamic>? params]) async {
+    List<WareHouseModel> result = [];
+    await HttpClient()
+        .get(LISTAPI, queryParameters: params)
+        .then((response) => {
+              response.data.forEach((good) {
+                result.add(WareHouseModel.fromJson(good));
+              })
+            })
+        .onError((error, stackTrace) => {});
+    return result;
+  }
+
+  // 获取某个国家的仓库列表
+  static Future<List<WareHouseModel>> getWareHouseByCountry(
+      [Map<String, dynamic>? params]) async {
+    List<WareHouseModel> result = [];
+    await HttpClient()
+        .get(LISTBYCOUNTRYAPI, queryParameters: params)
+        .then((response) => {
+              response.data.forEach((good) {
+                result.add(WareHouseModel.fromJson(good));
+              })
+            })
+        .onError((error, stackTrace) => {});
+    return result;
+  }
+
+  //设置
+  static void setCacheList(List<WareHouseModel> list) async {
+    WarehouseStorage.set(list);
+  }
+
+  static Future<List<WareHouseModel>> getCacheList(
+      {bool autoRenew = true}) async {
+    List<WareHouseModel> warehouses =
+        List<WareHouseModel>.empty(growable: true);
+    WarehouseStorage.get().then((value) => {warehouses = value});
+
+    if (warehouses.isEmpty && autoRenew) {
+      return getList();
+    }
+    return warehouses;
+  }
+}

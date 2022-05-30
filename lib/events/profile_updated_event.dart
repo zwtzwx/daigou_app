@@ -1,0 +1,3 @@
+class ProfileUpdateEvent {
+  ProfileUpdateEvent();
+}
