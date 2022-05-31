@@ -3,6 +3,7 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 import 'package:jiyun_app_client/views/gift/gift_page.dart';
+import 'package:jiyun_app_client/views/home/warehouse_page.dart';
 import 'package:jiyun_app_client/views/order/order_center_page.dart';
 import 'package:jiyun_app_client/views/parcel/forecast_parcel_page.dart';
 import 'package:jiyun_app_client/views/user/me_page.dart';
@@ -53,7 +54,7 @@ class TabBarState extends State<MainController> {
             HomePage(),
             OrderCenterPage(),
             ForcastParcelPage(),
-            GiftPage(),
+            WareHouseAddress(),
             MePage()
           ],
         ),
@@ -70,20 +71,20 @@ class TabBarState extends State<MainController> {
               margin: const EdgeInsets.only(top: 5),
               height: 60,
               width: 60,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40.0),
-                border: Border.all(width: 8, color: ColorConfig.white),
-                // boxShadow: [
-                //   BoxShadow(
-                //       color: Colors.black12,
-                //       offset: Offset(0.0, 15.0), //阴影xy轴偏移量
-                //       blurRadius: 15.0, //阴影模糊程度
-                //       spreadRadius: 1.0 //阴影扩散程度
-                //       )
-                // ]
-              ),
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.circular(40.0),
+              //   border: Border.all(width: 8, color: ColorConfig.white),
+              //   // boxShadow: [
+              //   //   BoxShadow(
+              //   //       color: Colors.black12,
+              //   //       offset: Offset(0.0, 15.0), //阴影xy轴偏移量
+              //   //       blurRadius: 15.0, //阴影模糊程度
+              //   //       spreadRadius: 1.0 //阴影扩散程度
+              //   //       )
+              //   // ]
+              // ),
               child: Image.asset(
-                'assets/images/TabbarIcon/logo@3x.png',
+                'assets/images/TabbarIcon/yb.png',
               ),
               // FloatingActionButton(
               //   onPressed: () {
@@ -106,66 +107,70 @@ class TabBarState extends State<MainController> {
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Image.asset(
-                    'assets/images/TabbarIcon/首页-灰色@3x.png',
-                    width: 24,
-                    height: 24,
+                    'assets/images/TabbarIcon/home-uns.png',
+                    width: 26,
+                    height: 26,
                   ),
                   label: "首页",
                   activeIcon: Image.asset(
-                    'assets/images/TabbarIcon/首页-当前页@3x.png',
-                    width: 24,
-                    height: 24,
+                    'assets/images/TabbarIcon/home-s.png',
+                    width: 26,
+                    height: 26,
                   ),
                 ),
                 BottomNavigationBarItem(
                     icon: Image.asset(
-                      'assets/images/TabbarIcon/包裹-灰色@3x.png',
-                      width: 24,
-                      height: 24,
+                      'assets/images/TabbarIcon/box-uns.png',
+                      width: 26,
+                      height: 26,
                     ),
                     label: "包裹",
                     activeIcon: Image.asset(
-                      'assets/images/TabbarIcon/包裹-当前页@3x.png',
-                      width: 24,
-                      height: 24,
+                      'assets/images/TabbarIcon/box-s.png',
+                      width: 26,
+                      height: 26,
                     )),
-                BottomNavigationBarItem(
-                  icon: BuildNumWidget.buildNonalCarWidget(
-                      Image.asset(
-                        'assets/images/TabbarIcon/logo@3x.png',
-                        width: 24,
-                        height: 24,
-                      ),
-                      14.0,
-                      0,
-                      Colors.blue,
-                      Colors.white38),
-                  label: "开始集运",
+                const BottomNavigationBarItem(
+                  // icon: BuildNumWidget.buildNonalCarWidget(
+                  //     Image.asset(
+                  //       'assets/images/TabbarIcon/yb.png',
+                  //       width: 26,
+                  //       height: 26,
+                  //     ),
+                  //     14.0,
+                  //     0,
+                  //     Colors.blue,
+                  //     Colors.white38),
+                  icon: SizedBox(
+                    width: 26,
+                    height: 26,
+                  ),
+                  label: "包裹预报",
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset(
-                    'assets/images/TabbarIcon/福利-灰色@3x.png',
-                    width: 24,
-                    height: 24,
+                    'assets/images/TabbarIcon/ck-uns.png',
+                    width: 26,
+                    height: 26,
                   ),
-                  label: "福利",
+                  label: "仓库",
                   activeIcon: Image.asset(
-                    'assets/images/TabbarIcon/福利-当前页@3x.png',
-                    width: 24,
-                    height: 24,
+                    'assets/images/TabbarIcon/ck-s.png',
+                    width: 26,
+                    height: 26,
                   ),
                 ),
                 BottomNavigationBarItem(
                     icon: Image.asset(
-                      'assets/images/TabbarIcon/我的-灰色@3x.png',
-                      width: 24,
-                      height: 24,
+                      'assets/images/TabbarIcon/me-uns.png',
+                      width: 26,
+                      height: 26,
                     ),
                     label: "我的",
                     activeIcon: Image.asset(
-                      'assets/images/TabbarIcon/我的-当前页@3x.png',
-                      width: 24,
-                      height: 24,
+                      'assets/images/TabbarIcon/me-s.png',
+                      width: 26,
+                      height: 26,
                     )),
               ]),
         ));
@@ -214,6 +219,9 @@ class TabBarState extends State<MainController> {
         break;
       case 'middle':
         index = 2;
+        break;
+      case 'warehouse':
+        index = 3;
         break;
     }
 

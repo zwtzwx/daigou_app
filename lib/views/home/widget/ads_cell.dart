@@ -62,9 +62,8 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return Container(
-      color: ColorConfig.white,
-      padding: const EdgeInsets.only(right: 10, top: 10, bottom: 20, left: 10),
-      height: (ScreenUtil().screenWidth - 20) * 300 / 690 + 20,
+      // padding: const EdgeInsets.only(right: 10, top: 10, bottom: 20, left: 10),
+      height: ScreenUtil().setHeight(160),
       child: Swiper(
         onTap: (index) {
           // Routers.push('/LineDetail', context);
@@ -109,12 +108,9 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
         itemCount: adList.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (BuildContext context, int index) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: LoadImage(
-              adList[index].fullPath,
-              fit: BoxFit.fitWidth,
-            ),
+          return LoadImage(
+            adList[index].fullPath,
+            fit: BoxFit.fitWidth,
           );
         },
         autoplay: adList.length > 1,
@@ -133,6 +129,7 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
 
   buildPlugin() {
     return const SwiperPagination(
+        margin: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 55),
         builder: DotSwiperPaginationBuilder(
             color: Colors.grey,
             activeColor: Colors.white,

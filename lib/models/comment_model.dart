@@ -15,6 +15,7 @@ class CommentModel {
   late int customerScore;
   late int packScore;
   late String createdAt;
+  late String country;
   UserModel? user;
   OrderModel? order;
 
@@ -29,6 +30,7 @@ class CommentModel {
     logisticsScore = json['logistics_score'];
     customerScore = json['customer_score'];
     packScore = json['pack_score'];
+    country = json['country'] ?? '';
     createdAt = json['created_at'];
 
     if (json['user'] != null) {

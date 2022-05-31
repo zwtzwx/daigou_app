@@ -129,8 +129,8 @@ class _MyAppState extends State<MyApp> {
                           TargetPlatform.android: createTransition(),
                         },
                       ),
-                      primaryColor: ColorConfig.warningText,
-                      backgroundColor: Colors.white,
+                      primaryColor: ColorConfig.primary,
+                      backgroundColor: ColorConfig.bgGray,
                       canvasColor: Colors.white,
                     ),
                     // 监听路由跳转

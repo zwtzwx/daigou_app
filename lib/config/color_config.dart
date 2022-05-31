@@ -16,11 +16,11 @@ class ColorConfig {
   static const Color textGrayC = Color(0xFFcccccc);
   static const Color textGrayCS = Color(0x72F0F0F0);
   static const Color textGrayC9 = Color(0xFF999999);
-  static const Color bgGray = Color(0xFFF0F0F0); //Color(0xFFF0F0F0)
+  static const Color bgGray = Color(0xFFF5F5F5); //Color(0xFFF0F0F0)
   static const Color line = Color(0xffF0F0F0);
   static const Color orderLine = Color(0xFFDDDDDD);
   static const Color textRed = Color(0xFFFF4759);
-  static const Color main = Color(0xFF738EDB);
+  static const Color main = Color(0xFF9FA2C2);
   static const Color vipBG = Color(0xFFAE886D);
   static const Color warningBg = Color(0xFFFFFDE7);
   static const Color warningText = Color(0xFFFFD400);
@@ -30,7 +30,7 @@ class ColorConfig {
   static const Color warningText85 = Color(0x21FFD400);
   static const Color tabbarSelectColor = Color(0xffe4382d);
   static const Color green = Color(0xFF3FBF3F);
-  static const Color mainAlpha = Color(0x33738EDB);
+  static const Color mainAlpha = Color(0xFFEEF0FF);
 }
 
 class WidgetColor {

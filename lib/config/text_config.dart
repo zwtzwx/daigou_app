@@ -3,7 +3,7 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:flutter/material.dart';
 
 class TextConfig {
-  static const middleSize = 16.0;
+  static const middleSize = 14.0;
   static const defaultSize = 12.0;
   static const smallSize = 10.0;
   static const extraSmallSize = 8.0;

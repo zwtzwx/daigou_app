@@ -4,6 +4,7 @@ import 'package:jiyun_app_client/views/common/country_list_page.dart';
 import 'package:jiyun_app_client/views/help/help_support_page.dart';
 import 'package:jiyun_app_client/views/home/share_page.dart';
 import 'package:jiyun_app_client/views/home/warehouse_page.dart';
+import 'package:jiyun_app_client/views/line/line_all_page.dart';
 import 'package:jiyun_app_client/views/line/line_detail_page.dart';
 import 'package:jiyun_app_client/views/line/line_query_page.dart';
 import 'package:jiyun_app_client/views/line/lines_page.dart';
@@ -70,6 +71,8 @@ class Routers {
     '/UserPrivacyPage',
     '/UserProtocolPage',
     '/ForgetPasswordPage',
+    '/CommentListPage',
+    '/LineAllPage'
   ];
 
   // 路由声明
@@ -147,6 +150,7 @@ class Routers {
     '/UserProtocolPage': (context) => const UserProtocolPage(),
     // '/PackageOrOrder': (context) => PackageOrOrder(),
     // '/BeganToFreight': (context) => BeganToFreight(),
+    '/LineAllPage': (context) => const LineAllPage(),
     '/LineQueryPage': (context) => const LineQueryPage(),
     '/LinesPage': (context, {arguments}) => LinesPage(arguments: arguments),
     '/LineDetailPage': (context, {arguments}) =>

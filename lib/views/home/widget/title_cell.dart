@@ -1,26 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/views/components/caption.dart';
 
 // ignore: non_constant_identifier_names
-Widget TitleCell(BuildContext context) {
+Widget TitleCell(BuildContext context, String title, Function onMore) {
   return Container(
     height: 44,
-    padding: const EdgeInsets.only(left: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 20),
     child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        SizedBox(
-          height: 24,
-          width: 24,
-          child: Image.asset(
-            'assets/images/Home/超值路线@3x.png',
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: ColorConfig.textBlack,
           ),
         ),
-        Gaps.hGap10,
-        const Text('超值路线',
-            style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: ColorConfig.textBlack)),
+        GestureDetector(
+          onTap: () {
+            onMore();
+          },
+          child: Row(
+            children: [
+              Caption(
+                str: '更多',
+                fontSize: ScreenUtil().setSp(12),
+                color: ColorConfig.main,
+              ),
+              Gaps.hGap5,
+              ClipOval(
+                child: Container(
+                  width: 18,
+                  height: 18,
+                  color: ColorConfig.main,
+                  child: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                    size: 14,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     ),
   );

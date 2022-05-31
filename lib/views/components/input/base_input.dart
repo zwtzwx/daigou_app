@@ -29,6 +29,7 @@ class BaseInput extends StatefulWidget {
       this.isSearchInput = false,
       this.onSubmitted,
       this.isCollapsed = false,
+      this.hintStyle = TextConfig.textGray14,
       this.textInputAction = TextInputAction.next,
       this.contentPadding = const EdgeInsets.symmetric(vertical: 16.0)})
       : super(key: key);
@@ -44,6 +45,7 @@ class BaseInput extends StatefulWidget {
   final FocusNode? focusNode;
   final KeyboardActionsConfig? config;
   final Widget? suffix;
+  final TextStyle hintStyle;
   final bool isScureText;
   final bool isCollapsed;
   final bool readOnly;
@@ -111,7 +113,7 @@ class _BaseInputState extends State<BaseInput> {
         filled: true,
         contentPadding: widget.contentPadding,
         hintText: widget.hintText,
-        hintStyle: TextConfig.textGray14,
+        hintStyle: widget.hintStyle,
         isCollapsed: widget.isCollapsed,
         prefixIcon: widget.prefixIcon,
         suffixIcon: (_isShowRemove && _isFoucsed && widget.suffix == null)
