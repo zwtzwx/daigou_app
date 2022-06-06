@@ -13,6 +13,7 @@ import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/pay_type_model.dart';
 import 'package:jiyun_app_client/services/balance_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
+import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluwx/fluwx.dart';
+import 'package:jiyun_app_client/views/components/input/base_input.dart';
 import 'package:provider/provider.dart';
 
 class RechargePage extends StatefulWidget {
@@ -31,24 +33,30 @@ class RechargePage extends StatefulWidget {
 
 class RechargePageState extends State<RechargePage> {
   final ScrollController _scrollController = ScrollController();
+  final TextEditingController _otherPriceController = TextEditingController();
+  final FocusNode _otherPriceNode = FocusNode();
 
   int isloading = 0;
   //我的余额
   String myBalance = '0.00';
 
   // 选择的金额
-  int selectButton = 99;
+  int selectButton = -1;
+  double amount = 0;
   // 选择的充值方式
 
   List<DefaultAmountModel> defaultAmountList = [];
   List<PayTypeModel> payTypeList = [];
   List<PayTypeModel> selectType = [];
+  LocalizationModel? localizationInfo;
 
   StreamSubscription<BaseWeChatResponse>? wechatResponse;
 
   @override
   void initState() {
     super.initState();
+    localizationInfo =
+        Provider.of<Model>(context, listen: false).localizationInfo;
     EasyLoading.show();
     created();
 
@@ -114,40 +122,63 @@ class RechargePageState extends State<RechargePage> {
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       backgroundColor: ColorConfig.bgGray,
-      bottomNavigationBar: SafeArea(
-          child: TextButton(
-        style: ButtonStyle(
-          overlayColor:
-              MaterialStateColor.resolveWith((states) => Colors.transparent),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 15,
         ),
-        onPressed: () {
-          if (selectButton == 99) {
-            Util.showToast('请选择充值金额');
-            return;
-          } else if (selectType.isEmpty) {
-            Util.showToast('请选择充值方式');
-            return;
-          }
-          if (selectType.first.name == 'wechat') {
-            weChatPayMethod();
-          } else {
-            Routers.push('/TransferAndPaymentPage', context, {
-              'transferType': 1,
-              'contentModel': defaultAmountList[selectButton],
-              'payModel': selectType.first,
-            });
-          }
-        },
-        child: Container(
-          decoration: BoxDecoration(
-              color: ColorConfig.warningText,
-              borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-              border: Border.all(width: 1, color: ColorConfig.warningText)),
-          alignment: Alignment.center,
-          height: 40,
-          child: const Caption(str: '确认支付'),
+        color: Colors.white,
+        child: SafeArea(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Row(
+                children: [
+                  const Caption(
+                    str: '充值：',
+                    fontSize: 14,
+                  ),
+                  Caption(
+                    str: localizationInfo?.currencySymbol ?? '',
+                    fontSize: 14,
+                    color: ColorConfig.textRed,
+                  ),
+                  Caption(
+                    str: amount.toStringAsFixed(2),
+                    color: ColorConfig.textRed,
+                  ),
+                ],
+              ),
+              Gaps.hGap10,
+              MainButton(
+                text: '确认支付',
+                onPressed: () {
+                  if (selectButton == -1) {
+                    Util.showToast('请选择充值金额');
+                    return;
+                  } else if (selectButton == defaultAmountList.length &&
+                      (amount * 100).toInt() == 0) {
+                    Util.showToast('请输入充值金额');
+                    return;
+                  } else if (selectType.isEmpty) {
+                    Util.showToast('请选择充值方式');
+                    return;
+                  }
+                  if (selectType.first.name == 'wechat') {
+                    weChatPayMethod();
+                  } else {
+                    Routers.push('/TransferAndPaymentPage', context, {
+                      'transferType': 1,
+                      'amount': amount,
+                      'payModel': selectType.first,
+                    });
+                  }
+                },
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
       body: isloading == 2
           ? SingleChildScrollView(
               child: Column(
@@ -169,22 +200,108 @@ class RechargePageState extends State<RechargePage> {
                           child: Caption(str: '余额充值'),
                         ),
                         buildMoreSupportType(context),
+                        selectButton == defaultAmountList.length
+                            ? buildCustomPrice()
+                            : Gaps.empty,
                       ],
                     ),
                   ),
                   Container(
-                      decoration: const BoxDecoration(
-                          color: ColorConfig.white,
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
-                      margin: const EdgeInsets.only(
-                          top: 20, left: 15, right: 15, bottom: 10),
-                      padding: const EdgeInsets.only(
-                          top: 0, left: 15, right: 15, bottom: 0),
-                      child: buildListView(context)),
+                    decoration: const BoxDecoration(
+                        color: ColorConfig.white,
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                    margin: const EdgeInsets.only(
+                        top: 20, left: 15, right: 15, bottom: 10),
+                    padding: const EdgeInsets.only(
+                        top: 0, left: 15, right: 15, bottom: 0),
+                    child: buildListView(context),
+                  ),
+                  buildTipsView(),
                 ],
               ),
             )
           : Container(),
+    );
+  }
+
+  // 其它任意金额
+  Widget buildCustomPrice() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: 15,
+          ),
+          child: Caption(str: '其它任意金额'),
+        ),
+        Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+          ),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: ColorConfig.warningText,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: BaseInput(
+            controller: _otherPriceController,
+            focusNode: _otherPriceNode,
+            hintText: '其它任意金额',
+            isCollapsed: true,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 10,
+            ),
+            autoShowRemove: false,
+            onChanged: (value) {
+              setState(() {
+                amount = double.parse(value);
+              });
+            },
+          ),
+        ),
+        Gaps.vGap5,
+        const Caption(
+          str: '其它金额充值无赠送哦！',
+          fontSize: 12,
+          color: ColorConfig.textNormal,
+        ),
+      ],
+    );
+  }
+
+  // 充值说明
+  Widget buildTipsView() {
+    return Container(
+      margin: const EdgeInsets.only(
+        left: 15,
+        right: 15,
+        bottom: 15,
+        top: 10,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Caption(
+            str: '充值说明：',
+            fontSize: 14,
+          ),
+          Gaps.vGap10,
+          Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: Text(
+              '1、充值金额仅能在BEEGOPLUS集运平台内进行运费抵扣；\n2、充值费用长期有效，剩余金额不予以退还\n3、充值金额无法与微信支付或支付宝搭配支付，请合理选择金额充值',
+              style: TextStyle(
+                fontSize: 12,
+                color: ColorConfig.textNormal,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -198,49 +315,65 @@ class RechargePageState extends State<RechargePage> {
         crossAxisCount: 3, //一行的Widget数量
         childAspectRatio: 3 / 2,
       ), // 宽高比例
-      itemCount: defaultAmountList.length,
+      itemCount: defaultAmountList.length + 1,
       itemBuilder: _buildGrideBtnView(),
     );
   }
 
   IndexedWidgetBuilder _buildGrideBtnView() {
     return (context, index) {
-      DefaultAmountModel model = defaultAmountList[index];
+      DefaultAmountModel? model;
+      if (index != defaultAmountList.length) {
+        model = defaultAmountList[index];
+      }
       return GestureDetector(
-          onTap: () {
-            setState(() {
-              selectButton = index;
-            });
-          },
-          child: Container(
-              decoration: BoxDecoration(
-                  color: ColorConfig.warningBg,
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(
-                      width: 0.5,
-                      color: selectButton == index
-                          ? ColorConfig.warningText
-                          : Colors.transparent)),
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Caption(
-                    str: model.amount.toString() + '元',
-                    fontSize: 16,
+        onTap: () {
+          setState(() {
+            selectButton = index;
+            if (model == null) {
+              amount = 0;
+            } else {
+              amount = (model.amount).toDouble();
+            }
+          });
+        },
+        child: Container(
+            decoration: BoxDecoration(
+                color: ColorConfig.warningBg,
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(
+                    width: 0.5,
+                    color: selectButton == index
+                        ? ColorConfig.warningText
+                        : Colors.transparent)),
+            alignment: Alignment.center,
+            child: model != null
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Caption(
+                        str: model.amount.toString() + '元',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: ColorConfig.textBlack,
+                      ),
+                      model.complimentaryAmount != 0
+                          ? Caption(
+                              str: '送' +
+                                  model.complimentaryAmount.toString() +
+                                  '元',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: ColorConfig.textBlack,
+                            )
+                          : Container(),
+                    ],
+                  )
+                : const Caption(
+                    str: '其它金额',
                     fontWeight: FontWeight.w500,
-                    color: ColorConfig.textBlack,
-                  ),
-                  model.complimentaryAmount != 0
-                      ? Caption(
-                          str: '送' + model.complimentaryAmount.toString() + '元',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: ColorConfig.textBlack,
-                        )
-                      : Container(),
-                ],
-              )));
+                  )),
+      );
     };
   }
 
@@ -314,8 +447,6 @@ class RechargePageState extends State<RechargePage> {
   // 支付方式
 
   Widget buildCustomViews(BuildContext context) {
-    LocalizationModel? localizationInfo =
-        Provider.of<Model>(context, listen: false).localizationInfo;
     var headerView = SizedBox(
       height: 180,
       child: Stack(
@@ -370,7 +501,7 @@ class RechargePageState extends State<RechargePage> {
                               text: TextSpan(
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: localizationInfo!.currencySymbol,
+                                    text: localizationInfo?.currencySymbol,
                                     style: const TextStyle(
                                         color: ColorConfig.textRed,
                                         fontSize: 20.0,
@@ -416,9 +547,8 @@ class RechargePageState extends State<RechargePage> {
    */
   weChatPayMethod() async {
     // 微信支付充值余额
-    DefaultAmountModel model = defaultAmountList[selectButton];
     Map<String, dynamic> map = {
-      'amount': model.amount * 100,
+      'amount': amount * 100,
       'type': '4', // 微信支付
       'version': 'v3',
     };
@@ -427,7 +557,7 @@ class RechargePageState extends State<RechargePage> {
       获取微信支付配置
      */
     BalanceService.rechargePayByWeChat(map, (data) {
-      if (data.ret == 1) {
+      if (data.ok) {
         Map appconfig = data.data;
         isWeChatInstalled.then((installed) {
           if (installed) {

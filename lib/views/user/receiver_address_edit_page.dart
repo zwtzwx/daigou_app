@@ -143,9 +143,26 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
     }
   }
 
+  onDelete() async {
+    bool? data = await onDeleteAlter();
+    if (data != null) {
+      EasyLoading.show();
+      var result = await AddressService.deleteReciever(model.id!);
+      EasyLoading.dismiss();
+      if (result) {
+        Navigator.pop(context);
+        ApplicationEvent.getInstance()
+            .event
+            .fire(ReceiverAddressRefreshEvent());
+      } else {
+        EasyLoading.showError('删除失败');
+      }
+    }
+  }
+
   // 删除地址
-  onDelete() {
-    showDialog(
+  Future<bool?> onDeleteAlter() {
+    return showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -154,21 +171,13 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
             TextButton(
               child: const Text('取消'),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.pop(context);
               },
             ),
             TextButton(
               child: const Text('确定'),
-              onPressed: () async {
-                Navigator.of(context).pop();
-
-                if (await AddressService.deleteReciever(model.id!)) {
-                  Navigator.of(context).pop();
-                  ApplicationEvent.getInstance()
-                      .event
-                      .fire(ReceiverAddressRefreshEvent());
-                }
-                EasyLoading.dismiss();
+              onPressed: () {
+                Navigator.pop(context, true);
               },
             )
           ],
@@ -223,6 +232,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
                               text: '删除',
                               backgroundColor: Colors.white,
                               onPressed: onDelete,
+                              textColor: ColorConfig.textRed,
                             ),
                           )
                         : Container(),
@@ -395,7 +405,10 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
                     showPickerDestion(context);
                   },
                   child: InputTextItem(
-                      height: countryModel.areas == null ? 0 : 55,
+                      height: (countryModel.areas == null ||
+                              countryModel.areas!.isEmpty)
+                          ? 0
+                          : 55,
                       title: "省/市",
                       inputText: Container(
                         padding: const EdgeInsets.only(right: 15, left: 0),
@@ -428,7 +441,10 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
                       )),
                 ),
                 InputTextItem(
-                    height: countryModel.areas == null ? 55 : 0,
+                    height: (countryModel.areas == null ||
+                            countryModel.areas!.isEmpty)
+                        ? 55
+                        : 0,
                     title: "州/省",
                     inputText: NormalInput(
                       contentPadding: const EdgeInsets.only(top: 17),
@@ -531,14 +547,14 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
       return;
     }
 
-    if (countryModel.areas != null) {
+    if (countryModel.areas != null && countryModel.areas!.isNotEmpty) {
       if (areaModel?.id == null) {
         Util.showToast('请选择省/市');
         return;
       }
     }
     Map<String, dynamic> data;
-    if (countryModel.areas != null) {
+    if (countryModel.areas != null && countryModel.areas!.isNotEmpty) {
       // 国家有子区域
       data = {
         'receiver_name': model.receiverName,
@@ -568,22 +584,28 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
       };
     }
 
-    List updataList = [];
+    // List updataList = [];
+    // if (isEdit) {
+    //   updataList.add({
+    //     'id': model.id,
+    //   });
+    //   updataList.add(data);
+    // } else {
+    //   updataList.add(data);
+    // }
+    Map result = {};
     if (isEdit) {
-      updataList.add({
-        'id': model.id,
-      });
-      updataList.add(data);
+      result = await AddressService.updateReciever(model.id!, data);
     } else {
-      updataList.add(data);
+      result = await AddressService.addReciever(data);
     }
-
-    bool result = await AddressService.updateReciever(model);
-
-    if (result) {
-      EasyLoading.dismiss();
+    EasyLoading.dismiss();
+    if (result['ok']) {
+      EasyLoading.showSuccess(result['msg']);
       Navigator.of(context).pop();
       ApplicationEvent.getInstance().event.fire(ReceiverAddressRefreshEvent());
+    } else {
+      EasyLoading.showError(result['msg']);
     }
   }
 

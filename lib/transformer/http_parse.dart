@@ -1,6 +1,7 @@
 // 成功回调
 import 'dart:io';
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/un_authenticate_event.dart';
 import 'package:jiyun_app_client/models/model.dart';
@@ -48,6 +49,8 @@ HttpResponse handleException(Exception exception) {
   if (parseException is UnauthorisedException) {
     // token 失效
     ApplicationEvent.getInstance().event.fire(UnAuthenticateEvent());
+  } else if (parseException is NetworkException) {
+    EasyLoading.showError('网络错误, 请重试');
   }
   return HttpResponse.failureFromError(parseException);
 }

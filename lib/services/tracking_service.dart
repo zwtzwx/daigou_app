@@ -1,5 +1,5 @@
 /*
-  渠道
+  物流
  */
 
 import 'package:jiyun_app_client/common/http_client.dart';
@@ -13,13 +13,12 @@ class TrackingService {
   static Future<List<TrackingModel>> getList(
       [Map<String, dynamic>? params]) async {
     List<TrackingModel> result = [];
-    await HttpClient()
-        .post(listApi, queryParameters: params)
-        .then((response) => {
-              response.data.forEach((item) {
-                result.add(TrackingModel.fromJson(item));
-              })
-            });
+    await HttpClient().get(listApi, queryParameters: params).then((response) {
+      var list = response.data;
+      list['data']?.forEach((item) {
+        result.add(TrackingModel.fromJson(item));
+      });
+    });
     return result;
   }
 }

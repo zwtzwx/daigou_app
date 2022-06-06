@@ -357,6 +357,10 @@ class LoginPageState extends State<LoginPage> {
                 ? Container()
                 : GestureDetector(
                     onTap: () {
+                      if (!protocolChecked) {
+                        Util.showToast('请先同意用户协议');
+                        return;
+                      }
                       fluwx.isWeChatInstalled.then((installed) {
                         if (installed) {
                           fluwx

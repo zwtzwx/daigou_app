@@ -58,10 +58,10 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
   // 会员充值数据模型
   UserVipPriceModel? vipPriceModel;
 
-  // 余额充值数据模型
-  DefaultAmountModel? amountModel;
+  // 余额充值数据
+  double? amount;
 
-  // 订单付款数据模型
+  // 订单付款数据
   OrderModel? orderModel;
 
   // 'transferType': 0,
@@ -79,7 +79,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
     if (modelType == 0) {
       vipPriceModel = widget.arguments['contentModel'];
     } else if (modelType == 1) {
-      amountModel = widget.arguments['contentModel'];
+      amount = widget.arguments['amount'];
     } else if (modelType == 2) {
       orderModel = widget.arguments['contentModel'];
     }
@@ -121,7 +121,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
       //  1余额充值转账
       Map<String, dynamic> upData = {
         'transfer_account': transferAccountController.text,
-        'tran_amount': amountModel!.amount * 100,
+        'tran_amount': amount! * 100,
         'images': listImg,
         'payment_type_id': payModel!.id,
       };
@@ -498,7 +498,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                   (vipPriceModel!.price / 100).toStringAsFixed(2)
               : modelType == 1
                   ? localizationInfo!.currencySymbol +
-                      (amountModel!.amount).toStringAsFixed(2)
+                      (amount!).toStringAsFixed(2)
                   : modelType == 2
                       ? localizationInfo!.currencySymbol +
                           (orderModel!.discountPaymentFee / 100)

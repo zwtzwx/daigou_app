@@ -425,7 +425,8 @@ class PackageDetailPageState extends State<PackageDetailPage>
                       contentPadding: const EdgeInsets.only(right: 10),
                       isCollapsed: true,
                       autoShowRemove: false,
-                      keyboardType: TextInputType.number,
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
                       textInputAction: TextInputAction.done,
                     ),
                   )

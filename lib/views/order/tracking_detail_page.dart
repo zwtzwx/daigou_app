@@ -25,7 +25,7 @@ class TrackingDetailPage extends StatefulWidget {
 class TrackingDetailPageState extends State<TrackingDetailPage> {
   bool isLoading = false;
   List<TrackingModel> dataList = [];
-  late String bannerImage;
+  String? bannerImage;
 
   late String orderSn;
 
@@ -41,13 +41,15 @@ class TrackingDetailPageState extends State<TrackingDetailPage> {
   // 获取顶部 banner 图
   getBanner() async {
     var _tmp = await CommonService.getAllBannersInfo();
-    setState(() {
-      bannerImage = _tmp!.trackImage!;
-    });
+    if (_tmp != null) {
+      setState(() {
+        bannerImage = _tmp.trackImage;
+      });
+    }
   }
 
   getTrackingList() async {
-    var _dataList = await TrackingService.getList({'order_sn': orderSn});
+    var _dataList = await TrackingService.getList({'track_no': orderSn});
     setState(() {
       isLoading = true;
 
@@ -109,12 +111,12 @@ class TrackingDetailPageState extends State<TrackingDetailPage> {
                   });
                 },
                 child: Container(
-                  margin: const EdgeInsets.only(top: 0, left: 15, right: 15),
+                  margin: const EdgeInsets.all(15),
                   width: ScreenUtil().screenWidth,
-                  height: 150,
+                  height: 130,
                   child: LoadImage(
-                    bannerImage,
-                    fit: BoxFit.contain,
+                    bannerImage ?? '',
+                    fit: BoxFit.fitWidth,
                   ),
                 )),
           ],
@@ -126,7 +128,6 @@ class TrackingDetailPageState extends State<TrackingDetailPage> {
   List<Widget> _buildTrackListView(BuildContext context) {
     List<Widget> listView = [];
     listView.add(buildCustomViews(context));
-    listView.add(const SizedBox(height: 10));
     for (var i = 0; i < dataList.length - 1; i++) {
       TrackingModel data = dataList[i];
       var cell = Container(
@@ -149,10 +150,12 @@ class TrackingDetailPageState extends State<TrackingDetailPage> {
                           height: 30,
                         ),
                   Icon(
-                      i == 0
-                          ? Icons.check_circle_outline
-                          : Icons.panorama_fish_eye,
-                      color: i == 0 ? ColorConfig.green : ColorConfig.main),
+                    i == 0 ? Icons.check_circle_outline : Icons.circle,
+                    color: i == 0
+                        ? ColorConfig.warningText
+                        : ColorConfig.textGrayC,
+                    size: 20,
+                  ),
                   Expanded(child: line),
                 ],
               ),
@@ -200,8 +203,9 @@ class TrackingDetailPageState extends State<TrackingDetailPage> {
                 children: <Widget>[
                   Expanded(child: line),
                   const Icon(
-                    Icons.panorama_fish_eye,
-                    color: ColorConfig.main,
+                    Icons.circle,
+                    color: ColorConfig.textGrayC,
+                    size: 20,
                   ),
                   const SizedBox(
                     width: 0.5,
@@ -238,5 +242,5 @@ class TrackingDetailPageState extends State<TrackingDetailPage> {
 Widget line = const SizedBox(
   height: 60,
   width: 0.5,
-  child: DecoratedBox(decoration: BoxDecoration(color: ColorConfig.green)),
+  child: DecoratedBox(decoration: BoxDecoration(color: Color(0xFFE5E5E5))),
 );

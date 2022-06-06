@@ -84,58 +84,45 @@ Widget getSecondLineDetail(
     ShipLineModel linedata, LocalizationModel? localModel) {
   // String strDetail = '';
   List<String> datalist = [];
-  if (linedata.mode == 1) {
+  String contentSymbol =
+      linedata.baseMode == 0 ? localModel!.weightSymbol : 'm³';
+  num price = 0;
+  num basePrice = 0;
+  num weight = 0;
+  for (var item in linedata.region!.prices!) {
+    if (item.type == 8) {
+      basePrice = item.price;
+    } else if ([0, 2, 3].contains(item.type)) {
+      price = item.price;
+      if (item.type == 0) {
+        weight = item.start;
+      }
+    }
+  }
+  if (linedata.mode == 1 || linedata.mode == 4) {
     // 1 首重续重
-    double weithgt = linedata.region!.prices == null
-        ? 0
-        : linedata.region!.prices!.first.start / 1000;
-    double price = linedata.region!.prices == null
-        ? 0
-        : linedata.region!.prices!.first.price / 100;
     datalist = [
-      '首费(' + weithgt.toStringAsFixed(2) + localModel!.weightSymbol + ')：',
-      localModel.currencySymbol + price.toStringAsFixed(2),
+      '首费(' + (weight / 1000).toStringAsFixed(2) + '$contentSymbol)：',
+      localModel!.currencySymbol + (price / 100).toStringAsFixed(2),
     ];
   } else if (linedata.mode == 2) {
     // 2 阶梯价格
-    ShipLinePriceModel priceM = linedata.region!.prices!.last;
-    String contentStr = '';
-    if (priceM.price.isNaN) {
-      contentStr = localModel!.currencySymbol + '0.00';
+    if (price == 0) {
+      datalist = [
+        '价格：',
+        localModel!.currencySymbol + (basePrice / 100).toStringAsFixed(2),
+      ];
     } else {
-      double price = priceM.price.isNaN ? 0 : priceM.price / 100;
-      contentStr = localModel!.currencySymbol + price.toStringAsFixed(2);
+      datalist = [
+        '单价(' + contentSymbol + ')：',
+        localModel!.currencySymbol + (price / 100).toStringAsFixed(2),
+      ];
     }
-    datalist = [
-      '单价(' + localModel.weightSymbol + ')：',
-      contentStr,
-    ];
   } else if (linedata.mode == 3) {
     // 3 单位价格加阶梯附加费
-    // String priceStr = '';
-    if (linedata.region!.prices != null) {
-      for (ShipLinePriceModel item in linedata.region!.prices!) {
-        if (item.type == 3) {
-          // double price = item.price == null ? 0 : item.price / 100;
-          // priceStr = localModel.currencySymbol + price.toStringAsFixed(2);
-        }
-      }
-    }
-    double price = !linedata.region!.prices!.first.price.isNaN
-        ? 0
-        : linedata.region!.prices!.first.price / 100;
     datalist = [
-      '单价(' + localModel!.weightSymbol + ')：',
-      localModel.currencySymbol + price.toStringAsFixed(2),
-    ];
-  } else if (linedata.mode == 4) {
-    // 4 多级续重
-    double weithgt =
-        linedata.firstWeight!.isNaN ? 0 : linedata.firstWeight! / 1000;
-    double price = linedata.firstMoney!.isNaN ? 0 : linedata.firstMoney! / 100;
-    datalist = [
-      '首费(' + weithgt.toStringAsFixed(2) + localModel!.weightSymbol + ')：',
-      localModel.currencySymbol + price.toStringAsFixed(2),
+      '单价(' + contentSymbol + ')：',
+      localModel!.currencySymbol + (price / 100).toStringAsFixed(2),
     ];
   } else if (linedata.mode == 5) {
     // 5 阶梯首重续重
@@ -145,11 +132,8 @@ Widget getSecondLineDetail(
         ? 0
         : (linedata.region!.prices!.first.price / 100);
     datalist = [
-      '首费(' +
-          (firstWeight / 1000).toStringAsFixed(2) +
-          localModel!.weightSymbol +
-          ')：',
-      localModel.currencySymbol + price.toStringAsFixed(2),
+      '首费(' + (firstWeight / 1000).toStringAsFixed(2) + contentSymbol + ')：',
+      localModel!.currencySymbol + price.toStringAsFixed(2),
     ];
   }
   var view1 = datalist.isNotEmpty

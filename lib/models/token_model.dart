@@ -24,7 +24,7 @@ class TokenModel {
     tokenType = json['token_type'];
     expiresIn = json['expires_in'];
     user = (json['user'] != null ? UserModel.fromJson(json['user']) : null)!;
-    isAgent = json['is_agent'];
+    isAgent = json['is_agent'] ?? 0;
     unionid = json['unionid'];
   }
 

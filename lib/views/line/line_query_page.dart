@@ -426,7 +426,8 @@ class LineQueryState extends State<LineQueryPage>
                     controller: _weightController,
                     focusNode: _weightNode,
                     autoFocus: false,
-                    keyboardType: TextInputType.number,
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
                     onSubmitted: (res) {
                       FocusScope.of(context).requestFocus(_longNode);
                     },
@@ -624,7 +625,9 @@ class LineQueryState extends State<LineQueryPage>
                               controller: _longController,
                               focusNode: _longNode,
                               autoFocus: false,
-                              keyboardType: TextInputType.number,
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      decimal: true),
                               onSubmitted: (res) {
                                 FocusScope.of(context).requestFocus(_wideNode);
                               },
@@ -654,7 +657,9 @@ class LineQueryState extends State<LineQueryPage>
                               controller: _wideController,
                               focusNode: _wideNode,
                               autoFocus: false,
-                              keyboardType: TextInputType.number,
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      decimal: true),
                               onSubmitted: (res) {
                                 FocusScope.of(context).requestFocus(_highNode);
                               },
@@ -684,7 +689,9 @@ class LineQueryState extends State<LineQueryPage>
                               controller: _highController,
                               focusNode: _highNode,
                               autoFocus: false,
-                              keyboardType: TextInputType.number,
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      decimal: true),
                               onSubmitted: (res) {
                                 FocusScope.of(context).requestFocus(blankNode);
                               },

@@ -3,7 +3,6 @@ import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/region_model.dart';
 import 'package:jiyun_app_client/models/ship_line_model.dart';
-import 'package:jiyun_app_client/models/ship_line_price_model.dart';
 import 'package:jiyun_app_client/models/ship_line_service_model.dart';
 import 'package:jiyun_app_client/services/ship_line_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -36,9 +35,7 @@ class LineDetailPageState extends State<LineDetailPage> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      localModel = Provider.of<Model>(context, listen: false).localizationInfo;
-    });
+    localModel = Provider.of<Model>(context, listen: false).localizationInfo;
     if (widget.arguments!['type'] == 1) {
       getDetail();
     } else if (widget.arguments!['type'] == 2) {
@@ -47,24 +44,6 @@ class LineDetailPageState extends State<LineDetailPage> {
         isloading = true;
       });
     }
-  }
-
-  getLocalization() {
-    // ShipLineService.getDetail(lineId, (data) {
-    //   setState(() {
-    //     detailLine = LineDetailData.fromJson(data.data);
-    //     List<RegionModel> reginList = [];
-    //     for (var item in detailLine.regions) {
-    //       if (item.enabled == 1) {
-    //         reginList.add(item);
-    //       }
-    //     }
-    //     detailLine.regions = reginList;
-    //     reMarkheight = calculateTextHeight(detailLine.remark, 14.0,
-    //         FontWeight.w300, ScreenUtil().screenWidth - 80, 99);
-    //     isloading = true;
-    //   });
-    // }, (message) => null);
   }
 
   getDetail() async {
@@ -271,7 +250,8 @@ class LineDetailPageState extends State<LineDetailPage> {
         fontWeight: FontWeight.bold,
       ),
     ));
-
+    String contentSymbol =
+        detailLine!.baseMode == 0 ? localModel!.weightSymbol : 'm³';
     if (detailLine!.mode == 1) {
       // 首重续重
       for (var item in model.prices!) {
@@ -293,41 +273,34 @@ class LineDetailPageState extends State<LineDetailPage> {
         listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
       }
     } else if (detailLine!.mode == 2) {
-      // 阶梯价格档
-      List<ShipLinePriceModel> titleList =
-          model.prices!.sublist(model.prices!.length ~/ 2);
-      List<ShipLinePriceModel> contentList =
-          model.prices!.sublist(0, model.prices!.length ~/ 2);
-      for (var i = 0; i < titleList.length; i++) {
-        ShipLinePriceModel titlePrices = titleList[i];
-        ShipLinePriceModel contentPrices = contentList[i];
-        String titleStr = '';
-        String contentStr = '';
-        if (titlePrices.start != 0) {
-          titleStr = (titlePrices.start / 1000).toStringAsFixed(2) + '~';
+      // 阶梯价格档 基价 + 单价
+      Map<String, dynamic> newPirces = {};
+      for (var priceModel in model.prices!) {
+        String titleStr =
+            '${(priceModel.start / 1000).toStringAsFixed(2)}~${(priceModel.end / 1000).toStringAsFixed(2)}';
+        if (newPirces[titleStr] == null) {
+          newPirces[titleStr] = priceModel.price;
+        } else {
+          num basePrice =
+              priceModel.type == 8 ? priceModel.price : newPirces[titleStr];
+          num price =
+              priceModel.type == 2 ? priceModel.price : newPirces[titleStr];
+          String priceStr = '0.00';
+
+          if (basePrice != 0 && price != 0) {
+            priceStr =
+                '${(basePrice / 100).toStringAsFixed(2)}+${(price / 100).toStringAsFixed(2)}/$contentSymbol';
+          } else if (basePrice != 0) {
+            priceStr = (basePrice / 100).toStringAsFixed(2);
+          } else if (price != 0) {
+            priceStr = (price / 100).toStringAsFixed(2) + '/$contentSymbol';
+          }
+          newPirces[titleStr] = localModel!.currencySymbol + priceStr;
         }
-        if (titlePrices.end != 0) {
-          titleStr = titleStr +
-              (titlePrices.end / 1000).toStringAsFixed(2) +
-              localModel!.weightSymbol;
-        }
-        if (titlePrices.price != 0) {
-          contentStr = localModel!.currencySymbol +
-              (titlePrices.price / 100).toStringAsFixed(2);
-        }
-        if (contentPrices.price != 0) {
-          contentStr += '+' +
-              localModel!.currencySymbol +
-              (contentPrices.price / 100).toStringAsFixed(2) +
-              '/';
-        }
-        if (contentPrices.price != 0) {
-          contentStr += localModel!.currencySymbol +
-              (contentPrices.price / 100).toStringAsFixed(2) +
-              '/' +
-              localModel!.weightSymbol;
-        }
-        listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
+      }
+      for (var key in newPirces.keys) {
+        String titleStr = key + contentSymbol;
+        listWidget.add(buildTitleAndContentCell(titleStr, newPirces[key]));
       }
     } else if (detailLine!.mode == 3) {
       // 单位价格 + 阶梯总价模式
@@ -335,13 +308,14 @@ class LineDetailPageState extends State<LineDetailPage> {
         if (item.type == 3) {
           String titleStr = '单位价格';
           String contentStr = localModel!.currencySymbol +
-              (item.price / 100).toStringAsFixed(2);
+              (item.price / 100).toStringAsFixed(2) +
+              '/$contentSymbol';
           listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
         } else {
           String titleStr = (item.start / 1000).toStringAsFixed(2) +
               '~' +
               (item.end / 1000).toStringAsFixed(2) +
-              localModel!.weightSymbol;
+              contentSymbol;
           String contentStr = localModel!.currencySymbol +
               (item.price / 100).toStringAsFixed(2);
           listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
@@ -354,14 +328,14 @@ class LineDetailPageState extends State<LineDetailPage> {
         if (item.type == 0) {
           String titleStr = '首重（' +
               (item.start / 1000).toStringAsFixed(2) +
-              localModel!.weightSymbol +
+              contentSymbol +
               '）';
           num price = item.price;
           String contentStr = localModel!.currencySymbol +
               (price / 100).toStringAsFixed(2) +
               '/' +
               (item.start / 1000).toStringAsFixed(2) +
-              localModel!.weightSymbol;
+              contentSymbol;
           listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
         } else {
           ++k;
@@ -370,27 +344,41 @@ class LineDetailPageState extends State<LineDetailPage> {
           String contentStr = localModel!.currencySymbol +
               (price / 100).toStringAsFixed(2) +
               '/' +
-              (item.unitWeight! / 1000).toStringAsFixed(2) +
-              localModel!.weightSymbol;
+              (item.unitWeight != null
+                  ? (item.unitWeight! / 1000).toStringAsFixed(2)
+                  : '') +
+              contentSymbol;
           listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
         }
       }
       String titleStr = '最大限重';
-      String contentStr = (detailLine!.maxWeight! / 1000).toStringAsFixed(2) +
-          localModel!.weightSymbol;
+      String contentStr =
+          (detailLine!.maxWeight! / 1000).toStringAsFixed(2) + contentSymbol;
       listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
     } else if (detailLine!.mode == 5) {
       // 阶梯价格范围首重续重模式
-      List<ShipLinePriceModel> contentList =
-          model.prices!.sublist(0, model.prices!.length ~/ 2);
-      List<ShipLinePriceModel> titleList =
-          model.prices!.sublist(0, model.prices!.length ~/ 2);
-      for (var i = 0; i < titleList.length; i++) {
-        ShipLinePriceModel titlePrices = titleList[i];
-        String title = (titlePrices.start / 1000).toString() +
-            '~' +
-            (titlePrices.end / 1000).toString() +
-            localModel!.weightSymbol;
+      model.prices!.sort((a, b) {
+        if (a.start < b.start) {
+          return -1;
+        }
+        return 1;
+      });
+      Map<String, List> sortPrices = {};
+      for (var item in model.prices!) {
+        String key =
+            '${(item.start / 1000).toStringAsFixed(2)}~${(item.end / 1000).toStringAsFixed(2)}';
+        if (sortPrices[key] == null) {
+          sortPrices[key] = [item];
+        } else {
+          if (item.type == 6) {
+            sortPrices[key]!.insert(0, item);
+          } else {
+            sortPrices[key]!.add(item);
+          }
+        }
+      }
+      for (var key in sortPrices.keys) {
+        String title = key + contentSymbol;
         listWidget.add(Container(
           alignment: Alignment.centerLeft,
           height: 40,
@@ -400,28 +388,20 @@ class LineDetailPageState extends State<LineDetailPage> {
             fontWeight: FontWeight.bold,
           ),
         ));
-        String titleStr = '首重' '（' +
-            (titlePrices.firstWeight! / 1000).toStringAsFixed(2) +
-            localModel!.weightSymbol +
-            '）';
-        num price = titlePrices.price;
-        String contentStr = localModel!.currencySymbol +
-            (price / 100).toStringAsFixed(2) +
-            '/' +
-            (titlePrices.firstWeight! / 1000).toStringAsFixed(2) +
-            localModel!.weightSymbol;
-        listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
-        // 续重
-        ShipLinePriceModel contentPrices = contentList[i];
-        String titleStrSecond = '续重';
-        num contentPrice = contentPrices.price;
-        String contentStrSecond = localModel!.currencySymbol +
-            (contentPrice / 100).toStringAsFixed(2) +
-            '/' +
-            ((contentPrices.unitWeight ?? 0) / 1000).toStringAsFixed(2) +
-            localModel!.weightSymbol;
-        listWidget
-            .add(buildTitleAndContentCell(titleStrSecond, contentStrSecond));
+        for (var item in sortPrices[key]!) {
+          String titleStr = '续重';
+          if (item.type == 6) {
+            titleStr =
+                '首重(${(item.firstWeight / 1000).toStringAsFixed(2)}$contentSymbol)';
+          }
+          num? unitPrice = item.type == 6 ? item.firstWeight : item.unitWeight;
+          String contentStr = localModel!.currencySymbol +
+              ((item.price ?? 0) / 100).toStringAsFixed(2) +
+              '/' +
+              ((unitPrice ?? 0) / 1000).toStringAsFixed(2) +
+              contentSymbol;
+          listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
+        }
       }
     }
     return listWidget;
@@ -779,14 +759,7 @@ class LineDetailPageState extends State<LineDetailPage> {
                 children: [
                   title,
                   Gaps.line,
-                  Expanded(
-                    flex: 0,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 15),
-                      child: getAreaList(),
-                    ),
-                  ),
+                  getAreaList(),
                   const Divider(
                     height: 1,
                   ),
@@ -844,16 +817,19 @@ class LineDetailPageState extends State<LineDetailPage> {
                 border: Border.all(width: 0.5, color: ColorConfig.textGray)),
             child: Caption(
               str: contentStr,
-              lines: 9,
+              lines: 100,
             ),
           )
         ],
       ));
     }
     return Flexible(
-      child: ListView(
-        shrinkWrap: true,
-        children: widgetList,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        child: ListView(
+          shrinkWrap: true,
+          children: widgetList,
+        ),
       ),
     );
   }
@@ -863,69 +839,62 @@ class LineDetailPageState extends State<LineDetailPage> {
         context: context,
         barrierDismissible: true, // user must tap button!
         builder: (BuildContext context) {
-          return Container(
-            decoration: BoxDecoration(
-              color: ColorConfig.white,
-              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-              border: Border.all(width: 1, color: ColorConfig.white),
-            ),
-            padding: const EdgeInsets.only(top: 15),
-            margin: EdgeInsets.only(
-                right: 45,
-                left: 45,
-                top: 200,
-                bottom: ScreenUtil().screenHeight / 2 - 100),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                SizedBox(
-                  height: 50,
-                  child: Column(
-                    children: <Widget>[
-                      Caption(
-                        str: item.name,
-                        fontSize: 18,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Gaps.line
-                    ],
+          return Dialog(
+            child: Container(
+              decoration: BoxDecoration(
+                color: ColorConfig.white,
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                border: Border.all(width: 1, color: ColorConfig.white),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    child: Column(
+                      children: <Widget>[
+                        Caption(
+                          str: item.name,
+                          fontSize: 18,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                    height: 60,
-                    alignment: Alignment.topLeft,
-                    padding:
-                        const EdgeInsets.only(top: 10, left: 10, right: 10),
-                    child: Caption(
-                      str: item.remark,
-                      lines: 10,
-                    )),
-                SizedBox(
-                  height: 50,
-                  width: ScreenUtil().screenWidth - 90,
-                  child: Column(
-                    children: <Widget>[
-                      Gaps.line,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                              child: TextButton(
-                                  child: const Caption(
-                                    str: '确定',
-                                    color: ColorConfig.warningText,
-                                  ),
-                                  onPressed: () async {
-                                    Navigator.of(context).pop();
-                                  }))
-                        ],
-                      )
-                    ],
-                  ),
-                )
-              ],
+                  Gaps.line,
+                  Container(
+                      // height: 60,
+                      alignment: Alignment.topLeft,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 15),
+                      child: Caption(
+                        str: item.remark,
+                        lines: 10,
+                      )),
+                  SizedBox(
+                    height: 50,
+                    width: ScreenUtil().screenWidth - 90,
+                    child: Column(
+                      children: <Widget>[
+                        Gaps.line,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                                child: TextButton(
+                                    child: const Caption(
+                                      str: '确定',
+                                      color: ColorConfig.warningText,
+                                    ),
+                                    onPressed: () async {
+                                      Navigator.of(context).pop();
+                                    }))
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         });

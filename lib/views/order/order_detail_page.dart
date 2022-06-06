@@ -1813,7 +1813,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
         (boxModel.volumeWeight! / 1000).toStringAsFixed(2) +
         localizationInfo!.weightSymbol;
     double packageList =
-        boxModel.packages == null || boxModel.packages!.length == 1
+        boxModel.packages == null || boxModel.packages!.length <= 1
             ? 40
             : 30 + (25 * boxModel.packages!.length - 25).toDouble();
     double totalHeight = 160 + packageList;
@@ -2213,7 +2213,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
     return Container(
         alignment: Alignment.centerLeft,
         height: 40,
-        width: 80,
+        width: 85,
         child: Caption(
           str: title,
           color: ColorConfig.textDark,

@@ -641,7 +641,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                   controller: goodsValueController,
                   focusNode: goodsValue,
                   autoFocus: false,
-                  keyboardType: TextInputType.number,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   onSubmitted: (res) {
                     FocusScope.of(context).requestFocus(_remark);
                   },

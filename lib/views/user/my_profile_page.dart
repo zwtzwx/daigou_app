@@ -59,7 +59,7 @@ class MyProfilePageState extends State<MyProfilePage>
     userModel = await UserService.getProfile();
 
     setState(() {
-      _mobileNumberController.text = userModel!.phone!;
+      _mobileNumberController.text = userModel!.phone ?? '';
       _cityNameController.text = userModel!.liveCity;
       _weChatNumberController.text = userModel!.wechatId;
 

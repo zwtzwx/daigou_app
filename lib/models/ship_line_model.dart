@@ -56,7 +56,7 @@ class ShipLineModel {
   late num ruleFeeMode;
   late num maxRuleFee;
   num? groupId;
-  late num baseMode;
+  late int baseMode;
   num? countWeight;
   num? countFirst;
   num? countNext;

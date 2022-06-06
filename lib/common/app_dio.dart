@@ -55,7 +55,10 @@ class AppDio with DioMixin implements Dio {
     }
 
     //httpClientAdapter = DefaultHttpClientAdapter();
-    httpClientAdapter = Http2Adapter(ConnectionManager(idleTimeout: 10000));
+    httpClientAdapter = Http2Adapter(ConnectionManager(
+      idleTimeout: 10000,
+      onClientCreate: (_, config) => config.onBadCertificate = (_) => true,
+    ));
 
     if (dioConfig?.proxy?.isNotEmpty ?? false) {
       setProxy(dioConfig!.proxy!);

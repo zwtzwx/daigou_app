@@ -2,6 +2,7 @@
   未入库包裹修改页面
 */
 
+import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -143,6 +144,22 @@ class EditParcelPageState extends State<EditParcelPage>
       for (GoodsCategoryModel item in packageModel.categories!) {
         categoryList.add(item.id);
       }
+    }
+    String msg = '';
+    if (_packgeNameController.text.isEmpty) {
+      msg = '请输入包裹名称';
+    } else if (_packgeValueController.text.isEmpty) {
+      msg = '请输入包裹价值';
+    } else if (double.parse(_packgeValueController.text) <= 0) {
+      msg = '请输入正确的包裹价值';
+    } else if (propModel == null && packageModel.prop!.isEmpty) {
+      msg = '请选择包裹属性';
+    } else if (countryModel == null && packageModel.country == null) {
+      msg = '请选择发往国家';
+    }
+    if (msg.isNotEmpty) {
+      Util.showToast(msg);
+      return;
     }
     num value = double.parse(_packgeValueController.text) * 100;
     Map<String, dynamic> map = {
@@ -394,7 +411,8 @@ class EditParcelPageState extends State<EditParcelPage>
                   focusNode: _packageValueNode,
                   contentPadding: const EdgeInsets.all(0),
                   isCollapsed: true,
-                  keyboardType: TextInputType.number,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   autoShowRemove: false,
                   maxLines: 1,
                 )),
@@ -655,7 +673,9 @@ class EditParcelPageState extends State<EditParcelPage>
                             children: <Widget>[
                               Caption(
                                   str: propModel == null
-                                      ? packageModel.prop!.first.name!
+                                      ? (packageModel.prop!.isNotEmpty
+                                          ? packageModel.prop!.first.name!
+                                          : '')
                                       : propModel!.name!),
                               const Padding(
                                 padding: EdgeInsets.only(right: 10),

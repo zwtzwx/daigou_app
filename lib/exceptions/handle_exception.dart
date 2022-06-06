@@ -24,8 +24,6 @@ class HandleException {
   static const int unknown_error = 9999;
 
   static NetErrorException handleException(dynamic error) {
-    // print(error);
-    print('error');
     EasyLoading.dismiss();
     if (error is DioError) {
       if (error.type == DioErrorType.other ||

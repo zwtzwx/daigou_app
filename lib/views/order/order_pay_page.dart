@@ -506,7 +506,7 @@ class OrderPayPageState extends State<OrderPayPage> {
             Util.showToast("请先安装微信");
           }
         });
-      }, (err) => {});
+      }, (err) => {Util.showToast(err)});
     } else {
       // 微信支付订单付款
       Map<String, dynamic> map = {

@@ -10,7 +10,7 @@ class UserModel {
   late num userGroupId;
   late String? sessionToken;
   late String name;
-  late String remarkName;
+  String? remarkName;
   String? email;
   late String avatar;
   late bool forbidLogin;
@@ -80,11 +80,11 @@ class UserModel {
     name = json['name'];
     remarkName = json['remark_name'];
     email = json['email'] ?? "";
-    avatar = json['avatar'];
-    forbidLogin = json['forbid_login'];
+    avatar = json['avatar'] ?? '';
+    forbidLogin = json['forbid_login'] ?? false;
     // emailVerifiedAt = json['email_verified_at'];
-    lastLoginAt = json['last_login_at'];
-    notify = json['notify'];
+    lastLoginAt = json['last_login_at'] ?? '';
+    notify = json['notify'] ?? 0;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     companyId = json['company_id'];
@@ -93,15 +93,15 @@ class UserModel {
     unionid = json['unionid'];
     // oaOpenId = json['oa_open_id'];
     phone = json['phone'];
-    source = json['source'];
-    shareInfo = json['share_info'];
-    inviteType = json['invite_type'];
+    source = json['source'] ?? 0;
+    shareInfo = json['share_info'] ?? '';
+    inviteType = json['invite_type'] ?? '1';
     timezone = json['timezone'];
     if (json['profile'] != null) {
       profile = ProfileModel.fromJson(json['profile']);
     }
-    registerIp = json['register_ip'];
-    lastLoginIp = json['last_login_ip'];
+    registerIp = json['register_ip'] ?? '';
+    lastLoginIp = json['last_login_ip'] ?? '';
     liveCity = json['live_city'] ?? "";
     wechatId = json['wechat_id'] ?? "";
     birth = json['birth'] ?? "";

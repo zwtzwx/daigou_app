@@ -3,7 +3,7 @@
  */
 class ShipLinePriceModel {
   late num id;
-  late num type;
+  late int type;
   late num start;
   late num end;
   late num price;

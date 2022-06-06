@@ -11,7 +11,7 @@ class UserAgentStatusModel {
   UserAgentStatusModel({required this.id, required this.name});
 
   UserAgentStatusModel.fromId(num value) {
-    name = "身份: 未申请";
+    name = "";
     id = value;
     switch (id) {
       case 1:
@@ -20,11 +20,11 @@ class UserAgentStatusModel {
       case 2:
         name = "身份：审核中";
         break;
-      case 3:
-        name = "代理：代理身份禁用";
-        break;
-      default:
-        name = "身份: 未申请";
+      // case 3:
+      //   name = "代理：代理身份禁用";
+      //   break;
+      // default:
+      //   name = "身份: 未申请";
     }
   }
 

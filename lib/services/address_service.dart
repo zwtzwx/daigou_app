@@ -40,13 +40,16 @@ class AddressService {
   /*
     修改地址
    */
-  static Future<bool> updateReciever(ReceiverAddressModel model) async {
-    bool result = false;
+  static Future<Map> updateReciever(int id, Map<String, dynamic> params) async {
+    Map result = {'ok': false, 'msg': null};
     await HttpClient()
-        .put(addressOneApi.replaceAll(':id', model.id.toString()),
-            queryParameters: model.toJson())
+        .put(addressOneApi.replaceAll(':id', id.toString()),
+            queryParameters: params)
         .then((response) {
-      result = response.ok;
+      result = {
+        'ok': response.ok,
+        'msg': response.msg ?? response.error!.message
+      };
     });
 
     return result;
@@ -55,10 +58,13 @@ class AddressService {
   /*
     新增地址
    */
-  static Future<bool> addReciever(ReceiverAddressModel model) async {
-    bool result = false;
-    await HttpClient().post(listApi, data: model.toJson()).then((response) {
-      result = response.ok;
+  static Future<Map> addReciever(Map<String, dynamic> params) async {
+    Map result = {'ok': false, 'msg': null};
+    await HttpClient().post(listApi, data: params).then((response) {
+      result = {
+        'ok': response.ok,
+        'msg': response.msg ?? response.error!.message
+      };
     });
 
     return result;
