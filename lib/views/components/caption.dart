@@ -6,7 +6,7 @@ class Caption extends StatefulWidget {
   const Caption(
       {this.str = "",
       this.color = ColorConfig.textBlack,
-      this.fontSize = 16,
+      this.fontSize = 15,
       this.fontWeight = FontWeight.w400,
       this.lines = 1,
       this.alignment = TextAlign.right});

@@ -365,7 +365,7 @@ class OrderModel {
   /*
     自提点
    */
-  late SelfPickupStationModel station;
+  SelfPickupStationModel? station;
 
   /*
     自提点订单
@@ -659,7 +659,7 @@ class OrderModel {
     //       expressLineCosts.map((v) => v.toJson()).toList();
     // }
     data['boxes'] = boxes.map((v) => v.toJson()).toList();
-    data['station'] = station.toJson();
+    data['station'] = station!.toJson();
     data['station_order'] = stationOrder!.toJson();
     // data['group_buying'] = groupBuying;
     data['transaction'] = transaction.map((v) => v.toJson()).toList();

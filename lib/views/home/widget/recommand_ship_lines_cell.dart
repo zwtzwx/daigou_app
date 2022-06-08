@@ -122,7 +122,7 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
           }
         }
       }
-      var view = buildLineItem(context, lineItem, propStr, localModel);
+      var view = ShipLineItem(context, lineItem, propStr, localModel);
       lineCell.add(view);
     }
     return lineCell;

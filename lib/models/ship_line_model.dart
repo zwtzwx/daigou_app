@@ -175,11 +175,11 @@ class ShipLineModel {
     isUnique = json['is_unique'];
     orderMode = json['order_mode'];
     multiBoxMinWeight = json['multi_box_min_weight'];
-    isAvgWeight = json['is_avg_weight'];
-    ruleFeeMode = json['rule_fee_mode'];
-    maxRuleFee = json['max_rule_fee'];
+    isAvgWeight = json['is_avg_weight'] ?? 0;
+    ruleFeeMode = json['rule_fee_mode'] ?? 0;
+    maxRuleFee = json['max_rule_fee'] ?? 0;
     groupId = json['group_id'];
-    baseMode = json['base_mode'];
+    baseMode = json['base_mode'] ?? 0;
     countWeight = json['count_weight'];
     countFirst = json['count_first'];
     countNext = json['count_next'];

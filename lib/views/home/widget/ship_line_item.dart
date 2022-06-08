@@ -7,7 +7,8 @@ import 'package:jiyun_app_client/models/ship_line_model.dart';
 import 'package:jiyun_app_client/models/ship_line_price_model.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 
-Widget buildLineItem(BuildContext context, ShipLineModel lineItem,
+// ignore: non_constant_identifier_names
+Widget ShipLineItem(BuildContext context, ShipLineModel lineItem,
     String propStr, LocalizationModel? localModel) {
   return GestureDetector(
     onTap: () {

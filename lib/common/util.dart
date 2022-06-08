@@ -1,6 +1,7 @@
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:jiyun_app_client/models/self_pickup_station_order_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
@@ -146,5 +147,57 @@ class Util {
         break;
     }
     return name;
+  }
+
+  // 订单状态
+  static String getOrderStatusName(
+      int status, SelfPickupStationOrderModel? stationOrder) {
+    String statusStr = '';
+    //1 待处理 2待付款 3待发货 4已发货5已签收11审核中12审核失败
+    switch (status) {
+      case 1:
+        statusStr = '待处理';
+        break;
+      case 2:
+        statusStr = '待支付';
+        break;
+      case 3:
+        statusStr = '待发货';
+        break;
+      case 4:
+        if (stationOrder == null) {
+          statusStr = '已发货';
+        } else {
+          if (stationOrder.status == 1) {
+            statusStr = '已到自提点';
+          } else if (stationOrder.status == 3) {
+            statusStr = '自提点出库';
+          } else if (stationOrder.status == 4) {
+            statusStr = '自提签收';
+          }
+        }
+        break;
+      case 5:
+        if (stationOrder == null) {
+          statusStr = '已签收';
+        } else {
+          if (stationOrder.status == 1) {
+            statusStr = '已到自提点';
+          } else if (stationOrder.status == 3) {
+            statusStr = '自提点出库';
+          } else if (stationOrder.status == 4) {
+            statusStr = '自提签收';
+          }
+        }
+        break;
+      case 11:
+        statusStr = '审核中';
+        break;
+      case 12:
+        statusStr = '审核失败';
+        break;
+      default:
+    }
+    return statusStr;
   }
 }

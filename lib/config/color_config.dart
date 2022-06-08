@@ -12,12 +12,12 @@ class ColorConfig {
   static const Color textDark = Color(0xFF333333);
   static const Color textBlack = Color(0xFF1C1717);
   static const Color textNormal = Color(0xFF666666);
-  static const Color textGray = Color(0xFF8A8A8A);
+  static const Color textGray = Color(0xFF9A9A9A);
   static const Color textGrayC = Color(0xFFcccccc);
   static const Color textGrayCS = Color(0x72F0F0F0);
   static const Color textGrayC9 = Color(0xFF999999);
   static const Color bgGray = Color(0xFFF5F5F5); //Color(0xFFF0F0F0)
-  static const Color line = Color(0xffF0F0F0);
+  static const Color line = Color(0xffF2F2F2);
   static const Color orderLine = Color(0xFFDDDDDD);
   static const Color textRed = Color(0xFFFF4759);
   static const Color main = Color(0xFF9FA2C2);
@@ -60,10 +60,11 @@ class Gaps {
   static const Widget vGap12 = SizedBox(height: 12.0);
   static const Widget vGap15 = SizedBox(height: 15.0);
   static const Widget vGap16 = SizedBox(height: 16.0);
+  static const Widget vGap20 = SizedBox(height: 20.0);
   static const Widget vGap50 = SizedBox(height: 50);
 
   static Widget line = const SizedBox(
-    height: 0.5,
+    height: 1,
     width: double.infinity,
     child: DecoratedBox(decoration: BoxDecoration(color: ColorConfig.line)),
   );
@@ -98,5 +99,5 @@ class Gaps {
     child: DecoratedBox(decoration: BoxDecoration(color: ColorConfig.line)),
   );
 
-  static const Widget empty = SizedBox(width: 1.0);
+  static const Widget empty = SizedBox();
 }

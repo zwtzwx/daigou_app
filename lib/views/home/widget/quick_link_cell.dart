@@ -78,6 +78,11 @@ Widget buildCustomerServiceView() {
       ),
       child: Row(
         children: [
+          const LoadImage(
+            'Home/consult',
+            width: 24,
+            height: 24,
+          ),
           Padding(
             padding: const EdgeInsets.only(
               left: 20,

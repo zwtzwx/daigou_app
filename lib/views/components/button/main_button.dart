@@ -6,11 +6,11 @@ class MainButton extends StatefulWidget {
   const MainButton({
     Key? key,
     required this.text,
-    this.fontSize = 16,
+    this.fontSize = 15,
     this.elevation = 0,
-    this.borderRadis = 28,
-    this.backgroundColor = ColorConfig.warningText,
-    this.textColor = ColorConfig.textBlack,
+    this.borderRadis = 5,
+    this.backgroundColor = ColorConfig.primary,
+    this.textColor = ColorConfig.white,
     this.onPressed,
   }) : super(key: key);
 
@@ -42,6 +42,9 @@ class _MainButtonState extends State<MainButton> {
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(widget.borderRadis),
           ),
+        ),
+        side: MaterialStateProperty.all(
+          BorderSide(color: widget.backgroundColor),
         ),
       ),
       child: Caption(

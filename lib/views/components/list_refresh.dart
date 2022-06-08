@@ -251,7 +251,7 @@ class _ListRefreshState extends State<ListRefresh> {
           child: LoadImage(
             '',
             fit: BoxFit.contain,
-            holderImg: "PackageAndOrder/暂无内容@3x",
+            holderImg: "Home/empty",
             format: "png",
           ),
         ),

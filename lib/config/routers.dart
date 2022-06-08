@@ -3,6 +3,7 @@ import 'package:jiyun_app_client/views/common/comment_list_page.dart';
 import 'package:jiyun_app_client/views/common/country_list_page.dart';
 import 'package:jiyun_app_client/views/help/help_support_page.dart';
 import 'package:jiyun_app_client/views/home/share_page.dart';
+import 'package:jiyun_app_client/views/home/station_page.dart';
 import 'package:jiyun_app_client/views/home/warehouse_page.dart';
 import 'package:jiyun_app_client/views/line/line_all_page.dart';
 import 'package:jiyun_app_client/views/line/line_detail_page.dart';
@@ -72,7 +73,8 @@ class Routers {
     '/UserProtocolPage',
     '/ForgetPasswordPage',
     '/CommentListPage',
-    '/LineAllPage'
+    '/LineAllPage',
+    '/StationPage'
   ];
 
   // 路由声明
@@ -151,6 +153,7 @@ class Routers {
     // '/PackageOrOrder': (context) => PackageOrOrder(),
     // '/BeganToFreight': (context) => BeganToFreight(),
     '/LineAllPage': (context) => const LineAllPage(),
+    '/StationPage': (context) => const StationPage(),
     '/LineQueryPage': (context) => const LineQueryPage(),
     '/LinesPage': (context, {arguments}) => LinesPage(arguments: arguments),
     '/LineDetailPage': (context, {arguments}) =>

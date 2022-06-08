@@ -7,9 +7,9 @@ class PlainButton extends StatefulWidget {
     Key? key,
     required this.text,
     this.fontSize = 15,
-    this.borderRadis = 28,
-    this.borderColor = ColorConfig.textGrayC,
-    this.textColor = ColorConfig.textBlack,
+    this.borderRadis = 5,
+    this.borderColor = ColorConfig.primary,
+    this.textColor = ColorConfig.primary,
     this.onPressed,
   }) : super(key: key);
   final String text;

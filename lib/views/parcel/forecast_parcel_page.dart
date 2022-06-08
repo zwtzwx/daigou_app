@@ -1,5 +1,7 @@
+import 'package:jiyun_app_client/common/hex_to_color.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
+import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
 import 'package:jiyun_app_client/views/components/input/normal_input.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +100,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
     var _goodsCategoryList = await GoodsService.getCategoryList();
     var _valueAddedServiceList = await ParcelService.getValueAddedServiceList();
     var _terms = await CommonService.getTerms();
-    formData.add(ParcelModel());
+    // formData.add(ParcelModel());
     if (mounted) {
       setState(() {
         localization = _localization!;
@@ -128,20 +130,12 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
           fontWeight: FontWeight.w400,
         ),
       ),
+      backgroundColor: ColorConfig.bgGray,
       body: isloading
           ? SingleChildScrollView(
               child: Column(
               children: <Widget>[
                 buildCustomViews(context),
-                Container(
-                  color: ColorConfig.bgGray,
-                  height: 10,
-                ),
-                buildHeaderListView(),
-                Container(
-                  color: ColorConfig.bgGray,
-                  height: 10,
-                ),
                 buildListView(context),
                 buildBottomListView(),
                 Container(
@@ -175,17 +169,19 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                         onTap: () {
                           showTipsView();
                         },
-                        child: const Caption(
-                          str: '《BeeGoPlus集运协议》',
-                          color: ColorConfig.warningTextDark,
+                        child: Caption(
+                          str: '《包裹转运验货协议》',
+                          color: HexToColor('#fe8b25'),
                         ),
                       )
                     ],
                   ),
                 ),
                 Container(
-                  color: ColorConfig.bgGray,
-                  child: TextButton(
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  height: 50,
+                  width: double.infinity,
+                  child: MainButton(
                     onPressed: () {
                       for (ParcelModel item in formData) {
                         if (item.expressId == null) {
@@ -269,20 +265,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                         EasyLoading.showError(message);
                       });
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: ColorConfig.warningText,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(4.0)),
-                          border: Border.all(
-                              width: 1, color: ColorConfig.warningText)),
-                      alignment: Alignment.center,
-                      height: 40,
-                      child: const Caption(
-                        str: '     提交     ',
-                        color: ColorConfig.textBlack,
-                      ),
-                    ),
+                    text: '提交预报',
                   ),
                 ),
                 Container(
@@ -295,120 +278,104 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
     );
   }
 
-  Widget buildHeaderListView() {
-    return SizedBox(
-      height: 110,
-      child: Column(children: buildHeaderView()),
-    );
-  }
-
-  List<Widget> buildHeaderView() {
-    List<Widget> listWidget = [];
-    var view2 = GestureDetector(
-      onTap: () async {
-        FocusScope.of(context).requestFocus(FocusNode());
-        var tmp = await Navigator.pushNamed(context, '/CountryListPage');
-        if (tmp == null) {
-          return;
-        }
-        CountryModel? s = tmp as CountryModel;
-        if (s.id == null) {
-          return;
-        }
-
-        var data = await WarehouseService.getWareHouseByCountry(
-            {'country_id': selectedCountryModel?.id});
-        setState(() {
-          selectedCountryModel = s;
-          wareHouseList = data;
-          selectedWarehouseModel = wareHouseList.first;
-        });
-      },
-      child: InputTextItem(
-          title: "发往国家",
-          inputText: Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(left: 11),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Text(
-                  selectedCountryModel?.name ?? selectCountry,
-                  style: selectedCountryModel?.name == null
-                      ? TextConfig.textGray14
-                      : TextConfig.textDark14,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(right: 15, top: 10, bottom: 10),
-                  child: Icon(
-                    Icons.arrow_forward_ios,
-                    color: selectedCountryModel?.name == null
-                        ? ColorConfig.textGray
-                        : ColorConfig.textDark,
-                    size: 18,
-                  ),
-                ),
-              ],
+  Widget buildHeaderView() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Column(
+          children: [
+            const Caption(
+              str: '国家/地区',
+              fontSize: 12,
+              color: ColorConfig.main,
             ),
-          )),
-    );
+            Gaps.vGap10,
+            GestureDetector(
+              onTap: () async {
+                var tmp =
+                    await Navigator.pushNamed(context, '/CountryListPage');
+                if (tmp == null) {
+                  return;
+                }
+                CountryModel? s = tmp as CountryModel;
+                if (s.id == null) {
+                  return;
+                }
 
-    var view3 = GestureDetector(
-      onTap: () async {
-        if (selectedCountryModel?.id != null) {
-          Picker(
-            adapter: PickerDataAdapter(data: getPickerWareHouse(wareHouseList)),
-            cancelText: '取消',
-            confirmText: '确认',
-            selectedTextStyle:
-                const TextStyle(color: Colors.blue, fontSize: 12),
-            onCancel: () {},
-            onConfirm: (Picker picker, List value) {
-              setState(() {
-                selectedWarehouseModel = wareHouseList[value.first];
-              });
-            },
-          ).showModal(context);
-        }
-      },
-      child: InputTextItem(
-          title: "发往仓库",
-          inputText: Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(left: 11),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Text(
-                  selectedWarehouseModel?.warehouseName ?? selectWareHouse,
-                  style: selectedWarehouseModel?.warehouseName == null
-                      ? TextConfig.textGray14
-                      : TextConfig.textDark14,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(right: 15, top: 10, bottom: 10),
-                  child: Icon(
-                    Icons.arrow_forward_ios,
-                    color: selectedWarehouseModel?.warehouseName == null
-                        ? ColorConfig.textGray
-                        : ColorConfig.textDark,
-                    size: 18,
-                  ),
-                ),
-              ],
+                var data = await WarehouseService.getWareHouseByCountry(
+                    {'country_id': selectedCountryModel?.id});
+                setState(() {
+                  selectedCountryModel = s;
+                  wareHouseList = data;
+                  selectedWarehouseModel = wareHouseList.first;
+                });
+              },
+              child: const Caption(
+                str: '请选择国家/地区',
+                fontSize: 18,
+                color: ColorConfig.primary,
+              ),
             ),
-          )),
+            Gaps.vGap10,
+            const Caption(
+              str: '切换',
+              fontSize: 12,
+              color: ColorConfig.main,
+            ),
+          ],
+        ),
+        const LoadImage(
+          'Home/arrow2',
+          width: 50,
+          fit: BoxFit.fitWidth,
+        ),
+        Column(
+          children: [
+            const Caption(
+              str: '转运仓库',
+              fontSize: 12,
+              color: ColorConfig.main,
+            ),
+            Gaps.vGap10,
+            GestureDetector(
+              onTap: () {
+                if (selectedCountryModel?.id != null) {
+                  Picker(
+                    adapter: PickerDataAdapter(
+                        data: getPickerWareHouse(wareHouseList)),
+                    cancelText: '取消',
+                    confirmText: '确认',
+                    selectedTextStyle:
+                        const TextStyle(color: Colors.blue, fontSize: 12),
+                    onCancel: () {},
+                    onConfirm: (Picker picker, List value) {
+                      setState(() {
+                        selectedWarehouseModel = wareHouseList[value.first];
+                      });
+                    },
+                  ).showModal(context);
+                }
+              },
+              child: const Caption(
+                str: '请选择仓库',
+                fontSize: 18,
+                color: ColorConfig.primary,
+              ),
+            ),
+            Gaps.vGap10,
+            const Caption(
+              str: '切换',
+              fontSize: 12,
+              color: ColorConfig.main,
+            ),
+          ],
+        )
+      ],
     );
-    listWidget.add(view2);
-    listWidget.add(view3);
-    return listWidget;
   }
 
   Widget buildBottomListView() {
     return SizedBox(
-      height: (85 + 73 * valueAddedServiceList.length).toDouble(),
       child: Column(children: buildAddServiceListView()),
     );
   }
@@ -423,26 +390,29 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
         });
       },
       child: Container(
-        height: 85,
-        color: ColorConfig.textGrayCS,
-        padding: const EdgeInsets.only(
-          top: 15,
-          bottom: 15,
+        height: 55,
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        decoration: BoxDecoration(
+          color: ColorConfig.white,
+          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+          border: Border.all(width: 1, color: ColorConfig.primary),
         ),
-        child: Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.only(top: 5, right: 10, left: 10, bottom: 5),
-          decoration: BoxDecoration(
-            color: ColorConfig.white,
-            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-            border: Border.all(width: 1, color: ColorConfig.warningText),
-          ),
-          width: ScreenUtil().screenWidth,
-          child: const Caption(
-            str: ' 继续添加 ',
-            color: ColorConfig.textBlack,
-            fontSize: 17,
-          ),
+        width: ScreenUtil().screenWidth,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            LoadImage(
+              'PackageAndOrder/add-icon2',
+              width: 20,
+              height: 20,
+            ),
+            Gaps.hGap10,
+            Caption(
+              str: '添加包裹',
+              color: ColorConfig.primary,
+              fontWeight: FontWeight.bold,
+            )
+          ],
         ),
       ),
     );
@@ -960,14 +930,21 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
 
   Widget buildCustomViews(BuildContext context) {
     var headerView = Container(
-        height: 150,
+        margin: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
         color: Colors.white,
-        child: Stack(
+        child: Column(
           children: <Widget>[
             SizedBox(
-              width: ScreenUtil().screenWidth,
-              child: const TrackingBanner(),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: const TrackingBanner(),
+              ),
             ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: buildHeaderView(),
+            )
           ],
         ));
     return headerView;

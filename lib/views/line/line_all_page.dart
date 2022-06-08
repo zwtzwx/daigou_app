@@ -70,6 +70,6 @@ class _LineAllPageState extends State<LineAllPage> {
         }
       }
     }
-    return buildLineItem(context, model, propStr, localModel);
+    return ShipLineItem(context, model, propStr, localModel);
   }
 }
