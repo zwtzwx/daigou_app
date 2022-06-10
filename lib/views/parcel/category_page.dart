@@ -75,8 +75,8 @@ class _CategoryPageState extends State<CategoryPage> {
                     Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                              width: 1, color: ColorConfig.warningText)),
+                          border:
+                              Border.all(width: 1, color: ColorConfig.primary)),
                       width: ScreenUtil().screenWidth / 3,
                       margin: const EdgeInsets.only(
                           right: 20, left: 20, top: 15, bottom: 15),
@@ -98,10 +98,10 @@ class _CategoryPageState extends State<CategoryPage> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: ColorConfig.warningText,
+                          color: ColorConfig.primary,
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                              width: 1, color: ColorConfig.warningText)),
+                          border:
+                              Border.all(width: 1, color: ColorConfig.primary)),
                       width: ScreenUtil().screenWidth / 3,
                       margin: const EdgeInsets.only(
                           right: 20, left: 20, top: 15, bottom: 15),
@@ -112,7 +112,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         ),
                         child: const Caption(
                           str: '确定',
-                          color: ColorConfig.textDark,
+                          color: Colors.white,
                         ),
                         onPressed: () async {
                           if (selectedCategories.isEmpty) {}
@@ -154,7 +154,7 @@ class _CategoryPageState extends State<CategoryPage> {
                             : selectedCategories.contains(categoryModel)
                                 ? const Icon(
                                     Icons.check_circle,
-                                    color: ColorConfig.warningText,
+                                    color: ColorConfig.primary,
                                   )
                                 : const Icon(
                                     Icons.radio_button_unchecked,
@@ -193,7 +193,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                               .contains(subCategroyModel)
                                           ? const Icon(
                                               Icons.check_circle,
-                                              color: ColorConfig.warningText,
+                                              color: ColorConfig.primary,
                                             )
                                           : const Icon(
                                               Icons.radio_button_unchecked,

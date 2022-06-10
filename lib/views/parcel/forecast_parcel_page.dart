@@ -1,6 +1,9 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:jiyun_app_client/common/hex_to_color.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
+import 'package:jiyun_app_client/models/model.dart';
+import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
 import 'package:jiyun_app_client/views/components/input/normal_input.dart';
@@ -31,6 +34,8 @@ import 'package:jiyun_app_client/services/parcel_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:jiyun_app_client/views/parcel/widget/prop_sheet_cell.dart';
+import 'package:provider/provider.dart';
 
 /*
   包裹预报
@@ -53,8 +58,6 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
   //预报的包裹列表
   List<ParcelModel> formData = List<ParcelModel>.empty(growable: true);
 
-  String selectCountry = '请选择发往国家';
-  String selectWareHouse = '请选择发往仓库';
   // 协议确认
   bool agreementBool = false;
   // 协议条款
@@ -75,12 +78,16 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
       List<ValueAddedServiceModel>.empty(growable: true);
   //仓库列表
   List<WareHouseModel> wareHouseList = [];
+  // 属性单选
+  bool propSingle = false;
   bool isloading = false;
 
   @override
   void initState() {
     super.initState();
+    localization = Provider.of<Model>(context, listen: false).localizationInfo;
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      created();
       loadInitData();
     });
     ApplicationEvent.getInstance()
@@ -91,28 +98,49 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
     });
   }
 
-  //加载页面所需要的数据
-  loadInitData() async {
+  created() async {
     EasyLoading.show();
-    var _localization = await LocalizationService.getInfo();
-    var _expressCompanyList = await ExpressCompanyService.getList();
-    var _goodsPropsList = await GoodsService.getPropList();
-    var _goodsCategoryList = await GoodsService.getCategoryList();
+    var countryList = await CommonService.getCountryList();
     var _valueAddedServiceList = await ParcelService.getValueAddedServiceList();
-    var _terms = await CommonService.getTerms();
-    // formData.add(ParcelModel());
+    EasyLoading.dismiss();
     if (mounted) {
       setState(() {
-        localization = _localization!;
-        expressCompanyList = _expressCompanyList;
-        goodsPropsList = _goodsPropsList;
-        goodsCategoryList = _goodsCategoryList;
+        if (countryList.isNotEmpty) {
+          selectedCountryModel = countryList[0];
+          getWarehouseList();
+        }
         valueAddedServiceList = _valueAddedServiceList;
-        terms = _terms!;
         isloading = true;
-        EasyLoading.dismiss();
       });
     }
+  }
+
+  //加载页面所需要的数据
+  loadInitData() async {
+    var _expressCompanyList = await ExpressCompanyService.getList();
+    var _goodsPropsList = await GoodsService.getPropList();
+    // var _goodsCategoryList = await GoodsService.getCategoryList();
+    var _single = await GoodsService.getPropConfig();
+    var _terms = await CommonService.getTerms();
+    if (mounted) {
+      setState(() {
+        expressCompanyList = _expressCompanyList;
+        goodsPropsList = _goodsPropsList;
+        propSingle = _single;
+        // goodsCategoryList = _goodsCategoryList;
+        terms = _terms!;
+      });
+    }
+  }
+
+  // 根据国家获取仓库列表
+  getWarehouseList() async {
+    var data = await WarehouseService.getWareHouseByCountry(
+        {'country_id': selectedCountryModel?.id});
+    setState(() {
+      wareHouseList = data;
+      selectedWarehouseModel = wareHouseList.first;
+    });
   }
 
   @override
@@ -213,9 +241,9 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                       List<Map> packageList = [];
                       for (ParcelModel item in formData) {
                         List<String> categoryids = [];
-                        for (GoodsCategoryModel itemca in item.categories!) {
-                          categoryids.add(itemca.id.toString());
-                        }
+                        // for (GoodsCategoryModel itemca in item.categories!) {
+                        //   categoryids.add(itemca.id.toString());
+                        // }
                         Map<String, dynamic> dic = {
                           'express_num': item.expressNum,
                           'package_name': item.packageName,
@@ -225,7 +253,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                           'express_id': item.expressId,
                           'category_ids': categoryids,
                           'qty': item.qty,
-                          'remark': item.remark,
+                          'remark': item.remark ?? '',
                         };
                         packageList.add(dic);
                       }
@@ -245,8 +273,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                         'op_service_ids': selectService,
                       }, (data) {
                         EasyLoading.dismiss();
-                        if (data.ret) {
-                          EasyLoading.showSuccess(data.message);
+                        if (data.ok) {
+                          EasyLoading.showSuccess(data.msg);
                           setState(() {
                             formData.clear();
                             // selectedCountryModel = CountryModel();
@@ -301,17 +329,13 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                 if (s.id == null) {
                   return;
                 }
-
-                var data = await WarehouseService.getWareHouseByCountry(
-                    {'country_id': selectedCountryModel?.id});
                 setState(() {
                   selectedCountryModel = s;
-                  wareHouseList = data;
-                  selectedWarehouseModel = wareHouseList.first;
+                  getWarehouseList();
                 });
               },
-              child: const Caption(
-                str: '请选择国家/地区',
+              child: Caption(
+                str: selectedCountryModel?.name ?? '请选择国家/地区',
                 fontSize: 18,
                 color: ColorConfig.primary,
               ),
@@ -356,8 +380,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                   ).showModal(context);
                 }
               },
-              child: const Caption(
-                str: '请选择仓库',
+              child: Caption(
+                str: selectedWarehouseModel?.warehouseName ?? '请选择仓库',
                 fontSize: 18,
                 color: ColorConfig.primary,
               ),
@@ -390,29 +414,32 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
         });
       },
       child: Container(
-        height: 55,
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-        decoration: BoxDecoration(
-          color: ColorConfig.white,
-          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-          border: Border.all(width: 1, color: ColorConfig.primary),
-        ),
-        width: ScreenUtil().screenWidth,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            LoadImage(
-              'PackageAndOrder/add-icon2',
-              width: 20,
-              height: 20,
+        child: DottedBorder(
+          borderType: BorderType.RRect,
+          radius: const Radius.circular(10.0),
+          dashPattern: const [5, 2],
+          color: ColorConfig.primary,
+          child: Container(
+            height: 55,
+            color: ColorConfig.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                LoadImage(
+                  'PackageAndOrder/add-icon2',
+                  width: 20,
+                  height: 20,
+                ),
+                Gaps.hGap10,
+                Caption(
+                  str: '添加包裹',
+                  color: ColorConfig.primary,
+                  fontWeight: FontWeight.bold,
+                )
+              ],
             ),
-            Gaps.hGap10,
-            Caption(
-              str: '添加包裹',
-              color: ColorConfig.primary,
-              fontWeight: FontWeight.bold,
-            )
-          ],
+          ),
         ),
       ),
     );
@@ -445,7 +472,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
           ),
           trailing: Switch.adaptive(
             value: item.isOpen,
-            activeColor: ColorConfig.warningText,
+            activeColor: ColorConfig.green,
             onChanged: (value) {
               setState(() {
                 item.isOpen = value;
@@ -480,9 +507,9 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
     // 快递名称
     String courierName = "请选择快递名称";
     // 包裹类型
-    String goodsTypes = "请选择包裹类型";
+    // String goodsTypes = "请选择物品类型";
     // 包裹属性
-    String goodsProperties = "请选择包裹属性";
+    String goodsProperties = "请选择物品属性";
 
     // 快递单号
     TextEditingController orderNumberController = TextEditingController();
@@ -511,8 +538,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
     if (model.remark != null) {
       _remarkController.text = model.remark!;
     }
-    return SizedBox(
-      height: formData.length != 1 ? 496 : 441, //55*9
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
       width: ScreenUtil().screenWidth,
       child: GestureDetector(
         onTap: () {
@@ -586,9 +613,9 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                   keyName: '',
                 )),
             InputTextItem(
-                title: "包裹名称",
+                title: "物品名称",
                 inputText: NormalInput(
-                  hintText: "请输入包裹名称",
+                  hintText: "请输入物品名称",
                   textAlign: TextAlign.right,
                   controller: goodsNameController,
                   focusNode: goodsName,
@@ -604,9 +631,9 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                 )),
             InputTextItem(
                 leftFlex: 3,
-                title: '包裹价值（' + localization!.currencySymbol + '）',
+                title: '物品价值（' + localization!.currencySymbol + '）',
                 inputText: NormalInput(
-                  hintText: "请输入包裹价值",
+                  hintText: "请输入物品价值",
                   textAlign: TextAlign.right,
                   controller: goodsValueController,
                   focusNode: goodsValue,
@@ -620,172 +647,78 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                     model.packageValue = (double.parse(res) * 100).toInt();
                   },
                 )),
-            GestureDetector(
-              onTap: () async {
-                FocusScope.of(context).requestFocus(FocusNode());
-                var s = await Navigator.pushNamed(context, '/CategoriesPage',
-                    arguments: {
-                      "categories": goodsCategoryList //参数map
-                    });
+            // GestureDetector(
+            //   onTap: () async {
+            //     FocusScope.of(context).requestFocus(FocusNode());
+            //     var s = await Navigator.pushNamed(context, '/CategoriesPage',
+            //         arguments: {
+            //           "categories": goodsCategoryList //参数map
+            //         });
 
-                if (s is! List<GoodsCategoryModel>) {
-                  return;
-                } else {
-                  model.categories = s;
-                  model.categoriesStr = '';
-                  setState(() {
-                    for (GoodsCategoryModel item in s) {
-                      if (model.categoriesStr == null) {
-                        model.categoriesStr = item.name;
-                      } else {
-                        model.categoriesStr =
-                            model.categoriesStr! + '、' + item.name;
-                      }
-                    }
-                  });
-                }
-              },
-              child: InputTextItem(
-                  title: "包裹类型",
-                  inputText: Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(left: 11),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          model.categoriesStr ?? goodsTypes,
-                          style: model.categoriesStr == ''
-                              ? TextConfig.textGray14
-                              : TextConfig.textDark14,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              right: 15, top: 10, bottom: 10),
-                          child: Icon(
-                            Icons.arrow_forward_ios,
-                            color: model.categoriesStr == ''
-                                ? ColorConfig.textGray
-                                : ColorConfig.textBlack,
-                            size: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )),
-            ),
+            //     if (s is! List<GoodsCategoryModel>) {
+            //       return;
+            //     } else {
+            //       model.categories = s;
+            //       model.categoriesStr = '';
+            //       setState(() {
+            //         for (GoodsCategoryModel item in s) {
+            //           if (model.categoriesStr == null) {
+            //             model.categoriesStr = item.name;
+            //           } else {
+            //             model.categoriesStr =
+            //                 model.categoriesStr! + '、' + item.name;
+            //           }
+            //         }
+            //       });
+            //     }
+            //   },
+            //   child: InputTextItem(
+            //       title: "包裹类型",
+            //       inputText: Container(
+            //         alignment: Alignment.center,
+            //         margin: const EdgeInsets.only(left: 11),
+            //         child: Row(
+            //           mainAxisAlignment: MainAxisAlignment.end,
+            //           children: <Widget>[
+            //             Text(
+            //               model.categoriesStr ?? goodsTypes,
+            //               style: model.categoriesStr == ''
+            //                   ? TextConfig.textGray14
+            //                   : TextConfig.textDark14,
+            //             ),
+            //             Padding(
+            //               padding: const EdgeInsets.only(
+            //                   right: 15, top: 10, bottom: 10),
+            //               child: Icon(
+            //                 Icons.arrow_forward_ios,
+            //                 color: model.categoriesStr == ''
+            //                     ? ColorConfig.textGray
+            //                     : ColorConfig.textBlack,
+            //                 size: 18,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       )),
+            // ),
             GestureDetector(
               onTap: () async {
                 // 属性选择框
                 showModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      int selectPropIndex = 999;
-                      return StatefulBuilder(
-                          builder: (context1, setBottomSheetState) {
-                        return SizedBox(
-                            height: 320,
-                            child: Column(children: <Widget>[
-                              Container(
-                                height: 44,
-                                margin: const EdgeInsets.only(left: 15),
-                                alignment: Alignment.centerLeft,
-                                child: const Caption(
-                                  str: '包裹属性',
-                                  fontSize: 19,
-                                ),
-                              ),
-                              Gaps.line,
-                              Container(
-                                height: 190,
-                                margin: const EdgeInsets.only(
-                                    right: 20, left: 20, top: 20),
-                                child: GridView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisSpacing: 20.0, //水平子Widget之间间距
-                                      mainAxisSpacing: 20.0, //垂直子Widget之间间距
-                                      crossAxisCount: 3, //一行的Widget数量
-                                      childAspectRatio: 2.6,
-                                    ), // 宽高比例
-                                    itemCount: goodsPropsList.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      GoodsPropsModel propmodel =
-                                          goodsPropsList[index];
-                                      return GestureDetector(
-                                        onTap: () {
-                                          setBottomSheetState(() {
-                                            selectPropIndex = index;
-                                          });
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: selectPropIndex == 999 &&
-                                                      model.prop != null &&
-                                                      model.prop!.first ==
-                                                          goodsPropsList[index]
-                                                  ? ColorConfig.warningText
-                                                  : selectPropIndex == index
-                                                      ? ColorConfig.warningText
-                                                      : ColorConfig.white,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(4.0)),
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: ColorConfig.line)),
-                                          alignment: Alignment.center,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Caption(
-                                                fontSize: 14,
-                                                str: propmodel.name!,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                              ),
-                              GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      if (selectPropIndex != 999) {
-                                        model.prop = [
-                                          goodsPropsList[selectPropIndex]
-                                        ];
-                                      }
-                                      Navigator.of(context).pop();
-                                    });
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(
-                                        right: 15, left: 15),
-                                    decoration: BoxDecoration(
-                                        color: ColorConfig.warningText,
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(4.0)),
-                                        border: Border.all(
-                                            width: 1,
-                                            color: ColorConfig.warningText)),
-                                    alignment: Alignment.center,
-                                    height: 40,
-                                    child: const Caption(
-                                      str: '确定',
-                                    ),
-                                  )),
-                            ]));
-                      });
+                      return PropSheetCell(
+                        goodsPropsList: goodsPropsList,
+                        propSingle: propSingle,
+                        prop: model.prop,
+                        onConfirm: (data) {
+                          model.prop = data;
+                        },
+                      );
                     });
               },
               child: InputTextItem(
-                  title: "包裹属性",
+                  title: "物品属性",
                   inputText: Container(
                     alignment: Alignment.center,
                     margin: const EdgeInsets.only(left: 11),
@@ -795,7 +728,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                         Text(
                           model.prop == null
                               ? goodsProperties
-                              : model.prop!.first.name!,
+                              : model.prop!.map((e) => e.name).join(' '),
                           style: model.prop == null
                               ? TextConfig.textGray14
                               : TextConfig.textDark14,
@@ -818,7 +751,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
             InputTextItem(
                 leftFlex: 5,
                 rightFlex: 5,
-                title: "包裹内物品数量",
+                title: "商品数量",
                 inputText: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -833,7 +766,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                                 : Icons.remove_circle,
                             color: model.qty == 1
                                 ? ColorConfig.textGray
-                                : ColorConfig.warningText,
+                                : ColorConfig.primary,
                             size: 35,
                           ),
                           onPressed: () {
@@ -862,7 +795,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                       child: IconButton(
                           icon: const Icon(
                             Icons.add_circle,
-                            color: ColorConfig.warningText,
+                            color: ColorConfig.primary,
                             size: 35,
                           ),
                           onPressed: () {
@@ -876,51 +809,48 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                     )
                   ],
                 )),
-            InputTextItem(
-                title: "包裹备注",
-                inputText: NormalInput(
-                  hintText: "请输入备注",
-                  textAlign: TextAlign.right,
-                  controller: _remarkController,
-                  focusNode: _remark,
-                  autoFocus: false,
-                  keyboardType: TextInputType.text,
-                  onSubmitted: (res) {
-                    FocusScope.of(context).requestFocus(blankNode);
+            // InputTextItem(
+            //     title: "包裹备注",
+            //     inputText: NormalInput(
+            //       hintText: "请输入备注",
+            //       textAlign: TextAlign.right,
+            //       controller: _remarkController,
+            //       focusNode: _remark,
+            //       autoFocus: false,
+            //       keyboardType: TextInputType.text,
+            //       onSubmitted: (res) {
+            //         FocusScope.of(context).requestFocus(blankNode);
+            //       },
+            //       onChanged: (res) {
+            //         model.remark = res;
+            //       },
+            //     )),
+            Container(
+              height: 45,
+              color: HexToColor('#fafafa'),
+              width: ScreenUtil().screenWidth,
+              child: TextButton.icon(
+                  style: ButtonStyle(
+                    overlayColor: MaterialStateColor.resolveWith(
+                        (states) => Colors.transparent),
+                  ),
+                  onPressed: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    var data =
+                        await BaseDialog.confirmDialog(context, '您确定要删除这个包裹吗');
+                    if (data != null) {
+                      setState(() {
+                        formData.removeAt(index);
+                      });
+                    }
                   },
-                  onChanged: (res) {
-                    model.remark = res;
-                  },
-                )),
-            formData.length != 1
-                ? Container(
-                    height: 45,
-                    margin: const EdgeInsets.only(bottom: 10),
-                    color: ColorConfig.white,
-                    width: ScreenUtil().screenWidth,
-                    child: TextButton.icon(
-                        style: ButtonStyle(
-                          overlayColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.transparent),
-                        ),
-                        onPressed: () {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          if (formData.length == 1) {
-                            return;
-                          }
-                          setState(() {
-                            formData.removeAt(index);
-                          });
-                        },
-                        icon: const Icon(Icons.delete_outline,
-                            color: ColorConfig.warningText),
-                        label: const Caption(
-                          str: '删除',
-                          color: ColorConfig.warningText,
-                        )),
-                  )
-                : Container(),
-            Gaps.line,
+                  icon: const Icon(Icons.delete_outline,
+                      color: ColorConfig.textGrayC),
+                  label: const Caption(
+                    str: '删除',
+                    color: ColorConfig.textGrayC,
+                  )),
+            ),
             // Gaps.vGap15,
           ],
         ),

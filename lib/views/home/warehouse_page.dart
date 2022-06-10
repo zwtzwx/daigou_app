@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -168,35 +169,35 @@ class WareHouseAddressState extends State<WareHouseAddress>
                 ),
                 Gaps.vGap10,
                 GestureDetector(
-                  child: Container(
-                    height: 55,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: ColorConfig.primary,
-                      ),
+                  child: DottedBorder(
+                    radius: const Radius.circular(5),
+                    color: ColorConfig.primary,
+                    borderType: BorderType.RRect,
+                    dashPattern: const [5, 2],
+                    child: Container(
+                      height: 53,
                       color: ColorConfig.white,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        LoadImage(
-                          index == 0
-                              ? 'PackageAndOrder/add-icon2'
-                              : 'PackageAndOrder/pass-icon',
-                          width: 16,
-                          height: 16,
-                        ),
-                        Gaps.hGap10,
-                        Caption(
-                          str: btnStrs[index],
-                          color: ColorConfig.primary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LoadImage(
+                            index == 0
+                                ? 'PackageAndOrder/add-icon2'
+                                : 'PackageAndOrder/pass-icon',
+                            width: 16,
+                            height: 16,
+                          ),
+                          Gaps.hGap10,
+                          Caption(
+                            str: btnStrs[index],
+                            color: ColorConfig.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

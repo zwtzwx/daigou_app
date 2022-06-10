@@ -33,7 +33,10 @@ class ParcelService {
               else
                 {onFail(response.msg!)}
             })
-        .onError((error, stackTrace) => onFail(error.toString()));
+        .onError((error, stackTrace) {
+      onFail(error.toString());
+      return {};
+    });
   }
 
   /*

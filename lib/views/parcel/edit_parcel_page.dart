@@ -23,13 +23,12 @@ import 'package:jiyun_app_client/services/warehouse_service.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/input/base_input.dart';
-import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
-import 'package:jiyun_app_client/views/components/input/normal_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiyun_app_client/views/parcel/widget/prop_sheet_cell.dart';
 import 'package:provider/provider.dart';
 
 class EditParcelPage extends StatefulWidget {
@@ -54,7 +53,6 @@ class EditParcelPageState extends State<EditParcelPage>
   bool isSelectedCountry = false;
 
   LocalizationModel? localizationInfo;
-  bool isLoading = false;
   bool isLoadingLocal = false;
 
   ParcelModel packageModel = ParcelModel();
@@ -66,7 +64,6 @@ class EditParcelPageState extends State<EditParcelPage>
   CountryModel? countryModel;
   WareHouseModel? wareHouseModel;
 
-  String remarkStr = '';
   GoodsPropsModel? propModel;
   List<GoodsCategoryModel> selectCategories = [];
 
@@ -76,8 +73,7 @@ class EditParcelPageState extends State<EditParcelPage>
   List<ValueAddedServiceModel> serviceList = [];
   List<WareHouseModel> wareHouseList = [];
 
-  bool isRequest = false;
-  bool isButtonEnable = true;
+  bool propSingle = false;
 
   FocusNode blankNode = FocusNode();
 
@@ -101,6 +97,10 @@ class EditParcelPageState extends State<EditParcelPage>
         }
       }
     }
+    if (packageModel.country != null) {
+      isSelectedCountry = true;
+      getWarehouse();
+    }
     _packgeNameController.text = (packageModel.packageName ?? '');
     _packgeQtyController.text = (packageModel.qty ?? '').toString();
     _packgeValueController.text =
@@ -118,14 +118,24 @@ class EditParcelPageState extends State<EditParcelPage>
     var _expressCompanyList = await ExpressCompanyService.getList();
 
     var _propList = await GoodsService.getPropList();
-
+    var _single = await GoodsService.getPropConfig();
     var _categoriesList = await GoodsService.getCategoryList();
     EasyLoading.dismiss();
     setState(() {
       expressCompanyList = _expressCompanyList;
       propList = _propList;
+      propSingle = _single;
       categoryList = _categoriesList;
       isLoadingLocal = true;
+    });
+  }
+
+  // 根据国家获取仓库列表
+  getWarehouse() async {
+    var id = countryModel != null ? countryModel!.id : packageModel.country!.id;
+    var data = await WarehouseService.getList({'country_id': id});
+    setState(() {
+      wareHouseList = data;
     });
   }
 
@@ -219,37 +229,24 @@ class EditParcelPageState extends State<EditParcelPage>
         body: isLoadingLocal
             ? SingleChildScrollView(
                 child: SafeArea(
-                child: Container(
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
-                    children: <Widget>[
-                      buildTopBox(),
-                      buildMiddleBox(),
-                      buildBottomBox(),
-                      Gaps.vGap50,
-                      Container(
-                        height: 40,
-                        width: double.infinity,
-                        margin: const EdgeInsets.only(bottom: 20),
-                        child: MainButton(
-                          text: '确认',
-                          onPressed: onSubmit,
-                        ),
+                child: Column(
+                  children: <Widget>[
+                    buildTopBox(),
+                    Gaps.vGap15,
+                    packageModel.status == 1 || packageModel.notConfirmed == 1
+                        ? buildBottomBox()
+                        : Gaps.empty,
+                    Gaps.vGap50,
+                    Container(
+                      height: 40,
+                      width: ScreenUtil().screenWidth - 30,
+                      margin: const EdgeInsets.only(left: 15, right: 15),
+                      child: MainButton(
+                        text: '确认',
+                        onPressed: onSubmit,
                       ),
-                      Container(
-                        width: double.infinity,
-                        height: 40,
-                        margin: const EdgeInsets.only(bottom: 15),
-                        child: MainButton(
-                          text: '取消',
-                          backgroundColor: Colors.white,
-                          onPressed: () {
-                            Routers.pop(context);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ))
             : Container());
@@ -275,142 +272,71 @@ class EditParcelPageState extends State<EditParcelPage>
   // 快递单号、快递公司
   Widget buildTopBox() {
     return Container(
-      decoration: const BoxDecoration(
-          color: ColorConfig.white,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-      height: 100,
+      color: ColorConfig.white,
+      margin: const EdgeInsets.only(top: 15),
       child: Column(
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.only(left: 15, top: 10),
-            height: 40,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 90,
-                  height: 40,
-                  alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '快递名称',
-                    color: ColorConfig.textNormal,
-                  ),
-                ),
-                Expanded(
-                    child: GestureDetector(
-                        onTap: onPickerExpressName,
-                        child: Container(
-                          color: ColorConfig.white,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Caption(
-                                str: expressCompany == null
-                                    ? packageModel.expressName!
-                                    : expressCompany!.name,
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: Icon(
-                                  Icons.keyboard_arrow_right,
-                                  color: ColorConfig.textGray,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )))
-              ],
+            height: 42,
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: const Caption(
+              fontWeight: FontWeight.bold,
+              str: '商品信息',
             ),
           ),
+          Gaps.line,
           Container(
-            padding: const EdgeInsets.only(left: 15, top: 10),
-            height: 40,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            height: 42,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: 90,
-                  height: 40,
                   alignment: Alignment.centerLeft,
                   child: const Caption(
-                    str: '快递单号',
-                    color: ColorConfig.textNormal,
-                  ),
-                ),
-                Caption(
-                  str: packageModel.expressNum!,
-                )
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  // 包裹基本信息
-  Widget buildMiddleBox() {
-    return Container(
-      decoration: const BoxDecoration(
-          color: ColorConfig.white,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-      margin: const EdgeInsets.symmetric(vertical: 15),
-      child: Column(
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(left: 15, top: 10),
-            height: 40,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 90,
-                  height: 40,
-                  alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '包裹名称',
+                    str: '物品名称',
                     color: ColorConfig.textNormal,
                   ),
                 ),
                 Expanded(
                     child: BaseInput(
-                  hintText: '请输入包裹名称',
+                  hintText: '请输入物品名称',
                   controller: _packgeNameController,
                   focusNode: _packageNameNode,
                   contentPadding: const EdgeInsets.all(0),
                   isCollapsed: true,
                   autoShowRemove: false,
+                  textAlign: TextAlign.right,
                   maxLines: 1,
                 )),
               ],
             ),
           ),
+          Gaps.line,
           Container(
-            padding: const EdgeInsets.only(left: 15, top: 10),
-            height: 40,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            height: 42,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: 90,
-                  height: 40,
                   alignment: Alignment.centerLeft,
                   child: Caption(
-                    str: '包裹价值' + (localizationInfo!.currencySymbol),
+                    str: '物品总价' + (localizationInfo!.currencySymbol),
                     color: ColorConfig.textNormal,
                   ),
                 ),
                 Expanded(
                     child: BaseInput(
-                  hintText: '请输入包裹价值',
+                  hintText: '请输入物品总价',
                   controller: _packgeValueController,
                   focusNode: _packageValueNode,
                   contentPadding: const EdgeInsets.all(0),
                   isCollapsed: true,
+                  textAlign: TextAlign.right,
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
                   autoShowRemove: false,
@@ -421,19 +347,18 @@ class EditParcelPageState extends State<EditParcelPage>
               ],
             ),
           ),
+          Gaps.line,
           Container(
-            padding: const EdgeInsets.only(left: 15, top: 10),
-            height: 40,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            height: 42,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: 90,
-                  height: 40,
                   alignment: Alignment.centerLeft,
                   child: const Caption(
-                    str: '包裹数量',
+                    str: '物品数量',
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -446,6 +371,7 @@ class EditParcelPageState extends State<EditParcelPage>
                   isCollapsed: true,
                   keyboardType: TextInputType.number,
                   autoShowRemove: false,
+                  textAlign: TextAlign.right,
                   maxLines: 1,
                 )),
                 // Caption(
@@ -454,19 +380,18 @@ class EditParcelPageState extends State<EditParcelPage>
               ],
             ),
           ),
+          Gaps.line,
           Container(
-            padding: const EdgeInsets.only(left: 15, top: 10),
-            height: 40,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            height: 42,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: 90,
-                  height: 40,
                   alignment: Alignment.centerLeft,
                   child: const Caption(
-                    str: '包裹类型',
+                    str: '物品类型',
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -502,17 +427,14 @@ class EditParcelPageState extends State<EditParcelPage>
                         child: Container(
                           color: ColorConfig.white,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Caption(
                                 str: packageModel.categoriesStr!,
                               ),
-                              const Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: Icon(
-                                  Icons.keyboard_arrow_right,
-                                  color: ColorConfig.textGray,
-                                ),
+                              const Icon(
+                                Icons.keyboard_arrow_right,
+                                color: ColorConfig.textGray,
                               ),
                             ],
                           ),
@@ -520,19 +442,18 @@ class EditParcelPageState extends State<EditParcelPage>
               ],
             ),
           ),
+          Gaps.line,
           Container(
-            padding: const EdgeInsets.only(left: 15, top: 10),
-            height: 40,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            height: 42,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: 90,
-                  height: 40,
                   alignment: Alignment.centerLeft,
                   child: const Caption(
-                    str: '包裹属性',
+                    str: '物品属性',
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -543,146 +464,30 @@ class EditParcelPageState extends State<EditParcelPage>
                           showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
-                                int selectPropIndex = 999;
-                                return StatefulBuilder(
-                                    builder: (context1, setBottomSheetState) {
-                                  return SizedBox(
-                                      height: 320,
-                                      child: Column(children: <Widget>[
-                                        Container(
-                                          height: 44,
-                                          margin:
-                                              const EdgeInsets.only(left: 15),
-                                          alignment: Alignment.centerLeft,
-                                          child: const Caption(
-                                            str: '包裹属性',
-                                            fontSize: 19,
-                                          ),
-                                        ),
-                                        Gaps.line,
-                                        Container(
-                                          height: 190,
-                                          margin: const EdgeInsets.only(
-                                              right: 20, left: 20, top: 20),
-                                          child: GridView.builder(
-                                              shrinkWrap: true,
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              gridDelegate:
-                                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisSpacing:
-                                                    20.0, //水平子Widget之间间距
-                                                mainAxisSpacing:
-                                                    20.0, //垂直子Widget之间间距
-                                                crossAxisCount: 3, //一行的Widget数量
-                                                childAspectRatio: 2.6,
-                                              ), // 宽高比例
-                                              itemCount: propList.length,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                GoodsPropsModel propmodel =
-                                                    propList[index];
-                                                return GestureDetector(
-                                                  onTap: () {
-                                                    setBottomSheetState(() {
-                                                      selectPropIndex = index;
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        color: selectPropIndex ==
-                                                                    999 &&
-                                                                packageModel
-                                                                        .prop !=
-                                                                    null &&
-                                                                packageModel
-                                                                        .prop!
-                                                                        .first ==
-                                                                    propList[
-                                                                        index]
-                                                            ? ColorConfig
-                                                                .warningText
-                                                            : selectPropIndex ==
-                                                                    index
-                                                                ? ColorConfig
-                                                                    .warningText
-                                                                : ColorConfig
-                                                                    .white,
-                                                        borderRadius:
-                                                            const BorderRadius
-                                                                    .all(
-                                                                Radius.circular(
-                                                                    4.0)),
-                                                        border: Border.all(
-                                                            width: 1,
-                                                            color: ColorConfig
-                                                                .line)),
-                                                    alignment: Alignment.center,
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Caption(
-                                                          str: propmodel.name!,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                );
-                                              }),
-                                        ),
-                                        GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                if (selectPropIndex != 999) {
-                                                  propModel =
-                                                      propList[selectPropIndex];
-                                                }
-                                                Navigator.of(context).pop();
-                                              });
-                                            },
-                                            child: Container(
-                                              margin: const EdgeInsets.only(
-                                                  right: 15, left: 15),
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      ColorConfig.warningText,
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(4.0)),
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: ColorConfig
-                                                          .warningText)),
-                                              alignment: Alignment.center,
-                                              height: 40,
-                                              child: const Caption(
-                                                str: '确定',
-                                              ),
-                                            )),
-                                      ]));
-                                });
+                                return PropSheetCell(
+                                  goodsPropsList: propList,
+                                  propSingle: propSingle,
+                                  prop: packageModel.prop,
+                                  onConfirm: (data) {
+                                    packageModel.prop = data;
+                                  },
+                                );
                               });
                         },
                         child: Container(
                           color: ColorConfig.white,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Caption(
-                                  str: propModel == null
-                                      ? (packageModel.prop!.isNotEmpty
-                                          ? packageModel.prop!.first.name!
-                                          : '')
-                                      : propModel!.name!),
-                              const Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: Icon(
-                                  Icons.keyboard_arrow_right,
-                                  color: ColorConfig.textGray,
-                                ),
+                                  str: packageModel.prop != null
+                                      ? packageModel.prop!
+                                          .map((e) => e.name)
+                                          .join(' ')
+                                      : ''),
+                              const Icon(
+                                Icons.keyboard_arrow_right,
+                                color: ColorConfig.textGray,
                               ),
                             ],
                           ),
@@ -690,18 +495,17 @@ class EditParcelPageState extends State<EditParcelPage>
               ],
             ),
           ),
+          Gaps.line,
           Container(
-            padding: const EdgeInsets.only(left: 15, top: 10, right: 15),
+            padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  width: 90,
-                  // height: 40,
                   alignment: Alignment.centerLeft,
                   child: const Caption(
-                    str: '包裹备注',
+                    str: '商品备注',
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -714,6 +518,7 @@ class EditParcelPageState extends State<EditParcelPage>
                   isCollapsed: true,
                   autoShowRemove: false,
                   maxLines: 5,
+                  textAlign: TextAlign.right,
                   maxLength: 200,
                 )),
               ],
@@ -730,18 +535,84 @@ class EditParcelPageState extends State<EditParcelPage>
       decoration: const BoxDecoration(
           color: ColorConfig.white,
           borderRadius: BorderRadius.all(Radius.circular(10))),
-      height: 80,
       child: Column(
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.only(left: 15, top: 0),
-            height: 40,
+            height: 42,
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: const Caption(
+              fontWeight: FontWeight.bold,
+              str: '包裹信息',
+            ),
+          ),
+          Gaps.line,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            height: 42,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: 90,
+                  alignment: Alignment.centerLeft,
+                  child: const Caption(
+                    str: '快递名称',
+                    color: ColorConfig.textNormal,
+                  ),
+                ),
+                Expanded(
+                    child: GestureDetector(
+                        onTap: onPickerExpressName,
+                        child: Container(
+                          color: ColorConfig.white,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Caption(
+                                str: expressCompany == null
+                                    ? packageModel.expressName!
+                                    : expressCompany!.name,
+                              ),
+                              const Icon(
+                                Icons.keyboard_arrow_right,
+                                color: ColorConfig.textGray,
+                              ),
+                            ],
+                          ),
+                        )))
+              ],
+            ),
+          ),
+          Gaps.line,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            height: 42,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: const Caption(
+                    str: '快递单号',
+                    color: ColorConfig.textNormal,
+                  ),
+                ),
+                Caption(
+                  str: packageModel.expressNum!,
+                )
+              ],
+            ),
+          ),
+          Gaps.line,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            height: 42,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.centerLeft,
                   child: const Caption(
                     str: '发往国家',
                     color: ColorConfig.textNormal,
@@ -759,17 +630,13 @@ class EditParcelPageState extends State<EditParcelPage>
                           setState(() {
                             countryModel = s as CountryModel;
                             isSelectedCountry = true;
+                            getWarehouse();
                           });
-                          EasyLoading.show(status: '获取仓库列表...');
-                          var data99 = await WarehouseService.getList(
-                              {'country_id': countryModel!.id});
-                          EasyLoading.dismiss();
-                          wareHouseList = data99;
                         },
                         child: Container(
                           color: ColorConfig.white,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Caption(
                                   str: countryModel == null
@@ -777,12 +644,9 @@ class EditParcelPageState extends State<EditParcelPage>
                                           ? packageModel.country!.name!
                                           : '')
                                       : countryModel!.name!),
-                              const Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: Icon(
-                                  Icons.keyboard_arrow_right,
-                                  color: ColorConfig.textGray,
-                                ),
+                              const Icon(
+                                Icons.keyboard_arrow_right,
+                                color: ColorConfig.textGray,
                               ),
                             ],
                           ),
@@ -790,15 +654,16 @@ class EditParcelPageState extends State<EditParcelPage>
               ],
             ),
           ),
+          Gaps.line,
           Container(
-            padding: const EdgeInsets.only(left: 15, top: 0),
-            height: 40,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            height: 42,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: 90,
+                  alignment: Alignment.centerLeft,
                   child: const Caption(
                     str: '发往仓库',
                     color: ColorConfig.textNormal,
@@ -807,7 +672,7 @@ class EditParcelPageState extends State<EditParcelPage>
                 Expanded(
                     child: GestureDetector(
                         onTap: () {
-                          if (isSelectedCountry) {
+                          if (!isSelectedCountry) {
                             return;
                           }
                           Picker(
@@ -823,24 +688,21 @@ class EditParcelPageState extends State<EditParcelPage>
                                 wareHouseModel = wareHouseList[value.first];
                               });
                             },
-                          ).showModal(this.context);
+                          ).showModal(context);
                         },
                         child: Container(
                           color: ColorConfig.white,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Caption(
                                   str: wareHouseModel == null
                                       ? packageModel.warehouse!.warehouseName!
                                       : wareHouseModel!.warehouseName!),
                               isSelectedCountry
-                                  ? const Padding(
-                                      padding: EdgeInsets.only(right: 10),
-                                      child: Icon(
-                                        Icons.keyboard_arrow_right,
-                                        color: ColorConfig.textGray,
-                                      ),
+                                  ? const Icon(
+                                      Icons.keyboard_arrow_right,
+                                      color: ColorConfig.textGray,
                                     )
                                   : Container()
                             ],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/views/components/caption.dart';
 
 class BaseDialog {
   static Future<bool?> confirmDialog(BuildContext context, String content) {
@@ -13,13 +15,19 @@ class BaseDialog {
             ),
             actions: <Widget>[
               TextButton(
-                child: const Text('取消'),
+                child: const Caption(
+                  str: '取消',
+                  color: ColorConfig.textNormal,
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               TextButton(
-                child: const Text('确定'),
+                child: const Caption(
+                  str: '确定',
+                  color: ColorConfig.textRed,
+                ),
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },

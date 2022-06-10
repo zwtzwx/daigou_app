@@ -1,28 +1,19 @@
-import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/list_refresh_event.dart';
-import 'package:jiyun_app_client/models/localization_model.dart';
-import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
-import 'package:jiyun_app_client/models/parcel_box_model.dart';
-import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/models/user_order_count_model.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
-import 'package:jiyun_app_client/views/components/button/plain_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:jiyun_app_client/views/order/components/order_item_cell.dart';
-import 'package:provider/provider.dart';
+import 'package:jiyun_app_client/views/order/widget/order_item_cell.dart';
 
 /*
   包裹&订单
@@ -223,7 +214,9 @@ class OrderCenterState extends State<OrderCenterPage> {
 
   Widget _getListData2(List orderList, index) {
     OrderModel orderModel = orderList[index];
-    return OrderItemCell(context, orderModel);
+    return OrderItemCell(
+      orderModel: orderModel,
+    );
   }
 
   /*

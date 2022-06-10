@@ -9,6 +9,8 @@ class GoodsService {
   static const String PROPLIST = 'prop';
   // 获取可以选择分类列表
   static const String CATEGORIES = 'package-category';
+  // 属性配置：单选、多选
+  static const String propConfigApi = 'package/configs';
 
   // 获取属性列表
   static Future<List<GoodsPropsModel>> getPropList(
@@ -21,6 +23,17 @@ class GoodsService {
                 result.add(GoodsPropsModel.fromJson(good));
               })
             });
+    return result;
+  }
+
+  // 获取属性配置
+  static Future<bool> getPropConfig() async {
+    bool result = false;
+    await HttpClient().get(propConfigApi).then((res) {
+      if (res.ok) {
+        result = res.data['package_prop'] == 1;
+      }
+    });
     return result;
   }
 

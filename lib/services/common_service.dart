@@ -6,6 +6,7 @@ import 'package:jiyun_app_client/common/http_client.dart';
 import 'package:jiyun_app_client/models/alphabetical_country_model.dart';
 import 'package:jiyun_app_client/models/banners_model.dart';
 import 'package:dio/dio.dart';
+import 'package:jiyun_app_client/models/country_model.dart';
 
 //通用服务
 class CommonService {
@@ -13,8 +14,10 @@ class CommonService {
   static const String _TERMS_API = 'packages/transhipment-rule';
   // 所有配置图片列表
   static const String _ALL_BANNERS_API = 'mini-setting';
-  // 获取国家
+  // 获取国家，排序
   static const String countryListApi = 'country/sorted';
+  // 国家列表
+  static const String countriesApi = 'country';
   // 上传图片
   static const String uploadImageApi = 'uploads/image';
 
@@ -79,6 +82,22 @@ class CommonService {
       }
     });
 
+    return dataList;
+  }
+
+  /*
+    获取国家列表
+  */
+  static Future<List<CountryModel>> getCountryList(
+      [Map<String, dynamic>? params]) async {
+    List<CountryModel> dataList = [];
+    await HttpClient().get(countriesApi, queryParameters: params).then((res) {
+      if (res.ok) {
+        for (var item in res.data) {
+          dataList.add(CountryModel.fromJson(item));
+        }
+      }
+    });
     return dataList;
   }
 }
