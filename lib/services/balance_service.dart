@@ -30,7 +30,8 @@ class BalanceService {
   static const String orderTransApi = 'order/tran-info';
   // 余额支付订单
   static const String balancePayOrder = 'order/pay/balance';
-
+  // 订单货到付款
+  static const String onDeliveryPayOrder = 'order/pay-on-delivery';
   // 会员充值微信支付
   static const String buyVipWechatPayApi = 'user-member/pay/wechat';
   // 会员充值余额支付
@@ -249,6 +250,23 @@ class BalanceService {
         onFail(response.msg.toString());
       }
     }).onError((error, stackTrace) => onFail(error.toString()));
+  }
+
+  /*
+    订单货到付款
+   */
+  static Future<Map> orderOnDelivery(Map params) async {
+    Map result = {'ok': false, 'msg': null};
+    await HttpClient()
+        .post(onDeliveryPayOrder, data: params)
+        .then((response) => {
+              result = {
+                'ok': response.ok,
+                'msg': response.msg ?? response.error!.message,
+              }
+            });
+
+    return result;
   }
 
   /*

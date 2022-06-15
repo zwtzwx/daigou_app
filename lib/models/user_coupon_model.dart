@@ -18,7 +18,7 @@ class UserCouponModel {
   late bool enabled;
   late String status;
   late bool canUse;
-  late UserCouponItemModel coupon;
+  UserCouponItemModel? coupon;
 
   UserCouponModel(
       {required this.id,
@@ -34,7 +34,7 @@ class UserCouponModel {
       this.enabled = false,
       required this.status,
       this.canUse = false,
-      required this.coupon});
+      this.coupon});
 
   UserCouponModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -50,8 +50,9 @@ class UserCouponModel {
     enabled = json['enabled'];
     status = json['status'];
     canUse = json['can_use'];
-
-    coupon = UserCouponItemModel.fromJson(json['coupon']);
+    if (json['coupon'] != null) {
+      coupon = UserCouponItemModel.fromJson(json['coupon']);
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -69,7 +70,7 @@ class UserCouponModel {
     data['enabled'] = enabled;
     data['status'] = status;
     data['can_use'] = canUse;
-    data['coupon'] = coupon.toJson();
+    data['coupon'] = coupon?.toJson();
     return data;
   }
 }

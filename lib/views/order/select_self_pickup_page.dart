@@ -2,13 +2,14 @@
   选择自提点
 */
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/self_pickup_station_model.dart';
-import 'package:jiyun_app_client/models/ship_line_model.dart';
+import 'package:jiyun_app_client/services/ship_line_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiyun_app_client/views/components/empty_box.dart';
 
 class SelectSelfPickUpPage extends StatefulWidget {
   const SelectSelfPickUpPage({Key? key, required this.arguments})
@@ -24,14 +25,28 @@ class SelectSelfPickUpPageState extends State<SelectSelfPickUpPage> {
   final ScrollController _scrollController = ScrollController();
 
   String pageTitle = '';
-  late ShipLineModel model;
+  late int id;
+  List<SelfPickupStationModel>? stationList;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
     pageTitle = '选择自提点';
-    model = widget.arguments['model'] as ShipLineModel;
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {});
+    id = widget.arguments['id'];
+    getStationList();
+  }
+
+  void getStationList() async {
+    EasyLoading.show();
+    var data = await ShipLineService.getDetail(id);
+    EasyLoading.dismiss();
+    if (data != null) {
+      setState(() {
+        isLoading = true;
+        stationList = data.selfPickupStations;
+      });
+    }
   }
 
   @override
@@ -52,29 +67,30 @@ class SelectSelfPickUpPageState extends State<SelectSelfPickUpPage> {
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       backgroundColor: ColorConfig.bgGray,
-      body: Container(
-        child: buildListView(),
-      ),
+      body: isLoading
+          ? Container(
+              child: (stationList != null && stationList!.isNotEmpty)
+                  ? buildListView()
+                  : emptyBox('暂无可选自提点'))
+          : Gaps.empty,
     );
   }
 
   Widget buildListView() {
     var listView = ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: buildCellForFirstListView,
       controller: _scrollController,
-      itemCount: model.selfPickupStations!.length,
+      itemCount: stationList?.length ?? 0,
     );
     return listView;
   }
 
   Widget buildCellForFirstListView(BuildContext context, int index) {
-    SelfPickupStationModel model1 = model.selfPickupStations![index];
+    SelfPickupStationModel model = stationList![index];
 
     return GestureDetector(
         onTap: () async {
-          Navigator.of(context).pop(model1);
+          Navigator.of(context).pop(model);
         },
         child: Container(
             decoration: BoxDecoration(
@@ -82,40 +98,28 @@ class SelectSelfPickUpPageState extends State<SelectSelfPickUpPage> {
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
                 border: Border.all(width: 1, color: ColorConfig.white)),
             margin: const EdgeInsets.only(top: 15, right: 15, left: 15),
-            height: 80,
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
+                SizedBox(
                     height: 30,
-                    padding: const EdgeInsets.only(top: 10, left: 15),
-                    width: ScreenUtil().screenWidth - 50,
                     child: Row(
                       children: <Widget>[
                         Caption(
-                          str: model1.name,
+                          str: model.name,
                           fontWeight: FontWeight.w500,
                         ),
                         Caption(
-                          str: ' ' +
-                              model1.contactor! +
-                              ' ' +
-                              model1.contactInfo!,
+                          str:
+                              ' ' + model.contactor! + ' ' + model.contactInfo!,
                         )
                       ],
                     )),
-                Container(
-                  padding: const EdgeInsets.only(top: 10, left: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      const Caption(
-                        str: '详细地址：',
-                      ),
-                      Caption(
-                        str: model1.address!,
-                      )
-                    ],
+                SizedBox(
+                  child: Caption(
+                    str: '详细地址：' + model.address!,
+                    lines: 4,
                   ),
                 )
               ],

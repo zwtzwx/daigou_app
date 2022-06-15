@@ -4,6 +4,7 @@
 import 'package:jiyun_app_client/models/user_vip_count_model.dart';
 import 'package:jiyun_app_client/models/user_vip_level_model.dart';
 import 'package:jiyun_app_client/models/user_vip_price_model.dart';
+import 'package:jiyun_app_client/models/user_vip_rule_model.dart';
 
 class UserVipModel {
   //用户基础信息
@@ -12,6 +13,12 @@ class UserVipModel {
   late List<UserVipPriceModel> priceList;
   //会员等级
   late List<UserVipLevel> levelList;
+  // 启用积分状态
+  late int pointStatus;
+  // 启用成长值状态
+  late int growthValueStatus;
+  // 积分、成长值收支规则
+  late UserVipRuleModel ruleStatus;
   //购买成长值信息
   String? levelRemark;
 
@@ -19,9 +26,15 @@ class UserVipModel {
       {required this.profile,
       required this.priceList,
       required this.levelList,
+      required this.pointStatus,
+      required this.growthValueStatus,
+      required this.ruleStatus,
       this.levelRemark});
 
   UserVipModel.fromJson(Map<String, dynamic> json) {
+    pointStatus = json['point_status'];
+    growthValueStatus = json['growth_value_status'];
+    ruleStatus = UserVipRuleModel.fromJson(json['rule_status']);
     profile = (json['user_member'] != null
         ? UserVipCountModel.fromJson(json['user_member'])
         : null)!;

@@ -382,7 +382,7 @@ class OrderModel {
   /*
     优惠券
    */
-  late UserCouponModel coupon;
+  UserCouponModel? coupon;
   /*
     使用积分数量
    */
@@ -395,6 +395,7 @@ class OrderModel {
     积分抵现金额
    */
   late num pointamount;
+  late num userPoint;
   late int isInvoice;
 
   /*
@@ -490,6 +491,7 @@ class OrderModel {
     isInvoice = json['is_invoice'] ?? 0;
     isusepoint = json['is_use_point'];
     pointamount = json['point_amount'];
+    userPoint = json['user_point'];
     if (json['value_added_service'] != null) {
       valueAddedService = <ValueAddedServiceModel>[];
       json['value_added_service'].forEach((v) {

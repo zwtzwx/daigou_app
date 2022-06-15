@@ -26,7 +26,7 @@ class BaseDialog {
               TextButton(
                 child: const Caption(
                   str: '确定',
-                  color: ColorConfig.textRed,
+                  color: ColorConfig.textBlack,
                 ),
                 onPressed: () {
                   Navigator.of(context).pop(true);

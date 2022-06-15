@@ -19,6 +19,7 @@ import 'package:jiyun_app_client/models/tariff_model.dart';
 import 'package:jiyun_app_client/models/value_added_service_model.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
 import 'package:jiyun_app_client/services/ship_line_service.dart';
+import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/order/widget/rename_dialog.dart';
 import 'package:jiyun_app_client/views/order/widget/rename_dialog_content.dart';
@@ -136,10 +137,9 @@ class CreateOrderPageState extends State<CreateOrderPage>
           elevation: 0.5,
           centerTitle: true,
           title: const Caption(
-            str: '提交合并包裹',
+            str: '提交转运包裹',
             color: ColorConfig.textBlack,
             fontSize: 18,
-            fontWeight: FontWeight.w400,
           ),
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
@@ -167,21 +167,14 @@ class CreateOrderPageState extends State<CreateOrderPage>
   Widget buildSubViews() {
     var content = Column(
       children: <Widget>[
-        const SizedBox(
-          height: 20,
-        ),
-        getAllPackageList(),
         Container(
           alignment: Alignment.centerLeft,
-          margin: const EdgeInsets.only(top: 0, bottom: 10, left: 30),
+          margin: const EdgeInsets.only(top: 20, bottom: 10, left: 15),
           child: Caption(
-            fontSize: 14,
-            str: '合计申报价值：' +
-                localizationInfo!.currencySymbol +
-                (totalValue / 100).toStringAsFixed(2),
-            color: ColorConfig.textGray,
+            str: '您本次选择 ${packageList.length} 个包裹',
           ),
         ),
+        getAllPackageList(),
         buildMiddleView(),
         buildBottomView(),
         Container(
@@ -237,8 +230,12 @@ class CreateOrderPageState extends State<CreateOrderPage>
               ],
             )),
         Container(
-          margin: const EdgeInsets.only(right: 10, left: 10),
-          child: TextButton(
+          margin:
+              const EdgeInsets.only(right: 15, left: 15, top: 30, bottom: 10),
+          height: 40,
+          width: double.infinity,
+          child: MainButton(
+            text: '提交',
             onPressed: () {
               if (shipLineModel == null || selectedAddressModel == null) {
                 Util.showToast('请完善数据');
@@ -268,18 +265,6 @@ class CreateOrderPageState extends State<CreateOrderPage>
                 updataOrder();
               }
             },
-            child: Container(
-              decoration: BoxDecoration(
-                  color: ColorConfig.warningText,
-                  borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                  border: Border.all(width: 1, color: ColorConfig.warningText)),
-              alignment: Alignment.center,
-              height: 40,
-              child: const Caption(
-                str: '确认提交',
-                color: ColorConfig.textDark,
-              ),
-            ),
           ),
         ),
         Container(
@@ -299,6 +284,18 @@ class CreateOrderPageState extends State<CreateOrderPage>
 
   // 提交包裹
   updataOrder() async {
+    String msg = '';
+    if (selectedAddressModel == null) {
+      msg = '请选择收货地址';
+    } else if (shipLineModel == null) {
+      msg = '请选择快递方式';
+    } else if (tempDelivery == 1 && selectStations == null) {
+      msg = '请选择自提点';
+    }
+    if (msg.isNotEmpty) {
+      Util.showToast(msg);
+      return;
+    }
     List<String> packagesId = [];
     for (var item in packageList) {
       packagesId.add(item.id.toString());
@@ -319,7 +316,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
       'address_id': selectedAddressModel!.id,
       'packages': packagesId,
       'station_id': tempDelivery == 1 ? selectStations!.id : '',
-      'express_line_id': shipLineModel != null ? shipLineModel!.id : '',
+      'express_line_id': shipLineModel!.id,
       'add_service': addServiceList,
       'clearance_code': _clearanceCodeController.text,
       'id_card': _idCodeController.text,
@@ -338,14 +335,14 @@ class CreateOrderPageState extends State<CreateOrderPage>
       'vip_remark': _evaluateController.text,
     };
     EasyLoading.show(status: '提交中...');
-    bool data = await OrderService.store(upData);
+    Map data = await OrderService.store(upData);
     EasyLoading.dismiss();
-    if (data) {
+    if (data['ok']) {
       EasyLoading.showSuccess('提交成功').then((value) {
         Navigator.of(context).pop('succeed');
       });
     } else {
-      EasyLoading.showError('提交失败');
+      EasyLoading.showError(data['msg']);
     }
   }
 
@@ -371,27 +368,24 @@ class CreateOrderPageState extends State<CreateOrderPage>
               border: Border.all(width: 1, color: Colors.white),
             ),
             margin: const EdgeInsets.only(right: 15, left: 15, bottom: 10),
-            padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
-            height: 110,
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Column(
               children: [
                 SizedBox(
                   height: 30,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      const SizedBox(
-                        width: 80,
+                      SizedBox(
                         child: Caption(
                           fontSize: 14,
-                          str: '包裹名称：',
-                          color: ColorConfig.textDark,
+                          str: model.expressNum ?? '',
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       Caption(
                         fontSize: 14,
-                        str: model.packageName!,
-                        color: ColorConfig.textDark,
+                        str: model.country?.name ?? '',
                       ),
                     ],
                   ),
@@ -401,79 +395,29 @@ class CreateOrderPageState extends State<CreateOrderPage>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Row(
-                        children: [
-                          const SizedBox(
-                            width: 80,
-                            child: Caption(
-                              fontSize: 14,
-                              str: '包裹价值：',
-                              color: ColorConfig.textDark,
-                            ),
-                          ),
-                          Caption(
-                            fontSize: 14,
-                            str: localizationInfo!.currencySymbol +
-                                (model.packageValue! / 100).toStringAsFixed(2),
-                            color: ColorConfig.textDark,
-                          ),
-                        ],
+                      Caption(
+                        str: model.prop?.map((e) => e.name).join(' ') ?? '',
+                        fontSize: 14,
                       ),
                       Row(
                         children: <Widget>[
-                          GestureDetector(
-                              onTap: () async {
-                                var s = await Navigator.pushNamed(
-                                    context, '/PackageDetailPage',
-                                    arguments: {'id': model.id, 'edit': true});
-
-                                if (s == null) {
-                                  return;
-                                }
-                                setState(() {
-                                  model.packageValue = s as num?;
-                                  // print(model.packageValue);
-                                  totalValue = 0.0;
-                                  for (var item in packageList) {
-                                    totalValue += item.packageValue ?? 0;
-                                  }
-                                  // packageList.replaceRange(i, i + 1, [s]);
-                                });
-                              },
-                              child: const Caption(
-                                fontSize: 14,
-                                str: '修改',
-                                color: ColorConfig.warningText,
-                              )),
-                          const Icon(
-                            Icons.keyboard_arrow_right,
-                            color: ColorConfig.textGray,
+                          Caption(
+                            str: localizationInfo!.currencySymbol +
+                                ((model.packageValue ?? 0) / 100)
+                                    .toStringAsFixed(2),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          Gaps.hGap10,
+                          Caption(
+                            str: ((model.packageWeight ?? 0) / 1000)
+                                    .toStringAsFixed(2) +
+                                localizationInfo!.weightSymbol,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
                           ),
                         ],
                       )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      const SizedBox(
-                        width: 80,
-                        child: Caption(
-                          fontSize: 14,
-                          str: '入库重量：',
-                          color: ColorConfig.textDark,
-                        ),
-                      ),
-                      Caption(
-                        fontSize: 14,
-                        str: ((model.packageWeight ?? 0) / 1000)
-                                .toStringAsFixed(2) +
-                            localizationInfo!.weightSymbol,
-                        color: ColorConfig.textDark,
-                      ),
                     ],
                   ),
                 ),
@@ -499,6 +443,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
     }
     setState(() {
       selectedAddressModel = s as ReceiverAddressModel;
+      shipLineModel = null;
     });
   }
 
@@ -636,21 +581,19 @@ class CreateOrderPageState extends State<CreateOrderPage>
                     alignment: Alignment.centerLeft,
                     width: 80,
                     child: const Caption(
-                      str: '收货地址:',
+                      str: '收货地址',
                     ),
                   ),
                   Expanded(
                     child: Container(
                       alignment: Alignment.center,
                       child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           selectedAddressModel == null
-                              ? const Expanded(
-                                  child: Caption(
-                                    str: '请选择',
-                                    color: ColorConfig.textGray,
-                                  ),
+                              ? const Caption(
+                                  str: '请选择',
+                                  color: ColorConfig.textGray,
                                 )
                               : Expanded(
                                   // height: 90,
@@ -698,7 +641,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
               ),
             ),
           ),
-          line(),
+          Gaps.line,
           GestureDetector(
             onTap: onLine,
             child: Container(
@@ -714,7 +657,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
                   Container(
                     alignment: Alignment.centerLeft,
                     width: 80,
-                    child: const Caption(str: '渠道选择:'),
+                    child: const Caption(str: '快递方式'),
                   ),
                   Expanded(
                     child: Container(
@@ -724,15 +667,13 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             ? MainAxisAlignment.end
                             : MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Expanded(
-                            child: Caption(
-                              str: shipLineModel == null
-                                  ? '请选择'
-                                  : shipLineModel!.name,
-                              color: shipLineModel == null
-                                  ? ColorConfig.textGray
-                                  : ColorConfig.textDark,
-                            ),
+                          Caption(
+                            str: shipLineModel == null
+                                ? '请选择'
+                                : shipLineModel!.name,
+                            color: shipLineModel == null
+                                ? ColorConfig.textGray
+                                : ColorConfig.textDark,
                           ),
                           const Icon(
                             Icons.keyboard_arrow_right,
@@ -746,7 +687,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
               ),
             ),
           ),
-          line(),
+          Gaps.line,
           GestureDetector(
             onTap: onDeliveryType,
             child: Container(
@@ -762,7 +703,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
                   Container(
                     alignment: Alignment.centerLeft,
                     width: 80,
-                    child: const Caption(str: '收货形式:'),
+                    child: const Caption(str: '收货形式'),
                   ),
                   Expanded(
                     child: Row(
@@ -793,13 +734,13 @@ class CreateOrderPageState extends State<CreateOrderPage>
               ),
             ),
           ),
-          shipLineModel?.isDelivery != 0 ? line() : Gaps.empty,
-          shipLineModel != null && tempDelivery != 0
+          shipLineModel?.isDelivery != 0 ? Gaps.line : Gaps.empty,
+          shipLineModel != null && tempDelivery == 1
               ? GestureDetector(
                   onTap: () async {
                     var s = await Navigator.pushNamed(
                         context, '/SelectSelfPickUpPage',
-                        arguments: {"model": shipLineModel});
+                        arguments: {"id": shipLineModel!.id});
                     if (s == null) {
                       return;
                     }
@@ -836,21 +777,19 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             children: <Widget>[
                               Container(
                                 alignment: Alignment.center,
-                                height: 20,
                                 child: Caption(
-                                  str: selectStations!.name,
+                                  str: selectStations?.name ?? '',
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                               Container(
                                 alignment: Alignment.center,
-                                height: 20,
                                 child: Caption(
                                     fontSize: 15,
                                     str: ' ' +
-                                        selectStations!.contactor! +
+                                        (selectStations?.contactor ?? '') +
                                         ' ' +
-                                        selectStations!.contactInfo!),
+                                        (selectStations?.contactInfo ?? '')),
                               ),
                             ],
                           ),
@@ -860,14 +799,12 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             children: <Widget>[
                               Container(
                                 alignment: Alignment.center,
-                                height: 30,
                                 child: const Caption(str: '详细地址：'),
                               ),
                               Container(
                                   alignment: Alignment.center,
-                                  height: 30,
-                                  child:
-                                      Caption(str: selectStations!.address!)),
+                                  child: Caption(
+                                      str: selectStations?.address ?? '')),
                             ],
                           ),
                           Row(
@@ -876,7 +813,6 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             children: <Widget>[
                               Container(
                                 alignment: Alignment.center,
-                                height: 20,
                                 child: const Caption(
                                     str: '*您已选择自提点自提，请到相应地址取货',
                                     color: ColorConfig.textRed),
@@ -955,7 +891,6 @@ class CreateOrderPageState extends State<CreateOrderPage>
     }
     if (contentList.isNotEmpty) {
       var view = Container(
-          height: 60 + (contentList.length * 23).toDouble(),
           width: ScreenUtil().screenWidth - 30,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -963,7 +898,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
             border: Border.all(width: 1, color: ColorConfig.white),
           ),
           margin: const EdgeInsets.only(right: 15, left: 15, bottom: 10),
-          padding: const EdgeInsets.only(left: 10, right: 0),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(children: rulesTextList(contentList)));
       return view;
     }
@@ -974,18 +909,19 @@ class CreateOrderPageState extends State<CreateOrderPage>
     List<Widget> textList = [];
     textList.add(Container(
       alignment: Alignment.bottomLeft,
-      height: 40,
+      padding: const EdgeInsets.only(bottom: 10),
       child: const Caption(
         str: '出库限制规则',
+        fontWeight: FontWeight.bold,
       ),
     ));
     for (var item in list) {
       var con = Container(
         alignment: Alignment.centerLeft,
-        height: 23,
         child: Caption(
-          fontSize: 13,
+          fontSize: 14,
           str: item,
+          lines: 5,
         ),
       );
       textList.add(con);
@@ -1041,6 +977,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
       padding: const EdgeInsets.only(left: 15, right: 15),
       child: Column(
         children: <Widget>[
+          Gaps.line,
           SizedBox(
             height: (insuranceModel?.enabled == 1 &&
                     insuranceModel!.enabledLineIds.contains(shipLineModel?.id))
@@ -1061,7 +998,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             child: IconButton(
                                 icon: const Icon(
                                   Icons.error_outline_outlined,
-                                  color: ColorConfig.warningText,
+                                  color: ColorConfig.green,
                                   size: 25,
                                 ),
                                 onPressed: () {
@@ -1078,7 +1015,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
                       ),
                       Switch.adaptive(
                         value: firstMust ? firstMust : insuranceServices,
-                        activeColor: ColorConfig.warningText,
+                        activeColor: ColorConfig.green,
                         onChanged: (value) {
                           setState(() {
                             insuranceServices = value;
@@ -1112,7 +1049,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             child: IconButton(
                                 icon: const Icon(
                                   Icons.error_outline_outlined,
-                                  color: ColorConfig.warningText,
+                                  color: ColorConfig.green,
                                   size: 25,
                                 ),
                                 onPressed: () {
@@ -1126,7 +1063,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
                       ),
                       Switch.adaptive(
                         value: secondMust ? secondMust : customsService,
-                        activeColor: ColorConfig.warningText,
+                        activeColor: ColorConfig.green,
                         onChanged: (value) {
                           setState(() {
                             customsService = value;
@@ -1169,21 +1106,6 @@ class CreateOrderPageState extends State<CreateOrderPage>
                     Row(
                       children: <Widget>[
                         Caption(str: item.name!),
-                        item.remark.isNotEmpty
-                            ? Padding(
-                                padding: const EdgeInsets.only(left: 0),
-                                child: IconButton(
-                                  icon: const Icon(
-                                    Icons.error_outline_outlined,
-                                    color: ColorConfig.warningText,
-                                    size: 25,
-                                  ),
-                                  onPressed: () {
-                                    showRemark(item.name!, item.remark);
-                                  },
-                                ),
-                              )
-                            : Container(),
                         Container(
                           height: 49,
                           alignment: Alignment.centerLeft,
@@ -1233,11 +1155,26 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             ),
                           ),
                         ),
+                        item.remark.isNotEmpty
+                            ? Padding(
+                                padding: const EdgeInsets.only(left: 0),
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.error_outline_outlined,
+                                    color: ColorConfig.green,
+                                    size: 25,
+                                  ),
+                                  onPressed: () {
+                                    showRemark(item.name!, item.remark);
+                                  },
+                                ),
+                              )
+                            : Container(),
                       ],
                     ),
                     Switch.adaptive(
                       value: item.isOpen,
-                      activeColor: ColorConfig.warningText,
+                      activeColor: ColorConfig.green,
                       onChanged: (value) {
                         setState(() {
                           item.isOpen = value;
@@ -1309,21 +1246,6 @@ class CreateOrderPageState extends State<CreateOrderPage>
                     Row(
                       children: <Widget>[
                         Caption(str: item.name),
-                        item.remark.isNotEmpty
-                            ? Padding(
-                                padding: const EdgeInsets.only(left: 0),
-                                child: IconButton(
-                                  icon: const Icon(
-                                    Icons.error_outline_outlined,
-                                    color: ColorConfig.warningText,
-                                    size: 25,
-                                  ),
-                                  onPressed: () {
-                                    showRemark(item.name, item.remark);
-                                  },
-                                ),
-                              )
-                            : Container(),
                         Container(
                           height: 49,
                           alignment: Alignment.centerLeft,
@@ -1373,11 +1295,26 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             ),
                           ),
                         ),
+                        item.remark.isNotEmpty
+                            ? Padding(
+                                padding: const EdgeInsets.only(left: 0),
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.error_outline_outlined,
+                                    color: ColorConfig.green,
+                                    size: 25,
+                                  ),
+                                  onPressed: () {
+                                    showRemark(item.name, item.remark);
+                                  },
+                                ),
+                              )
+                            : Container(),
                       ],
                     ),
                     Switch.adaptive(
                       value: item.isForced == 1 ? true : item.isOpen,
-                      activeColor: ColorConfig.warningText,
+                      activeColor: ColorConfig.green,
                       onChanged: (value) {
                         setState(() {
                           item.isOpen = value;
@@ -1432,7 +1369,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
                 TextButton(
                   child: const Caption(
                     str: '确定',
-                    color: ColorConfig.warningText,
+                    color: ColorConfig.primary,
                   ),
                   onPressed: () async {
                     Navigator.of(context).pop();

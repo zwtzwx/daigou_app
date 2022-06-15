@@ -185,7 +185,7 @@ class LoginPageState extends State<LoginPage> {
                   buildExampleCell(context),
                 ],
               ),
-              buildProtol(),
+              // buildProtol(),
             ],
           ),
         ),
@@ -253,14 +253,18 @@ class LoginPageState extends State<LoginPage> {
 
   Widget buildCustomViews(BuildContext context) {
     var headerView = Container(
-        height: 200,
-        color: Colors.white,
-        alignment: Alignment.center,
+      height: 200,
+      color: Colors.white,
+      alignment: Alignment.center,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
         child: Image.asset(
-          "assets/images/PackageAndOrder/defalutIMG@3x.png",
+          "assets/images/AboutMe/about-logo.png",
           height: 80,
           width: 80,
-        ));
+        ),
+      ),
+    );
     return headerView;
   }
 
@@ -285,10 +289,10 @@ class LoginPageState extends State<LoginPage> {
                 text: '登录/注册',
                 borderRadis: 4,
                 onPressed: () {
-                  if (!protocolChecked) {
-                    Util.showToast('请先同意用户协议');
-                    return;
-                  }
+                  // if (!protocolChecked) {
+                  //   Util.showToast('请先同意用户协议');
+                  //   return;
+                  // }
                   Map<String, dynamic> map;
                   //  1 手机号验证码 2 邮箱验证码 3 帐号密码
                   if (loginType == 3) {
@@ -357,10 +361,10 @@ class LoginPageState extends State<LoginPage> {
                 ? Container()
                 : GestureDetector(
                     onTap: () {
-                      if (!protocolChecked) {
-                        Util.showToast('请先同意用户协议');
-                        return;
-                      }
+                      // if (!protocolChecked) {
+                      //   Util.showToast('请先同意用户协议');
+                      //   return;
+                      // }
                       fluwx.isWeChatInstalled.then((installed) {
                         if (installed) {
                           fluwx

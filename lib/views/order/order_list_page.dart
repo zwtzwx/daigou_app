@@ -19,6 +19,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiyun_app_client/views/order/widget/order_item_cell.dart';
 import 'package:provider/provider.dart';
 
 /*
@@ -33,96 +34,92 @@ class OrderListPage extends StatefulWidget {
   OrderListPageState createState() => OrderListPageState();
 }
 
-class OrderListPageState extends State<OrderListPage>
-    with SingleTickerProviderStateMixin {
-  DataIndexProvider provider = DataIndexProvider();
-
-  late TabController _tabController;
-  late PageController _pageController;
+class OrderListPageState extends State<OrderListPage> {
+  LocalizationModel? localizationInfo;
+  int pageIndex = 0;
+  String pageTitle = '';
 
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: 5);
-    _pageController = PageController(initialPage: widget.arguments['index']);
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      _onPageChange(widget.arguments['index']);
-    });
+    localizationInfo =
+        Provider.of<Model>(context, listen: false).localizationInfo;
+    getPageTitle();
+  }
+
+  loadList({type}) async {
+    pageIndex = 0;
+    return await loadMoreList();
+  }
+
+  loadMoreList() async {
+    Map<String, dynamic> dic = {
+      'status': widget.arguments['index'], // 待处理订单
+      'page': (++pageIndex),
+    };
+    var data = await OrderService.getList(dic);
+    return data;
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<DataIndexProvider>(
-        create: (_) => provider,
-        child: Scaffold(
-            appBar: AppBar(
-              leading: const BackButton(color: Colors.black),
-              backgroundColor: Colors.white,
-              elevation: 0.5,
-              centerTitle: true,
-              title: const Caption(
-                str: '包裹&订单',
-                color: ColorConfig.textBlack,
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-              systemOverlayStyle: SystemUiOverlayStyle.dark,
-            ),
-            body: Column(
-              children: <Widget>[
-                Container(
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      border: Border(
-                          top: BorderSide(color: Color(0xFFF2F2F7), width: 1))),
-                  child: TabBar(
-                    onTap: (index) {
-                      if (!mounted) {
-                        return;
-                      }
-                      _pageController.jumpToPage(index);
-                    },
-                    isScrollable: false,
-                    controller: _tabController,
-                    labelColor: ColorConfig.warningText,
-                    labelStyle: TextConfig.textBoldDark14,
-                    unselectedLabelColor: ColorConfig.textDark,
-                    unselectedLabelStyle: TextConfig.textDark14,
-                    indicatorColor: ColorConfig.warningText,
-                    tabs: const <Widget>[
-                      _TabView("全部", "", 0),
-                      _TabView("待付款", "", 1),
-                      _TabView("待发货", "", 2),
-                      _TabView("已发货", "", 3),
-                      _TabView("待评价", "", 4),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: PageView.builder(
-                    key: const Key('pageView'),
-                    itemCount: 5,
-                    onPageChanged: _onPageChange,
-                    controller: _pageController,
-                    itemBuilder: (BuildContext context, int index) {
-                      return OrderListItem(
-                        params: {'type': index},
-                      );
-                    },
-                  ),
-                ),
-              ],
-            )));
+    return Scaffold(
+      appBar: AppBar(
+        leading: const BackButton(color: Colors.black),
+        backgroundColor: Colors.white,
+        elevation: 0.5,
+        centerTitle: true,
+        title: Caption(
+          str: pageTitle,
+          color: ColorConfig.textBlack,
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
+        ),
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
+      ),
+      backgroundColor: ColorConfig.bgGray,
+      body: SafeArea(
+        child: ListRefresh(
+          renderItem: renderItem,
+          refresh: loadList,
+          more: loadMoreList,
+        ),
+      ),
+    );
   }
 
-  _onPageChange(int index) {
-    _tabController.animateTo(index);
-    provider.setIndex(index);
+  Widget renderItem(int index, OrderModel orderModel) {
+    return OrderItemCell(
+      orderModel: orderModel,
+    );
+  }
+
+  void getPageTitle() {
+    String _pageTitle;
+    switch (widget.arguments['index']) {
+      case 1:
+        _pageTitle = '待处理订单';
+        break;
+      case 2:
+        _pageTitle = '待支付订单';
+        break;
+      case 3:
+        _pageTitle = '待发货订单';
+        break;
+      case 4:
+        _pageTitle = '已发货订单';
+        break;
+      default:
+        _pageTitle = '已签收订单';
+        break;
+    }
+    setState(() {
+      pageTitle = _pageTitle;
+    });
   }
 
   @override
   void dispose() {
-    _pageController.dispose();
     super.dispose();
   }
 }
@@ -695,43 +692,5 @@ class OrderListItemState extends State<OrderListItem> {
       list.add(view);
     }
     return list;
-  }
-}
-
-///tab 标签栏
-class _TabView extends StatelessWidget {
-  const _TabView(this.tabName, this.tabSub, this.index);
-
-  final String tabName;
-  final String tabSub;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<DataIndexProvider>(
-      builder: (_, provider, child) {
-        return Tab(
-            child: SizedBox(
-          width: 120.0,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Caption(
-                str: tabName,
-                fontSize: 14,
-              ),
-              Offstage(
-                  offstage: provider.index != index,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 1.0),
-                    child: Text(tabSub,
-                        style: const TextStyle(fontSize: TextConfig.smallSize)),
-                  )),
-            ],
-          ),
-        ));
-      },
-    );
   }
 }

@@ -17,6 +17,7 @@ import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/models/user_vip_price_model.dart';
 import 'package:jiyun_app_client/services/balance_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
+import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/input/normal_input.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
@@ -139,10 +140,13 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
     }
     EasyLoading.dismiss();
     if (result['ok']) {
-      Routers.push('/PaySuccessPage', context, {
-        'model': orderModel,
-        'type': modelType == 2 ? 1 : 3,
-      });
+      // Routers.push('/PaySuccessPage', context, {
+      //   'model': orderModel,
+      //   'type': modelType == 2 ? 1 : 3,
+      // });
+      Navigator.of(context)
+        ..pop()
+        ..pop('succeed');
     } else {
       EasyLoading.showError(result['msg'] ?? '提交失败');
     }
@@ -262,26 +266,16 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                 ],
               ),
             ),
-            Container(
+            SafeArea(
+              child: Container(
                 margin: const EdgeInsets.only(top: 50, right: 15, left: 15),
-                child: TextButton(
-                  style: ButtonStyle(
-                    overlayColor: MaterialStateColor.resolveWith(
-                        (states) => Colors.transparent),
-                  ),
+                width: double.infinity,
+                child: MainButton(
+                  text: '确认提交',
                   onPressed: onSubmit,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: ColorConfig.warningText,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(20.0)),
-                        border: Border.all(
-                            width: 1, color: ColorConfig.warningText)),
-                    alignment: Alignment.center,
-                    height: 40,
-                    child: const Caption(str: '确认提交'),
-                  ),
-                ))
+                ),
+              ),
+            ),
           ],
         )),
       ),

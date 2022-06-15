@@ -310,15 +310,15 @@ class OrderCenterState extends State<OrderCenterPage> {
           } else if (index == 1) {
             Routers.push('/InWarehouseParcelListPage', context);
           } else if (index == 2) {
-            Routers.push('/InPackParcelListPage', context);
-          } else if (index == 3) {
             Routers.push('/OrderListPage', context, {'index': 1});
-          } else if (index == 4) {
+          } else if (index == 3) {
             Routers.push('/OrderListPage', context, {'index': 2});
-          } else if (index == 5) {
+          } else if (index == 4) {
             Routers.push('/OrderListPage', context, {'index': 3});
-          } else if (index == 6) {
+          } else if (index == 5) {
             Routers.push('/OrderListPage', context, {'index': 4});
+          } else if (index == 6) {
+            Routers.push('/OrderListPage', context, {'index': 5});
           } else if (index == 7) {
             Routers.push('/NoOwnerParcelPage', context);
           }

@@ -11,9 +11,12 @@ import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
 import 'package:jiyun_app_client/models/pay_type_model.dart';
+import 'package:jiyun_app_client/models/user_coupon_model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/models/user_vip_price_model.dart';
 import 'package:jiyun_app_client/services/balance_service.dart';
+import 'package:jiyun_app_client/services/order_service.dart';
+import 'package:jiyun_app_client/services/point_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -49,6 +52,15 @@ class OrderPayPageState extends State<OrderPayPage> {
 
   // 订单付款数据模型
   OrderModel? orderModel;
+  int? orderId;
+
+  // 优惠券信息
+  UserCouponModel? selectCoupon;
+
+  // 是否显示选择积分
+  bool pointShow = false;
+  // 是否使用积分
+  bool isUsePoint = false;
 
   int isloading = 0;
   num myBalance = 0;
@@ -56,8 +68,6 @@ class OrderPayPageState extends State<OrderPayPage> {
 
   List<PayTypeModel> payTypeList = [];
   List<PayTypeModel> selectedPayType = [];
-
-  bool isLoading = false;
 
   StreamSubscription<BaseWeChatResponse>? wechatResponse;
 
@@ -70,24 +80,17 @@ class OrderPayPageState extends State<OrderPayPage> {
     if (payModel == 0) {
       vipPriceModel = widget.arguments['model'] as UserVipPriceModel;
     } else if (payModel == 1) {
-      orderModel = widget.arguments['model'] as OrderModel;
+      orderId = widget.arguments['id'];
     }
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {});
+    previewOrder();
     created();
 
     wechatResponse =
         weChatResponseEventHandler.distinct((a, b) => a == b).listen((res) {
       if (res is WeChatPaymentResponse) {
         if (res.isSuccessful) {
-          if (payModel == 0) {
-            // 充值会员付款成功
-            Routers.push('/PaySuccessPage', context, {'type': 6});
-          } else {
-            // 订单付款成功
-            Routers.push(
-                '/PaySuccessPage', context, {'model': orderModel, 'type': 2});
-          }
+          Navigator.pop(context, 'succeed');
         } else {
           Util.showToast('支付失败');
         }
@@ -105,15 +108,39 @@ class OrderPayPageState extends State<OrderPayPage> {
     /*
     得到支付类型
     */
-    bool noDelivery = payModel == 0 || orderModel!.onDeliveryStatus == 1;
+    bool noDelivery = payModel == 0 || widget.arguments['deliveryStatus'] == 1;
     EasyLoading.show();
     payTypeList = await BalanceService.getPayTypeList(noDelivery: noDelivery);
     var userOrderDataCount = await UserService.getOrderDataCount();
+    var vipInfo = await UserService.getVipMemberData();
     EasyLoading.dismiss();
     setState(() {
       myBalance = ((userOrderDataCount!.balance ?? 0) / 100);
+      if (vipInfo != null &&
+          vipInfo.pointStatus == 1 &&
+          vipInfo.ruleStatus.pointDecrease) {
+        pointShow = true;
+      }
       isloading++;
     });
+  }
+
+  // 预览订单
+  void previewOrder() async {
+    Map<String, dynamic> map = {
+      'order_id': orderId,
+      'coupon_id': selectCoupon?.id ?? '',
+      'is_use_point': isUsePoint ? 1 : 0,
+    };
+    OrderService.updateReadyPay(map, (data) {
+      setState(() {
+        orderModel = OrderModel.fromJson(data.data);
+        if (orderModel!.coupon != null) {
+          selectCoupon = orderModel!.coupon;
+        }
+        isloading++;
+      });
+    }, (message) => EasyLoading.showError(message));
   }
 
   @override
@@ -136,13 +163,12 @@ class OrderPayPageState extends State<OrderPayPage> {
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
         backgroundColor: ColorConfig.bgGray,
-        body: isloading == 1
+        body: isloading > 1
             ? SingleChildScrollView(
                 child: SafeArea(
                   child: Column(
                     children: <Widget>[
                       Container(
-                        height: 200,
                         width: ScreenUtil().screenWidth,
                         margin:
                             const EdgeInsets.only(top: 15, left: 15, right: 15),
@@ -218,9 +244,11 @@ class OrderPayPageState extends State<OrderPayPage> {
                                                 : '已省' +
                                                     localizationInfo!
                                                         .currencySymbol +
-                                                    ((orderModel!.actualPaymentFee -
-                                                                orderModel!
-                                                                    .discountPaymentFee) /
+                                                    ((orderModel!.couponDiscountFee +
+                                                                (isUsePoint
+                                                                    ? orderModel!
+                                                                        .pointamount
+                                                                    : 0)) /
                                                             100)
                                                         .toStringAsFixed(2),
                                             fontSize: 14,
@@ -253,6 +281,108 @@ class OrderPayPageState extends State<OrderPayPage> {
                                             str: '充值',
                                           ),
                                           Icon(Icons.keyboard_arrow_right)
+                                        ],
+                                      ))
+                                ],
+                              ),
+                            ),
+                            (pointShow &&
+                                    payModel == 1 &&
+                                    orderModel!.point > 0)
+                                ? Container(
+                                    height: 40,
+                                    padding: const EdgeInsets.only(
+                                        right: 15, left: 15),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        const Caption(
+                                          str: '积分',
+                                        ),
+                                        GestureDetector(
+                                            onTap: buildPointView,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Caption(
+                                                  str: isUsePoint
+                                                      ? '-${localizationInfo!.currencySymbol}${(orderModel!.pointamount / 100).toStringAsFixed(2)}'
+                                                      : '不使用',
+                                                  color: isUsePoint
+                                                      ? ColorConfig.textRed
+                                                      : ColorConfig.textBlack,
+                                                ),
+                                                const Icon(
+                                                    Icons.keyboard_arrow_right)
+                                              ],
+                                            ))
+                                      ],
+                                    ),
+                                  )
+                                : Gaps.empty,
+                            Container(
+                              height: 40,
+                              padding:
+                                  const EdgeInsets.only(right: 15, left: 15),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  const Caption(
+                                    str: '优惠券',
+                                  ),
+                                  GestureDetector(
+                                      onTap: () async {
+                                        var s = await Navigator.pushNamed(
+                                            context, '/CouponPage',
+                                            arguments: {
+                                              'select': true,
+                                              'lineid':
+                                                  orderModel!.expressLineId,
+                                              'amount':
+                                                  orderModel!.actualPaymentFee,
+                                              'model': selectCoupon
+                                            });
+                                        if (s == null) {
+                                          return;
+                                        }
+                                        setState(() {
+                                          selectCoupon =
+                                              (s as Map)['selectCoupon'];
+                                          print(selectCoupon == null);
+                                          previewOrder();
+                                        });
+                                      },
+                                      child: Row(
+                                        children: <Widget>[
+                                          selectCoupon != null
+                                              ? Row(
+                                                  children: [
+                                                    Caption(
+                                                      str: selectCoupon!
+                                                          .coupon!.name,
+                                                    ),
+                                                    Caption(
+                                                      str: '(-' +
+                                                          localizationInfo!
+                                                              .currencySymbol +
+                                                          (orderModel!.couponDiscountFee /
+                                                                  100)
+                                                              .toStringAsFixed(
+                                                                  2) +
+                                                          ')',
+                                                      color:
+                                                          ColorConfig.textRed,
+                                                    ),
+                                                  ],
+                                                )
+                                              : const Caption(
+                                                  str: '不使用',
+                                                ),
+                                          const Icon(Icons.keyboard_arrow_right)
                                         ],
                                       ))
                                 ],
@@ -292,7 +422,7 @@ class OrderPayPageState extends State<OrderPayPage> {
   }
 
   // 支付
-  onPay() {
+  onPay() async {
     if (selectedPayType.isEmpty) {
       Util.showToast('请选择支付方式');
       return;
@@ -301,6 +431,23 @@ class OrderPayPageState extends State<OrderPayPage> {
     if (model.name == 'wechat') {
       // 微信付款
       weChatPayMethod();
+    } else if (model.name == 'alipay') {
+      // 支付宝付款
+    } else if (model.name == 'paypal') {
+      // paypal 支付
+    } else if (model.name == 'on_delivery') {
+      // 货到付款
+      Map<String, dynamic> map = {
+        'point': orderModel!.point,
+        'is_use_point': orderModel!.isusepoint,
+        'type': '4', // app支付
+        'point_amount': orderModel!.pointamount,
+        'order_id': orderModel!.id
+      };
+      EasyLoading.show();
+      Map result = await BalanceService.orderOnDelivery(map);
+      EasyLoading.dismiss();
+      onPayResult(result);
     } else if (model.name == 'balance') {
       // 余额付款订单
       showDialog(
@@ -366,14 +513,14 @@ class OrderPayPageState extends State<OrderPayPage> {
       result = await BalanceService.orderBalancePay(map);
     }
     EasyLoading.dismiss();
+    onPayResult(result);
+  }
+
+  // 支付结果
+  onPayResult(Map result) {
     if (result['ok']) {
-      EasyLoading.showSuccess("操作成功");
-      if (payModel == 0) {
-        Navigator.pop(context, 'succeed');
-      } else {
-        Routers.push(
-            '/PaySuccessPage', context, {'model': orderModel, 'type': 7});
-      }
+      EasyLoading.showSuccess("操作成功")
+          .then((value) => Navigator.pop(context, 'succeed'));
     } else {
       EasyLoading.showError(result['msg'] ?? '支付失败');
     }
@@ -434,7 +581,7 @@ class OrderPayPageState extends State<OrderPayPage> {
                     margin: const EdgeInsets.only(right: 15),
                     height: 30,
                     width: 30,
-                    child: typeMap.name.contains('支付宝')
+                    child: typeMap.name.contains('alipay')
                         ? Image.asset(
                             'assets/images/AboutMe/支付宝支付@3x.png',
                           )
@@ -464,7 +611,7 @@ class OrderPayPageState extends State<OrderPayPage> {
                   : selectedPayType.contains(typeMap)
                       ? const Icon(
                           Icons.check_circle,
-                          color: ColorConfig.warningText,
+                          color: ColorConfig.green,
                         )
                       : const Icon(Icons.radio_button_unchecked,
                           color: ColorConfig.textGray),
@@ -539,5 +686,144 @@ class OrderPayPageState extends State<OrderPayPage> {
         }
       }, (message) => null);
     }
+  }
+
+  // 积分抵扣
+  buildPointView() {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        ),
+        builder: (BuildContext context) {
+          bool select = isUsePoint;
+          return StatefulBuilder(builder: (context1, setBottomSheetState) {
+            return Container(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                margin: const EdgeInsets.only(top: 15),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          width: ScreenUtil().screenWidth,
+                          height: 40,
+                          child: const Caption(
+                            str: '积分抵扣',
+                            fontSize: 20,
+                            color: ColorConfig.textBlack,
+                          ),
+                        ),
+                        Caption(
+                          str: '账户剩余积分：' + orderModel!.userPoint.toString(),
+                          fontSize: 14,
+                        ),
+                        Gaps.vGap10,
+                        Gaps.line,
+                      ],
+                    ),
+                    Gaps.vGap16,
+                    GestureDetector(
+                        onTap: () {
+                          if (select) {
+                            return;
+                          }
+                          setBottomSheetState(() {
+                            select = true;
+                          });
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Caption(
+                                  str: '使用' +
+                                      orderModel!.point.toString() +
+                                      '积分抵扣',
+                                  fontSize: 14,
+                                ),
+                                Caption(
+                                  str: localizationInfo!.currencySymbol +
+                                      (orderModel!.pointamount / 100)
+                                          .toStringAsFixed(2),
+                                  fontSize: 14,
+                                  color: ColorConfig.textRed,
+                                ),
+                              ],
+                            ),
+                            select
+                                ? const Icon(
+                                    Icons.check_circle,
+                                    color: ColorConfig.primary,
+                                  )
+                                : const Icon(
+                                    Icons.radio_button_unchecked,
+                                    color: ColorConfig.textGrayC,
+                                  ),
+                          ],
+                        )),
+                    Gaps.vGap16,
+                    GestureDetector(
+                        onTap: () {
+                          if (!select) {
+                            return;
+                          }
+                          setBottomSheetState(() {
+                            select = false;
+                          });
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: const <Widget>[
+                                Caption(
+                                  str: '不使用积分抵扣',
+                                  fontSize: 14,
+                                ),
+                              ],
+                            ),
+                            !select
+                                ? const Icon(
+                                    Icons.check_circle,
+                                    color: ColorConfig.primary,
+                                  )
+                                : const Icon(
+                                    Icons.radio_button_unchecked,
+                                    color: ColorConfig.textGrayC,
+                                  ),
+                          ],
+                        )),
+                    Container(
+                      height: 100,
+                    ),
+                    SafeArea(
+                      child: SizedBox(
+                        height: 40,
+                        width: double.infinity,
+                        child: MainButton(
+                          text: '确定',
+                          borderRadis: 20.0,
+                          onPressed: () {
+                            setState(() {
+                              isUsePoint = select;
+                              previewOrder();
+                            });
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ));
+          });
+        });
   }
 }

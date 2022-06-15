@@ -532,9 +532,7 @@ class EditParcelPageState extends State<EditParcelPage>
   // 发往国家、发往仓库
   Widget buildBottomBox() {
     return Container(
-      decoration: const BoxDecoration(
-          color: ColorConfig.white,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
+      color: Colors.white,
       child: Column(
         children: <Widget>[
           Container(

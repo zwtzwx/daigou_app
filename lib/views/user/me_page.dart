@@ -307,7 +307,7 @@ class MePageState extends State<MePage> {
                     child: LoadImage(
                       userModel.avatar,
                       fit: BoxFit.fitWidth,
-                      holderImg: "PackageAndOrder/defalutIMG@3x",
+                      holderImg: "AboutMe/about-logo",
                       format: "png",
                     ),
                   ),

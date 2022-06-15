@@ -4,6 +4,7 @@
 import 'package:jiyun_app_client/common/http_client.dart';
 import 'package:jiyun_app_client/models/user_point_item_model.dart';
 import 'package:jiyun_app_client/models/user_point_model.dart';
+import 'package:jiyun_app_client/models/user_vip_rule_model.dart';
 
 class PointService {
   // 积分列表integral
@@ -11,6 +12,9 @@ class PointService {
 
   // 个人积分详情
   static const String summaryApi = 'user-member/member-show';
+
+  // 积分规则
+  static const String ruleApi = 'user-member/rule-status';
 
   // 成长值列表
   static const String growthValueListApi =
@@ -74,6 +78,17 @@ class PointService {
       };
     });
 
+    return result;
+  }
+
+  /*
+    获取积分规则
+  */
+  static Future<UserVipRuleModel?> getPointRule() async {
+    UserVipRuleModel? result;
+    await HttpClient()
+        .get(ruleApi)
+        .then((res) => result = UserVipRuleModel.fromJson(res.data));
     return result;
   }
 }

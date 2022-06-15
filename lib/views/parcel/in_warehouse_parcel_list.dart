@@ -6,6 +6,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
+import 'package:jiyun_app_client/events/application_event.dart';
+import 'package:jiyun_app_client/events/list_refresh_event.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
@@ -126,7 +128,16 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
         allParcelList.where((e) => selectedParcelList.contains(e.id!)).toList();
     var s = await Navigator.pushNamed(context, '/CreateOrderPage',
         arguments: {'modelList': checkedList});
-    if (s == 'succeed') {}
+    if (s == 'succeed') {
+      setState(() {
+        selectAll = false;
+        selectedParcelList.clear();
+        selectedQty = 0;
+      });
+      ApplicationEvent.getInstance()
+          .event
+          .fire(ListRefreshEvent(type: 'refresh'));
+    }
   }
 
   // 清除选择数据

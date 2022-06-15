@@ -437,7 +437,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
     List<Widget> buttonList = [];
     num realAmount = model?.actualPaymentFee ?? 0;
     if (selectCoupon != null) {
-      realAmount = (model!.actualPaymentFee - selectCoupon!.coupon.amount);
+      realAmount = (model!.actualPaymentFee - selectCoupon!.coupon!.amount);
     }
     if (userJiFen) {
       realAmount = (realAmount - model!.pointamount);
@@ -1005,7 +1005,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
             ? '不使用'
             : '-' +
                 localizationInfo!.currencySymbol +
-                (selectCoupon!.coupon.amount / 100).toStringAsFixed(2);
+                (selectCoupon!.coupon!.amount / 100).toStringAsFixed(2);
       } else if (i == 0) {
         content = userJiFen
             ? '-' +
@@ -1063,7 +1063,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
     }
     num realAmount = model!.actualPaymentFee;
     if (selectCoupon != null) {
-      realAmount = (realAmount - selectCoupon!.coupon.amount);
+      realAmount = (realAmount - selectCoupon!.coupon!.amount);
     }
     if (userJiFen) {
       realAmount = (realAmount - model!.pointamount);

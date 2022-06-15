@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
@@ -9,6 +11,7 @@ import 'package:jiyun_app_client/events/list_refresh_event.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
 import 'package:jiyun_app_client/models/parcel_box_model.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
+import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/button/plain_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -144,11 +147,51 @@ class OrderItemCell extends StatelessWidget {
                   fontSize: 14,
                 ),
                 Gaps.vGap4,
-                Caption(
-                  str: '提交时间：${orderModel.createdAt}',
-                  fontSize: 13,
-                  color: ColorConfig.textGray,
-                ),
+                [3, 4, 5].contains(orderModel.status)
+                    ? Container(
+                        margin: const EdgeInsets.only(bottom: 4),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Caption(
+                              str: '物流单号：${orderModel.logisticsSn}',
+                            ),
+                            Gaps.hGap10,
+                            orderModel.logisticsSn.isNotEmpty
+                                ? GestureDetector(
+                                    onTap: () {
+                                      Clipboard.setData(ClipboardData(
+                                              text: orderModel.logisticsSn))
+                                          .then((value) =>
+                                              EasyLoading.showSuccess('复制成功'));
+                                    },
+                                    child: const Caption(
+                                      str: '复制',
+                                      color: ColorConfig.primary,
+                                    ),
+                                  )
+                                : Gaps.empty
+                          ],
+                        ),
+                      )
+                    : Gaps.empty,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Caption(
+                      str: '提交时间：${orderModel.createdAt}',
+                      fontSize: 13,
+                      color: ColorConfig.textGray,
+                    ),
+                    Caption(
+                      str: orderModel.paymentTypeName,
+                      fontSize: 13,
+                      color: orderModel.onDeliveryStatus != 0
+                          ? ColorConfig.textRed
+                          : ColorConfig.textBlack,
+                    )
+                  ],
+                )
               ],
             ),
             Gaps.vGap10,
@@ -180,6 +223,18 @@ class OrderItemCell extends StatelessWidget {
                           orderModel.onDeliveryStatus == 1)
                       ? '去付款'
                       : '重新支付',
+                  onPressed: () {
+                    var s = Routers.push('/OrderPayPage', context, {
+                      'id': orderModel.id,
+                      'payModel': 1,
+                      'deliveryStatus': orderModel.onDeliveryStatus,
+                    });
+                    if (s != null) {
+                      ApplicationEvent.getInstance()
+                          .event
+                          .fire(ListRefreshEvent(type: 'refresh'));
+                    }
+                  },
                 ),
               )
             : Gaps.empty,
@@ -195,7 +250,13 @@ class OrderItemCell extends StatelessWidget {
                     fontSize: 14,
                     color: ColorConfig.textRed,
                   ),
-                  MainButton(text: '去付款'),
+                  MainButton(
+                    text: '去付款',
+                    onPressed: () {
+                      Routers.push(
+                          '/OrderPayPage', context, {'id': orderModel.id});
+                    },
+                  ),
                 ],
               ))
             : Gaps.empty,
@@ -226,7 +287,9 @@ class OrderItemCell extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 10),
                 child: MainButton(
                   text: '确认收货',
-                  onPressed: onSign,
+                  onPressed: () {
+                    onSign(context);
+                  },
                 ),
               )
             : Gaps.empty,
@@ -264,15 +327,18 @@ class OrderItemCell extends StatelessWidget {
   }
 
 // 签收
-  void onSign() async {
-    int id = orderModel.id;
-    if (await OrderService.signed(id)) {
-      Util.showToast("签收成功");
-      ApplicationEvent.getInstance()
-          .event
-          .fire(ListRefreshEvent(type: 'refresh'));
-    } else {
-      Util.showToast("签收失败");
+  void onSign(BuildContext context) async {
+    var data = await BaseDialog.confirmDialog(context, '您确定要签收吗？');
+    if (data != null) {
+      int id = orderModel.id;
+      if (await OrderService.signed(id)) {
+        Util.showToast("签收成功");
+        ApplicationEvent.getInstance()
+            .event
+            .fire(ListRefreshEvent(type: 'refresh'));
+      } else {
+        Util.showToast("签收失败");
+      }
     }
   }
 

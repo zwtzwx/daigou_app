@@ -100,12 +100,15 @@ class OrderService {
   /*
     新增订单
    */
-  static Future<bool> store(Map<String, dynamic> params) async {
-    bool result = false;
+  static Future<Map> store(Map<String, dynamic> params) async {
+    Map result = {'ok': false, 'msg': ''};
 
-    await HttpClient()
-        .post(ORDER, data: params)
-        .then((response) => {result = (response.ok)});
+    await HttpClient().post(ORDER, data: params).then((response) {
+      result = {
+        'ok': response.ok,
+        'msg': response.msg ?? response.error!.message
+      };
+    });
 
     return result;
   }
