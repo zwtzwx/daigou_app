@@ -29,7 +29,7 @@ class AboutMePage extends StatefulWidget {
 class AboutMePageState extends State<AboutMePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final ScrollController _scrollController = ScrollController();
-  late Map<dynamic, dynamic>? aboutList;
+  late List<ArticleModel> aboutList;
   bool isLoading = false;
 
   @override
@@ -124,7 +124,7 @@ class AboutMePageState extends State<AboutMePage> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: renderItem,
                     controller: _scrollController,
-                    itemCount: aboutList!["dataList"].length,
+                    itemCount: aboutList.length,
                   ),
                 )
               : Container(),
@@ -134,7 +134,7 @@ class AboutMePageState extends State<AboutMePage> {
   }
 
   Widget renderItem(BuildContext context, index) {
-    ArticleModel model = aboutList!["dataList"][index];
+    ArticleModel model = aboutList[index];
 
     return Container(
         color: ColorConfig.white,

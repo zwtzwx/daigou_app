@@ -2,6 +2,7 @@ import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/views/common/comment_list_page.dart';
 import 'package:jiyun_app_client/views/common/country_list_page.dart';
 import 'package:jiyun_app_client/views/help/help_support_page.dart';
+import 'package:jiyun_app_client/views/help/question_page.dart';
 import 'package:jiyun_app_client/views/home/share_page.dart';
 import 'package:jiyun_app_client/views/home/station_page.dart';
 import 'package:jiyun_app_client/views/home/warehouse_page.dart';
@@ -67,6 +68,7 @@ class Routers {
     'WefarePage',
     '/webview',
     '/HelpSupportPage',
+    '/QuestionPage',
     '/LinesDetailPage',
     '/LineQueryPage',
     '/UserPrivacyPage',
@@ -118,6 +120,8 @@ class Routers {
     '/WareHouseAddress': (context) => const WareHouseAddress(),
     '/HelpSupportPage': (context, {arguments}) =>
         HelpSupportPage(arguments: arguments),
+    '/QuestionPage': (context, {arguments}) =>
+        QuestionPage(arguments: arguments),
     '/webview': (context, {arguments}) => WebViewPage(arguments: arguments),
     // '/ComplaintsPage': (context, {arguments}) =>
     //     ComplaintsPage(arguments: arguments),

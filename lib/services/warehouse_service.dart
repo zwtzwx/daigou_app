@@ -8,8 +8,8 @@ import 'package:jiyun_app_client/storage/warehouse_storage.dart';
 class WarehouseService extends ChangeNotifier {
   // 获取包裹的仓库数据
   static const String LISTAPI = 'warehouse-address/get-list';
-  // 获取某个国家的仓库
-  static const String LISTBYCOUNTRYAPI = 'warehouse-address/get-list';
+  // 获取一个默认仓库
+  static const String defaultApi = 'warehouse-address';
 
   // 获取仓库列表
   static Future<List<WareHouseModel>> getList(
@@ -27,15 +27,13 @@ class WarehouseService extends ChangeNotifier {
   }
 
   // 获取某个国家的仓库列表
-  static Future<List<WareHouseModel>> getWareHouseByCountry(
-      [Map<String, dynamic>? params]) async {
-    List<WareHouseModel> result = [];
+  static Future<WareHouseModel?> getDefaultWarehouse() async {
+    WareHouseModel? result;
     await HttpClient()
-        .get(LISTBYCOUNTRYAPI, queryParameters: params)
+        .get(defaultApi)
         .then((response) => {
-              response.data.forEach((good) {
-                result.add(WareHouseModel.fromJson(good));
-              })
+              if (response.ok && response.data != null)
+                {result = WareHouseModel.fromJson(response.data)}
             })
         .onError((error, stackTrace) => {});
     return result;

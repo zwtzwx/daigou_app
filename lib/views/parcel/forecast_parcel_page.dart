@@ -135,7 +135,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
 
   // 根据国家获取仓库列表
   getWarehouseList() async {
-    var data = await WarehouseService.getWareHouseByCountry(
+    var data = await WarehouseService.getList(
         {'country_id': selectedCountryModel?.id});
     setState(() {
       wareHouseList = data;

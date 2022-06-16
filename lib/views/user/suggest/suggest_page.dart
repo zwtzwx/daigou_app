@@ -5,6 +5,7 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/services/article_service.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:jiyun_app_client/views/components/input/base_input.dart';
 import 'package:jiyun_app_client/views/components/input/normal_input.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,6 +31,8 @@ class _SuggestPageState extends State<SuggestPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+  final TextEditingController _titleController = TextEditingController();
+  final FocusNode _titleNode = FocusNode();
   List<String> images = [];
 
   @override
@@ -75,12 +78,16 @@ class _SuggestPageState extends State<SuggestPage> {
   // 提交
   void onSubmit() {
     String content = _textController.text;
-    if (content.isEmpty) {
+    String title = _titleController.text;
+    if (title.isEmpty) {
+      EasyLoading.showToast('请输入标题');
+      return;
+    } else if (content.isEmpty) {
       EasyLoading.showToast('请输入建议内容');
       return;
     }
     Map<String, dynamic> params = {
-      'title': widget.arguments?['title'],
+      'title': title,
       'content': content,
       'image': images
     };
@@ -113,32 +120,46 @@ class _SuggestPageState extends State<SuggestPage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.all(20),
+        child: SizedBox(
           child: Column(
             children: [
               Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                color: Colors.white,
                 child: Column(
                   children: [
                     Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      width: double.infinity,
-                      child: Caption(
-                        str: '类型：${widget.arguments?['title']}',
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 20),
+                      child: Row(
+                        children: [
+                          const Caption(
+                            str: '*',
+                            color: ColorConfig.textRed,
+                          ),
+                          const Caption(
+                            str: '标题',
+                          ),
+                          Gaps.hGap15,
+                          Expanded(
+                              child: BaseInput(
+                            controller: _titleController,
+                            focusNode: _titleNode,
+                            isCollapsed: true,
+                            hintText: '请输入您的标题',
+                          )),
+                        ],
                       ),
                     ),
+                    Gaps.line,
                     buildContent(),
+                    Gaps.line,
                     buildImages(),
                   ],
                 ),
               ),
               Gaps.vGap50,
-              SizedBox(
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 width: double.infinity,
                 height: 40,
                 child: MainButton(
@@ -154,68 +175,71 @@ class _SuggestPageState extends State<SuggestPage> {
   }
 
   Widget buildContent() {
-    return Column(
-      children: [
-        Row(
-          children: const [
-            Caption(
-              str: '*',
-              color: ColorConfig.textRed,
-            ),
-            Caption(
-              str: '内容：',
-            ),
-          ],
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 10),
-          height: ScreenUtil().setHeight(150),
-          decoration: BoxDecoration(
-            border: Border.all(color: ColorConfig.textGrayC),
-            borderRadius: const BorderRadius.all(Radius.circular(5)),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+      child: Column(
+        children: [
+          Row(
+            children: const [
+              Caption(
+                str: '*',
+                color: ColorConfig.textRed,
+              ),
+              Caption(
+                str: '意见/建议',
+              ),
+            ],
           ),
-          child: NormalInput(
-            controller: _textController,
-            focusNode: _focusNode,
-            maxLength: 200,
-            hintText: '描述一下您的问题，便于我们及时处理！',
+          Container(
+            margin: const EdgeInsets.only(top: 10),
+            height: ScreenUtil().setHeight(150),
+            child: NormalInput(
+              controller: _textController,
+              focusNode: _focusNode,
+              maxLength: 200,
+              contentPadding: const EdgeInsets.all(0),
+              hintText: '描述一下您的问题，便于我们及时处理！',
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget buildImages() {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          child: const Caption(
-            str: '相关图片：',
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+      child: Column(
+        children: [
+          Container(
+            alignment: Alignment.centerLeft,
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            child: const Caption(
+              str: '图片',
+            ),
           ),
-        ),
-        SizedBox(
-          child: GridView(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4, crossAxisSpacing: 10, mainAxisSpacing: 10),
-            children: [
-              ...buildImgBox(),
-              images.length >= 5 ? const SizedBox() : buildUploadBox(),
-            ],
+          SizedBox(
+            child: GridView(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4, crossAxisSpacing: 10, mainAxisSpacing: 10),
+              children: [
+                ...buildImgBox(),
+                images.length >= 5 ? const SizedBox() : buildUploadBox(),
+              ],
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerRight,
-          child: Caption(
-            str: '${images.length}/5张',
-            fontSize: 14,
-            color: ColorConfig.textGray,
+          Container(
+            alignment: Alignment.centerRight,
+            child: Caption(
+              str: '${images.length}/5张',
+              fontSize: 14,
+              color: ColorConfig.textGray,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

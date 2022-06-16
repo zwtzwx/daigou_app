@@ -89,6 +89,7 @@ flutter:
     - assets/images/Home/
     - assets/images/AboutMe/
     - assets/images/TabbarIcon/
+    - assets/images/Help/
     - assets/images/none.png
     - .env
 

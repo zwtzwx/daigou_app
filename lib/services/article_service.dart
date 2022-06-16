@@ -10,11 +10,9 @@ class ArticleService {
 
   /// 获取文章列表
   /// params: type = 1 常见问题; type = 2 禁运物品; type = 3 下单须知; type = 5 关于我们
-  static Future<Map?> getList([Map<String, dynamic>? params]) async {
-    var page = params?['page'] ?? 1;
-    params!["page"] = page;
+  static Future<List<ArticleModel>> getList(
+      [Map<String, dynamic>? params]) async {
     List<ArticleModel> dataList = <ArticleModel>[];
-    Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
 
     await HttpClient().get(listApi, queryParameters: params).then((response) {
       var list = response.data;
@@ -22,9 +20,8 @@ class ArticleService {
       list.forEach((item) {
         dataList.add(ArticleModel.fromJson(item));
       });
-      result = {"dataList": dataList, 'total': 1, 'pageIndex': 1};
     });
-    return result;
+    return dataList;
   }
 
   // 投诉建议
