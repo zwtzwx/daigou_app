@@ -491,7 +491,7 @@ class OrderModel {
     isInvoice = json['is_invoice'] ?? 0;
     isusepoint = json['is_use_point'];
     pointamount = json['point_amount'];
-    userPoint = json['user_point'];
+    userPoint = json['user_point'] ?? 0;
     if (json['value_added_service'] != null) {
       valueAddedService = <ValueAddedServiceModel>[];
       json['value_added_service'].forEach((v) {

@@ -165,8 +165,8 @@ class ChangeMobileEmailPageState extends State<ChangeMobileEmailPage>
     return Scaffold(
         appBar: AppBar(
           leading: const BackButton(color: Colors.black),
-          backgroundColor: ColorConfig.warningText,
-          elevation: 0,
+          backgroundColor: Colors.white,
+          elevation: 0.5,
           centerTitle: true,
           title: Caption(
             str: flagBool == 1
@@ -178,26 +178,15 @@ class ChangeMobileEmailPageState extends State<ChangeMobileEmailPage>
                     : '绑定邮箱',
             color: ColorConfig.textBlack,
           ),
-          systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
         backgroundColor: ColorConfig.bgGray,
         bottomNavigationBar: SafeArea(
-          child: TextButton(
-            style: ButtonStyle(
-              overlayColor: MaterialStateColor.resolveWith(
-                  (states) => Colors.transparent),
-            ),
-            onPressed: onSubmit,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: ColorConfig.warningText,
-                  borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-                  border: Border.all(width: 1, color: ColorConfig.warningText)),
-              alignment: Alignment.center,
-              height: 40,
-              child: const Caption(
-                str: '确定',
-              ),
+          child: Container(
+            height: 40,
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            child: MainButton(
+              text: '确定',
+              onPressed: onSubmit,
             ),
           ),
         ),
@@ -209,90 +198,95 @@ class ChangeMobileEmailPageState extends State<ChangeMobileEmailPage>
                 child: SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
-                      buildCustomViews(context),
-                      Container(
-                        margin: const EdgeInsets.only(left: 15, right: 15),
-                        child: Column(
-                          children: <Widget>[
-                            InputTextItem(
-                                height: 55,
-                                title: flagBool == 2 ? "新邮箱" : "新号码",
-                                inputText: Container(
-                                  alignment: Alignment.center,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Expanded(
-                                          child: NormalInput(
-                                        hintText:
-                                            flagBool == 2 ? "请输入新邮箱" : "请输入新号码",
-                                        textAlign: TextAlign.left,
-                                        contentPadding:
-                                            const EdgeInsets.only(top: 15),
-                                        controller: _newNumberController,
-                                        focusNode: _newNumber,
-                                        autoFocus: false,
-                                        keyboardType: TextInputType.text,
-                                        onSubmitted: (res) {
-                                          FocusScope.of(context)
-                                              .requestFocus(_validation);
-                                        },
-                                        onChanged: (res) {
-                                          mobileNumber = res;
-                                        },
-                                      ))
-                                    ],
-                                  ),
-                                )),
-                            InputTextItem(
-                                title: "*验证码",
-                                inputText: Container(
-                                  alignment: Alignment.center,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Expanded(
-                                          child: NormalInput(
-                                        hintText: "请输入验证码",
-                                        textAlign: TextAlign.left,
-                                        contentPadding:
-                                            const EdgeInsets.only(top: 15),
-                                        controller: _validationController,
-                                        focusNode: _validation,
-                                        autoFocus: false,
-                                        keyboardType: TextInputType.text,
-                                        onSubmitted: (res) {
-                                          FocusScope.of(context)
-                                              .requestFocus(blankNode);
-                                        },
-                                        onChanged: (res) {
-                                          verifyCode = res;
-                                        },
-                                      )),
-                                      Container(
-                                        width: 130,
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(20.0)),
-                                          border: Border.all(
-                                              width: 1.0, color: Colors.white),
-                                          color: ColorConfig.bgGray,
-                                        ),
-                                        margin: const EdgeInsets.only(
-                                            right: 15, top: 8, bottom: 8),
-                                        child: MainButton(
-                                          text: sent,
-                                          backgroundColor: Colors.transparent,
-                                          textColor: HexToColor(codeColor),
-                                          onPressed: onGetCode,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                            Gaps.line,
-                            Gaps.vGap15,
-                          ],
+                      InputTextItem(
+                        title: flagBool == 1 ? "联系电话" : '现邮箱',
+                        inputText: Container(
+                          height: 55,
+                          alignment: Alignment.centerLeft,
+                          child: Caption(
+                            str: flagBool == 1
+                                ? userModel == null || userModel!.phone != null
+                                    ? '无'
+                                    : userModel!.phone!
+                                : userModel == null || userModel!.email!.isEmpty
+                                    ? '无'
+                                    : userModel!.email!,
+                          ),
+                        ),
+                      ),
+                      InputTextItem(
+                        height: 55,
+                        title: flagBool == 2 ? "新邮箱" : "新号码",
+                        inputText: Container(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Expanded(
+                                  child: NormalInput(
+                                hintText: flagBool == 2 ? "请输入新邮箱" : "请输入新号码",
+                                textAlign: TextAlign.left,
+                                contentPadding: const EdgeInsets.only(top: 15),
+                                controller: _newNumberController,
+                                focusNode: _newNumber,
+                                autoFocus: false,
+                                keyboardType: TextInputType.text,
+                                onSubmitted: (res) {
+                                  FocusScope.of(context)
+                                      .requestFocus(_validation);
+                                },
+                                onChanged: (res) {
+                                  mobileNumber = res;
+                                },
+                              ))
+                            ],
+                          ),
+                        ),
+                      ),
+                      InputTextItem(
+                        title: "*验证码",
+                        inputText: Container(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Expanded(
+                                  child: NormalInput(
+                                hintText: "请输入验证码",
+                                textAlign: TextAlign.left,
+                                contentPadding: const EdgeInsets.only(top: 15),
+                                controller: _validationController,
+                                focusNode: _validation,
+                                autoFocus: false,
+                                keyboardType: TextInputType.text,
+                                onSubmitted: (res) {
+                                  FocusScope.of(context)
+                                      .requestFocus(blankNode);
+                                },
+                                onChanged: (res) {
+                                  verifyCode = res;
+                                },
+                              )),
+                              Container(
+                                width: 130,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20.0)),
+                                  border: Border.all(
+                                      width: 1.0, color: Colors.white),
+                                  color: ColorConfig.bgGray,
+                                ),
+                                margin: const EdgeInsets.only(
+                                    right: 15, top: 8, bottom: 8),
+                                child: MainButton(
+                                  text: sent,
+                                  backgroundColor: Colors.transparent,
+                                  textColor: HexToColor(codeColor),
+                                  onPressed: onGetCode,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -302,81 +296,12 @@ class ChangeMobileEmailPageState extends State<ChangeMobileEmailPage>
             : Container());
   }
 
-  Widget buildCustomViews(BuildContext context) {
-    var headerView = SizedBox(
-      height: 200,
-      child: Stack(
-        children: <Widget>[
-          Container(
-              padding: const EdgeInsets.only(left: 15, top: 70, right: 15),
-              color: ColorConfig.warningText,
-              constraints: const BoxConstraints.expand(
-                height: 200.0,
-              ),
-              //设置背景图片
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      GestureDetector(
-                          onDoubleTap: () async {},
-                          child: SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: flagBool == 1
-                                  ? Image.asset(
-                                      'assets/images/AboutMe/手机@3x.png',
-                                    )
-                                  : Image.asset(
-                                      'assets/images/AboutMe/邮箱@3x.png',
-                                    ))),
-                    ],
-                  ),
-                ],
-              )),
-          Positioned(
-              top: 145,
-              left: 15,
-              right: 15,
-              bottom: 0,
-              child: Container(
-                height: 55,
-                width: ScreenUtil().screenWidth - 30,
-                color: ColorConfig.white,
-                child: InputTextItem(
-                    title: flagBool == 1 ? "联系电话" : '现邮箱',
-                    inputText: Container(
-                      height: 55,
-                      alignment: Alignment.centerLeft,
-                      child: Caption(
-                        str: flagBool == 1
-                            ? userModel == null || userModel!.phone != null
-                                ? '无'
-                                : userModel!.phone!
-                            : userModel == null || userModel!.email!.isEmpty
-                                ? '无'
-                                : userModel!.email!,
-                      ),
-                    )),
-              ))
-        ],
-      ),
-    );
-    return headerView;
-  }
-
   void _buttonClickListen() {
     setState(() {
       if (isButtonEnable) {
         //当按钮可点击时
         isButtonEnable = false; //按钮状态标记
         _initTimer();
-        return null; //返回null按钮禁止点击
-      } else {
-        //当按钮不可点击时
-        return null; //返回null按钮禁止点击
       }
     });
   }

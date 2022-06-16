@@ -68,60 +68,51 @@ class AboutMePageState extends State<AboutMePage> {
       body: SingleChildScrollView(
           child: Column(
         children: <Widget>[
-          SizedBox(
-            height: 300,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 GestureDetector(
-                  onDoubleTap: () async {
-                    // String data = await UserStorage.getEnvironment();
-                    // String env = data == 'dev' ? 'production' : 'dev';
-                    // await UserStorage.setEnvironment(env);
-                    // Provider.of<Model>(context, listen: false)
-                    //     .setEnvironment(env);
-                    // UserStorage.clearToken();
-                    // //清除TOKEN
-                    // Provider.of<Model>(context, listen: false).loginOut();
-                    // ApplicationEvent.getInstance()
-                    //     .event
-                    //     .fire(HomeRefreshEvent());
-                    // ApplicationEvent.getInstance()
-                    //     .event
-                    //     .fire(ChangePageIndexEvent(pageName: 'home'));
-                  },
                   child: Container(
                     alignment: Alignment.center,
                     margin: const EdgeInsets.only(bottom: 2),
-                    child: const LoadImage(
-                      '',
-                      fit: BoxFit.contain,
-                      width: 90,
-                      height: 90,
-                      holderImg: "PackageAndOrder/defalutIMG@3x",
-                      format: "png",
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: const LoadImage(
+                        '',
+                        fit: BoxFit.contain,
+                        width: 90,
+                        height: 90,
+                        holderImg: "AboutMe/about-logo",
+                        format: "png",
+                      ),
                     ),
                   ),
                 ),
                 Container(
-                  height: 35,
+                  alignment: Alignment.center,
                   padding: const EdgeInsets.only(top: 10),
                   child: const Caption(
-                    str: 'BeeGoPlus集运',
+                    str: '海鸥集运系统',
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                Container(
-                  height: 35,
-                  padding: const EdgeInsets.only(top: 10),
-                  child: const Caption(
-                    str: '信赖源自真诚，服务赢的未来',
-                    fontSize: 14,
-                    color: ColorConfig.textGray,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
+                Gaps.vGap10,
+                const Text('        海鸥集运系统是深圳通晓网络科技有限公司旗下的软件品牌。'),
+                const Text(
+                    '        深圳通晓网络科技有限公司（以下简称通晓科技）是一家专业专注服务于跨境供应链高科技企业，公司成立前身及创始人和原班团队已经在跨境物流、电商、仓储行业有了多年的软件研发实施经验，同时早期产品已经成熟运行于市场多年，并有很多的客户经验及沉淀技术基础。'),
+                const Text(
+                    '        通晓科技以物流供应商的信息化建设者，智慧供应链开拓者为公司愿景，提供跨境物流专线FBA系统，国际小包系统，国际集运系统、智慧云仓系统、商城系统、配送系统等解决方案，并与之相关的系统能完整打通形成完整的供应链的整体解决方案。'),
+                const Text(
+                    '        通晓科技以物流供应商的信息化建设者，智慧供应链开拓者为公司愿景，提供跨境物流专线FBA系统，国际小包系统，国际集运系统、智慧云仓系统、商城系统、配送系统等解决方案，并与之相关的系统能完整打通形成完整的供应链的整体解决方案。'),
+                const Text('        通晓科技总部位于深圳，软件研发中心位于长沙，在广州等多地也有办事处。'),
+                const Text(
+                    '        海鸥集运系统作为通晓科技软件品牌，将着力于打通跨境供应链各个环节，为跨境供应链企业提高工作效率，降低软件使用成本，降低软件难度为使命，为更多的企业服务。'),
+                const Text('        欢迎体验咨询，联系电话：15576601706'),
+                Gaps.vGap20,
               ],
             ),
           ),
@@ -137,12 +128,6 @@ class AboutMePageState extends State<AboutMePage> {
                   ),
                 )
               : Container(),
-          const SizedBox(
-            child: Caption(
-              str: 'Copyright@2021 上海必购家信息技术有限公司',
-              fontSize: 13,
-            ),
-          ),
         ],
       )),
     );

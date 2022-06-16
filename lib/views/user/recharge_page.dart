@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:jiyun_app_client/common/hex_to_color.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -109,17 +110,17 @@ class RechargePageState extends State<RechargePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(color: Colors.black),
-        backgroundColor: ColorConfig.warningText,
+        leading: const BackButton(color: Colors.white),
+        backgroundColor: ColorConfig.primary,
         elevation: 0,
         centerTitle: true,
         title: const Caption(
           str: '余额',
-          color: ColorConfig.textBlack,
+          color: ColorConfig.white,
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       backgroundColor: ColorConfig.bgGray,
       bottomNavigationBar: Container(
@@ -216,7 +217,6 @@ class RechargePageState extends State<RechargePage> {
                         top: 0, left: 15, right: 15, bottom: 0),
                     child: buildListView(context),
                   ),
-                  buildTipsView(),
                 ],
               ),
             )
@@ -242,7 +242,7 @@ class RechargePageState extends State<RechargePage> {
           ),
           decoration: BoxDecoration(
             border: Border.all(
-              color: ColorConfig.warningText,
+              color: ColorConfig.primary,
             ),
             borderRadius: BorderRadius.circular(10),
           ),
@@ -270,38 +270,6 @@ class RechargePageState extends State<RechargePage> {
           color: ColorConfig.textNormal,
         ),
       ],
-    );
-  }
-
-  // 充值说明
-  Widget buildTipsView() {
-    return Container(
-      margin: const EdgeInsets.only(
-        left: 15,
-        right: 15,
-        bottom: 15,
-        top: 10,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Caption(
-            str: '充值说明：',
-            fontSize: 14,
-          ),
-          Gaps.vGap10,
-          Padding(
-            padding: EdgeInsets.only(left: 10),
-            child: Text(
-              '1、充值金额仅能在BEEGOPLUS集运平台内进行运费抵扣；\n2、充值费用长期有效，剩余金额不予以退还\n3、充值金额无法与微信支付或支付宝搭配支付，请合理选择金额充值',
-              style: TextStyle(
-                fontSize: 12,
-                color: ColorConfig.textNormal,
-              ),
-            ),
-          )
-        ],
-      ),
     );
   }
 
@@ -339,12 +307,12 @@ class RechargePageState extends State<RechargePage> {
         },
         child: Container(
             decoration: BoxDecoration(
-                color: ColorConfig.warningBg,
+                color: HexToColor('#eceeff'),
                 borderRadius: BorderRadius.circular(5),
                 border: Border.all(
                     width: 0.5,
                     color: selectButton == index
-                        ? ColorConfig.warningText
+                        ? ColorConfig.primary
                         : Colors.transparent)),
             alignment: Alignment.center,
             child: model != null
@@ -415,7 +383,7 @@ class RechargePageState extends State<RechargePage> {
                     margin: const EdgeInsets.only(right: 15),
                     height: 30,
                     width: 30,
-                    child: typeMap.name.contains('支付宝')
+                    child: typeMap.name.contains('alipay')
                         ? Image.asset(
                             'assets/images/AboutMe/支付宝支付@3x.png',
                           )
@@ -435,7 +403,7 @@ class RechargePageState extends State<RechargePage> {
               selectType.contains(typeMap)
                   ? const Icon(
                       Icons.check_circle,
-                      color: ColorConfig.warningText,
+                      color: ColorConfig.green,
                     )
                   : const Icon(Icons.radio_button_unchecked,
                       color: ColorConfig.textGray),
@@ -453,7 +421,7 @@ class RechargePageState extends State<RechargePage> {
         children: <Widget>[
           Container(
             padding: const EdgeInsets.only(left: 15, top: 70, right: 15),
-            color: ColorConfig.warningText,
+            color: ColorConfig.primary,
             constraints: const BoxConstraints.expand(
               height: 130.0,
             ),
