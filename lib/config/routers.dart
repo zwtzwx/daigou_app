@@ -46,6 +46,7 @@ import 'package:jiyun_app_client/views/user/receiver_address_list_part.dart';
 import 'package:jiyun_app_client/views/user/register_agent_page.dart';
 import 'package:jiyun_app_client/views/user/suggest/suggest_page.dart';
 import 'package:jiyun_app_client/views/user/suggest/suggest_type_page.dart';
+import 'package:jiyun_app_client/views/user/transaction_page.dart';
 import 'package:jiyun_app_client/views/user/transfer_and_payment_page.dart';
 import 'package:jiyun_app_client/views/user/user_privacy_page.dart';
 import 'package:jiyun_app_client/views/user/user_protocol_page.dart';
@@ -132,6 +133,7 @@ class Routers {
     // '/BalanceTopUpPage': (context) => BalanceTopUpPage(),
     '/CouponPage': (context, {arguments}) => MyCouponPage(arguments: arguments),
     '/CommissionReportPage': (context) => const CommissionReportPage(),
+    '/TransactionPage': (context) => const TransactionPage(),
     // '/MyPromotionPage': (context) => MyPromotionPage(),
     // '/CommissionDetailPage': (context, {arguments}) =>
     // CommissionDetailPage(arguments: arguments),

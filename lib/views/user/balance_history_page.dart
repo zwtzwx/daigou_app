@@ -49,6 +49,7 @@ class BalanceHistoryPageState extends State<BalanceHistoryPage>
           ),
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
+        backgroundColor: ColorConfig.bgGray,
         body: const LineItem());
   }
 
@@ -72,15 +73,12 @@ class LineItemState extends State<LineItem> {
   final GlobalKey<LineItemState> key = GlobalKey();
 
   int pageIndex = 0;
-  bool isLoading = false;
 
   LocalizationModel? localizationInfo;
 
   @override
   void initState() {
     super.initState();
-
-    loadList();
   }
 
   loadList({type}) async {
@@ -93,9 +91,6 @@ class LineItemState extends State<LineItem> {
       "page": (++pageIndex),
     };
     var data = await BalanceService.getRechargeList(dic);
-    setState(() {
-      isLoading = true;
-    });
     return data;
   }
 
@@ -103,24 +98,15 @@ class LineItemState extends State<LineItem> {
   Widget build(BuildContext context) {
     localizationInfo =
         Provider.of<Model>(context, listen: false).localizationInfo;
-    return isLoading
-        ? Container(
-            color: ColorConfig.bgGray,
-            child: ListRefresh(
-              renderItem: renderItem,
-              refresh: loadList,
-              more: loadMoreList,
-            ),
-          )
-        : Container();
+    return ListRefresh(
+      renderItem: renderItem,
+      refresh: loadList,
+      more: loadMoreList,
+    );
   }
 
   Widget renderItem(index, UserRechargeModel model) {
-    return GestureDetector(
-        onTap: () {
-          // Routers.push('/PackageDetailPage', context, {'asd': '111'});
-        },
-        child: cellViews(model));
+    return cellViews(model);
   }
 
   Widget cellViews(UserRechargeModel model) {
@@ -214,7 +200,7 @@ class LineItemState extends State<LineItem> {
                                   : model.status == 1
                                       ? '审核通过'
                                       : '审核失败',
-                              color: ColorConfig.warningTextDark,
+                              color: ColorConfig.primary,
                               fontSize: 14,
                             ),
                           )

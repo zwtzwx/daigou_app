@@ -81,9 +81,9 @@ class OrderPayPageState extends State<OrderPayPage> {
       vipPriceModel = widget.arguments['model'] as UserVipPriceModel;
     } else if (payModel == 1) {
       orderId = widget.arguments['id'];
+      previewOrder();
     }
 
-    previewOrder();
     created();
 
     wechatResponse =
@@ -163,7 +163,7 @@ class OrderPayPageState extends State<OrderPayPage> {
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
         backgroundColor: ColorConfig.bgGray,
-        body: isloading > 1
+        body: (payModel == 0 ? isloading == 1 : isloading > 1)
             ? SingleChildScrollView(
                 child: SafeArea(
                   child: Column(
@@ -322,72 +322,76 @@ class OrderPayPageState extends State<OrderPayPage> {
                                     ),
                                   )
                                 : Gaps.empty,
-                            Container(
-                              height: 40,
-                              padding:
-                                  const EdgeInsets.only(right: 15, left: 15),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  const Caption(
-                                    str: '优惠券',
-                                  ),
-                                  GestureDetector(
-                                      onTap: () async {
-                                        var s = await Navigator.pushNamed(
-                                            context, '/CouponPage',
-                                            arguments: {
-                                              'select': true,
-                                              'lineid':
-                                                  orderModel!.expressLineId,
-                                              'amount':
-                                                  orderModel!.actualPaymentFee,
-                                              'model': selectCoupon
+                            payModel == 1
+                                ? Container(
+                                    height: 40,
+                                    padding: const EdgeInsets.only(
+                                        right: 15, left: 15),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        const Caption(
+                                          str: '优惠券',
+                                        ),
+                                        GestureDetector(
+                                          onTap: () async {
+                                            var s = await Navigator.pushNamed(
+                                                context, '/CouponPage',
+                                                arguments: {
+                                                  'select': true,
+                                                  'lineid':
+                                                      orderModel!.expressLineId,
+                                                  'amount': orderModel!
+                                                      .actualPaymentFee,
+                                                  'model': selectCoupon
+                                                });
+                                            if (s == null) {
+                                              return;
+                                            }
+                                            setState(() {
+                                              selectCoupon =
+                                                  (s as Map)['selectCoupon'];
+                                              previewOrder();
                                             });
-                                        if (s == null) {
-                                          return;
-                                        }
-                                        setState(() {
-                                          selectCoupon =
-                                              (s as Map)['selectCoupon'];
-                                          print(selectCoupon == null);
-                                          previewOrder();
-                                        });
-                                      },
-                                      child: Row(
-                                        children: <Widget>[
-                                          selectCoupon != null
-                                              ? Row(
-                                                  children: [
-                                                    Caption(
-                                                      str: selectCoupon!
-                                                          .coupon!.name,
+                                          },
+                                          child: Row(
+                                            children: <Widget>[
+                                              selectCoupon != null
+                                                  ? Row(
+                                                      children: [
+                                                        Caption(
+                                                          str: selectCoupon!
+                                                              .coupon!.name,
+                                                        ),
+                                                        Caption(
+                                                          str: '(-' +
+                                                              localizationInfo!
+                                                                  .currencySymbol +
+                                                              (orderModel!.couponDiscountFee /
+                                                                      100)
+                                                                  .toStringAsFixed(
+                                                                      2) +
+                                                              ')',
+                                                          color: ColorConfig
+                                                              .textRed,
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : const Caption(
+                                                      str: '不使用',
                                                     ),
-                                                    Caption(
-                                                      str: '(-' +
-                                                          localizationInfo!
-                                                              .currencySymbol +
-                                                          (orderModel!.couponDiscountFee /
-                                                                  100)
-                                                              .toStringAsFixed(
-                                                                  2) +
-                                                          ')',
-                                                      color:
-                                                          ColorConfig.textRed,
-                                                    ),
-                                                  ],
-                                                )
-                                              : const Caption(
-                                                  str: '不使用',
-                                                ),
-                                          const Icon(Icons.keyboard_arrow_right)
-                                        ],
-                                      ))
-                                ],
-                              ),
-                            ),
+                                              const Icon(
+                                                  Icons.keyboard_arrow_right)
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Gaps.empty,
                           ],
                         ),
                       ),

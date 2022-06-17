@@ -13,6 +13,7 @@ import 'package:jiyun_app_client/models/user_vip_model.dart';
 import 'package:jiyun_app_client/services/point_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
 import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,6 @@ class MyGrowthValuePage extends StatefulWidget {
 
 class GrowthValuePageState extends State<MyGrowthValuePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final ScrollController _scrollController = ScrollController();
 
   LocalizationModel? localizationInfo;
   bool isloading = false;
@@ -71,19 +71,8 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        leading: const BackButton(color: Colors.white),
-        backgroundColor: ColorConfig.textDark,
-        elevation: 0.5,
-        centerTitle: true,
-        title: const Caption(
-          str: '成长值',
-          color: ColorConfig.white,
-          fontSize: 18,
-          fontWeight: FontWeight.w400,
-        ),
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
-      ),
+      primary: false,
+      appBar: const EmptyAppBar(),
       backgroundColor: ColorConfig.bgGray,
       body: ListRefresh(
         renderItem: buildCellForFirstListView,
@@ -144,8 +133,7 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
                     ? ColorConfig.textGrayC
                     : model.type == 1
                         ? ColorConfig.textDark
-                        : ColorConfig.warningText,
-                fontWeight: FontWeight.w400,
+                        : ColorConfig.textRed,
               ),
             ),
           ),
@@ -173,67 +161,62 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
             : vipDataModel!.profile.currentGrowthValue));
 
     var headerView = SizedBox(
-      height: 230,
       child: Stack(
         children: <Widget>[
-          Container(
-            color: ColorConfig.textDark,
-            //设置背景图片
+          SizedBox(
+            child: LoadImage(
+              'AboutMe/growth-bg',
+              fit: BoxFit.fitWidth,
+              width: ScreenUtil().screenWidth,
+            ),
           ),
           Positioned(
-            top: 20,
-            left: 30,
-            right: 30,
-            bottom: 50,
+            top: ScreenUtil().statusBarHeight,
+            left: 15,
+            child: const BackButton(
+              color: Colors.white,
+            ),
+          ),
+          Positioned(
+            bottom: 70,
             child: Container(
-              padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               width: ScreenUtil().screenWidth,
-              height: 50,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                image: const DecorationImage(
-                    image: AssetImage('assets/images/AboutMe/Mask矩形@3x.png'),
-                    fit: BoxFit.cover),
-                gradient: LinearGradient(
-                  colors: [
-                    HexToColor('#F7DBA9'),
-                    HexToColor('#FFE7BB'),
-                    HexToColor('#E5C17E'),
-                  ],
-                  transform: const GradientRotation(131), //渐变角度
-                ),
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10)),
-              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    height: 60,
-                    child: Caption(
-                      str: vipDataModel!.profile.currentGrowthValue.toString(),
-                      fontSize: 25,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  Caption(
+                    str: vipDataModel!.profile.currentGrowthValue.toString(),
+                    color: ColorConfig.vipNormal,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
                   ),
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    height: 40,
-                    child: Caption(
-                      str: '距离下一等级还差：' + firstNum.toString(),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
+                  Gaps.vGap5,
+                  const Caption(
+                    str: '成长值',
+                    color: ColorConfig.vipNormal,
+                  ),
+                  Gaps.vGap15,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Caption(
+                        str: '当前等级：' + vipDataModel!.profile.levelName,
+                        color: ColorConfig.vipNormal,
+                      ),
+                      Caption(
+                        str: '下一等级成长值：' +
+                            vipDataModel!.profile.nextGrowthValue.toString(),
+                        color: ColorConfig.vipNormal,
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
           ),
           Positioned(
-            top: 175,
             left: 15,
             right: 15,
             bottom: 0,

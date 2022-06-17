@@ -208,6 +208,7 @@ class MePageState extends State<MePage> {
           Routers.push('/ChangeMobileEmailPage', context, {'type': 2});
         } else if (index == 6) {
           // 交易记录
+          Routers.push('/TransactionPage', context);
         } else if (index == 7) {
           // 代理
           if (agentStatus?.id == 2) {
@@ -352,56 +353,73 @@ class MePageState extends State<MePage> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Row(
-                      children: [
-                        const LoadImage(
-                          'AboutMe/V',
-                          width: 28,
-                          height: 28,
+                    child: GestureDetector(
+                      onTap: () {
+                        Routers.push('/VipCenterPage', context);
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Row(
+                          children: [
+                            const LoadImage(
+                              'AboutMe/V',
+                              width: 28,
+                              height: 28,
+                            ),
+                            Gaps.hGap15,
+                            const Caption(
+                              str: '等级',
+                              color: ColorConfig.vipNormal,
+                            ),
+                            Gaps.hGap15,
+                            Caption(
+                              str: userVipModel?.profile.levelName ?? '',
+                              fontWeight: FontWeight.bold,
+                              color: ColorConfig.vipNormal,
+                            )
+                          ],
                         ),
-                        Gaps.hGap15,
-                        const Caption(
-                          str: '等级',
-                          color: Color(0xFFab8d3b),
-                        ),
-                        Gaps.hGap15,
-                        Caption(
-                          str: userVipModel?.profile.levelName ?? '',
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFFab8d3b),
-                        )
-                      ],
+                      ),
                     ),
                   ),
                   Expanded(
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 15,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              left: BorderSide(color: HexToColor('#f3e4ba')),
+                    child: GestureDetector(
+                      onTap: () {
+                        Routers.push('/MyPointPage', context);
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 15,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  left:
+                                      BorderSide(color: HexToColor('#f3e4ba')),
+                                ),
+                              ),
                             ),
-                          ),
+                            const LoadImage(
+                              'AboutMe/jf',
+                              width: 28,
+                              height: 28,
+                            ),
+                            Gaps.hGap15,
+                            const Caption(
+                              str: '积分',
+                              color: ColorConfig.vipNormal,
+                            ),
+                            Gaps.hGap15,
+                            Caption(
+                              str: '${userVipModel?.profile.point ?? ''}',
+                              fontWeight: FontWeight.bold,
+                              color: ColorConfig.vipNormal,
+                            )
+                          ],
                         ),
-                        const LoadImage(
-                          'AboutMe/jf',
-                          width: 28,
-                          height: 28,
-                        ),
-                        Gaps.hGap15,
-                        const Caption(
-                          str: '积分',
-                          color: Color(0xFFab8d3b),
-                        ),
-                        Gaps.hGap15,
-                        Caption(
-                          str: '${userVipModel?.profile.point ?? ''}',
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFFab8d3b),
-                        )
-                      ],
+                      ),
                     ),
                   ),
                 ],

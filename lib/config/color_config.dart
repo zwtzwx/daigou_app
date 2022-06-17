@@ -22,6 +22,7 @@ class ColorConfig {
   static const Color textRed = Color(0xFFFF4759);
   static const Color main = Color(0xFF9FA2C2);
   static const Color vipBG = Color(0xFFAE886D);
+  static const Color vipNormal = Color(0xFFab8d3b);
   static const Color warningBg = Color(0xFFFFFDE7);
   static const Color warningText = Color(0xFFFFD400);
   static const Color warningTextDark = Color(0xFFFFAB00);

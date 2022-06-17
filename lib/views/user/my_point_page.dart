@@ -4,8 +4,8 @@
   我的积分
  */
 
+import 'package:jiyun_app_client/common/hex_to_color.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
@@ -14,11 +14,11 @@ import 'package:jiyun_app_client/models/user_point_model.dart';
 import 'package:jiyun_app_client/services/point_service.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
 import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:provider/provider.dart';
 
 class MyPointPage extends StatefulWidget {
@@ -49,7 +49,6 @@ class MyPointPageState extends State<MyPointPage> {
   void initState() {
     super.initState();
     created();
-    loadList();
   }
 
   created() async {
@@ -77,19 +76,8 @@ class MyPointPageState extends State<MyPointPage> {
 
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        leading: const BackButton(color: Colors.black),
-        backgroundColor: ColorConfig.warningText,
-        elevation: 0,
-        centerTitle: true,
-        title: const Caption(
-          str: '我的积分',
-          color: ColorConfig.textBlack,
-          fontSize: 18,
-          fontWeight: FontWeight.w400,
-        ),
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
-      ),
+      primary: false,
+      appBar: const EmptyAppBar(),
       backgroundColor: ColorConfig.bgGray,
       body: ListRefresh(
         renderItem: buildCellForFirstListView,
@@ -142,8 +130,7 @@ class MyPointPageState extends State<MyPointPage> {
                 fontSize: 15,
                 color: model.type == 1
                     ? ColorConfig.textDark
-                    : ColorConfig.warningText,
-                fontWeight: FontWeight.w400,
+                    : ColorConfig.textRed,
               ),
             ),
           ),
@@ -163,77 +150,56 @@ class MyPointPageState extends State<MyPointPage> {
 
   Widget buildCustomViews(BuildContext context) {
     var headerView = SizedBox(
-      height: 200,
       child: Stack(
         children: <Widget>[
-          Container(
-              padding: const EdgeInsets.only(left: 15, top: 10, right: 15),
-              color: ColorConfig.warningText,
-              constraints: const BoxConstraints.expand(
-                height: 200.0,
-              ),
-              //设置背景图片
+          SizedBox(
+            child: LoadImage(
+              'AboutMe/jifen-bg',
+              fit: BoxFit.fitWidth,
+              width: ScreenUtil().screenWidth,
+            ),
+          ),
+          Positioned(
+            top: ScreenUtil().statusBarHeight,
+            left: 15,
+            child: const BackButton(
+              color: Colors.white,
+            ),
+          ),
+          Positioned(
+            bottom: 70,
+            //设置背景图片
+            child: Container(
+              alignment: Alignment.center,
+              width: ScreenUtil().screenWidth,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(
-                    height: 40,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const <Widget>[
-                        Caption(
-                          str: '可用积分',
-                        ),
-                      ],
-                    ),
+                  Caption(
+                    str: (userPointModel?.point ?? 0).toString(),
+                    fontSize: 30,
+                    color: ColorConfig.vipNormal,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      GestureDetector(
-                          onDoubleTap: () async {},
-                          child: Container(
-                              alignment: Alignment.center,
-                              height: 40,
-                              width: 200,
-                              child: Caption(
-                                str: userPointModel!.point.toString(),
-                                fontSize: 20,
-                              ))),
-                    ],
+                  Gaps.vGap5,
+                  const Caption(
+                    str: '可用积分',
+                    color: ColorConfig.vipNormal,
                   ),
-                  SizedBox(
-                    height: 40,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Caption(
-                          str: '累计积分：' + userPointModel!.allPoint,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Routers.push('/PrepaidRecord', context);
-                          },
-                          child: Caption(
-                            str: userPointModel!.configPoint.toString() +
-                                '积分=' +
-                                localizationInfo!.currencySymbol +
-                                userPointModel!.configAmount,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        )
-                      ],
-                    ),
+                  Gaps.vGap15,
+                  Caption(
+                    str: '使用规则：' +
+                        (userPointModel?.configPoint ?? 0).toString() +
+                        '积分=' +
+                        localizationInfo!.currencySymbol +
+                        (userPointModel?.configAmount ?? 0).toString(),
+                    fontSize: 14,
+                    color: ColorConfig.vipNormal,
                   ),
                 ],
-              )),
+              ),
+            ),
+          ),
           Positioned(
-              top: 145,
               left: 15,
               right: 15,
               bottom: 0,
@@ -251,7 +217,7 @@ class MyPointPageState extends State<MyPointPage> {
                           child: const Caption(
                             str: '类型',
                             fontSize: 16,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -262,7 +228,7 @@ class MyPointPageState extends State<MyPointPage> {
                           child: const Caption(
                             str: '时间',
                             fontSize: 16,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -273,7 +239,7 @@ class MyPointPageState extends State<MyPointPage> {
                             child: const Caption(
                               str: '明细',
                               fontSize: 16,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.bold,
                             )),
                       ),
                     ],

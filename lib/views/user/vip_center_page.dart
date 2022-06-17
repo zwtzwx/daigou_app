@@ -16,7 +16,9 @@ import 'package:jiyun_app_client/models/user_vip_model.dart';
 import 'package:jiyun_app_client/models/user_vip_price_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
+import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -69,27 +71,12 @@ class VipCenterPageState extends State<VipCenterPage> {
 
   created() async {
     EasyLoading.show();
-    var token = await UserStorage.getToken();
-    if (token.isNotEmpty) {
-      await getUserVipInfo();
-      userVipModel = await UserService.getVipMemberData();
-
-      setState(() {
-        isloading = true;
-      });
-
-      EasyLoading.dismiss();
-    }
-  }
-
-  // 用户会员信息
-  Future<void> getUserVipInfo() async {
-    var data = await UserService.getOrderDataCount();
-    if (data != null) {
-      setState(() {
-        userOrderModel = data;
-      });
-    }
+    var data = await UserService.getVipMemberData();
+    EasyLoading.dismiss();
+    setState(() {
+      userVipModel = data;
+      isloading = true;
+    });
   }
 
   @override
@@ -100,37 +87,36 @@ class VipCenterPageState extends State<VipCenterPage> {
 
     return Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
-          leading: const BackButton(color: Colors.white),
-          backgroundColor: ColorConfig.textDark,
-          elevation: 0.5,
-          centerTitle: true,
-          title: Caption(
-            str: pageTitle,
-            color: ColorConfig.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
-          ),
-          systemOverlayStyle: SystemUiOverlayStyle.dark,
-        ),
+        primary: false,
+        appBar: const EmptyAppBar(),
         backgroundColor: ColorConfig.bgGray,
         bottomNavigationBar: isloading
             ? Container(
-                height: 70,
-                width: ScreenUtil().screenWidth,
-                color: ColorConfig.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Row(children: <Widget>[
-                          const Caption(
-                            str: '合计：',
-                          ),
-                          Caption(
+                decoration: const BoxDecoration(
+                  color: ColorConfig.white,
+                  border: Border(
+                    top: BorderSide(
+                      color: ColorConfig.line,
+                    ),
+                  ),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: SafeArea(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Row(children: <Widget>[
+                            const Caption(
+                              str: '合计：',
+                              fontWeight: FontWeight.bold,
+                            ),
+                            Caption(
                               color: ColorConfig.textRed,
                               str: selectButton == 999
                                   ? localizationInfo!.currencySymbol + '0'
@@ -138,23 +124,28 @@ class VipCenterPageState extends State<VipCenterPage> {
                                       (userVipModel!.priceList[selectButton]
                                                   .price /
                                               100)
-                                          .toString())
-                        ]),
-                        Caption(
-                          str: selectButton == 999
-                              ? '+ 0 成长值'
-                              : '+' +
-                                  userVipModel!
-                                      .priceList[selectButton].growthValue
-                                      .toString() +
-                                  '成长值',
-                          fontSize: 14,
-                          color: ColorConfig.textGray,
-                        ),
-                      ],
-                    ),
-                    GestureDetector(
-                        onTap: () async {
+                                          .toString(),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ]),
+                          Caption(
+                            str: selectButton == 999
+                                ? '+ 0 成长值'
+                                : '+' +
+                                    userVipModel!
+                                        .priceList[selectButton].growthValue
+                                        .toString() +
+                                    '成长值',
+                            fontSize: 14,
+                            color: ColorConfig.textGray,
+                          ),
+                        ],
+                      ),
+                      MainButton(
+                        text: '立即支付',
+                        fontWeight: FontWeight.bold,
+                        backgroundColor: HexToColor('#d1bb7f'),
+                        onPressed: () async {
                           var a = await Navigator.pushNamed(
                               context, '/OrderPayPage', arguments: {
                             'model': userVipModel!.priceList[selectButton],
@@ -165,256 +156,124 @@ class VipCenterPageState extends State<VipCenterPage> {
                           }
                           String content = a.toString();
                           if (content == 'succeed') {
-                            // getLocalization();
-                            getUserVipInfo();
+                            created();
                             setState(() {
                               selectButton = 999;
                             });
                           }
                         },
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  HexToColor('#F5DBAA'),
-                                  HexToColor('#E6C17F'),
-                                ],
-                                //渐变角度
-                              ),
-                              borderRadius: const BorderRadius.all(
-                                  const Radius.circular(20))),
-                          margin: const EdgeInsets.only(right: 15, left: 25),
-                          padding: const EdgeInsets.only(right: 25, left: 25),
-                          height: 40,
-                          child: const Caption(str: '立即支付'),
-                        ))
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               )
             : Container(),
         body: isloading
             ? SingleChildScrollView(
                 child: Column(
-                children: <Widget>[
-                  headerCardView(context),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        height: 60,
-                        color: ColorConfig.white,
-                        alignment: Alignment.center,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              height: 3,
-                              width: 60,
-                              margin:
-                                  const EdgeInsets.only(right: 15, bottom: 15),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                colors: [
-                                  HexToColor('#FFFFFF'),
-                                  HexToColor('#E4C79E'),
-                                ],
-                                transform: const GradientRotation(131), //渐变角度
-                              )),
-                            ),
-                            const SizedBox(
-                              height: 40,
-                              child: Caption(
-                                str: '购买会员 享折扣',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Container(
-                                height: 3,
-                                width: 60,
-                                margin:
-                                    const EdgeInsets.only(left: 15, bottom: 15),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                  colors: [
-                                    HexToColor('#E4C79E'),
-                                    HexToColor('#FFFFFF'),
-                                  ],
-                                  transform: const GradientRotation(131), //渐变角度
-                                ))),
-                          ],
-                        ),
-                      ),
-                      buyVipPriceView(context),
-                      Container(
-                        color: ColorConfig.white,
-                        margin: const EdgeInsets.only(top: 20),
-                        padding: const EdgeInsets.only(right: 15, left: 15),
-                        height: 520,
-                        width: ScreenUtil().screenWidth,
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              height: 60,
-                              color: ColorConfig.white,
-                              alignment: Alignment.center,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    height: 3,
-                                    width: 60,
-                                    margin: const EdgeInsets.only(
-                                        right: 15, bottom: 15),
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                      colors: [
-                                        HexToColor('#FFFFFF'),
-                                        HexToColor('#E4C79E'),
-                                      ],
-                                      transform:
-                                          const GradientRotation(131), //渐变角度
-                                    )),
-                                  ),
-                                  const SizedBox(
-                                    height: 40,
-                                    child: Caption(
-                                      str: '成长值说明',
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  Container(
-                                      height: 3,
-                                      width: 60,
-                                      margin: const EdgeInsets.only(
-                                          left: 15, bottom: 15),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                        colors: [
-                                          HexToColor('#E4C79E'),
-                                          HexToColor('#FFFFFF'),
-                                        ],
-                                        transform:
-                                            const GradientRotation(131), //渐变角度
-                                      ))),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 250, // 190+ 20 +20
-                              width: ScreenUtil().screenWidth - 30,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: buildListView(),
-                              ),
-                            ),
-                            Container(
-                                padding: const EdgeInsets.only(top: 15),
-                                height: 200, // 190+ 20 +20
-                                width: ScreenUtil().screenWidth - 30,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    const Caption(
-                                      str: '成长值说明：',
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.only(
-                                          top: 10, right: 15, left: 15),
-                                      child: Caption(
-                                        lines: 99,
-                                        str: userVipModel!.levelRemark!,
-                                        fontSize: 14,
-                                      ),
-                                    )
-                                  ],
-                                ))
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ))
+                  children: <Widget>[
+                    headerCardView(context),
+                    Gaps.vGap15,
+                    buildGrowthValueView(),
+                    Gaps.vGap15,
+                    buyVipPriceView(context),
+                    Gaps.vGap15,
+                  ],
+                ),
+              )
             : Container());
   }
 
-  buildListView() {
-    List<Widget> listV = [];
-    for (var i = 0; i < userVipModel!.levelList.length; i++) {
-      UserVipLevel memModel = userVipModel!.levelList[i];
-      var view = Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
+  // 成长值
+  Widget buildGrowthValueView() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: ColorConfig.white,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            margin: const EdgeInsets.only(left: 0, bottom: 10),
-            padding:
-                const EdgeInsets.only(top: 2, bottom: 2, right: 5, left: 5),
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    HexToColor('#F5DBAA'),
-                    HexToColor('#E6C17F'),
-                  ],
-                  //渐变角度
-                ),
-                borderRadius:
-                    const BorderRadius.all(const Radius.circular(10))),
-            height: 20,
-            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            child: const Caption(
+              str: '成长值说明',
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Gaps.line,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
             child: Caption(
-              str: memModel.growthValue.toString(),
-              fontSize: 8,
-              fontWeight: FontWeight.w300,
-              color: ColorConfig.textBlack,
+              lines: 99,
+              str: userVipModel!.levelRemark!,
+              fontSize: 14,
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(left: 0),
-            padding:
-                const EdgeInsets.only(top: 2, bottom: 2, right: 3, left: 3),
-            height: 190 * (i + 1) / userVipModel!.levelList.length,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    HexToColor('#D4B69F'),
-                    HexToColor('#AE886D'),
-                  ],
-                  //渐变角度
-                ),
-                borderRadius:
-                    const BorderRadius.all(const Radius.circular(10))),
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: 0),
-            padding:
-                const EdgeInsets.only(top: 2, bottom: 2, right: 5, left: 5),
-            height: 20,
-            alignment: Alignment.bottomCenter,
-            child: Caption(
-              str: memModel.name,
-              fontSize: 12,
-              fontWeight: FontWeight.w300,
-              color: ColorConfig.textBlack,
+            padding: const EdgeInsets.only(bottom: 30, left: 30, right: 30),
+            child: Column(
+              children: buildListView(),
             ),
           ),
         ],
-      );
-      listV.add(view);
+      ),
+    );
+  }
+
+  // 成长值列表
+  buildListView() {
+    List<Widget> listV = [];
+    listV.add(buildGrowthValueRow('等级', '成长值', isTitle: true));
+    for (var i = 0; i < userVipModel!.levelList.length; i++) {
+      UserVipLevel memModel = userVipModel!.levelList[i];
+      listV.add(buildGrowthValueRow(
+        memModel.name,
+        memModel.growthValue.toString(),
+      ));
     }
     return listV;
+  }
+
+  buildGrowthValueRow(String label, String content, {bool isTitle = false}) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 1),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Container(
+              height: 33,
+              alignment: Alignment.center,
+              color:
+                  isTitle ? const Color(0xFFf2edde) : const Color(0xFFf9f8f4),
+              child: Caption(
+                str: label,
+                color: ColorConfig.vipNormal,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 1,
+          ),
+          Expanded(
+            flex: 2,
+            child: Container(
+              height: 33,
+              alignment: Alignment.center,
+              color:
+                  isTitle ? const Color(0xFFf2edde) : const Color(0xFFf9f8f4),
+              child: Caption(
+                str: content,
+                color: ColorConfig.vipNormal,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   /*
@@ -422,19 +281,39 @@ class VipCenterPageState extends State<VipCenterPage> {
    */
   Widget buyVipPriceView(BuildContext context) {
     return Container(
-      color: ColorConfig.white,
-      padding: const EdgeInsets.only(top: 10, right: 15, bottom: 10, left: 15),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisSpacing: 20.0, //水平子Widget之间间距
-          mainAxisSpacing: 10.0, //垂直子Widget之间间距
-          crossAxisCount: 3, //一行的Widget数量
-          childAspectRatio: 1,
-        ), // 宽高比例
-        itemCount: userVipModel!.priceList.length,
-        itemBuilder: _buildGrideBtnView(),
+      margin: const EdgeInsets.symmetric(horizontal: 15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: ColorConfig.white,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            child: const Caption(
+              str: '购买会员',
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Gaps.line,
+          Padding(
+            padding: const EdgeInsets.all(30),
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 15.0, //水平子Widget之间间距
+                mainAxisSpacing: 10.0, //垂直子Widget之间间距
+                crossAxisCount: 3, //一行的Widget数量
+                childAspectRatio: 0.8,
+              ), // 宽高比例
+              itemCount: userVipModel!.priceList.length,
+              itemBuilder: _buildGrideBtnView(),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -453,15 +332,22 @@ class VipCenterPageState extends State<VipCenterPage> {
           child: Container(
               decoration: BoxDecoration(
                   color: selectButton == index
-                      ? ColorConfig.warningTextDark50
+                      ? const Color(0xFFf9f8f4)
                       : ColorConfig.white,
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    width: selectButton == index ? 0.5 : 0.3,
                     color: selectButton == index
-                        ? ColorConfig.textBlack
-                        : ColorConfig.textGrayC,
-                  )),
+                        ? ColorConfig.vipNormal
+                        : const Color(0xFFd9c58d),
+                  ),
+                  boxShadow: selectButton == index
+                      ? [
+                          const BoxShadow(
+                            blurRadius: 6,
+                            color: const Color(0x6B4A3808),
+                          ),
+                        ]
+                      : null),
               alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -471,6 +357,21 @@ class VipCenterPageState extends State<VipCenterPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 7),
+                            alignment: Alignment.center,
+                            decoration: const BoxDecoration(
+                              color: const Color(0xFFd9c48c),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                              ),
+                            ),
+                            child: Caption(
+                              str: model.name,
+                              color: Colors.white,
+                            ),
+                          ),
                           Container(
                             height: 17,
                             alignment: Alignment.topRight,
@@ -532,12 +433,6 @@ class VipCenterPageState extends State<VipCenterPage> {
                                   ))
                             ],
                           ),
-                          Caption(
-                            str: model.name,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: ColorConfig.textBlack,
-                          ),
                         ],
                       )),
                   Expanded(
@@ -545,18 +440,9 @@ class VipCenterPageState extends State<VipCenterPage> {
                       child: Container(
                         alignment: Alignment.center,
                         width: (ScreenUtil().screenWidth - 70) / 3,
-                        decoration: BoxDecoration(
-                            color: ColorConfig.warningTextDark,
-                            borderRadius: const BorderRadius.vertical(
-                                bottom: const Radius.circular((15))),
-                            border: Border.all(
-                              width: 0.5,
-                              color: ColorConfig.warningText,
-                            )),
                         child: Caption(
                           str: model.illustrate,
                           fontSize: 14,
-                          fontWeight: FontWeight.w400,
                         ),
                       )),
                 ],
@@ -571,242 +457,167 @@ class VipCenterPageState extends State<VipCenterPage> {
     num nextLevelGrowthValue = userVipModel!.profile.nextGrowthValue;
     num growthValue = userVipModel!.profile.currentGrowthValue;
     num firstNum = nextLevelGrowthValue - growthValue;
-    num secondNum = userVipModel!.profile.nextGrowthValue;
+    double widthFactor = growthValue / nextLevelGrowthValue;
+    if (widthFactor > 1) {
+      widthFactor = 1;
+    }
     var headerView = SizedBox(
-      height: 200,
+      height: ScreenUtil().setHeight(190) + 30,
       child: Stack(
         children: <Widget>[
           Container(
-            color: ColorConfig.textDark,
-            //设置背景图片
-          ),
-          Positioned(
-            top: 170,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: RoundPathWidget(
-              pathShape: PathShapeEnum.partRoundRect,
-              leftTopRadius: 40,
-              rightTopRadius: 40,
-              child: ClipPath(
-                //路径剪裁组件
-                clipper: TrapezoidPath(),
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        HexToColor('#F7F7F7'),
-                        HexToColor('#F7F7F7'),
-                      ],
-                      transform: const GradientRotation(131), //渐变角度
-                    ),
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10)),
-                  ),
-                  child: Container(
-                    height: 8,
-                    width: ScreenUtil().screenWidth - 40,
-                    decoration: const BoxDecoration(
-                        color: ColorConfig.textGray,
-                        borderRadius: BorderRadius.horizontal(
-                            right: Radius.circular(4),
-                            left: Radius.circular(4))),
-                  ),
-                ),
-              ),
+            height: ScreenUtil().setHeight(180),
+            alignment: Alignment.topLeft,
+            child: LoadImage(
+              'AboutMe/growth-bg',
+              fit: BoxFit.fitWidth,
+              width: ScreenUtil().screenWidth,
             ),
           ),
           Positioned(
-            top: 20,
-            left: 30,
-            right: 30,
-            bottom: 11,
+            top: ScreenUtil().statusBarHeight,
+            left: 15,
+            child: const BackButton(
+              color: Colors.white,
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 15,
+            right: 15,
             child: Container(
-              padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-              width: ScreenUtil().screenWidth - 30,
-              height: 50,
-              alignment: Alignment.center,
+              padding: const EdgeInsets.only(
+                  top: 7, bottom: 13, left: 15, right: 15),
               decoration: BoxDecoration(
-                image: const DecorationImage(
-                    image: AssetImage('assets/images/AboutMe/Mask矩形@3x.png'),
-                    fit: BoxFit.cover),
-                gradient: LinearGradient(
-                  colors: [
-                    HexToColor('#F7DBA9'),
-                    HexToColor('#FFE7BB'),
-                    HexToColor('#E5C17E'),
-                  ],
-                  transform: const GradientRotation(131), //渐变角度
-                ),
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10)),
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.white,
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   Row(
-                    children: <Widget>[
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Caption(
+                        str: '成长值',
+                        fontSize: 13,
+                        color: ColorConfig.vipNormal,
+                      ),
                       GestureDetector(
-                          child: Container(
-                              decoration: const BoxDecoration(
-                                color: ColorConfig.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                              ),
-                              height: 60,
-                              width: 60,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: LoadImage(
-                                  userInfo!.avatar,
-                                  fit: BoxFit.fitWidth,
-                                  holderImg: "PackageAndOrder/defalutIMG@3x",
-                                  format: "png",
-                                ),
-                              ))),
-                      Gaps.hGap4,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              SizedBox(
-                                width: ScreenUtil().screenWidth / 2,
-                                // height: 20,
-                                child: Caption(
-                                  alignment: TextAlign.center,
-                                  str: userInfo!.name,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: ColorConfig.textDark,
+                        child: Caption(
+                          str: '距离下一等级还差${firstNum < 0 ? 0 : firstNum}成长值 >',
+                          color: ColorConfig.vipNormal,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Gaps.vGap15,
+                  Row(
+                    children: [
+                      Caption(
+                        str: growthValue.toString(),
+                        color: ColorConfig.vipNormal,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      Gaps.hGap10,
+                      Expanded(
+                        child: SizedBox(
+                          height: 8,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                child: Container(
+                                  height: 8,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    color: ColorConfig.orderLine,
+                                  ),
                                 ),
                               ),
-                              Container(
-                                margin: const EdgeInsets.only(left: 5),
-                                padding: const EdgeInsets.only(
-                                    top: 2, bottom: 2, right: 5, left: 5),
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        HexToColor('#D4B69F'),
-                                        HexToColor('#AE886D'),
-                                      ],
-                                      //渐变角度
-                                    ),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(5))),
-                                height: 20,
-                                alignment: Alignment.bottomCenter,
-                                child: Caption(
-                                  str: userVipModel == null ||
-                                          userVipModel!
-                                              .profile.levelName.isEmpty
-                                      ? 'V0'
-                                      : userVipModel!.profile.levelName,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w300,
-                                  color: ColorConfig.white,
+                              FractionallySizedBox(
+                                alignment: Alignment.topLeft,
+                                heightFactor: 1,
+                                widthFactor: widthFactor,
+                                child: Container(
+                                  height: 8,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    color: HexToColor('#DAB85C'),
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                          Gaps.vGap10,
-                          SizedBox(
-                            height: 24,
-                            child: Caption(
-                              alignment: TextAlign.center,
-                              str: 'ID:' + userInfo!.id.toString(),
-                              fontSize: 15,
-                              color: ColorConfig.textDark,
-                            ),
-                          ),
-                        ],
-                      )
+                        ),
+                      ),
+                      Gaps.hGap10,
+                      Caption(
+                        str: nextLevelGrowthValue.toString(),
+                        color: ColorConfig.vipNormal,
+                        fontSize: 13,
+                      ),
                     ],
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Routers.push('/MyGrowthValuePage', context);
-                    },
-                    child: Container(
-                      alignment: Alignment.bottomLeft,
-                      height: 40,
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: ScreenUtil().setHeight(90),
+            left: 15,
+            child: Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(right: 15),
+                  width: 60,
+                  height: 60,
+                  child: ClipOval(
+                    child: LoadImage(
+                      userInfo!.avatar,
+                      fit: BoxFit.fitWidth,
+                      holderImg: "AboutMe/about-logo",
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Caption(
+                      str: userInfo!.name,
+                      fontSize: 16,
+                      color: ColorConfig.vipNormal,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    Gaps.vGap4,
+                    Caption(
+                      str: 'ID：${userInfo!.id}',
+                      color: ColorConfig.vipNormal,
+                    ),
+                    Gaps.vGap4,
+                    GestureDetector(
+                      onTap: () {
+                        Routers.push('/MyPointPage', context);
+                      },
                       child: Row(
-                        children: const <Widget>[
-                          Caption(
-                            str: '成长值',
-                            fontSize: 15,
+                        children: [
+                          const Caption(
+                            str: '积分',
+                            color: ColorConfig.vipNormal,
                           ),
-                          Icon(
-                            Icons.keyboard_arrow_right,
-                            color: ColorConfig.textDark,
+                          Gaps.hGap10,
+                          Caption(
+                            str: (userVipModel?.profile.point ?? 0).toString(),
+                            color: ColorConfig.vipNormal,
+                            fontWeight: FontWeight.bold,
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  Container(
-                      alignment: Alignment.bottomLeft,
-                      height: 20,
-                      child: Stack(
-                        children: <Widget>[
-                          Positioned(
-                              top: 7.5,
-                              right: 0,
-                              left: 0,
-                              bottom: 7.5,
-                              child: Container(
-                                height: 5,
-                                decoration: const BoxDecoration(
-                                    color: ColorConfig.textGray,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(2.5))),
-                              )),
-                          Positioned(
-                              top: 7.5,
-                              right: secondNum == 0
-                                  ? (ScreenUtil().screenWidth - 90)
-                                  : (ScreenUtil().screenWidth - 90) *
-                                      firstNum /
-                                      secondNum, //ScreenUtil().screenWidth - 90 平均分成100份
-                              left: 0,
-                              bottom: 7.5,
-                              child: Container(
-                                height: 5,
-                                decoration: const BoxDecoration(
-                                    color: ColorConfig.white,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(2.5))),
-                              ))
-                        ],
-                      )),
-                  Container(
-                    alignment: Alignment.bottomLeft,
-                    height: 20,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Caption(
-                          str: '距离下一等级还差：' + firstNum.toString(),
-                          fontSize: 12,
-                        ),
-                        Caption(
-                          str: userVipModel!.profile.currentGrowthValue
-                                  .toString() +
-                              '/' +
-                              secondNum.toString(),
-                          fontSize: 12,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],

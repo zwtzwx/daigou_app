@@ -9,6 +9,7 @@ class MainButton extends StatefulWidget {
     this.fontSize = 15,
     this.elevation = 0,
     this.borderRadis = 5,
+    this.fontWeight = FontWeight.w400,
     this.backgroundColor = ColorConfig.primary,
     this.textColor = ColorConfig.white,
     this.onPressed,
@@ -16,6 +17,7 @@ class MainButton extends StatefulWidget {
 
   final String text;
   final double fontSize;
+  final FontWeight fontWeight;
   final double elevation;
   final double borderRadis;
   final Color backgroundColor;
@@ -51,6 +53,7 @@ class _MainButtonState extends State<MainButton> {
         str: widget.text,
         color: widget.textColor,
         fontSize: widget.fontSize,
+        fontWeight: widget.fontWeight,
       ),
     );
   }
