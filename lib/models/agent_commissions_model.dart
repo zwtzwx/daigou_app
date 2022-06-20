@@ -51,7 +51,7 @@ class AgentCommissionsModel {
     companyId = json['company_id'];
     settled = json['settled'];
     withdrawId = json['withdraw_id'];
-    deletedAt = json['deleted_at'];
+    deletedAt = json['deleted_at'] ?? '';
     customer = (json['customer'] != null
         ? UserModel.fromJson(json['customer'])
         : null)!;

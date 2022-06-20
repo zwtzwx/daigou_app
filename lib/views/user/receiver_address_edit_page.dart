@@ -2,6 +2,7 @@
   收件地址编辑
  */
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -245,285 +246,289 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                const SizedBox(
-                  height: 10,
-                ),
-                InputTextItem(
-                    title: "收件人",
-                    inputText: NormalInput(
-                      hintText: "请输入收件人名字",
-                      textAlign: TextAlign.left,
-                      contentPadding: const EdgeInsets.only(top: 17),
-                      controller: _recipientNameController,
-                      focusNode: _recipientName,
-                      maxLength: 40,
-                      autoFocus: false,
-                      keyboardType: TextInputType.text,
-                      onSubmitted: (res) {
-                        FocusScope.of(context).requestFocus(_mobileNumber);
-                      },
-                      onChanged: (res) {
-                        model.receiverName = res;
-                      },
-                    )),
-                GestureDetector(
-                  onTap: () async {
-                    var s =
-                        await Navigator.pushNamed(context, '/CountryListPage');
-                    CountryModel a = s as CountryModel;
-                    if (a == null) {
-                      return;
-                    }
-                    setState(() {
-                      model.timezone = a.timezone!;
-                    });
-                  },
-                  child: InputTextItem(
-                      title: "电话区号",
-                      inputText: Container(
-                        padding: const EdgeInsets.only(right: 15, left: 0),
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Caption(
-                              str: model.timezone == null ||
-                                      model.timezone.isEmpty
-                                  ? "请选择电话区号"
-                                  : model.timezone,
-                              color: model.timezone == null ||
-                                      model.timezone.isEmpty
-                                  ? ColorConfig.textGray
-                                  : ColorConfig.textDark,
-                              fontSize: 14,
-                            ),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 18,
-                            ),
-                          ],
-                        ),
-                      )),
-                ),
-                InputTextItem(
-                    title: "联系电话",
-                    inputText: NormalInput(
-                      hintText: "请输入收件人电话",
-                      textAlign: TextAlign.left,
-                      contentPadding: const EdgeInsets.only(top: 17),
-                      maxLength: 20,
-                      controller: _mobileNumberController,
-                      focusNode: _mobileNumber,
-                      autoFocus: false,
-                      keyboardType: TextInputType.text,
-                      onSubmitted: (res) {
-                        FocusScope.of(context).requestFocus(_zipCode);
-                      },
-                      onChanged: (res) {
-                        model.phone = res;
-                      },
-                    )),
-                Gaps.line,
-                InputTextItem(
-                    title: "邮编",
-                    inputText: NormalInput(
-                      hintText: "请输入邮编",
-                      contentPadding: const EdgeInsets.only(top: 17),
-                      textAlign: TextAlign.left,
-                      controller: _zipCodeController,
-                      focusNode: _zipCode,
-                      maxLength: 20,
-                      autoFocus: false,
-                      keyboardType: TextInputType.text,
-                      onSubmitted: (res) {
-                        FocusScope.of(context).requestFocus(_emailNumber);
-                      },
-                      onChanged: (res) {
-                        model.postcode = res;
-                      },
-                    )),
-                InputTextItem(
-                    title: "邮箱",
-                    inputText: NormalInput(
-                      hintText: "请输入邮箱",
-                      contentPadding: const EdgeInsets.only(top: 17),
-                      textAlign: TextAlign.left,
-                      controller: _emailController,
-                      focusNode: _emailNumber,
-                      maxLength: 40,
-                      autoFocus: false,
-                      keyboardType: TextInputType.text,
-                      onSubmitted: (res) {
-                        FocusScope.of(context).requestFocus(_stateORprovince);
-                      },
-                      onChanged: (res) {
-                        model.email = res;
-                      },
-                    )),
-                GestureDetector(
-                  onTap: () async {
-                    var s =
-                        await Navigator.pushNamed(context, '/CountryListPage');
-                    if (s == null) {
-                      return;
-                    }
-                    CountryModel a = s as CountryModel;
-
-                    setState(() {
-                      countryModel = a;
-                      areaModel = null;
-                      subAreaModel = null;
-                    });
-                  },
-                  child: InputTextItem(
-                      title: "国家",
-                      inputText: Container(
-                        padding: const EdgeInsets.only(right: 15, left: 0),
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Caption(
-                              str: countryModel.name == null
-                                  ? '请选择国家'
-                                  : countryModel.name!,
-                              color: countryModel.name == null
-                                  ? ColorConfig.textGray
-                                  : ColorConfig.textDark,
-                              fontSize: 16,
-                            ),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 18,
-                            ),
-                          ],
-                        ),
-                      )),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    showPickerDestion(context);
-                  },
-                  child: InputTextItem(
-                      height: (countryModel.areas == null ||
-                              countryModel.areas!.isEmpty)
-                          ? 0
-                          : 55,
-                      title: "省/市",
-                      inputText: Container(
-                        padding: const EdgeInsets.only(right: 15, left: 0),
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Caption(
-                              str: areaModel?.id == null
-                                  ? '请选择省/市'
-                                  : subAreaModel?.id == null
-                                      ? areaModel!.name
-                                      : areaModel!.name +
-                                          ' ' +
-                                          subAreaModel!.name,
-                              color: areaModel?.id == null
-                                  ? ColorConfig.textGray
-                                  : ColorConfig.textDark,
-                              fontSize: 16,
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 18,
-                              color: areaModel?.id == null
-                                  ? ColorConfig.textGray
-                                  : ColorConfig.textDark,
-                            ),
-                          ],
-                        ),
-                      )),
-                ),
-                InputTextItem(
-                    height: (countryModel.areas == null ||
-                            countryModel.areas!.isEmpty)
-                        ? 55
-                        : 0,
-                    title: "州/省",
-                    inputText: NormalInput(
-                      contentPadding: const EdgeInsets.only(top: 17),
-                      hintText: "请输入州/省",
-                      textAlign: TextAlign.left,
-                      controller: _stateORprovinceController,
-                      focusNode: _stateORprovince,
-                      autoFocus: false,
-                      keyboardType: TextInputType.text,
-                      onSubmitted: (res) {
-                        FocusScope.of(context).requestFocus(_cityName);
-                      },
-                      onChanged: (res) {
-                        model.province = res;
-                      },
-                    )),
-                InputTextItem(
-                    height: countryModel.areas == null ? 55 : 0,
-                    title: "城市",
-                    inputText: NormalInput(
-                      contentPadding: const EdgeInsets.only(top: 17),
-                      hintText: "请输入城市",
-                      textAlign: TextAlign.left,
-                      controller: _cityNameController,
-                      focusNode: _cityName,
-                      maxLength: 30,
-                      autoFocus: false,
-                      keyboardType: TextInputType.text,
-                      onSubmitted: (res) {
-                        FocusScope.of(context).requestFocus(_streetName);
-                      },
-                      onChanged: (res) {
-                        model.city = res;
-                      },
-                    )),
-                InputTextItem(
-                    title: "详细地址",
-                    inputText: NormalInput(
-                      hintText: "请输详细地址",
-                      contentPadding: const EdgeInsets.only(top: 17),
-                      textAlign: TextAlign.left,
-                      controller: _streetNameController,
-                      focusNode: _streetName,
-                      maxLength: 50,
-                      autoFocus: false,
-                      keyboardType: TextInputType.text,
-                      onSubmitted: (res) {
-                        FocusScope.of(context).requestFocus(blankNode);
-                      },
-                      onChanged: (res) {
-                        model.address = res;
-                      },
-                    )),
-                Gaps.vGap15,
-                InputTextItem(
-                  title: "设为默认地址",
-                  inputText: Container(
-                    padding: const EdgeInsets.only(right: 15),
-                    alignment: Alignment.centerRight,
-                    child: Switch.adaptive(
-                      value: model.isDefault == 1,
-                      activeColor: ColorConfig.warningText,
-                      onChanged: (value) {
-                        setState(() {
-                          if (value) {
-                            model.isDefault = 1;
-                          } else {
-                            model.isDefault = 0;
-                          }
-                        });
-                      },
-                    ),
+                Container(
+                  width: ScreenUtil().screenWidth,
+                  padding: const EdgeInsets.all(15),
+                  color: const Color(0xFFfff9cc),
+                  child: const Caption(
+                    str: '注意：海外地址请使用英文',
+                    color: Color(0xFFdd9c2b),
+                    fontSize: 14,
                   ),
                 ),
-                Gaps.vGap15,
+                Container(
+                  margin: const EdgeInsets.all(15),
+                  color: Colors.white,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: buildAddressContent(),
+                  ),
+                ),
               ],
             ),
           ),
         ));
+  }
+
+  Widget buildAddressContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: ColorConfig.primary,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 6),
+                child: const Caption(
+                  str: '收',
+                  color: Colors.white,
+                  fontSize: 13,
+                ),
+              ),
+              Gaps.hGap10,
+              const Caption(str: '收件人', fontSize: 16)
+            ],
+          ),
+        ),
+        InputTextItem(
+          title: "收件人",
+          inputText: NormalInput(
+            hintText: "请输入收件人名字",
+            textAlign: TextAlign.right,
+            contentPadding: const EdgeInsets.only(top: 17, right: 15),
+            controller: _recipientNameController,
+            focusNode: _recipientName,
+            maxLength: 40,
+            autoFocus: false,
+            keyboardType: TextInputType.text,
+            onSubmitted: (res) {
+              FocusScope.of(context).requestFocus(_mobileNumber);
+            },
+            onChanged: (res) {
+              model.receiverName = res;
+            },
+          ),
+        ),
+        GestureDetector(
+          onTap: () async {
+            var s = await Navigator.pushNamed(context, '/CountryListPage');
+            CountryModel a = s as CountryModel;
+            if (a == null) {
+              return;
+            }
+            setState(() {
+              model.timezone = a.timezone!;
+            });
+          },
+          child: InputTextItem(
+            title: "电话区号",
+            inputText: Container(
+              padding: const EdgeInsets.only(right: 15, left: 0),
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Caption(
+                    str: model.timezone == null || model.timezone.isEmpty
+                        ? "请选择电话区号"
+                        : model.timezone,
+                    color: model.timezone == null || model.timezone.isEmpty
+                        ? ColorConfig.textGray
+                        : ColorConfig.textDark,
+                    fontSize: 14,
+                  ),
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 18,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        InputTextItem(
+          title: "联系电话",
+          inputText: NormalInput(
+            hintText: "请输入收件人电话",
+            textAlign: TextAlign.left,
+            contentPadding: const EdgeInsets.only(top: 17),
+            maxLength: 20,
+            controller: _mobileNumberController,
+            focusNode: _mobileNumber,
+            autoFocus: false,
+            keyboardType: TextInputType.text,
+            onSubmitted: (res) {
+              FocusScope.of(context).requestFocus(_zipCode);
+            },
+            onChanged: (res) {
+              model.phone = res;
+            },
+          ),
+        ),
+        Gaps.line,
+        InputTextItem(
+          title: "邮编",
+          inputText: NormalInput(
+            hintText: "请输入邮编",
+            contentPadding: const EdgeInsets.only(top: 17),
+            textAlign: TextAlign.left,
+            controller: _zipCodeController,
+            focusNode: _zipCode,
+            maxLength: 20,
+            autoFocus: false,
+            keyboardType: TextInputType.text,
+            onSubmitted: (res) {
+              FocusScope.of(context).requestFocus(_emailNumber);
+            },
+            onChanged: (res) {
+              model.postcode = res;
+            },
+          ),
+        ),
+        InputTextItem(
+          title: "邮箱",
+          inputText: NormalInput(
+            hintText: "请输入邮箱",
+            contentPadding: const EdgeInsets.only(top: 17),
+            textAlign: TextAlign.left,
+            controller: _emailController,
+            focusNode: _emailNumber,
+            maxLength: 40,
+            autoFocus: false,
+            keyboardType: TextInputType.text,
+            onSubmitted: (res) {
+              FocusScope.of(context).requestFocus(_stateORprovince);
+            },
+            onChanged: (res) {
+              model.email = res;
+            },
+          ),
+        ),
+        GestureDetector(
+          onTap: () async {
+            var s = await Navigator.pushNamed(context, '/CountryListPage');
+            if (s == null) {
+              return;
+            }
+            CountryModel a = s as CountryModel;
+
+            setState(() {
+              countryModel = a;
+              areaModel = null;
+              subAreaModel = null;
+            });
+          },
+          child: InputTextItem(
+            title: "国家",
+            inputText: Container(
+              padding: const EdgeInsets.only(right: 15, left: 0),
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Caption(
+                    str: countryModel.name == null
+                        ? '请选择国家'
+                        : countryModel.name!,
+                    color: countryModel.name == null
+                        ? ColorConfig.textGray
+                        : ColorConfig.textDark,
+                    fontSize: 16,
+                  ),
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 18,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () async {
+            showPickerDestion(context);
+          },
+          child: InputTextItem(
+            height: (countryModel.areas == null || countryModel.areas!.isEmpty)
+                ? 0
+                : 55,
+            title: "省/市",
+            inputText: Container(
+              padding: const EdgeInsets.only(right: 15, left: 0),
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Caption(
+                    str: areaModel?.id == null
+                        ? '请选择省/市'
+                        : subAreaModel?.id == null
+                            ? areaModel!.name
+                            : areaModel!.name + ' ' + subAreaModel!.name,
+                    color: areaModel?.id == null
+                        ? ColorConfig.textGray
+                        : ColorConfig.textDark,
+                    fontSize: 16,
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 18,
+                    color: areaModel?.id == null
+                        ? ColorConfig.textGray
+                        : ColorConfig.textDark,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        InputTextItem(
+            height: (countryModel.areas == null || countryModel.areas!.isEmpty)
+                ? 55
+                : 0,
+            title: "州/省",
+            inputText: NormalInput(
+              contentPadding: const EdgeInsets.only(top: 17),
+              hintText: "请输入州/省",
+              textAlign: TextAlign.left,
+              controller: _stateORprovinceController,
+              focusNode: _stateORprovince,
+              autoFocus: false,
+              keyboardType: TextInputType.text,
+              onSubmitted: (res) {
+                FocusScope.of(context).requestFocus(_cityName);
+              },
+              onChanged: (res) {
+                model.province = res;
+              },
+            )),
+        InputTextItem(
+          height: countryModel.areas == null ? 55 : 0,
+          title: "城市",
+          inputText: NormalInput(
+            contentPadding: const EdgeInsets.only(top: 17),
+            hintText: "请输入城市",
+            textAlign: TextAlign.left,
+            controller: _cityNameController,
+            focusNode: _cityName,
+            maxLength: 30,
+            autoFocus: false,
+            keyboardType: TextInputType.text,
+            onSubmitted: (res) {
+              FocusScope.of(context).requestFocus(_streetName);
+            },
+            onChanged: (res) {
+              model.city = res;
+            },
+          ),
+        ),
+      ],
+    );
   }
 
   onUpdateClick() async {

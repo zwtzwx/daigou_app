@@ -431,7 +431,7 @@ class LineDetailPageState extends State<LineDetailPage> {
                         child: IconButton(
                             icon: const Icon(
                               Icons.error_outline_outlined,
-                              color: ColorConfig.warningText,
+                              color: ColorConfig.green,
                               size: 25,
                             ),
                             onPressed: () {
@@ -541,7 +541,7 @@ class LineDetailPageState extends State<LineDetailPage> {
                               child: IconButton(
                                   icon: const Icon(
                                     Icons.error_outline_outlined,
-                                    color: ColorConfig.warningText,
+                                    color: ColorConfig.green,
                                     size: 25,
                                   ),
                                   onPressed: () {
@@ -771,8 +771,8 @@ class LineDetailPageState extends State<LineDetailPage> {
                       height: 40,
                       width: _dialogWidth,
                       alignment: Alignment.center,
-                      child: const Caption(
-                          str: '确定', color: ColorConfig.warningTextDark),
+                      child:
+                          const Caption(str: '确认', color: ColorConfig.primary),
                     ),
                   ),
                 ],
@@ -883,7 +883,7 @@ class LineDetailPageState extends State<LineDetailPage> {
                                 child: TextButton(
                                     child: const Caption(
                                       str: '确定',
-                                      color: ColorConfig.warningText,
+                                      color: ColorConfig.primary,
                                     ),
                                     onPressed: () async {
                                       Navigator.of(context).pop();

@@ -9,6 +9,7 @@ import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/receiver_address_refresh_event.dart';
 import 'package:jiyun_app_client/models/receiver_address_model.dart';
 import 'package:jiyun_app_client/services/address_service.dart';
+import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -76,39 +77,26 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       bottomNavigationBar: SafeArea(
-          child: TextButton(
-        style: ButtonStyle(
-          overlayColor:
-              MaterialStateColor.resolveWith((states) => Colors.transparent),
-        ),
-        onPressed: () {
-          Routers.push('/ReceiverAddressEditPage', context, {'isEdit': '0'});
-        },
         child: Container(
-          decoration: BoxDecoration(
-              color: ColorConfig.warningText,
-              borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-              border: Border.all(width: 1, color: ColorConfig.warningText)),
-          alignment: Alignment.center,
+          margin: const EdgeInsets.symmetric(horizontal: 15),
           height: 40,
-          child: const Caption(str: '+添加收货地址'),
+          child: MainButton(
+            text: '添加',
+            onPressed: () {
+              Routers.push(
+                  '/ReceiverAddressEditPage', context, {'isEdit': '0'});
+            },
+          ),
         ),
-      )),
+      ),
       backgroundColor: ColorConfig.bgGray,
-      body: SingleChildScrollView(
-          child: Column(
-        children: <Widget>[
-          // buildListView(),
-          buildListView(),
-        ],
-      )),
+      body: buildListView(),
     );
   }
 
   Widget buildListView() {
     var listView = ListView.builder(
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: buildCellForFirstListView,
       controller: _scrollController,
       itemCount: addressList.length,
@@ -150,82 +138,74 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
           }
         },
         child: Container(
-            margin: const EdgeInsets.only(left: 15, right: 15, top: 10),
             decoration: const BoxDecoration(
               color: ColorConfig.white,
-              borderRadius: BorderRadius.all(Radius.circular(5)),
+              border: Border(
+                bottom: BorderSide(
+                  color: ColorConfig.line,
+                ),
+              ),
             ),
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            // margin: EdgeInsets.only(top: 15, right: 15, left: 15),
-            height: 86.5,
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 SizedBox(
-                  height: 85,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Expanded(
-                              flex: 2,
-                              child: Container(
-                                width: ScreenUtil().screenWidth - 100,
-                                margin: const EdgeInsets.only(top: 10),
-                                alignment: Alignment.centerLeft,
-                                child: Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.baseline,
-                                  textBaseline: TextBaseline.alphabetic,
-                                  children: <Widget>[
-                                    model.isDefault == 1
-                                        ? Container(
-                                            width: 30,
-                                            alignment: Alignment.center,
-                                            margin: const EdgeInsets.only(
-                                                top: 3, bottom: 3, right: 5),
-                                            padding: const EdgeInsets.only(
-                                                left: 4, right: 4),
-                                            decoration: BoxDecoration(
-                                                color: HexToColor('#886ED7'),
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(2))),
-                                            child: const Caption(
-                                              str: '默认',
-                                              fontSize: 9,
-                                              color: ColorConfig.white,
-                                            ),
-                                          )
-                                        : Container(),
-                                    Container(
-                                      margin: const EdgeInsets.only(right: 10),
-                                      child: Caption(
-                                        str: nameN,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    Caption(
-                                      str: nameAll,
-                                      fontSize: 14,
-                                      color: ColorConfig.textNormal,
-                                    )
-                                  ],
-                                ),
-                              )),
-                          Expanded(
-                              flex: 3,
-                              child: Container(
-                                  height: 40,
-                                  padding: const EdgeInsets.only(top: 5),
-                                  width: ScreenUtil().screenWidth - 100,
-                                  alignment: Alignment.topLeft,
+                          Container(
+                            width: ScreenUtil().screenWidth - 60,
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                              textBaseline: TextBaseline.alphabetic,
+                              children: <Widget>[
+                                model.isDefault == 1
+                                    ? Container(
+                                        width: 30,
+                                        alignment: Alignment.center,
+                                        margin: const EdgeInsets.only(
+                                            top: 3, bottom: 3, right: 5),
+                                        padding: const EdgeInsets.only(
+                                            left: 4, right: 4),
+                                        decoration: BoxDecoration(
+                                            color: HexToColor('#886ED7'),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(2))),
+                                        child: const Caption(
+                                          str: '默认',
+                                          fontSize: 9,
+                                          color: ColorConfig.white,
+                                        ),
+                                      )
+                                    : Container(),
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10),
                                   child: Caption(
-                                    str: contentStr,
-                                    lines: 2,
-                                  ))),
+                                    str: nameN,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Caption(
+                                  str: nameAll,
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(top: 5),
+                            width: ScreenUtil().screenWidth - 60,
+                            alignment: Alignment.topLeft,
+                            child: Caption(
+                              str: contentStr,
+                              lines: 3,
+                            ),
+                          ),
                         ],
                       ),
                       GestureDetector(

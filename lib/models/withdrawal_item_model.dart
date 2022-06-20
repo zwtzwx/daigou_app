@@ -2,6 +2,7 @@
   代理佣金提现记录
  */
 import 'package:jiyun_app_client/models/user_model.dart';
+import 'package:jiyun_app_client/models/withdrawal_model.dart';
 
 class WithdrawalItemModel {
   late int id;
@@ -31,35 +32,38 @@ class WithdrawalItemModel {
   late String backImg;
   late String withdrawTypeName;
   UserModel? user;
+  List<WithdrawalModel>? commissions;
 
-  WithdrawalItemModel(
-      {required this.id,
-      required this.amount,
-      required this.confirmAmount,
-      required this.type,
-      required this.status,
-      required this.remark,
-      required this.customerRemark,
-      required this.customerImages,
-      required this.operator,
-      required this.userId,
-      required this.companyId,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.account,
-      required this.serialNo,
-      required this.fullname,
-      required this.idcard,
-      required this.bankCode,
-      required this.bankName,
-      required this.bankNumber,
-      required this.phone,
-      required this.email,
-      required this.address,
-      required this.faceImg,
-      required this.backImg,
-      required this.withdrawTypeName,
-      this.user});
+  WithdrawalItemModel({
+    required this.id,
+    required this.amount,
+    required this.confirmAmount,
+    required this.type,
+    required this.status,
+    required this.remark,
+    required this.customerRemark,
+    required this.customerImages,
+    required this.operator,
+    required this.userId,
+    required this.companyId,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.account,
+    required this.serialNo,
+    required this.fullname,
+    required this.idcard,
+    required this.bankCode,
+    required this.bankName,
+    required this.bankNumber,
+    required this.phone,
+    required this.email,
+    required this.address,
+    required this.faceImg,
+    required this.backImg,
+    required this.withdrawTypeName,
+    this.user,
+    this.commissions,
+  });
 
   WithdrawalItemModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -91,6 +95,13 @@ class WithdrawalItemModel {
     backImg = json['back_img'];
     withdrawTypeName = json['withdraw_type_name'];
     user = json['user'] != null ? UserModel.fromJson(json['user']) : null;
+    if (json['commissions'] != null) {
+      List<WithdrawalModel> list = [];
+      for (var item in json['commissions']) {
+        list.add(WithdrawalModel.fromJson(item));
+      }
+      commissions = list;
+    }
   }
 
   Map<String, dynamic> toJson() {

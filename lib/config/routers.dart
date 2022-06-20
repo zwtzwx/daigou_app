@@ -50,6 +50,8 @@ import 'package:jiyun_app_client/views/user/transaction_page.dart';
 import 'package:jiyun_app_client/views/user/transfer_and_payment_page.dart';
 import 'package:jiyun_app_client/views/user/user_privacy_page.dart';
 import 'package:jiyun_app_client/views/user/user_protocol_page.dart';
+import 'package:jiyun_app_client/views/user/withdraw_commission_page.dart';
+import 'package:jiyun_app_client/views/user/withdraw_history_detail_page.dart';
 import 'package:jiyun_app_client/views/user/withdraw_history_page.dart';
 import 'package:jiyun_app_client/views/user/apply_withdraw_page.dart';
 import 'package:jiyun_app_client/views/user/my_point_page.dart';
@@ -138,6 +140,9 @@ class Routers {
     // '/CommissionDetailPage': (context, {arguments}) =>
     // CommissionDetailPage(arguments: arguments),
     '/WithdrawHistoryPage': (context) => const WithdrawHistoryPage(),
+    '/WithdrawHistoryDetailPage': (context, {arguments}) =>
+        WithdrawHistoryDetailPage(arguments: arguments),
+    '/WithdrawCommissionPage': (context) => const WithdrawCommissionPage(),
     '/WithdrawlUserInfoPage': (context, {arguments}) =>
         WithdrawlUserInfoPage(arguments: arguments),
     // '/DealRecordPage': (context) => DealRecordPage(),
@@ -146,7 +151,8 @@ class Routers {
         ChangeMobileEmailPage(arguments: arguments),
     // '/PrepaidRecord': (context) => PrepaidRecord(),
     '/RegisterAgentPage': (context) => const RegisterAgentPage(),
-    '/CountryListPage': (context) => const CountryListPage(),
+    '/CountryListPage': (context, {arguments}) =>
+        CountryListPage(arguments: arguments),
     '/CategoriesPage': (context, {arguments}) =>
         CategoryPage(arguments: arguments),
     // '/WithdrawalInformation': (context, {arguments}) =>
@@ -160,7 +166,8 @@ class Routers {
     // '/BeganToFreight': (context) => BeganToFreight(),
     '/LineAllPage': (context) => const LineAllPage(),
     '/StationPage': (context) => const StationPage(),
-    '/LineQueryPage': (context) => const LineQueryPage(),
+    '/LineQueryPage': (context, {arguments}) =>
+        LineQueryPage(arguments: arguments),
     '/LinesPage': (context, {arguments}) => LinesPage(arguments: arguments),
     '/LineDetailPage': (context, {arguments}) =>
         LineDetailPage(arguments: arguments),

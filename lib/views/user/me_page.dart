@@ -43,7 +43,7 @@ class MePageState extends State<MePage> {
 
   bool isloading = false;
   //是否代理的一个身份
-  UserAgentStatusModel? agentStatus = UserAgentStatusModel(id: 0, name: '');
+  UserAgentStatusModel? agentStatus;
 
   @override
   void initState() {
@@ -157,7 +157,7 @@ class MePageState extends State<MePage> {
       '更改手机号',
       '更改邮箱',
       '交易记录',
-      '申请代理',
+      agentStatus?.name ?? '申请代理',
       '关于我们',
       '退出登录',
     ];
@@ -175,9 +175,6 @@ class MePageState extends State<MePage> {
     ];
     return GestureDetector(
       onTap: () async {
-        if (index == 7) {
-          return;
-        }
         if (index == 0) {
           Routers.push('/LineQueryPage', context);
         } else if (index == 1) {
@@ -214,10 +211,10 @@ class MePageState extends State<MePage> {
           if (agentStatus?.id == 2) {
             return;
           }
-          if (agentStatus?.id == 3 || agentStatus?.id == 0) {
+          if (agentStatus?.id == 3 || agentStatus?.id == 4) {
             Routers.push('/RegisterAgentPage', context);
           } else {
-            Routers.push('/AgentPage', context);
+            Routers.push('/AgentMemberPage', context);
           }
         } else if (index == 8) {
           // 关于我们
@@ -514,7 +511,7 @@ class MePageState extends State<MePage> {
                         const Caption(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          str: '累计收益',
+                          str: '佣金收入',
                         ),
                       ],
                     ),

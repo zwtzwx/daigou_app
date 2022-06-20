@@ -74,6 +74,7 @@ class AboutMePageState extends State<AboutMePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Gaps.vGap20,
                 GestureDetector(
                   child: Container(
                     alignment: Alignment.center,

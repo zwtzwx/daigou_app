@@ -17,6 +17,7 @@ class CountryModel {
   int? companyId;
   String? timezone;
   int? enabled;
+  int? regionsCount;
   PivotModel? pivot;
   List<AreaModel>? areas;
 
@@ -34,6 +35,7 @@ class CountryModel {
     companyId = json['company_id'];
     timezone = json['timezone'];
     enabled = json['enabled'];
+    regionsCount = json['regions_count'];
     if (json['pivot'] != null) {
       pivot = PivotModel.fromJson(json['pivot']);
     }

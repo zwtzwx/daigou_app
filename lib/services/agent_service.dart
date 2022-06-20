@@ -2,6 +2,7 @@
   代理信息
  */
 import 'package:jiyun_app_client/common/http_client.dart';
+import 'package:jiyun_app_client/models/agent_commission_record_model.dart';
 import 'package:jiyun_app_client/models/agent_data_count_model.dart';
 import 'package:jiyun_app_client/models/agent_model.dart';
 import 'package:jiyun_app_client/models/bank_model.dart';
@@ -23,6 +24,12 @@ class AgentService {
 
   // 已提现订单列表
   static const String withdrawedApi = 'commission/withdraw-normal-list';
+
+  // 成交记录列表
+  static const String commissionListApi = 'commission';
+
+  // 提现订单详情
+  static const String withdrawDetailApi = 'balance/apply-commission-detail/:id';
 
   // 佣金报表列表
   static const String allWithDrawApi = 'balance/apply-commission-list';
@@ -144,6 +151,17 @@ class AgentService {
   }
 
   /*
+    提现订单详情
+   */
+  static Future<WithdrawalItemModel?> getWithdrawDetail(int id) async {
+    WithdrawalItemModel? result;
+    await HttpClient()
+        .get(withdrawDetailApi.replaceAll(':id', id.toString()))
+        .then((res) => result = WithdrawalItemModel.fromJson(res.data));
+    return result;
+  }
+
+  /*
     获取佣金报表列表
     包括提现中
    */
@@ -170,13 +188,42 @@ class AgentService {
   }
 
   /*
+    成交记录
+   */
+  static Future<Map> getCommissionList([Map<String, dynamic>? params]) async {
+    var page = (params is Map) ? params!['page'] : 1;
+    Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
+    List<AgentCommissionRecordModel> dataList = <AgentCommissionRecordModel>[];
+
+    await HttpClient()
+        .get(commissionListApi, queryParameters: params)
+        .then((response) {
+      var list = response.data;
+      list['data']?.forEach((item) {
+        dataList.add(AgentCommissionRecordModel.fromJson(item));
+      });
+      result = {
+        "dataList": dataList,
+        'total': response.data['last_page'],
+        'pageIndex': response.data['current_page']
+      };
+    });
+    return result;
+  }
+
+  /*
     申请成为代理
    */
-  static Future<bool> applyAgent([Map<String, dynamic>? params]) async {
-    bool result = false;
+  static Future<Map> applyAgent([Map<String, dynamic>? params]) async {
+    Map result = {"ok": false, "msg": ''};
     await HttpClient()
-        .post(applyAgentApi, queryParameters: null)
-        .then((response) => {result = response.ret})
+        .post(applyAgentApi, data: params)
+        .then((response) => {
+              result = {
+                "ok": response.ok,
+                "msg": response.msg ?? response.error?.message ?? '',
+              }
+            })
         .onError((error, stackTrace) => {});
 
     return result;

@@ -3,9 +3,12 @@
   区号选择、国家
 */
 
+import 'dart:async';
+
 import 'package:jiyun_app_client/common/hex_to_color.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/alphabetical_country_model.dart';
+import 'package:jiyun_app_client/models/area_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -17,7 +20,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CountryListPage extends StatefulWidget {
-  const CountryListPage({Key? key}) : super(key: key);
+  final Map? arguments;
+  const CountryListPage({Key? key, this.arguments}) : super(key: key);
 
   @override
   _CountryListPageState createState() {
@@ -45,8 +49,10 @@ class _CountryListPageState extends State<CountryListPage> {
 
   loadList(String str) async {
     EasyLoading.show(status: '搜索中...');
-    var tmp =
-        await CommonService.getCountryListByAlphabetical({'keyword': str});
+    var tmp = await CommonService.getCountryListByAlphabetical({
+      'keyword': str,
+      'warehouse_id': widget.arguments?['warehouseId'] ?? '',
+    });
 
     setState(() {
       dataList = tmp;
@@ -92,8 +98,8 @@ class _CountryListPageState extends State<CountryListPage> {
                 str: !isSearch ? '搜索' : '取消',
               ))
         ],
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
+      backgroundColor: ColorConfig.bgGray,
       body: isSearch
           ? Column(
               children: <Widget>[
@@ -125,7 +131,7 @@ class _CountryListPageState extends State<CountryListPage> {
                             child: LoadImage(
                               '',
                               fit: BoxFit.contain,
-                              holderImg: "PackageAndOrder/暂无内容@3x",
+                              holderImg: "Home/empty",
                               format: "png",
                             ),
                           ),
@@ -177,9 +183,27 @@ class _CountryListPageState extends State<CountryListPage> {
                                               ),
                                             ),
                                           ),
-                                          onTap: () {
-                                            Navigator.of(context)
-                                                .pop(cellList[index2]);
+                                          onTap: () async {
+                                            CountryModel model =
+                                                cellList[index2];
+                                            if (widget.arguments != null &&
+                                                model.areas != null &&
+                                                model.areas!.isNotEmpty) {
+                                              // 选择子区域
+                                              var data = await Navigator.push(
+                                                  context, MaterialPageRoute(
+                                                      builder: (context) {
+                                                return _AreaListPage(
+                                                  countryModel: model,
+                                                );
+                                              }));
+                                              if (data != null && data is Map) {
+                                                data['country'] = model;
+                                                Navigator.of(context).pop(data);
+                                              }
+                                            } else {
+                                              Navigator.of(context).pop(model);
+                                            }
                                           },
                                         );
                                       },
@@ -247,10 +271,126 @@ Widget phoneCodeIndexName(BuildContext context, int index, String indexName) {
     child: Caption(
       str: indexName,
     ),
-    //  Padding(
-    //   child: Text(indexName,
-    //       style: TextStyle(fontSize: 20, color: Color(0xff434343))),
-    //   padding: EdgeInsets.symmetric(vertical: 10),
-    // ),
   );
+}
+
+// 二三级区域
+class _AreaListPage extends StatefulWidget {
+  final CountryModel countryModel;
+  const _AreaListPage({
+    Key? key,
+    required this.countryModel,
+  }) : super(key: key);
+
+  @override
+  State<_AreaListPage> createState() => __AreaListPageState();
+}
+
+class __AreaListPageState extends State<_AreaListPage> {
+  final ScrollController _scrollController = ScrollController();
+
+  AreaModel? area;
+  String pageTitle = '';
+
+  // 区域列表
+  List<AreaModel>? showAreas;
+
+  @override
+  initState() {
+    super.initState();
+    getPageTitle();
+    getAreas();
+  }
+
+  void getPageTitle() {
+    setState(() {
+      if (area != null) {
+        pageTitle = area!.name;
+      } else {
+        pageTitle = widget.countryModel.name!;
+      }
+    });
+  }
+
+  void getAreas() {
+    setState(() {
+      if (area != null) {
+        showAreas = area!.areas;
+      } else {
+        showAreas = widget.countryModel.areas;
+      }
+    });
+  }
+
+  // 选择区域
+  void onArea(AreaModel model) {
+    Map<String, dynamic> params;
+    if (area == null) {
+      setState(() {
+        area = model;
+        if (model.areas != null && model.areas!.isNotEmpty) {
+          Timer(const Duration(milliseconds: 500), () {
+            getAreas();
+            getPageTitle();
+            _scrollController.jumpTo(0);
+          });
+        } else {
+          params = {"area": area};
+          Navigator.pop(context, params);
+        }
+      });
+    } else {
+      params = {"area": area, "subArea": model};
+      Navigator.pop(context, params);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: const BackButton(
+          color: Colors.black,
+        ),
+        centerTitle: true,
+        elevation: 0.5,
+        backgroundColor: Colors.white,
+        title: Caption(
+          str: pageTitle,
+          fontSize: 18,
+        ),
+      ),
+      backgroundColor: ColorConfig.bgGray,
+      body: ListView.builder(
+        controller: _scrollController,
+        itemCount: showAreas?.length ?? 0,
+        itemBuilder: (context, int index) {
+          AreaModel model = showAreas![index];
+          return Column(
+            children: [
+              ListTile(
+                title: Caption(
+                  str: model.name,
+                ),
+                tileColor: Colors.white,
+                selectedTileColor: Colors.white,
+                selectedColor: ColorConfig.primary,
+                trailing: area?.id == model.id
+                    ? const Icon(
+                        Icons.check,
+                        size: 18,
+                        color: ColorConfig.primary,
+                      )
+                    : null,
+                onTap: () {
+                  onArea(model);
+                },
+              ),
+              Gaps.line,
+            ],
+          );
+        },
+      ),
+    );
+  }
 }

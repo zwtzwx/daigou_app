@@ -28,7 +28,8 @@ import 'package:provider/provider.dart';
 */
 
 class LineQueryPage extends StatefulWidget {
-  const LineQueryPage({Key? key}) : super(key: key);
+  final Map? arguments;
+  const LineQueryPage({Key? key, this.arguments}) : super(key: key);
   @override
   LineQueryState createState() => LineQueryState();
 }
