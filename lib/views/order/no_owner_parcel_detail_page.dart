@@ -8,6 +8,7 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
+import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
 import 'package:jiyun_app_client/views/components/input/normal_input.dart';
@@ -76,25 +77,25 @@ class NoOwnerParcelDetailPageState extends State<NoOwnerParcelDetailPage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-        appBar: AppBar(
-          leading: const BackButton(color: Colors.black),
-          backgroundColor: Colors.white,
-          elevation: 0.5,
-          centerTitle: true,
-          title: const Caption(
-            str: '异常件认领',
-            color: ColorConfig.textBlack,
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
-          ),
-          systemOverlayStyle: SystemUiOverlayStyle.dark,
+      appBar: AppBar(
+        leading: const BackButton(color: Colors.black),
+        backgroundColor: Colors.white,
+        elevation: 0.5,
+        centerTitle: true,
+        title: const Caption(
+          str: '异常件认领',
+          color: ColorConfig.textBlack,
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
         ),
-        bottomNavigationBar: SafeArea(
-          child: TextButton(
-            style: ButtonStyle(
-              overlayColor: MaterialStateColor.resolveWith(
-                  (states) => Colors.transparent),
-            ),
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
+      ),
+      backgroundColor: ColorConfig.bgGray,
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 15),
+          child: MainButton(
+            text: '提交',
             onPressed: () async {
               ParcelModel? tmpParcelModel;
               if (flag) {
@@ -111,39 +112,31 @@ class NoOwnerParcelDetailPageState extends State<NoOwnerParcelDetailPage>
                 });
               }
               EasyLoading.show(status: '认领中...');
-              if (await ParcelService.setNoOwnerToMe(
-                  argusmentParcelModel.id!, tmpParcelModel)) {
-                EasyLoading.dismiss();
+              var result = await ParcelService.setNoOwnerToMe(
+                  argusmentParcelModel.id!, tmpParcelModel);
+              EasyLoading.dismiss();
+              if (result['ok']) {
                 EasyLoading.showSuccess('认领成功').then((value) {
                   Routers.pop(context);
                 });
               } else {
-                EasyLoading.dismiss();
-                Util.showToast("认领失败");
+                EasyLoading.showError(result['msg']);
               }
             },
-            child: Container(
-              decoration: BoxDecoration(
-                  color: ColorConfig.warningText,
-                  borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-                  border: Border.all(width: 1, color: ColorConfig.warningText)),
-              alignment: Alignment.center,
-              height: 40,
-              child: const Caption(
-                str: '提交',
-              ),
-            ),
           ),
         ),
-        body: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).requestFocus(FocusNode());
-            },
-            child: SingleChildScrollView(
-              child: Container(
-                child: buildSubViews(),
-              ),
-            )));
+      ),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: SingleChildScrollView(
+          child: Container(
+            child: buildSubViews(),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget buildSubViews() {
@@ -151,18 +144,8 @@ class NoOwnerParcelDetailPageState extends State<NoOwnerParcelDetailPage>
       children: <Widget>[
         Row(
           children: <Widget>[
-            Container(
-              width: 50,
-              padding: const EdgeInsets.only(left: 15),
-              alignment: Alignment.center,
-              child: const ImageIcon(
-                AssetImage("assets/images/PackageAndOrder/付款码@3x.png"),
-                color: ColorConfig.warningText,
-                size: 20,
-              ),
-            ),
             SizedBox(
-              width: ScreenUtil().screenWidth - 50,
+              width: ScreenUtil().screenWidth,
               child: InputTextItem(
                   leftFlex: 3,
                   rightFlex: 8,
@@ -182,7 +165,7 @@ class NoOwnerParcelDetailPageState extends State<NoOwnerParcelDetailPage>
                               flex: 6,
                               child: NormalInput(
                                 hintText: "请输入中间单号",
-                                contentPadding: const EdgeInsets.only(top: 15),
+                                contentPadding: const EdgeInsets.only(top: 17),
                                 textAlign: TextAlign.left,
                                 controller: _projectNameController,
                                 focusNode: _projectName,
@@ -219,7 +202,7 @@ class NoOwnerParcelDetailPageState extends State<NoOwnerParcelDetailPage>
                   width: 100,
                   child: Switch.adaptive(
                     value: flag,
-                    activeColor: ColorConfig.warningText,
+                    activeColor: ColorConfig.primary,
                     onChanged: (value) {
                       setState(() {
                         flag = value;

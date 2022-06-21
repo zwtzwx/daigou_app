@@ -10,6 +10,7 @@ import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/profile_updated_event.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
+import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/input/normal_input.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
@@ -37,9 +38,6 @@ class MyProfilePageState extends State<MyProfilePage>
   bool isloading = false;
   UserModel? userModel;
 
-  // 联系电话
-  final TextEditingController _mobileNumberController = TextEditingController();
-
   // 微信号
   final TextEditingController _weChatNumberController = TextEditingController();
   final FocusNode _weChatNumber = FocusNode();
@@ -56,10 +54,10 @@ class MyProfilePageState extends State<MyProfilePage>
   }
 
   created() async {
+    EasyLoading.show();
     userModel = await UserService.getProfile();
-
+    EasyLoading.dismiss();
     setState(() {
-      _mobileNumberController.text = userModel!.phone ?? '';
       _cityNameController.text = userModel!.liveCity;
       _weChatNumberController.text = userModel!.wechatId;
 
@@ -157,33 +155,30 @@ class MyProfilePageState extends State<MyProfilePage>
                         ),
                       ),
                       Gaps.line,
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          color: ColorConfig.white,
-                          height: 55,
-                          padding: const EdgeInsets.only(left: 10, right: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    color: ColorConfig.white,
-                                    height: 55,
-                                    width: 90,
-                                    alignment: Alignment.centerLeft,
-                                    child: const Caption(
-                                      str: '用户ID',
-                                    ),
+                      Container(
+                        color: ColorConfig.white,
+                        height: 55,
+                        padding: const EdgeInsets.only(left: 10, right: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  color: ColorConfig.white,
+                                  height: 55,
+                                  width: 90,
+                                  alignment: Alignment.centerLeft,
+                                  child: const Caption(
+                                    str: '用户ID',
                                   ),
-                                  Caption(
-                                    str: userModel!.id.toString(),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                                Caption(
+                                  str: userModel!.id.toString(),
+                                )
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                       Gaps.line,
@@ -274,7 +269,6 @@ class MyProfilePageState extends State<MyProfilePage>
                       //     ),
                       //   ),
                       // ),
-                      Gaps.line,
                       GestureDetector(
                         onTap: () {
                           Routers.push(
@@ -319,7 +313,7 @@ class MyProfilePageState extends State<MyProfilePage>
                                     )
                                   : const Caption(
                                       str: '更改手机',
-                                      color: ColorConfig.warningTextDark,
+                                      color: ColorConfig.primary,
                                     )
                             ],
                           ),
@@ -378,7 +372,7 @@ class MyProfilePageState extends State<MyProfilePage>
                                     )
                                   : const Caption(
                                       str: '更改邮箱',
-                                      color: ColorConfig.warningTextDark,
+                                      color: ColorConfig.primary,
                                     )
                             ],
                           ),
@@ -483,27 +477,15 @@ class MyProfilePageState extends State<MyProfilePage>
                         ),
                       ),
                       Gaps.line,
-                      Gaps.vGap15,
-                      TextButton(
-                        style: ButtonStyle(
-                          overlayColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.transparent),
+                      Gaps.vGap20,
+                      SizedBox(
+                        width: ScreenUtil().screenWidth - 30,
+                        height: 40,
+                        child: MainButton(
+                          text: '确认',
+                          onPressed: onSubmit,
                         ),
-                        onPressed: onSubmit,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: ColorConfig.warningText,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(20.0)),
-                              border: Border.all(
-                                  width: 1, color: ColorConfig.warningText)),
-                          alignment: Alignment.center,
-                          height: 40,
-                          child: const Caption(
-                            str: '确认',
-                          ),
-                        ),
-                      )
+                      ),
                     ],
                   ),
                 ),

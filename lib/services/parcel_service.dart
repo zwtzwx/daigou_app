@@ -115,13 +115,18 @@ class ParcelService {
   /*
     认领异常件
    */
-  static Future<bool> setNoOwnerToMe(int id, ParcelModel parcel) async {
-    bool result = false;
+  static Future<Map> setNoOwnerToMe(int id, ParcelModel parcel) async {
+    Map result = {'ok': false, 'msg': ''};
     await HttpClient().put(noOwnerOneApi.replaceAll(':id', id.toString()),
         queryParameters: {
           "express_num": parcel.expressNum,
           "sync_id": parcel.id
-        }).then((response) => {result = response.ok});
+        }).then((response) => {
+          result = {
+            'ok': response.ok,
+            'msg': response.msg ?? response.error?.message,
+          }
+        });
 
     return result;
   }

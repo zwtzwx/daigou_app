@@ -169,6 +169,17 @@ class WareHouseAddressState extends State<WareHouseAddress>
                 ),
                 Gaps.vGap10,
                 GestureDetector(
+                  onTap: () {
+                    if (index == 0) {
+                      ApplicationEvent.getInstance()
+                          .event
+                          .fire(ChangePageIndexEvent(pageName: 'middle'));
+                    } else if (index == 1) {
+                      Routers.push('/InWarehouseParcelListPage', context);
+                    } else {
+                      Routers.push('/OrderListPage', context, {'index': 2});
+                    }
+                  },
                   child: DottedBorder(
                     radius: const Radius.circular(5),
                     color: ColorConfig.primary,

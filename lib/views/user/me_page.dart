@@ -351,89 +351,100 @@ class MePageState extends State<MePage> {
               ],
             ),
             Gaps.vGap20,
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFFf3e4bb), Color(0xFFd1bb7f)],
-                ),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        Routers.push('/VipCenterPage', context);
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Row(
-                          children: [
-                            const LoadImage(
-                              'AboutMe/V',
-                              width: 28,
-                              height: 28,
-                            ),
-                            Gaps.hGap15,
-                            const Caption(
-                              str: '等级',
-                              color: ColorConfig.vipNormal,
-                            ),
-                            Gaps.hGap15,
-                            Caption(
-                              str: userVipModel?.profile.levelName ?? '',
-                              fontWeight: FontWeight.bold,
-                              color: ColorConfig.vipNormal,
-                            )
-                          ],
-                        ),
+            (userVipModel?.pointStatus == 1 ||
+                    userVipModel?.growthValueStatus == 1)
+                ? Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 30),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFf3e4bb), Color(0xFFd1bb7f)],
                       ),
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        Routers.push('/MyPointPage', context);
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 15,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  left:
-                                      BorderSide(color: HexToColor('#f3e4ba')),
+                    child: Row(
+                      children: [
+                        userVipModel?.pointStatus == 1
+                            ? Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Routers.push('/VipCenterPage', context);
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      children: [
+                                        const LoadImage(
+                                          'AboutMe/V',
+                                          width: 28,
+                                          height: 28,
+                                        ),
+                                        Gaps.hGap15,
+                                        const Caption(
+                                          str: '等级',
+                                          color: ColorConfig.vipNormal,
+                                        ),
+                                        Gaps.hGap15,
+                                        Caption(
+                                          str:
+                                              userVipModel?.profile.levelName ??
+                                                  '',
+                                          fontWeight: FontWeight.bold,
+                                          color: ColorConfig.vipNormal,
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            const LoadImage(
-                              'AboutMe/jf',
-                              width: 28,
-                              height: 28,
-                            ),
-                            Gaps.hGap15,
-                            const Caption(
-                              str: '积分',
-                              color: ColorConfig.vipNormal,
-                            ),
-                            Gaps.hGap15,
-                            Caption(
-                              str: '${userVipModel?.profile.point ?? ''}',
-                              fontWeight: FontWeight.bold,
-                              color: ColorConfig.vipNormal,
-                            )
-                          ],
-                        ),
-                      ),
+                              )
+                            : Gaps.empty,
+                        userVipModel?.growthValueStatus == 1
+                            ? Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Routers.push('/MyPointPage', context);
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 15,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                            border: Border(
+                                              left: BorderSide(
+                                                  color: HexToColor('#f3e4ba')),
+                                            ),
+                                          ),
+                                        ),
+                                        const LoadImage(
+                                          'AboutMe/jf',
+                                          width: 28,
+                                          height: 28,
+                                        ),
+                                        Gaps.hGap15,
+                                        const Caption(
+                                          str: '积分',
+                                          color: ColorConfig.vipNormal,
+                                        ),
+                                        Gaps.hGap15,
+                                        Caption(
+                                          str:
+                                              '${userVipModel?.profile.point ?? ''}',
+                                          fontWeight: FontWeight.bold,
+                                          color: ColorConfig.vipNormal,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Gaps.empty,
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            ),
+                  )
+                : Gaps.empty,
           ],
         ));
     return headerView;

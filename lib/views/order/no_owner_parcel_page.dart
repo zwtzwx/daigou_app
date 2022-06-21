@@ -10,6 +10,7 @@ import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/list_refresh_event.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
+import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:jiyun_app_client/views/components/search_bar.dart';
@@ -45,6 +46,7 @@ class NoOwnerParcelPageState extends State<NoOwnerParcelPage> {
           ),
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
+        backgroundColor: ColorConfig.bgGray,
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
@@ -55,7 +57,6 @@ class NoOwnerParcelPageState extends State<NoOwnerParcelPage> {
               Expanded(
                 child: Container(
                   child: buildListView(context),
-                  color: ColorConfig.bgGray,
                 ),
               )
             ],
@@ -84,6 +85,7 @@ class NoOwnerParcelPageState extends State<NoOwnerParcelPage> {
   Widget headerView() {
     return Container(
       padding: const EdgeInsets.only(right: 5, left: 5),
+      color: Colors.white,
       child: SearchBar(
         controller: _controller,
         focusNode: _focusNode,
@@ -121,84 +123,60 @@ class NoOwnerParcelPageState extends State<NoOwnerParcelPage> {
 
   Widget buildCellList(int index, ParcelModel model) {
     return Container(
-        margin: const EdgeInsets.only(left: 15, top: 10, right: 15),
-        height: 80,
-        color: ColorConfig.bgGray,
-        child: Container(
-          color: ColorConfig.white,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      margin: const EdgeInsets.only(left: 15, top: 10, right: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+      color: ColorConfig.white,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              Container(
+                alignment: Alignment.center,
+                child: const ImageIcon(
+                  const AssetImage("assets/images/PackageAndOrder/tag.png"),
+                  color: ColorConfig.primary,
+                  size: 20,
+                ),
+              ),
+              Gaps.hGap5,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(left: 15),
-                    alignment: Alignment.center,
-                    child: const ImageIcon(
-                      const AssetImage(
-                          "assets/images/PackageAndOrder/付款码@3x.png"),
-                      color: ColorConfig.warningText,
-                      size: 20,
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: <Widget>[
-                      Gaps.vGap16,
-                      Row(
-                        children: <Widget>[
-                          Gaps.hGap10,
-                          const Caption(
-                            str: '快递单号：',
-                            fontSize: 14,
-                          ),
-                          Caption(
-                            str: model.expressNum ?? "",
-                            fontSize: 14,
-                          ),
-                        ],
+                      const Caption(
+                        str: '快递单号：',
+                        fontSize: 14,
                       ),
-                      Gaps.vGap4,
-                      Row(
-                        children: <Widget>[
-                          Gaps.hGap10,
-                          Caption(
-                            str: '入库时间：' + (model.inStorageAt ?? ""),
-                            fontSize: 13,
-                            color: ColorConfig.textGray,
-                          )
-                        ],
+                      Caption(
+                        str: model.expressNum ?? "",
+                        fontSize: 14,
                       ),
                     ],
                   ),
+                  Gaps.vGap4,
+                  Caption(
+                    str: '入库时间：' + (model.inStorageAt ?? ""),
+                    fontSize: 13,
+                    color: ColorConfig.textGray,
+                  ),
                 ],
               ),
-              GestureDetector(
-                onTap: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  Routers.push(
-                      '/NoOwnerParcelDetailPage', context, {'order': model});
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 40,
-                  decoration: const BoxDecoration(
-                    color: ColorConfig.warningText,
-                    borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-                  ),
-                  margin: const EdgeInsets.only(right: 10, left: 10),
-                  padding: const EdgeInsets.only(
-                      right: 20, left: 20, top: 5, bottom: 5),
-                  child: const Caption(
-                    str: '认领',
-                    fontSize: 20,
-                    color: ColorConfig.textDark,
-                  ),
-                ),
-              )
             ],
           ),
-        ));
+          SizedBox(
+            child: MainButton(
+              text: '认领',
+              onPressed: () {
+                Routers.push(
+                    '/NoOwnerParcelDetailPage', context, {'order': model});
+              },
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
