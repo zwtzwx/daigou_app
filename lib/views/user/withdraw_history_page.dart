@@ -15,11 +15,11 @@ import 'package:jiyun_app_client/services/agent_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+/*
+  佣金报表
+ */
 class WithdrawHistoryPage extends StatefulWidget {
   const WithdrawHistoryPage({Key? key}) : super(key: key);
 
@@ -105,6 +105,9 @@ class WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
       children: [
         Expanded(
           child: GestureDetector(
+            onTap: () {
+              Routers.push('/ApplyWithDrawPage', context);
+            },
             child: Container(
               height: 65,
               alignment: Alignment.center,

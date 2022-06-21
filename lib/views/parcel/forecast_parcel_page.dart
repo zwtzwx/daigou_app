@@ -578,7 +578,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                           model.expressName ?? courierName,
                           style: model.expressName != null
                               ? TextConfig.textDark14
-                              : TextConfig.textGray16,
+                              : TextConfig.textGray14,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(

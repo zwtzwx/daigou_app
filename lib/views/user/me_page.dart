@@ -314,19 +314,31 @@ class MePageState extends State<MePage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SizedBox(
-                      height: 24,
-                      child: Caption(
-                        alignment: TextAlign.center,
-                        str: userModel.name,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: ColorConfig.textDark,
-                      ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          child: Caption(
+                            alignment: TextAlign.center,
+                            str: userModel.name,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: ColorConfig.textDark,
+                          ),
+                        ),
+                        Gaps.hGap5,
+                        [1, 4].contains(agentStatus?.id)
+                            ? LoadImage(
+                                agentStatus?.id == 1
+                                    ? 'AboutMe/agent'
+                                    : 'AboutMe/agent-disabled',
+                                width: 20,
+                                height: 20,
+                              )
+                            : Gaps.empty,
+                      ],
                     ),
-                    Gaps.vGap10,
+                    Gaps.vGap5,
                     SizedBox(
-                      height: 24,
                       child: Caption(
                         alignment: TextAlign.center,
                         str: 'ID: ${userModel.id}',
@@ -480,43 +492,33 @@ class MePageState extends State<MePage> {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    // 合伙人
-                    if (agentStatus?.id == 2) {
-                      return;
-                    }
-                    if (agentStatus?.id == 3 || agentStatus?.id == 0) {
-                      Routers.push('/RegisterAgentPage', context);
-                    } else {
-                      if (agentStatus?.id == 1) {
-                        Routers.push('/WithdrawHistoryPage', context);
-                      } else {
-                        Routers.push('/RegisterAgentPage', context);
-                      }
-                    }
-                  },
-                  child: SizedBox(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Caption(
-                          str: isloading && userOrderModel != null
-                              ? userOrderModel!.commissionSum!
-                                  .toStringAsFixed(2)
-                              : '0.00',
-                          fontSize: 22,
+                agentStatus?.id == 1
+                    ? GestureDetector(
+                        onTap: () {
+                          Routers.push('/WithdrawHistoryPage', context);
+                        },
+                        child: SizedBox(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Caption(
+                                str: isloading && userOrderModel != null
+                                    ? userOrderModel!.commissionSum!
+                                        .toStringAsFixed(2)
+                                    : '0.00',
+                                fontSize: 22,
+                              ),
+                              Gaps.vGap15,
+                              const Caption(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                str: '佣金收入',
+                              ),
+                            ],
+                          ),
                         ),
-                        Gaps.vGap15,
-                        const Caption(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          str: '佣金收入',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                      )
+                    : Gaps.empty,
                 GestureDetector(
                     onTap: () {
                       // 优惠券

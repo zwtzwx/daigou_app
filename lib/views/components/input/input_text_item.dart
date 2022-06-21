@@ -1,6 +1,7 @@
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
 import 'package:flutter/material.dart';
+import 'package:jiyun_app_client/views/components/caption.dart';
 
 class InputTextItem extends StatefulWidget {
   const InputTextItem(
@@ -12,6 +13,8 @@ class InputTextItem extends StatefulWidget {
       this.margin,
       this.leftFlex = 1,
       this.rightFlex = 3,
+      this.isRequired = false,
+      this.alignment = CrossAxisAlignment.center,
       this.height = 55.0})
       : super(key: key);
 
@@ -23,6 +26,8 @@ class InputTextItem extends StatefulWidget {
   final EdgeInsets? padding;
   final EdgeInsets? margin;
   final double height;
+  final bool isRequired;
+  final CrossAxisAlignment alignment;
 
   @override
   _InputTextItemState createState() => _InputTextItemState();
@@ -47,22 +52,28 @@ class _InputTextItemState extends State<InputTextItem> {
                   color: ColorConfig.line, width: widget.flag ? 1 : 0),
             )),
         child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: widget.alignment,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Expanded(
                   flex: widget.leftFlex,
                   child: Container(
                     margin: const EdgeInsets.only(
-                      left: 10.0,
-                      top: 15.0,
-                      bottom: 15.0,
+                      left: 15.0,
                     ),
-                    child: Text(
-                      widget.title,
-                      style: TextConfig.textDark14,
-                      textAlign: TextAlign.justify,
+                    child: Row(
+                      children: [
+                        widget.isRequired
+                            ? const Caption(
+                                str: '*',
+                                color: ColorConfig.textRed,
+                              )
+                            : Gaps.empty,
+                        Text(
+                          widget.title,
+                          style: TextConfig.textDark14,
+                        ),
+                      ],
                     ),
                   )),
               Expanded(

@@ -6,6 +6,10 @@ import 'package:jiyun_app_client/services/agent_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/list_refresh.dart';
 
+/*
+  佣金成交记录
+ */
+
 class WithdrawCommissionPage extends StatefulWidget {
   const WithdrawCommissionPage({Key? key}) : super(key: key);
 

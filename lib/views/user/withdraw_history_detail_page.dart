@@ -10,6 +10,9 @@ import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:provider/provider.dart';
 
+/*
+  佣金报表详情
+ */
 class WithdrawHistoryDetailPage extends StatefulWidget {
   final Map arguments;
   const WithdrawHistoryDetailPage({Key? key, required this.arguments})

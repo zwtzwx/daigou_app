@@ -35,7 +35,6 @@ import 'package:jiyun_app_client/views/user/agent_page.dart';
 import 'package:jiyun_app_client/views/user/apply_withdraw_success_page.dart';
 import 'package:jiyun_app_client/views/user/balance_history_page.dart';
 import 'package:jiyun_app_client/views/user/change_mobile_email_page.dart';
-import 'package:jiyun_app_client/views/user/commission_report_page.dart';
 import 'package:jiyun_app_client/views/user/forget_password_page.dart';
 import 'package:jiyun_app_client/views/user/login_page.dart';
 import 'package:jiyun_app_client/views/user/my_coupon_page.dart';
@@ -57,7 +56,7 @@ import 'package:jiyun_app_client/views/user/apply_withdraw_page.dart';
 import 'package:jiyun_app_client/views/user/my_point_page.dart';
 import 'package:jiyun_app_client/views/user/recharge_page.dart';
 import 'package:jiyun_app_client/views/user/vip_center_page.dart';
-import 'package:jiyun_app_client/views/user/withdraw_user_info_page.dart';
+import 'package:jiyun_app_client/views/user/withdraw_info_page.dart';
 import 'package:jiyun_app_client/views/webview/webview_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -134,7 +133,6 @@ class Routers {
     '/ApplyWithDrawPage': (context) => const ApplyWithDrawPage(), //提现界面
     // '/BalanceTopUpPage': (context) => BalanceTopUpPage(),
     '/CouponPage': (context, {arguments}) => MyCouponPage(arguments: arguments),
-    '/CommissionReportPage': (context) => const CommissionReportPage(),
     '/TransactionPage': (context) => const TransactionPage(),
     // '/MyPromotionPage': (context) => MyPromotionPage(),
     // '/CommissionDetailPage': (context, {arguments}) =>
@@ -143,8 +141,8 @@ class Routers {
     '/WithdrawHistoryDetailPage': (context, {arguments}) =>
         WithdrawHistoryDetailPage(arguments: arguments),
     '/WithdrawCommissionPage': (context) => const WithdrawCommissionPage(),
-    '/WithdrawlUserInfoPage': (context, {arguments}) =>
-        WithdrawlUserInfoPage(arguments: arguments),
+    '/WithdrawlInfoPage': (context, {arguments}) =>
+        WithdrawlInfoPage(arguments: arguments),
     // '/DealRecordPage': (context) => DealRecordPage(),
     '/MyProfilePage': (context, {arguments}) => const MyProfilePage(),
     '/ChangeMobileEmailPage': (context, {arguments}) =>
