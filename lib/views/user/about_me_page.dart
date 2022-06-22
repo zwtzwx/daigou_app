@@ -96,13 +96,13 @@ class AboutMePageState extends State<AboutMePage> {
                   alignment: Alignment.center,
                   padding: const EdgeInsets.only(top: 10),
                   child: const Caption(
-                    str: '海鸥集运系统',
+                    str: '包裹集运系统',
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
                 Gaps.vGap10,
-                const Text('        海鸥集运系统是深圳通晓网络科技有限公司旗下的软件品牌。'),
+                const Text('        包裹集运系统是深圳通晓网络科技有限公司旗下的软件品牌。'),
                 const Text(
                     '        深圳通晓网络科技有限公司（以下简称通晓科技）是一家专业专注服务于跨境供应链高科技企业，公司成立前身及创始人和原班团队已经在跨境物流、电商、仓储行业有了多年的软件研发实施经验，同时早期产品已经成熟运行于市场多年，并有很多的客户经验及沉淀技术基础。'),
                 const Text(
@@ -111,7 +111,7 @@ class AboutMePageState extends State<AboutMePage> {
                     '        通晓科技以物流供应商的信息化建设者，智慧供应链开拓者为公司愿景，提供跨境物流专线FBA系统，国际小包系统，国际集运系统、智慧云仓系统、商城系统、配送系统等解决方案，并与之相关的系统能完整打通形成完整的供应链的整体解决方案。'),
                 const Text('        通晓科技总部位于深圳，软件研发中心位于长沙，在广州等多地也有办事处。'),
                 const Text(
-                    '        海鸥集运系统作为通晓科技软件品牌，将着力于打通跨境供应链各个环节，为跨境供应链企业提高工作效率，降低软件使用成本，降低软件难度为使命，为更多的企业服务。'),
+                    '        包裹集运系统作为通晓科技软件品牌，将着力于打通跨境供应链各个环节，为跨境供应链企业提高工作效率，降低软件使用成本，降低软件难度为使命，为更多的企业服务。'),
                 const Text('        欢迎体验咨询，联系电话：15576601706'),
                 Gaps.vGap20,
               ],

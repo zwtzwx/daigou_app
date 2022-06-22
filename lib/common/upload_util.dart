@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class UploadUtil {
           maxHeight: 800,
         );
         if (croppedFile != null) {
-          EasyLoading.show(status: '上传中');
+          EasyLoading.show(status: Translation.t(context, '上传中'));
           String imageUrl =
               await CommonService.uploadImage(File(croppedFile.path));
           EasyLoading.dismiss();
@@ -79,13 +80,13 @@ class UploadUtil {
                   ],
             uiSettings: [
               AndroidUiSettings(
-                  toolbarTitle: '编辑图片',
+                  toolbarTitle: Translation.t(context, '编辑图片'),
                   toolbarColor: Colors.deepOrange,
                   toolbarWidgetColor: Colors.white,
                   initAspectRatio: CropAspectRatioPreset.original,
                   lockAspectRatio: false),
               IOSUiSettings(
-                title: '编辑图片',
+                title: Translation.t(context, '编辑图片'),
               ),
             ]);
         if (croppedFile != null) {

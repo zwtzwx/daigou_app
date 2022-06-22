@@ -1,3 +1,4 @@
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/model.dart';
@@ -111,7 +112,7 @@ class TabBarState extends State<MainController> {
                     width: 26,
                     height: 26,
                   ),
-                  label: "首页",
+                  label: Translation.t(context, '首页', listen: true),
                   activeIcon: Image.asset(
                     'assets/images/TabbarIcon/home-s.png',
                     width: 26,
@@ -124,28 +125,18 @@ class TabBarState extends State<MainController> {
                       width: 26,
                       height: 26,
                     ),
-                    label: "包裹",
+                    label: Translation.t(context, '包裹', listen: true),
                     activeIcon: Image.asset(
                       'assets/images/TabbarIcon/box-s.png',
                       width: 26,
                       height: 26,
                     )),
-                const BottomNavigationBarItem(
-                  // icon: BuildNumWidget.buildNonalCarWidget(
-                  //     Image.asset(
-                  //       'assets/images/TabbarIcon/yb.png',
-                  //       width: 26,
-                  //       height: 26,
-                  //     ),
-                  //     14.0,
-                  //     0,
-                  //     Colors.blue,
-                  //     Colors.white38),
-                  icon: SizedBox(
+                BottomNavigationBarItem(
+                  icon: const SizedBox(
                     width: 26,
                     height: 26,
                   ),
-                  label: "包裹预报",
+                  label: Translation.t(context, '包裹预报', listen: true),
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset(
@@ -153,7 +144,7 @@ class TabBarState extends State<MainController> {
                     width: 26,
                     height: 26,
                   ),
-                  label: "仓库",
+                  label: Translation.t(context, '仓库', listen: true),
                   activeIcon: Image.asset(
                     'assets/images/TabbarIcon/ck-s.png',
                     width: 26,
@@ -166,7 +157,7 @@ class TabBarState extends State<MainController> {
                       width: 26,
                       height: 26,
                     ),
-                    label: "我的",
+                    label: Translation.t(context, '我的', listen: true),
                     activeIcon: Image.asset(
                       'assets/images/TabbarIcon/me-s.png',
                       width: 26,

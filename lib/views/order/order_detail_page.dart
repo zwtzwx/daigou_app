@@ -129,6 +129,8 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                     Gaps.vGap10,
                     model!.remark.isNotEmpty ? remarkView() : Gaps.empty,
                     baseInfoView(),
+                    Gaps.vGap10,
+                    valueInfoView(),
                   ],
                   // children: returnSubView(),
                 ),
@@ -284,9 +286,58 @@ class OrderDetailPageState extends State<OrderDetailPage> {
     );
   }
 
-  Widget baseInfoItem(String label, String? content) {
+  // 订单价格
+  Widget valueInfoView() {
+    // 订单增值服务列表
+    num valueAddAmount = num.parse(model!.valueAddedAmount ?? '');
+    return Container(
+      color: Colors.white,
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+      child: Column(
+        children: [
+          model!.insuranceFee > 0
+              ? baseInfoItem('保险费', '+${getPriceStr(model!.insuranceFee)}')
+              : Gaps.empty,
+          model!.tariffFee > 0
+              ? baseInfoItem('关税', '+${getPriceStr(model!.tariffFee)}')
+              : Gaps.empty,
+          Column(
+            children: [
+              baseInfoItem(
+                '订单增值服务',
+                model!.valueAddedService.isNotEmpty
+                    ? '+${getPriceStr(valueAddAmount)}'
+                    : null,
+                bottom: 0,
+              ),
+            ],
+          ),
+          Gaps.vGap15,
+          model!.lineRuleFee > 0
+              ? baseInfoItem('渠道规则费', '+${getPriceStr(model!.lineRuleFee)}')
+              : Gaps.empty,
+          model!.lineServices.isNotEmpty
+              ? Column(
+                  children: [
+                    baseInfoItem(
+                      '渠道增值服务',
+                      model!.valueAddedService.isNotEmpty
+                          ? '+${getPriceStr(valueAddAmount)}'
+                          : null,
+                      bottom: 0,
+                    ),
+                  ],
+                )
+              : Gaps.empty,
+        ],
+      ),
+    );
+  }
+
+  Widget baseInfoItem(String label, String? content, {double? bottom}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
+      padding: EdgeInsets.only(bottom: bottom ?? 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -300,6 +351,10 @@ class OrderDetailPageState extends State<OrderDetailPage> {
         ],
       ),
     );
+  }
+
+  String getPriceStr(num price) {
+    return localizationInfo!.currencySymbol + (price / 100).toStringAsFixed(2);
   }
 
   bottomButton() {
@@ -618,6 +673,10 @@ class OrderDetailPageState extends State<OrderDetailPage> {
               ),
               Gaps.hGap15,
               GestureDetector(
+                onTap: () {
+                  Clipboard.setData(ClipboardData(text: model?.orderSn))
+                      .then((value) => {EasyLoading.showSuccess('复制成功')});
+                },
                 child: const LoadImage(
                   'PackageAndOrder/copy-icon',
                   width: 20,

@@ -29,10 +29,7 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
     super.initState();
     loadData();
     ApplicationEvent.getInstance().event.on<HomeRefreshEvent>().listen((event) {
-      setState(() {
-        _isLoading = false;
-        loadData();
-      });
+      loadData();
     });
   }
 

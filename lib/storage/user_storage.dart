@@ -7,7 +7,6 @@ class UserStorage {
   static String tokenSpKey = "jiyun-token";
   static String userInfo = 'jiyun-user-info';
   static String agentStatus = 'agentStatus';
-  static String environmentKey = 'environment';
 
   static Future<void> clearToken() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
@@ -39,15 +38,5 @@ class UserStorage {
   static Future<bool> setUserInfo(UserModel v) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     return sp.setString(userInfo, jsonEncode(v.toJson()));
-  }
-
-  static Future<bool> setEnvironment(String data) async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    return sp.setString(environmentKey, data);
-  }
-
-  static Future<String> getEnvironment() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    return sp.getString(environmentKey) ?? 'production';
   }
 }

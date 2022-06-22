@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 
@@ -12,7 +13,7 @@ Widget TitleCell(BuildContext context, String title, Function onMore) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
-          title,
+          Translation.t(context, title, listen: true),
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -26,7 +27,7 @@ Widget TitleCell(BuildContext context, String title, Function onMore) {
           child: Row(
             children: [
               Caption(
-                str: '更多',
+                str: Translation.t(context, '更多', listen: true),
                 fontSize: ScreenUtil().setSp(12),
                 color: ColorConfig.main,
               ),

@@ -2,6 +2,7 @@
   订单包裹等按钮列表
   */
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:flutter/material.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
@@ -30,7 +31,7 @@ Widget QuickLinkCell(BuildContext context, String fansUrl) {
             childAspectRatio: 7 / 4,
           ), // 宽高比例
           itemCount: 3,
-          itemBuilder: _buildGrideBtnView(fansUrl),
+          itemBuilder: _buildGrideBtnView(context, fansUrl),
         ),
         GestureDetector(
           onTap: () {
@@ -47,14 +48,14 @@ Widget QuickLinkCell(BuildContext context, String fansUrl) {
             ),
           ),
         ),
-        buildCustomerServiceView(),
+        buildCustomerServiceView(context),
       ],
     ),
   );
 }
 
 // 客服
-Widget buildCustomerServiceView() {
+Widget buildCustomerServiceView(context) {
   return GestureDetector(
     onTap: () {
       fluwx.isWeChatInstalled.then((installed) {
@@ -65,13 +66,12 @@ Widget buildCustomerServiceView() {
                   corpId: 'ww82affb1cf55e55e0')
               .then((data) {});
         } else {
-          Util.showToast("请先安装微信");
+          Util.showToast(Translation.t(context, '请先安装微信'));
         }
       });
     },
     child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      height: 45,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -89,15 +89,18 @@ Widget buildCustomerServiceView() {
               right: 10,
             ),
             child: Caption(
-              str: '寄件咨询',
+              str: Translation.t(context, '寄件咨询', listen: true),
               fontSize: ScreenUtil().setSp(15),
               fontWeight: FontWeight.bold,
             ),
           ),
-          Caption(
-            str: '物品能不能寄？运费多少？时效多久？',
-            fontSize: ScreenUtil().setSp(12),
-            color: ColorConfig.main,
+          Expanded(
+            child: Caption(
+              str: Translation.t(context, '物品能不能寄运费多少时效多久', listen: true),
+              fontSize: ScreenUtil().setSp(12),
+              color: ColorConfig.main,
+              lines: 3,
+            ),
           ),
         ],
       ),
@@ -105,26 +108,26 @@ Widget buildCustomerServiceView() {
   );
 }
 
-IndexedWidgetBuilder _buildGrideBtnView(String fansUrl) {
+IndexedWidgetBuilder _buildGrideBtnView(context, String fansUrl) {
   List<Map> listDes = [
     {
-      'title': '我要直邮',
+      'title': Translation.t(context, '我要直邮', listen: true),
       'titleColor': ColorConfig.primary,
-      'label': '马上买',
+      'label': Translation.t(context, '马上买', listen: true),
       'labelColor': const Color(0xFF838EED),
       'img': 'assets/images/Home/direct-go.png',
     },
     {
-      'title': '我要拼邮',
+      'title': Translation.t(context, '我要拼邮', listen: true),
       'titleColor': const Color(0xFFF06838),
-      'label': '马上拼',
+      'label': Translation.t(context, '马上拼', listen: true),
       'labelColor': const Color(0xFFEE8764),
       'img': 'assets/images/Home/splic.png',
     },
     {
-      'title': '帮助支持',
+      'title': Translation.t(context, '帮助支持', listen: true),
       'titleColor': const Color(0xFF499A6A),
-      'label': '帮助我',
+      'label': Translation.t(context, '帮助我', listen: true),
       'labelColor': const Color(0xFF499A6A),
       'img': 'assets/images/Home/direct.png',
     },

@@ -335,27 +335,13 @@ class OrderCommentPageState extends State<OrderCommentPage> {
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            child: Row(
-              children: [
-                const SizedBox(
-                  child: LoadImage(
-                    '',
-                    fit: BoxFit.fitWidth,
-                    width: 20,
-                    height: 20,
-                    holderImg: 'PackageAndOrder/异常件认领@3x',
-                    format: "png",
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(
-                    left: 5,
-                  ),
-                  child: Text(
-                    tips,
-                  ),
-                )
-              ],
+            child: Container(
+              margin: const EdgeInsets.only(
+                left: 5,
+              ),
+              child: Text(
+                tips,
+              ),
             ),
           ),
           Container(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/ship_line_model.dart';
-import 'package:jiyun_app_client/models/ship_line_price_model.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 
 // ignore: non_constant_identifier_names
@@ -60,7 +60,8 @@ Widget ShipLineItem(BuildContext context, ShipLineModel lineItem,
                         color: ColorConfig.textGray,
                       ),
                       Container(
-                        child: getSecondLineDetail(lineItem, localModel),
+                        child:
+                            getSecondLineDetail(context, lineItem, localModel),
                       ),
                     ],
                   ),
@@ -70,7 +71,9 @@ Widget ShipLineItem(BuildContext context, ShipLineModel lineItem,
                   width: ScreenUtil().screenWidth - 60,
                   margin: const EdgeInsets.only(left: 10),
                   child: Caption(
-                    str: '接受：' + propStr,
+                    str: Translation.t(context, '接受', listen: true) +
+                        '：' +
+                        propStr,
                     fontSize: 15,
                   ),
                 )
@@ -82,7 +85,7 @@ Widget ShipLineItem(BuildContext context, ShipLineModel lineItem,
 }
 
 Widget getSecondLineDetail(
-    ShipLineModel linedata, LocalizationModel? localModel) {
+    context, ShipLineModel linedata, LocalizationModel? localModel) {
   // String strDetail = '';
   List<String> datalist = [];
   String contentSymbol =
@@ -103,26 +106,29 @@ Widget getSecondLineDetail(
   if (linedata.mode == 1 || linedata.mode == 4) {
     // 1 首重续重
     datalist = [
-      '首费(' + (weight / 1000).toStringAsFixed(2) + '$contentSymbol)：',
+      Translation.t(context, '首费', listen: true) +
+          '(' +
+          (weight / 1000).toStringAsFixed(2) +
+          '$contentSymbol)：',
       localModel!.currencySymbol + (price / 100).toStringAsFixed(2),
     ];
   } else if (linedata.mode == 2) {
     // 2 阶梯价格
     if (price == 0) {
       datalist = [
-        '价格：',
+        Translation.t(context, '价格', listen: true) + '：',
         localModel!.currencySymbol + (basePrice / 100).toStringAsFixed(2),
       ];
     } else {
       datalist = [
-        '单价(' + contentSymbol + ')：',
+        Translation.t(context, '单价', listen: true) + '(' + contentSymbol + ')：',
         localModel!.currencySymbol + (price / 100).toStringAsFixed(2),
       ];
     }
   } else if (linedata.mode == 3) {
     // 3 单位价格加阶梯附加费
     datalist = [
-      '单价(' + contentSymbol + ')：',
+      Translation.t(context, '单价', listen: true) + '(' + contentSymbol + ')：',
       localModel!.currencySymbol + (price / 100).toStringAsFixed(2),
     ];
   } else if (linedata.mode == 5) {
@@ -133,7 +139,11 @@ Widget getSecondLineDetail(
         ? 0
         : (linedata.region!.prices!.first.price / 100);
     datalist = [
-      '首费(' + (firstWeight / 1000).toStringAsFixed(2) + contentSymbol + ')：',
+      Translation.t(context, '首费', listen: true) +
+          '(' +
+          (firstWeight / 1000).toStringAsFixed(2) +
+          contentSymbol +
+          ')：',
       localModel!.currencySymbol + price.toStringAsFixed(2),
     ];
   }

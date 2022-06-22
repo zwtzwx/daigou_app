@@ -4,7 +4,10 @@ import 'package:jiyun_app_client/services/localization_service.dart';
 import 'package:flutter/material.dart';
 
 class Model with ChangeNotifier {
-  Model(this._token, this._userInfo, this._environment);
+  Model(
+    this._token,
+    this._userInfo,
+  );
 
   String _token; // 用户token的值来区分是否登录(null?token)
 
@@ -12,15 +15,11 @@ class Model with ChangeNotifier {
 
   LocalizationModel? _localizationInfo;
 
-  String _environment;
-
   String get token => _token;
 
   UserModel? get userInfo => _userInfo;
 
   LocalizationModel? get localizationInfo => _localizationInfo;
-
-  String get environment => _environment;
 
   /*
     设置Token信息
@@ -46,13 +45,8 @@ class Model with ChangeNotifier {
   }
 
   /*
-    设置请求环境
+    退出登录
    */
-  void setEnvironment(String data) {
-    _environment = data;
-    notifyListeners();
-  }
-
   void loginOut() {
     _userInfo = null;
     _token = '';

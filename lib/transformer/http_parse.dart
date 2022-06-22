@@ -4,8 +4,6 @@ import 'dart:io';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/un_authenticate_event.dart';
-import 'package:jiyun_app_client/models/model.dart';
-import 'package:jiyun_app_client/storage/user_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:jiyun_app_client/common/http_response.dart';
 import 'package:jiyun_app_client/exceptions/bad_request_exception.dart';
@@ -16,7 +14,6 @@ import 'package:jiyun_app_client/exceptions/network_exception.dart';
 import 'package:jiyun_app_client/exceptions/unauthorised_exception.dart';
 import 'package:jiyun_app_client/exceptions/unknown_exception.dart';
 import 'package:jiyun_app_client/transformer/default_http_transformer.dart';
-import 'package:provider/provider.dart';
 import 'http_transformer.dart';
 
 //解析处理响应
@@ -50,7 +47,9 @@ HttpResponse handleException(Exception exception) {
     // token 失效
     ApplicationEvent.getInstance().event.fire(UnAuthenticateEvent());
   } else if (parseException is NetworkException) {
-    EasyLoading.showError('网络错误, 请重试');
+    EasyLoading.showError('Network Error');
+  } else if (parseException is BadServiceException) {
+    EasyLoading.showError('Server Error');
   }
   return HttpResponse.failureFromError(parseException);
 }

@@ -9,6 +9,7 @@ import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
 import 'package:jiyun_app_client/views/components/input/normal_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:provider/provider.dart';
 /*
   结算账号信息
 */

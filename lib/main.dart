@@ -5,6 +5,8 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
+import 'package:jiyun_app_client/provider/language_provider.dart';
+import 'package:jiyun_app_client/storage/language_storage.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 import 'package:jiyun_app_client/views/home/home_page.dart';
 import 'package:jiyun_app_client/views/main_controller.dart';
@@ -27,13 +29,13 @@ void main() async {
   //传入可能的登录用户
   var userInfo = await UserStorage.getUserInfo();
   var token = await UserStorage.getToken();
-  var environment = await UserStorage.getEnvironment();
+  var language = await LanguageStore.getLanguage();
   await dotenv.load(fileName: ".env");
 
   runApp(MyApp(
     token: token,
     userInfo: userInfo,
-    environment: environment,
+    language: language,
   ));
 
   if (Platform.isAndroid) {
@@ -49,13 +51,11 @@ class MyApp extends StatefulWidget {
   final String token;
   final UserModel? userInfo;
   final String language;
-  final String? environment;
 
   const MyApp({
     Key? key,
     this.token = '',
     this.userInfo,
-    this.environment,
     this.language = 'zh_CN',
   }) : super(key: key);
 
@@ -64,8 +64,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale locale = const Locale('zh', 'CN');
-
   _MyAppState() {
     //监听事件
     final eventBus = EventBus(sync: true);
@@ -75,7 +73,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _initLanguage();
     _initFluwx();
   }
 
@@ -91,13 +88,6 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  _initLanguage() {
-    var languageArr = widget.language.split('_');
-    setState(() {
-      locale = Locale(languageArr[0], languageArr[1]);
-    });
-  }
-
   PageTransitionsBuilder createTransition() {
     return const CupertinoPageTransitionsBuilder();
   }
@@ -110,7 +100,11 @@ class _MyAppState extends State<MyApp> {
           create: (_) => Model(
             widget.token,
             widget.userInfo,
-            widget.environment!,
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LanguageProvider(
+            widget.language,
           ),
         ),
       ],
@@ -118,6 +112,9 @@ class _MyAppState extends State<MyApp> {
         builder: (context, model, widget) {
           //加载尺寸长度之类的信息
           model.loadLocalization();
+          // 加载翻译
+          context.read<LanguageProvider>().loadTranslations();
+          // 加载翻译
           return ScreenUtilInit(
               designSize: const Size(375, 667),
               builder: (context, child) => MaterialApp(

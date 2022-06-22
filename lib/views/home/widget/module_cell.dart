@@ -6,23 +6,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/change_page_index_event.dart';
+import 'package:jiyun_app_client/events/home_refresh_event.dart';
 import 'package:jiyun_app_client/models/area_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
-import 'package:jiyun_app_client/models/model.dart';
-import 'package:jiyun_app_client/models/ship_line_prop_model.dart';
 import 'package:jiyun_app_client/models/warehouse_model.dart';
 import 'package:jiyun_app_client/services/goods_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/input/base_input.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:provider/provider.dart';
 
 class ModuleCell extends StatefulWidget {
   const ModuleCell({Key? key}) : super(key: key);
@@ -55,6 +54,11 @@ class _ModuleCellState extends State<ModuleCell> {
     super.initState();
     getWarehouseList();
     getPropsList();
+
+    ApplicationEvent.getInstance().event.on<HomeRefreshEvent>().listen((event) {
+      getWarehouseList();
+      getPropsList();
+    });
   }
 
   // 仓库列表
@@ -95,8 +99,10 @@ class _ModuleCellState extends State<ModuleCell> {
             height: ScreenUtil().setHeight(35),
             child: Row(
               children: [
-                buildModuleTitle('运费试算', 0),
-                buildModuleTitle('仓库地址', 1),
+                buildModuleTitle(
+                    Translation.t(context, '运费试算', listen: true), 0),
+                buildModuleTitle(
+                    Translation.t(context, '仓库地址', listen: true), 1),
               ],
             ),
           ),
@@ -149,8 +155,8 @@ class _ModuleCellState extends State<ModuleCell> {
           buildQueryAddress(),
           Gaps.line,
           buildQueryItem(
-            '重量',
-            '请输入重量，数字即可',
+            Translation.t(context, '重量', listen: true),
+            Translation.t(context, '请输入重量，数字即可', listen: true),
             _weightController,
             _weightNode,
             keyboardType: TextInputType.number,
@@ -158,8 +164,8 @@ class _ModuleCellState extends State<ModuleCell> {
           Gaps.line,
           (selectedCountry?.regionsCount ?? 0) > 0
               ? buildQueryItem(
-                  '邮编',
-                  '请输入收件地址邮编',
+                  Translation.t(context, '邮编', listen: true),
+                  Translation.t(context, '请输入收件地址邮编', listen: true),
                   _postcodeController,
                   _postcodeNode,
                 )
@@ -169,7 +175,7 @@ class _ModuleCellState extends State<ModuleCell> {
           queryBtn(),
           SizedBox(
             child: Caption(
-              str: '*运费试算仅为参考结果',
+              str: '*' + Translation.t(context, '运费试算仅为参考结果', listen: true),
               fontSize: ScreenUtil().setSp(9),
               color: ColorConfig.main,
             ),
@@ -207,8 +213,8 @@ class _ModuleCellState extends State<ModuleCell> {
             child: GestureDetector(
               onTap: () {
                 Picker(
-                  cancelText: '取消',
-                  confirmText: '确认',
+                  cancelText: Translation.t(context, '取消'),
+                  confirmText: Translation.t(context, '确认'),
                   adapter: PickerDataAdapter(
                     data: getWarehousePicker(),
                   ),
@@ -225,7 +231,8 @@ class _ModuleCellState extends State<ModuleCell> {
               child: Column(
                 children: [
                   Caption(
-                    str: selectedWarehouse?.warehouseName ?? '请选择',
+                    str: selectedWarehouse?.warehouseName ??
+                        Translation.t(context, '请选择', listen: true),
                     color: ColorConfig.primary,
                     fontSize: ScreenUtil().setSp(18),
                   ),
@@ -234,7 +241,7 @@ class _ModuleCellState extends State<ModuleCell> {
                       top: 5,
                     ),
                     child: Caption(
-                      str: '出发地',
+                      str: Translation.t(context, '出发地', listen: true),
                       color: ColorConfig.main,
                       fontSize: ScreenUtil().setSp(12),
                     ),
@@ -258,7 +265,10 @@ class _ModuleCellState extends State<ModuleCell> {
             child: GestureDetector(
               onTap: () async {
                 if (selectedWarehouse == null) {
-                  Util.showToast('请选择出发地');
+                  Util.showToast(Translation.t(
+                    context,
+                    '请选择出发地',
+                  ));
                   return;
                 }
                 var data = await Routers.push('/CountryListPage', context, {
@@ -289,7 +299,7 @@ class _ModuleCellState extends State<ModuleCell> {
                             (selectedSubArea != null
                                 ? '/${selectedSubArea!.name}'
                                 : ''))
-                        : '请选择',
+                        : Translation.t(context, '请选择', listen: true),
                     color: ColorConfig.primary,
                     fontSize: ScreenUtil().setSp(18),
                     // lines: 4,
@@ -300,7 +310,7 @@ class _ModuleCellState extends State<ModuleCell> {
                       top: 5,
                     ),
                     child: Caption(
-                      str: '收货地区',
+                      str: Translation.t(context, '收货地区', listen: true),
                       color: ColorConfig.main,
                       fontSize: ScreenUtil().setSp(12),
                     ),
@@ -324,7 +334,7 @@ class _ModuleCellState extends State<ModuleCell> {
             bottom: 10,
           ),
           child: Caption(
-            str: '货物属性',
+            str: Translation.t(context, '货物属性', listen: true),
             color: ColorConfig.main,
             fontSize: ScreenUtil().setSp(12),
           ),
@@ -401,7 +411,7 @@ class _ModuleCellState extends State<ModuleCell> {
       msg = '请选择货物属性';
     }
     if (msg.isNotEmpty) {
-      Util.showToast(msg);
+      Util.showToast(Translation.t(context, msg));
       return;
     }
     Map params = {
@@ -434,8 +444,8 @@ class _ModuleCellState extends State<ModuleCell> {
           ),
         ),
         alignment: Alignment.center,
-        child: const Caption(
-          str: '查询报价',
+        child: Caption(
+          str: Translation.t(context, '查询报价', listen: true),
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),

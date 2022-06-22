@@ -1,4 +1,4 @@
-import 'package:dotted_border/dotted_border.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/announcement_model.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
@@ -49,7 +49,7 @@ class AnnoucementDialog extends StatelessWidget {
                 SizedBox(
                   width: 100,
                   child: MainButton(
-                    text: '查看更多',
+                    text: Translation.t(context, '查看更多'),
                     fontSize: 14,
                     borderRadis: 20.0,
                     backgroundColor: ColorConfig.green,
