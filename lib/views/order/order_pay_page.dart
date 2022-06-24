@@ -17,6 +17,7 @@ import 'package:jiyun_app_client/models/user_vip_price_model.dart';
 import 'package:jiyun_app_client/services/balance_service.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
+import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
@@ -453,27 +454,13 @@ class OrderPayPageState extends State<OrderPayPage> {
       onPayResult(result);
     } else if (model.name == 'balance') {
       // 余额付款订单
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('您确认使用余额支付吗'),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('取消'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                TextButton(
-                  child: const Text('确定'),
-                  onPressed: () async {
-                    Navigator.of(context).pop(payByBalance());
-                  },
-                )
-              ],
-            );
-          });
+      var result = await BaseDialog.confirmDialog(
+        context,
+        '您确认使用余额支付吗',
+      );
+      if (result != null) {
+        payByBalance();
+      }
     } else {
       if (payModel == 0) {
         // 充值会员转账

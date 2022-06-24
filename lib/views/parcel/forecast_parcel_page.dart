@@ -127,7 +127,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
         goodsPropsList = _goodsPropsList;
         propSingle = _single;
         // goodsCategoryList = _goodsCategoryList;
-        terms = _terms!;
+        terms = _terms;
       });
     }
   }
@@ -908,31 +908,20 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
     return data;
   }
 
+  // 转运协议
   showTipsView() {
-    showDialog(
-        context: context,
-        barrierDismissible: true, // user must tap button!
-        builder: (BuildContext context) {
-          return Container(
-            decoration: BoxDecoration(
-              color: ColorConfig.white,
-              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-              border: Border.all(width: 1, color: ColorConfig.white),
-            ),
-            padding: const EdgeInsets.only(top: 15),
-            margin: const EdgeInsets.only(
-                right: 45, left: 45, top: 100, bottom: 100),
-            child: SingleChildScrollView(
-                child: Column(
-              children: <Widget>[
-                SizedBox(
-                  width: ScreenUtil().screenWidth,
-                  child: Html(data: terms!['content']),
-                ),
-              ],
-            )),
-          );
-        });
+    BaseDialog.normalDialog(
+      context,
+      title: terms?['title'],
+      child: Flexible(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            child: Html(data: terms?['content']),
+          ),
+        ),
+      ),
+    );
   }
 }
 

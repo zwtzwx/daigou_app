@@ -3,6 +3,7 @@ import 'package:jiyun_app_client/models/line_icon_model.dart';
 import 'package:jiyun_app_client/models/price_grade_model.dart';
 import 'package:jiyun_app_client/models/region_model.dart';
 import 'package:jiyun_app_client/models/self_pickup_station_model.dart';
+import 'package:jiyun_app_client/models/ship_line_label_model.dart';
 import 'package:jiyun_app_client/models/warehouse_model.dart';
 
 /*
@@ -69,6 +70,7 @@ class ShipLineModel {
   Map? defaultStation;
   List<SelfPickupStationModel>? selfPickupStations;
   List<WareHouseModel>? warehouses;
+  List<ShipLineLabelModel>? labels;
 
   ShipLineModel(
       {required this.id,
@@ -210,6 +212,12 @@ class ShipLineModel {
       regions = List<RegionModel>.empty(growable: true);
       json['regions'].forEach((v) {
         regions!.add(RegionModel.fromJson(v));
+      });
+    }
+    if (json['labels'] != null) {
+      labels = List<ShipLineLabelModel>.empty(growable: true);
+      json['labels'].forEach((v) {
+        labels!.add(ShipLineLabelModel.fromJson(v));
       });
     }
   }

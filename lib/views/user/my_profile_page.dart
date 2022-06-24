@@ -2,6 +2,8 @@
   个人信息
 */
 
+import 'package:flutter/cupertino.dart';
+import 'package:jiyun_app_client/common/upload_util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -35,6 +37,9 @@ class MyProfilePageState extends State<MyProfilePage>
   bool isloading = false;
   UserModel? userModel;
 
+  // 用户名
+  final TextEditingController _nameController = TextEditingController();
+  final FocusNode _nameNode = FocusNode();
   // 微信号
   final TextEditingController _weChatNumberController = TextEditingController();
   final FocusNode _weChatNumber = FocusNode();
@@ -57,7 +62,7 @@ class MyProfilePageState extends State<MyProfilePage>
     setState(() {
       _cityNameController.text = userModel!.liveCity;
       _weChatNumberController.text = userModel!.wechatId;
-
+      _nameController.text = userModel!.name;
       isloading = true;
     });
   }
@@ -65,6 +70,8 @@ class MyProfilePageState extends State<MyProfilePage>
   // 更改个人信息
   onSubmit() async {
     Map<String, dynamic> upData = {
+      'name': userModel!.name,
+      'avatar': userImg.isEmpty ? userModel!.avatar : userImg,
       'gender': userModel!.gender, // 性别
       'wechat_id': userModel!.wechatId, // 微信
       'birth': userModel!.birth ?? '', // 生日
@@ -141,8 +148,22 @@ class MyProfilePageState extends State<MyProfilePage>
                                     height: 55,
                                     width: ScreenUtil().screenWidth - 25 - 100,
                                     alignment: Alignment.centerLeft,
-                                    child: Caption(
-                                      str: userModel!.name,
+                                    child: NormalInput(
+                                      hintText: "请输入昵称",
+                                      textAlign: TextAlign.left,
+                                      contentPadding: const EdgeInsets.only(
+                                          top: 17, bottom: 0),
+                                      controller: _nameController,
+                                      focusNode: _nameNode,
+                                      autoFocus: false,
+                                      keyboardType: TextInputType.text,
+                                      onSubmitted: (res) {
+                                        FocusScope.of(context)
+                                            .requestFocus(_weChatNumber);
+                                      },
+                                      onChanged: (res) {
+                                        userModel!.name = res;
+                                      },
                                     ),
                                   ),
                                 ],
@@ -223,49 +244,6 @@ class MyProfilePageState extends State<MyProfilePage>
                         ),
                       ),
                       Gaps.line,
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     showPickerDate(context);
-                      //   },
-                      //   child: Container(
-                      //     color: ColorConfig.white,
-                      //     height: 55,
-                      //     padding: const EdgeInsets.only(left: 10, right: 15),
-                      //     child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //       children: <Widget>[
-                      //         Row(
-                      //           children: <Widget>[
-                      //             Container(
-                      //               color: ColorConfig.white,
-                      //               height: 55,
-                      //               width: 90,
-                      //               alignment: Alignment.centerLeft,
-                      //               child: const Caption(
-                      //                 str: '出生日期',
-                      //               ),
-                      //             ),
-                      //             Caption(
-                      //               str: userModel!.birth == null ||
-                      //                       userModel!.birth!.isEmpty
-                      //                   ? '请选择出生日期'
-                      //                   : userModel!.birth!.split(' ').first,
-                      //               color: userModel!.birth == null ||
-                      //                       userModel!.birth!.isEmpty
-                      //                   ? ColorConfig.textGray
-                      //                   : ColorConfig.textDark,
-                      //             )
-                      //           ],
-                      //         ),
-                      //         const Icon(
-                      //           Icons.arrow_forward_ios,
-                      //           color: ColorConfig.textGrayC,
-                      //           size: 18,
-                      //         )
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                       GestureDetector(
                         onTap: () {
                           Routers.push(
@@ -446,27 +424,28 @@ class MyProfilePageState extends State<MyProfilePage>
                                     ),
                                   ),
                                   Container(
-                                      color: ColorConfig.white,
-                                      height: 55,
-                                      width: 200,
-                                      alignment: Alignment.centerLeft,
-                                      child: NormalInput(
-                                        hintText: "请输入现居城市",
-                                        textAlign: TextAlign.left,
-                                        contentPadding: const EdgeInsets.only(
-                                            top: 17, bottom: 0),
-                                        controller: _cityNameController,
-                                        focusNode: _cityName,
-                                        autoFocus: false,
-                                        keyboardType: TextInputType.text,
-                                        onSubmitted: (res) {
-                                          FocusScope.of(context)
-                                              .requestFocus(blankNode);
-                                        },
-                                        onChanged: (res) {
-                                          userModel!.liveCity = res;
-                                        },
-                                      )),
+                                    color: ColorConfig.white,
+                                    height: 55,
+                                    width: 200,
+                                    alignment: Alignment.centerLeft,
+                                    child: NormalInput(
+                                      hintText: "请输入现居城市",
+                                      textAlign: TextAlign.left,
+                                      contentPadding: const EdgeInsets.only(
+                                          top: 17, bottom: 0),
+                                      controller: _cityNameController,
+                                      focusNode: _cityName,
+                                      autoFocus: false,
+                                      keyboardType: TextInputType.text,
+                                      onSubmitted: (res) {
+                                        FocusScope.of(context)
+                                            .requestFocus(blankNode);
+                                      },
+                                      onChanged: (res) {
+                                        userModel!.liveCity = res;
+                                      },
+                                    ),
+                                  ),
                                 ],
                               ),
                             ],
@@ -508,30 +487,6 @@ class MyProfilePageState extends State<MyProfilePage>
         }).showModal(this.context); //_scaffoldKey.currentState);
   }
 
-  showPickerDate(BuildContext context) {
-    Picker(
-        adapter: DateTimePickerAdapter(
-          isNumberMonth: true,
-          yearSuffix: '年',
-          monthSuffix: '月',
-          daySuffix: '日',
-          // yearSuffix, monthSuffix, daySuffix
-          // minValue:
-          maxValue: DateTime.now(),
-        ),
-        changeToFirst: true,
-        hideHeader: false,
-        cancelText: '取消',
-        confirmText: '确认',
-        selectedTextStyle: const TextStyle(color: Colors.blue),
-        onConfirm: (Picker picker, List value) {
-          String dateStr = picker.adapter.text.split(' ').first;
-          setState(() {
-            userModel!.birth = dateStr;
-          });
-        }).showModal(context);
-  }
-
   Widget buildCustomViews(BuildContext context) {
     var headerView = Container(
         padding: const EdgeInsets.only(left: 15, top: 50, right: 15),
@@ -548,38 +503,38 @@ class MyProfilePageState extends State<MyProfilePage>
               children: <Widget>[
                 GestureDetector(
                     onTap: () async {
-                      // UploadUtil.imagePicker(
-                      //   onSuccessCallback: (imageUrl) async {
-                      //     setState(() {
-                      //       userImg = imageUrl;
-                      //     });
-                      //   },
-                      //   context: context,
-                      //   child: CupertinoActionSheet(
-                      //     title: const Text('请选择上传方式'),
-                      //     actions: <Widget>[
-                      //       CupertinoActionSheetAction(
-                      //         child: const Text('相册'),
-                      //         onPressed: () {
-                      //           Navigator.pop(context, 'gallery');
-                      //         },
-                      //       ),
-                      //       CupertinoActionSheetAction(
-                      //         child: const Text('照相机'),
-                      //         onPressed: () {
-                      //           Navigator.pop(context, 'camera');
-                      //         },
-                      //       ),
-                      //     ],
-                      //     cancelButton: CupertinoActionSheetAction(
-                      //       child: const Text('取消'),
-                      //       isDefaultAction: true,
-                      //       onPressed: () {
-                      //         Navigator.pop(context, 'Cancel');
-                      //       },
-                      //     ),
-                      //   ),
-                      // );
+                      UploadUtil.imagePicker(
+                        onSuccessCallback: (imageUrl) async {
+                          setState(() {
+                            userImg = imageUrl;
+                          });
+                        },
+                        context: context,
+                        child: CupertinoActionSheet(
+                          title: const Text('请选择上传方式'),
+                          actions: <Widget>[
+                            CupertinoActionSheetAction(
+                              child: const Text('相册'),
+                              onPressed: () {
+                                Navigator.pop(context, 'gallery');
+                              },
+                            ),
+                            CupertinoActionSheetAction(
+                              child: const Text('照相机'),
+                              onPressed: () {
+                                Navigator.pop(context, 'camera');
+                              },
+                            ),
+                          ],
+                          cancelButton: CupertinoActionSheetAction(
+                            child: const Text('取消'),
+                            isDefaultAction: true,
+                            onPressed: () {
+                              Navigator.pop(context, 'Cancel');
+                            },
+                          ),
+                        ),
+                      );
                     },
                     child: Container(
                         decoration: const BoxDecoration(

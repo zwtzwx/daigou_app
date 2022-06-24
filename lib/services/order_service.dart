@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:jiyun_app_client/common/http_client.dart';
+import 'package:jiyun_app_client/models/order_exceptional_model.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
 import 'package:jiyun_app_client/services/base_service.dart';
 
@@ -14,6 +15,8 @@ class OrderService {
   static const String ORDERDETAIL = 'order/:id';
   // 获取订单打包视频
   static const String orderVideoApi = 'order/:id/videos';
+  // 订单异常说明
+  static const String orderExceptionalApi = 'order/:id/exception';
   // 确认收货接口
   static const String CHECKORDER = 'order/check/:id';
   // 订单支付方式列表
@@ -129,6 +132,21 @@ class OrderService {
         .then((res) {
       if (res.ok) {
         res.data.forEach((item) => result.add(item['url']));
+      }
+    });
+    return result;
+  }
+
+  /*
+    订单异常件说明
+   */
+  static Future<OrderExceptionalModel?> getOrderExceptional(int id) async {
+    OrderExceptionalModel? result;
+    await HttpClient()
+        .get(orderExceptionalApi.replaceAll(':id', id.toString()))
+        .then((res) {
+      if (res.ok) {
+        result = OrderExceptionalModel.fromJson(res.data);
       }
     });
     return result;

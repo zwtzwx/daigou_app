@@ -46,14 +46,41 @@ class OrderItemCell extends StatelessWidget {
               children: [
                 Row(
                   children: [
+                    const LoadImage(
+                      'PackageAndOrder/process',
+                      width: 25,
+                      height: 25,
+                    ),
+                    Gaps.hGap5,
                     Caption(
                       str: orderModel.orderSn,
                     ),
                   ],
                 ),
-                const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 14,
+                Row(
+                  children: [
+                    orderModel.exceptional == 1 && orderModel.status != 5
+                        ? GestureDetector(
+                            onTap: () {
+                              onExceptional(context);
+                            },
+                            child: Container(
+                              color: Colors.red[700],
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 2, horizontal: 5),
+                              child: const Caption(
+                                str: '订单异常',
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          )
+                        : Gaps.empty,
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 14,
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -326,7 +353,39 @@ class OrderItemCell extends StatelessWidget {
     );
   }
 
-// 签收
+  // 异常件说明
+  void onExceptional(context) async {
+    var result = await OrderService.getOrderExceptional(orderModel.id);
+    if (result != null) {
+      BaseDialog.normalDialog(
+        context,
+        title: '异常说明',
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                result.remark,
+              ),
+              result.images.isNotEmpty
+                  ? Container(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: LoadImage(
+                        result.images[0],
+                        fit: BoxFit.fitWidth,
+                        width: 100,
+                      ),
+                    )
+                  : Gaps.empty,
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
+  // 签收
   void onSign(BuildContext context) async {
     var data = await BaseDialog.confirmDialog(context, '您确定要签收吗？');
     if (data != null) {

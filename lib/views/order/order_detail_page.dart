@@ -527,10 +527,15 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                             e.remark.isNotEmpty
                                 ? GestureDetector(
                                     onTap: () {
-                                      BaseDialog.confirmDialog(
-                                          context, e.remark,
-                                          title: e.name,
-                                          showCancelButton: false);
+                                      BaseDialog.normalDialog(
+                                        context,
+                                        title: e.name,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15, vertical: 20),
+                                          child: Text(e.remark),
+                                        ),
+                                      );
                                     },
                                     child: const Icon(
                                       Icons.info_outline,

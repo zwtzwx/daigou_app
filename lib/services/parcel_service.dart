@@ -13,6 +13,8 @@ class ParcelService {
   static const String _VALUEADDEDSERVICE_API = 'package-opservice';
   // 异常件
   static const String noOwnerListApi = 'packages/no-owner';
+  // 信息不全的包裹数
+  static const String notConfirmedApi = 'package/not-confirmed-count';
   // 认领异常件
   static const String noOwnerOneApi = 'packages/claim/:id';
   //同步信息包裹列表
@@ -176,5 +178,18 @@ class ParcelService {
         .then((response) => {result = ParcelModel.fromJson(response.data)})
         .onError((error, stackTrace) => {});
     return result;
+  }
+
+  /*
+    信息不全的包裹数
+   */
+  static Future<int> getNotConfirmedParcelCount() async {
+    int count = 0;
+    await HttpClient().get(notConfirmedApi).then((res) {
+      if (res.ok) {
+        count = res.data['count'];
+      }
+    });
+    return count;
   }
 }

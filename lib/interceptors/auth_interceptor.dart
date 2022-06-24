@@ -12,9 +12,7 @@ class AuthInterceptor extends Interceptor {
     if (accessToken.isNotEmpty) {
       options.headers["authorization"] = accessToken;
     }
-    await AppConfig.getUUID().then((res) {
-      options.headers['x-uuid'] = res;
-    });
+    options.headers['x-uuid'] = AppConfig.getUUID();
     String language = await LanguageStore.getLanguage();
     options.headers['language'] = language;
     options.headers["accept-language"] = 'zh-CN';

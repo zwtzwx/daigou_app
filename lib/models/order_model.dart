@@ -405,6 +405,8 @@ class OrderModel {
 
   late PriceModel? price;
 
+  late int exceptional;
+
   OrderModel();
 
   OrderModel.fromJson(Map<String, dynamic> json) {
@@ -434,6 +436,7 @@ class OrderModel {
     lineServiceFee = json['line_service_fee'] ?? 0;
     lineRuleFee = json['line_rule_fee'] ?? 0;
     value = json['value'] ?? 0;
+    exceptional = json['exceptional'];
     address = (json['address'] != null
         ? ReceiverAddressModel.fromJson(json['address'])
         : null)!;

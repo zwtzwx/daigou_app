@@ -4,15 +4,15 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AppConfig {
-  // 上线
-
-  static const bool isTest = true;
-
   static String getBaseApi() {
     return dotenv.env['API_URL'] ?? "https://dev-api.haiouoms.com/api/client/";
   }
 
-  static Future<String> getUUID() async {
+  static String getUUID() {
     return dotenv.env['UUID'] ?? "4b8ab68b-7cf7-4e3b-9c00-cbd4dbf96f27";
+  }
+
+  static String getImageApi() {
+    return dotenv.env['IMAGE_URL'] ?? "https://dev-api.haiouoms.com";
   }
 }

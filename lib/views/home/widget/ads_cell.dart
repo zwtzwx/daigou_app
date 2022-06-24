@@ -85,16 +85,17 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
                 onPressed: () {
                   Navigator.pop(context, e.languageCode);
                 },
-                child: Caption(
-                  str: e.name,
+                child: Text(
+                  e.name,
                 ));
           }).toList(),
           cancelButton: CupertinoActionSheetAction(
+            isDefaultAction: true,
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Caption(
-              str: Translation.t(context, '取消'),
+            child: Text(
+              Translation.t(context, '取消'),
             ),
           ),
         );

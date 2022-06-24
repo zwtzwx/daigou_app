@@ -96,24 +96,17 @@ class ParcelItemCell extends StatelessWidget {
                           model.isExceptional == 1
                               ? GestureDetector(
                                   onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: const Text('异常件提示'),
-                                            content: Caption(
-                                              str: model.exceptionalRemark!,
-                                            ),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                child: const Text('确定'),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              )
-                                            ],
-                                          );
-                                        });
+                                    BaseDialog.normalDialog(
+                                      context,
+                                      title: '异常件提示',
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 20, horizontal: 15),
+                                        child: Caption(
+                                          str: model.exceptionalRemark!,
+                                        ),
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(left: 10),
@@ -303,7 +296,7 @@ class ParcelItemCell extends StatelessWidget {
                             : Gaps.empty,
                         Gaps.hGap10,
                         PlainButton(
-                          text: '修改',
+                          text: model.notConfirmed == 1 ? '补全信息' : '修改',
                           onPressed: () {
                             Routers.push('/EditParcelPage', context,
                                 {'model': model, 'edit': true});

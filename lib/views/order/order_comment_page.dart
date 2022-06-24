@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 /*
-  评价有奖
+  订单评价
 */
 
 class OrderCommentPage extends StatefulWidget {
@@ -36,7 +36,7 @@ class OrderCommentPageState extends State<OrderCommentPage> {
   int customerStar = 0;
   int packStar = 0;
   bool isDetail = false;
-  String pageTitle = '评价有奖';
+  String pageTitle = '我要评价';
   late OrderModel model;
   CommentModel? commentModel;
   List<String> selectImg = [''];
@@ -327,21 +327,20 @@ class OrderCommentPageState extends State<OrderCommentPage> {
       ),
       child: Column(
         children: <Widget>[
-          Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            child: Container(
-              margin: const EdgeInsets.only(
-                left: 5,
-              ),
-              child: Text(
-                tips,
-              ),
-            ),
-          ),
+          tips.isNotEmpty
+              ? Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  child: Text(
+                    tips,
+                  ),
+                )
+              : Gaps.empty,
           Container(
             height: 40,
             margin: const EdgeInsets.only(top: 40),

@@ -19,6 +19,7 @@ import 'package:jiyun_app_client/models/tariff_model.dart';
 import 'package:jiyun_app_client/models/value_added_service_model.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
 import 'package:jiyun_app_client/services/ship_line_service.dart';
+import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/order/widget/rename_dialog.dart';
@@ -758,11 +759,9 @@ class CreateOrderPageState extends State<CreateOrderPage>
                         children: <Widget>[
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
                                 alignment: Alignment.center,
-                                height: 40,
                                 child: const Caption(str: '自提点'),
                               ),
                               const Icon(
@@ -772,20 +771,18 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             ],
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
                                 alignment: Alignment.center,
                                 child: Caption(
                                   str: selectStations?.name ?? '',
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Container(
                                 alignment: Alignment.center,
                                 child: Caption(
-                                    fontSize: 15,
                                     str: ' ' +
                                         (selectStations?.contactor ?? '') +
                                         ' ' +
@@ -794,7 +791,6 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             ],
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
@@ -808,7 +804,6 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             ],
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
@@ -977,7 +972,6 @@ class CreateOrderPageState extends State<CreateOrderPage>
       padding: const EdgeInsets.only(left: 15, right: 15),
       child: Column(
         children: <Widget>[
-          Gaps.line,
           SizedBox(
             height: (insuranceModel?.enabled == 1 &&
                     insuranceModel!.enabledLineIds.contains(shipLineModel?.id))
@@ -997,8 +991,8 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             padding: const EdgeInsets.only(left: 0),
                             child: IconButton(
                                 icon: const Icon(
-                                  Icons.error_outline_outlined,
-                                  color: ColorConfig.green,
+                                  Icons.error,
+                                  color: Color(0xFFffae00),
                                   size: 25,
                                 ),
                                 onPressed: () {
@@ -1048,8 +1042,8 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             padding: const EdgeInsets.only(left: 0),
                             child: IconButton(
                                 icon: const Icon(
-                                  Icons.error_outline_outlined,
-                                  color: ColorConfig.green,
+                                  Icons.error,
+                                  color: Color(0xFFffae00),
                                   size: 25,
                                 ),
                                 onPressed: () {
@@ -1336,50 +1330,16 @@ class CreateOrderPageState extends State<CreateOrderPage>
 
   // 订单增值服务、渠道增值服务、关税、保险说明
   showRemark(String title, String content) {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: Container(
-            decoration: BoxDecoration(
-              color: ColorConfig.white,
-              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-              border: Border.all(width: 1, color: ColorConfig.white),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Caption(
-                    str: title,
-                    fontSize: 18,
-                  ),
-                ),
-                line(),
-                Container(
-                  alignment: Alignment.topLeft,
-                  padding: const EdgeInsets.all(15),
-                  child: Text(
-                    content,
-                  ),
-                ),
-                line(),
-                TextButton(
-                  child: const Caption(
-                    str: '确定',
-                    color: ColorConfig.primary,
-                  ),
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+    BaseDialog.normalDialog(
+      context,
+      title: title,
+      titleFontSize: 18,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        child: Text(
+          content,
+        ),
+      ),
     );
   }
 }

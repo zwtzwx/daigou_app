@@ -6,6 +6,7 @@ import 'package:jiyun_app_client/models/region_model.dart';
 import 'package:jiyun_app_client/models/ship_line_model.dart';
 import 'package:jiyun_app_client/models/ship_line_service_model.dart';
 import 'package:jiyun_app_client/services/ship_line_service.dart';
+import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -133,7 +134,6 @@ class LineDetailPageState extends State<LineDetailPage> {
             child: PageView.builder(
               key: const Key('pageView'),
               itemCount: detailLine?.regions?.length,
-              onPageChanged: _onPageChange,
               controller: _pageController,
               itemBuilder: (BuildContext context, int index) {
                 return buildSignScrollView(index);
@@ -536,7 +536,9 @@ class LineDetailPageState extends State<LineDetailPage> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      Caption(str: item.name),
+                      Caption(
+                        str: item.name,
+                      ),
                       Caption(str: item.isForced == 0 ? '（可选）' : '（必选）'),
                       item.remark.isNotEmpty
                           ? Padding(
@@ -738,52 +740,11 @@ class LineDetailPageState extends State<LineDetailPage> {
   }
 
   showReginsList() {
-    var _dialogWidth = MediaQuery.of(context).size.width * 0.86;
-    Widget title = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      child: Caption(
-        str: detailLine!.name,
-      ),
+    BaseDialog.normalDialog(
+      context,
+      title: detailLine!.name,
+      child: getAreaList(),
     );
-    // widgetList.add(Gaps.line);
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-              child: SingleChildScrollView(
-            child: Container(
-              constraints: BoxConstraints(
-                maxHeight: ScreenUtil().screenHeight - 200,
-              ),
-              width: _dialogWidth,
-              color: Colors.white,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  title,
-                  Gaps.line,
-                  getAreaList(),
-                  const Divider(
-                    height: 1,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 40,
-                      width: _dialogWidth,
-                      alignment: Alignment.center,
-                      child: Caption(
-                          str: Translation.t(context, '确认'),
-                          color: ColorConfig.primary),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ));
-        });
   }
 
   Widget getAreaList() {
@@ -839,73 +800,19 @@ class LineDetailPageState extends State<LineDetailPage> {
   }
 
   showTipsView(ShipLineServiceModel item) {
-    showDialog(
-        context: context,
-        barrierDismissible: true, // user must tap button!
-        builder: (BuildContext context) {
-          return Dialog(
-            child: Container(
-              decoration: BoxDecoration(
-                color: ColorConfig.white,
-                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                border: Border.all(width: 1, color: ColorConfig.white),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: Column(
-                      children: <Widget>[
-                        Caption(
-                          str: item.name,
-                          fontSize: 18,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Gaps.line,
-                  Container(
-                      // height: 60,
-                      alignment: Alignment.topLeft,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 15),
-                      child: Caption(
-                        str: item.remark,
-                        lines: 10,
-                      )),
-                  SizedBox(
-                    height: 50,
-                    width: ScreenUtil().screenWidth - 90,
-                    child: Column(
-                      children: <Widget>[
-                        Gaps.line,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                                child: TextButton(
-                                    child: Caption(
-                                      str: Translation.t(context, '确定'),
-                                      color: ColorConfig.primary,
-                                    ),
-                                    onPressed: () async {
-                                      Navigator.of(context).pop();
-                                    }))
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
-  _onPageChange(int index) {
-    // _tabController.animateTo(index);
-    // provider.setIndex(index);
+    BaseDialog.normalDialog(
+      context,
+      title: item.name,
+      titleFontSize: 18,
+      child: Container(
+        // height: 60,
+        alignment: Alignment.topLeft,
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+        child: Caption(
+          str: item.remark,
+          lines: 10,
+        ),
+      ),
+    );
   }
 }

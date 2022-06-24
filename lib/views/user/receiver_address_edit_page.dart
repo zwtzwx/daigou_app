@@ -13,6 +13,7 @@ import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/receiver_address_model.dart';
 import 'package:jiyun_app_client/services/address_service.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
+import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
@@ -163,28 +164,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
 
   // 删除地址
   Future<bool?> onDeleteAlter() {
-    return showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('确认要删除地址'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('取消'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
-              child: const Text('确定'),
-              onPressed: () {
-                Navigator.pop(context, true);
-              },
-            )
-          ],
-        );
-      },
-    );
+    return BaseDialog.confirmDialog(context, '确认要删除地址吗');
   }
 
   @override

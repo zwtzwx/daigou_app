@@ -13,6 +13,7 @@ import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/models/warehouse_model.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
+import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/list_refresh.dart';
@@ -52,6 +53,7 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
   void initState() {
     super.initState();
     created();
+    onCheckParcel();
   }
 
   /*
@@ -69,6 +71,19 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
           TabController(length: _warehouseList.length, vsync: this);
       isLoading = true;
     });
+  }
+
+  // 检查是否有信息不全的包裹
+  void onCheckParcel() async {
+    int count = await ParcelService.getNotConfirmedParcelCount();
+    if (count > 0) {
+      BaseDialog.confirmDialog(
+        context,
+        '您有 $count 个包裹资料不全，请修改完整后再提交，请参见红色感叹号包裹，已经排在最前面',
+        title: '提示',
+        showCancelButton: false,
+      );
+    }
   }
 
   // 获取包裹数据
