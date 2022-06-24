@@ -2,6 +2,7 @@
   下单刷新
  */
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -146,15 +147,15 @@ class _ListRefreshState extends State<ListRefresh> {
             child: Container(
                 padding: const EdgeInsets.only(top: 10),
                 child: Center(
-                    child: Column(children: const <Widget>[
-                  Opacity(
+                    child: Column(children: <Widget>[
+                  const Opacity(
                     opacity: 1.0,
                     child: CupertinoActivityIndicator(),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 5),
+                    padding: const EdgeInsets.only(top: 5),
                     child: Text(
-                      '正在加载...',
+                      Translation.t(context, '正在加载') + '...',
                       style: TextConfig.textGray14,
                     ),
                   )
@@ -190,10 +191,10 @@ class _ListRefreshState extends State<ListRefresh> {
                     color: const Color(0xffff0000),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: const <Widget>[
+                      children: <Widget>[
                         Text(
-                          '删除',
-                          style: TextStyle(
+                          Translation.t(context, '删除'),
+                          style: const TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.w300,
                               color: Colors.white),
@@ -273,39 +274,39 @@ class _ListRefreshState extends State<ListRefresh> {
         child: SmartRefresher(
             enablePullDown: true,
             enablePullUp: true,
-            header: const ClassicHeader(
-              refreshingIcon: CupertinoActivityIndicator(),
+            header: ClassicHeader(
+              refreshingIcon: const CupertinoActivityIndicator(),
               height: 45.0,
-              releaseText: '松开手刷新',
-              refreshingText: '刷新中',
-              completeText: '刷新完成',
-              failedText: '刷新失败',
-              idleText: '下拉刷新',
+              releaseText: Translation.t(context, '松开手刷新'),
+              refreshingText: Translation.t(context, '刷新中'),
+              completeText: Translation.t(context, '刷新完成'),
+              failedText: Translation.t(context, '刷新失败'),
+              idleText: Translation.t(context, '下拉刷新'),
             ),
             footer: CustomFooter(
               height: _items.length < 10 ? 0 : 60,
               builder: (BuildContext context, LoadStatus? mode) {
                 Widget body;
                 if (mode == LoadStatus.idle) {
-                  body = const Text(
-                    "上拉加载",
+                  body = Text(
+                    Translation.t(context, '上拉加载'),
                     style: TextConfig.textGray14,
                   );
                 } else if (mode == LoadStatus.loading) {
                   body = _buildProgressIndicator();
                 } else if (mode == LoadStatus.failed) {
-                  body = const Text(
-                    "加载失败！点击重试！",
+                  body = Text(
+                    Translation.t(context, '加载失败！点击重试！'),
                     style: TextConfig.textGray14,
                   );
                 } else if (mode == LoadStatus.canLoading) {
-                  body = const Text(
-                    "松手,加载更多!",
+                  body = Text(
+                    Translation.t(context, '松手,加载更多!'),
                     style: TextConfig.textGray14,
                   );
                 } else {
-                  body = const Text(
-                    "没有更多数据了!",
+                  body = Text(
+                    Translation.t(context, '没有更多数据了!'),
                     style: TextConfig.textGray14,
                   );
                 }

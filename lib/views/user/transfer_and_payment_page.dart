@@ -6,8 +6,6 @@
 import 'package:jiyun_app_client/common/upload_util.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/models/default_amount_model.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/order_model.dart';

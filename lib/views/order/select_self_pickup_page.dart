@@ -71,7 +71,7 @@ class SelectSelfPickUpPageState extends State<SelectSelfPickUpPage> {
           ? Container(
               child: (stationList != null && stationList!.isNotEmpty)
                   ? buildListView()
-                  : emptyBox('暂无可选自提点'))
+                  : emptyBox(context, '暂无可选自提点'))
           : Gaps.empty,
     );
   }

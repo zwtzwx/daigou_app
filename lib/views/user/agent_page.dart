@@ -6,9 +6,7 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/agent_refresh_event.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/models/agent_commissions_model.dart';
 import 'package:jiyun_app_client/models/agent_data_count_model.dart';
-import 'package:jiyun_app_client/models/agent_model.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
@@ -35,7 +33,6 @@ class AgentPage extends StatefulWidget {
 
 class AgentPageState extends State<AgentPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final ScrollController _scrollController = ScrollController();
 
   String pageTitle = '';
 

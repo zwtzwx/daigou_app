@@ -14,7 +14,6 @@ import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 
 class ApplyWithDrawPage extends StatefulWidget {

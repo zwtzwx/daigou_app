@@ -66,7 +66,6 @@ class InvoicePageState extends State<InvoicePage> {
   // 默认发票信息
   getDefaultInvoice() async {
     var _invoiceModel = await InvoiceService.getDefault();
-    print(_invoiceModel == null);
     if (_invoiceModel != null) {
       setState(() {
         invoiceModel = _invoiceModel;

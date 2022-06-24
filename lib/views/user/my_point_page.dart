@@ -4,7 +4,6 @@
   我的积分
  */
 
-import 'package:jiyun_app_client/common/hex_to_color.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
@@ -32,7 +31,6 @@ class MyPointPage extends StatefulWidget {
 
 class MyPointPageState extends State<MyPointPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final ScrollController _scrollController = ScrollController();
 
   //会员中心基础信息
 
@@ -257,7 +255,7 @@ class IntegralList extends StatefulWidget {
     Key? key,
     required this.params,
     required this.onChanged,
-  });
+  }) : super(key: key);
   final ValueChanged<int> onChanged;
   final Map<String, dynamic> params;
   @override
@@ -266,7 +264,6 @@ class IntegralList extends StatefulWidget {
 
 class IntegralListState extends State<IntegralList> {
   final GlobalKey<IntegralListState> key = GlobalKey();
-  final ScrollController _scrollController = ScrollController();
   int pageIndex = 0;
   bool isloading = false;
   List<bool> selectList = [];

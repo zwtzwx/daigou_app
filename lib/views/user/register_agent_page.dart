@@ -12,7 +12,6 @@ import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/input/base_input.dart';
 import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
-import 'package:jiyun_app_client/views/components/input/normal_input.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -20,9 +20,11 @@ class OrderTransactionModel {
   late String rate;
   late String transCurrency;
   late String transRate;
-  // late bool showTrans;
-  // late String currencySymbol;
+  bool? showTrans;
+  String? currencySymbol;
   late String payName;
+  int? isUsePoint;
+  num? pointAmount;
   OrderModel? order;
 
   OrderTransactionModel(
@@ -64,8 +66,10 @@ class OrderTransactionModel {
     rate = json['rate'] ?? '';
     transCurrency = json['trans_currency'] ?? '';
     transRate = json['trans_rate'] ?? '';
-    // showTrans = json['show_trans'];
-    // currencySymbol = json['currency_symbol'];
+    isUsePoint = json['is_use_point'];
+    pointAmount = json['point_amount'];
+    showTrans = json['show_trans'];
+    currencySymbol = json['currency_symbol'];
     payName = json['pay_name'];
     order = json['order'] != null ? OrderModel.fromJson(json['order']) : null;
   }
@@ -88,8 +92,8 @@ class OrderTransactionModel {
     data['rate'] = rate;
     data['trans_currency'] = transCurrency;
     data['trans_rate'] = transRate;
-    // data['show_trans'] = showTrans;
-    // data['currency_symbol'] = currencySymbol;
+    data['show_trans'] = showTrans;
+    data['currency_symbol'] = currencySymbol;
     data['pay_name'] = payName;
     if (order != null) {
       data['order'] = order!.toJson();

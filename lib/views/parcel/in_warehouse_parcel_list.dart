@@ -5,7 +5,6 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/list_refresh_event.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';

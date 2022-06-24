@@ -6,6 +6,7 @@
 import 'dart:async';
 
 import 'package:jiyun_app_client/common/hex_to_color.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/alphabetical_country_model.dart';
 import 'package:jiyun_app_client/models/area_model.dart';
@@ -15,7 +16,6 @@ import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/components/search_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -48,7 +48,7 @@ class _CountryListPageState extends State<CountryListPage> {
   }
 
   loadList(String str) async {
-    EasyLoading.show(status: '搜索中...');
+    EasyLoading.show(status: Translation.t(context, '搜索中'));
     var tmp = await CommonService.getCountryListByAlphabetical({
       'keyword': str,
       'warehouse_id': widget.arguments?['warehouseId'] ?? '',
@@ -66,7 +66,7 @@ class _CountryListPageState extends State<CountryListPage> {
   }
 
   created() async {
-    EasyLoading.show(status: '加载中...');
+    EasyLoading.show(status: Translation.t(context, '加载中'));
     loadList("");
   }
 
@@ -78,8 +78,8 @@ class _CountryListPageState extends State<CountryListPage> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: const Caption(
-          str: '选择国家或地区',
+        title: Caption(
+          str: Translation.t(context, '选择国家或地区'),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -95,7 +95,9 @@ class _CountryListPageState extends State<CountryListPage> {
                 });
               },
               child: Caption(
-                str: !isSearch ? '搜索' : '取消',
+                str: !isSearch
+                    ? Translation.t(context, '搜索')
+                    : Translation.t(context, '取消'),
               ))
         ],
       ),
@@ -108,9 +110,7 @@ class _CountryListPageState extends State<CountryListPage> {
                   child: SearchBar(
                     controller: _controller,
                     focusNode: _focusNode,
-                    onSearch: (str) {
-                      print(str);
-                    },
+                    onSearch: (str) {},
                     onSearchClick: (str) {
                       loadList(str);
                     },
@@ -124,8 +124,8 @@ class _CountryListPageState extends State<CountryListPage> {
                     ? Center(
                         child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
-                          SizedBox(
+                        children: <Widget>[
+                          const SizedBox(
                             height: 140,
                             width: 140,
                             child: LoadImage(
@@ -136,7 +136,7 @@ class _CountryListPageState extends State<CountryListPage> {
                             ),
                           ),
                           Caption(
-                            str: '没有匹配的国家',
+                            str: Translation.t(context, '没有匹配的国家'),
                             color: ColorConfig.textGrayC,
                           )
                         ],

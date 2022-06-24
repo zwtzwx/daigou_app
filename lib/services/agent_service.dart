@@ -76,7 +76,6 @@ class AgentService {
       if (kDebugMode) {
         print(response);
       }
-      var data = response.data;
       result = AgentModel.fromJson(response.data["agent"]);
     });
     return result;

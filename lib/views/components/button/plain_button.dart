@@ -1,3 +1,4 @@
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class _PlainButtonState extends State<PlainButton> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Caption(
-          str: widget.text,
+          str: Translation.t(context, widget.text),
           fontSize: widget.fontSize,
           color: widget.textColor,
         ),

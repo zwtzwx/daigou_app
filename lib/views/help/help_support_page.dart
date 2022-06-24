@@ -1,6 +1,7 @@
 /*
   帮助支持
 */
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -122,12 +123,12 @@ class HelpSupportPageState extends State<HelpSupportPage>
                   ),
                   Gaps.hGap10,
                   Caption(
-                    str: '仓库门卫：${receiver ?? ''}',
+                    str: Translation.t(context, '仓库门卫') + '：${receiver ?? ''}',
                   )
                 ],
               ),
               MainButton(
-                text: '在线客服',
+                text: Translation.t(context, '在线客服'),
                 onPressed: () {},
               ),
             ],
@@ -145,22 +146,22 @@ class HelpSupportPageState extends State<HelpSupportPage>
         children: [
           buildHelpItem(
             'Help/how',
-            '如何下单',
+            Translation.t(context, '如何下单'),
             3,
           ),
           buildHelpItem(
             'Help/forbid',
-            '禁运物品',
+            Translation.t(context, '禁运物品'),
             2,
           ),
           buildHelpItem(
             'Help/question',
-            '常见问题',
+            Translation.t(context, '常见问题'),
             1,
           ),
           buildHelpItem(
             'Help/suggest',
-            '投诉建议',
+            Translation.t(context, '投诉建议'),
             0,
           ),
         ],
@@ -246,11 +247,9 @@ class AnnouncementListState extends State<AnnouncementList> {
               if (installed) {
                 launchWeChatMiniProgram(
                         username: 'gh_e9afa1eee63a', path: model.content)
-                    .then((data) {
-                  print("---》$data");
-                });
+                    .then((data) {});
               } else {
-                Util.showToast("请先安装微信");
+                Util.showToast(Translation.t(context, '请先安装微信'));
               }
             });
           } else {
@@ -259,11 +258,9 @@ class AnnouncementListState extends State<AnnouncementList> {
                 if (installed) {
                   launchWeChatMiniProgram(
                           username: 'gh_e9afa1eee63a', path: model.content)
-                      .then((data) {
-                    print("---》$data");
-                  });
+                      .then((data) {});
                 } else {
-                  Util.showToast("请先安装微信");
+                  Util.showToast(Translation.t(context, '请先安装微信'));
                 }
               });
             } else {

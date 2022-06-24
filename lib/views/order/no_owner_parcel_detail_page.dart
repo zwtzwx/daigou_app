@@ -2,7 +2,6 @@
   无人认领详细界面
  */
 
-import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/config/text_config.dart';

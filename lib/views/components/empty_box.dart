@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 
-Widget emptyBox([String? content]) {
+Widget emptyBox(BuildContext context, [String? content]) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -16,7 +17,7 @@ Widget emptyBox([String? content]) {
               fit: BoxFit.fitWidth,
             ),
             Caption(
-              str: content ?? '暂无内容',
+              str: Translation.t(context, content ?? '暂无内容'),
               color: ColorConfig.textGray,
             )
           ],

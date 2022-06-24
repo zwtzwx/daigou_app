@@ -15,7 +15,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 /*
   评价有奖
 */
@@ -29,7 +28,6 @@ class OrderCommentPage extends StatefulWidget {
 
 class OrderCommentPageState extends State<OrderCommentPage> {
   final TextEditingController _evaluateController = TextEditingController();
-  final FocusNode _evaluate = FocusNode();
   FocusNode blankNode = FocusNode();
   String coupons = '';
   String tips = '';

@@ -1,3 +1,4 @@
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class _MainButtonState extends State<MainButton> {
         ),
       ),
       child: Caption(
-        str: widget.text,
+        str: Translation.t(context, widget.text),
         color: widget.textColor,
         fontSize: widget.fontSize,
         fontWeight: widget.fontWeight,

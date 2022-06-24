@@ -20,7 +20,6 @@ import 'package:jiyun_app_client/events/logined_event.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -39,7 +38,6 @@ class LoginPageState extends State<LoginPage> {
   String selectTypeName = '';
   List<String> listTitle = ['手机号', '邮箱号'];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final ScrollController _scrollController = ScrollController();
   String sent = '获取验证码';
   String code = '';
   bool isButtonEnable = true;

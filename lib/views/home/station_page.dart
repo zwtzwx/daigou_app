@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/self_pickup_station_model.dart';
@@ -41,8 +42,8 @@ class _StationPageState extends State<StationPage> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: const Caption(
-          str: '自提点',
+        title: Caption(
+          str: Translation.t(context, '自提点'),
           color: ColorConfig.textBlack,
           fontSize: 18,
         ),
@@ -80,10 +81,10 @@ class _StationPageState extends State<StationPage> {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Row(
               children: [
-                const SizedBox(
+                SizedBox(
                   width: 100,
                   child: Caption(
-                    str: '联系人',
+                    str: Translation.t(context, '联系人'),
                     color: ColorConfig.main,
                     fontSize: 16,
                   ),
@@ -102,10 +103,10 @@ class _StationPageState extends State<StationPage> {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Row(
               children: [
-                const SizedBox(
+                SizedBox(
                   width: 100,
                   child: Caption(
-                    str: '收件电话',
+                    str: Translation.t(context, '收件电话'),
                     color: ColorConfig.main,
                     fontSize: 16,
                   ),
@@ -124,10 +125,10 @@ class _StationPageState extends State<StationPage> {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Row(
               children: [
-                const SizedBox(
+                SizedBox(
                   width: 100,
                   child: Caption(
-                    str: '详细地址',
+                    str: Translation.t(context, '详细地址'),
                     color: ColorConfig.main,
                     fontSize: 16,
                   ),
@@ -146,10 +147,10 @@ class _StationPageState extends State<StationPage> {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Row(
               children: [
-                const SizedBox(
+                SizedBox(
                   width: 100,
                   child: Caption(
-                    str: '国家/地区',
+                    str: Translation.t(context, '国家/地区'),
                     color: ColorConfig.main,
                     fontSize: 16,
                   ),
@@ -167,8 +168,8 @@ class _StationPageState extends State<StationPage> {
           Gaps.line,
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: const Caption(
-              str: '支持渠道',
+            child: Caption(
+              str: Translation.t(context, '支持渠道'),
               color: ColorConfig.main,
               fontSize: 16,
             ),
@@ -235,8 +236,8 @@ class _StationPageState extends State<StationPage> {
                         Routers.push('/LineDetailPage', context,
                             {'id': lineModel.id, 'type': 1});
                       },
-                      child: const Caption(
-                        str: '查看详情',
+                      child: Caption(
+                        str: Translation.t(context, '查看详情'),
                         fontSize: 12,
                         color: ColorConfig.main,
                         fontWeight: FontWeight.bold,

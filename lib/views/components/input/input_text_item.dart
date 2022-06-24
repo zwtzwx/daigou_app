@@ -1,3 +1,4 @@
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,7 @@ class _InputTextItemState extends State<InputTextItem> {
                               )
                             : Gaps.empty,
                         Text(
-                          widget.title,
+                          Translation.t(context, widget.title),
                           style: TextConfig.textDark14,
                         ),
                       ],

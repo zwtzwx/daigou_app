@@ -37,6 +37,7 @@ class _CommentCellState extends State<CommentCell>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
       padding: const EdgeInsets.only(
         bottom: 30,

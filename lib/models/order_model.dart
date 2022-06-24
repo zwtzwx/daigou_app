@@ -354,7 +354,7 @@ class OrderModel {
     入库照片
    */
   late List<Map<String, dynamic>> inWarehousePictures;
-  // Null inWarehouseItem;
+  String? inWarehouseItem;
   // List<ExpressLineCosts> expressLineCosts;
 
   /*
@@ -525,7 +525,9 @@ class OrderModel {
         inWarehousePictures.add(v);
       });
     }
-    // inWarehouseItem = json['in_warehouse_item'];
+    if (json['in_warehouse_item'] != null) {
+      inWarehouseItem = json['in_warehouse_item']['item'];
+    }
     // if (json['express_line_costs'] != null) {
     //   expressLineCosts = new List<ExpressLineCosts>();
     //   json['express_line_costs'].forEach((v) {

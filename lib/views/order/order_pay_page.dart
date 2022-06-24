@@ -16,7 +16,6 @@ import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/models/user_vip_price_model.dart';
 import 'package:jiyun_app_client/services/balance_service.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
-import 'package:jiyun_app_client/services/point_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -650,9 +649,7 @@ class OrderPayPageState extends State<OrderPayPage> {
               nonceStr: appconfig['noncestr'].toString(),
               timeStamp: appconfig['timestamp'],
               sign: appconfig['sign'].toString(),
-            ).then((data) {
-              print("---》$data");
-            });
+            ).then((data) {});
           } else {
             Util.showToast("请先安装微信");
           }
@@ -680,9 +677,7 @@ class OrderPayPageState extends State<OrderPayPage> {
                 nonceStr: appconfig['noncestr'].toString(),
                 timeStamp: appconfig['timestamp'],
                 sign: appconfig['sign'].toString(),
-              ).then((data) {
-                print("---》$data");
-              });
+              ).then((data) {});
             } else {
               Util.showToast("请先安装微信");
             }

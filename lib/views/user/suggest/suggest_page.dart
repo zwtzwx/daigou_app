@@ -1,5 +1,4 @@
 import 'package:jiyun_app_client/common/upload_util.dart';
-import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/services/article_service.dart';

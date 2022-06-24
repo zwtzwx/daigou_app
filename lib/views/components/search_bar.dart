@@ -1,3 +1,4 @@
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -91,7 +92,7 @@ class SearchBarWidgetState extends State<SearchBar> {
           //       size: 25,
           //     )),
           filled: false,
-          hintText: '输入关键字查询',
+          hintText: Translation.t(context, '输入关键字查询'),
           hintStyle: TextConfig.textGray14,
           fillColor: ColorConfig.bgGray,
           border: OutlineInputBorder(
@@ -111,7 +112,7 @@ class SearchBarWidgetState extends State<SearchBar> {
       margin: const EdgeInsets.only(top: 10, bottom: 10, right: 10),
       child: RawMaterialButton(
         padding: const EdgeInsets.all(0),
-        child: const Caption(str: '搜索'),
+        child: Caption(str: Translation.t(context, '搜索')),
         onPressed: () {
           // print("$_title");
           widget.onSearchClick(_title);

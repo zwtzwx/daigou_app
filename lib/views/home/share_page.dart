@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:jiyun_app_client/common/hex_to_color.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/share_model.dart';
@@ -65,7 +66,7 @@ class ShareInfoPageState extends State<SharePage> {
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
         title: Caption(
-          str: pageTitle,
+          str: Translation.t(context, pageTitle),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -160,7 +161,8 @@ class ShareInfoPageState extends State<SharePage> {
                                                   MainAxisAlignment.center,
                                               children: <Widget>[
                                                 Caption(
-                                                  str: '微信分享',
+                                                  str: Translation.t(
+                                                      context, '微信分享'),
                                                   color: HexToColor('#9A571E'),
                                                 ),
                                                 Gaps.vGap4,
@@ -196,8 +198,9 @@ class ShareInfoPageState extends State<SharePage> {
                                                 ScreenUtil().screenWidth / 4.5,
                                             padding: const EdgeInsets.only(
                                                 top: 3, bottom: 3),
-                                            child: const Caption(
-                                              str: '点击分享',
+                                            child: Caption(
+                                              str: Translation.t(
+                                                  context, '点击分享'),
                                               fontSize: 14,
                                               color: ColorConfig.white,
                                             ),
@@ -215,7 +218,8 @@ class ShareInfoPageState extends State<SharePage> {
                                             await Permission.storage.request();
                                         if (storageStatus !=
                                             PermissionStatus.granted) {
-                                          throw '无法存储图片，请先授权！';
+                                          throw Translation.t(
+                                              context, '无法存储图片，请先授权！');
                                         }
                                       }
                                       generatePoster();
@@ -246,7 +250,8 @@ class ShareInfoPageState extends State<SharePage> {
                                                   MainAxisAlignment.center,
                                               children: <Widget>[
                                                 Caption(
-                                                  str: '海报分享',
+                                                  str: Translation.t(
+                                                      context, '海报分享'),
                                                   color: HexToColor('#9A571E'),
                                                 ),
                                                 Gaps.vGap4,
@@ -282,8 +287,9 @@ class ShareInfoPageState extends State<SharePage> {
                                                 ScreenUtil().screenWidth / 4.5,
                                             padding: const EdgeInsets.only(
                                                 top: 3, bottom: 3),
-                                            child: const Caption(
-                                              str: '点击生成',
+                                            child: Caption(
+                                              str: Translation.t(
+                                                  context, '点击生成'),
                                               fontSize: 14,
                                               color: ColorConfig.white,
                                             ),
@@ -400,8 +406,9 @@ class ShareInfoPageState extends State<SharePage> {
                                                     top: 5),
                                                 alignment:
                                                     Alignment.bottomCenter,
-                                                child: const Caption(
-                                                  str: '长按识别小程序',
+                                                child: Caption(
+                                                  str: Translation.t(
+                                                      context, '长按识别小程序'),
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,
                                                 ),
@@ -439,8 +446,8 @@ class ShareInfoPageState extends State<SharePage> {
                                       icon: Image.asset(
                                         'assets/images/Home/保存到相册@3x.png',
                                       ),
-                                      label: const Caption(
-                                        str: '保存',
+                                      label: Caption(
+                                        str: Translation.t(context, '保存'),
                                         color: ColorConfig.white,
                                       )),
                                 )),
@@ -481,9 +488,9 @@ class ShareInfoPageState extends State<SharePage> {
         // print('result:$result');
         EasyLoading.dismiss();
         if (result['isSuccess']) {
-          Util.showToast('保存成功');
+          Util.showToast(Translation.t(context, '保存成功'));
         } else {
-          Util.showToast('保存失败');
+          Util.showToast(Translation.t(context, '保存失败'));
         }
         // }
       } catch (e) {

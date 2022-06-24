@@ -3,7 +3,6 @@
   余额列表，充值之类
  */
 import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/bank_model.dart';
 import 'package:jiyun_app_client/models/default_amount_model.dart';
 import 'package:jiyun_app_client/models/order_transaction_model.dart';
 import 'package:jiyun_app_client/models/pay_type_model.dart';

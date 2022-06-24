@@ -1,20 +1,14 @@
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/change_page_index_event.dart';
-import 'package:jiyun_app_client/events/home_refresh_event.dart';
 import 'package:jiyun_app_client/models/article_model.dart';
-import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/services/article_service.dart';
-import 'package:jiyun_app_client/storage/user_storage.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 // import 'package:jiyun_app_client/event/application_event.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
-import 'package:provider/provider.dart';
 
 /*
   关于我们

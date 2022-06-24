@@ -317,10 +317,8 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
         GestureDetector(
           onTap: () async {
             var s = await Navigator.pushNamed(context, '/CountryListPage');
+            if (s == null) return;
             CountryModel a = s as CountryModel;
-            if (a == null) {
-              return;
-            }
             setState(() {
               model.timezone = a.timezone!;
             });
@@ -334,10 +332,8 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Caption(
-                    str: model.timezone == null || model.timezone.isEmpty
-                        ? "请选择电话区号"
-                        : model.timezone,
-                    color: model.timezone == null || model.timezone.isEmpty
+                    str: model.timezone.isEmpty ? "请选择电话区号" : model.timezone,
+                    color: model.timezone.isEmpty
                         ? ColorConfig.textGray
                         : ColorConfig.textDark,
                     fontSize: 14,

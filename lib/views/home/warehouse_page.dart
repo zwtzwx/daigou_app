@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -37,8 +38,8 @@ class WareHouseAddressState extends State<WareHouseAddress>
         elevation: 0.5,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
-        title: const Caption(
-          str: '转运仓库',
+        title: Caption(
+          str: Translation.t(context, '转运仓库'),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -76,14 +77,14 @@ class WareHouseAddressState extends State<WareHouseAddress>
         children: [
           GestureDetector(
             child: Column(
-              children: const [
-                LoadImage(
+              children: [
+                const LoadImage(
                   'PackageAndOrder/read-icon',
                   fit: BoxFit.fitWidth,
                   width: 60,
                 ),
                 Caption(
-                  str: '转运必读',
+                  str: Translation.t(context, '转运必读'),
                 ),
               ],
             ),
@@ -95,14 +96,14 @@ class WareHouseAddressState extends State<WareHouseAddress>
                   .fire(ChangePageIndexEvent(pageName: 'middle'));
             },
             child: Column(
-              children: const [
-                LoadImage(
+              children: [
+                const LoadImage(
                   'PackageAndOrder/start-icon',
                   fit: BoxFit.fitWidth,
                   width: 60,
                 ),
                 Caption(
-                  str: '开始集运',
+                  str: Translation.t(context, '开始集运'),
                 ),
               ],
             ),
@@ -149,7 +150,7 @@ class WareHouseAddressState extends State<WareHouseAddress>
               ),
               Gaps.hGap10,
               Caption(
-                str: titles[index],
+                str: Translation.t(context, titles[index]),
                 fontSize: 16,
               ),
             ],
@@ -200,7 +201,7 @@ class WareHouseAddressState extends State<WareHouseAddress>
                           ),
                           Gaps.hGap10,
                           Caption(
-                            str: btnStrs[index],
+                            str: Translation.t(context, btnStrs[index]),
                             color: ColorConfig.primary,
                             fontWeight: FontWeight.bold,
                           ),
@@ -281,6 +282,7 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
       margin: const EdgeInsets.only(left: 15, top: 10, right: 15),
       child: Column(
@@ -318,8 +320,8 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
                 ),
               ),
               Gaps.hGap10,
-              const Caption(
-                str: '寄件到仓库',
+              Caption(
+                str: Translation.t(context, '寄件到仓库'),
                 fontSize: 16,
               ),
             ],
@@ -330,8 +332,8 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
             },
             child: Row(
               children: [
-                const Caption(
-                  str: '查看海外自提点地址',
+                Caption(
+                  str: Translation.t(context, '查看海外自提点地址'),
                   color: ColorConfig.main,
                   fontSize: 12,
                 ),
@@ -419,7 +421,7 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
       '邮编',
     ];
 
-    String storeStr = '无限制';
+    String storeStr = Translation.t(context, '无限制');
     if (model.freeStoreDays != null && model.freeStoreDays! > 0) {
       String storeFee =
           '${localModel?.currencySymbol}${(model.storeFee! / 100).toStringAsFixed(2)}';
@@ -444,7 +446,7 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
             SizedBox(
               width: 90,
               child: Caption(
-                str: labels[i],
+                str: Translation.t(context, labels[i]),
                 color: ColorConfig.main,
                 fontSize: 16,
               ),
@@ -473,8 +475,8 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
               } else {
                 String copyStr =
                     '${labels[0]}：${contents[0]}\n${labels[1]}：${contents[1]}\n${labels[4]}：${contents[4]}\n${labels[2]}：${contents[2]}';
-                Clipboard.setData(ClipboardData(text: copyStr))
-                    .then((value) => EasyLoading.showSuccess('复制成功'));
+                Clipboard.setData(ClipboardData(text: copyStr)).then((value) =>
+                    EasyLoading.showSuccess(Translation.t(context, '复制成功')));
               }
             },
             child: Container(
@@ -498,8 +500,8 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
         Gaps.vGap20,
         Gaps.line,
         Gaps.vGap20,
-        const Caption(
-          str: '温馨提示',
+        Caption(
+          str: Translation.t(context, '温馨提示'),
           color: ColorConfig.main,
           fontSize: 12,
         ),

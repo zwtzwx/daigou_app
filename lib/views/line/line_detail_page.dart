@@ -1,3 +1,4 @@
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
@@ -209,10 +210,10 @@ class LineDetailPageState extends State<LineDetailPage> {
               (detailLine!.mode == 1 ? '立方' : localModel!.weightSymbol);
       String expireFee = localModel!.currencySymbol +
           (detailLine!.expireFee! / 100).toStringAsFixed(2);
-      list.add(
-          buildTitleAndContentCell('计费重量', countWeight, ColorConfig.textRed));
-      list.add(
-          buildTitleAndContentCell('预估运费', expireFee, ColorConfig.textRed));
+      list.add(buildTitleAndContentCell(
+          Translation.t(context, '计费重量'), countWeight, ColorConfig.textRed));
+      list.add(buildTitleAndContentCell(
+          Translation.t(context, '预估运费'), expireFee, ColorConfig.textRed));
     }
     return Container(
         // height: 100,
@@ -224,9 +225,11 @@ class LineDetailPageState extends State<LineDetailPage> {
         ),
         child: Column(
           children: <Widget>[
-            buildTitleAndContentCell('分区', model.name),
-            buildTitleAndContentCell('计费模式', modeStr),
-            buildTitleAndContentCell('运送时效', model.referenceTime),
+            buildTitleAndContentCell(Translation.t(context, '分区'), model.name),
+            buildTitleAndContentCell(Translation.t(context, '计费模式'),
+                Translation.t(context, modeStr)),
+            buildTitleAndContentCell(
+                Translation.t(context, '运送时效'), model.referenceTime),
             ...list
           ],
         ));
@@ -244,8 +247,8 @@ class LineDetailPageState extends State<LineDetailPage> {
     listWidget.add(Container(
       alignment: Alignment.centerLeft,
       height: 30,
-      child: const Caption(
-        str: '计费标准',
+      child: Caption(
+        str: Translation.t(context, '计费标准'),
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
@@ -475,8 +478,8 @@ class LineDetailPageState extends State<LineDetailPage> {
     viewList.add(Container(
       alignment: Alignment.centerLeft,
       height: 30,
-      child: const Caption(
-        str: '渠道增值服务',
+      child: Caption(
+        str: Translation.t(context, '渠道增值服务'),
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
@@ -488,7 +491,7 @@ class LineDetailPageState extends State<LineDetailPage> {
       // 1 运费比例 2固定费用 3单箱固定费用 4单位计费重量固定费用 5单位实际重量固定费用 6申报价值比列
       switch (item.type) {
         case 1:
-          first = '实际运费';
+          first = Translation.t(context, '实际运费');
           second = (item.value / 100).toStringAsFixed(2) + '%';
           break;
         case 2:
@@ -652,13 +655,13 @@ class LineDetailPageState extends State<LineDetailPage> {
         } else if (item.type == 4) {
           contentStr += '限定【限制出仓】';
         }
-        if (item.minCharge != null && item.minCharge != 0) {
+        if (item.minCharge != 0) {
           contentStr += '（最低收费' +
               localModel!.currencySymbol +
               (item.minCharge / 100).toStringAsFixed(2) +
               ',';
         }
-        if (item.maxCharge != null && item.maxCharge != 0) {
+        if (item.maxCharge != 0) {
           contentStr += '（最高收费' +
               localModel!.currencySymbol +
               (item.maxCharge / 100).toStringAsFixed(2) +
@@ -690,8 +693,8 @@ class LineDetailPageState extends State<LineDetailPage> {
     textList.add(Container(
       alignment: Alignment.centerLeft,
       height: 30,
-      child: const Caption(
-        str: '渠道限制规则',
+      child: Caption(
+        str: Translation.t(context, '渠道限制规则'),
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
@@ -771,8 +774,9 @@ class LineDetailPageState extends State<LineDetailPage> {
                       height: 40,
                       width: _dialogWidth,
                       alignment: Alignment.center,
-                      child:
-                          const Caption(str: '确认', color: ColorConfig.primary),
+                      child: Caption(
+                          str: Translation.t(context, '确认'),
+                          color: ColorConfig.primary),
                     ),
                   ),
                 ],
@@ -881,8 +885,8 @@ class LineDetailPageState extends State<LineDetailPage> {
                           children: <Widget>[
                             Expanded(
                                 child: TextButton(
-                                    child: const Caption(
-                                      str: '确定',
+                                    child: Caption(
+                                      str: Translation.t(context, '确定'),
                                       color: ColorConfig.primary,
                                     ),
                                     onPressed: () async {

@@ -61,6 +61,8 @@ dependencies:
   photo_view: ^0.13.0
   dotted_border: ^2.0.0+1
   flutter_dotenv: ^5.0.2
+  video_player: ^2.4.5
+  flick_video_player: ^0.5.0
 
 dev_dependencies:
   flutter_test:

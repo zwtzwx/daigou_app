@@ -16,7 +16,6 @@ import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 
@@ -350,7 +349,7 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
           codeColor = ColorConfig.textBlack;
           sent = '发送验证码'; //重置按钮文本
         } else {
-          sent = '重新发送' + '($count)'; //更新文本内容
+          sent = '重新发送' '($count)'; //更新文本内容
         }
       });
     });

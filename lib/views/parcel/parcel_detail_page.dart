@@ -3,12 +3,8 @@
 */
 
 import 'package:jiyun_app_client/common/fade_route.dart';
-import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/list_refresh_event.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
-import 'package:jiyun_app_client/models/goods_category_model.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
@@ -16,14 +12,11 @@ import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/models/warehouse_model.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/input/base_input.dart';
-import 'package:jiyun_app_client/views/components/input/normal_input.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/components/photo_view_gallery_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 /*
@@ -42,7 +35,6 @@ class PackageDetailPage extends StatefulWidget {
 class PackageDetailPageState extends State<PackageDetailPage>
     with SingleTickerProviderStateMixin {
   bool isLoadingLocal = false;
-  bool _valueEdit = false;
 
   late ParcelModel parcelModel;
   WareHouseModel? wareHouseModel;
@@ -52,9 +44,6 @@ class PackageDetailPageState extends State<PackageDetailPage>
   late LocalizationModel? localizationInfo;
 
   String categoriesStr = '';
-  // 金额输入框
-  final TextEditingController _packageMoneyController = TextEditingController();
-  final FocusNode _packageMoney = FocusNode();
 
   bool get wantKeepAlive => true;
 
@@ -319,8 +308,26 @@ class PackageDetailPageState extends State<PackageDetailPage>
                     color: ColorConfig.textNormal,
                   ),
                 ),
-                Caption(
-                  str: parcelModel.expressNum ?? '',
+                Row(
+                  children: [
+                    Caption(
+                      str: parcelModel.expressNum ?? '',
+                    ),
+                    Gaps.hGap15,
+                    GestureDetector(
+                      onTap: () {
+                        Clipboard.setData(
+                          ClipboardData(text: parcelModel.expressNum),
+                        ).then((value) {
+                          EasyLoading.showSuccess('复制成功');
+                        });
+                      },
+                      child: const Caption(
+                        str: '复制',
+                        color: ColorConfig.primary,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -375,7 +382,7 @@ class PackageDetailPageState extends State<PackageDetailPage>
               maxHeight: (parcelModel.packagePictures != null &&
                       parcelModel.packagePictures!.isNotEmpty)
                   ? double.infinity
-                  : 30,
+                  : 40,
             ),
             padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
             child: Row(

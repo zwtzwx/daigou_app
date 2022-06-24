@@ -2,6 +2,7 @@
   评论列表
 */
 import 'package:jiyun_app_client/common/fade_route.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/banners_model.dart';
 import 'package:jiyun_app_client/models/comment_model.dart';
@@ -55,8 +56,8 @@ class CommentListPageState extends State<CommentListPage> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: const Caption(
-          str: '用户评价',
+        title: Caption(
+          str: Translation.t(context, '用户评价'),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,

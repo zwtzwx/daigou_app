@@ -331,13 +331,16 @@ class OrderItemCell extends StatelessWidget {
     var data = await BaseDialog.confirmDialog(context, '您确定要签收吗？');
     if (data != null) {
       int id = orderModel.id;
-      if (await OrderService.signed(id)) {
+      EasyLoading.show();
+      var result = await OrderService.signed(id);
+      EasyLoading.dismiss();
+      if (result['ok']) {
         Util.showToast("签收成功");
         ApplicationEvent.getInstance()
             .event
             .fire(ListRefreshEvent(type: 'refresh'));
       } else {
-        Util.showToast("签收失败");
+        Util.showToast(result['msg']);
       }
     }
   }

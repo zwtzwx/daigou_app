@@ -6,7 +6,6 @@ import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/withdrawal_item_model.dart';
 import 'package:jiyun_app_client/models/withdrawal_model.dart';
 import 'package:jiyun_app_client/services/agent_service.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:provider/provider.dart';
 

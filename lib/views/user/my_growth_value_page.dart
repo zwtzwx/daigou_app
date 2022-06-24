@@ -5,7 +5,6 @@
   成长值
 */
 
-import 'package:jiyun_app_client/common/hex_to_color.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/user_point_item_model.dart';
@@ -17,7 +16,6 @@ import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
 import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyGrowthValuePage extends StatefulWidget {
@@ -152,14 +150,6 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
   }
 
   Widget buildCustomViews(BuildContext context) {
-    num firstNum = (vipDataModel?.profile.nextGrowthValue == null
-        ? 0
-        : (vipDataModel!.profile.nextGrowthValue -
-                    vipDataModel!.profile.currentGrowthValue <=
-                0
-            ? 0
-            : vipDataModel!.profile.currentGrowthValue));
-
     var headerView = SizedBox(
       child: Stack(
         children: <Widget>[

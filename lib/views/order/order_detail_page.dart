@@ -1,27 +1,27 @@
 /*
   订单详细
  */
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:jiyun_app_client/common/fade_route.dart';
 import 'package:jiyun_app_client/common/hex_to_color.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/models/invoice_model.dart';
+import 'package:jiyun_app_client/events/application_event.dart';
+import 'package:jiyun_app_client/events/list_refresh_event.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
 import 'package:jiyun_app_client/models/parcel_box_model.dart';
-import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/models/user_coupon_model.dart';
 import 'package:jiyun_app_client/models/user_vip_model.dart';
-import 'package:jiyun_app_client/models/value_added_service_model.dart';
-import 'package:jiyun_app_client/services/coupon_service.dart';
-import 'package:jiyun_app_client/services/invoice_service.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
+import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/icon_text.dart';
+import 'package:jiyun_app_client/views/components/button/plain_button.dart';
+import 'package:jiyun_app_client/views/components/caption.dart' as caption;
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/components/photo_view_gallery_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,8 +29,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluwx/fluwx.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 
 class OrderDetailPage extends StatefulWidget {
   final Map arguments;
@@ -45,16 +46,9 @@ class OrderDetailPageState extends State<OrderDetailPage> {
   OrderModel? model;
   late int orderId;
   bool isLoading = false;
-  bool isShowCoupon = false;
-  bool isShowJIFEN = false;
-  bool userJiFen = false;
-  bool invoiceType = false;
 
-  // 会员信息
-  UserVipModel? vipModel;
-
-  // 是否展示费用详情
-  bool isShowPayMentDetail = false;
+  // 打包视频
+  List<FlickManager> packVideoManager = [];
 
   LocalizationModel? localizationInfo;
 
@@ -62,25 +56,20 @@ class OrderDetailPageState extends State<OrderDetailPage> {
 
   UserCouponModel? selectCoupon;
 
-  double picHeight = 0.0;
-
   @override
   void initState() {
     super.initState();
     orderId = widget.arguments['id'];
+    getVideoList();
     loadOrderData();
   }
 
-  /*
-    会员等级
-   */
-  getVipInfo() async {
-    var data = await UserService.getVipMemberData();
-    if (data != null) {
-      setState(() {
-        vipModel = data;
-      });
+  @override
+  void dispose() {
+    for (var item in packVideoManager) {
+      item.dispose();
     }
+    super.dispose();
   }
 
   /*
@@ -99,6 +88,21 @@ class OrderDetailPageState extends State<OrderDetailPage> {
     }
   }
 
+  // 订单打包视频
+  getVideoList() async {
+    var videos = await OrderService.getOrderPackVideo(orderId);
+    setState(() {
+      for (var item in videos) {
+        packVideoManager.add(
+          FlickManager(
+            autoPlay: false,
+            videoPlayerController: VideoPlayerController.network(item),
+          ),
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     localizationInfo =
@@ -110,7 +114,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: const Caption(
+          title: const caption.Caption(
             str: '订单详情',
             color: ColorConfig.textBlack,
             fontSize: 18,
@@ -119,6 +123,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
         backgroundColor: ColorConfig.bgGray,
+        bottomNavigationBar: bottomButton(),
         body: isLoading
             ? SingleChildScrollView(
                 child: Column(
@@ -131,6 +136,8 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                     baseInfoView(),
                     Gaps.vGap10,
                     valueInfoView(),
+                    Gaps.vGap10,
+                    model!.status > 2 ? payInfoView() : Gaps.empty,
                   ],
                   // children: returnSubView(),
                 ),
@@ -173,7 +180,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   color: HexToColor('#eceeff'),
-                  child: Caption(
+                  child: caption.Caption(
                     str: model!.address.countryName,
                     color: ColorConfig.primary,
                     fontSize: 12,
@@ -185,24 +192,24 @@ class OrderDetailPageState extends State<OrderDetailPage> {
           Gaps.vGap15,
           Gaps.line,
           Gaps.vGap15,
-          const Caption(
+          const caption.Caption(
             str: '收货地址',
             fontSize: 13,
             color: ColorConfig.textGray,
           ),
           Gaps.vGap5,
-          Caption(
+          caption.Caption(
             str: reciverStr,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
           Gaps.vGap5,
-          Caption(
+          caption.Caption(
             str: addressStr,
             lines: 3,
           ),
           Gaps.vGap5,
-          Caption(
+          caption.Caption(
             str: model!.station != null
                 ? '自提收货-${model!.station!.name}'
                 : '送货上门',
@@ -221,13 +228,13 @@ class OrderDetailPageState extends State<OrderDetailPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Caption(
+          const caption.Caption(
             str: '客服备注',
             color: ColorConfig.textGray,
           ),
           Container(
             margin: const EdgeInsets.only(top: 5),
-            child: Caption(
+            child: caption.Caption(
               str: model!.remark,
               lines: 10,
             ),
@@ -246,10 +253,10 @@ class OrderDetailPageState extends State<OrderDetailPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          baseInfoItem('提交时间', model!.createdAt),
-          baseInfoItem('快递类型', model!.expressName),
+          baseInfoItem('提交时间', text: model!.createdAt),
+          baseInfoItem('快递类型', text: model!.expressName),
           model!.status > 2
-              ? baseInfoItem('物流单号', model!.logisticsSn)
+              ? baseInfoItem('物流单号', text: model!.logisticsSn)
               : Gaps.empty,
           model!.status > 1 ? packInfoView() : Gaps.empty,
         ],
@@ -277,57 +284,293 @@ class OrderDetailPageState extends State<OrderDetailPage> {
         localizationInfo!.weightSymbol;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        baseInfoItem('称重重量', actualWeight),
-        baseInfoItem('出库体积重量', outVolumnSum),
-        baseInfoItem('入库体积重量', inVolumnSum),
-        // baseInfoItem('留仓物品', model.in),
+        model!.boxes.isNotEmpty
+            ? SizedBox(
+                height: model!.boxes.length * 70,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: model!.boxes.length,
+                  itemBuilder: boxItem,
+                ))
+            : Gaps.empty,
+        baseInfoItem('称重重量', text: actualWeight),
+        baseInfoItem('出库体积重量', text: outVolumnSum),
+        baseInfoItem('入库体积重量', text: inVolumnSum),
+        baseInfoItem('留仓物品', text: model!.inWarehouseItem),
+        packVideoManager.isNotEmpty
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  caption.Caption(
+                    str: Translation.t(context, '打包视频'),
+                    color: ColorConfig.textGray,
+                  ),
+                  Gaps.vGap10,
+                  ...packVideoManager.map((e) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: FlickVideoPlayer(
+                        flickManager: e,
+                      ),
+                    );
+                  }).toList(),
+                ],
+              )
+            : Gaps.empty,
+        Gaps.line,
+        Gaps.vGap10,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  caption.Caption(
+                    str: Translation.t(context, '打包照片'),
+                    color: ColorConfig.textGray,
+                  ),
+                  Gaps.vGap10,
+                  model!.packPictures.isNotEmpty
+                      ? GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            mainAxisSpacing: 5,
+                            childAspectRatio: 1.5,
+                          ),
+                          itemCount: model!.packPictures.length,
+                          itemBuilder: (context, index) {
+                            return _buildImageItem(
+                                context, model!.packPictures[index], index);
+                          })
+                      : Gaps.empty,
+                ],
+              ),
+            ),
+            Gaps.hGap15,
+            Expanded(
+              child: Column(
+                children: [
+                  caption.Caption(
+                    str: Translation.t(context, '物品照片'),
+                    color: ColorConfig.textGray,
+                  ),
+                  Gaps.vGap10,
+                  model!.inWarehousePictures.isNotEmpty
+                      ? GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            mainAxisSpacing: 5,
+                            childAspectRatio: 1.5,
+                          ),
+                          itemCount: model!.packPictures.length,
+                          itemBuilder: (context, index) {
+                            return _buildImageItem(context,
+                                model!.inWarehousePictures[index], index);
+                          })
+                      : Gaps.empty,
+                ],
+              ),
+            ),
+          ],
+        ),
       ],
+    );
+  }
+
+  // 多箱称重
+  Widget boxItem(context, int index) {
+    ParcelBoxModel boxModel = model!.boxes[index];
+    String volumnSum = ((boxModel.length ?? 0) / 100).toString() +
+        '*' +
+        ((boxModel.width ?? 0) / 100).toString() +
+        '*' +
+        ((boxModel.height ?? 0) / 100).toString() +
+        '/' +
+        (model!.factor ?? 0).toString() +
+        '=' +
+        ((boxModel.volumeWeight ?? 0) / 1000).toStringAsFixed(2) +
+        localizationInfo!.weightSymbol;
+    return baseInfoItem(
+      '包裹 ${index + 1}',
+      labelColor: Colors.black,
+      // bottom: index == model!.boxes.length - 1 ? 0 : 15,
+      content: Expanded(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: caption.Caption(
+                    str: Translation.t(context, '实重'),
+                  ),
+                ),
+                caption.Caption(
+                  str: ((boxModel.weight ?? 0) / 1000).toStringAsFixed(2) +
+                      localizationInfo!.weightSymbol,
+                ),
+              ],
+            ),
+            Gaps.vGap10,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: caption.Caption(
+                    str: Translation.t(context, '体积重'),
+                  ),
+                ),
+                caption.Caption(
+                  str: volumnSum,
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 
   // 订单价格
   Widget valueInfoView() {
     // 订单增值服务列表
-    num valueAddAmount = num.parse(model!.valueAddedAmount ?? '');
+    num valueAddAmount = num.parse(model!.valueAddedAmount ?? '0');
     return Container(
       color: Colors.white,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       child: Column(
         children: [
+          model!.status != 1
+              ? baseInfoItem(
+                  '合计运费',
+                  content: Row(
+                    children: [
+                      model!.price != null &&
+                              num.parse(model!.price!.discount) != 1
+                          ? caption.Caption(
+                              str: getPriceStr(model!.price!.originPrice),
+                              color: ColorConfig.textGray,
+                              fontSize: 13,
+                              decoration: TextDecoration.lineThrough,
+                            )
+                          : Gaps.empty,
+                      Gaps.hGap10,
+                      caption.Caption(
+                        str: getPriceStr(model!.allFreightFee),
+                      ),
+                    ],
+                  ),
+                )
+              : Gaps.empty,
+          model!.status != 1
+              ? baseInfoItem('帮您运费节省',
+                  text: getPriceStr(model!.thriftFreightFee))
+              : Gaps.empty,
           model!.insuranceFee > 0
-              ? baseInfoItem('保险费', '+${getPriceStr(model!.insuranceFee)}')
+              ? baseInfoItem('保险费',
+                  text: '+${getPriceStr(model!.insuranceFee)}')
               : Gaps.empty,
           model!.tariffFee > 0
-              ? baseInfoItem('关税', '+${getPriceStr(model!.tariffFee)}')
+              ? baseInfoItem('关税', text: '+${getPriceStr(model!.tariffFee)}')
               : Gaps.empty,
-          Column(
-            children: [
-              baseInfoItem(
-                '订单增值服务',
-                model!.valueAddedService.isNotEmpty
-                    ? '+${getPriceStr(valueAddAmount)}'
-                    : null,
-                bottom: 0,
-              ),
-            ],
+          baseInfoItem(
+            '订单增值服务',
+            crossAxisAlignment: CrossAxisAlignment.start,
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                caption.Caption(
+                  str: model!.valueAddedService.isNotEmpty
+                      ? '+${getPriceStr(valueAddAmount)}'
+                      : '无',
+                ),
+                ...model!.valueAddedService.map((e) {
+                  return caption.Caption(
+                    str: e.name! + '(${getPriceStr(e.price)})',
+                  );
+                }).toList(),
+              ],
+            ),
           ),
-          Gaps.vGap15,
           model!.lineRuleFee > 0
-              ? baseInfoItem('渠道规则费', '+${getPriceStr(model!.lineRuleFee)}')
+              ? baseInfoItem('渠道规则费',
+                  text: '+${getPriceStr(model!.lineRuleFee)}')
               : Gaps.empty,
           model!.lineServices.isNotEmpty
-              ? Column(
-                  children: [
-                    baseInfoItem(
-                      '渠道增值服务',
-                      model!.valueAddedService.isNotEmpty
-                          ? '+${getPriceStr(valueAddAmount)}'
-                          : null,
-                      bottom: 0,
-                    ),
-                  ],
+              ? baseInfoItem(
+                  '渠道增值服务',
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  content: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      model!.status != 1
+                          ? caption.Caption(
+                              str: '+${getPriceStr(model!.lineServiceFee)}',
+                            )
+                          : Gaps.empty,
+                      ...model!.lineServices.map((e) {
+                        return Row(
+                          children: [
+                            e.remark.isNotEmpty
+                                ? GestureDetector(
+                                    onTap: () {
+                                      BaseDialog.confirmDialog(
+                                          context, e.remark,
+                                          title: e.name,
+                                          showCancelButton: false);
+                                    },
+                                    child: const Icon(
+                                      Icons.info_outline,
+                                      color: ColorConfig.green,
+                                      size: 18,
+                                    ),
+                                  )
+                                : Gaps.empty,
+                            Gaps.hGap10,
+                            caption.Caption(
+                              str: e.name +
+                                  (model!.status != 1
+                                      ? '(${getPriceStr(e.price)})'
+                                      : ''),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ],
+                  ),
+                )
+              : Gaps.empty,
+          model!.status > 2 && model!.couponDiscountFee > 0
+              ? baseInfoItem(
+                  '优惠券',
+                  text: '-' + getPriceStr(model!.couponDiscountFee),
+                )
+              : Gaps.empty,
+          (model!.status > 2 &&
+                  model!.transaction.isNotEmpty &&
+                  model!.transaction[0].isUsePoint == 1)
+              ? baseInfoItem(
+                  '积分',
+                  text: '-' + getPriceStr(model!.transaction[0].pointAmount),
+                )
+              : Gaps.empty,
+          model!.status != 1
+              ? baseInfoItem(
+                  '订单总价',
+                  text: getPriceStr(model!.actualPaymentFee),
                 )
               : Gaps.empty,
         ],
@@ -335,289 +578,195 @@ class OrderDetailPageState extends State<OrderDetailPage> {
     );
   }
 
-  Widget baseInfoItem(String label, String? content, {double? bottom}) {
+  // 支付信息
+  Widget payInfoView() {
+    return Container(
+      color: Colors.white,
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+      child: Column(
+        children: [
+          baseInfoItem('实际支付',
+              text: getPriceStr(model!.discountPaymentFee) +
+                  ((model!.transaction.isNotEmpty &&
+                          (model!.transaction[0].showTrans ?? false))
+                      ? '/${model!.transaction[0].currency}${model!.transaction[0].currencySymbol}' +
+                          getPriceStr(model!.discountPaymentFee *
+                              num.parse(model!.transaction[0].transRate))
+                      : ''),
+              redText: true),
+          baseInfoItem(
+            '支付方式',
+            text: model!.transaction.isNotEmpty
+                ? model!.transaction[0].payName
+                : '',
+          ),
+          baseInfoItem(
+            '支付状态',
+            text: model!.transaction.isNotEmpty
+                ? (model!.transaction[0].type == 1
+                    ? Translation.t(context, '支付成功')
+                    : (model!.transaction[0].type == 2
+                        ? Translation.t(context, '退款成功')
+                        : ''))
+                : '',
+          ),
+          baseInfoItem(
+            '支付单号',
+            text: model!.transaction.isNotEmpty
+                ? model!.transaction[0].serialNo
+                : '',
+          ),
+          baseInfoItem(
+            '支付时间',
+            text: model!.transaction.isNotEmpty
+                ? model!.transaction[0].createdAt
+                : '',
+          ),
+          model!.status == 5
+              ? baseInfoItem(
+                  '签收时间',
+                  text: model!.updatedAt,
+                )
+              : Gaps.empty,
+        ],
+      ),
+    );
+  }
+
+  Widget baseInfoItem(
+    String label, {
+    double? bottom,
+    String? text,
+    Widget? content,
+    Color? labelColor,
+    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+    bool redText = false,
+  }) {
     return Padding(
       padding: EdgeInsets.only(bottom: bottom ?? 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: crossAxisAlignment,
         children: [
-          Caption(
+          caption.Caption(
             str: label,
-            color: ColorConfig.textGray,
+            color: labelColor ?? ColorConfig.textGray,
           ),
-          Caption(
-            str: content ?? '无',
-          ),
+          content ??
+              caption.Caption(
+                str: text ?? '无',
+                color: redText ? ColorConfig.textRed : ColorConfig.textBlack,
+              ),
         ],
       ),
     );
   }
 
-  String getPriceStr(num price) {
-    return localizationInfo!.currencySymbol + (price / 100).toStringAsFixed(2);
+  String getPriceStr(num? price) {
+    return localizationInfo!.currencySymbol +
+        ((price ?? 0) / 100).toStringAsFixed(2);
   }
 
+  // 底部按钮
   bottomButton() {
-    List<Widget> buttonList = [];
-    num realAmount = model?.actualPaymentFee ?? 0;
-    if (selectCoupon != null) {
-      realAmount = (model!.actualPaymentFee - selectCoupon!.coupon!.amount);
-    }
-    if (userJiFen) {
-      realAmount = (realAmount - model!.pointamount);
-    }
-    if (realAmount < 0) {
-      realAmount = 0;
-    }
-    var view1 = GestureDetector(
-        onTap: () async {
-          var s = await Navigator.pushNamed(context, '/InvoicePage',
-              arguments: {'orderModel': model});
-          if (s == null) {
-            return;
-          }
-          if (s == 'confirm') {
-            setState(() {
-              model!.isInvoice = 1;
-            });
-          }
-        },
-        child: Container(
-            height: 40,
-            alignment: Alignment.center,
-            child: const Caption(
-              str: '申请开票',
-              color: ColorConfig.textGray,
-            )));
-    var view = SizedBox(
-      height: 40,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Row(children: <Widget>[
-            Caption(
-                str: localizationInfo!.currencySymbol +
-                    (realAmount / 100).toStringAsFixed(2),
-                color: ColorConfig.textRed),
-          ]),
-        ],
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          top: BorderSide(color: ColorConfig.line),
+        ),
       ),
-    );
-    var button1 = TextButton(
-      onPressed: () {
-        isWeChatInstalled.then((installed) {
-          if (installed) {
-            openWeChatCustomerServiceChat(
-                    url: 'https://work.weixin.qq.com/kfid/kfcd1850645a45f5db4',
-                    corpId: 'ww82affb1cf55e55e0')
-                .then((data) {
-              print("---》$data");
-            });
-          } else {
-            Util.showToast("请先安装微信");
-          }
-        });
-      },
-      child: Container(
-        padding: const EdgeInsets.only(left: 15, right: 15),
-        decoration: BoxDecoration(
-            color: ColorConfig.white,
-            borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-            border: Border.all(width: 1, color: ColorConfig.textGray)),
-        alignment: Alignment.center,
-        height: 40,
-        child: const Caption(str: '联系客服'),
-      ),
-    );
-    var button2 = Container(
-      padding: const EdgeInsets.only(left: 15, right: 15),
-      height: 40,
-      child: MainButton(
-        text: model!.status == 2 ? '立即支付' : '重新支付',
-        onPressed: () async {
-          Map<String, dynamic> map = {
-            'order_id': model!.id,
-            'coupon_id': selectCoupon != null ? selectCoupon!.id : '',
-            'is_use_point': userJiFen ? 1 : 0,
-          };
-          OrderService.updateReadyPay(map, (data) {
-            if (data.ret) {
-              OrderModel resultOrder = OrderModel.fromJson(data.data);
-              Routers.push('/OrderPayPage', context,
-                  {'model': resultOrder, 'payModel': 1});
-            }
-          }, (message) => EasyLoading.showError(message));
-        },
-      ),
-    );
-    var button3 = TextButton(
-      onPressed: () {
-        var s = Routers.push('/OrderCommentPage', context, {'order': model});
-        if (s != null) {
-          loadOrderData();
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.only(left: 15, right: 15),
-        decoration: BoxDecoration(
-            color: ColorConfig.white,
-            borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-            border: Border.all(width: 1, color: ColorConfig.warningText)),
-        alignment: Alignment.center,
-        height: 40,
-        child: const Caption(str: '评价有奖', color: ColorConfig.textDark),
-      ),
-    );
-    var button6 = TextButton(
-      onPressed: () {
-        Routers.push(
-            '/OrderCommentPage', context, {'order': model, 'detail': true});
-      },
-      child: Container(
-        padding: const EdgeInsets.only(left: 15, right: 15),
-        decoration: BoxDecoration(
-            color: ColorConfig.white,
-            borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-            border: Border.all(width: 1, color: ColorConfig.textGrayC)),
-        alignment: Alignment.center,
-        height: 40,
-        child: const Caption(str: '查看评价', color: ColorConfig.textDark),
-      ),
-    );
-    var button4 = TextButton(
-      onPressed: () {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('请确认您已经收到货'),
-                actions: <Widget>[
-                  TextButton(
-                    child: const Text('取消'),
+      child: SafeArea(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            PlainButton(
+              text: '联系客服',
+              onPressed: () {
+                fluwx.isWeChatInstalled.then((installed) {
+                  if (installed) {
+                    fluwx
+                        .openWeChatCustomerServiceChat(
+                            url:
+                                'https://work.weixin.qq.com/kfid/kfcd1850645a45f5db4',
+                            corpId: 'ww82affb1cf55e55e0')
+                        .then((data) {});
+                  } else {
+                    Util.showToast(Translation.t(context, '请先安装微信'));
+                  }
+                });
+              },
+            ),
+            Gaps.hGap10,
+            [2, 12].contains(model?.status)
+                ? MainButton(
+                    text: model?.status == 2 ? '去付款' : '重新支付',
                     onPressed: () {
-                      Navigator.of(context).pop();
-                      print('取消');
-                    },
-                  ),
-                  TextButton(
-                    child: const Text('确定'),
-                    onPressed: () async {
-                      Navigator.of(context).pop();
-                      bool result = await OrderService.signed(model!.id);
-                      if (result) {
-                        Util.showToast("操作成功");
-                        Routers.push(
-                            '/SignSuccessPage', context, {'model': model});
+                      var s = Routers.push('/OrderPayPage', context, {
+                        'id': model?.id,
+                        'payModel': 1,
+                        'deliveryStatus': model?.onDeliveryStatus,
+                      });
+                      if (s != null) {
+                        onRefresh();
                       }
                     },
                   )
-                ],
-              );
-            });
-      },
-      child: Container(
-        padding: const EdgeInsets.only(left: 15, right: 15),
-        decoration: BoxDecoration(
-            color: ColorConfig.warningText,
-            borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-            border: Border.all(width: 1, color: ColorConfig.warningText)),
-        alignment: Alignment.center,
-        height: 40,
-        child: const Caption(str: '确认收货'),
-      ),
-    );
-    var button5 = TextButton(
-      onPressed: () {
-        if (model!.boxes.isNotEmpty) {
-          viewTracking(model!);
-        } else {
-          Routers.push(
-              '/TrackingDetailPage', context, {"order_sn": model!.orderSn});
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.only(left: 15, right: 15),
-        decoration: BoxDecoration(
-            color: ColorConfig.white,
-            borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-            border: Border.all(width: 0.3, color: ColorConfig.textGray)),
-        alignment: Alignment.center,
-        height: 40,
-        child: const Caption(str: '查看物流'),
-      ),
-    );
-    if (model!.status == 1) {
-    } else if (model!.status == 2) {
-      buttonList.add(view);
-      buttonList.add(button2);
-    } else if (model!.status == 3) {
-      if (model!.isInvoice == 0) {
-        buttonList.add(view1);
-      }
-      buttonList.add(button1);
-    } else if (model!.status == 4) {
-      if (model!.isInvoice == 0) {
-        buttonList.add(view1);
-      }
-      var subView = Row(
-        children: <Widget>[button5, button4],
-      );
-      buttonList.add(subView);
-    } else if (model!.status == 5) {
-      if (model!.isInvoice == 0) {
-        buttonList.add(view1);
-      }
-      if (model!.evaluated == 1) {
-        buttonList.add(button6);
-      } else {
-        buttonList.add(button3);
-      }
-    } else if (model!.status == 12) {
-      buttonList.add(view);
-      buttonList.add(button2);
-    }
-    return buttonList;
-  }
-
-  viewTracking(OrderModel model) async {
-    String result = await showCupertinoModalPopup(
-        context: context,
-        builder: (context) {
-          return CupertinoActionSheet(
-            actions: buildSubOrderView(model),
-            cancelButton: CupertinoActionSheetAction(
-              child: const Text('取消'),
-              onPressed: () {
-                Navigator.of(context).pop('cancel');
-              },
-            ),
-          );
-        });
-    if (result == 'cancel') {
-      return;
-    }
-    if (result.isEmpty) {
-      Routers.push('/TrackingDetailPage', context, {"order_sn": model.orderSn});
-    } else {
-      Routers.push('/TrackingDetailPage', context, {"order_sn": result});
-    }
-  }
-
-  buildSubOrderView(OrderModel model) {
-    List<Widget> list = [];
-    for (var i = 0; i < model.boxes.length; i++) {
-      ParcelBoxModel boxModel = model.boxes[i];
-      var view = CupertinoActionSheetAction(
-        child: Caption(
-          str: '子订单- $i',
+                : Gaps.empty,
+            model?.status == 4
+                ? MainButton(
+                    text: '确认收货',
+                    onPressed: onSign,
+                  )
+                : Gaps.empty,
+            model?.status == 5
+                ? MainButton(
+                    text: model?.evaluated == 1 ? '查看评价' : '我要评价',
+                    onPressed: onComment,
+                  )
+                : Gaps.empty,
+          ],
         ),
-        onPressed: () {
-          Navigator.of(context).pop(boxModel.logisticsSn);
-        },
-      );
-      list.add(view);
+      ),
+    );
+  }
+
+  // 签收
+  void onSign() async {
+    var data = await BaseDialog.confirmDialog(context, '请确认您已收到货');
+    if (data != null) {
+      EasyLoading.show();
+      var result = await OrderService.signed(orderId);
+      EasyLoading.dismiss();
+      if (result['ok']) {
+        EasyLoading.showSuccess('签收成功');
+        onRefresh();
+      } else {
+        EasyLoading.showError(result['msg']);
+      }
     }
-    return list;
+  }
+
+  // 评价
+  void onComment() async {
+    if (model!.evaluated == 1) {
+      Routers.push(
+          '/OrderCommentPage', context, {'order': model, 'detail': true});
+    } else {
+      var s = Routers.push('/OrderCommentPage', context, {'order': model});
+      if (s != null) {
+        onRefresh();
+      }
+    }
+  }
+
+  void onRefresh() {
+    loadOrderData();
+    ApplicationEvent.getInstance()
+        .event
+        .fire(ListRefreshEvent(type: 'refresh'));
   }
 
   Widget _buildImageItem(context, Map<String, dynamic> picMap, int index) {
@@ -632,14 +781,10 @@ class OrderDetailPageState extends State<OrderDetailPage> {
           // NinePictureAllScreenShow(model.images, index);
         },
         child: Container(
-          color: ColorConfig.bgGray,
-          height: (ScreenUtil().screenWidth - 60 - 15) / 4,
-          width: (ScreenUtil().screenWidth - 60 - 15) / 4,
+          alignment: Alignment.center,
           child: LoadImage(
             picMap['full_path'],
-            fit: BoxFit.cover,
-            holderImg: "PackageAndOrder/defalutIMG@3x",
-            format: "png",
+            fit: BoxFit.fitWidth,
           ),
         ));
   }
@@ -660,7 +805,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Caption(
+          const caption.Caption(
             str: '转运订单号',
             fontSize: 13,
             color: ColorConfig.textGray,
@@ -668,7 +813,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
           Gaps.vGap10,
           Row(
             children: [
-              Caption(
+              caption.Caption(
                 str: model?.orderSn ?? '',
               ),
               Gaps.hGap15,
@@ -686,7 +831,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
             ],
           ),
           Gaps.vGap10,
-          const Caption(
+          const caption.Caption(
             str: '包含的包裹',
             fontSize: 13,
             color: ColorConfig.textGray,
@@ -704,6 +849,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                   });
                 },
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     const LoadImage(
                       'PackageAndOrder/package',
@@ -711,7 +857,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                       height: 24,
                     ),
                     Gaps.hGap10,
-                    Caption(
+                    caption.Caption(
                       str: e.expressNum ?? '',
                     )
                   ],
@@ -733,7 +879,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
               height: 80,
               padding: const EdgeInsets.only(top: 30, left: 15),
               width: ScreenUtil().screenWidth,
-              child: Caption(
+              child: caption.Caption(
                 str: statusStr,
                 color: ColorConfig.white,
                 fontSize: 20,

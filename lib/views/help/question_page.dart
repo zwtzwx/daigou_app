@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/article_model.dart';
 import 'package:jiyun_app_client/services/article_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 
 class QuestionPage extends StatefulWidget {
@@ -67,7 +66,7 @@ class QuestionPageState extends State<QuestionPage> {
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Caption(
-            str: pageTitle,
+            str: Translation.t(context, pageTitle),
           ),
         ),
         backgroundColor: ColorConfig.bgGray,

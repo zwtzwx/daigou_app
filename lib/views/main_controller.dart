@@ -3,7 +3,6 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
-import 'package:jiyun_app_client/views/gift/gift_page.dart';
 import 'package:jiyun_app_client/views/home/warehouse_page.dart';
 import 'package:jiyun_app_client/views/order/order_center_page.dart';
 import 'package:jiyun_app_client/views/parcel/forecast_parcel_page.dart';
@@ -14,8 +13,6 @@ import 'package:jiyun_app_client/events/change_page_index_event.dart';
 import 'package:jiyun_app_client/events/un_authenticate_event.dart';
 import 'package:provider/provider.dart';
 import 'home/home_page.dart';
-
-import 'widgets/build_num_widet.dart';
 
 Color bgcolor = Color(int.parse("0xff151823"));
 

@@ -9,6 +9,7 @@ class Caption extends StatefulWidget {
       this.fontSize = 15,
       this.fontWeight = FontWeight.w400,
       this.lines = 1,
+      this.decoration,
       this.alignment = TextAlign.right});
 
   final String str;
@@ -17,6 +18,7 @@ class Caption extends StatefulWidget {
   final double fontSize;
   final FontWeight fontWeight;
   final TextAlign alignment;
+  final TextDecoration? decoration;
 
   @override
   CaptionState createState() => CaptionState();
@@ -31,6 +33,7 @@ class CaptionState extends State<Caption> {
         color: widget.color,
         fontSize: widget.fontSize,
         fontWeight: widget.fontWeight,
+        decoration: widget.decoration,
       ),
       overflow: TextOverflow.ellipsis,
       maxLines: widget.lines,

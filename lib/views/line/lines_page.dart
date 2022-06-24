@@ -1,3 +1,4 @@
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
@@ -42,7 +43,7 @@ class LinesPageState extends State<LinesPage> {
   }
 
   loadDataList() async {
-    EasyLoading.show(status: '加载...');
+    EasyLoading.show();
     List<ShipLineModel> result = await ShipLineService.getList(postDic);
     EasyLoading.dismiss();
     setState(() {
@@ -72,7 +73,7 @@ class LinesPageState extends State<LinesPage> {
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
         title: Caption(
-          str: title,
+          str: Translation.t(context, title),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -84,8 +85,8 @@ class LinesPageState extends State<LinesPage> {
           : Center(
               child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
-                SizedBox(
+              children: <Widget>[
+                const SizedBox(
                   height: 140,
                   width: 140,
                   child: LoadImage(
@@ -96,7 +97,7 @@ class LinesPageState extends State<LinesPage> {
                   ),
                 ),
                 Caption(
-                  str: '当前区域暂无线路可选',
+                  str: Translation.t(context, '当前区域暂无线路可选'),
                   color: ColorConfig.textGrayC,
                 )
               ],
@@ -117,20 +118,6 @@ class LinesPageState extends State<LinesPage> {
 
   Widget buildCellForFirstListView(BuildContext context, int index) {
     ShipLineModel model = lineData[index];
-    String deliveryStr = '';
-    // 1 自提/送货上门  0送货上门 2自提
-    switch (model.isDelivery) {
-      case 0:
-        deliveryStr = '(送货上门)';
-        break;
-      case 1:
-        deliveryStr = '(自提/送货上门)';
-        break;
-      case 2:
-        deliveryStr = '(自提)';
-        break;
-      default:
-    }
 
     return GestureDetector(
         onTap: () async {

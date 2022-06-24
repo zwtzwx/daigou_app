@@ -29,7 +29,6 @@ import 'package:jiyun_app_client/models/warehouse_model.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/express_company_service.dart';
 import 'package:jiyun_app_client/services/goods_service.dart';
-import 'package:jiyun_app_client/services/localization_service.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';

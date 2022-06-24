@@ -12,6 +12,8 @@ class OrderService {
   static const String ORDER = 'order';
   // 获取订单详情
   static const String ORDERDETAIL = 'order/:id';
+  // 获取订单打包视频
+  static const String orderVideoApi = 'order/:id/videos';
   // 确认收货接口
   static const String CHECKORDER = 'order/check/:id';
   // 订单支付方式列表
@@ -59,13 +61,17 @@ class OrderService {
   /*
     确认签收包裹
    */
-  static Future<bool> signed(int id) async {
-    bool result = false;
+  static Future<Map> signed(int id) async {
+    Map result = {'ok': false, 'msg': ''};
 
     await HttpClient()
         .post(CHECKORDER.replaceAll(':id', id.toString()))
-        // ignore: unrelated_type_equality_checks
-        .then((response) => {result = response.ok});
+        .then((response) => {
+              result = {
+                'ok': response.ok,
+                'msg': response.msg ?? response.error?.message
+              }
+            });
 
     return result;
   }
@@ -110,6 +116,21 @@ class OrderService {
       };
     });
 
+    return result;
+  }
+
+  /*
+    订单打包视频列表
+   */
+  static Future<List<String>> getOrderPackVideo(int id) async {
+    List<String> result = [];
+    await HttpClient()
+        .get(orderVideoApi.replaceAll(':id', id.toString()))
+        .then((res) {
+      if (res.ok) {
+        res.data.forEach((item) => result.add(item['url']));
+      }
+    });
     return result;
   }
 }
