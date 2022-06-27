@@ -78,10 +78,10 @@ class _MyAppState extends State<MyApp> {
 
   _initFluwx() async {
     await registerWxApi(
-        appId: "wx32978f20cd6dd0b0",
+        appId: "wxb1290b1691a16593",
         doOnAndroid: true,
         doOnIOS: true,
-        universalLink: "https://beegoplus.com/");
+        universalLink: "https://jiyun-demo.yunliantiao.com/");
     var result = await isWeChatInstalled;
     if (kDebugMode) {
       print("is installed $result");

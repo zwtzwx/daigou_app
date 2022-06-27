@@ -1,3 +1,4 @@
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/upload_util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -44,7 +45,7 @@ class _SuggestPageState extends State<SuggestPage> {
     UploadUtil.imagePicker(
         context: context,
         child: CupertinoActionSheet(
-          title: const Text('请选择上传方式'),
+          title: Text(Translation.t(context, '请选择上传方式')),
           actions: [
             CupertinoActionSheetAction(
               child: const Text('相册'),
