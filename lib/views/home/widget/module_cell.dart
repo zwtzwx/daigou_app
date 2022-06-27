@@ -1,26 +1,22 @@
 // ignore_for_file: non_constant_identifier_names
 
 /*
-  运费试算、仓库地址
+  专属收货员、包裹、订单入口
   */
 import 'package:flutter/material.dart';
-import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/common/translation.dart';
-import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/change_page_index_event.dart';
 import 'package:jiyun_app_client/events/home_refresh_event.dart';
-import 'package:jiyun_app_client/models/area_model.dart';
-import 'package:jiyun_app_client/models/country_model.dart';
-import 'package:jiyun_app_client/models/goods_props.dart';
-import 'package:jiyun_app_client/models/warehouse_model.dart';
-import 'package:jiyun_app_client/services/goods_service.dart';
+import 'package:jiyun_app_client/models/user_order_count_model.dart';
+import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
+import 'package:jiyun_app_client/storage/user_storage.dart';
+import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/input/base_input.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 
 class ModuleCell extends StatefulWidget {
@@ -31,465 +27,248 @@ class ModuleCell extends StatefulWidget {
 }
 
 class _ModuleCellState extends State<ModuleCell> {
-  final TextEditingController _weightController = TextEditingController();
-  final FocusNode _weightNode = FocusNode();
-  final TextEditingController _postcodeController = TextEditingController();
-  final FocusNode _postcodeNode = FocusNode();
-
-  // 仓库列表
-  List<WareHouseModel> warehouses = [];
-  WareHouseModel? selectedWarehouse;
-  // 物品属性
-  List<GoodsPropsModel> propList = [];
-  bool propSingle = false;
-  List<int> selectedProps = [];
-
-  // 国家、区域
-  CountryModel? selectedCountry;
-  AreaModel? selectedArea;
-  AreaModel? selectedSubArea;
+  // 专属收货人
+  String? receiver;
+  UserOrderCountModel? userOrderCountModel;
 
   @override
   void initState() {
     super.initState();
-    getWarehouseList();
-    getPropsList();
-
+    getWarehouse();
+    getOrderCount();
     ApplicationEvent.getInstance().event.on<HomeRefreshEvent>().listen((event) {
-      getWarehouseList();
-      getPropsList();
+      getWarehouse();
+      getOrderCount();
     });
   }
 
-  // 仓库列表
-  void getWarehouseList() async {
-    var data = await WarehouseService.getList();
+  // 默认仓库
+  void getWarehouse() async {
+    var data = await WarehouseService.getDefaultWarehouse();
     setState(() {
-      warehouses = data;
+      receiver = data?.receiverName;
     });
   }
 
-  // 物品属性列表、物品属性单选、多选
-  void getPropsList() async {
-    var data = await GoodsService.getPropList();
-    var single = await GoodsService.getPropConfig();
-    setState(() {
-      propList = data;
-      propSingle = single;
-    });
+  // 包裹、订单数量
+  void getOrderCount() async {
+    var token = await UserStorage.getToken();
+    if (token.isNotEmpty) {
+      userOrderCountModel = await UserService.getOrderDataCount();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-          left: 10, right: 10, top: ScreenUtil().setHeight(125)),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(10),
-          bottomRight: Radius.circular(10),
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-        color: Colors.white,
-      ),
-      child: Column(
-        children: [
-          SizedBox(
-            height: ScreenUtil().setHeight(35),
-            child: Row(
-              children: [
-                buildModuleTitle(
-                    Translation.t(context, '运费试算', listen: true), 0),
-                buildModuleTitle(
-                    Translation.t(context, '仓库地址', listen: true), 1),
-              ],
-            ),
-          ),
-          buildQueryView(),
-        ],
-      ),
-    );
-  }
-
-  Widget buildModuleTitle(String title, int index) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            if (index == 1) {
-              ApplicationEvent.getInstance()
-                  .event
-                  .fire(ChangePageIndexEvent(pageName: 'warehouse'));
-            }
-          });
-        },
-        child: Container(
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: index == 0 ? Colors.white : ColorConfig.mainAlpha,
-            borderRadius: BorderRadius.only(
-              bottomLeft: index == 0 ? Radius.zero : const Radius.circular(20),
-              topLeft: index == 0 ? const Radius.circular(20) : Radius.zero,
-              topRight: index == 0 ? Radius.zero : const Radius.circular(20),
-            ),
-          ),
-          child: Caption(
-            str: title,
-            color: index == 0 ? ColorConfig.textDark : ColorConfig.main,
-          ),
-        ),
-      ),
-    );
-  }
-
-  // 运费试算
-  Widget buildQueryView() {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 15,
-        horizontal: 20,
-      ),
-      child: Column(
-        children: [
-          buildQueryAddress(),
-          Gaps.line,
-          buildQueryItem(
-            Translation.t(context, '重量', listen: true),
-            Translation.t(context, '请输入重量，数字即可', listen: true),
-            _weightController,
-            _weightNode,
-            keyboardType: TextInputType.number,
-          ),
-          Gaps.line,
-          (selectedCountry?.regionsCount ?? 0) > 0
-              ? buildQueryItem(
-                  Translation.t(context, '邮编', listen: true),
-                  Translation.t(context, '请输入收件地址邮编', listen: true),
-                  _postcodeController,
-                  _postcodeNode,
-                )
-              : Gaps.empty,
-          (selectedCountry?.regionsCount ?? 0) > 0 ? Gaps.line : Gaps.empty,
-          buildPropsView(),
-          queryBtn(),
-          SizedBox(
-            child: Caption(
-              str: '*' + Translation.t(context, '运费试算仅为参考结果', listen: true),
-              fontSize: ScreenUtil().setSp(9),
-              color: ColorConfig.main,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<PickerItem> getWarehousePicker() {
-    List<PickerItem> data = [];
-    for (var item in warehouses) {
-      var containe = PickerItem(
-        text: Caption(
-          fontSize: 24,
-          str: item.warehouseName!,
-        ),
-      );
-      data.add(containe);
-    }
-    return data;
-  }
-
-  // 仓库、收货地区
-  Widget buildQueryAddress() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 10,
-        horizontal: 30,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                Picker(
-                  cancelText: Translation.t(context, '取消'),
-                  confirmText: Translation.t(context, '确认'),
-                  adapter: PickerDataAdapter(
-                    data: getWarehousePicker(),
-                  ),
-                  onConfirm: (Picker picker, List value) {
-                    setState(() {
-                      selectedWarehouse = warehouses[value.first];
-                      selectedArea = null;
-                      selectedCountry = null;
-                      selectedSubArea = null;
-                    });
-                  },
-                ).showModal(context);
-              },
-              child: Column(
-                children: [
-                  Caption(
-                    str: selectedWarehouse?.warehouseName ??
-                        Translation.t(context, '请选择', listen: true),
-                    color: ColorConfig.primary,
-                    fontSize: ScreenUtil().setSp(18),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 5,
-                    ),
-                    child: Caption(
-                      str: Translation.t(context, '出发地', listen: true),
-                      color: ColorConfig.main,
-                      fontSize: ScreenUtil().setSp(12),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            child: const LoadImage(
-              'Home/arrow',
-              fit: BoxFit.fitWidth,
-              width: 60,
-              format: 'png',
-            ),
-          ),
-          Expanded(
-            child: GestureDetector(
-              onTap: () async {
-                if (selectedWarehouse == null) {
-                  Util.showToast(Translation.t(
-                    context,
-                    '请选择出发地',
-                  ));
-                  return;
-                }
-                var data = await Routers.push('/CountryListPage', context, {
-                  'warehouseId': selectedWarehouse!.id,
-                });
-                if (data != null) {
-                  setState(() {
-                    if (data is Map) {
-                      selectedCountry = data['country'];
-                      selectedArea = data['area'];
-                      selectedSubArea = data['subArea'];
-                    } else {
-                      selectedCountry = (data as CountryModel);
-                      selectedArea = null;
-                      selectedSubArea = null;
-                    }
-                  });
-                }
-              },
-              child: Column(
-                children: [
-                  Caption(
-                    str: selectedCountry != null
-                        ? (selectedCountry!.name! +
-                            (selectedArea != null
-                                ? '/${selectedArea!.name}'
-                                : '') +
-                            (selectedSubArea != null
-                                ? '/${selectedSubArea!.name}'
-                                : ''))
-                        : Translation.t(context, '请选择', listen: true),
-                    color: ColorConfig.primary,
-                    fontSize: ScreenUtil().setSp(18),
-                    // lines: 4,
-                    alignment: TextAlign.center,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 5,
-                    ),
-                    child: Caption(
-                      str: Translation.t(context, '收货地区', listen: true),
-                      color: ColorConfig.main,
-                      fontSize: ScreenUtil().setSp(12),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // 物品属性
-  Widget buildPropsView() {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 20,
-            bottom: 10,
-          ),
-          child: Caption(
-            str: Translation.t(context, '货物属性', listen: true),
-            color: ColorConfig.main,
-            fontSize: ScreenUtil().setSp(12),
-          ),
-        ),
-        SizedBox(
-          height: ScreenUtil().setHeight(22),
-          child: ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            physics: const AlwaysScrollableScrollPhysics(),
-            itemCount: propList.length,
-            itemBuilder: (BuildContext context, index) {
-              GoodsPropsModel model = propList[index];
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    if (selectedProps.contains(model.id)) {
-                      selectedProps.remove(model.id);
-                    } else {
-                      if (propSingle) {
-                        selectedProps.isEmpty
-                            ? (selectedProps.add(model.id))
-                            : (selectedProps[0] = model.id);
-                      } else {
-                        selectedProps.add(model.id);
-                      }
-                    }
-                  });
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                  ),
-                  margin: const EdgeInsets.only(right: 10),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: ColorConfig.mainAlpha,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
-                      ),
-                      border: selectedProps.contains(model.id)
-                          ? Border.all(color: ColorConfig.primary, width: 2)
-                          : null),
-                  constraints: BoxConstraints(
-                    minWidth: ScreenUtil().setWidth(70),
-                  ),
-                  child: Caption(
-                    str: model.name ?? '',
-                    color: ColorConfig.primary,
-                    fontSize: ScreenUtil().setSp(12),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
+        buildReceiverView(),
+        Gaps.vGap15,
+        buildOrderView(),
       ],
     );
   }
 
-  // 运费查询
-  void onQuery() {
-    String msg = '';
-    if (selectedWarehouse == null) {
-      msg = '请选择出发地';
-    } else if (selectedCountry == null) {
-      msg = '请选择寄往国家';
-    } else if (_weightController.text.isEmpty) {
-      msg = '请输入重量';
-    } else if (selectedCountry!.regionsCount! > 0 &&
-        _postcodeController.text.isEmpty) {
-      msg = '请输入邮编';
-    } else if (selectedProps.isEmpty) {
-      msg = '请选择货物属性';
-    }
-    if (msg.isNotEmpty) {
-      Util.showToast(Translation.t(context, msg));
-      return;
-    }
-    Map params = {
-      "warehouse": selectedWarehouse,
-      "country": selectedCountry,
-      "area": selectedArea,
-      "subArea": selectedSubArea,
-      "props": selectedProps,
-      "weight": _weightController.text,
-      "postcode": _postcodeController.text,
-    };
-    Routers.push('/LineQueryPage', context, params);
-  }
-
-  // 查询按钮
-  Widget queryBtn() {
-    return GestureDetector(
-      onTap: onQuery,
-      child: Container(
-        width: double.infinity,
-        height: 60,
-        margin: const EdgeInsets.only(
-          top: 30,
-          bottom: 10,
-        ),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/Home/s_button.png'),
-            fit: BoxFit.fill,
-          ),
-        ),
-        alignment: Alignment.center,
-        child: Caption(
-          str: Translation.t(context, '查询报价', listen: true),
+  // 收货员
+  buildReceiverView() {
+    return Container(
+      margin: EdgeInsets.only(
+          left: 10, right: 10, top: ScreenUtil().setHeight(145)),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      decoration: BoxDecoration(
           color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-
-  Widget buildQueryItem(
-    String label,
-    String hintText,
-    TextEditingController controller,
-    FocusNode focusNode, {
-    keyboardType,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 0,
-        horizontal: 30,
-      ),
+          borderRadius: BorderRadius.circular(5),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x22000000),
+              blurRadius: 10,
+            )
+          ]),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Caption(
-            str: label,
-            color: ColorConfig.primary,
-            fontSize: ScreenUtil().setSp(18),
-          ),
-          Expanded(
-            child: BaseInput(
-              controller: controller,
-              focusNode: focusNode,
-              autoShowRemove: false,
-              isCollapsed: true,
-              textAlign: TextAlign.right,
-              keyboardType: keyboardType ?? TextInputType.text,
-              hintStyle: TextStyle(
-                fontSize: ScreenUtil().setSp(12),
-                color: ColorConfig.main,
+          Row(
+            children: [
+              const LoadImage(
+                'Help/home-user',
+                width: 33,
+                height: 33,
               ),
-              hintText: hintText,
-            ),
+              Gaps.hGap10,
+              Caption(
+                str: Translation.t(context, '专属收货员') + '：${receiver ?? ''}',
+              )
+            ],
+          ),
+          MainButton(
+            text: Translation.t(context, '开始集运'),
+            backgroundColor: const Color(0xFFF74055),
+            onPressed: () {
+              ApplicationEvent.getInstance()
+                  .event
+                  .fire(ChangePageIndexEvent(pageName: 'middle'));
+            },
           ),
         ],
       ),
     );
+  }
+
+  /*
+  订单包裹等按钮列表
+  */
+  Widget buildOrderView() {
+    return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisSpacing: 0.0, //水平子Widget之间间距
+          mainAxisSpacing: 0.0, //垂直子Widget之间间距
+          crossAxisCount: 4, //一行的Widget数量
+          // childAspectRatio: 3 / 4,
+        ), // 宽高比例
+        itemCount: 8,
+        itemBuilder: _buildGrideBtnViewFirst());
+  }
+
+  IndexedWidgetBuilder _buildGrideBtnViewFirst() {
+    List<String> listDesTitle = [
+      '未入库包裹',
+      '已入库包裹',
+      '待处理订单',
+      '待支付订单',
+      '待发货订单',
+      '已发货订单',
+      '已签收订单',
+      '异常件认领',
+    ];
+    List<String> listImg = [
+      'PackageAndOrder/undone-icon',
+      'PackageAndOrder/done-icon',
+      'PackageAndOrder/process-icon',
+      'PackageAndOrder/unpaid-icon',
+      'PackageAndOrder/unship-icon',
+      'PackageAndOrder/ship-icon',
+      'PackageAndOrder/sign-icon',
+      'PackageAndOrder/abnormal-icon',
+    ];
+    return (context, index) {
+      String tipStr = '';
+      switch (index) {
+        case 0:
+          tipStr = userOrderCountModel != null
+              ? userOrderCountModel!.waitStorage.toString()
+              : '';
+          break;
+        case 1:
+          tipStr = userOrderCountModel != null
+              ? userOrderCountModel!.alreadyStorage.toString()
+              : '';
+          break;
+        case 2:
+          tipStr = userOrderCountModel != null
+              ? userOrderCountModel!.waitPack.toString()
+              : '';
+          break;
+        case 3:
+          tipStr = userOrderCountModel != null
+              ? userOrderCountModel!.waitPay.toString()
+              : '';
+          break;
+        case 4:
+          tipStr = userOrderCountModel != null
+              ? userOrderCountModel!.waitTran.toString()
+              : '';
+          break;
+        case 5:
+          tipStr = userOrderCountModel != null
+              ? userOrderCountModel!.shipping.toString()
+              : '';
+          break;
+        case 6:
+          tipStr = userOrderCountModel != null
+              ? userOrderCountModel!.waitComment.toString()
+              : '';
+          break;
+        case 7:
+          tipStr = '';
+          break;
+        default:
+      }
+      return GestureDetector(
+        onTap: () {
+          if (index == 0) {
+            Routers.push('/ForcastParcelListPage', context);
+          } else if (index == 1) {
+            Routers.push('/InWarehouseParcelListPage', context);
+          } else if (index == 2) {
+            Routers.push('/OrderListPage', context, {'index': 1});
+          } else if (index == 3) {
+            Routers.push('/OrderListPage', context, {'index': 2});
+          } else if (index == 4) {
+            Routers.push('/OrderListPage', context, {'index': 3});
+          } else if (index == 5) {
+            Routers.push('/OrderListPage', context, {'index': 4});
+          } else if (index == 6) {
+            Routers.push('/OrderListPage', context, {'index': 5});
+          } else if (index == 7) {
+            Routers.push('/NoOwnerParcelPage', context);
+          }
+        },
+        child: Container(
+          color: ColorConfig.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Stack(children: <Widget>[
+                Container(
+                  height: 45,
+                  width: 50,
+                  alignment: Alignment.center,
+                  child: LoadImage(
+                    '',
+                    fit: BoxFit.fitWidth,
+                    width: 40,
+                    height: 40,
+                    holderImg: listImg[index],
+                    format: "png",
+                  ),
+                ),
+                tipStr.isNotEmpty && tipStr != '0'
+                    ? Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                              color: ColorConfig.textRed,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0))),
+                          height: 20,
+                          width: 20,
+                          child: Caption(
+                            alignment: TextAlign.center,
+                            str: tipStr,
+                            fontSize: tipStr.length == 1 ? 14 : 12,
+                            fontWeight: FontWeight.bold,
+                            color: ColorConfig.white,
+                          ),
+                        ))
+                    : Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Container(),
+                      )
+              ]),
+              Text(
+                listDesTitle[index],
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+              )
+            ],
+          ),
+        ),
+      );
+    };
   }
 }

@@ -53,10 +53,6 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
     for (var item in result) {
       if (item.type == 1) {
         filterAdList.add(item);
-      } else if (item.type == 2 &&
-          item.position == 3 &&
-          widget.onFansUrl != null) {
-        widget.onFansUrl!(item.linkPath);
       }
     }
     if (kDebugMode) {
@@ -193,7 +189,7 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
 
   buildPlugin() {
     return const SwiperPagination(
-        margin: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 55),
+        margin: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 30),
         builder: DotSwiperPaginationBuilder(
             color: Colors.grey,
             activeColor: Colors.white,

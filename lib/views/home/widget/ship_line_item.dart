@@ -19,7 +19,7 @@ Widget ShipLineItem(BuildContext context, ShipLineModel lineItem,
         width: ScreenUtil().screenWidth - 20,
         margin: const EdgeInsets.only(right: 10, left: 10, bottom: 10),
         decoration: const BoxDecoration(
-          color: ColorConfig.white,
+          color: ColorConfig.mainAlpha,
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
         ),
         child: Row(
@@ -33,7 +33,7 @@ Widget ShipLineItem(BuildContext context, ShipLineModel lineItem,
                 ),
               ),
               height: 90,
-              width: 10,
+              width: 7,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

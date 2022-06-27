@@ -103,9 +103,9 @@ class OrderCenterState extends State<OrderCenterPage> {
   created() async {
     EasyLoading.show();
     var token = await UserStorage.getToken();
+    EasyLoading.dismiss();
     if (token.isNotEmpty) {
       userOrderCountModel = await UserService.getOrderDataCount();
-      EasyLoading.dismiss();
     }
   }
 

@@ -1,8 +1,10 @@
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/announcement_model.dart';
 import 'package:jiyun_app_client/services/announcement_service.dart';
 import 'package:jiyun_app_client/storage/annoucement_storage.dart';
+import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
 import 'package:jiyun_app_client/views/home/widget/annoucement_dialog.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +35,6 @@ class HomePageState extends State<HomePage> {
   // @override
   final ScrollController _scrollController = ScrollController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String fansUrl = ''; // 入群福利链接
 
   @override
   void initState() {
@@ -82,7 +83,6 @@ class HomePageState extends State<HomePage> {
         key: _scaffoldKey,
         primary: false,
         appBar: const EmptyAppBar(),
-        backgroundColor: ColorConfig.bgGray,
         body: RefreshIndicator(
           onRefresh: _handleRefresh,
           color: ColorConfig.themeRed,
@@ -91,7 +91,7 @@ class HomePageState extends State<HomePage> {
             physics: const AlwaysScrollableScrollPhysics(),
             itemBuilder: buildCellForFirstListView,
             controller: _scrollController,
-            itemCount: 6,
+            itemCount: 4,
           ),
         ),
       ),
@@ -102,42 +102,33 @@ class HomePageState extends State<HomePage> {
     ApplicationEvent.getInstance().event.fire(HomeRefreshEvent());
   }
 
-  void onFansUrl(String url) {
-    setState(() {
-      fansUrl = url;
-    });
-  }
-
   // 首页布局
   Widget buildCellForFirstListView(BuildContext context, int index) {
     Widget widget;
     switch (index) {
       case 1:
-        widget = QuickLinkCell(context, fansUrl);
+        widget = QuickLinkCell(context);
         break;
       case 2:
-        widget = TitleCell(
-            context, '渠道优选&推荐', () => {Routers.push('/LineAllPage', context)});
+        widget = Container(
+          padding: const EdgeInsets.only(left: 10, bottom: 15, top: 15),
+          child: Caption(
+            str: Translation.t(context, '超值路线'),
+            fontWeight: FontWeight.bold,
+          ),
+        );
         break;
       case 3:
         widget = const RecommandShipLinesCell();
         break;
-      case 4:
-        widget = TitleCell(
-            context, '用户晒单', () => {Routers.push('/CommentListPage', context)});
-        break;
-      case 5:
-        widget = const CommentCell();
-        break;
       default:
         widget = SizedBox(
           child: Stack(
-            children: [
+            children: const [
               Positioned(
-                  child: AdsCell(
-                onFansUrl: onFansUrl,
-              )),
-              const ModuleCell(),
+                child: AdsCell(),
+              ),
+              ModuleCell(),
             ],
           ),
         );

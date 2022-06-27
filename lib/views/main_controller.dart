@@ -3,8 +3,8 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
-import 'package:jiyun_app_client/views/home/warehouse_page.dart';
-import 'package:jiyun_app_client/views/order/order_center_page.dart';
+import 'package:jiyun_app_client/views/express/express_query_page.dart';
+import 'package:jiyun_app_client/views/line/line_query_page.dart';
 import 'package:jiyun_app_client/views/parcel/forecast_parcel_page.dart';
 import 'package:jiyun_app_client/views/user/me_page.dart';
 import 'package:flutter/material.dart';
@@ -50,113 +50,82 @@ class TabBarState extends State<MainController> {
           children: const <Widget>[
             //在这里定义TAB栏目对应的页
             HomePage(),
-            OrderCenterPage(),
+            ExpressQueryPage(),
             ForcastParcelPage(),
-            WareHouseAddress(),
+            LineQueryPage(),
             MePage()
           ],
         ),
-        floatingActionButton: GestureDetector(
-            onTap: () {
-              //如果没有登录成功
-              if (Provider.of<Model>(context, listen: false).token.isEmpty) {
-                Routers.push('/LoginPage', context);
-                return;
-              }
-              _pageController.jumpToPage(2);
-            },
-            child: Container(
-              margin: const EdgeInsets.only(top: 5),
-              height: 60,
-              width: 60,
-              // decoration: BoxDecoration(
-              //   borderRadius: BorderRadius.circular(40.0),
-              //   border: Border.all(width: 8, color: ColorConfig.white),
-              //   // boxShadow: [
-              //   //   BoxShadow(
-              //   //       color: Colors.black12,
-              //   //       offset: Offset(0.0, 15.0), //阴影xy轴偏移量
-              //   //       blurRadius: 15.0, //阴影模糊程度
-              //   //       spreadRadius: 1.0 //阴影扩散程度
-              //   //       )
-              //   // ]
-              // ),
-              child: Image.asset(
-                'assets/images/TabbarIcon/yb.png',
-              ),
-              // FloatingActionButton(
-              //   onPressed: () {
-
-              //   child: Image.asset(
-              //     'assets/images/TabbarIcon/logo@3x.png',
-              //   ),
-              // ),
-            )),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: SafeArea(
           child: BottomNavigationBar(
               elevation: 0,
               type: BottomNavigationBarType.fixed,
               onTap: onTap,
-              selectedItemColor: ColorConfig.textBlack,
+              selectedItemColor: ColorConfig.primary,
               unselectedItemColor: Colors.grey,
               currentIndex: _selectIndex,
               backgroundColor: Colors.white,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Image.asset(
-                    'assets/images/TabbarIcon/home-uns.png',
+                    'assets/images/TabbarIcon/home.png',
                     width: 26,
                     height: 26,
                   ),
                   label: Translation.t(context, '首页', listen: true),
                   activeIcon: Image.asset(
-                    'assets/images/TabbarIcon/home-s.png',
+                    'assets/images/TabbarIcon/home-select.png',
                     width: 26,
                     height: 26,
                   ),
                 ),
                 BottomNavigationBarItem(
                     icon: Image.asset(
-                      'assets/images/TabbarIcon/box-uns.png',
+                      'assets/images/TabbarIcon/express.png',
                       width: 26,
                       height: 26,
                     ),
-                    label: Translation.t(context, '包裹', listen: true),
+                    label: Translation.t(context, '快递跟踪', listen: true),
                     activeIcon: Image.asset(
-                      'assets/images/TabbarIcon/box-s.png',
+                      'assets/images/TabbarIcon/express-select.png',
                       width: 26,
                       height: 26,
                     )),
                 BottomNavigationBarItem(
-                  icon: const SizedBox(
+                  icon: Image.asset(
+                    'assets/images/TabbarIcon/forecast.png',
                     width: 26,
                     height: 26,
                   ),
                   label: Translation.t(context, '包裹预报', listen: true),
-                ),
-                BottomNavigationBarItem(
-                  icon: Image.asset(
-                    'assets/images/TabbarIcon/ck-uns.png',
+                  activeIcon: Image.asset(
+                    'assets/images/TabbarIcon/forecast.png',
                     width: 26,
                     height: 26,
                   ),
-                  label: Translation.t(context, '仓库', listen: true),
+                ),
+                BottomNavigationBarItem(
+                  icon: Image.asset(
+                    'assets/images/TabbarIcon/calc.png',
+                    width: 26,
+                    height: 26,
+                  ),
+                  label: Translation.t(context, '运费估算', listen: true),
                   activeIcon: Image.asset(
-                    'assets/images/TabbarIcon/ck-s.png',
+                    'assets/images/TabbarIcon/calc-select.png',
                     width: 26,
                     height: 26,
                   ),
                 ),
                 BottomNavigationBarItem(
                     icon: Image.asset(
-                      'assets/images/TabbarIcon/me-uns.png',
+                      'assets/images/TabbarIcon/my.png',
                       width: 26,
                       height: 26,
                     ),
                     label: Translation.t(context, '我的', listen: true),
                     activeIcon: Image.asset(
-                      'assets/images/TabbarIcon/me-s.png',
+                      'assets/images/TabbarIcon/my-select.png',
                       width: 26,
                       height: 26,
                     )),
@@ -219,8 +188,9 @@ class TabBarState extends State<MainController> {
   void onTap(int index) async {
     //Token存在Model状态管理器中的
     if (Provider.of<Model>(context, listen: false).token.isEmpty &&
-        index != 0 &&
-        index != 3) {
+        index != 1 &&
+        index != 3 &&
+        index != 0) {
       Routers.push('/LoginPage', context);
       return;
     }

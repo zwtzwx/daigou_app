@@ -1,4 +1,4 @@
-package com.yunliantiao.jiyun_app_client
+package com.huijing.jiyun_app_client
 
 import io.flutter.embedding.android.FlutterActivity
 

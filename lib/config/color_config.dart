@@ -31,7 +31,7 @@ class ColorConfig {
   static const Color warningText85 = Color(0x21FFD400);
   static const Color tabbarSelectColor = Color(0xffe4382d);
   static const Color green = Color(0xFF3FBF3F);
-  static const Color mainAlpha = Color(0xFFEEF0FF);
+  static const Color mainAlpha = Color(0xFFF7F8FE);
 }
 
 class WidgetColor {

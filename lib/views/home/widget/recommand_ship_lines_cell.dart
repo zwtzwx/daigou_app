@@ -53,17 +53,17 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
     super.build(context);
     return _isLoading && _isLoadingLocal
         ? SizedBox(
-            height: 330,
+            height: 230,
             child: Swiper(
-              itemHeight: 300,
-              itemCount: lineList.length % 3 == 0
-                  ? lineList.length ~/ 3
-                  : lineList.length ~/ 3 + 1,
+              itemHeight: 200,
+              itemCount: lineList.length % 2 == 0
+                  ? lineList.length ~/ 2
+                  : lineList.length ~/ 2 + 1,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
                 return layoutSubViews(index);
               },
-              autoplay: lineList.length > 3,
+              autoplay: lineList.length > 2,
               pagination: buildPlugin(),
               // 相邻子条目视窗比例
               viewportFraction: 1,
@@ -81,24 +81,24 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
   Widget layoutSubViews(int index) {
     List<ShipLineModel> indexList = [];
     int totalIndex =
-        lineList.length % 3 == 0 ? lineList.length ~/ 3 : lineList.length ~/ 3;
+        lineList.length % 2 == 0 ? lineList.length ~/ 2 : lineList.length ~/ 2;
     if (index != totalIndex) {
-      for (var i = 0; i < 3; i++) {
-        indexList.add(lineList[index * 3 + i]);
+      for (var i = 0; i < 2; i++) {
+        indexList.add(lineList[index * 2 + i]);
       }
     } else {
-      if (lineList.length % 3 == 0) {
-        for (var i = 0; i < 3; i++) {
-          indexList.add(lineList[index * 3 + i]);
+      if (lineList.length % 2 == 0) {
+        for (var i = 0; i < 2; i++) {
+          indexList.add(lineList[index * 2 + i]);
         }
       } else {
-        for (var i = 0; i < lineList.length - index * 3; i++) {
-          indexList.add(lineList[index * 3 + i]);
+        for (var i = 0; i < lineList.length - index * 2; i++) {
+          indexList.add(lineList[index * 2 + i]);
         }
       }
     }
     var swiperView = SizedBox(
-      height: 440,
+      height: 340,
       width: ScreenUtil().screenWidth,
       child: Column(children: _buildGrideForRoute(indexList)),
     );

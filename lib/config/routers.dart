@@ -1,6 +1,7 @@
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/views/common/comment_list_page.dart';
 import 'package:jiyun_app_client/views/common/country_list_page.dart';
+import 'package:jiyun_app_client/views/express/express_query_page.dart';
 import 'package:jiyun_app_client/views/help/help_support_page.dart';
 import 'package:jiyun_app_client/views/help/question_page.dart';
 import 'package:jiyun_app_client/views/home/share_page.dart';
@@ -78,6 +79,7 @@ class Routers {
     '/ForgetPasswordPage',
     '/CommentListPage',
     '/LineAllPage',
+    '/ExpressQueryPage',
     '/StationPage'
   ];
 
@@ -171,6 +173,7 @@ class Routers {
         LineDetailPage(arguments: arguments),
     '/OrderListPage': (context, {arguments}) =>
         OrderListPage(arguments: arguments),
+    '/ExpressQueryPage': (context) => const ExpressQueryPage(),
     '/AboutMePage': (context) => const AboutMePage(),
     '/SignSuccessPage': (context, {arguments}) =>
         SignSuccessPage(arguments: arguments),
