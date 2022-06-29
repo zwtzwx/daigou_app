@@ -3,6 +3,7 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 
+// 物品属性
 class PropSheetCell extends StatefulWidget {
   const PropSheetCell({
     Key? key,

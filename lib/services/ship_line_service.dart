@@ -24,14 +24,19 @@ class ShipLineService {
   static const String addValueServiceApi = 'addvalue';
 
   // 获列表
-  static Future<List<ShipLineModel>> getList(
-      [Map<String, dynamic>? params]) async {
-    List<ShipLineModel> result = [];
-    await HttpClient().post(LISTAPI, data: params).then((response) => {
-          response.data?.forEach((item) {
-            result.add(ShipLineModel.fromJson(item));
-          })
-        });
+  static Future<Map> getList([Map<String, dynamic>? params]) async {
+    Map result = {'ok': false, 'msg': '', 'list': []};
+    List<ShipLineModel> list = [];
+    await HttpClient().post(LISTAPI, data: params).then((response) {
+      response.data?.forEach((item) {
+        list.add(ShipLineModel.fromJson(item));
+      });
+      result = {
+        'ok': response.ok,
+        'list': list,
+        'msg': response.msg ?? response.error!.message,
+      };
+    });
     return result;
   }
 

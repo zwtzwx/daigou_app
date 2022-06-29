@@ -19,10 +19,7 @@ import 'package:jiyun_app_client/views/order/order_comment_page.dart';
 import 'package:jiyun_app_client/views/order/order_detail_page.dart';
 import 'package:jiyun_app_client/views/order/order_list_page.dart';
 import 'package:jiyun_app_client/views/order/order_pay_page.dart';
-import 'package:jiyun_app_client/views/order/pay_success_page.dart';
-import 'package:jiyun_app_client/views/user/select_bank_page.dart';
 import 'package:jiyun_app_client/views/order/select_self_pickup_page.dart';
-import 'package:jiyun_app_client/views/order/sign_success_page.dart';
 import 'package:jiyun_app_client/views/order/tracking_detail_page.dart';
 import 'package:jiyun_app_client/views/parcel/category_page.dart';
 import 'package:jiyun_app_client/views/parcel/edit_parcel_page.dart';
@@ -32,7 +29,6 @@ import 'package:jiyun_app_client/views/parcel/in_warehouse_parcel_list.dart';
 import 'package:jiyun_app_client/views/parcel/parcel_detail_page.dart';
 import 'package:jiyun_app_client/views/user/about_me_page.dart';
 import 'package:jiyun_app_client/views/user/agent_member_page.dart';
-import 'package:jiyun_app_client/views/user/agent_page.dart';
 import 'package:jiyun_app_client/views/user/apply_withdraw_success_page.dart';
 import 'package:jiyun_app_client/views/user/balance_history_page.dart';
 import 'package:jiyun_app_client/views/user/change_mobile_email_page.dart';
@@ -68,7 +64,6 @@ import 'dart:async';
 
 class Routers {
   static List filterList = [
-    'WefarePage',
     '/webview',
     '/HelpSupportPage',
     '/QuestionPage',
@@ -121,7 +116,7 @@ class Routers {
     // '/BeSendList': (context) => BeSendList(),
     // '/HasShipped': (context) => HasShipped(),
     // '/HasSign': (context) => HasSign(),
-    '/WareHouseAddress': (context) => const WareHouseAddress(),
+    '/WarehousePage': (context) => const WarehousePage(),
     '/HelpSupportPage': (context, {arguments}) =>
         HelpSupportPage(arguments: arguments),
     '/QuestionPage': (context, {arguments}) =>
@@ -175,14 +170,11 @@ class Routers {
         OrderListPage(arguments: arguments),
     '/ExpressQueryPage': (context) => const ExpressQueryPage(),
     '/AboutMePage': (context) => const AboutMePage(),
-    '/SignSuccessPage': (context, {arguments}) =>
-        SignSuccessPage(arguments: arguments),
+
     '/MyPointPage': (context, {arguments}) => MyPointPage(arguments: arguments),
-    '/AgentPage': (context) => const AgentPage(),
     '/AgentMemberPage': (context) => const AgentMemberPage(),
     '/VipCenterPage': (context, {arguments}) =>
         VipCenterPage(arguments: arguments),
-    '/SelectBankPage': (context) => const SelectBankPage(),
     '/ApplyWithDrawSuccessPage': (context, {arguments}) =>
         ApplyWithDrawSuccessPage(arguments),
     '/BalanceHistoryPage': (context, {arguments}) => const BalanceHistoryPage(),
@@ -197,8 +189,6 @@ class Routers {
     '/InvoicePage': (context, {arguments}) => InvoicePage(arguments: arguments),
     '/SelectSelfPickUpPage': (context, {arguments}) =>
         SelectSelfPickUpPage(arguments: arguments),
-    '/PaySuccessPage': (context, {arguments}) =>
-        PaySuccessPage(arguments: arguments),
   };
 
   static String currentRouteName = "";

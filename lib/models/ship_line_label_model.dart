@@ -15,7 +15,7 @@ class ShipLineLabelModel {
   ShipLineLabelModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    labelName = json['label_name'];
+    labelName = json['label_name'] ?? '';
   }
 
   Map<String, dynamic> toJson() {

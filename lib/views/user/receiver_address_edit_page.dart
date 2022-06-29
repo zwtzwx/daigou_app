@@ -2,7 +2,6 @@
   收件地址编辑
  */
 
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -36,23 +35,6 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final textEditingController = TextEditingController();
 
-// 收件人
-  String recipientName = "";
-// 电话区号
-  String mobilArea = "请选择电话区号";
-// 联系电话
-  String mobileNumber = "";
-// 国家/地区
-  String country = "请选择国家/地区";
-// 城市
-  String cityName = "";
-// 街道
-  String streetName = "";
-// 邮编
-  String zipCode = "";
-// 门牌号
-  String doorNumber = "";
-
   // 收件人
   final TextEditingController _recipientNameController =
       TextEditingController();
@@ -63,19 +45,9 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
   // 邮编
   final TextEditingController _zipCodeController = TextEditingController();
   final FocusNode _zipCode = FocusNode();
-  // 邮箱
-  final TextEditingController _emailController = TextEditingController();
-  final FocusNode _emailNumber = FocusNode();
-  // 州/省
-  final TextEditingController _stateORprovinceController =
-      TextEditingController();
-  final FocusNode _stateORprovince = FocusNode();
-  // 城市
-  final TextEditingController _cityNameController = TextEditingController();
-  final FocusNode _cityName = FocusNode();
+
   // 详细地址
   final TextEditingController _streetNameController = TextEditingController();
-
   final FocusNode _streetName = FocusNode();
 
   FocusNode blankNode = FocusNode();
@@ -98,16 +70,12 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
         model = widget.arguments?['address'] as ReceiverAddressModel;
         _recipientNameController.text = model.receiverName;
         _mobileNumberController.text = model.phone;
-        _emailController.text = model.email;
         _zipCodeController.text = model.postcode;
         if (model.area != null) {
           areaModel = model.area;
           if (model.subArea != null) {
             subAreaModel = model.subArea;
           }
-        } else {
-          _stateORprovinceController.text = model.province;
-          _cityNameController.text = model.city;
         }
         _streetNameController.text = model.address ?? '';
       } else {
@@ -116,10 +84,9 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
         model.timezone = '';
         model.city = '';
         model.countryId = 999;
-        model.street = '';
+        model.address = '';
         model.postcode = '';
         model.doorNo = '';
-        model.isDefault = 0;
       }
     });
     if (isEdit) {
@@ -152,10 +119,12 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
       var result = await AddressService.deleteReciever(model.id!);
       EasyLoading.dismiss();
       if (result) {
-        Navigator.pop(context);
-        ApplicationEvent.getInstance()
-            .event
-            .fire(ReceiverAddressRefreshEvent());
+        EasyLoading.showSuccess('删除成功').then((value) {
+          ApplicationEvent.getInstance()
+              .event
+              .fire(ReceiverAddressRefreshEvent());
+          Navigator.pop(context);
+        });
       } else {
         EasyLoading.showError('删除失败');
       }
@@ -178,8 +147,8 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: const Caption(
-            str: '添加地址',
+          title: Caption(
+            str: !isEdit ? '添加地址' : '修改地址',
             color: ColorConfig.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
@@ -224,28 +193,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
             FocusScope.of(context).requestFocus(FocusNode());
           },
           child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  width: ScreenUtil().screenWidth,
-                  padding: const EdgeInsets.all(15),
-                  color: const Color(0xFFfff9cc),
-                  child: const Caption(
-                    str: '注意：海外地址请使用英文',
-                    color: Color(0xFFdd9c2b),
-                    fontSize: 14,
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(15),
-                  color: Colors.white,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: buildAddressContent(),
-                  ),
-                ),
-              ],
-            ),
+            child: buildAddressContent(),
           ),
         ));
   }
@@ -254,27 +202,6 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15),
-          child: Row(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: ColorConfig.primary,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 6),
-                child: const Caption(
-                  str: '收',
-                  color: Colors.white,
-                  fontSize: 13,
-                ),
-              ),
-              Gaps.hGap10,
-              const Caption(str: '收件人', fontSize: 16)
-            ],
-          ),
-        ),
         InputTextItem(
           title: "收件人",
           inputText: NormalInput(
@@ -284,8 +211,6 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
             controller: _recipientNameController,
             focusNode: _recipientName,
             maxLength: 40,
-            autoFocus: false,
-            keyboardType: TextInputType.text,
             onSubmitted: (res) {
               FocusScope.of(context).requestFocus(_mobileNumber);
             },
@@ -309,7 +234,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
               padding: const EdgeInsets.only(right: 15, left: 0),
               alignment: Alignment.center,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Caption(
                     str: model.timezone.isEmpty ? "请选择电话区号" : model.timezone,
@@ -320,7 +245,8 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
                   ),
                   const Icon(
                     Icons.arrow_forward_ios,
-                    size: 18,
+                    size: 16,
+                    color: ColorConfig.textGray,
                   ),
                 ],
               ),
@@ -331,57 +257,17 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
           title: "联系电话",
           inputText: NormalInput(
             hintText: "请输入收件人电话",
-            textAlign: TextAlign.left,
-            contentPadding: const EdgeInsets.only(top: 17),
+            textAlign: TextAlign.right,
+            contentPadding: const EdgeInsets.only(top: 17, right: 15),
             maxLength: 20,
             controller: _mobileNumberController,
             focusNode: _mobileNumber,
-            autoFocus: false,
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.phone,
             onSubmitted: (res) {
               FocusScope.of(context).requestFocus(_zipCode);
             },
             onChanged: (res) {
               model.phone = res;
-            },
-          ),
-        ),
-        Gaps.line,
-        InputTextItem(
-          title: "邮编",
-          inputText: NormalInput(
-            hintText: "请输入邮编",
-            contentPadding: const EdgeInsets.only(top: 17),
-            textAlign: TextAlign.left,
-            controller: _zipCodeController,
-            focusNode: _zipCode,
-            maxLength: 20,
-            autoFocus: false,
-            keyboardType: TextInputType.text,
-            onSubmitted: (res) {
-              FocusScope.of(context).requestFocus(_emailNumber);
-            },
-            onChanged: (res) {
-              model.postcode = res;
-            },
-          ),
-        ),
-        InputTextItem(
-          title: "邮箱",
-          inputText: NormalInput(
-            hintText: "请输入邮箱",
-            contentPadding: const EdgeInsets.only(top: 17),
-            textAlign: TextAlign.left,
-            controller: _emailController,
-            focusNode: _emailNumber,
-            maxLength: 40,
-            autoFocus: false,
-            keyboardType: TextInputType.text,
-            onSubmitted: (res) {
-              FocusScope.of(context).requestFocus(_stateORprovince);
-            },
-            onChanged: (res) {
-              model.email = res;
             },
           ),
         ),
@@ -405,58 +291,21 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
               padding: const EdgeInsets.only(right: 15, left: 0),
               alignment: Alignment.center,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Caption(
                     str: countryModel.name == null
-                        ? '请选择国家'
+                        ? '请选择国家/地区'
                         : countryModel.name!,
                     color: countryModel.name == null
                         ? ColorConfig.textGray
                         : ColorConfig.textDark,
-                    fontSize: 16,
+                    fontSize: 14,
                   ),
                   const Icon(
                     Icons.arrow_forward_ios,
-                    size: 18,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () async {
-            showPickerDestion(context);
-          },
-          child: InputTextItem(
-            height: (countryModel.areas == null || countryModel.areas!.isEmpty)
-                ? 0
-                : 55,
-            title: "省/市",
-            inputText: Container(
-              padding: const EdgeInsets.only(right: 15, left: 0),
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Caption(
-                    str: areaModel?.id == null
-                        ? '请选择省/市'
-                        : subAreaModel?.id == null
-                            ? areaModel!.name
-                            : areaModel!.name + ' ' + subAreaModel!.name,
-                    color: areaModel?.id == null
-                        ? ColorConfig.textGray
-                        : ColorConfig.textDark,
-                    fontSize: 16,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 18,
-                    color: areaModel?.id == null
-                        ? ColorConfig.textGray
-                        : ColorConfig.textDark,
+                    size: 16,
+                    color: ColorConfig.textGray,
                   ),
                 ],
               ),
@@ -464,45 +313,46 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
           ),
         ),
         InputTextItem(
-            height: (countryModel.areas == null || countryModel.areas!.isEmpty)
-                ? 55
-                : 0,
-            title: "州/省",
-            inputText: NormalInput(
-              contentPadding: const EdgeInsets.only(top: 17),
-              hintText: "请输入州/省",
-              textAlign: TextAlign.left,
-              controller: _stateORprovinceController,
-              focusNode: _stateORprovince,
-              autoFocus: false,
-              keyboardType: TextInputType.text,
-              onSubmitted: (res) {
-                FocusScope.of(context).requestFocus(_cityName);
-              },
-              onChanged: (res) {
-                model.province = res;
-              },
-            )),
-        InputTextItem(
-          height: countryModel.areas == null ? 55 : 0,
-          title: "城市",
+          title: "邮编",
           inputText: NormalInput(
-            contentPadding: const EdgeInsets.only(top: 17),
-            hintText: "请输入城市",
-            textAlign: TextAlign.left,
-            controller: _cityNameController,
-            focusNode: _cityName,
-            maxLength: 30,
-            autoFocus: false,
-            keyboardType: TextInputType.text,
+            hintText: "请输入邮编",
+            contentPadding: const EdgeInsets.only(top: 17, right: 15),
+            textAlign: TextAlign.right,
+            controller: _zipCodeController,
+            focusNode: _zipCode,
+            maxLength: 20,
             onSubmitted: (res) {
               FocusScope.of(context).requestFocus(_streetName);
             },
             onChanged: (res) {
-              model.city = res;
+              model.postcode = res;
             },
           ),
         ),
+        Container(
+          color: Colors.white,
+          width: double.infinity,
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Caption(
+                str: '详细地址',
+              ),
+              NormalInput(
+                controller: _streetNameController,
+                focusNode: _streetName,
+                maxLength: 300,
+                hintText: '请输入详细地址',
+                maxLines: 10,
+                contentPadding: const EdgeInsets.only(top: 10),
+                onChanged: (res) {
+                  model.address = res;
+                },
+              ),
+            ],
+          ),
+        )
       ],
     );
   }
@@ -528,52 +378,17 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
       return;
     }
 
-    if (countryModel.areas != null && countryModel.areas!.isNotEmpty) {
-      if (areaModel?.id == null) {
-        Util.showToast('请选择省/市');
-        return;
-      }
-    }
-    Map<String, dynamic> data;
-    if (countryModel.areas != null && countryModel.areas!.isNotEmpty) {
-      // 国家有子区域
-      data = {
-        'receiver_name': model.receiverName,
-        'timezone': model.timezone,
-        'phone': model.phone,
-        'email': model.email,
-        'is_default': model.isDefault,
-        'address': model.address,
-        'country_id': countryModel.id,
-        'postcode': model.postcode,
-        'area_id': areaModel?.id,
-        'sub_area_id': subAreaModel?.id,
-      };
-    } else {
-      // 国家无子区域
-      data = {
-        'receiver_name': model.receiverName,
-        'timezone': model.timezone,
-        'phone': model.phone,
-        'email': model.email,
-        'province': model.province,
-        'is_default': model.isDefault,
-        'address': model.address,
-        'country_id': countryModel.id,
-        'city': model.city,
-        'postcode': model.postcode,
-      };
-    }
-
-    // List updataList = [];
-    // if (isEdit) {
-    //   updataList.add({
-    //     'id': model.id,
-    //   });
-    //   updataList.add(data);
-    // } else {
-    //   updataList.add(data);
-    // }
+    Map<String, dynamic> data = {
+      'receiver_name': model.receiverName,
+      'timezone': model.timezone,
+      'phone': model.phone,
+      'address': model.address,
+      'country_id': countryModel.id,
+      'postcode': model.postcode,
+      'area_id': areaModel?.id ?? '',
+      'sub_area_id': subAreaModel?.id ?? '',
+    };
+    EasyLoading.show();
     Map result = {};
     if (isEdit) {
       result = await AddressService.updateReciever(model.id!, data);
@@ -582,9 +397,12 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
     }
     EasyLoading.dismiss();
     if (result['ok']) {
-      EasyLoading.showSuccess(result['msg']);
-      Navigator.of(context).pop();
-      ApplicationEvent.getInstance().event.fire(ReceiverAddressRefreshEvent());
+      EasyLoading.showSuccess(result['msg']).then((value) {
+        ApplicationEvent.getInstance()
+            .event
+            .fire(ReceiverAddressRefreshEvent());
+        Navigator.of(context).pop();
+      });
     } else {
       EasyLoading.showError(result['msg']);
     }

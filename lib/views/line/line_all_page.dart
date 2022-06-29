@@ -28,10 +28,9 @@ class _LineAllPageState extends State<LineAllPage> {
   }
 
   getList() async {
-    List<ShipLineModel> result =
-        await ShipLineService.getList(const {'is_great_value': 1});
+    Map result = await ShipLineService.getList(const {'is_great_value': 1});
     setState(() {
-      lineList = result;
+      lineList = result['list'];
     });
   }
 

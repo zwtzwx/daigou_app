@@ -96,7 +96,8 @@ class _ModuleCellState extends State<ModuleCell> {
               ),
               Gaps.hGap10,
               Caption(
-                str: Translation.t(context, '专属收货员') + '：${receiver ?? ''}',
+                str: Translation.t(context, '专属收货员', listen: true) +
+                    '：${receiver ?? ''}',
               )
             ],
           ),

@@ -1,4 +1,3 @@
-import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
@@ -8,7 +7,6 @@ import 'package:jiyun_app_client/services/ship_line_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
@@ -31,6 +29,7 @@ class LinesPageState extends State<LinesPage> {
   List<ShipLineModel> lineData = [];
   Map<String, dynamic>? postDic;
   bool isEmpty = false;
+  String emptyMsg = '';
   late LocalizationModel localModel;
 
   @override
@@ -45,12 +44,13 @@ class LinesPageState extends State<LinesPage> {
 
   loadDataList() async {
     EasyLoading.show();
-    List<ShipLineModel> result = await ShipLineService.getList(postDic);
+    Map result = await ShipLineService.getList(postDic);
     EasyLoading.dismiss();
     setState(() {
-      lineData = result;
-      if (result.isEmpty) {
+      lineData = result['list'];
+      if (!result['ok']) {
         isEmpty = true;
+        emptyMsg = result['msg'];
       }
     });
   }
@@ -98,7 +98,7 @@ class LinesPageState extends State<LinesPage> {
                   ),
                 ),
                 Caption(
-                  str: Translation.t(context, '当前区域暂无线路可选'),
+                  str: emptyMsg,
                   color: ColorConfig.textGrayC,
                 )
               ],

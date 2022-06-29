@@ -1,17 +1,16 @@
 /*
   快递跟踪
 */
-import 'package:jiyun_app_client/common/util.dart';
+import 'package:flutter/services.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/tracking_model.dart';
-import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/tracking_service.dart';
+import 'package:jiyun_app_client/views/components/banner.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluwx/fluwx.dart';
+import 'package:timeline_tile/timeline_tile.dart';
 
 class TrackingDetailPage extends StatefulWidget {
   final Map arguments;
@@ -25,27 +24,15 @@ class TrackingDetailPage extends StatefulWidget {
 class TrackingDetailPageState extends State<TrackingDetailPage> {
   bool isLoading = false;
   List<TrackingModel> dataList = [];
-  String? bannerImage;
 
   late String orderSn;
 
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     orderSn = widget.arguments['order_sn'];
-
     getTrackingList();
-    getBanner();
-  }
-
-  // 获取顶部 banner 图
-  getBanner() async {
-    var _tmp = await CommonService.getAllBannersInfo();
-    if (_tmp != null) {
-      setState(() {
-        bannerImage = _tmp.trackImage;
-      });
-    }
   }
 
   getTrackingList() async {
@@ -65,59 +52,46 @@ class TrackingDetailPageState extends State<TrackingDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: const BackButton(color: Colors.black),
-          backgroundColor: Colors.white,
-          elevation: 0.5,
-          centerTitle: true,
-          title: const Caption(
-            str: '物流详情',
-            color: ColorConfig.textBlack,
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
-          ),
-          systemOverlayStyle: SystemUiOverlayStyle.dark,
-        ),
+        appBar: const EmptyAppBar(),
+        primary: false,
         backgroundColor: ColorConfig.bgGray,
         body: isLoading
             ? SingleChildScrollView(
                 child: Column(
                 children: <Widget>[
-                  Column(
-                    children: _buildTrackListView(context),
+                  buildCustomViews(),
+                  Container(
+                    margin: const EdgeInsets.all(15),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Column(
+                      children: _buildTrackListView(),
+                    ),
                   ),
                 ],
               ))
             : Container());
   }
 
-  Widget buildCustomViews(BuildContext context) {
+  Widget buildCustomViews() {
     var headerView = Container(
         color: ColorConfig.bgGray,
         child: Stack(
           children: <Widget>[
-            GestureDetector(
-                onTap: () {
-                  isWeChatInstalled.then((installed) {
-                    if (installed) {
-                      openWeChatCustomerServiceChat(
-                              url:
-                                  'https://work.weixin.qq.com/kfid/kfcd1850645a45f5db4',
-                              corpId: 'ww82affb1cf55e55e0')
-                          .then((data) {});
-                    } else {
-                      Util.showToast("请先安装微信");
-                    }
-                  });
-                },
-                child: Container(
-                  margin: const EdgeInsets.all(15),
-                  width: ScreenUtil().screenWidth,
-                  height: 130,
-                  child: LoadImage(
-                    bannerImage ?? '',
-                    fit: BoxFit.fitWidth,
-                  ),
+            SizedBox(
+              width: ScreenUtil().screenWidth,
+              height: ScreenUtil().setHeight(190),
+              child: const BannerBox(imgType: 'track_image'),
+            ),
+            Positioned(
+                top: ScreenUtil().statusBarHeight,
+                left: 10,
+                child: const BackButton(
+                  color: Colors.white,
                 )),
           ],
         ));
@@ -125,116 +99,62 @@ class TrackingDetailPageState extends State<TrackingDetailPage> {
   }
 
   // 物流消息列表
-  List<Widget> _buildTrackListView(BuildContext context) {
+  List<Widget> _buildTrackListView() {
     List<Widget> listView = [];
-    listView.add(buildCustomViews(context));
-    for (var i = 0; i < dataList.length - 1; i++) {
-      TrackingModel data = dataList[i];
-      var cell = Container(
-        color: ColorConfig.white,
-        margin: const EdgeInsets.only(top: 0, left: 15, right: 15),
-        height: 80,
-        child: Row(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(right: 25, left: 25, top: 0),
-              width: 30,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  i != 0
-                      ? Expanded(child: line)
-                      : const SizedBox(
-                          width: 0.5,
-                          height: 30,
-                        ),
-                  Icon(
-                    i == 0 ? Icons.check_circle_outline : Icons.circle,
-                    color: i == 0
-                        ? ColorConfig.warningText
-                        : ColorConfig.textGrayC,
-                    size: 20,
-                  ),
-                  Expanded(child: line),
-                ],
-              ),
+    for (var i = 0; i <= dataList.length - 1; i++) {
+      TrackingModel model = dataList[i];
+      var cell = TimelineTile(
+        isFirst: i == 0,
+        isLast: i == dataList.length - 1,
+        indicatorStyle: IndicatorStyle(
+          width: 17,
+          height: 17,
+          padding: const EdgeInsets.only(right: 10),
+          drawGap: true,
+          indicatorXY: 0,
+          indicator: Icon(
+            i == 0 ? Icons.check_circle : Icons.circle,
+            size: 17,
+            color: i == 0 ? ColorConfig.green : Colors.grey[300],
+          ),
+          iconStyle: i == 0
+              ? IconStyle(
+                  iconData: Icons.check,
+                  fontSize: 15,
+                  color: Colors.white,
+                )
+              : null,
+        ),
+        endChild: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Caption(
+              str: model.ftime,
+              fontSize: 14,
+              color: ColorConfig.textGray,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    width: ScreenUtil().screenWidth - 120,
-                    child: Caption(
-                      fontSize: 17,
-                      lines: 2,
-                      str: data.context,
-                      color: ColorConfig.textBlack,
-                    ),
-                  ),
-                  Caption(
-                    color: ColorConfig.textGray,
-                    str: data.ftime,
-                  ),
-                ],
-              ),
+            Gaps.vGap10,
+            Caption(
+              str: model.context,
+              lines: 10,
             ),
+            Gaps.vGap15,
           ],
         ),
+        beforeLineStyle: LineStyle(
+          thickness: 2,
+          color: (i == 0 || i == 1) ? ColorConfig.green : Colors.grey[300]!,
+        ),
+        afterLineStyle: i > 0
+            ? LineStyle(
+                thickness: 2,
+                color: Colors.grey[300]!,
+              )
+            : null,
       );
       listView.add(cell);
     }
 
-    TrackingModel lastModel = dataList.last;
-    var cell = Container(
-        color: ColorConfig.white,
-        margin: const EdgeInsets.only(top: 0, left: 15, right: 15),
-        height: 80,
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 30,
-              margin: const EdgeInsets.only(right: 25, left: 25, top: 0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(child: line),
-                  const Icon(
-                    Icons.circle,
-                    color: ColorConfig.textGrayC,
-                    size: 20,
-                  ),
-                  const SizedBox(
-                    width: 0.5,
-                    height: 30,
-                  ),
-                ],
-              ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(
-                  width: ScreenUtil().screenWidth - 120,
-                  child: Caption(
-                    fontSize: 17,
-                    lines: 2,
-                    str: lastModel.context,
-                  ),
-                ),
-                Caption(
-                  color: ColorConfig.textGray,
-                  str: lastModel.ftime,
-                ),
-              ],
-            )
-          ],
-        ));
-    listView.add(cell);
     return listView;
   }
 }

@@ -3,6 +3,7 @@ import 'package:jiyun_app_client/common/hex_to_color.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
 import 'package:jiyun_app_client/models/model.dart';
+import 'package:jiyun_app_client/views/components/banner.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
@@ -17,7 +18,6 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/un_authenticate_event.dart';
-import 'package:jiyun_app_client/models/banners_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/express_company_model.dart';
 import 'package:jiyun_app_client/models/goods_category_model.dart';
@@ -784,9 +784,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                       alignment: Alignment.center,
                       child: Text(
                         model.qty.toString(),
-                        style: const TextStyle(
-                            // backgroundColor: ColorConfig.warningText,
-                            fontSize: 20),
+                        style: const TextStyle(fontSize: 20),
                       ),
                     ),
                     Container(
@@ -865,9 +863,10 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
         child: Column(
           children: <Widget>[
             SizedBox(
+              height: ScreenUtil().setHeight(70),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: const TrackingBanner(),
+                child: const BannerBox(imgType: 'forecast_image'),
               ),
             ),
             Container(
@@ -921,48 +920,6 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class TrackingBanner extends StatefulWidget {
-  const TrackingBanner({Key? key}) : super(key: key);
-
-  @override
-  _TrackingBannerState createState() => _TrackingBannerState();
-}
-
-class _TrackingBannerState extends State<TrackingBanner>
-    with AutomaticKeepAliveClientMixin {
-  late String banner;
-  BannersModel allimagesModel = BannersModel();
-  @override
-  void initState() {
-    super.initState();
-    banner = '';
-    getBanner();
-  }
-
-  @override
-  bool get wantKeepAlive => true;
-
-  // 获取顶部 banner 图
-  void getBanner() async {
-    var imagesData = await CommonService.getAllBannersInfo();
-
-    if (mounted) {
-      setState(() {
-        allimagesModel = imagesData!;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return LoadImage(
-      allimagesModel.forecastImage ?? "",
-      fit: BoxFit.fitWidth,
     );
   }
 }

@@ -113,8 +113,6 @@ class CommentListPageState extends State<CommentListPage> {
                         child: LoadImage(
                           model.user!.avatar,
                           fit: BoxFit.fitWidth,
-                          holderImg: "PackageAndOrder/defalutIMG@3x",
-                          format: "png",
                         ),
                       )),
                   Expanded(

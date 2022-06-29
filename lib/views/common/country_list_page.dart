@@ -42,9 +42,6 @@ class _CountryListPageState extends State<CountryListPage> {
   void initState() {
     super.initState();
     created();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      created();
-    });
   }
 
   loadList(String str) async {

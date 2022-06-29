@@ -43,6 +43,7 @@ HttpResponse handleResponse(Response? response,
 
 HttpResponse handleException(Exception exception) {
   var parseException = _parseException(exception);
+  EasyLoading.dismiss();
   if (parseException is UnauthorisedException) {
     // token 失效
     ApplicationEvent.getInstance().event.fire(UnAuthenticateEvent());

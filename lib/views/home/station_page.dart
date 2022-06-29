@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -85,7 +86,7 @@ class _StationPageState extends State<StationPage> {
                   width: 100,
                   child: Caption(
                     str: Translation.t(context, '联系人'),
-                    color: ColorConfig.main,
+                    color: ColorConfig.textGray,
                     fontSize: 16,
                   ),
                 ),
@@ -107,7 +108,7 @@ class _StationPageState extends State<StationPage> {
                   width: 100,
                   child: Caption(
                     str: Translation.t(context, '收件电话'),
-                    color: ColorConfig.main,
+                    color: ColorConfig.textGray,
                     fontSize: 16,
                   ),
                 ),
@@ -129,7 +130,7 @@ class _StationPageState extends State<StationPage> {
                   width: 100,
                   child: Caption(
                     str: Translation.t(context, '详细地址'),
-                    color: ColorConfig.main,
+                    color: ColorConfig.textGray,
                     fontSize: 16,
                   ),
                 ),
@@ -151,7 +152,7 @@ class _StationPageState extends State<StationPage> {
                   width: 100,
                   child: Caption(
                     str: Translation.t(context, '国家/地区'),
-                    color: ColorConfig.main,
+                    color: ColorConfig.textGray,
                     fontSize: 16,
                   ),
                 ),
@@ -170,7 +171,7 @@ class _StationPageState extends State<StationPage> {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Caption(
               str: Translation.t(context, '支持渠道'),
-              color: ColorConfig.main,
+              color: ColorConfig.textGray,
               fontSize: 16,
             ),
           ),

@@ -1,12 +1,11 @@
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/area_model.dart';
-import 'package:jiyun_app_client/models/banners_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/warehouse_model.dart';
-import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/goods_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
 import 'package:flutter/material.dart';
@@ -14,13 +13,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiyun_app_client/views/components/banner.dart';
+import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/input/normal_input.dart';
-// import 'package:jiyun_app_client/model/home/Localization.dart';
+import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
+import 'package:jiyun_app_client/views/components/input/base_input.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-// import 'package:jiyun_app_client/utils/localstorage.dart';
 import 'package:jiyun_app_client/common/util.dart';
+import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:jiyun_app_client/views/parcel/widget/prop_sheet_cell.dart';
 import 'package:provider/provider.dart';
 
 /*
@@ -41,17 +42,18 @@ class LineQueryState extends State<LineQueryPage>
   bool showPicker = false;
   List<WareHouseModel> list = [];
   List<CountryModel> countryList = [];
+  // 物品属性列表
   List<GoodsPropsModel> propList = [];
+  // 选择物品属性
   List<GoodsPropsModel> selectPropList = [];
-  GoodsPropsModel? selectProp;
-  WareHouseModel selectWareHouse = WareHouseModel();
-  CountryModel selectCountry = CountryModel();
-  AreaModel area = AreaModel.empty();
-  AreaModel subarea = AreaModel.empty();
-  String destination = '';
-  late LocalizationModel localizationInfo;
+  WareHouseModel? selectWareHouse;
+  CountryModel? selectCountry;
+  AreaModel? area;
+  AreaModel? subarea;
+  LocalizationModel? localizationInfo;
+  bool propSingle = false;
+
   FocusNode blankNode = FocusNode();
-  final textEditingController = TextEditingController();
   // 重量
   double weightStr = 1.0;
   final TextEditingController _weightController = TextEditingController();
@@ -72,23 +74,32 @@ class LineQueryState extends State<LineQueryPage>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      getWarehouse();
-    });
+    localizationInfo =
+        Provider.of<Model>(context, listen: false).localizationInfo;
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+    _weightController.text = '1';
+    getWarehouse();
   }
 
   void getWarehouse() async {
     EasyLoading.show();
     var data = await WarehouseService.getList();
     var propData = await GoodsService.getPropList();
+    var _single = await GoodsService.getPropConfig();
     EasyLoading.dismiss();
     setState(() {
       list = data;
-      localizationInfo =
-          Provider.of<Model>(context, listen: false).localizationInfo!;
-      selectWareHouse = list.first;
-      selectCountry = selectWareHouse.countries!.first;
-      destination = selectCountry.name!;
+      propSingle = _single;
+      if (list.isNotEmpty) {
+        selectWareHouse = list.first;
+        selectCountry = selectWareHouse!.countries!.first;
+        if (selectCountry!.areas != null && selectCountry!.areas!.isNotEmpty) {
+          area = selectCountry!.areas!.first;
+          if (area!.areas != null && area!.areas!.isNotEmpty) {
+            subarea = area!.areas!.first;
+          }
+        }
+      }
       propList = propData;
       isLoading = true;
     });
@@ -96,99 +107,51 @@ class LineQueryState extends State<LineQueryPage>
 
   @override
   void dispose() {
-    textEditingController.dispose();
     super.dispose();
   }
 
-  showPickerDestion(BuildContext context) {
-    Picker(
-      adapter: PickerDataAdapter(data: getPickerSubView()),
-      title: const Text("选择区域"),
-      cancelText: '取消',
-      confirmText: '确认',
-      selectedTextStyle: const TextStyle(color: Colors.blue, fontSize: 12),
-      onCancel: () {
-        showPicker = false;
-      },
-      onConfirm: (Picker picker, List value) {
-        setState(() {
-          selectCountry = selectWareHouse.countries![value.first];
-          area = AreaModel.empty();
-          subarea = AreaModel.empty();
-          if (selectCountry.areas != null && selectCountry.areas!.isNotEmpty) {
-            area = selectCountry.areas![value[1]];
-            if (area.areas != null && area.areas!.isNotEmpty) {
-              subarea = area.areas![value.last];
-            }
-          }
-          destination = selectCountry.name!;
-          if (area.name.isNotEmpty) {
-            destination = destination + '/' + area.name;
-          }
-          if (subarea.name.isNotEmpty) {
-            destination = destination + '/' + subarea.name;
-          }
-        });
-      },
-    ).showModal(this.context);
+  // 选择国家
+  showPickerDestion(BuildContext context) async {
+    var s = await Routers.push('/CountryListPage', context, {
+      'warehouseId': selectWareHouse!.id,
+    });
+    if (s == null) return;
+    setState(() {
+      if (s is Map) {
+        selectCountry = s['country'];
+        area = s['area'];
+        subarea = s['subArea'];
+      } else {
+        selectCountry = s;
+        area = null;
+        subarea = null;
+      }
+    });
   }
 
-  getPickerSubView() {
-    List<PickerItem> data = [];
-    for (var item in selectWareHouse.countries!) {
-      var containe = PickerItem(
-          text: Caption(
-            fontSize: 24,
-            str: item.name!,
-          ),
-          children: getSubAreaViews(item));
-      data.add(containe);
-    }
-    return data;
-  }
-
-  getSubAreaViews(CountryModel conutry) {
-    List<PickerItem> subList = [];
-    for (var item in conutry.areas!) {
-      var subArea = PickerItem(
-          text: Caption(
-            fontSize: 24,
-            str: item.name,
-          ),
-          children: getThirdSubAreaViews(item));
-      subList.add(subArea);
-    }
-    return subList;
-  }
-
-  getThirdSubAreaViews(AreaModel conutry) {
-    List<PickerItem> subList = [];
-    for (var item in conutry.areas!) {
-      var subArea = PickerItem(
-        text: Caption(
-          fontSize: 24,
-          str: item.name,
-        ),
-      );
-      subList.add(subArea);
-    }
-    return subList;
-  }
-
+  // 选择仓库
   showPickerWareHouse(BuildContext context) {
     Picker(
       adapter: PickerDataAdapter(data: getPickerWareHouse()),
-      title: const Text("选择始发仓库"),
-      cancelText: '取消',
-      confirmText: '确认',
+      title: Text(Translation.t(context, '选择始发仓库')),
+      cancelText: Translation.t(context, '取消'),
+      confirmText: Translation.t(context, '确认'),
       selectedTextStyle: const TextStyle(color: Colors.blue, fontSize: 12),
       onCancel: () {},
       onConfirm: (Picker picker, List value) {
         setState(() {
           selectWareHouse = list[value.first];
-          countryList = selectWareHouse.countries!;
+          countryList = selectWareHouse!.countries!;
           selectCountry = countryList.first;
-          destination = selectCountry.name!;
+          area = null;
+          subarea = null;
+          if (selectCountry!.areas != null &&
+              selectCountry!.areas!.isNotEmpty) {
+            area = selectCountry!.areas!.first;
+            if (area!.areas != null && area!.areas!.isNotEmpty) {
+              subarea = area!.areas!.first;
+            }
+          }
         });
       },
     ).showModal(this.context);
@@ -208,6 +171,41 @@ class LineQueryState extends State<LineQueryPage>
     return data;
   }
 
+  // 重量加减
+  onWeight(int step) {
+    num weight =
+        _weightController.text.isEmpty ? 0 : num.parse(_weightController.text);
+    weight += step;
+    _weightController.text = weight <= 0 ? '0' : '$weight';
+  }
+
+  // 查询
+  void onQuery() {
+    if (_weightController.text.isEmpty) {
+      Util.showToast(Translation.t(context, '请输入重量'));
+      return;
+    } else if (selectPropList.isEmpty) {
+      Util.showToast(Translation.t(context, '请选择物品属性'));
+      return;
+    }
+    List<int> propIdList = [];
+    for (var item in selectPropList) {
+      propIdList.add(item.id);
+    }
+    Map<String, dynamic> dic = {
+      'country_id': selectCountry?.id ?? '',
+      'length': _longController.text,
+      'width': _wideController.text,
+      'height': _highController.text,
+      'weight': num.parse(_weightController.text) * 1000,
+      'prop_ids': propIdList,
+      'warehouse_id': selectWareHouse?.id ?? '',
+      'area_id': area?.id ?? '',
+      'sub_area_id': subarea?.id ?? '',
+    };
+    Routers.push('/LinesPage', context, {"data": dic, "query": true});
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -217,87 +215,31 @@ class LineQueryState extends State<LineQueryPage>
           FocusScope.of(context).requestFocus(blankNode);
         },
         child: Scaffold(
-          key: _scaffoldKey,
-          backgroundColor: ColorConfig.bgGray,
-          appBar: AppBar(
-            leading: const BackButton(color: Colors.black),
-            backgroundColor: Colors.white,
-            elevation: 0.5,
-            systemOverlayStyle: SystemUiOverlayStyle.dark,
-            centerTitle: true,
-            title: const Caption(
-              str: '运费试算',
-              color: ColorConfig.textBlack,
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          body: isLoading
-              ? SingleChildScrollView(
-                  child: Container(
-                  color: ColorConfig.bgGray,
-                  child: Column(
-                    children: <Widget>[
-                      buildCustomViews(context),
-                      buildMiddleView(context),
-                      Container(
-                        margin:
-                            const EdgeInsets.only(top: 15, left: 10, right: 10),
-                        child: TextButton(
-                          style: ButtonStyle(
-                            overlayColor: MaterialStateColor.resolveWith(
-                                (states) => Colors.transparent),
-                          ),
-                          onPressed: () async {
-                            if (selectPropList.isEmpty) {
-                              Util.showToast('请选择物品属性');
-                              return;
-                            }
-                            List<int> propIdList = [];
-                            for (var item in selectPropList) {
-                              propIdList.add(item.id);
-                            }
-                            Map<String, dynamic> dic = {
-                              'country_id': selectCountry.id,
-                              'length': longStr,
-                              'width': wideStr,
-                              'height': highStr,
-                              'weight': weightStr * 1000,
-                              'prop_ids': propIdList,
-                              'warehouse_id': selectWareHouse.id,
-                              'area_id': area.id != 0 ? area.id : '',
-                              'sub_area_id': subarea.id != 0 ? subarea.id : '',
-                            };
-                            // List<LineData> result = await Api.getLines(dic);
-                            // List<LineData> list = result;
-                            // EasyLoading.dismiss();
-                            // if (list.length == 0) {
-                            //   return;
-                            // }
-                            // Navigator.pushNamed(context, '/SelectCourierType',
-                            //     arguments: {"data": dic, "show": true});
-                            Routers.push('/LinesPage', context,
-                                {"data": dic, "query": true});
-                          },
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: ColorConfig.warningText,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4.0)),
-                            ),
-                            alignment: Alignment.center,
-                            height: 40,
-                            child: const Caption(
-                              str: '立即查询',
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ))
-              : Container(),
-        ));
+            key: _scaffoldKey,
+            backgroundColor: ColorConfig.bgGray,
+            primary: false,
+            appBar: const EmptyAppBar(),
+            body: SingleChildScrollView(
+                child: Container(
+              color: ColorConfig.bgGray,
+              child: Column(
+                children: <Widget>[
+                  buildCustomViews(context),
+                  buildMiddleView(context),
+                  Gaps.vGap10,
+                  buildPropsView(),
+                  Container(
+                    margin: const EdgeInsets.only(top: 40, left: 10, right: 10),
+                    width: double.infinity,
+                    height: 40,
+                    child: MainButton(
+                      text: Translation.t(context, '立即查询'),
+                      onPressed: onQuery,
+                    ),
+                  )
+                ],
+              ),
+            ))));
   }
 
   Widget buildMiddleView(BuildContext context) {
@@ -312,412 +254,311 @@ class LineQueryState extends State<LineQueryPage>
       }
     }
     var mainView = Container(
-      color: ColorConfig.white,
-      height: 440,
       width: ScreenUtil().screenWidth,
       margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
-      padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-          Widget>[
-        Container(
-          margin: const EdgeInsets.only(top: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const Caption(
-                str: '始发仓库',
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              GestureDetector(
-                onTap: () async {
-                  FocusScope.of(context).requestFocus(blankNode);
-                  showPickerWareHouse(context);
-                },
-                child: Container(
-                  height: 40,
-                  padding: const EdgeInsets.only(top: 8, bottom: 8),
-                  decoration: BoxDecoration(
-                    color: ColorConfig.bgGray,
-                    borderRadius: const BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(width: 0.3, color: ColorConfig.line),
-                  ),
-                  alignment: Alignment.center,
-                  width: ScreenUtil().screenWidth - 30,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            color: Colors.white,
+            width: double.infinity,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
                   child: Caption(
-                    str: selectWareHouse.warehouseName!,
+                    str: Translation.t(context, '重量单位') +
+                        "：" +
+                        (localizationInfo?.weightSymbol ?? ''),
                   ),
                 ),
-              )
-            ],
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const Caption(
-                str: '目的地',
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).requestFocus(blankNode);
-                    showPickerDestion(context);
-                  },
-                  child: Stack(children: <Widget>[
-                    Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: ColorConfig.white,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(5)),
-                          border: Border.all(
-                              width: 1, color: ColorConfig.textGrayC)),
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.only(top: 8, bottom: 8),
-                      child: Caption(
-                        str: destination,
+                Gaps.line,
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 25),
+                  width: ScreenUtil().screenWidth / 2 + 20,
+                  height: 60,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          onWeight(-1);
+                        },
+                        child: Container(
+                          color: ColorConfig.primary,
+                          width: 60,
+                          alignment: Alignment.topCenter,
+                          child: const Icon(
+                            Icons.minimize,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          color: ColorConfig.line,
+                          child: BaseInput(
+                            board: true,
+                            isCollapsed: true,
+                            textAlign: TextAlign.center,
+                            autoShowRemove: false,
+                            style: const TextStyle(fontSize: 18),
+                            controller: _weightController,
+                            focusNode: _weightNode,
+                            keyboardType: const TextInputType.numberWithOptions(
+                                decimal: true),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          onWeight(1);
+                        },
+                        child: Container(
+                          color: ColorConfig.primary,
+                          width: 60,
+                          child: const Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Gaps.line,
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 30, left: 15, right: 15, bottom: 15),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Caption(
+                                str: Translation.t(context, '包裹尺寸'),
+                              ),
+                              Caption(
+                                str: '(' + Translation.t(context, '选填') + ')',
+                                color: ColorConfig.textGray,
+                                fontSize: 13,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Caption(
+                                str: Translation.t(context, '单位') + ':',
+                              ),
+                              Caption(
+                                str: localizationInfo?.lengthSymbol ?? '',
+                                fontSize: 13,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                      Gaps.vGap5,
+                      Caption(
+                        str: Translation.t(
+                            context, '包裹尺寸为商品打包后，实际包装箱的长宽高用于某些体积重线路的运费计算'),
+                        color: ColorConfig.textGray,
                         fontSize: 14,
+                        lines: 4,
                       ),
-                    ),
-                    const Positioned(
-                        right: 0,
-                        child: SizedBox(
-                          height: 40,
-                          width: 30,
-                          child: Icon(Icons.keyboard_arrow_right,
-                              color: ColorConfig.textGray),
-                        )),
-                  ]))
-            ],
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Caption(
-                str: '实重(' + localizationInfo.weightSymbol + ')',
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: ColorConfig.white,
-                      borderRadius: const BorderRadius.all(Radius.circular(5)),
-                      border:
-                          Border.all(width: 1, color: ColorConfig.textGrayC)),
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.only(top: 8, bottom: 8),
-                  child: NormalInput(
-                    board: false,
-                    contentPadding: const EdgeInsets.only(top: 0, bottom: 8),
-                    hintText: '输入包裹重量',
-                    maxLines: 1,
-                    maxLength: 4,
-                    textAlign: TextAlign.center,
-                    controller: _weightController,
-                    focusNode: _weightNode,
-                    autoFocus: false,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    onSubmitted: (res) {
-                      FocusScope.of(context).requestFocus(_longNode);
-                    },
-                    onChanged: (res) {
-                      weightStr = double.parse(res);
-                    },
-                  )),
-            ],
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const Caption(
-                str: '物品属性',
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              GestureDetector(
-                  onTap: () async {
-                    FocusScope.of(context).requestFocus(blankNode);
-                    // 属性选择框
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          List<GoodsPropsModel> selPropList = selectPropList;
-                          return StatefulBuilder(
-                              builder: (context1, setBottomSheetState) {
-                            return SizedBox(
-                                height: 320,
-                                child: Column(children: <Widget>[
-                                  Container(
-                                    height: 44,
-                                    margin: const EdgeInsets.only(left: 15),
-                                    alignment: Alignment.centerLeft,
-                                    child: const Caption(
-                                      str: '包裹属性',
-                                      fontSize: 19,
-                                    ),
-                                  ),
-                                  Gaps.line,
-                                  Container(
-                                    height: 190,
-                                    margin: const EdgeInsets.only(
-                                        right: 20, left: 20, top: 20),
-                                    child: GridView.builder(
-                                        shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisSpacing:
-                                              20.0, //水平子Widget之间间距
-                                          mainAxisSpacing: 20.0, //垂直子Widget之间间距
-                                          crossAxisCount: 3, //一行的Widget数量
-                                          childAspectRatio: 2.6,
-                                        ), // 宽高比例
-                                        itemCount: propList.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          GoodsPropsModel propmodel =
-                                              propList[index];
-                                          return GestureDetector(
-                                            onTap: () {
-                                              setBottomSheetState(() {
-                                                if (selPropList
-                                                    .contains(propmodel)) {
-                                                  selPropList.remove(propmodel);
-                                                } else {
-                                                  selPropList.add(propmodel);
-                                                }
-                                              });
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: selPropList
-                                                          .contains(propmodel)
-                                                      ? ColorConfig.warningText
-                                                      : ColorConfig.white,
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(4.0)),
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: ColorConfig.line)),
-                                              alignment: Alignment.center,
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Caption(
-                                                    str: propmodel.name!,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        }),
-                                  ),
-                                  GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          selectPropList = selPropList;
-                                        });
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Container(
-                                        margin: const EdgeInsets.only(
-                                            right: 15, left: 15),
-                                        decoration: BoxDecoration(
-                                            color: ColorConfig.warningText,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(4.0)),
-                                            border: Border.all(
-                                                width: 1,
-                                                color:
-                                                    ColorConfig.warningText)),
-                                        alignment: Alignment.center,
-                                        height: 40,
-                                        child: const Caption(
-                                          str: '确定',
-                                        ),
-                                      )),
-                                ]));
-                          });
-                        });
-                  },
-                  child: Stack(children: <Widget>[
-                    Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: ColorConfig.white,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(5)),
-                        border:
-                            Border.all(width: 1, color: ColorConfig.textGrayC),
-                      ),
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.only(top: 8, bottom: 8),
-                      child: Caption(
-                        str: selectPropList.isEmpty ? '选择物品属性' : propStr,
-                      ),
-                    ),
-                    const Positioned(
-                        right: 0,
-                        child: SizedBox(
-                          height: 40,
-                          width: 30,
-                          child: Icon(Icons.keyboard_arrow_right,
-                              color: ColorConfig.textGray),
-                        )),
-                  ]))
-            ],
-          ),
-        ),
-        Container(
-            margin: const EdgeInsets.only(top: 15),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Caption(
-                    str: '包裹尺寸' '(' + localizationInfo.lengthSymbol + ')',
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  SizedBox(
-                    height: 40,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Container(
-                            decoration: BoxDecoration(
-                              color: ColorConfig.white,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5)),
-                              border: Border.all(
-                                  width: 1, color: ColorConfig.textGrayC),
-                            ),
-                            alignment: Alignment.center,
-                            height: 40,
-                            width: 90,
-                            child: NormalInput(
-                              board: false,
-                              contentPadding:
-                                  const EdgeInsets.only(top: 0, bottom: 8),
-                              hintText: '长',
-                              maxLines: 1,
-                              maxLength: 4,
+                      Gaps.vGap10,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: BaseInput(
+                              board: true,
                               textAlign: TextAlign.center,
                               controller: _longController,
                               focusNode: _longNode,
-                              autoFocus: false,
+                              autoShowRemove: false,
                               keyboardType:
                                   const TextInputType.numberWithOptions(
                                       decimal: true),
-                              onSubmitted: (res) {
-                                FocusScope.of(context).requestFocus(_wideNode);
-                              },
-                              onChanged: (res) {
-                                longStr = res;
-                              },
-                            )),
-                        Container(
-                            height: 40,
-                            width: 90,
-                            decoration: BoxDecoration(
-                              color: ColorConfig.white,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5)),
-                              border: Border.all(
-                                  width: 1, color: ColorConfig.textGrayC),
+                              hintText: Translation.t(context, '长') +
+                                  ':' +
+                                  (localizationInfo?.lengthSymbol ?? ''),
                             ),
-                            alignment: Alignment.center,
-                            child: NormalInput(
-                              board: false,
-                              contentPadding:
-                                  const EdgeInsets.only(top: 0, bottom: 8),
-                              hintText: '宽',
-                              maxLines: 1,
-                              maxLength: 4,
+                          ),
+                          Gaps.hGap10,
+                          Expanded(
+                            child: BaseInput(
+                              board: true,
                               textAlign: TextAlign.center,
                               controller: _wideController,
                               focusNode: _wideNode,
-                              autoFocus: false,
+                              autoShowRemove: false,
                               keyboardType:
                                   const TextInputType.numberWithOptions(
                                       decimal: true),
-                              onSubmitted: (res) {
-                                FocusScope.of(context).requestFocus(_highNode);
-                              },
-                              onChanged: (res) {
-                                wideStr = res;
-                              },
-                            )),
-                        Container(
-                            height: 40,
-                            width: 90,
-                            decoration: BoxDecoration(
-                              color: ColorConfig.white,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5)),
-                              border: Border.all(
-                                  width: 1, color: ColorConfig.textGrayC),
+                              hintText: Translation.t(context, '宽') +
+                                  ':' +
+                                  (localizationInfo?.lengthSymbol ?? ''),
                             ),
-                            alignment: Alignment.center,
-                            child: NormalInput(
-                              board: false,
-                              contentPadding:
-                                  const EdgeInsets.only(top: 0, bottom: 8),
-                              hintText: '高',
-                              maxLines: 1,
-                              maxLength: 4,
+                          ),
+                          Gaps.hGap10,
+                          Expanded(
+                            child: BaseInput(
+                              board: true,
                               textAlign: TextAlign.center,
                               controller: _highController,
                               focusNode: _highNode,
-                              autoFocus: false,
+                              autoShowRemove: false,
                               keyboardType:
                                   const TextInputType.numberWithOptions(
                                       decimal: true),
-                              onSubmitted: (res) {
-                                FocusScope.of(context).requestFocus(blankNode);
-                              },
-                              onChanged: (res) {
-                                highStr = res;
-                              },
-                            )),
-                      ],
-                    ),
-                  )
-                ]))
-      ]),
+                              hintText: Translation.t(context, '高') +
+                                  ':' +
+                                  (localizationInfo?.lengthSymbol ?? ''),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
     return mainView;
   }
 
+  // 物品属性
+  Widget buildPropsView() {
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return PropSheetCell(
+                goodsPropsList: propList,
+                prop: selectPropList,
+                propSingle: propSingle,
+                onConfirm: (data) {
+                  setState(() {
+                    selectPropList = data;
+                  });
+                },
+              );
+            });
+      },
+      child: Container(
+        color: Colors.white,
+        margin: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.all(15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Caption(
+                  str: Translation.t(context, '物品属性'),
+                ),
+                const Caption(
+                  str: '*',
+                  color: ColorConfig.textRed,
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Caption(
+                  str: selectPropList.isEmpty
+                      ? Translation.t(context, '请选择')
+                      : selectPropList.map((e) => e.name).join(' '),
+                ),
+                const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 14,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // 仓库、国家
   Widget buildCustomViews(BuildContext context) {
     var headerView = Container(
         color: Colors.white,
-        height: ScreenUtil().setHeight(124),
+        height: ScreenUtil().setHeight(125),
         child: Stack(
           children: <Widget>[
             SizedBox(
               width: ScreenUtil().screenWidth,
-              child: const TrackingBanner(),
+              child: const BannerBox(imgType: 'freight_image'),
+            ),
+            Positioned(
+              bottom: 30,
+              left: 15,
+              right: 15,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      showPickerWareHouse(context);
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Caption(
+                          str: Translation.t(context, '始发仓库'),
+                          color: Colors.white,
+                          fontSize: 13,
+                        ),
+                        Gaps.vGap5,
+                        Caption(
+                          str: selectWareHouse?.warehouseName ?? '',
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const LoadImage(
+                    'Home/arrow2',
+                    width: 50,
+                    fit: BoxFit.fitWidth,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      showPickerDestion(context);
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Caption(
+                          str: Translation.t(context, '收货地址'),
+                          color: Colors.white,
+                          fontSize: 13,
+                        ),
+                        Gaps.vGap5,
+                        Caption(
+                          str: (selectCountry?.name ?? '') +
+                              (area != null ? '/${area!.name}' : '') +
+                              (subarea != null ? '/${subarea!.name}' : ''),
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ));
@@ -726,43 +567,4 @@ class LineQueryState extends State<LineQueryPage>
 
   @override
   bool get wantKeepAlive => true;
-}
-
-class TrackingBanner extends StatefulWidget {
-  const TrackingBanner({Key? key}) : super(key: key);
-
-  @override
-  _TrackingBannerState createState() => _TrackingBannerState();
-}
-
-class _TrackingBannerState extends State<TrackingBanner>
-    with AutomaticKeepAliveClientMixin {
-  BannersModel allimagesModel = BannersModel();
-
-  @override
-  void initState() {
-    super.initState();
-    getBanner();
-  }
-
-  @override
-  bool get wantKeepAlive => true;
-
-  // 获取顶部 banner 图
-  void getBanner() async {
-    var imageList = await CommonService.getAllBannersInfo();
-    setState(() {
-      allimagesModel = imageList!;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-
-    return LoadImage(
-      allimagesModel.freightImage ?? '',
-      fit: BoxFit.fitHeight,
-    );
-  }
 }

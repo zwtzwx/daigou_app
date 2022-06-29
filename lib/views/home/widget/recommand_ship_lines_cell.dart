@@ -34,12 +34,11 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
   }
 
   loadData() async {
-    List<ShipLineModel> result =
-        await ShipLineService.getList(const {'is_great_value': 1});
+    Map result = await ShipLineService.getList(const {'is_great_value': 1});
 
     var localiztion = await LocalizationService.getInfo();
     setState(() {
-      lineList = result;
+      lineList = result['list'];
       localModel = localiztion;
       _isLoading = true;
     });

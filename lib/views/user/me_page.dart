@@ -1,5 +1,5 @@
 import 'package:jiyun_app_client/common/hex_to_color.dart';
-import 'package:jiyun_app_client/common/util.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -16,7 +16,6 @@ import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
@@ -79,6 +78,16 @@ class MePageState extends State<MePage> {
     return Scaffold(
         key: _scaffoldKey,
         backgroundColor: ColorConfig.bgGray,
+        appBar: AppBar(
+          backgroundColor: ColorConfig.primary,
+          elevation: 0,
+          centerTitle: true,
+          title: Caption(
+            str: Translation.t(context, '我的'),
+            color: Colors.white,
+            fontSize: 18,
+          ),
+        ),
         body: RefreshIndicator(
             onRefresh: created,
             color: ColorConfig.textRed,
@@ -133,7 +142,7 @@ class MePageState extends State<MePage> {
           Container(
             padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
             child: GridView.builder(
-              itemCount: 10,
+              itemCount: 8,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -150,10 +159,8 @@ class MePageState extends State<MePage> {
 
   Widget buildBottomListCell(BuildContext context, int index) {
     List<String> titleList = [
-      '运费试算',
-      '我的客服',
-      '地址簿',
       '个人资料',
+      '收货地址',
       '更改手机号',
       '更改邮箱',
       '交易记录',
@@ -162,10 +169,8 @@ class MePageState extends State<MePage> {
       '退出登录',
     ];
     List<String> iconList = [
-      'AboutMe/freight',
-      'AboutMe/kefu',
-      'AboutMe/adress-icon',
       'AboutMe/info-icon',
+      'AboutMe/adress-icon',
       'AboutMe/phone-icon',
       'AboutMe/emai-icon',
       'AboutMe/pay-record-icon',
@@ -176,37 +181,21 @@ class MePageState extends State<MePage> {
     return GestureDetector(
       onTap: () async {
         if (index == 0) {
-          Routers.push('/LineQueryPage', context);
-        } else if (index == 1) {
-          // 客服
-          fluwx.isWeChatInstalled.then((installed) {
-            if (installed) {
-              fluwx
-                  .openWeChatCustomerServiceChat(
-                      url:
-                          'https://work.weixin.qq.com/kfid/kfcd1850645a45f5db4',
-                      corpId: 'ww82affb1cf55e55e0')
-                  .then((data) {});
-            } else {
-              Util.showToast("请先安装微信");
-            }
-          });
-        } else if (index == 2) {
-          // 收件地址
-          Routers.push('/ReceiverAddressListPage', context, {'select': 0});
-        } else if (index == 3) {
           // 个人资料
           Routers.push('/MyProfilePage', context);
-        } else if (index == 4) {
-          // 更改手机号
+        } else if (index == 1) {
+          // 收件地址
+          Routers.push('/ReceiverAddressListPage', context, {'select': 0});
+        } else if (index == 2) {
+// 更改手机号
           Routers.push('/ChangeMobileEmailPage', context, {'type': 1});
-        } else if (index == 5) {
+        } else if (index == 3) {
           // 更改邮箱
           Routers.push('/ChangeMobileEmailPage', context, {'type': 2});
-        } else if (index == 6) {
+        } else if (index == 4) {
           // 交易记录
           Routers.push('/TransactionPage', context);
-        } else if (index == 7) {
+        } else if (index == 5) {
           // 代理
           if (agentStatus?.id == 2) {
             return;
@@ -216,10 +205,10 @@ class MePageState extends State<MePage> {
           } else {
             Routers.push('/AgentMemberPage', context);
           }
-        } else if (index == 8) {
+        } else if (index == 6) {
           // 关于我们
           Routers.push('/AboutMePage', context);
-        } else if (index == 9) {
+        } else if (index == 7) {
           // 退出登录
           showActionSheet(context);
         }
@@ -285,8 +274,8 @@ class MePageState extends State<MePage> {
     UserModel userModel = Provider.of<Model>(context, listen: false).userInfo!;
 
     var headerView = Container(
-        padding: const EdgeInsets.only(left: 15, top: 50, right: 15),
-        color: ColorConfig.bgGray,
+        padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
+        color: ColorConfig.primary,
         //设置背景图片
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -322,7 +311,7 @@ class MePageState extends State<MePage> {
                             str: userModel.name,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: ColorConfig.textDark,
+                            color: Colors.white,
                           ),
                         ),
                         Gaps.hGap5,
@@ -341,9 +330,9 @@ class MePageState extends State<MePage> {
                     SizedBox(
                       child: Caption(
                         alignment: TextAlign.center,
-                        str: 'ID: ${userModel.id}',
+                        str: 'ID: HJ${userModel.id}',
                         fontSize: 17,
-                        color: ColorConfig.textDark,
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -354,6 +343,7 @@ class MePageState extends State<MePage> {
             (userVipModel?.pointStatus == 1 ||
                     userVipModel?.growthValueStatus == 1)
                 ? Container(
+                    margin: const EdgeInsets.only(bottom: 20),
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 30),
                     decoration: BoxDecoration(
@@ -483,21 +473,65 @@ class MePageState extends State<MePage> {
                     // 我的余额
                     Routers.push('/RechargePage', context);
                   },
-                  child: SizedBox(
+                  child: Container(
+                    color: Colors.white,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
+                        const LoadImage(
+                          'AboutMe/center-yue',
+                          width: 30,
+                          height: 30,
+                        ),
+                        const SizedBox(
+                          height: 2,
+                        ),
+                        const Caption(
+                          fontSize: 14,
+                          str: '我的余额',
+                        ),
+                        Gaps.vGap4,
                         Caption(
                           str: isloading && userOrderModel != null
                               ? (userOrderModel!.balance! / 100)
                                   .toStringAsFixed(2)
                               : '0.00',
-                          fontSize: 22,
+                          fontSize: 16,
                         ),
-                        Gaps.vGap15,
+                      ],
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    // 优惠券
+                    Routers.push('/CouponPage', context,
+                        {'select': false, 'lineid': '', 'amount': ''});
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        const LoadImage(
+                          'AboutMe/center-coupon',
+                          width: 30,
+                          height: 30,
+                        ),
+                        const SizedBox(
+                          height: 2,
+                        ),
                         const Caption(
                           fontSize: 14,
-                          str: '我的余额',
+                          fontWeight: FontWeight.w400,
+                          str: '优惠券',
+                        ),
+                        Gaps.vGap4,
+                        Caption(
+                          str: isloading && userOrderModel != null
+                              ? userOrderModel!.couponCount!.toString()
+                              : '0',
+                          fontSize: 16,
                         ),
                       ],
                     ),
@@ -508,53 +542,37 @@ class MePageState extends State<MePage> {
                         onTap: () {
                           Routers.push('/WithdrawHistoryPage', context);
                         },
-                        child: SizedBox(
+                        child: Container(
+                          color: Colors.white,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
+                              const LoadImage(
+                                'AboutMe/center-yj',
+                                width: 30,
+                                height: 30,
+                              ),
+                              const SizedBox(
+                                height: 2,
+                              ),
+                              const Caption(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                str: '佣金收入',
+                              ),
+                              Gaps.vGap4,
                               Caption(
                                 str: isloading && userOrderModel != null
                                     ? userOrderModel!.commissionSum!
                                         .toStringAsFixed(2)
                                     : '0.00',
-                                fontSize: 22,
-                              ),
-                              Gaps.vGap15,
-                              const Caption(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                str: '佣金收入',
+                                fontSize: 16,
                               ),
                             ],
                           ),
                         ),
                       )
                     : Gaps.empty,
-                GestureDetector(
-                    onTap: () {
-                      // 优惠券
-                      Routers.push('/CouponPage', context,
-                          {'select': false, 'lineid': '', 'amount': ''});
-                    },
-                    child: SizedBox(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Caption(
-                            str: isloading && userOrderModel != null
-                                ? userOrderModel!.couponCount!.toString()
-                                : '0',
-                            fontSize: 22,
-                          ),
-                          Gaps.vGap15,
-                          const Caption(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            str: '优惠券',
-                          ),
-                        ],
-                      ),
-                    ))
               ],
             ),
           ),

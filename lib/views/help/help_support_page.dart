@@ -123,7 +123,7 @@ class HelpSupportPageState extends State<HelpSupportPage>
                   ),
                   Gaps.hGap10,
                   Caption(
-                    str: Translation.t(context, '仓库门卫') + '：${receiver ?? ''}',
+                    str: Translation.t(context, '专属收货员') + '：${receiver ?? ''}',
                   )
                 ],
               ),

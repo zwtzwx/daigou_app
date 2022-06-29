@@ -464,7 +464,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                 padding: const EdgeInsets.only(
                     top: 5, bottom: 5, right: 10, left: 10),
                 decoration: const BoxDecoration(
-                    color: ColorConfig.warningText,
+                    color: ColorConfig.primary,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: const Caption(
                   str: '复制',
@@ -544,7 +544,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                       padding: const EdgeInsets.only(
                           top: 5, bottom: 5, right: 10, left: 10),
                       decoration: const BoxDecoration(
-                          color: ColorConfig.warningText,
+                          color: ColorConfig.primary,
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       child: const Caption(
                         str: '复制',

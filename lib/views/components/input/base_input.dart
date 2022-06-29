@@ -28,6 +28,7 @@ class BaseInput extends StatefulWidget {
       this.onChanged,
       this.isSearchInput = false,
       this.onSubmitted,
+      this.style,
       this.isCollapsed = false,
       this.hintStyle = TextConfig.textGray14,
       this.textInputAction = TextInputAction.next,
@@ -57,6 +58,7 @@ class BaseInput extends StatefulWidget {
   final Icon? prefixIcon;
   final TextInputAction? textInputAction;
   final EdgeInsets? contentPadding;
+  final TextStyle? style;
   final bool isSearchInput;
 
   /// 用于集成测试寻找widget
@@ -147,7 +149,7 @@ class _BaseInputState extends State<BaseInput> {
         readOnly: widget.readOnly,
         focusNode: widget.focusNode,
         onEditingComplete: widget.onEditingComplete,
-        style: TextConfig.middleText,
+        style: widget.style ?? TextConfig.middleText,
         maxLength: widget.maxLength,
         textAlign: widget.textAlign,
         maxLines: widget.maxLines,

@@ -17,14 +17,14 @@ class ColorConfig {
   static const Color textGrayCS = Color(0x72F0F0F0);
   static const Color textGrayC9 = Color(0xFF999999);
   static const Color bgGray = Color(0xFFF5F5F5); //Color(0xFFF0F0F0)
-  static const Color line = Color(0xffF2F2F2);
+  static const Color line = Color(0xffF0F0F0);
   static const Color orderLine = Color(0xFFDDDDDD);
   static const Color textRed = Color(0xFFFF4759);
   static const Color main = Color(0xFF9FA2C2);
   static const Color vipBG = Color(0xFFAE886D);
   static const Color vipNormal = Color(0xFFab8d3b);
   static const Color warningBg = Color(0xFFFFFDE7);
-  static const Color warningText = Color(0xFFFFD400);
+  static const Color warningText = Color(0xFFF7A63E);
   static const Color warningTextDark = Color(0xFFFFAB00);
   static const Color warningTextDark80 = Color(0x7FFFAB00);
   static const Color warningTextDark50 = Color(0x19FFAB00);
@@ -95,8 +95,8 @@ class Gaps {
   );
 
   static Widget columnsLine = const SizedBox(
-    height: 1,
-    width: double.infinity,
+    height: double.infinity,
+    width: 1,
     child: DecoratedBox(decoration: BoxDecoration(color: ColorConfig.line)),
   );
 

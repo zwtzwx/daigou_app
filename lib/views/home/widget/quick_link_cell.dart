@@ -60,19 +60,20 @@ IndexedWidgetBuilder _buildGrideBtnView(context) {
   return (context, index) {
     return GestureDetector(
       onTap: () {
-        // print(index);
-        if (index == 2) {
+        if (index == 1) {
           Routers.push('/HelpSupportPage', context);
+        } else if (index == 2) {
+          Routers.push('/CommentListPage', context);
         } else {
           if (Provider.of<Model>(context, listen: false).token.isEmpty) {
             Routers.push('/LoginPage', context);
             return;
           }
           if (index == 0) {
-            ApplicationEvent.getInstance()
-                .event
-                .fire(ChangePageIndexEvent(pageName: 'middle'));
-          } else {}
+            Routers.push('/WarehousePage', context);
+          } else {
+            Routers.push('/SharePage', context);
+          }
         }
       },
       child: Container(
