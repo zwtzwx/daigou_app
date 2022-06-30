@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
@@ -45,8 +46,8 @@ class _TransactionPageState extends State<TransactionPage> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: const Caption(
-          str: '财务流水',
+        title: Caption(
+          str: Translation.t(context, '财务流水'),
           color: ColorConfig.textBlack,
           fontSize: 18,
         ),
@@ -81,8 +82,8 @@ class _TransactionPageState extends State<TransactionPage> {
                 Gaps.vGap15,
                 Container(
                   alignment: Alignment.center,
-                  child: const Caption(
-                    str: '金额',
+                  child: Caption(
+                    str: Translation.t(context, '金额'),
                     fontSize: 18,
                   ),
                 ),
@@ -97,15 +98,21 @@ class _TransactionPageState extends State<TransactionPage> {
                 ),
                 Gaps.vGap15,
                 Caption(
-                  str: '类型：' + getType(model.type),
+                  str: Translation.t(context, '类型') +
+                      '：' +
+                      Translation.t(context, getType(model.type)),
                 ),
                 Gaps.vGap10,
                 ([1, 3].contains(model.type) && model.order != null)
                     ? Caption(
-                        str: '相关订单：' + (model.orderSn ?? ''),
+                        str: Translation.t(context, '相关订单') +
+                            '：' +
+                            (model.orderSn ?? ''),
                       )
                     : Caption(
-                        str: '流水号：' + model.serialNo,
+                        str: Translation.t(context, '流水号') +
+                            '：' +
+                            model.serialNo,
                       ),
               ],
             ),
@@ -127,12 +134,12 @@ class _TransactionPageState extends State<TransactionPage> {
                         vertical: 10, horizontal: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Caption(
-                          str: '查看详情',
+                          str: Translation.t(context, '查看详情'),
                           fontSize: 14,
                         ),
-                        Icon(
+                        const Icon(
                           Icons.arrow_forward_ios,
                           size: 14,
                         ),

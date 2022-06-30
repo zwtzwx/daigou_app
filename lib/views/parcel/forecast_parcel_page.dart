@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:jiyun_app_client/common/hex_to_color.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
 import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
@@ -156,8 +157,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
         elevation: 0.5,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
-        title: const Caption(
-          str: '包裹预报',
+        title: Caption(
+          str: Translation.t(context, '包裹预报'),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -195,15 +196,15 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                                   Icons.check_box_outline_blank_outlined,
                                   color: ColorConfig.textGray,
                                 ),
-                          label: const Caption(
-                            str: '已查看并同意',
+                          label: Caption(
+                            str: Translation.t(context, '已查看并同意'),
                           )),
                       GestureDetector(
                         onTap: () {
                           showTipsView();
                         },
                         child: Caption(
-                          str: '《包裹转运验货协议》',
+                          str: '《${Translation.t(context, '包裹转运验货协议')}》',
                           color: HexToColor('#fe8b25'),
                         ),
                       )
@@ -217,28 +218,24 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                   child: MainButton(
                     onPressed: () {
                       if (!agreementBool) {
-                        Util.showToast('请下同意包裹货运规则');
+                        Util.showToast(Translation.t(context, '请同意包裹转运协议'));
                         return;
                       }
                       for (ParcelModel item in formData) {
                         if (item.expressId == null) {
-                          Util.showToast('有包裹没有选择快递公司');
+                          Util.showToast(Translation.t(context, '有包裹没有选择快递公司'));
                           return;
                         }
                         if (item.expressNum == null) {
-                          Util.showToast('有包裹没有填写快递单号');
-                          return;
-                        }
-                        if (item.packageName == null) {
-                          Util.showToast('有包裹没有填写名称');
+                          Util.showToast(Translation.t(context, '有包裹没有填写快递单号'));
                           return;
                         }
                         if (item.packageValue == null) {
-                          Util.showToast('有包裹没有填写价值');
+                          Util.showToast(Translation.t(context, '有包裹没有填写物品价值'));
                           return;
                         }
                         if (item.prop == null) {
-                          Util.showToast('有包裹没有选择属性');
+                          Util.showToast(Translation.t(context, '有包裹没有选择物品属性'));
                           return;
                         }
                       }
@@ -320,8 +317,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
       children: [
         Column(
           children: [
-            const Caption(
-              str: '国家/地区',
+            Caption(
+              str: Translation.t(context, '国家地区'),
               fontSize: 12,
               color: ColorConfig.main,
             ),
@@ -343,14 +340,15 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                 });
               },
               child: Caption(
-                str: selectedCountryModel?.name ?? '请选择国家/地区',
+                str: selectedCountryModel?.name ??
+                    Translation.t(context, '请选择国家地区'),
                 fontSize: 18,
                 color: ColorConfig.primary,
               ),
             ),
             Gaps.vGap10,
-            const Caption(
-              str: '切换',
+            Caption(
+              str: Translation.t(context, '切换'),
               fontSize: 12,
               color: ColorConfig.main,
             ),
@@ -363,8 +361,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
         ),
         Column(
           children: [
-            const Caption(
-              str: '转运仓库',
+            Caption(
+              str: Translation.t(context, '转运仓库'),
               fontSize: 12,
               color: ColorConfig.main,
             ),
@@ -375,8 +373,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                   Picker(
                     adapter: PickerDataAdapter(
                         data: getPickerWareHouse(wareHouseList)),
-                    cancelText: '取消',
-                    confirmText: '确认',
+                    cancelText: Translation.t(context, '取消'),
+                    confirmText: Translation.t(context, '确认'),
                     selectedTextStyle:
                         const TextStyle(color: Colors.blue, fontSize: 12),
                     onCancel: () {},
@@ -389,14 +387,15 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                 }
               },
               child: Caption(
-                str: selectedWarehouseModel?.warehouseName ?? '请选择仓库',
+                str: selectedWarehouseModel?.warehouseName ??
+                    Translation.t(context, '请选择仓库'),
                 fontSize: 18,
                 color: ColorConfig.primary,
               ),
             ),
             Gaps.vGap10,
-            const Caption(
-              str: '切换',
+            Caption(
+              str: Translation.t(context, '切换'),
               fontSize: 12,
               color: ColorConfig.main,
             ),
@@ -439,15 +438,15 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
             color: ColorConfig.white,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                LoadImage(
+              children: [
+                const LoadImage(
                   'PackageAndOrder/add-icon2',
                   width: 20,
                   height: 20,
                 ),
                 Gaps.hGap10,
                 Caption(
-                  str: '添加包裹',
+                  str: Translation.t(context, '添加包裹'),
                   color: ColorConfig.primary,
                   fontWeight: FontWeight.bold,
                 )
@@ -551,8 +550,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                 Picker(
                   adapter: PickerDataAdapter(
                       data: getPickerExpressCompany(expressCompanyList)),
-                  cancelText: '取消',
-                  confirmText: '确认',
+                  cancelText: Translation.t(context, '取消'),
+                  confirmText: Translation.t(context, '确认'),
                   selectedTextStyle:
                       const TextStyle(color: Colors.blue, fontSize: 12),
                   onCancel: () {},
@@ -565,7 +564,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                 ).showModal(this.context);
               },
               child: InputTextItem(
-                  title: "快递名称",
+                  title: Translation.t(context, '快递名称'),
                   inputText: Container(
                     alignment: Alignment.center,
                     margin: const EdgeInsets.only(left: 11),
@@ -573,7 +572,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Text(
-                          model.expressName ?? "请选择快递名称",
+                          model.expressName ??
+                              Translation.t(context, '请选择快递名称'),
                           style: model.expressName != null
                               ? TextConfig.textDark14
                               : TextConfig.textGray14,
@@ -594,9 +594,9 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                   )),
             ),
             InputTextItem(
-                title: "快递单号",
+                title: Translation.t(context, '快递单号'),
                 inputText: NormalInput(
-                  hintText: "请输入快递单号",
+                  hintText: Translation.t(context, '请输入快递单号'),
                   contentPadding: const EdgeInsets.only(top: 17, right: 15),
                   textAlign: TextAlign.right,
                   controller: orderNumberController,
@@ -613,9 +613,12 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                 )),
             InputTextItem(
                 leftFlex: 3,
-                title: '物品价值（' + localization!.currencySymbol + '）',
+                title: Translation.t(context, '物品总价') +
+                    '（' +
+                    localization!.currencySymbol +
+                    '）',
                 inputText: NormalInput(
-                  hintText: "请输入物品价值",
+                  hintText: Translation.t(context, '请输入物品总价'),
                   textAlign: TextAlign.right,
                   controller: goodsValueController,
                   contentPadding: const EdgeInsets.only(top: 17, right: 15),
@@ -647,7 +650,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                     });
               },
               child: InputTextItem(
-                  title: "物品属性",
+                  title: Translation.t(context, '物品属性'),
                   inputText: Container(
                     alignment: Alignment.center,
                     margin: const EdgeInsets.only(left: 11),
@@ -656,7 +659,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                       children: <Widget>[
                         Text(
                           model.prop == null
-                              ? '请选择物品属性'
+                              ? Translation.t(context, '请选择物品属性')
                               : model.prop!.map((e) => e.name).join(' '),
                           style: model.prop == null
                               ? TextConfig.textGray14
@@ -680,7 +683,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
             InputTextItem(
                 leftFlex: 5,
                 rightFlex: 5,
-                title: "商品数量",
+                title: Translation.t(context, '物品数量'),
                 inputText: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -737,9 +740,9 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                   ],
                 )),
             InputTextItem(
-                title: "包裹备注",
+                title: Translation.t(context, '商品备注'),
                 inputText: NormalInput(
-                  hintText: "请输入备注",
+                  hintText: Translation.t(context, '请输入备注'),
                   textAlign: TextAlign.right,
                   controller: _remarkController,
                   focusNode: _remark,
@@ -764,8 +767,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                   ),
                   onPressed: () async {
                     FocusScope.of(context).requestFocus(FocusNode());
-                    var data =
-                        await BaseDialog.confirmDialog(context, '您确定要删除这个包裹吗');
+                    var data = await BaseDialog.confirmDialog(
+                        context, Translation.t(context, '您确定要删除这个包裹吗'));
                     if (data != null) {
                       setState(() {
                         formData.removeAt(index);
@@ -774,8 +777,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                   },
                   icon: const Icon(Icons.delete_outline,
                       color: ColorConfig.textGrayC),
-                  label: const Caption(
-                    str: '删除',
+                  label: Caption(
+                    str: Translation.t(context, '删除'),
                     color: ColorConfig.textGrayC,
                   )),
             ),

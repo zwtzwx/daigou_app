@@ -2,8 +2,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/logined_event.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
@@ -16,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:provider/provider.dart';
 
 /*
@@ -81,7 +78,7 @@ class WarehousePageState extends State<WarehousePage>
               Gaps.hGap5,
               Expanded(
                 child: Caption(
-                  str: Translation.t(context, '收件人后面的字母和数字是您的唯一标识，快递单务必填写!'),
+                  str: Translation.t(context, '收件人后面的字母和数字是您的唯一标识快递单务必填写'),
                   color: Colors.white,
                   fontSize: 13,
                   lines: 2,
@@ -254,7 +251,8 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
     if (model.freeStoreDays != null && model.freeStoreDays! > 0) {
       String storeFee =
           '${localModel?.currencySymbol}${(model.storeFee! / 100).toStringAsFixed(2)}';
-      storeStr = '免费仓储${model.freeStoreDays}天，超期收费$storeFee/天';
+      storeStr = Translation.t(context, '免费仓储{day}天超期收费{fee}/天',
+          value: {'day': model.freeStoreDays, 'fee': storeFee});
     }
     List<String> contents = [
       model.receiverName! +
@@ -306,8 +304,8 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
                             .then((value) => EasyLoading.showSuccess(
                                 Translation.t(context, '复制成功')));
                       },
-                      child: const Caption(
-                        str: '复制',
+                      child: Caption(
+                        str: Translation.t(context, '复制'),
                         color: ColorConfig.primary,
                         fontSize: 14,
                       ),
@@ -340,8 +338,8 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
                       (value) => EasyLoading.showSuccess(
                           Translation.t(context, '复制成功')));
                 },
-                child: const Caption(
-                  str: '复制本仓库',
+                child: Caption(
+                  str: Translation.t(context, '复制本仓库'),
                   fontSize: 14,
                   color: ColorConfig.primary,
                 ),

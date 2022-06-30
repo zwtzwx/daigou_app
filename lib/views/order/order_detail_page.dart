@@ -15,16 +15,13 @@ import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
 import 'package:jiyun_app_client/models/parcel_box_model.dart';
 import 'package:jiyun_app_client/models/user_coupon_model.dart';
-import 'package:jiyun_app_client/models/user_vip_model.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
-import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/button/plain_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart' as caption;
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/components/photo_view_gallery_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -114,8 +111,8 @@ class OrderDetailPageState extends State<OrderDetailPage> {
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: const caption.Caption(
-            str: '订单详情',
+          title: caption.Caption(
+            str: Translation.t(context, '订单详情'),
             color: ColorConfig.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
@@ -192,8 +189,8 @@ class OrderDetailPageState extends State<OrderDetailPage> {
           Gaps.vGap15,
           Gaps.line,
           Gaps.vGap15,
-          const caption.Caption(
-            str: '收货地址',
+          caption.Caption(
+            str: Translation.t(context, '收货地址'),
             fontSize: 13,
             color: ColorConfig.textGray,
           ),
@@ -211,8 +208,8 @@ class OrderDetailPageState extends State<OrderDetailPage> {
           Gaps.vGap5,
           caption.Caption(
             str: model!.station != null
-                ? '自提收货-${model!.station!.name}'
-                : '送货上门',
+                ? '${Translation.t(context, '自提收货')}-${model!.station!.name}'
+                : Translation.t(context, '送货上门'),
           ),
         ],
       ),
@@ -228,8 +225,8 @@ class OrderDetailPageState extends State<OrderDetailPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const caption.Caption(
-            str: '客服备注',
+          caption.Caption(
+            str: Translation.t(context, '客服备注'),
             color: ColorConfig.textGray,
           ),
           Container(
@@ -401,7 +398,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
         ((boxModel.volumeWeight ?? 0) / 1000).toStringAsFixed(2) +
         localizationInfo!.weightSymbol;
     return baseInfoItem(
-      '包裹 ${index + 1}',
+      '${Translation.t(context, '包裹')} ${index + 1}',
       labelColor: Colors.black,
       // bottom: index == model!.boxes.length - 1 ? 0 : 15,
       content: Expanded(
@@ -495,7 +492,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                 caption.Caption(
                   str: model!.valueAddedService.isNotEmpty
                       ? '+${getPriceStr(valueAddAmount)}'
-                      : '无',
+                      : Translation.t(context, '无'),
                 ),
                 ...model!.valueAddedService.map((e) {
                   return caption.Caption(
@@ -655,12 +652,12 @@ class OrderDetailPageState extends State<OrderDetailPage> {
         crossAxisAlignment: crossAxisAlignment,
         children: [
           caption.Caption(
-            str: label,
+            str: Translation.t(context, label),
             color: labelColor ?? ColorConfig.textGray,
           ),
           content ??
               caption.Caption(
-                str: text ?? '无',
+                str: text ?? Translation.t(context, '无'),
                 color: redText ? ColorConfig.textRed : ColorConfig.textBlack,
               ),
         ],
@@ -740,13 +737,14 @@ class OrderDetailPageState extends State<OrderDetailPage> {
 
   // 签收
   void onSign() async {
-    var data = await BaseDialog.confirmDialog(context, '请确认您已收到货');
+    var data = await BaseDialog.confirmDialog(
+        context, Translation.t(context, '请确认您已收到货'));
     if (data != null) {
       EasyLoading.show();
       var result = await OrderService.signed(orderId);
       EasyLoading.dismiss();
       if (result['ok']) {
-        EasyLoading.showSuccess('签收成功');
+        EasyLoading.showSuccess(Translation.t(context, '签收成功'));
         onRefresh();
       } else {
         EasyLoading.showError(result['msg']);
@@ -810,8 +808,8 @@ class OrderDetailPageState extends State<OrderDetailPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const caption.Caption(
-            str: '转运订单号',
+          caption.Caption(
+            str: Translation.t(context, '转运订单号'),
             fontSize: 13,
             color: ColorConfig.textGray,
           ),
@@ -824,8 +822,11 @@ class OrderDetailPageState extends State<OrderDetailPage> {
               Gaps.hGap15,
               GestureDetector(
                 onTap: () {
-                  Clipboard.setData(ClipboardData(text: model?.orderSn))
-                      .then((value) => {EasyLoading.showSuccess('复制成功')});
+                  Clipboard.setData(ClipboardData(text: model?.orderSn)).then(
+                      (value) => {
+                            EasyLoading.showSuccess(
+                                Translation.t(context, '复制成功'))
+                          });
                 },
                 child: const LoadImage(
                   'PackageAndOrder/copy-icon',
@@ -836,8 +837,8 @@ class OrderDetailPageState extends State<OrderDetailPage> {
             ],
           ),
           Gaps.vGap10,
-          const caption.Caption(
-            str: '包含的包裹',
+          caption.Caption(
+            str: Translation.t(context, '包含的包裹'),
             fontSize: 13,
             color: ColorConfig.textGray,
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
@@ -50,8 +51,8 @@ class _WithdrawHistoryDetailPageState extends State<WithdrawHistoryDetailPage> {
           color: Colors.black,
         ),
         centerTitle: true,
-        title: const Caption(
-          str: '结算详情',
+        title: Caption(
+          str: Translation.t(context, '结算详情'),
           fontSize: 18,
         ),
         elevation: 0.5,
@@ -89,22 +90,28 @@ class _WithdrawHistoryDetailPageState extends State<WithdrawHistoryDetailPage> {
           ),
           Gaps.vGap20,
           Caption(
-            str: '流水号：${detailModel?.serialNo ?? ''}',
+            str: Translation.t(context, '流水号') +
+                '：${detailModel?.serialNo ?? ''}',
           ),
           Gaps.vGap5,
           Caption(
-            str: '收款方式：${detailModel?.withdrawTypeName ?? ''}',
+            str: Translation.t(context, '收款方式') +
+                '：${detailModel?.withdrawTypeName ?? ''}',
           ),
           Gaps.vGap5,
           Caption(
-            str: '收款账户：${detailModel?.user?.name ?? ''}',
+            str: Translation.t(context, '收款账户') +
+                '：${detailModel?.user?.name ?? ''}',
           ),
           Gaps.vGap5,
           Caption(
-            str: '结算状态：' +
-                (detailModel?.status == 0
-                    ? '审核中'
-                    : (detailModel?.status == 1 ? '审核通过' : '审核拒绝')),
+            str: Translation.t(context, '结算状态') +
+                '：' +
+                Translation.t(
+                    context,
+                    (detailModel?.status == 0
+                        ? '审核中'
+                        : (detailModel?.status == 1 ? '审核通过' : '审核拒绝'))),
           ),
         ],
       ),
@@ -119,8 +126,8 @@ class _WithdrawHistoryDetailPageState extends State<WithdrawHistoryDetailPage> {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: const Caption(
-              str: '结算明细',
+            child: Caption(
+              str: Translation.t(context, '结算明细'),
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
@@ -166,13 +173,15 @@ class _WithdrawHistoryDetailPageState extends State<WithdrawHistoryDetailPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Caption(
-                str: '转运单号：' + model.orderNumber,
+                str: Translation.t(context, '转运单号') + '：' + model.orderNumber,
                 fontSize: 14,
               ),
               Caption(
-                str: '佣金：+' +
-                    (model.commissionAmount / 100).toStringAsFixed(2) +
-                    '元',
+                str: Translation.t(context, '佣金') +
+                    '：+' +
+                    Translation.t(context, '{count}元', value: {
+                      'count': (model.commissionAmount / 100).toStringAsFixed(2)
+                    }),
                 fontSize: 14,
               ),
             ],

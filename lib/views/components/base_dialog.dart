@@ -42,7 +42,7 @@ class BaseDialog {
                   : Gaps.empty,
               TextButton(
                 child: Caption(
-                  str: Translation.t(context, '确定'),
+                  str: Translation.t(context, '确认'),
                   color: ColorConfig.textBlack,
                 ),
                 onPressed: () {

@@ -2,6 +2,7 @@
   充值记录页面
  */
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
@@ -41,8 +42,8 @@ class BalanceHistoryPageState extends State<BalanceHistoryPage>
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: const Caption(
-            str: '充值记录',
+          title: Caption(
+            str: Translation.t(context, '充值记录'),
             color: ColorConfig.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
@@ -153,9 +154,9 @@ class LineItemState extends State<LineItem> {
                           Container(
                             alignment: Alignment.centerLeft,
                             margin: const EdgeInsets.only(top: 0, left: 10),
-                            child: const Caption(
+                            child: Caption(
                               alignment: TextAlign.left,
-                              str: '充值金额',
+                              str: Translation.t(context, '充值金额'),
                               color: ColorConfig.textDark,
                               fontSize: 17,
                               fontWeight: FontWeight.w500,
@@ -196,10 +197,10 @@ class LineItemState extends State<LineItem> {
                             child: Caption(
                               alignment: TextAlign.center,
                               str: model.status == 0
-                                  ? '等待客服确认支付'
+                                  ? Translation.t(context, '等待客服确认支付')
                                   : model.status == 1
-                                      ? '审核通过'
-                                      : '审核失败',
+                                      ? Translation.t(context, '审核通过')
+                                      : Translation.t(context, '审核失败'),
                               color: ColorConfig.primary,
                               fontSize: 14,
                             ),

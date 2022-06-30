@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_new
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
@@ -60,7 +61,7 @@ class OrderListPageState extends State<OrderListPage> {
         elevation: 0.5,
         centerTitle: true,
         title: Caption(
-          str: pageTitle,
+          str: Translation.t(context, pageTitle),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,

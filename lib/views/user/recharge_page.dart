@@ -5,6 +5,7 @@
 import 'dart:async';
 
 import 'package:jiyun_app_client/common/hex_to_color.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -70,7 +71,7 @@ class RechargePageState extends State<RechargePage> {
         if (res.isSuccessful) {
           Routers.push('/PaySuccessPage', context, {'type': 3});
         } else {
-          Util.showToast('支付失败');
+          Util.showToast(Translation.t(context, '支付失败'));
         }
       }
     });
@@ -114,8 +115,8 @@ class RechargePageState extends State<RechargePage> {
         backgroundColor: ColorConfig.primary,
         elevation: 0,
         centerTitle: true,
-        title: const Caption(
-          str: '余额',
+        title: Caption(
+          str: Translation.t(context, '余额'),
           color: ColorConfig.white,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -135,8 +136,8 @@ class RechargePageState extends State<RechargePage> {
             children: [
               Row(
                 children: [
-                  const Caption(
-                    str: '充值：',
+                  Caption(
+                    str: Translation.t(context, '充值') + '：',
                     fontSize: 14,
                   ),
                   Caption(
@@ -155,14 +156,14 @@ class RechargePageState extends State<RechargePage> {
                 text: '确认支付',
                 onPressed: () {
                   if (selectButton == -1) {
-                    Util.showToast('请选择充值金额');
+                    Util.showToast(Translation.t(context, '请选择充值金额'));
                     return;
                   } else if (selectButton == defaultAmountList.length &&
                       (amount * 100).toInt() == 0) {
-                    Util.showToast('请输入充值金额');
+                    Util.showToast(Translation.t(context, '请输入充值金额'));
                     return;
                   } else if (selectType.isEmpty) {
-                    Util.showToast('请选择充值方式');
+                    Util.showToast(Translation.t(context, '请选择充值方式'));
                     return;
                   }
                   if (selectType.first.name == 'wechat') {
@@ -196,9 +197,9 @@ class RechargePageState extends State<RechargePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        const SizedBox(
+                        SizedBox(
                           height: 40,
-                          child: Caption(str: '余额充值'),
+                          child: Caption(str: Translation.t(context, '余额充值')),
                         ),
                         buildMoreSupportType(context),
                         selectButton == defaultAmountList.length
@@ -229,11 +230,11 @@ class RechargePageState extends State<RechargePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(
+        Padding(
+          padding: const EdgeInsets.symmetric(
             vertical: 15,
           ),
-          child: Caption(str: '其它任意金额'),
+          child: Caption(str: Translation.t(context, '其它任意金额')),
         ),
         Container(
           alignment: Alignment.center,
@@ -249,7 +250,7 @@ class RechargePageState extends State<RechargePage> {
           child: BaseInput(
             controller: _otherPriceController,
             focusNode: _otherPriceNode,
-            hintText: '其它任意金额',
+            hintText: Translation.t(context, '其它任意金额'),
             isCollapsed: true,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             contentPadding: const EdgeInsets.symmetric(
@@ -262,12 +263,6 @@ class RechargePageState extends State<RechargePage> {
               });
             },
           ),
-        ),
-        Gaps.vGap5,
-        const Caption(
-          str: '其它金额充值无赠送哦！',
-          fontSize: 12,
-          color: ColorConfig.textNormal,
         ),
       ],
     );
@@ -320,16 +315,16 @@ class RechargePageState extends State<RechargePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Caption(
-                        str: model.amount.toString() + '元',
+                        str: Translation.t(context, '{count}元',
+                            value: {'count': model.amount}),
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: ColorConfig.textBlack,
                       ),
                       model.complimentaryAmount != 0
                           ? Caption(
-                              str: '送' +
-                                  model.complimentaryAmount.toString() +
-                                  '元',
+                              str: Translation.t(context, '送{count}元',
+                                  value: {'count': model.complimentaryAmount}),
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               color: ColorConfig.textBlack,
@@ -337,8 +332,8 @@ class RechargePageState extends State<RechargePage> {
                           : Container(),
                     ],
                   )
-                : const Caption(
-                    str: '其它金额',
+                : Caption(
+                    str: Translation.t(context, '其它金额'),
                     fontWeight: FontWeight.w500,
                   )),
       );
@@ -443,15 +438,15 @@ class RechargePageState extends State<RechargePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            const Caption(
-                              str: '账户余额',
+                            Caption(
+                              str: Translation.t(context, '账户余额'),
                             ),
                             GestureDetector(
                               onTap: () {
                                 Routers.push('/BalanceHistoryPage', context);
                               },
-                              child: const Caption(
-                                str: '充值记录',
+                              child: Caption(
+                                str: Translation.t(context, '充值记录'),
                               ),
                             )
                           ],

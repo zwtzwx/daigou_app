@@ -1,6 +1,7 @@
 /*
   提现记录
  */
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/withdrawal_item_model.dart';
@@ -83,8 +84,8 @@ class WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: const Caption(
-          str: '佣金报表',
+        title: Caption(
+          str: Translation.t(context, '佣金报表'),
           color: ColorConfig.textBlack,
           fontSize: 18,
         ),
@@ -115,8 +116,8 @@ class WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
                 horizontal: 10,
               ),
               color: ColorConfig.primary,
-              child: const Caption(
-                str: '我要提现',
+              child: Caption(
+                str: Translation.t(context, '我要提现'),
                 color: Colors.white,
                 fontSize: 18,
               ),
@@ -135,8 +136,8 @@ class WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
                 horizontal: 10,
               ),
               color: Colors.white,
-              child: const Caption(
-                str: '成交记录',
+              child: Caption(
+                str: Translation.t(context, '成交记录'),
                 color: ColorConfig.primary,
                 fontSize: 18,
               ),
@@ -182,8 +183,8 @@ class WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               children: [
-                const Caption(
-                  str: '收款账号：',
+                Caption(
+                  str: Translation.t(context, '收款账号') + '：',
                   color: ColorConfig.textGray,
                 ),
                 Caption(
@@ -197,8 +198,8 @@ class WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               children: [
-                const Caption(
-                  str: '收款方式：',
+                Caption(
+                  str: Translation.t(context, '收款方式') + '：',
                   color: ColorConfig.textGray,
                 ),
                 Caption(
@@ -212,14 +213,16 @@ class WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               children: [
-                const Caption(
-                  str: '结算状态：',
+                Caption(
+                  str: Translation.t(context, '结算状态') + '：',
                   color: ColorConfig.textGray,
                 ),
                 Caption(
-                  str: model.status == 0
-                      ? '审核中'
-                      : (model.status == 1 ? '审核通过' : '审核拒绝'),
+                  str: Translation.t(
+                      context,
+                      model.status == 0
+                          ? '审核中'
+                          : (model.status == 1 ? '审核通过' : '审核拒绝')),
                   color: model.status == 0
                       ? ColorConfig.primary
                       : (model.status == 2
@@ -242,11 +245,11 @@ class WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
                 color: Colors.white,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Caption(
-                      str: '查看详情',
+                      str: Translation.t(context, '查看详情'),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.arrow_forward_ios,
                       size: 16,
                       color: ColorConfig.textGray,

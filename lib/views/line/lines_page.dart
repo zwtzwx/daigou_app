@@ -158,8 +158,10 @@ class LinesPageState extends State<LinesPage> {
                       ),
                       model.isDelivery > 0
                           ? Caption(
-                              str: ' (自提' +
-                                  (model.isDelivery == 2 ? '/送货上门' : '') +
+                              str: ' (${Translation.t(context, '自提')}' +
+                                  (model.isDelivery == 2
+                                      ? '/${Translation.t(context, '送货上门')}'
+                                      : '') +
                                   ')',
                               color: ColorConfig.textRed,
                               fontWeight: FontWeight.bold,
@@ -229,123 +231,6 @@ class LinesPageState extends State<LinesPage> {
             ),
           ],
         ),
-        // child: Column(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: <Widget>[
-        //     Container(
-        //       padding: const EdgeInsets.all(10),
-        //       child: Row(
-        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //         children: <Widget>[
-        //           Column(
-        //             crossAxisAlignment: CrossAxisAlignment.start,
-        //             children: <Widget>[
-        //               Container(
-        //                 height: 30,
-        //                 alignment: Alignment.center,
-        //                 width: ScreenUtil().screenWidth - 52,
-        //                 child: Row(
-        //                     crossAxisAlignment: CrossAxisAlignment.center,
-        //                     children: <Widget>[
-        //                       Expanded(
-        //                           child: Container(
-        //                         alignment: Alignment.centerLeft,
-        //                         child: RichText(
-        //                           maxLines: 1,
-        //                           overflow: TextOverflow.ellipsis,
-        //                           text: TextSpan(
-        //                             children: <TextSpan>[
-        //                               TextSpan(
-        //                                 text: model.name,
-        //                                 style: const TextStyle(
-        //                                   color: ColorConfig.textBlack,
-        //                                   fontSize: 17.0,
-        //                                   fontWeight: FontWeight.bold,
-        //                                 ),
-        //                               ),
-        //                               // TextSpan(
-        //                               //   text: deliveryStr,
-        //                               //   style: TextStyle(
-        //                               //     color: ColorConfig.textRed,
-        //                               //     fontSize: 15.0,
-        //                               //     fontWeight: FontWeight.bold,
-        //                               //   ),
-        //                               // ),
-        //                             ],
-        //                           ),
-        //                         ),
-        //                       )),
-        //                       GestureDetector(
-        //                         onTap: () {
-        //                           Routers.push('/LineDetailPage', context,
-        //                               {'line': model, 'type': 2});
-        //                         },
-        //                         child: Padding(
-        //                           padding: const EdgeInsets.only(
-        //                             right: 0,
-        //                           ),
-        //                           child: Row(
-        //                             children: const <Widget>[
-        //                               Caption(
-        //                                 str: '查看详情',
-        //                                 color: ColorConfig.textGray,
-        //                               ),
-        //                               Icon(
-        //                                 Icons.arrow_forward_ios,
-        //                                 color: ColorConfig.textGray,
-        //                                 size: 20,
-        //                               )
-        //                             ],
-        //                           ),
-        //                         ),
-        //                       ),
-        //                     ]),
-        //               ),
-        //               Row(
-        //                 children: <Widget>[
-        //                   Container(
-        //                     alignment: Alignment.topCenter,
-        //                     child: LoadImage(
-        //                       model.icon!.icon,
-        //                       fit: BoxFit.contain,
-        //                       width: 50,
-        //                       height: 50,
-        //                     ),
-        //                   ),
-        //                   const SizedBox(
-        //                     width: 10,
-        //                   ),
-        //                   SizedBox(
-        //                     width: ScreenUtil().screenWidth - 52 - 50 - 10,
-        //                     child: Column(
-        //                       crossAxisAlignment: CrossAxisAlignment.start,
-        //                       children: <Widget>[
-        //                         getTextDes(
-        //                             0,
-        //                             localModel.currencySymbol +
-        //                                 (model.expireFee! / 100)
-        //                                     .toStringAsFixed(2)),
-        //                         getTextDes(
-        //                             1,
-        //                             (model.countWeight! / 1000)
-        //                                     .toStringAsFixed(2) +
-        //                                 localModel.weightSymbol),
-        //                         getTextDes(2, model.region!.referenceTime),
-        //                         model.isDelivery != 0
-        //                             ? getTextDes(3, '自提路线收货地址为自提点地址')
-        //                             : Container()
-        //                       ],
-        //                     ),
-        //                   )
-        //                 ],
-        //               ),
-        //             ],
-        //           ),
-        //         ],
-        //       ),
-        //     )
-        //   ],
-        // ),
       ),
     );
   }
@@ -355,7 +240,7 @@ class LinesPageState extends State<LinesPage> {
     var text = Row(
       children: <Widget>[
         Caption(
-          str: titleList[index],
+          str: Translation.t(context, titleList[index]),
           color: ColorConfig.textGray,
           fontSize: 14,
         ),

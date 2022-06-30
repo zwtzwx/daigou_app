@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/services/agent_service.dart';
@@ -44,9 +45,9 @@ class WithdrawlInfoPageState extends State<WithdrawlInfoPage> {
   // 提交提现信息
   onSubmit() async {
     if (withdrawType == null) {
-      return Util.showToast('请选择收款方式');
+      return Util.showToast(Translation.t(context, '请选择收款方式'));
     } else if (withdrawType != 1 && _accountController.text.isEmpty) {
-      return Util.showToast('请输入账户名');
+      return Util.showToast(Translation.t(context, '请输入账户名'));
     }
     Map<String, dynamic> updataMap = {
       'commission_ids': widget.arguments?['ids'],
@@ -79,26 +80,26 @@ class WithdrawlInfoPageState extends State<WithdrawlInfoPage> {
               onPressed: () {
                 Navigator.pop(context, 1);
               },
-              child: const Caption(str: '余额提现'),
+              child: Caption(str: Translation.t(context, '余额提现')),
             ),
             CupertinoActionSheetAction(
               onPressed: () {
                 Navigator.pop(context, 2);
               },
-              child: const Caption(str: '微信提现'),
+              child: Caption(str: Translation.t(context, '微信提现')),
             ),
             CupertinoActionSheetAction(
               onPressed: () {
                 Navigator.pop(context, 3);
               },
-              child: const Caption(str: '支付宝提现'),
+              child: Caption(str: Translation.t(context, '支付宝提现')),
             ),
           ],
           cancelButton: CupertinoActionSheetAction(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Caption(str: '取消'),
+            child: Caption(str: Translation.t(context, '取消')),
           ),
         );
       },
@@ -130,8 +131,8 @@ class WithdrawlInfoPageState extends State<WithdrawlInfoPage> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: const Caption(
-          str: '结算账号信息',
+        title: Caption(
+          str: Translation.t(context, '结算账号信息'),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -157,7 +158,7 @@ class WithdrawlInfoPageState extends State<WithdrawlInfoPage> {
               rightFlex: 7,
               leftFlex: 3,
               isRequired: true,
-              title: '收款方式',
+              title: Translation.t(context, '收款方式'),
               inputText: GestureDetector(
                 onTap: () async {
                   var data = await showApplyType();
@@ -173,7 +174,7 @@ class WithdrawlInfoPageState extends State<WithdrawlInfoPage> {
                     children: <Widget>[
                       Expanded(
                         child: Caption(
-                          str: getWithdrawTypeName(),
+                          str: Translation.t(context, getWithdrawTypeName()),
                           color: withdrawType == null
                               ? ColorConfig.textGray
                               : Colors.black,
@@ -192,7 +193,7 @@ class WithdrawlInfoPageState extends State<WithdrawlInfoPage> {
                 ? InputTextItem(
                     rightFlex: 7,
                     leftFlex: 3,
-                    title: '账户名',
+                    title: Translation.t(context, '账户名'),
                     isRequired: true,
                     inputText: Container(
                       alignment: Alignment.center,
@@ -201,7 +202,7 @@ class WithdrawlInfoPageState extends State<WithdrawlInfoPage> {
                         children: <Widget>[
                           Expanded(
                               child: NormalInput(
-                            hintText: '请输入账户名',
+                            hintText: Translation.t(context, '请输入账户名'),
                             textAlign: TextAlign.left,
                             contentPadding: const EdgeInsets.only(top: 17),
                             controller: _accountController,
@@ -220,7 +221,7 @@ class WithdrawlInfoPageState extends State<WithdrawlInfoPage> {
             InputTextItem(
                 rightFlex: 7,
                 leftFlex: 3,
-                title: '备注',
+                title: Translation.t(context, '备注'),
                 inputText: Container(
                   alignment: Alignment.center,
                   child: Row(
@@ -228,7 +229,7 @@ class WithdrawlInfoPageState extends State<WithdrawlInfoPage> {
                     children: <Widget>[
                       Expanded(
                           child: NormalInput(
-                        hintText: '请输入备注',
+                        hintText: Translation.t(context, '请输入备注'),
                         textAlign: TextAlign.left,
                         contentPadding: const EdgeInsets.only(top: 17),
                         controller: _remarkController,

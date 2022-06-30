@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -68,8 +69,8 @@ class OrderItemCell extends StatelessWidget {
                               color: Colors.red[700],
                               padding: const EdgeInsets.symmetric(
                                   vertical: 2, horizontal: 5),
-                              child: const Caption(
-                                str: '订单异常',
+                              child: Caption(
+                                str: Translation.t(context, '订单异常'),
                                 color: Colors.white,
                                 fontSize: 12,
                               ),
@@ -169,8 +170,8 @@ class OrderItemCell extends StatelessWidget {
                 Gaps.vGap4,
                 Caption(
                   str: orderModel.station != null
-                      ? '自提收货-${orderModel.station!.name}'
-                      : '送货上门',
+                      ? '${Translation.t(context, '自提收货')}-${orderModel.station!.name}'
+                      : Translation.t(context, '送货上门'),
                   fontSize: 14,
                 ),
                 Gaps.vGap4,
@@ -181,7 +182,8 @@ class OrderItemCell extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Caption(
-                              str: '物流单号：${orderModel.logisticsSn}',
+                              str:
+                                  '${Translation.t(context, '物流单号')}{orderModel.logisticsSn}',
                             ),
                             Gaps.hGap10,
                             orderModel.logisticsSn.isNotEmpty
@@ -190,10 +192,12 @@ class OrderItemCell extends StatelessWidget {
                                       Clipboard.setData(ClipboardData(
                                               text: orderModel.logisticsSn))
                                           .then((value) =>
-                                              EasyLoading.showSuccess('复制成功'));
+                                              EasyLoading.showSuccess(
+                                                  Translation.t(
+                                                      context, '复制成功')));
                                     },
-                                    child: const Caption(
-                                      str: '复制',
+                                    child: Caption(
+                                      str: Translation.t(context, '复制'),
                                       color: ColorConfig.primary,
                                     ),
                                   )
@@ -206,7 +210,8 @@ class OrderItemCell extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Caption(
-                      str: '提交时间：${orderModel.createdAt}',
+                      str:
+                          '${Translation.t(context, '提交时间')}{orderModel.createdAt}',
                       fontSize: 13,
                       color: ColorConfig.textGray,
                     ),
@@ -234,8 +239,8 @@ class OrderItemCell extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         orderModel.status == 11
-            ? const Caption(
-                str: '等待客服确认支付',
+            ? Caption(
+                str: Translation.t(context, '等待客服确认支付'),
                 fontSize: 14,
                 color: ColorConfig.textRed,
               )
@@ -298,7 +303,7 @@ class OrderItemCell extends StatelessWidget {
             : Gaps.empty,
         [4, 5].contains(orderModel.status)
             ? PlainButton(
-                text: '查看物流',
+                text: Translation.t(context, '查看物流'),
                 onPressed: () {
                   if (orderModel.boxes.isNotEmpty) {
                     _boxsTracking(context);
@@ -359,7 +364,7 @@ class OrderItemCell extends StatelessWidget {
     if (result != null) {
       BaseDialog.normalDialog(
         context,
-        title: '异常说明',
+        title: Translation.t(context, '异常说明'),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
           child: Column(
@@ -387,14 +392,15 @@ class OrderItemCell extends StatelessWidget {
 
   // 签收
   void onSign(BuildContext context) async {
-    var data = await BaseDialog.confirmDialog(context, '您确定要签收吗？');
+    var data = await BaseDialog.confirmDialog(
+        context, '${Translation.t(context, '您确定要签收吗')}？');
     if (data != null) {
       int id = orderModel.id;
       EasyLoading.show();
       var result = await OrderService.signed(id);
       EasyLoading.dismiss();
       if (result['ok']) {
-        Util.showToast("签收成功");
+        Util.showToast(Translation.t(context, '签收成功'));
         ApplicationEvent.getInstance()
             .event
             .fire(ListRefreshEvent(type: 'refresh'));
@@ -412,7 +418,7 @@ class OrderItemCell extends StatelessWidget {
           return CupertinoActionSheet(
             actions: _buildSubList(context),
             cancelButton: CupertinoActionSheetAction(
-              child: const Text('取消'),
+              child: Text(Translation.t(context, '取消')),
               onPressed: () {
                 Navigator.of(context).pop('cancel');
               },
@@ -436,7 +442,7 @@ class OrderItemCell extends StatelessWidget {
       ParcelBoxModel boxModel = orderModel.boxes[i];
       var view = CupertinoActionSheetAction(
         child: Caption(
-          str: '子订单-' '${i + 1}',
+          str: '${Translation.t(context, '子订单')}-' '${i + 1}',
         ),
         onPressed: () {
           Navigator.of(context)

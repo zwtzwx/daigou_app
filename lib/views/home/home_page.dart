@@ -12,11 +12,9 @@ import 'package:flutter/services.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/home_refresh_event.dart';
 import 'package:jiyun_app_client/views/home/widget/ads_cell.dart';
-import 'package:jiyun_app_client/views/home/widget/comment_cell.dart';
 import 'package:jiyun_app_client/views/home/widget/module_cell.dart';
 import 'package:jiyun_app_client/views/home/widget/quick_link_cell.dart';
 import 'package:jiyun_app_client/views/home/widget/recommand_ship_lines_cell.dart';
-import 'package:jiyun_app_client/views/home/widget/title_cell.dart';
 
 /*
   首页

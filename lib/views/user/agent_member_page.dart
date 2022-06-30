@@ -2,6 +2,7 @@
   代理邀请的好友
 */
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/agent_data_count_model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
@@ -52,8 +53,8 @@ class AgentMemberPageState extends State<AgentMemberPage>
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: const Caption(
-          str: '我的推广',
+        title: Caption(
+          str: Translation.t(context, '我的推广'),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -68,11 +69,15 @@ class AgentMemberPageState extends State<AgentMemberPage>
             tabs: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Caption(str: '已注册好友' '(${countModel?.all ?? 0})'),
+                child: Caption(
+                    str: Translation.t(context, '已注册好友') +
+                        '(${countModel?.all ?? 0})'),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Caption(str: '已下单好友' '(${countModel?.hasOrder ?? 0})'),
+                child: Caption(
+                    str: Translation.t(context, '已下单好友') +
+                        '(${countModel?.hasOrder ?? 0})'),
               ),
             ]),
       ),
@@ -108,7 +113,7 @@ class AgentMemberPageState extends State<AgentMemberPage>
           Gaps.vGap5,
           SizedBox(
             child: Caption(
-              str: '注册时间：' + model.createdAt,
+              str: Translation.t(context, '注册时间') + '：' + model.createdAt,
               fontSize: 13,
               color: ColorConfig.textGray,
             ),
@@ -173,7 +178,7 @@ class __AgentMemberListState extends State<_AgentMemberList> {
           Gaps.vGap5,
           SizedBox(
             child: Caption(
-              str: '注册时间：' + model.createdAt,
+              str: Translation.t(context, '注册时间') + '：' + model.createdAt,
               fontSize: 13,
               color: ColorConfig.textGray,
             ),

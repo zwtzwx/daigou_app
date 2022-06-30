@@ -4,6 +4,7 @@
   我的积分
  */
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
@@ -179,15 +180,16 @@ class MyPointPageState extends State<MyPointPage> {
                     fontWeight: FontWeight.bold,
                   ),
                   Gaps.vGap5,
-                  const Caption(
-                    str: '可用积分',
+                  Caption(
+                    str: Translation.t(context, '可用积分'),
                     color: ColorConfig.vipNormal,
                   ),
                   Gaps.vGap15,
                   Caption(
-                    str: '使用规则：' +
+                    str: Translation.t(context, '使用规则') +
+                        '：' +
                         (userPointModel?.configPoint ?? 0).toString() +
-                        '积分=' +
+                        '${Translation.t(context, '积分')}=' +
                         localizationInfo!.currencySymbol +
                         (userPointModel?.configAmount ?? 0).toString(),
                     fontSize: 14,
@@ -212,8 +214,8 @@ class MyPointPageState extends State<MyPointPage> {
                         flex: 2,
                         child: Container(
                           alignment: Alignment.center,
-                          child: const Caption(
-                            str: '类型',
+                          child: Caption(
+                            str: Translation.t(context, '类型'),
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -223,8 +225,8 @@ class MyPointPageState extends State<MyPointPage> {
                         flex: 2,
                         child: Container(
                           alignment: Alignment.center,
-                          child: const Caption(
-                            str: '时间',
+                          child: Caption(
+                            str: Translation.t(context, '时间'),
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -234,8 +236,8 @@ class MyPointPageState extends State<MyPointPage> {
                         flex: 2,
                         child: Container(
                             alignment: Alignment.center,
-                            child: const Caption(
-                              str: '明细',
+                            child: Caption(
+                              str: Translation.t(context, '明细'),
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             )),

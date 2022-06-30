@@ -272,7 +272,7 @@ class _ModuleCellState extends State<ModuleCell> {
                       )
               ]),
               Text(
-                listDesTitle[index],
+                Translation.t(context, listDesTitle[index]),
                 style:
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               )

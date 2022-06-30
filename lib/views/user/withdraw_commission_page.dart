@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/agent_commission_record_model.dart';
 import 'package:jiyun_app_client/models/agent_commissions_model.dart';
@@ -38,8 +39,8 @@ class _WithdrawCommissionPageState extends State<WithdrawCommissionPage> {
           color: Colors.black,
         ),
         centerTitle: true,
-        title: const Caption(
-          str: '成交记录',
+        title: Caption(
+          str: Translation.t(context, '成交记录'),
           fontSize: 18,
         ),
         elevation: 0.5,
@@ -80,15 +81,19 @@ class _WithdrawCommissionPageState extends State<WithdrawCommissionPage> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Caption(
-                          str: (model.orderAmount / 100).toStringAsFixed(2) +
-                              '元',
+                          str: Translation.t(context, '{count}元', value: {
+                            'count':
+                                (model.orderAmount / 100).toStringAsFixed(2)
+                          }),
                           color: ColorConfig.textGray,
                         ),
                         Caption(
-                          str: '佣金：+' +
-                              (model.commissionAmount / 100)
-                                  .toStringAsFixed(2) +
-                              '元',
+                          str: Translation.t(context, '佣金') +
+                              '：+' +
+                              Translation.t(context, '{count}元', value: {
+                                'count': (model.commissionAmount / 100)
+                                    .toStringAsFixed(2)
+                              }),
                           color: ColorConfig.textGray,
                         ),
                       ],
@@ -140,13 +145,15 @@ class _WithdrawCommissionPageState extends State<WithdrawCommissionPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Caption(
-              str: '转运单号：' + model.orderNumber,
+              str: Translation.t(context, '转运单号') + '：' + model.orderNumber,
               fontSize: 13,
             ),
             Caption(
-              str: '佣金：+' +
-                  (model.commissionAmount / 100).toStringAsFixed(2) +
-                  '元',
+              str: Translation.t(context, '佣金') +
+                  '：+' +
+                  Translation.t(context, '{count}元', value: {
+                    'count': (model.commissionAmount / 100).toStringAsFixed(2)
+                  }),
               fontSize: 13,
               color: ColorConfig.textGray,
             ),

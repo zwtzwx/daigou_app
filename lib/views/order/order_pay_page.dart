@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -92,7 +93,7 @@ class OrderPayPageState extends State<OrderPayPage> {
         if (res.isSuccessful) {
           Navigator.pop(context, 'succeed');
         } else {
-          Util.showToast('支付失败');
+          Util.showToast(Translation.t(context, '支付失败'));
         }
       }
     });
@@ -155,7 +156,7 @@ class OrderPayPageState extends State<OrderPayPage> {
           elevation: 0.5,
           centerTitle: true,
           title: Caption(
-            str: pageTitle,
+            str: Translation.t(context, pageTitle),
             color: ColorConfig.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
@@ -233,7 +234,8 @@ class OrderPayPageState extends State<OrderPayPage> {
                                             str: payModel == 0
                                                 ? vipPriceModel!.basePrice == 0
                                                     ? ''
-                                                    : '已省' +
+                                                    : Translation.t(
+                                                            context, '已省') +
                                                         localizationInfo!
                                                             .currencySymbol +
                                                         ((vipPriceModel!.basePrice -
@@ -241,7 +243,7 @@ class OrderPayPageState extends State<OrderPayPage> {
                                                                         .price) /
                                                                 100)
                                                             .toStringAsFixed(2)
-                                                : '已省' +
+                                                : Translation.t(context, '已省') +
                                                     localizationInfo!
                                                         .currencySymbol +
                                                     ((orderModel!.couponDiscountFee +
@@ -269,18 +271,19 @@ class OrderPayPageState extends State<OrderPayPage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Caption(
-                                    str: '余额：' + myBalance.toStringAsFixed(2),
+                                    str: '${Translation.t(context, '余额')}：' +
+                                        myBalance.toStringAsFixed(2),
                                   ),
                                   GestureDetector(
                                       onTap: () {
                                         Routers.push('/RechargePage', context);
                                       },
                                       child: Row(
-                                        children: const <Widget>[
+                                        children: <Widget>[
                                           Caption(
-                                            str: '充值',
+                                            str: Translation.t(context, '充值'),
                                           ),
-                                          Icon(Icons.keyboard_arrow_right)
+                                          const Icon(Icons.keyboard_arrow_right)
                                         ],
                                       ))
                                 ],
@@ -299,8 +302,8 @@ class OrderPayPageState extends State<OrderPayPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
-                                        const Caption(
-                                          str: '积分',
+                                        Caption(
+                                          str: Translation.t(context, '积分'),
                                         ),
                                         GestureDetector(
                                             onTap: buildPointView,
@@ -309,7 +312,8 @@ class OrderPayPageState extends State<OrderPayPage> {
                                                 Caption(
                                                   str: isUsePoint
                                                       ? '-${localizationInfo!.currencySymbol}${(orderModel!.pointamount / 100).toStringAsFixed(2)}'
-                                                      : '不使用',
+                                                      : Translation.t(
+                                                          context, '不使用'),
                                                   color: isUsePoint
                                                       ? ColorConfig.textRed
                                                       : ColorConfig.textBlack,
@@ -333,8 +337,8 @@ class OrderPayPageState extends State<OrderPayPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
-                                        const Caption(
-                                          str: '优惠券',
+                                        Caption(
+                                          str: Translation.t(context, '优惠券'),
                                         ),
                                         GestureDetector(
                                           onTap: () async {
@@ -380,8 +384,9 @@ class OrderPayPageState extends State<OrderPayPage> {
                                                         ),
                                                       ],
                                                     )
-                                                  : const Caption(
-                                                      str: '不使用',
+                                                  : Caption(
+                                                      str: Translation.t(
+                                                          context, '不使用'),
                                                     ),
                                               const Icon(
                                                   Icons.keyboard_arrow_right)
@@ -428,7 +433,7 @@ class OrderPayPageState extends State<OrderPayPage> {
   // 支付
   onPay() async {
     if (selectedPayType.isEmpty) {
-      Util.showToast('请选择支付方式');
+      Util.showToast(Translation.t(context, '请选择支付方式'));
       return;
     }
     PayTypeModel model = selectedPayType.first;
@@ -456,7 +461,7 @@ class OrderPayPageState extends State<OrderPayPage> {
       // 余额付款订单
       var result = await BaseDialog.confirmDialog(
         context,
-        '您确认使用余额支付吗',
+        Translation.t(context, '您确认使用余额支付吗'),
       );
       if (result != null) {
         payByBalance();
@@ -509,10 +514,10 @@ class OrderPayPageState extends State<OrderPayPage> {
   // 支付结果
   onPayResult(Map result) {
     if (result['ok']) {
-      EasyLoading.showSuccess("操作成功")
+      EasyLoading.showSuccess(Translation.t(context, '操作成功'))
           .then((value) => Navigator.pop(context, 'succeed'));
     } else {
-      EasyLoading.showError(result['msg'] ?? '支付失败');
+      EasyLoading.showError(result['msg'] ?? Translation.t(context, '支付失败'));
     }
   }
 
@@ -587,8 +592,8 @@ class OrderPayPageState extends State<OrderPayPage> {
                     str: Util.getPayTypeName(typeMap.name),
                   ),
                   show
-                      ? const Caption(
-                          str: '（余额不足）',
+                      ? Caption(
+                          str: '（${Translation.t(context, '余额不足')})',
                         )
                       : Container(),
                 ],
@@ -700,14 +705,15 @@ class OrderPayPageState extends State<OrderPayPage> {
                         SizedBox(
                           width: ScreenUtil().screenWidth,
                           height: 40,
-                          child: const Caption(
-                            str: '积分抵扣',
+                          child: Caption(
+                            str: Translation.t(context, '积分抵扣'),
                             fontSize: 20,
                             color: ColorConfig.textBlack,
                           ),
                         ),
                         Caption(
-                          str: '账户剩余积分：' + orderModel!.userPoint.toString(),
+                          str: '${Translation.t(context, '账户剩余积分')}：' +
+                              orderModel!.userPoint.toString(),
                           fontSize: 14,
                         ),
                         Gaps.vGap10,
@@ -730,9 +736,8 @@ class OrderPayPageState extends State<OrderPayPage> {
                             Row(
                               children: <Widget>[
                                 Caption(
-                                  str: '使用' +
-                                      orderModel!.point.toString() +
-                                      '积分抵扣',
+                                  str: Translation.t(context, '使用{point}积分抵扣',
+                                      value: {'point': orderModel!.point}),
                                   fontSize: 14,
                                 ),
                                 Caption(
@@ -769,9 +774,9 @@ class OrderPayPageState extends State<OrderPayPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Row(
-                              children: const <Widget>[
+                              children: <Widget>[
                                 Caption(
-                                  str: '不使用积分抵扣',
+                                  str: Translation.t(context, '不使用积分抵扣'),
                                   fontSize: 14,
                                 ),
                               ],
@@ -795,7 +800,7 @@ class OrderPayPageState extends State<OrderPayPage> {
                         height: 40,
                         width: double.infinity,
                         child: MainButton(
-                          text: '确定',
+                          text: '确认',
                           borderRadis: 20.0,
                           onPressed: () {
                             setState(() {

@@ -2,6 +2,7 @@
   收件地址编辑
  */
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -119,14 +120,14 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
       var result = await AddressService.deleteReciever(model.id!);
       EasyLoading.dismiss();
       if (result) {
-        EasyLoading.showSuccess('删除成功').then((value) {
+        EasyLoading.showSuccess(Translation.t(context, '删除成功')).then((value) {
           ApplicationEvent.getInstance()
               .event
               .fire(ReceiverAddressRefreshEvent());
           Navigator.pop(context);
         });
       } else {
-        EasyLoading.showError('删除失败');
+        EasyLoading.showError(Translation.t(context, '删除失败'));
       }
     }
   }
@@ -148,7 +149,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
           elevation: 0.5,
           centerTitle: true,
           title: Caption(
-            str: !isEdit ? '添加地址' : '修改地址',
+            str: Translation.t(context, !isEdit ? '添加地址' : '修改地址'),
             color: ColorConfig.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
@@ -203,9 +204,9 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InputTextItem(
-          title: "收件人",
+          title: Translation.t(context, '收件人'),
           inputText: NormalInput(
-            hintText: "请输入收件人名字",
+            hintText: Translation.t(context, '请输入收件人名字'),
             textAlign: TextAlign.right,
             contentPadding: const EdgeInsets.only(top: 17, right: 15),
             controller: _recipientNameController,
@@ -229,7 +230,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
             });
           },
           child: InputTextItem(
-            title: "电话区号",
+            title: Translation.t(context, '电话区号'),
             inputText: Container(
               padding: const EdgeInsets.only(right: 15, left: 0),
               alignment: Alignment.center,
@@ -237,7 +238,9 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Caption(
-                    str: model.timezone.isEmpty ? "请选择电话区号" : model.timezone,
+                    str: model.timezone.isEmpty
+                        ? Translation.t(context, '请选择电话区号')
+                        : model.timezone,
                     color: model.timezone.isEmpty
                         ? ColorConfig.textGray
                         : ColorConfig.textDark,
@@ -254,9 +257,9 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
           ),
         ),
         InputTextItem(
-          title: "联系电话",
+          title: Translation.t(context, '联系电话'),
           inputText: NormalInput(
-            hintText: "请输入收件人电话",
+            hintText: Translation.t(context, '等待客服确认支付'),
             textAlign: TextAlign.right,
             contentPadding: const EdgeInsets.only(top: 17, right: 15),
             maxLength: 20,
@@ -286,7 +289,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
             });
           },
           child: InputTextItem(
-            title: "国家",
+            title: Translation.t(context, '国家地区'),
             inputText: Container(
               padding: const EdgeInsets.only(right: 15, left: 0),
               alignment: Alignment.center,
@@ -295,7 +298,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
                 children: <Widget>[
                   Caption(
                     str: countryModel.name == null
-                        ? '请选择国家/地区'
+                        ? Translation.t(context, '请选择国家地区')
                         : countryModel.name!,
                     color: countryModel.name == null
                         ? ColorConfig.textGray
@@ -313,9 +316,9 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
           ),
         ),
         InputTextItem(
-          title: "邮编",
+          title: Translation.t(context, '等待客服确认支付'),
           inputText: NormalInput(
-            hintText: "请输入邮编",
+            hintText: Translation.t(context, '请输入邮编'),
             contentPadding: const EdgeInsets.only(top: 17, right: 15),
             textAlign: TextAlign.right,
             controller: _zipCodeController,
@@ -336,14 +339,14 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Caption(
-                str: '详细地址',
+              Caption(
+                str: Translation.t(context, '详细地址'),
               ),
               NormalInput(
                 controller: _streetNameController,
                 focusNode: _streetName,
                 maxLength: 300,
-                hintText: '请输入详细地址',
+                hintText: Translation.t(context, '请输入详细地址'),
                 maxLines: 10,
                 contentPadding: const EdgeInsets.only(top: 10),
                 onChanged: (res) {
@@ -359,22 +362,22 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
 
   onUpdateClick() async {
     if (model.receiverName == '') {
-      Util.showToast('请填写收货人');
+      Util.showToast(Translation.t(context, '请输入收件人名字'));
       return;
     }
 
     if (model.timezone == '') {
-      Util.showToast('请选择区号');
+      Util.showToast(Translation.t(context, '请选择电话区号'));
       return;
     }
 
     if (model.phone == '') {
-      Util.showToast('请填写电话号码');
+      Util.showToast(Translation.t(context, '请输入收件人电话'));
       return;
     }
 
     if (countryModel.id == null) {
-      Util.showToast('请选择国家');
+      Util.showToast(Translation.t(context, '请选择国家地区'));
       return;
     }
 
@@ -414,9 +417,9 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
   showPickerDestion(BuildContext context) {
     Picker(
       adapter: PickerDataAdapter(data: getPickerSubView()),
-      title: const Text("选择区域"),
-      cancelText: '取消',
-      confirmText: '确认',
+      title: Text(Translation.t(context, '选择区域')),
+      cancelText: Translation.t(context, '取消'),
+      confirmText: Translation.t(context, '确认'),
       selectedTextStyle: const TextStyle(color: Colors.blue, fontSize: 12),
       onCancel: () {
         // showPicker = false;

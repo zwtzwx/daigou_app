@@ -3,11 +3,10 @@
 */
 
 import 'package:flutter/cupertino.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/upload_util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/profile_updated_event.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
@@ -104,8 +103,8 @@ class MyProfilePageState extends State<MyProfilePage>
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: const Caption(
-            str: '个人信息',
+          title: Caption(
+            str: Translation.t(context, '个人信息'),
             color: ColorConfig.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
@@ -143,8 +142,8 @@ class MyProfilePageState extends State<MyProfilePage>
                                     height: 55,
                                     width: 90,
                                     alignment: Alignment.centerLeft,
-                                    child: const Caption(
-                                      str: '用户昵称',
+                                    child: Caption(
+                                      str: Translation.t(context, '用户昵称'),
                                     ),
                                   ),
                                   Container(
@@ -153,7 +152,7 @@ class MyProfilePageState extends State<MyProfilePage>
                                     width: ScreenUtil().screenWidth - 25 - 100,
                                     alignment: Alignment.centerLeft,
                                     child: NormalInput(
-                                      hintText: "请输入昵称",
+                                      hintText: Translation.t(context, '请输入昵称'),
                                       textAlign: TextAlign.left,
                                       contentPadding: const EdgeInsets.only(
                                           top: 17, bottom: 0),
@@ -191,8 +190,8 @@ class MyProfilePageState extends State<MyProfilePage>
                                   height: 55,
                                   width: 90,
                                   alignment: Alignment.centerLeft,
-                                  child: const Caption(
-                                    str: '用户ID',
+                                  child: Caption(
+                                    str: Translation.t(context, '用户ID'),
                                   ),
                                 ),
                                 Caption(
@@ -222,16 +221,17 @@ class MyProfilePageState extends State<MyProfilePage>
                                     height: 55,
                                     width: 90,
                                     alignment: Alignment.centerLeft,
-                                    child: const Caption(
-                                      str: '性别', // 1 男  2 女
+                                    child: Caption(
+                                      str: Translation.t(
+                                          context, '性别'), // 1 男  2 女
                                     ),
                                   ),
                                   Caption(
                                     str: userModel!.gender == null
-                                        ? '请选择性别'
+                                        ? Translation.t(context, '请选择性别')
                                         : userModel!.gender == 1
-                                            ? '男'
-                                            : '女',
+                                            ? Translation.t(context, '男')
+                                            : Translation.t(context, '女'),
                                     color: userModel!.gender == null
                                         ? ColorConfig.textGray
                                         : ColorConfig.textDark,
@@ -267,14 +267,14 @@ class MyProfilePageState extends State<MyProfilePage>
                                     height: 55,
                                     width: 90,
                                     alignment: Alignment.centerLeft,
-                                    child: const Caption(
-                                      str: '手机号',
+                                    child: Caption(
+                                      str: Translation.t(context, '手机号码'),
                                     ),
                                   ),
                                   Caption(
                                     str: userModel!.phone == null ||
                                             userModel!.phone!.isEmpty
-                                        ? '绑定手机号'
+                                        ? Translation.t(context, '绑定手机号')
                                         : userModel!.phone!,
                                     color: userModel!.email == null ||
                                             userModel!.email!.isEmpty
@@ -290,8 +290,8 @@ class MyProfilePageState extends State<MyProfilePage>
                                       color: ColorConfig.textGrayC,
                                       size: 18,
                                     )
-                                  : const Caption(
-                                      str: '更改手机',
+                                  : Caption(
+                                      str: Translation.t(context, '更改手机号'),
                                       color: ColorConfig.primary,
                                     )
                             ],
@@ -318,8 +318,8 @@ class MyProfilePageState extends State<MyProfilePage>
                                     height: 55,
                                     width: 90,
                                     alignment: Alignment.centerLeft,
-                                    child: const Caption(
-                                      str: '电子邮箱',
+                                    child: Caption(
+                                      str: Translation.t(context, '电子邮箱'),
                                     ),
                                   ),
                                   Container(
@@ -332,7 +332,7 @@ class MyProfilePageState extends State<MyProfilePage>
                                       lines: 2,
                                       str: userModel!.email == null ||
                                               userModel!.email!.isEmpty
-                                          ? '绑定电子邮箱'
+                                          ? Translation.t(context, '绑定电子邮箱')
                                           : userModel!.email!,
                                       color: userModel!.email == null ||
                                               userModel!.email!.isEmpty
@@ -349,8 +349,8 @@ class MyProfilePageState extends State<MyProfilePage>
                                       color: ColorConfig.textGrayC,
                                       size: 18,
                                     )
-                                  : const Caption(
-                                      str: '更改邮箱',
+                                  : Caption(
+                                      str: Translation.t(context, '更改邮箱'),
                                       color: ColorConfig.primary,
                                     )
                             ],
@@ -358,6 +358,55 @@ class MyProfilePageState extends State<MyProfilePage>
                         ),
                       ),
                       Gaps.line,
+                      // GestureDetector(
+                      //   onTap: () {},
+                      //   child: Container(
+                      //     color: ColorConfig.white,
+                      //     height: 55,
+                      //     padding: const EdgeInsets.only(left: 10, right: 15),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: <Widget>[
+                      //         Row(
+                      //           children: <Widget>[
+                      //             Container(
+                      //               color: ColorConfig.white,
+                      //               height: 55,
+                      //               width: 90,
+                      //               alignment: Alignment.centerLeft,
+                      //               child: const Caption(
+                      //                 str: '微信号',
+                      //               ),
+                      //             ),
+                      //             Container(
+                      //                 color: ColorConfig.white,
+                      //                 height: 55,
+                      //                 width: 200,
+                      //                 alignment: Alignment.centerLeft,
+                      //                 child: NormalInput(
+                      //                   hintText: "请输入您的微信号",
+                      //                   textAlign: TextAlign.left,
+                      //                   contentPadding: const EdgeInsets.only(
+                      //                       top: 17, bottom: 0),
+                      //                   controller: _weChatNumberController,
+                      //                   focusNode: _weChatNumber,
+                      //                   autoFocus: false,
+                      //                   keyboardType: TextInputType.text,
+                      //                   onSubmitted: (res) {
+                      //                     FocusScope.of(context)
+                      //                         .requestFocus(_cityName);
+                      //                   },
+                      //                   onChanged: (res) {
+                      //                     userModel!.wechatId = res;
+                      //                   },
+                      //                 )),
+                      //           ],
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      // Gaps.line,
                       GestureDetector(
                         onTap: () {},
                         child: Container(
@@ -374,57 +423,8 @@ class MyProfilePageState extends State<MyProfilePage>
                                     height: 55,
                                     width: 90,
                                     alignment: Alignment.centerLeft,
-                                    child: const Caption(
-                                      str: '微信号',
-                                    ),
-                                  ),
-                                  Container(
-                                      color: ColorConfig.white,
-                                      height: 55,
-                                      width: 200,
-                                      alignment: Alignment.centerLeft,
-                                      child: NormalInput(
-                                        hintText: "请输入您的微信号",
-                                        textAlign: TextAlign.left,
-                                        contentPadding: const EdgeInsets.only(
-                                            top: 17, bottom: 0),
-                                        controller: _weChatNumberController,
-                                        focusNode: _weChatNumber,
-                                        autoFocus: false,
-                                        keyboardType: TextInputType.text,
-                                        onSubmitted: (res) {
-                                          FocusScope.of(context)
-                                              .requestFocus(_cityName);
-                                        },
-                                        onChanged: (res) {
-                                          userModel!.wechatId = res;
-                                        },
-                                      )),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Gaps.line,
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          color: ColorConfig.white,
-                          height: 55,
-                          padding: const EdgeInsets.only(left: 10, right: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    color: ColorConfig.white,
-                                    height: 55,
-                                    width: 90,
-                                    alignment: Alignment.centerLeft,
-                                    child: const Caption(
-                                      str: '现居城市',
+                                    child: Caption(
+                                      str: Translation.t(context, '现居城市'),
                                     ),
                                   ),
                                   Container(
@@ -433,7 +433,8 @@ class MyProfilePageState extends State<MyProfilePage>
                                     width: 200,
                                     alignment: Alignment.centerLeft,
                                     child: NormalInput(
-                                      hintText: "请输入现居城市",
+                                      hintText:
+                                          Translation.t(context, '请输入现居城市'),
                                       textAlign: TextAlign.left,
                                       contentPadding: const EdgeInsets.only(
                                           top: 17, bottom: 0),
@@ -475,11 +476,14 @@ class MyProfilePageState extends State<MyProfilePage>
 
   showPickerModal(BuildContext context) {
     Picker(
-        adapter: PickerDataAdapter<String>(pickerdata: ['男', '女']),
+        adapter: PickerDataAdapter<String>(pickerdata: [
+          Translation.t(context, '男'),
+          Translation.t(context, '女')
+        ]),
         changeToFirst: true,
         hideHeader: false,
-        cancelText: '取消',
-        confirmText: '确认',
+        cancelText: Translation.t(context, '取消'),
+        confirmText: Translation.t(context, '确认'),
         onConfirm: (Picker picker, List value) {
           setState(() {
             if (value.first == 0) {
@@ -515,23 +519,23 @@ class MyProfilePageState extends State<MyProfilePage>
                         },
                         context: context,
                         child: CupertinoActionSheet(
-                          title: const Text('请选择上传方式'),
+                          title: Text(Translation.t(context, '请选择上传方式')),
                           actions: <Widget>[
                             CupertinoActionSheetAction(
-                              child: const Text('相册'),
+                              child: Text(Translation.t(context, '相册')),
                               onPressed: () {
                                 Navigator.pop(context, 'gallery');
                               },
                             ),
                             CupertinoActionSheetAction(
-                              child: const Text('照相机'),
+                              child: Text(Translation.t(context, '照相机')),
                               onPressed: () {
                                 Navigator.pop(context, 'camera');
                               },
                             ),
                           ],
                           cancelButton: CupertinoActionSheetAction(
-                            child: const Text('取消'),
+                            child: Text(Translation.t(context, '取消')),
                             isDefaultAction: true,
                             onPressed: () {
                               Navigator.pop(context, 'Cancel');

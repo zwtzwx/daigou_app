@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -40,7 +41,7 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
   final ScrollController _scrollController = ScrollController();
 
-  String sent = '获取验证码';
+  String sent = '';
 
   bool isButtonEnable = true;
 
@@ -69,6 +70,7 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
   void initState() {
     super.initState();
     pageTitle = '忘记密码';
+    sent = Translation.t(context, '发送验证码');
     // loginType = widget.arguments['type'];
     selectTypeName = listTitle.first;
   }
@@ -93,7 +95,7 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
         elevation: 0.5,
         centerTitle: true,
         title: Caption(
-          str: pageTitle,
+          str: Translation.t(context, pageTitle),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -171,11 +173,11 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
                       await UserService.resetPaswordAndLogin(map);
                   EasyLoading.dismiss();
                   if (tokenModel == null) {
-                    Util.showToast("操作失败");
+                    Util.showToast(Translation.t(context, '操作失败'));
                     return;
                   }
 
-                  EasyLoading.showSuccess('登录成功');
+                  EasyLoading.showSuccess(Translation.t(context, '登录成功'));
 
                   //发送登录事件
                   ApplicationEvent.getInstance().event.fire(LoginedEvent);
@@ -212,12 +214,12 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
                   obscureText: true,
                   style: const TextStyle(color: Colors.black87),
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                      hintText: '请输入密码',
-                      enabledBorder: UnderlineInputBorder(
+                  decoration: InputDecoration(
+                      hintText: Translation.t(context, '请输入密码'),
+                      enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
-                      focusedBorder: UnderlineInputBorder(
+                      focusedBorder: const UnderlineInputBorder(
                         borderSide: BorderSide.none,
                       )),
                   onSubmitted: (res) {
@@ -250,12 +252,12 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
               obscureText: false,
               style: const TextStyle(color: Colors.black87),
               controller: _validationController,
-              decoration: const InputDecoration(
-                  hintText: '请输入验证码',
-                  enabledBorder: UnderlineInputBorder(
+              decoration: InputDecoration(
+                  hintText: Translation.t(context, '请输入验证码'),
+                  enabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide.none,
                   ),
-                  focusedBorder: UnderlineInputBorder(
+                  focusedBorder: const UnderlineInputBorder(
                     borderSide: BorderSide.none,
                   )),
               onSubmitted: (res) {
@@ -275,9 +277,9 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
                 if (isButtonEnable) {
                   if (_mobileNumberController.text.isEmpty) {
                     if (loginType == 1) {
-                      Util.showToast('请输入手机号');
+                      Util.showToast(Translation.t(context, '请输入手机号'));
                     } else {
-                      Util.showToast('请输入邮箱号');
+                      Util.showToast(Translation.t(context, '请输入邮箱号'));
                     }
                     return;
                   }
@@ -332,9 +334,9 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
           isButtonEnable = true; //按钮可点击
           count = 60; //重置时间
           codeColor = ColorConfig.textBlack;
-          sent = '发送验证码'; //重置按钮文本
+          sent = Translation.t(context, '发送验证码'); //重置按钮文本
         } else {
-          sent = '重新发送' '($count)'; //更新文本内容
+          sent = Translation.t(context, '重新发送') + '($count)'; //更新文本内容
         }
       });
     });
@@ -398,7 +400,8 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
                   style: const TextStyle(color: Colors.black87),
                   controller: _mobileNumberController,
                   decoration: InputDecoration(
-                      hintText: loginType == 1 ? '请输入手机号' : '请输入电子邮箱',
+                      hintText: Translation.t(
+                          context, loginType == 1 ? '请输入手机号' : '请输入邮箱'),
                       enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide.none,
                       ),

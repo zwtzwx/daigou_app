@@ -3,6 +3,7 @@
 */
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -79,8 +80,8 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
     if (count > 0) {
       BaseDialog.confirmDialog(
         context,
-        '您有 $count 个包裹资料不全，请修改完整后再提交，请参见红色感叹号包裹，已经排在最前面',
-        title: '提示',
+        Translation.t(context, '您有{count}个包裹资料不全请修改完整后再提交请参见红色感叹号包裹已经排在最前面',
+            value: {'count': count}),
         showCancelButton: false,
       );
     }
@@ -135,7 +136,7 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
   // 合并打包
   void onSubmit() async {
     if (selectedParcelList.isEmpty) {
-      Util.showToast('请选择包裹');
+      Util.showToast(Translation.t(context, '请选择包裹'));
       return;
     }
     List<ParcelModel> checkedList =
@@ -179,8 +180,8 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: const Caption(
-            str: '已入库',
+          title: Caption(
+            str: Translation.t(context, '已入库包裹'),
             color: ColorConfig.textBlack,
             fontSize: 18,
           ),
@@ -223,7 +224,7 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
                               ),
                               Container(
                                 margin: const EdgeInsets.only(left: 5),
-                                child: const Text('全选'),
+                                child: Text(Translation.t(context, '全选')),
                               )
                             ],
                           ),
@@ -232,7 +233,8 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
                           child: Row(
                             children: [
                               Caption(
-                                str: "已选" + selectedQty.toString() + "件",
+                                str: Translation.t(context, '已选{count}件',
+                                    value: {'count': selectedQty}),
                                 fontSize: 14,
                                 color: ColorConfig.textGrayC9,
                               ),
@@ -240,7 +242,7 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
                                 margin: const EdgeInsets.only(left: 10),
                                 height: 40,
                                 child: MainButton(
-                                  text: '申请打包&合箱',
+                                  text: '申请打包合箱',
                                   onPressed: onSubmit,
                                 ),
                               )

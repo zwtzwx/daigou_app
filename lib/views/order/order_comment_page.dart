@@ -1,4 +1,5 @@
 import 'package:jiyun_app_client/common/fade_route.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/upload_util.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
@@ -100,7 +101,7 @@ class OrderCommentPageState extends State<OrderCommentPage> {
       msg = '请给我们的打包评个分吧';
     }
     if (msg.isNotEmpty) {
-      Util.showToast(msg);
+      Util.showToast(Translation.t(context, msg));
       return;
     }
     Map<String, dynamic> dic = {
@@ -135,7 +136,7 @@ class OrderCommentPageState extends State<OrderCommentPage> {
           elevation: 0.5,
           centerTitle: true,
           title: Caption(
-            str: pageTitle,
+            str: Translation.t(context, pageTitle),
             color: ColorConfig.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
@@ -234,14 +235,14 @@ class OrderCommentPageState extends State<OrderCommentPage> {
                 color: ColorConfig.bgGray,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
-                    Icon(
+                  children: <Widget>[
+                    const Icon(
                       Icons.add,
                       size: 30,
                       color: ColorConfig.textGray,
                     ),
                     Caption(
-                      str: '添加图片',
+                      str: Translation.t(context, '添加图片'),
                       fontSize: 10,
                     )
                   ],
@@ -290,23 +291,23 @@ class OrderCommentPageState extends State<OrderCommentPage> {
           },
           context: context,
           child: CupertinoActionSheet(
-            title: const Text('请选择上传方式'),
+            title: Text(Translation.t(context, '请选择上传方式')),
             actions: <Widget>[
               CupertinoActionSheetAction(
-                child: const Text('相册'),
+                child: Text(Translation.t(context, '相册')),
                 onPressed: () {
                   Navigator.pop(context, 'gallery');
                 },
               ),
               CupertinoActionSheetAction(
-                child: const Text('照相机'),
+                child: Text(Translation.t(context, '照相机')),
                 onPressed: () {
                   Navigator.pop(context, 'camera');
                 },
               ),
             ],
             cancelButton: CupertinoActionSheetAction(
-              child: const Text('取消'),
+              child: Text(Translation.t(context, '取消')),
               isDefaultAction: true,
               onPressed: () {
                 Navigator.pop(context, 'Cancel');
@@ -403,8 +404,8 @@ class OrderCommentPageState extends State<OrderCommentPage> {
                                     margin:
                                         const EdgeInsets.only(top: 5, left: 15),
                                     alignment: Alignment.centerLeft,
-                                    child: const Caption(
-                                      str: '综合评分',
+                                    child: Caption(
+                                      str: Translation.t(context, '综合评分'),
                                       fontSize: 14,
                                       color: ColorConfig.textBlack,
                                     )),
@@ -439,8 +440,8 @@ class OrderCommentPageState extends State<OrderCommentPage> {
                     maxLines: 10,
                     keyboardType: TextInputType.multiline,
                     autofocus: true,
-                    decoration: const InputDecoration.collapsed(
-                      hintText: "请描述您对本次集运的体验",
+                    decoration: InputDecoration.collapsed(
+                      hintText: Translation.t(context, '请描述您对本次集运的体验'),
                     ),
                   ),
                 )
@@ -480,8 +481,8 @@ class OrderCommentPageState extends State<OrderCommentPage> {
                       height: 30,
                       margin: const EdgeInsets.only(top: 5, left: 0),
                       alignment: Alignment.centerLeft,
-                      child: const Caption(
-                        str: '物流评分',
+                      child: Caption(
+                        str: Translation.t(context, '物流评分'),
                         fontSize: 15,
                         color: ColorConfig.textBlack,
                       )),
@@ -506,8 +507,8 @@ class OrderCommentPageState extends State<OrderCommentPage> {
                       height: 30,
                       margin: const EdgeInsets.only(top: 5, left: 0),
                       alignment: Alignment.centerLeft,
-                      child: const Caption(
-                        str: '客服评分',
+                      child: Caption(
+                        str: Translation.t(context, '客服评分'),
                         fontSize: 15,
                         color: ColorConfig.textBlack,
                       )),
@@ -530,8 +531,8 @@ class OrderCommentPageState extends State<OrderCommentPage> {
                       height: 30,
                       margin: const EdgeInsets.only(top: 5, left: 0),
                       alignment: Alignment.centerLeft,
-                      child: const Caption(
-                        str: '打包评分',
+                      child: Caption(
+                        str: Translation.t(context, '打包评分'),
                         fontSize: 15,
                         color: ColorConfig.textBlack,
                       )),

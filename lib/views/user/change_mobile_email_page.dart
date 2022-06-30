@@ -4,6 +4,7 @@
 import 'dart:async';
 
 import 'package:jiyun_app_client/common/hex_to_color.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
@@ -167,13 +168,15 @@ class ChangeMobileEmailPageState extends State<ChangeMobileEmailPage>
           elevation: 0.5,
           centerTitle: true,
           title: Caption(
-            str: flagBool == 1
-                ? phoneFlag
-                    ? '更改手机号'
-                    : '绑定手机'
-                : emailFlag
-                    ? '更换邮箱'
-                    : '绑定邮箱',
+            str: Translation.t(
+                context,
+                flagBool == 1
+                    ? phoneFlag
+                        ? '更改手机号'
+                        : '绑定手机'
+                    : emailFlag
+                        ? '更换邮箱'
+                        : '绑定邮箱'),
             color: ColorConfig.textBlack,
           ),
         ),
@@ -197,24 +200,28 @@ class ChangeMobileEmailPageState extends State<ChangeMobileEmailPage>
                   child: Column(
                     children: <Widget>[
                       InputTextItem(
-                        title: flagBool == 1 ? "联系电话" : '现邮箱',
+                        title: flagBool == 1
+                            ? Translation.t(context, '联系电话')
+                            : Translation.t(context, '现邮箱'),
                         inputText: Container(
                           height: 55,
                           alignment: Alignment.centerLeft,
                           child: Caption(
                             str: flagBool == 1
                                 ? userModel == null || userModel!.phone != null
-                                    ? '无'
+                                    ? Translation.t(context, '无')
                                     : userModel!.phone!
                                 : userModel == null || userModel!.email!.isEmpty
-                                    ? '无'
+                                    ? Translation.t(context, '无')
                                     : userModel!.email!,
                           ),
                         ),
                       ),
                       InputTextItem(
                         height: 55,
-                        title: flagBool == 2 ? "新邮箱" : "新号码",
+                        title: flagBool == 2
+                            ? Translation.t(context, '新邮箱')
+                            : Translation.t(context, '新号码'),
                         inputText: Container(
                           alignment: Alignment.center,
                           child: Row(
@@ -222,7 +229,9 @@ class ChangeMobileEmailPageState extends State<ChangeMobileEmailPage>
                             children: <Widget>[
                               Expanded(
                                   child: NormalInput(
-                                hintText: flagBool == 2 ? "请输入新邮箱" : "请输入新号码",
+                                hintText: flagBool == 2
+                                    ? Translation.t(context, '请输入新邮箱')
+                                    : Translation.t(context, '请输入新号码'),
                                 textAlign: TextAlign.left,
                                 contentPadding: const EdgeInsets.only(top: 15),
                                 controller: _newNumberController,
@@ -242,7 +251,8 @@ class ChangeMobileEmailPageState extends State<ChangeMobileEmailPage>
                         ),
                       ),
                       InputTextItem(
-                        title: "*验证码",
+                        title: Translation.t(context, '验证码'),
+                        isRequired: true,
                         inputText: Container(
                           alignment: Alignment.center,
                           child: Row(
@@ -250,7 +260,7 @@ class ChangeMobileEmailPageState extends State<ChangeMobileEmailPage>
                             children: <Widget>[
                               Expanded(
                                   child: NormalInput(
-                                hintText: "请输入验证码",
+                                hintText: Translation.t(context, '请输入验证码'),
                                 textAlign: TextAlign.left,
                                 contentPadding: const EdgeInsets.only(top: 15),
                                 controller: _validationController,
@@ -315,7 +325,7 @@ class ChangeMobileEmailPageState extends State<ChangeMobileEmailPage>
           codeColor = '#8A8A8A';
           sent = '获取验证码'; //重置按钮文本
         } else {
-          sent = '重新发送' '($count)'; //更新文本内容
+          sent = Translation.t(context, '重新发送') + '($count)'; //更新文本内容
         }
       });
     });

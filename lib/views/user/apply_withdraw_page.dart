@@ -2,6 +2,7 @@
   申请提现
  */
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -42,7 +43,7 @@ class ApplyWithDrawPageState extends State<ApplyWithDrawPage> {
       ids.add(item.id);
     }
     if (ids.isEmpty) {
-      Util.showToast('请选择要提现的订单');
+      Util.showToast(Translation.t(context, '请选择要提现的订单'));
       return;
     }
     Routers.push('/WithdrawlInfoPage', context, {'ids': ids});
@@ -59,8 +60,8 @@ class ApplyWithDrawPageState extends State<ApplyWithDrawPage> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: const Caption(
-          str: '我要结算',
+        title: Caption(
+          str: Translation.t(context, '我要结算'),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -89,8 +90,8 @@ class ApplyWithDrawPageState extends State<ApplyWithDrawPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const Caption(
-                              str: '共计：',
+                            Caption(
+                              str: Translation.t(context, '共计') + '：',
                             ),
                             Caption(
                               str: localizationInfo?.currencySymbol ?? '',
@@ -104,7 +105,10 @@ class ApplyWithDrawPageState extends State<ApplyWithDrawPage> {
                           ],
                         ),
                         Caption(
-                          str: '( ${selModelList.length}条记录 )',
+                          str:
+                              '( ${Translation.t(context, '{count}条记录', value: {
+                                'count': selModelList.length
+                              })} )',
                           color: ColorConfig.textGray,
                         ),
                       ],
@@ -117,8 +121,8 @@ class ApplyWithDrawPageState extends State<ApplyWithDrawPage> {
                     child: Container(
                       color: ColorConfig.primary,
                       alignment: Alignment.center,
-                      child: const Caption(
-                        str: '提交',
+                      child: Caption(
+                        str: Translation.t(context, '提交'),
                         color: Colors.white,
                         fontSize: 18,
                       ),
@@ -305,7 +309,9 @@ class PrepaidListState extends State<PrepaidList> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Caption(
-                            str: '转运单号：' + model.orderNumber,
+                            str: Translation.t(context, '转运单号') +
+                                '：' +
+                                model.orderNumber,
                             fontSize: 13,
                             color: model.settled == 0
                                 ? ColorConfig.textGray
@@ -313,8 +319,8 @@ class PrepaidListState extends State<PrepaidList> {
                           ),
                           Row(
                             children: [
-                              const Caption(
-                                str: '佣金：',
+                              Caption(
+                                str: Translation.t(context, '佣金') + '：',
                                 fontSize: 13,
                               ),
                               Caption(

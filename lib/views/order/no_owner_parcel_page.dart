@@ -4,6 +4,7 @@
   无人认领包裹
  */
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -38,8 +39,8 @@ class NoOwnerParcelPageState extends State<NoOwnerParcelPage> {
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: const Caption(
-            str: '异常件认领',
+          title: Caption(
+            str: Translation.t(context, '异常件认领'),
             color: ColorConfig.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
@@ -158,7 +159,8 @@ class NoOwnerParcelPageState extends State<NoOwnerParcelPage> {
                   ),
                   Gaps.vGap4,
                   Caption(
-                    str: '入库时间：' + (model.inStorageAt ?? ""),
+                    str: '${Translation.t(context, '入库时间')}：' +
+                        (model.inStorageAt ?? ""),
                     fontSize: 13,
                     color: ColorConfig.textGray,
                   ),

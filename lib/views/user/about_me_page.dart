@@ -1,3 +1,4 @@
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -51,8 +52,8 @@ class AboutMePageState extends State<AboutMePage> {
         elevation: 0.5,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
-        title: const Caption(
-          str: '关于我们',
+        title: Caption(
+          str: Translation.t(context, '关于我们'),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,

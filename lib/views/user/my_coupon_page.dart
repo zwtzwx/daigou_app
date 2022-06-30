@@ -2,6 +2,7 @@
   我的优惠券
  */
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
@@ -83,8 +84,8 @@ class MyCouponPageState extends State<MyCouponPage>
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: const Caption(
-          str: '优惠券',
+        title: Caption(
+          str: Translation.t(context, '优惠券'),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -96,17 +97,17 @@ class MyCouponPageState extends State<MyCouponPage>
             onTap: (int index) {
               _pageController.jumpToPage(index);
             },
-            tabs: const [
+            tabs: [
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Caption(
-                  str: '可用',
+                  str: Translation.t(context, '可用'),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Caption(
-                  str: '不可用',
+                  str: Translation.t(context, '不可用'),
                 ),
               ),
             ]),
@@ -119,7 +120,7 @@ class MyCouponPageState extends State<MyCouponPage>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    const Caption(str: '可抵扣：'),
+                    Caption(str: Translation.t(context, '可抵扣') + '：'),
                     Caption(
                         color: ColorConfig.textRed,
                         str: selectCoupon == null
@@ -301,8 +302,12 @@ class CouponsListState extends State<CouponsList> {
                                       children: <Widget>[
                                         Caption(
                                           alignment: TextAlign.left,
-                                          str:
-                                              '满${localizationInfo!.currencySymbol}${((model.coupon?.threshold ?? 0) / 100).toStringAsFixed(2)}可用',
+                                          str: Translation.t(
+                                              context, '满{price}可用',
+                                              value: {
+                                                'price':
+                                                    '${localizationInfo!.currencySymbol}${((model.coupon?.threshold ?? 0) / 100).toStringAsFixed(2)}'
+                                              }),
                                           color: ColorConfig.white,
                                           fontSize: 17,
                                           // fontWeight: FontWeight.bold,
@@ -331,13 +336,14 @@ class CouponsListState extends State<CouponsList> {
                           alignment: Alignment.center,
                           child: Caption(
                             alignment: TextAlign.left,
-                            str: '试用范围：' +
+                            str: Translation.t(context, '适用范围') +
+                                '：' +
                                 ((model.coupon?.scope ?? 0) == 1
                                     ? model.coupon?.usableLines
                                             .map((e) => e['name'])
                                             .join(',') ??
                                         ''
-                                    : '全部范围'),
+                                    : Translation.t(context, '全部范围')),
                             color: ColorConfig.white,
                             fontSize: 15,
                             // fontWeight: FontWeight.bold,
@@ -372,7 +378,7 @@ class CouponsListState extends State<CouponsList> {
                                                 null &&
                                             widget.params['selectCoupon'].id ==
                                                 model.id)
-                                        ? '取消使用'
+                                        ? Translation.t(context, '取消使用')
                                         : model.coupon?.name ?? '',
                                     color: widget.params['selectType'] == 0
                                         ? ColorConfig.textRed

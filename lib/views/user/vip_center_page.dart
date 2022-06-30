@@ -5,6 +5,7 @@
 */
 
 import 'package:jiyun_app_client/common/hex_to_color.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
@@ -110,8 +111,8 @@ class VipCenterPageState extends State<VipCenterPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Row(children: <Widget>[
-                            const Caption(
-                              str: '合计：',
+                            Caption(
+                              str: Translation.t(context, '合计') + '：',
                               fontWeight: FontWeight.bold,
                             ),
                             Caption(
@@ -128,12 +129,12 @@ class VipCenterPageState extends State<VipCenterPage> {
                           ]),
                           Caption(
                             str: selectButton == 999
-                                ? '+ 0 成长值'
+                                ? '+ 0 ' + Translation.t(context, '成长值')
                                 : '+' +
                                     userVipModel!
                                         .priceList[selectButton].growthValue
                                         .toString() +
-                                    '成长值',
+                                    Translation.t(context, '成长值'),
                             fontSize: 14,
                             color: ColorConfig.textGray,
                           ),
@@ -224,7 +225,9 @@ class VipCenterPageState extends State<VipCenterPage> {
   // 成长值列表
   buildListView() {
     List<Widget> listV = [];
-    listV.add(buildGrowthValueRow('等级', '成长值', isTitle: true));
+    listV.add(buildGrowthValueRow(
+        Translation.t(context, '等级'), Translation.t(context, '成长值'),
+        isTitle: true));
     for (var i = 0; i < userVipModel!.levelList.length; i++) {
       UserVipLevel memModel = userVipModel!.levelList[i];
       listV.add(buildGrowthValueRow(
@@ -289,8 +292,8 @@ class VipCenterPageState extends State<VipCenterPage> {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: const Caption(
-              str: '购买会员',
+            child: Caption(
+              str: Translation.t(context, '购买会员'),
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
@@ -370,37 +373,37 @@ class VipCenterPageState extends State<VipCenterPage> {
                               color: Colors.white,
                             ),
                           ),
-                          Container(
-                            height: 17,
-                            alignment: Alignment.topRight,
-                            width: (ScreenUtil().screenWidth - 70) / 3,
-                            decoration: const BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular((15))),
-                            ),
-                            child: model.type == 2
-                                ? Container(
-                                    height: 17,
-                                    alignment: Alignment.center,
-                                    width:
-                                        (ScreenUtil().screenWidth - 70) / 3 / 3,
-                                    decoration: const BoxDecoration(
-                                      color: ColorConfig.textRed,
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular((15)),
-                                          bottomLeft:
-                                              const Radius.circular((15))),
-                                    ),
-                                    child: const Caption(
-                                      str: '活动',
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.w400,
-                                      color: ColorConfig.white,
-                                    ),
-                                  )
-                                : Container(),
-                          ),
+                          // Container(
+                          //   height: 17,
+                          //   alignment: Alignment.topRight,
+                          //   width: (ScreenUtil().screenWidth - 70) / 3,
+                          //   decoration: const BoxDecoration(
+                          //     color: Colors.transparent,
+                          //     borderRadius: BorderRadius.vertical(
+                          //         top: Radius.circular((15))),
+                          //   ),
+                          //   child: model.type == 2
+                          //       ? Container(
+                          //           height: 17,
+                          //           alignment: Alignment.center,
+                          //           width:
+                          //               (ScreenUtil().screenWidth - 70) / 3 / 3,
+                          //           decoration: const BoxDecoration(
+                          //             color: ColorConfig.textRed,
+                          //             borderRadius: BorderRadius.only(
+                          //                 topRight: Radius.circular((15)),
+                          //                 bottomLeft:
+                          //                     const Radius.circular((15))),
+                          //           ),
+                          //           child:  Caption(
+                          //             str: Translation.t(context, '活动'),
+                          //             fontSize: 9,
+                          //             fontWeight: FontWeight.w400,
+                          //             color: ColorConfig.white,
+                          //           ),
+                          //         )
+                          //       : Container(),
+                          // ),
                           Caption(
                             // 会员价格
                             str: localizationInfo!.currencySymbol +
@@ -495,14 +498,18 @@ class VipCenterPageState extends State<VipCenterPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Caption(
-                        str: '成长值',
+                      Caption(
+                        str: Translation.t(context, '成长值'),
                         fontSize: 13,
                         color: ColorConfig.vipNormal,
                       ),
                       GestureDetector(
                         child: Caption(
-                          str: '距离下一等级还差${firstNum < 0 ? 0 : firstNum}成长值 >',
+                          str: Translation.t(context, '距离下一等级还差{cmount}成长值',
+                                  value: {
+                                    'count': firstNum < 0 ? 0 : firstNum
+                                  }) +
+                              ' >',
                           color: ColorConfig.vipNormal,
                         ),
                       ),
@@ -600,8 +607,8 @@ class VipCenterPageState extends State<VipCenterPage> {
                       },
                       child: Row(
                         children: [
-                          const Caption(
-                            str: '积分',
+                          Caption(
+                            str: Translation.t(context, '积分'),
                             color: ColorConfig.vipNormal,
                           ),
                           Gaps.hGap10,

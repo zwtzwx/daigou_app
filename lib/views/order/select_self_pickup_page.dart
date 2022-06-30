@@ -3,6 +3,7 @@
 */
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/self_pickup_station_model.dart';
 import 'package:jiyun_app_client/services/ship_line_service.dart';
@@ -59,7 +60,7 @@ class SelectSelfPickUpPageState extends State<SelectSelfPickUpPage> {
         elevation: 0.5,
         centerTitle: true,
         title: Caption(
-          str: pageTitle,
+          str: Translation.t(context, pageTitle),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -118,7 +119,7 @@ class SelectSelfPickUpPageState extends State<SelectSelfPickUpPage> {
                     )),
                 SizedBox(
                   child: Caption(
-                    str: '详细地址：' + model.address!,
+                    str: '${Translation.t(context, '详细地址')}：' + model.address!,
                     lines: 4,
                   ),
                 )

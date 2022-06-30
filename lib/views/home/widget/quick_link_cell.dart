@@ -1,15 +1,10 @@
 /*
   订单包裹等按钮列表
   */
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/common/translation.dart';
-import 'package:jiyun_app_client/common/util.dart';
 import 'package:flutter/material.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/change_page_index_event.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';

@@ -7,7 +7,7 @@ class Translation {
     BuildContext context,
     String key, {
     bool listen = false,
-    Map? value,
+    Map<String, dynamic>? value,
   }) {
     // 因为是在首页更换语言、所以只有首页、底部 tab 栏需要试试刷新 widget 树
     Map<String, dynamic>? _translations =

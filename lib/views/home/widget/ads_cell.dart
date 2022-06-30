@@ -144,14 +144,14 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
 
                   Routers.push('/webview', context, {
                     'url': model.linkPath,
-                    'title': 'BeeGoplus集运',
+                    'title': 'HJ EXPRESS',
                     'time': ''
                   });
                 } else if (model.linkType == 3) {
                   // 公众号 URL
                   Routers.push('/webview', context, {
                     'url': model.linkPath,
-                    'title': 'BeeGoplus集运',
+                    'title': 'HJ EXPRESS',
                     'time': ''
                   });
                 }

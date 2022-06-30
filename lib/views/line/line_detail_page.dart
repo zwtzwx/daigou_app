@@ -207,13 +207,17 @@ class LineDetailPageState extends State<LineDetailPage> {
     if (widget.arguments!['type'] == 2) {
       String countWeight =
           (detailLine!.countWeight! / 1000).toStringAsFixed(2) +
-              (detailLine!.mode == 1 ? '立方' : localModel!.weightSymbol);
+              (detailLine!.mode == 1
+                  ? Translation.t(context, '立方')
+                  : localModel!.weightSymbol);
       String expireFee = localModel!.currencySymbol +
           (detailLine!.expireFee! / 100).toStringAsFixed(2);
       list.add(buildTitleAndContentCell(
-          Translation.t(context, '计费重量'), countWeight, ColorConfig.textRed));
+          Translation.t(context, '计费重量'), countWeight,
+          textColor: ColorConfig.textRed));
       list.add(buildTitleAndContentCell(
-          Translation.t(context, '预估运费'), expireFee, ColorConfig.textRed));
+          Translation.t(context, '预估运费'), expireFee,
+          textColor: ColorConfig.textRed));
     }
     return Container(
         // height: 100,
@@ -225,7 +229,8 @@ class LineDetailPageState extends State<LineDetailPage> {
         ),
         child: Column(
           children: <Widget>[
-            buildTitleAndContentCell(Translation.t(context, '分区'), model.name),
+            buildTitleAndContentCell(Translation.t(context, '分区'), model.name,
+                showIcon: true),
             buildTitleAndContentCell(Translation.t(context, '计费模式'),
                 Translation.t(context, modeStr)),
             buildTitleAndContentCell(
@@ -260,12 +265,14 @@ class LineDetailPageState extends State<LineDetailPage> {
       for (var item in model.prices!) {
         String titleStr;
         if (listWidget.length == 1) {
-          titleStr = '首重' '（' +
+          titleStr = Translation.t(context, '首重') +
+              '（' +
               (item.start / 1000).toStringAsFixed(2) +
               localModel!.weightSymbol +
               '）';
         } else {
-          titleStr = '续重' '（' +
+          titleStr = Translation.t(context, '续重') +
+              '（' +
               (item.start / 1000).toStringAsFixed(2) +
               localModel!.weightSymbol +
               '）';
@@ -309,7 +316,7 @@ class LineDetailPageState extends State<LineDetailPage> {
       // 单位价格 + 阶梯总价模式
       for (var item in model.prices!) {
         if (item.type == 3) {
-          String titleStr = '单位价格';
+          String titleStr = Translation.t(context, '单位价格');
           String contentStr = localModel!.currencySymbol +
               (item.price / 100).toStringAsFixed(2) +
               '/$contentSymbol';
@@ -329,7 +336,7 @@ class LineDetailPageState extends State<LineDetailPage> {
       int k = 0;
       for (var item in model.prices!) {
         if (item.type == 0) {
-          String titleStr = '首重（' +
+          String titleStr = '${Translation.t(context, '首重')}（' +
               (item.start / 1000).toStringAsFixed(2) +
               contentSymbol +
               '）';
@@ -342,7 +349,7 @@ class LineDetailPageState extends State<LineDetailPage> {
           listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
         } else {
           ++k;
-          String titleStr = '续重' + k.toString();
+          String titleStr = Translation.t(context, '续重') + k.toString();
           num price = item.price;
           String contentStr = localModel!.currencySymbol +
               (price / 100).toStringAsFixed(2) +
@@ -354,7 +361,7 @@ class LineDetailPageState extends State<LineDetailPage> {
           listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
         }
       }
-      String titleStr = '最大限重';
+      String titleStr = Translation.t(context, '最大限重');
       String contentStr =
           (detailLine!.maxWeight! / 1000).toStringAsFixed(2) + contentSymbol;
       listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
@@ -392,10 +399,10 @@ class LineDetailPageState extends State<LineDetailPage> {
           ),
         ));
         for (var item in sortPrices[key]!) {
-          String titleStr = '续重';
+          String titleStr = Translation.t(context, '续重');
           if (item.type == 6) {
             titleStr =
-                '首重(${(item.firstWeight / 1000).toStringAsFixed(2)}$contentSymbol)';
+                '${Translation.t(context, '首重')}(${(item.firstWeight / 1000).toStringAsFixed(2)}$contentSymbol)';
           }
           num? unitPrice = item.type == 6 ? item.firstWeight : item.unitWeight;
           String contentStr = localModel!.currencySymbol +
@@ -410,7 +417,12 @@ class LineDetailPageState extends State<LineDetailPage> {
     return listWidget;
   }
 
-  buildTitleAndContentCell(String title, String content, [Color? textColor]) {
+  buildTitleAndContentCell(
+    String title,
+    String content, {
+    bool showIcon = false,
+    Color? textColor,
+  }) {
     return Container(
       height: 30,
       alignment: Alignment.center,
@@ -427,7 +439,7 @@ class LineDetailPageState extends State<LineDetailPage> {
                   str: title,
                   fontSize: 14,
                 ),
-                title == '分区'
+                showIcon
                     ? Container(
                         height: 30,
                         alignment: Alignment.center,
@@ -501,24 +513,26 @@ class LineDetailPageState extends State<LineDetailPage> {
         case 3:
           second = localModel!.currencySymbol +
               (item.value / 100).toStringAsFixed(2) +
-              '/箱';
+              '/${Translation.t(context, '箱')}';
           break;
         case 4:
           second = localModel!.currencySymbol +
               (item.value / 100).toStringAsFixed(2) +
               '/' +
               localModel!.weightSymbol;
-          third = '(计费重)';
+          third = '(${Translation.t(context, '计费重')})';
           break;
         case 5:
           second = localModel!.currencySymbol +
               (item.value / 100).toStringAsFixed(2) +
               '/' +
               localModel!.weightSymbol;
-          third = '(实重)';
+          third = '(${Translation.t(context, '实重')})';
           break;
         case 6:
-          second = '申报价值' + (item.value / 100).toString() + '%';
+          second = Translation.t(context, '申报价值') +
+              (item.value / 100).toString() +
+              '%';
           // localModel.currencySymbol +
           //     ((item.value / 10000) * (totalValue / 100)).toStringAsFixed(2);
           break;
@@ -539,7 +553,10 @@ class LineDetailPageState extends State<LineDetailPage> {
                       Caption(
                         str: item.name,
                       ),
-                      Caption(str: item.isForced == 0 ? '（可选）' : '（必选）'),
+                      Caption(
+                          str: item.isForced == 0
+                              ? '（${Translation.t(context, '可选')}）'
+                              : '（${Translation.t(context, '必选')}'),
                       item.remark.isNotEmpty
                           ? Padding(
                               padding: const EdgeInsets.only(left: 0),

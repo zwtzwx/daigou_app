@@ -1,6 +1,7 @@
 /*
   申请代理
  */
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -59,8 +60,8 @@ class RegisterAgentPageState extends State<RegisterAgentPage>
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: const Caption(
-            str: '申请代理',
+          title: Caption(
+            str: Translation.t(context, '申请代理'),
             color: ColorConfig.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
@@ -77,7 +78,7 @@ class RegisterAgentPageState extends State<RegisterAgentPage>
                 if (recipientName.isEmpty ||
                     mobileNumber.isEmpty ||
                     email.isEmpty) {
-                  Util.showToast('请填写完整信息');
+                  Util.showToast(Translation.t(context, '请填写完整信息'));
                   return;
                 }
                 Map<String, dynamic> dic = {
@@ -89,7 +90,7 @@ class RegisterAgentPageState extends State<RegisterAgentPage>
                 var resulst = await AgentService.applyAgent(dic);
                 EasyLoading.dismiss();
                 if (resulst['ok']) {
-                  EasyLoading.showSuccess("信息提交成功");
+                  EasyLoading.showSuccess(Translation.t(context, '信息提交成功'));
                   ApplicationEvent.getInstance()
                       .event
                       .fire(ProfileUpdateEvent());
@@ -153,7 +154,8 @@ class RegisterAgentPageState extends State<RegisterAgentPage>
                     child: Column(
                   children: <Widget>[
                     InputTextItem(
-                        title: "*姓名",
+                        title: Translation.t(context, '姓名'),
+                        isRequired: true,
                         inputText: Container(
                           alignment: Alignment.center,
                           child: Row(
@@ -161,7 +163,7 @@ class RegisterAgentPageState extends State<RegisterAgentPage>
                             children: <Widget>[
                               Expanded(
                                   child: BaseInput(
-                                hintText: "请输入您的姓名",
+                                hintText: Translation.t(context, '请输入您的姓名'),
                                 textAlign: TextAlign.left,
                                 controller: _mobileNumberController,
                                 focusNode: _mobileNumber,
@@ -181,9 +183,10 @@ class RegisterAgentPageState extends State<RegisterAgentPage>
                           ),
                         )),
                     InputTextItem(
-                        title: "*联系电话",
+                        title: Translation.t(context, '联系电话'),
+                        isRequired: true,
                         inputText: BaseInput(
-                          hintText: "请输入联系电话",
+                          hintText: Translation.t(context, '请输入联系电话'),
                           textAlign: TextAlign.left,
                           controller: _oldNumberController,
                           focusNode: _oldNumber,
@@ -199,7 +202,8 @@ class RegisterAgentPageState extends State<RegisterAgentPage>
                           },
                         )),
                     InputTextItem(
-                        title: "*联系邮箱",
+                        title: Translation.t(context, '联系邮箱'),
+                        isRequired: true,
                         inputText: Container(
                           alignment: Alignment.center,
                           child: Row(
@@ -207,7 +211,7 @@ class RegisterAgentPageState extends State<RegisterAgentPage>
                             children: <Widget>[
                               Expanded(
                                   child: BaseInput(
-                                hintText: "请输入邮箱号",
+                                hintText: Translation.t(context, '请输入邮箱号'),
                                 textAlign: TextAlign.left,
                                 controller: _validationController,
                                 focusNode: _validation,

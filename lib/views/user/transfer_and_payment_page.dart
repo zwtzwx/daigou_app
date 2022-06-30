@@ -3,6 +3,7 @@
   主要为线下支付
 */
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/upload_util.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
@@ -146,7 +147,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
         ..pop()
         ..pop('succeed');
     } else {
-      EasyLoading.showError(result['msg'] ?? '提交失败');
+      EasyLoading.showError(result['msg'] ?? Translation.t(context, '提交失败'));
     }
   }
 
@@ -162,7 +163,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
         elevation: 0.5,
         centerTitle: true,
         title: Caption(
-          str: pageTitle,
+          str: Translation.t(context, pageTitle),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -231,8 +232,8 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                           alignment: Alignment.centerLeft,
                           height: 50,
                           width: 100,
-                          child: const Caption(
-                            str: '转账账号',
+                          child: Caption(
+                            str: Translation.t(context, '转账账号'),
                             fontSize: 14,
                           ),
                         ),
@@ -242,7 +243,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                           height: 50,
                           width: ScreenUtil().screenWidth - 60 - 100,
                           child: NormalInput(
-                            hintText: "请输入您的转账账号",
+                            hintText: Translation.t(context, '请输入您的转账账号'),
                             textAlign: TextAlign.left,
                             contentPadding: const EdgeInsets.only(top: 15),
                             controller: transferAccountController,
@@ -328,14 +329,14 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                 color: ColorConfig.bgGray,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
-                    Icon(
+                  children: <Widget>[
+                    const Icon(
                       Icons.add,
                       size: 30,
                       color: ColorConfig.textGray,
                     ),
                     Caption(
-                      str: '添加图片',
+                      str: Translation.t(context, '添加图片'),
                       fontSize: 10,
                     )
                   ],
@@ -385,23 +386,23 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
           },
           context: context,
           child: CupertinoActionSheet(
-            title: const Text('请选择上传方式'),
+            title: Text(Translation.t(context, '请选择上传方式')),
             actions: <Widget>[
               CupertinoActionSheetAction(
-                child: const Text('相册'),
+                child: Text(Translation.t(context, '相册')),
                 onPressed: () {
                   Navigator.pop(context, 'gallery');
                 },
               ),
               CupertinoActionSheetAction(
-                child: const Text('照相机'),
+                child: Text(Translation.t(context, '照相机')),
                 onPressed: () {
                   Navigator.pop(context, 'camera');
                 },
               ),
             ],
             cancelButton: CupertinoActionSheetAction(
-              child: const Text('取消'),
+              child: Text(Translation.t(context, '取消')),
               isDefaultAction: true,
               onPressed: () {
                 Navigator.pop(context, 'Cancel');
@@ -456,7 +457,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
             GestureDetector(
               onTap: () {
                 Clipboard.setData(ClipboardData(text: model.content));
-                Util.showToast('复制成功');
+                Util.showToast(Translation.t(context, '复制成功'));
               },
               child: Container(
                 padding: const EdgeInsets.only(
@@ -464,8 +465,8 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                 decoration: const BoxDecoration(
                     color: ColorConfig.primary,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
-                child: const Caption(
-                  str: '复制',
+                child: Caption(
+                  str: Translation.t(context, '复制'),
                   fontSize: 13,
                 ),
               ),
@@ -514,7 +515,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                     height: 50,
                     width: 100,
                     child: Caption(
-                      str: listTitle[i],
+                      str: Translation.t(context, listTitle[i]),
                       fontSize: 14,
                     ),
                   ),
@@ -536,7 +537,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                 ? GestureDetector(
                     onTap: () {
                       Clipboard.setData(ClipboardData(text: listContent[i]));
-                      Util.showToast('复制成功');
+                      Util.showToast(Translation.t(context, '复制成功'));
                     },
                     child: Container(
                       padding: const EdgeInsets.only(
@@ -544,8 +545,8 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                       decoration: const BoxDecoration(
                           color: ColorConfig.primary,
                           borderRadius: BorderRadius.all(Radius.circular(5))),
-                      child: const Caption(
-                        str: '复制',
+                      child: Caption(
+                        str: Translation.t(context, '复制'),
                         fontSize: 13,
                       ),
                     ),
@@ -571,8 +572,8 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                   alignment: Alignment.centerLeft,
                   height: 50,
                   width: 100,
-                  child: const Caption(
-                    str: '温馨提示',
+                  child: Caption(
+                    str: Translation.t(context, '温馨提示'),
                     fontSize: 14,
                   ),
                 ),

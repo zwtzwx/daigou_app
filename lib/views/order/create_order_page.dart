@@ -2,6 +2,7 @@
   提交转运包裹
 */
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -139,8 +140,8 @@ class CreateOrderPageState extends State<CreateOrderPage>
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: const Caption(
-            str: '提交转运包裹',
+          title: Caption(
+            str: Translation.t(context, '提交转运包裹'),
             color: ColorConfig.textBlack,
             fontSize: 18,
           ),
@@ -174,7 +175,8 @@ class CreateOrderPageState extends State<CreateOrderPage>
           alignment: Alignment.centerLeft,
           margin: const EdgeInsets.only(top: 20, bottom: 10, left: 15),
           child: Caption(
-            str: '您本次选择 ${packageList.length} 个包裹',
+            str: Translation.t(context, '您本次选择{count}个包裹',
+                value: {'count': packageList.length}),
           ),
         ),
         getAllPackageList(),
@@ -183,9 +185,9 @@ class CreateOrderPageState extends State<CreateOrderPage>
         Container(
           alignment: Alignment.centerLeft,
           margin: const EdgeInsets.only(top: 0, bottom: 10, left: 30),
-          child: const Caption(
+          child: Caption(
             fontSize: 14,
-            str: '提示:合并打包后无法更改哦！',
+            str: Translation.t(context, '提示合并打包后无法更改哦'),
             color: ColorConfig.textGray,
           ),
         ),
@@ -209,9 +211,9 @@ class CreateOrderPageState extends State<CreateOrderPage>
                   alignment: Alignment.centerLeft,
                   height: 40,
                   width: 80,
-                  child: const Caption(
+                  child: Caption(
                     fontSize: 16,
-                    str: '打包备注：',
+                    str: Translation.t(context, '打包备注') + '：',
                     color: ColorConfig.textDark,
                   ),
                 ),
@@ -224,8 +226,8 @@ class CreateOrderPageState extends State<CreateOrderPage>
                       maxLength: 100,
                       keyboardType: TextInputType.multiline,
                       autofocus: false,
-                      decoration: const InputDecoration.collapsed(
-                        hintText: "请输入打包备注",
+                      decoration: InputDecoration.collapsed(
+                        hintText: Translation.t(context, '请输入打包备注'),
                       ),
                     ),
                   ),
@@ -241,7 +243,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
             text: '提交',
             onPressed: () {
               if (shipLineModel == null || selectedAddressModel == null) {
-                Util.showToast('请完善数据');
+                Util.showToast(Translation.t(context, '请完善数据'));
                 return;
               }
               if (shipLineModel!.needClearanceCode == 1 ||
@@ -272,8 +274,8 @@ class CreateOrderPageState extends State<CreateOrderPage>
         ),
         Container(
           alignment: Alignment.center,
-          child: const Caption(
-            str: '在仓库打包完成之后才会需要进行支付',
+          child: Caption(
+            str: Translation.t(context, '在仓库打包完成之后才会需要进行支付'),
             color: ColorConfig.textGray,
           ),
         ),
@@ -296,7 +298,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
       msg = '请选择自提点';
     }
     if (msg.isNotEmpty) {
-      Util.showToast(msg);
+      Util.showToast(Translation.t(context, msg));
       return;
     }
     List<String> packagesId = [];
@@ -337,11 +339,11 @@ class CreateOrderPageState extends State<CreateOrderPage>
       'line_service_ids': lineServiceList,
       'vip_remark': _evaluateController.text,
     };
-    EasyLoading.show(status: '提交中...');
+    EasyLoading.show(status: '${Translation.t(context, '提交中')}...');
     Map data = await OrderService.store(upData);
     EasyLoading.dismiss();
     if (data['ok']) {
-      EasyLoading.showSuccess('提交成功').then((value) {
+      EasyLoading.showSuccess(Translation.t(context, '提交成功')).then((value) {
         ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
         Navigator.of(context).pop('succeed');
       });
@@ -454,7 +456,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
   // 选择渠道
   onLine() async {
     if (selectedAddressModel == null) {
-      Util.showToast('请先选择地址');
+      Util.showToast(Translation.t(context, '请选择收货地址'));
       return;
     }
     num totalWeight = 0;
@@ -514,18 +516,18 @@ class CreateOrderPageState extends State<CreateOrderPage>
     for (var item in types) {
       pickerItems.add(PickerItem(
         text: Caption(
-          str: item['name'],
+          str: Translation.t(context, item['name']),
           fontSize: 18,
         ),
       ));
     }
     Picker(
       adapter: PickerDataAdapter(data: pickerItems),
-      title: const Caption(
-        str: '选择收货形式',
+      title: Caption(
+        str: Translation.t(context, '选择收货形式'),
       ),
-      cancelText: '取消',
-      confirmText: '确认',
+      cancelText: Translation.t(context, '取消'),
+      confirmText: Translation.t(context, '确认'),
       onConfirm: (Picker picker, List value) {
         setState(() {
           tempDelivery = types[value.first]['value'];
@@ -584,8 +586,8 @@ class CreateOrderPageState extends State<CreateOrderPage>
                   Container(
                     alignment: Alignment.centerLeft,
                     width: 80,
-                    child: const Caption(
-                      str: '收货地址',
+                    child: Caption(
+                      str: Translation.t(context, '收货地址'),
                     ),
                   ),
                   Expanded(
@@ -595,8 +597,8 @@ class CreateOrderPageState extends State<CreateOrderPage>
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           selectedAddressModel == null
-                              ? const Caption(
-                                  str: '请选择',
+                              ? Caption(
+                                  str: Translation.t(context, '请选择'),
                                   color: ColorConfig.textGray,
                                 )
                               : Expanded(
@@ -661,7 +663,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
                   Container(
                     alignment: Alignment.centerLeft,
                     width: 80,
-                    child: const Caption(str: '快递方式'),
+                    child: Caption(str: Translation.t(context, '快递方式')),
                   ),
                   Expanded(
                     child: Container(
@@ -673,7 +675,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
                         children: <Widget>[
                           Caption(
                             str: shipLineModel == null
-                                ? '请选择'
+                                ? Translation.t(context, '请选择')
                                 : shipLineModel!.name,
                             color: shipLineModel == null
                                 ? ColorConfig.textGray
@@ -707,7 +709,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
                   Container(
                     alignment: Alignment.centerLeft,
                     width: 80,
-                    child: const Caption(str: '收货形式'),
+                    child: Caption(str: Translation.t(context, '收货形式')),
                   ),
                   Expanded(
                     child: Row(
@@ -718,10 +720,12 @@ class CreateOrderPageState extends State<CreateOrderPage>
                         Caption(
                           str: shipLineModel != null
                               ? (shipLineModel?.isDelivery == 0
-                                  ? '送货上门'
+                                  ? Translation.t(context, '送货上门')
                                   : shipLineModel?.isDelivery == 1
-                                      ? '自提点提货'
-                                      : (tempDelivery == 1 ? '自提点提货' : '送货上门'))
+                                      ? Translation.t(context, '自提点提货')
+                                      : (tempDelivery == 1
+                                          ? Translation.t(context, '自提点提货')
+                                          : Translation.t(context, '送货上门')))
                               : '',
                           color: ColorConfig.textDark,
                         ),
@@ -765,7 +769,8 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             children: <Widget>[
                               Container(
                                 alignment: Alignment.center,
-                                child: const Caption(str: '自提点'),
+                                child:
+                                    Caption(str: Translation.t(context, '自提点')),
                               ),
                               const Icon(
                                 Icons.keyboard_arrow_right,
@@ -798,7 +803,8 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             children: <Widget>[
                               Container(
                                 alignment: Alignment.center,
-                                child: const Caption(str: '详细地址：'),
+                                child: Caption(
+                                    str: '${Translation.t(context, '详细地址')}：'),
                               ),
                               Container(
                                   alignment: Alignment.center,
@@ -811,8 +817,9 @@ class CreateOrderPageState extends State<CreateOrderPage>
                             children: <Widget>[
                               Container(
                                 alignment: Alignment.center,
-                                child: const Caption(
-                                    str: '*您已选择自提点自提，请到相应地址取货',
+                                child: Caption(
+                                    str:
+                                        '*${Translation.t(context, '您已选择自提点自提请到相应地址取货')}',
                                     color: ColorConfig.textRed),
                               ),
                             ],
@@ -908,8 +915,8 @@ class CreateOrderPageState extends State<CreateOrderPage>
     textList.add(Container(
       alignment: Alignment.bottomLeft,
       padding: const EdgeInsets.only(bottom: 10),
-      child: const Caption(
-        str: '出库限制规则',
+      child: Caption(
+        str: Translation.t(context, '出库限制规则'),
         fontWeight: FontWeight.bold,
       ),
     ));
@@ -989,7 +996,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          const Caption(str: '保险服务'),
+                          Caption(str: Translation.t(context, '保险服务')),
                           Padding(
                             padding: const EdgeInsets.only(left: 0),
                             child: IconButton(
@@ -999,8 +1006,8 @@ class CreateOrderPageState extends State<CreateOrderPage>
                                   size: 25,
                                 ),
                                 onPressed: () {
-                                  showRemark(
-                                      '保险服务', insuranceModel!.explanation);
+                                  showRemark(Translation.t(context, '保险服务'),
+                                      insuranceModel!.explanation);
                                 }),
                           ),
                           Gaps.hGap10,
@@ -1040,7 +1047,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          const Caption(str: '关税服务'),
+                          Caption(str: Translation.t(context, '关税服务')),
                           Padding(
                             padding: const EdgeInsets.only(left: 0),
                             child: IconButton(
@@ -1050,7 +1057,8 @@ class CreateOrderPageState extends State<CreateOrderPage>
                                   size: 25,
                                 ),
                                 onPressed: () {
-                                  showRemark('关税服务', tariffModel!.explanation);
+                                  showRemark(Translation.t(context, '关税服务'),
+                                      tariffModel!.explanation);
                                 }),
                           ),
                           Caption(
@@ -1199,7 +1207,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
         // 1 运费比例 2固定费用 3单箱固定费用 4单位计费重量固定费用 5单位实际重量固定费用 6申报价值比列
         switch (item.type) {
           case 1:
-            first = '实际运费';
+            first = Translation.t(context, '实际运费');
             second = (item.value / 100).toStringAsFixed(2) + '%';
             break;
           case 2:
@@ -1209,21 +1217,21 @@ class CreateOrderPageState extends State<CreateOrderPage>
           case 3:
             second = localizationInfo!.currencySymbol +
                 (item.value / 100).toStringAsFixed(2) +
-                '/箱';
+                '/${Translation.t(context, '箱')}';
             break;
           case 4:
             second = localizationInfo!.currencySymbol +
                 (item.value / 100).toStringAsFixed(2) +
                 '/' +
                 localizationInfo!.weightSymbol;
-            third = '(计费重)';
+            third = '(${Translation.t(context, '计费重')})';
             break;
           case 5:
             second = localizationInfo!.currencySymbol +
                 (item.value / 100).toStringAsFixed(2) +
                 '/' +
                 localizationInfo!.weightSymbol;
-            third = '(实重)';
+            third = '(${Translation.t(context, '实重')})';
             break;
           case 6:
             second = localizationInfo!.currencySymbol +

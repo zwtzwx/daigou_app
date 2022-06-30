@@ -2,6 +2,7 @@
   无人认领详细界面
  */
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
@@ -81,8 +82,8 @@ class NoOwnerParcelDetailPageState extends State<NoOwnerParcelDetailPage>
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: const Caption(
-          str: '异常件认领',
+        title: Caption(
+          str: Translation.t(context, '异常件认领'),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -110,12 +111,13 @@ class NoOwnerParcelDetailPageState extends State<NoOwnerParcelDetailPage>
                   'id': 0,
                 });
               }
-              EasyLoading.show(status: '认领中...');
+              EasyLoading.show();
               var result = await ParcelService.setNoOwnerToMe(
                   argusmentParcelModel.id!, tmpParcelModel);
               EasyLoading.dismiss();
               if (result['ok']) {
-                EasyLoading.showSuccess('认领成功').then((value) {
+                EasyLoading.showSuccess(Translation.t(context, '认领成功'))
+                    .then((value) {
                   Routers.pop(context);
                 });
               } else {
@@ -148,7 +150,7 @@ class NoOwnerParcelDetailPageState extends State<NoOwnerParcelDetailPage>
               child: InputTextItem(
                   leftFlex: 3,
                   rightFlex: 8,
-                  title: "快递单号",
+                  title: Translation.t(context, '快递单号'),
                   inputText: Container(
                       alignment: Alignment.center,
                       child: Row(
@@ -163,7 +165,7 @@ class NoOwnerParcelDetailPageState extends State<NoOwnerParcelDetailPage>
                           Expanded(
                               flex: 6,
                               child: NormalInput(
-                                hintText: "请输入中间单号",
+                                hintText: Translation.t(context, '请输入中间单号'),
                                 contentPadding: const EdgeInsets.only(top: 17),
                                 textAlign: TextAlign.left,
                                 controller: _projectNameController,
@@ -193,7 +195,7 @@ class NoOwnerParcelDetailPageState extends State<NoOwnerParcelDetailPage>
         ),
         syncsList.isNotEmpty
             ? InputTextItem(
-                title: "认领并填入已预报包裹信息",
+                title: Translation.t(context, '认领并填入已预报包裹信息'),
                 leftFlex: 8,
                 rightFlex: 2,
                 inputText: SizedBox(
@@ -258,7 +260,7 @@ class NoOwnerParcelDetailPageState extends State<NoOwnerParcelDetailPage>
                       });
                 },
                 child: InputTextItem(
-                    title: "同步包裹",
+                    title: Translation.t(context, '同步包裹'),
                     inputText: Container(
                       alignment: Alignment.center,
                       margin: const EdgeInsets.only(left: 11),

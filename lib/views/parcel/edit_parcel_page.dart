@@ -2,6 +2,7 @@
   未入库包裹修改页面
 */
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -157,18 +158,18 @@ class EditParcelPageState extends State<EditParcelPage>
     }
     String msg = '';
     if (_packgeNameController.text.isEmpty) {
-      msg = '请输入包裹名称';
+      msg = '请输入物品名称';
     } else if (_packgeValueController.text.isEmpty) {
-      msg = '请输入包裹价值';
+      msg = '请输入物品总价';
     } else if (double.parse(_packgeValueController.text) <= 0) {
-      msg = '请输入正确的包裹价值';
+      msg = '请输入正确的物品总价';
     } else if (propModel == null && packageModel.prop!.isEmpty) {
-      msg = '请选择包裹属性';
+      msg = '请选择物品属性';
     } else if (countryModel == null && packageModel.country == null) {
       msg = '请选择发往国家';
     }
     if (msg.isNotEmpty) {
-      Util.showToast(msg);
+      Util.showToast(Translation.t(context, msg));
       return;
     }
     num value = double.parse(_packgeValueController.text) * 100;
@@ -197,11 +198,11 @@ class EditParcelPageState extends State<EditParcelPage>
       ApplicationEvent.getInstance()
           .event
           .fire(ListRefreshEvent(type: 'reset'));
-      EasyLoading.showSuccess('修改成功').then((value) {
+      EasyLoading.showSuccess(Translation.t(context, '修改成功')).then((value) {
         Routers.pop(context);
       });
     } else {
-      EasyLoading.showError('修改失败');
+      EasyLoading.showError(Translation.t(context, '修改失败'));
     }
   }
 
@@ -217,8 +218,8 @@ class EditParcelPageState extends State<EditParcelPage>
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: const Caption(
-            str: '修改包裹',
+          title: Caption(
+            str: Translation.t(context, '修改包裹'),
             color: ColorConfig.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
@@ -257,8 +258,8 @@ class EditParcelPageState extends State<EditParcelPage>
     Picker(
       adapter:
           PickerDataAdapter(data: getPickerExpressCompany(expressCompanyList)),
-      cancelText: '取消',
-      confirmText: '确认',
+      cancelText: Translation.t(context, '取消'),
+      confirmText: Translation.t(context, '确认'),
       selectedTextStyle: const TextStyle(color: Colors.blue, fontSize: 12),
       onCancel: () {},
       onConfirm: (Picker picker, List value) {
@@ -280,9 +281,9 @@ class EditParcelPageState extends State<EditParcelPage>
             height: 42,
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: const Caption(
+            child: Caption(
               fontWeight: FontWeight.bold,
-              str: '商品信息',
+              str: Translation.t(context, '商品信息'),
             ),
           ),
           Gaps.line,
@@ -295,14 +296,14 @@ class EditParcelPageState extends State<EditParcelPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '物品名称',
+                  child: Caption(
+                    str: Translation.t(context, '物品名称'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
                 Expanded(
                     child: BaseInput(
-                  hintText: '请输入物品名称',
+                  hintText: Translation.t(context, '请输入物品名称'),
                   controller: _packgeNameController,
                   focusNode: _packageNameNode,
                   contentPadding: const EdgeInsets.all(0),
@@ -325,13 +326,14 @@ class EditParcelPageState extends State<EditParcelPage>
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Caption(
-                    str: '物品总价' + (localizationInfo!.currencySymbol),
+                    str: Translation.t(context, '物品总价') +
+                        (localizationInfo!.currencySymbol),
                     color: ColorConfig.textNormal,
                   ),
                 ),
                 Expanded(
                     child: BaseInput(
-                  hintText: '请输入物品总价',
+                  hintText: Translation.t(context, '请输入物品总价'),
                   controller: _packgeValueController,
                   focusNode: _packageValueNode,
                   contentPadding: const EdgeInsets.all(0),
@@ -357,14 +359,14 @@ class EditParcelPageState extends State<EditParcelPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '物品数量',
+                  child: Caption(
+                    str: Translation.t(context, '物品数量'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
                 Expanded(
                     child: BaseInput(
-                  hintText: '请输入包裹数量',
+                  hintText: Translation.t(context, '请输入物品数量'),
                   controller: _packgeQtyController,
                   focusNode: _packageQtyNode,
                   contentPadding: const EdgeInsets.all(0),
@@ -381,6 +383,68 @@ class EditParcelPageState extends State<EditParcelPage>
             ),
           ),
           Gaps.line,
+          // Container(
+          //   padding: const EdgeInsets.symmetric(horizontal: 15),
+          //   height: 42,
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.start,
+          //     crossAxisAlignment: CrossAxisAlignment.center,
+          //     children: <Widget>[
+          //       Container(
+          //         alignment: Alignment.centerLeft,
+          //         child: const Caption(
+          //           str: '物品类型',
+          //           color: ColorConfig.textNormal,
+          //         ),
+          //       ),
+          //       Expanded(
+          //           child: GestureDetector(
+          //               onTap: () async {
+          //                 var s = await Navigator.pushNamed(
+          //                     context, '/CategoriesPage',
+          //                     arguments: {
+          //                       "categories": categoryList //参数map
+          //                     });
+          //                 if (s == null) {
+          //                   return;
+          //                 } else {
+          //                   selectCategories = s as List<GoodsCategoryModel>;
+          //                   packageModel.categoriesStr = '';
+          //                   setState(() {
+          //                     for (GoodsCategoryModel item
+          //                         in selectCategories) {
+          //                       if (packageModel.categoriesStr == null ||
+          //                           packageModel.categoriesStr!.isEmpty) {
+          //                         packageModel.categoriesStr = item.name;
+          //                       } else {
+          //                         packageModel.categoriesStr =
+          //                             packageModel.categoriesStr! +
+          //                                 '、' +
+          //                                 item.name;
+          //                       }
+          //                     }
+          //                   });
+          //                 }
+          //               },
+          //               child: Container(
+          //                 color: ColorConfig.white,
+          //                 child: Row(
+          //                   mainAxisAlignment: MainAxisAlignment.end,
+          //                   children: <Widget>[
+          //                     Caption(
+          //                       str: packageModel.categoriesStr!,
+          //                     ),
+          //                     const Icon(
+          //                       Icons.keyboard_arrow_right,
+          //                       color: ColorConfig.textGray,
+          //                     ),
+          //                   ],
+          //                 ),
+          //               )))
+          //     ],
+          //   ),
+          // ),
+          // Gaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             height: 42,
@@ -390,70 +454,8 @@ class EditParcelPageState extends State<EditParcelPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '物品类型',
-                    color: ColorConfig.textNormal,
-                  ),
-                ),
-                Expanded(
-                    child: GestureDetector(
-                        onTap: () async {
-                          var s = await Navigator.pushNamed(
-                              context, '/CategoriesPage',
-                              arguments: {
-                                "categories": categoryList //参数map
-                              });
-                          if (s == null) {
-                            return;
-                          } else {
-                            selectCategories = s as List<GoodsCategoryModel>;
-                            packageModel.categoriesStr = '';
-                            setState(() {
-                              for (GoodsCategoryModel item
-                                  in selectCategories) {
-                                if (packageModel.categoriesStr == null ||
-                                    packageModel.categoriesStr!.isEmpty) {
-                                  packageModel.categoriesStr = item.name;
-                                } else {
-                                  packageModel.categoriesStr =
-                                      packageModel.categoriesStr! +
-                                          '、' +
-                                          item.name;
-                                }
-                              }
-                            });
-                          }
-                        },
-                        child: Container(
-                          color: ColorConfig.white,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Caption(
-                                str: packageModel.categoriesStr!,
-                              ),
-                              const Icon(
-                                Icons.keyboard_arrow_right,
-                                color: ColorConfig.textGray,
-                              ),
-                            ],
-                          ),
-                        )))
-              ],
-            ),
-          ),
-          Gaps.line,
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            height: 42,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '物品属性',
+                  child: Caption(
+                    str: Translation.t(context, '物品属性'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -504,14 +506,14 @@ class EditParcelPageState extends State<EditParcelPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '商品备注',
+                  child: Caption(
+                    str: Translation.t(context, '商品备注'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
                 Expanded(
                     child: BaseInput(
-                  hintText: '请输入备注',
+                  hintText: Translation.t(context, '请输入备注'),
                   controller: _remarkController,
                   focusNode: _remarkNode,
                   contentPadding: const EdgeInsets.all(0),
@@ -539,9 +541,9 @@ class EditParcelPageState extends State<EditParcelPage>
             height: 42,
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: const Caption(
+            child: Caption(
               fontWeight: FontWeight.bold,
-              str: '包裹信息',
+              str: Translation.t(context, '包裹信息'),
             ),
           ),
           Gaps.line,
@@ -554,8 +556,8 @@ class EditParcelPageState extends State<EditParcelPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '快递名称',
+                  child: Caption(
+                    str: Translation.t(context, '快递名称'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -591,8 +593,8 @@ class EditParcelPageState extends State<EditParcelPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '快递单号',
+                  child: Caption(
+                    str: Translation.t(context, '快递单号'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -611,8 +613,8 @@ class EditParcelPageState extends State<EditParcelPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '发往国家',
+                  child: Caption(
+                    str: Translation.t(context, '发往国家'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -662,8 +664,8 @@ class EditParcelPageState extends State<EditParcelPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '发往仓库',
+                  child: Caption(
+                    str: Translation.t(context, '发往仓库'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -676,8 +678,8 @@ class EditParcelPageState extends State<EditParcelPage>
                           Picker(
                             adapter: PickerDataAdapter(
                                 data: getPickerWareHouse(wareHouseList)),
-                            cancelText: '取消',
-                            confirmText: '确认',
+                            cancelText: Translation.t(context, '取消'),
+                            confirmText: Translation.t(context, '确认'),
                             selectedTextStyle: const TextStyle(
                                 color: Colors.blue, fontSize: 12),
                             onCancel: () {},

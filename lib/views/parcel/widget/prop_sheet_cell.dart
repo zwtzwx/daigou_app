@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -43,8 +44,8 @@ class _PropSheetCellState extends State<PropSheetCell> {
               height: 44,
               margin: const EdgeInsets.only(left: 15),
               alignment: Alignment.centerLeft,
-              child: const Caption(
-                str: '物品属性',
+              child: Caption(
+                str: Translation.t(context, '物品属性'),
                 fontSize: 19,
               ),
             ),
@@ -128,8 +129,8 @@ class _PropSheetCellState extends State<PropSheetCell> {
                       border: Border.all(width: 1, color: ColorConfig.primary)),
                   alignment: Alignment.center,
                   height: 40,
-                  child: const Caption(
-                    str: '确定',
+                  child: Caption(
+                    str: Translation.t(context, '确认'),
                     color: Colors.white,
                   ),
                 )),

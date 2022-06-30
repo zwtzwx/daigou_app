@@ -24,7 +24,6 @@ import 'package:jiyun_app_client/views/order/tracking_detail_page.dart';
 import 'package:jiyun_app_client/views/parcel/category_page.dart';
 import 'package:jiyun_app_client/views/parcel/edit_parcel_page.dart';
 import 'package:jiyun_app_client/views/parcel/forecast_parcel_list_page.dart';
-import 'package:jiyun_app_client/views/parcel/in_pack_parcel_list_page.dart';
 import 'package:jiyun_app_client/views/parcel/in_warehouse_parcel_list.dart';
 import 'package:jiyun_app_client/views/parcel/parcel_detail_page.dart';
 import 'package:jiyun_app_client/views/user/about_me_page.dart';
@@ -103,7 +102,6 @@ class Routers {
         ReceiverAddressListPage(arguments: arguments),
     '/ReceiverAddressEditPage': (context, {arguments}) =>
         ReceiverAddressEditPage(arguments: arguments),
-    '/InPackParcelListPage': (context) => const InPackParcelListPage(),
     '/OrderDetailPage': (context, {arguments}) =>
         OrderDetailPage(arguments: arguments),
     '/OrderPayPage': (context, {arguments}) =>

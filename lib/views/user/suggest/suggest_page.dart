@@ -48,20 +48,20 @@ class _SuggestPageState extends State<SuggestPage> {
           title: Text(Translation.t(context, '请选择上传方式')),
           actions: [
             CupertinoActionSheetAction(
-              child: const Text('相册'),
+              child: Text(Translation.t(context, '相册')),
               onPressed: () {
                 Navigator.pop(context, 'gallery');
               },
             ),
             CupertinoActionSheetAction(
-              child: const Text('照相机'),
+              child: Text(Translation.t(context, '照相机')),
               onPressed: () {
                 Navigator.pop(context, 'camera');
               },
             ),
           ],
           cancelButton: CupertinoActionSheetAction(
-            child: const Text('取消'),
+            child: Text(Translation.t(context, '取消')),
             isDefaultAction: true,
             onPressed: () {
               Navigator.pop(context, 'Cancel');
@@ -80,10 +80,10 @@ class _SuggestPageState extends State<SuggestPage> {
     String content = _textController.text;
     String title = _titleController.text;
     if (title.isEmpty) {
-      EasyLoading.showToast('请输入标题');
+      EasyLoading.showToast(Translation.t(context, '请输入标题'));
       return;
     } else if (content.isEmpty) {
-      EasyLoading.showToast('请输入建议内容');
+      EasyLoading.showToast(Translation.t(context, '请输入建议内容'));
       return;
     }
     Map<String, dynamic> params = {
@@ -136,8 +136,8 @@ class _SuggestPageState extends State<SuggestPage> {
                             str: '*',
                             color: ColorConfig.textRed,
                           ),
-                          const Caption(
-                            str: '标题',
+                          Caption(
+                            str: Translation.t(context, '标题'),
                           ),
                           Gaps.hGap15,
                           Expanded(
@@ -145,7 +145,7 @@ class _SuggestPageState extends State<SuggestPage> {
                             controller: _titleController,
                             focusNode: _titleNode,
                             isCollapsed: true,
-                            hintText: '请输入您的标题',
+                            hintText: Translation.t(context, '请输入您的标题'),
                           )),
                         ],
                       ),
@@ -180,13 +180,13 @@ class _SuggestPageState extends State<SuggestPage> {
       child: Column(
         children: [
           Row(
-            children: const [
-              Caption(
+            children: [
+              const Caption(
                 str: '*',
                 color: ColorConfig.textRed,
               ),
               Caption(
-                str: '意见/建议',
+                str: Translation.t(context, '意见建议'),
               ),
             ],
           ),
@@ -198,7 +198,7 @@ class _SuggestPageState extends State<SuggestPage> {
               focusNode: _focusNode,
               maxLength: 200,
               contentPadding: const EdgeInsets.all(0),
-              hintText: '描述一下您的问题，便于我们及时处理！',
+              hintText: Translation.t(context, '描述一下您的问题便于我们及时处理'),
             ),
           ),
         ],
@@ -214,8 +214,8 @@ class _SuggestPageState extends State<SuggestPage> {
           Container(
             alignment: Alignment.centerLeft,
             margin: const EdgeInsets.symmetric(vertical: 10),
-            child: const Caption(
-              str: '图片',
+            child: Caption(
+              str: Translation.t(context, '图片'),
             ),
           ),
           SizedBox(
@@ -233,7 +233,8 @@ class _SuggestPageState extends State<SuggestPage> {
           Container(
             alignment: Alignment.centerRight,
             child: Caption(
-              str: '${images.length}/5张',
+              str: Translation.t(context, '{count}/5张',
+                  value: {'count': images.length}),
               fontSize: 14,
               color: ColorConfig.textGray,
             ),
@@ -271,14 +272,14 @@ class _SuggestPageState extends State<SuggestPage> {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Icon(
+          children: [
+            const Icon(
               Icons.add,
               color: ColorConfig.textGrayC9,
               size: 35,
             ),
             Caption(
-              str: '选择图片',
+              str: Translation.t(context, '选择图片'),
               color: ColorConfig.textNormal,
               fontSize: 14,
             )

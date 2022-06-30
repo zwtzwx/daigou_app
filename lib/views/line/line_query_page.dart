@@ -233,7 +233,7 @@ class LineQueryState extends State<LineQueryPage>
                     width: double.infinity,
                     height: 40,
                     child: MainButton(
-                      text: Translation.t(context, '立即查询'),
+                      text: '立即查询',
                       onPressed: onQuery,
                     ),
                   )
@@ -365,7 +365,7 @@ class LineQueryState extends State<LineQueryPage>
                       Gaps.vGap5,
                       Caption(
                         str: Translation.t(
-                            context, '包裹尺寸为商品打包后，实际包装箱的长宽高用于某些体积重线路的运费计算'),
+                            context, '包裹尺寸为商品打包后实际包装箱的长宽高用于某些体积重线路的运费计算'),
                         color: ColorConfig.textGray,
                         fontSize: 14,
                         lines: 4,

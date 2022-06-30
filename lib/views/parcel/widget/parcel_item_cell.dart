@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiyun_app_client/common/hex_to_color.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -103,7 +104,7 @@ class ParcelItemCell extends StatelessWidget {
                                   onTap: () {
                                     BaseDialog.normalDialog(
                                       context,
-                                      title: '异常件提示',
+                                      title: Translation.t(context, '异常件提示'),
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 20, horizontal: 15),
@@ -117,8 +118,8 @@ class ParcelItemCell extends StatelessWidget {
                                     color: Colors.red[700],
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 2, horizontal: 5),
-                                    child: const Caption(
-                                      str: '异常件',
+                                    child: Caption(
+                                      str: Translation.t(context, '异常件'),
                                       color: Colors.white,
                                       fontSize: 12,
                                     ),
@@ -171,7 +172,9 @@ class ParcelItemCell extends StatelessWidget {
                             ),
                             Gaps.vGap4,
                             Caption(
-                              str: model.status == 1 ? '等待称重' : '已入库',
+                              str: model.status == 1
+                                  ? Translation.t(context, '等待称重')
+                                  : Translation.t(context, '已入库'),
                               color: ColorConfig.primary,
                               fontSize: 14,
                             )
@@ -227,8 +230,8 @@ class ParcelItemCell extends StatelessWidget {
                         ? Padding(
                             padding: const EdgeInsets.only(bottom: 3),
                             child: Caption(
-                              str:
-                                  '称重重量：${((model.countWeight ?? 0) / 1000).toStringAsFixed(2)}${localizationInfo?.weightSymbol}',
+                              str: Translation.t(context, '称重重量') +
+                                  '：${((model.countWeight ?? 0) / 1000).toStringAsFixed(2)}${localizationInfo?.weightSymbol}',
                               fontSize: 13,
                               color: ColorConfig.textGray,
                             ),
@@ -238,17 +241,19 @@ class ParcelItemCell extends StatelessWidget {
                         ? Padding(
                             padding: const EdgeInsets.only(bottom: 3),
                             child: Caption(
-                              str: '入库尺寸：'
-                                  '${((model.length ?? 0) / 100).toStringAsFixed(2)}*'
-                                  '${((model.width ?? 0) / 100).toStringAsFixed(2)}*'
-                                  '${((model.height ?? 0) / 100).toStringAsFixed(2)}${localizationInfo?.lengthSymbol}',
+                              str: Translation.t(context, '入库尺寸') +
+                                  '：'
+                                      '${((model.length ?? 0) / 100).toStringAsFixed(2)}*'
+                                      '${((model.width ?? 0) / 100).toStringAsFixed(2)}*'
+                                      '${((model.height ?? 0) / 100).toStringAsFixed(2)}${localizationInfo?.lengthSymbol}',
                               fontSize: 13,
                               color: ColorConfig.textGray,
                             ),
                           )
                         : Gaps.empty,
                     Caption(
-                      str: '提交时间：${model.createdAt}',
+                      str: Translation.t(context, '提交时间') +
+                          '：${model.createdAt}',
                       fontSize: 13,
                       color: ColorConfig.textGray,
                     ),
@@ -256,7 +261,8 @@ class ParcelItemCell extends StatelessWidget {
                         ? Padding(
                             padding: const EdgeInsets.only(top: 3),
                             child: Caption(
-                              str: '入库时间：${model.inStorageAt}',
+                              str: Translation.t(context, '入库时间') +
+                                  '：${model.inStorageAt}',
                               fontSize: 13,
                               color: ColorConfig.textGray,
                             ),
@@ -277,10 +283,12 @@ class ParcelItemCell extends StatelessWidget {
                                 text: '删除',
                                 onPressed: () async {
                                   var data = await BaseDialog.confirmDialog(
-                                      context, '确定要删除吗？');
+                                      context,
+                                      Translation.t(context, '确定要删除吗') + '？');
                                   if (data != null) {
                                     if (await ParcelService.delete(model.id!)) {
-                                      Util.showToast('删除包裹成功');
+                                      Util.showToast(
+                                          Translation.t(context, '删除包裹成功'));
                                       ApplicationEvent.getInstance().event.fire(
                                           ListRefreshEvent(
                                               type: 'delete', index: index));
@@ -288,7 +296,8 @@ class ParcelItemCell extends StatelessWidget {
                                           .event
                                           .fire(OrderCountRefreshEvent());
                                     } else {
-                                      Util.showToast("删除包裹失败");
+                                      Util.showToast(
+                                          Translation.t(context, '删除包裹失败'));
                                     }
                                   }
                                 },

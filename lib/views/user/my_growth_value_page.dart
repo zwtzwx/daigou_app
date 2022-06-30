@@ -5,6 +5,7 @@
   成长值
 */
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/user_point_item_model.dart';
@@ -183,8 +184,8 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
                     fontSize: 30,
                   ),
                   Gaps.vGap5,
-                  const Caption(
-                    str: '成长值',
+                  Caption(
+                    str: Translation.t(context, '成长值'),
                     color: ColorConfig.vipNormal,
                   ),
                   Gaps.vGap15,
@@ -192,11 +193,14 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Caption(
-                        str: '当前等级：' + vipDataModel!.profile.levelName,
+                        str: Translation.t(context, '当前等级') +
+                            '：' +
+                            vipDataModel!.profile.levelName,
                         color: ColorConfig.vipNormal,
                       ),
                       Caption(
-                        str: '下一等级成长值：' +
+                        str: Translation.t(context, '下一等级成长值') +
+                            '：' +
                             vipDataModel!.profile.nextGrowthValue.toString(),
                         color: ColorConfig.vipNormal,
                       ),
@@ -236,8 +240,8 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
                             flex: 2,
                             child: Container(
                               alignment: Alignment.center,
-                              child: const Caption(
-                                str: '类型',
+                              child: Caption(
+                                str: Translation.t(context, '类型'),
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -247,8 +251,8 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
                             flex: 2,
                             child: Container(
                               alignment: Alignment.center,
-                              child: const Caption(
-                                str: '时间',
+                              child: Caption(
+                                str: Translation.t(context, '时间'),
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -258,8 +262,8 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
                             flex: 2,
                             child: Container(
                                 alignment: Alignment.center,
-                                child: const Caption(
-                                  str: '明细',
+                                child: Caption(
+                                  str: Translation.t(context, '明细'),
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
                                 )),

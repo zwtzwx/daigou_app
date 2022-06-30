@@ -132,8 +132,8 @@ class MePageState extends State<MePage> {
           Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: const Caption(
-              str: '工具与服务',
+            child: Caption(
+              str: Translation.t(context, '工具与服务'),
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
@@ -224,7 +224,7 @@ class MePageState extends State<MePage> {
             ),
             Gaps.vGap10,
             Caption(
-              str: titleList[index],
+              str: Translation.t(context, titleList[index]),
             )
           ],
         ),
@@ -238,17 +238,17 @@ class MePageState extends State<MePage> {
         context: context,
         builder: (cxt) {
           return CupertinoAlertDialog(
-            title: const Text("提示"),
-            content: const Text('确认退出登录吗？'),
+            title: Text(Translation.t(context, '提示')),
+            content: Text(Translation.t(context, '确认退出登录吗') + '？'),
             actions: <Widget>[
               CupertinoDialogAction(
-                child: const Text("取消"),
+                child: Text(Translation.t(context, '取消')),
                 onPressed: () {
                   Navigator.pop(cxt, 2);
                 },
               ),
               CupertinoDialogAction(
-                child: const Text("确认"),
+                child: Text(Translation.t(context, '确认')),
                 onPressed: () {
                   Navigator.pop(cxt, 1);
                 },
@@ -369,8 +369,8 @@ class MePageState extends State<MePage> {
                                           height: 28,
                                         ),
                                         Gaps.hGap15,
-                                        const Caption(
-                                          str: '等级',
+                                        Caption(
+                                          str: Translation.t(context, '等级'),
                                           color: ColorConfig.vipNormal,
                                         ),
                                         Gaps.hGap15,
@@ -413,8 +413,8 @@ class MePageState extends State<MePage> {
                                           height: 28,
                                         ),
                                         Gaps.hGap15,
-                                        const Caption(
-                                          str: '积分',
+                                        Caption(
+                                          str: Translation.t(context, '积分'),
                                           color: ColorConfig.vipNormal,
                                         ),
                                         Gaps.hGap15,
@@ -454,8 +454,8 @@ class MePageState extends State<MePage> {
           Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: const Caption(
-              str: '我的钱包',
+            child: Caption(
+              str: Translation.t(context, '我的钱包'),
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
@@ -485,9 +485,9 @@ class MePageState extends State<MePage> {
                         const SizedBox(
                           height: 2,
                         ),
-                        const Caption(
+                        Caption(
                           fontSize: 14,
-                          str: '我的余额',
+                          str: Translation.t(context, '我的余额'),
                         ),
                         Gaps.vGap4,
                         Caption(
@@ -519,10 +519,10 @@ class MePageState extends State<MePage> {
                               const SizedBox(
                                 height: 2,
                               ),
-                              const Caption(
+                              Caption(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
-                                str: '佣金收入',
+                                str: Translation.t(context, '佣金收入'),
                               ),
                               Gaps.vGap4,
                               Caption(
@@ -556,10 +556,10 @@ class MePageState extends State<MePage> {
                         const SizedBox(
                           height: 2,
                         ),
-                        const Caption(
+                        Caption(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          str: '优惠券',
+                          str: Translation.t(context, '优惠券'),
                         ),
                         Gaps.vGap4,
                         Caption(

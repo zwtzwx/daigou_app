@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/token_model.dart';
@@ -12,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -36,7 +36,7 @@ class LoginPageState extends State<LoginPage> {
   String selectTypeName = '';
   List<String> listTitle = ['手机号', '邮箱号'];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String sent = '获取验证码';
+  String sent = '';
   String code = '';
   bool isButtonEnable = true;
   Timer? timer;
@@ -63,7 +63,8 @@ class LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    pageTitle = '登录/注册';
+    pageTitle = '登录注册';
+    sent = Translation.t(context, '获取验证码');
     selectTypeName = listTitle.first;
   }
 
@@ -92,7 +93,7 @@ class LoginPageState extends State<LoginPage> {
           tokenModel = await UserService.login(map);
       }
 
-      EasyLoading.showSuccess('登录成功');
+      EasyLoading.showSuccess(Translation.t(context, '登录成功'));
       //发送登录事件
       ApplicationEvent.getInstance().event.fire(LoginedEvent);
       //更新状态管理器
@@ -130,7 +131,7 @@ class LoginPageState extends State<LoginPage> {
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
         title: Caption(
-          str: pageTitle,
+          str: Translation.t(context, pageTitle),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -253,7 +254,7 @@ class LoginPageState extends State<LoginPage> {
               height: 40,
               width: double.infinity,
               child: MainButton(
-                text: '登录/注册',
+                text: '登录注册',
                 borderRadis: 4,
                 onPressed: () {
                   // if (!protocolChecked) {
@@ -303,7 +304,8 @@ class LoginPageState extends State<LoginPage> {
                       });
                     },
                     child: Caption(
-                      str: loginType == 3 ? '验证码登录' : '密码登录',
+                      str: Translation.t(
+                          context, loginType == 3 ? '验证码登录' : '密码登录'),
                     ),
                   ),
                 ],
@@ -334,12 +336,12 @@ class LoginPageState extends State<LoginPage> {
                 child: TextField(
                   style: const TextStyle(color: Colors.black87),
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                      hintText: '请输入邮箱',
-                      enabledBorder: UnderlineInputBorder(
+                  decoration: InputDecoration(
+                      hintText: Translation.t(context, '请输入邮箱'),
+                      enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: ColorConfig.line),
                       ),
-                      focusedBorder: UnderlineInputBorder(
+                      focusedBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: ColorConfig.line),
                       )),
                   onSubmitted: (res) {
@@ -373,7 +375,8 @@ class LoginPageState extends State<LoginPage> {
               style: const TextStyle(color: Colors.black87),
               controller: _validationController,
               decoration: InputDecoration(
-                  hintText: loginType == 3 ? '请输入密码' : '请输入验证码',
+                  hintText: Translation.t(
+                      context, loginType == 3 ? '请输入密码' : '请输入验证码'),
                   enabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: ColorConfig.line),
                   ),
@@ -412,7 +415,8 @@ class LoginPageState extends State<LoginPage> {
                           EasyLoading.dismiss();
                           EasyLoading.showSuccess(data.msg);
                           setState(() {
-                            sent = '重新发送  ($count)'; //更新文本内容
+                            sent = Translation.t(context, '重新发送') +
+                                '  ($count)'; //更新文本内容
                             _buttonClickListen();
                           });
                         }, (msg) {
@@ -434,8 +438,9 @@ class LoginPageState extends State<LoginPage> {
                       overlayColor: MaterialStateColor.resolveWith(
                           (states) => Colors.transparent),
                     ),
-                    child: const Caption(
-                        str: '忘记密码？', color: ColorConfig.textBlack),
+                    child: Caption(
+                        str: Translation.t(context, '忘记密码') + '？',
+                        color: ColorConfig.textBlack),
                     onPressed: () async {
                       Routers.push(
                           '/ForgetPasswordPage', context, {'type': loginType});
@@ -478,9 +483,9 @@ class LoginPageState extends State<LoginPage> {
           isButtonEnable = true; //按钮可点击
           count = 60; //重置时间
           codeColor = ColorConfig.textBlack;
-          sent = '发送验证码'; //重置按钮文本
+          sent = Translation.t(context, '发送验证码'); //重置按钮文本
         } else {
-          sent = '重新发送 ($count)'; //更新文本内容
+          sent = Translation.t(context, '重新发送') + ' ($count)'; //更新文本内容
         }
       });
     });

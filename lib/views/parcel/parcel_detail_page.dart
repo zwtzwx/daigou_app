@@ -3,6 +3,7 @@
 */
 
 import 'package:jiyun_app_client/common/fade_route.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
@@ -82,8 +83,8 @@ class PackageDetailPageState extends State<PackageDetailPage>
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: const Caption(
-            str: '包裹详情',
+          title: Caption(
+            str: Translation.t(context, '包裹详情'),
             color: ColorConfig.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
@@ -119,9 +120,9 @@ class PackageDetailPageState extends State<PackageDetailPage>
             height: 42,
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: const Caption(
+            child: Caption(
               fontWeight: FontWeight.bold,
-              str: '商品信息',
+              str: Translation.t(context, '商品信息'),
             ),
           ),
           Gaps.line,
@@ -133,8 +134,8 @@ class PackageDetailPageState extends State<PackageDetailPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '物品名称',
+                  child: Caption(
+                    str: Translation.t(context, '物品名称'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -153,8 +154,8 @@ class PackageDetailPageState extends State<PackageDetailPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '物品总价',
+                  child: Caption(
+                    str: Translation.t(context, '物品总价'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -173,8 +174,8 @@ class PackageDetailPageState extends State<PackageDetailPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '物品数量',
+                  child: Caption(
+                    str: Translation.t(context, '物品数量'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -185,25 +186,25 @@ class PackageDetailPageState extends State<PackageDetailPage>
             ),
           ),
           Gaps.line,
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            height: 42,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '物品类型',
-                    color: ColorConfig.textNormal,
-                  ),
-                ),
-                Caption(
-                  str: categoriesStr,
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   padding: const EdgeInsets.symmetric(horizontal: 15),
+          //   height: 42,
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: <Widget>[
+          //       Container(
+          //         alignment: Alignment.centerLeft,
+          //         child: const Caption(
+          //           str: '物品类型',
+          //           color: ColorConfig.textNormal,
+          //         ),
+          //       ),
+          //       Caption(
+          //         str: categoriesStr,
+          //       ),
+          //     ],
+          //   ),
+          // ),
           Gaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -213,8 +214,8 @@ class PackageDetailPageState extends State<PackageDetailPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '物品属性',
+                  child: Caption(
+                    str: Translation.t(context, '物品属性'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -235,8 +236,8 @@ class PackageDetailPageState extends State<PackageDetailPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '商品备注',
+                  child: Caption(
+                    str: Translation.t(context, '商品备注'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -269,9 +270,9 @@ class PackageDetailPageState extends State<PackageDetailPage>
             height: 42,
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: const Caption(
+            child: Caption(
               fontWeight: FontWeight.bold,
-              str: '包裹信息',
+              str: Translation.t(context, '包裹信息'),
             ),
           ),
           Gaps.line,
@@ -283,8 +284,8 @@ class PackageDetailPageState extends State<PackageDetailPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '快递名称',
+                  child: Caption(
+                    str: Translation.t(context, '快递名称'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -303,8 +304,8 @@ class PackageDetailPageState extends State<PackageDetailPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: const Caption(
-                    str: '快递单号',
+                  child: Caption(
+                    str: Translation.t(context, '快递单号'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -319,11 +320,12 @@ class PackageDetailPageState extends State<PackageDetailPage>
                         Clipboard.setData(
                           ClipboardData(text: parcelModel.expressNum),
                         ).then((value) {
-                          EasyLoading.showSuccess('复制成功');
+                          EasyLoading.showSuccess(
+                              Translation.t(context, '复制成功'));
                         });
                       },
-                      child: const Caption(
-                        str: '复制',
+                      child: Caption(
+                        str: Translation.t(context, '复制'),
                         color: ColorConfig.primary,
                       ),
                     ),
@@ -339,10 +341,10 @@ class PackageDetailPageState extends State<PackageDetailPage>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                const SizedBox(
+                SizedBox(
                   width: 80,
                   child: Caption(
-                    str: '寄往国家',
+                    str: Translation.t(context, '发往国家'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -361,10 +363,10 @@ class PackageDetailPageState extends State<PackageDetailPage>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                const SizedBox(
+                SizedBox(
                   width: 80,
                   child: Caption(
-                    str: '转运仓库',
+                    str: Translation.t(context, '转运仓库'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
@@ -389,8 +391,8 @@ class PackageDetailPageState extends State<PackageDetailPage>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Caption(
-                  str: '物品照片',
+                Caption(
+                  str: Translation.t(context, '物品照片'),
                   color: ColorConfig.textNormal,
                 ),
                 parcelModel.packagePictures != null

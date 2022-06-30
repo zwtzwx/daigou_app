@@ -155,7 +155,7 @@ class _ListRefreshState extends State<ListRefresh> {
                   Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: Text(
-                      Translation.t(context, '正在加载') + '...',
+                      Translation.t(context, '加载中') + '...',
                       style: TextConfig.textGray14,
                     ),
                   )
@@ -257,7 +257,7 @@ class _ListRefreshState extends State<ListRefresh> {
           ),
         ),
         Caption(
-          str: widget.noMessageTip,
+          str: Translation.t(context, widget.noMessageTip),
           color: ColorConfig.textGrayC,
         )
       ],
@@ -296,17 +296,17 @@ class _ListRefreshState extends State<ListRefresh> {
                   body = _buildProgressIndicator();
                 } else if (mode == LoadStatus.failed) {
                   body = Text(
-                    Translation.t(context, '加载失败！点击重试！'),
+                    Translation.t(context, '加载失败点击重试'),
                     style: TextConfig.textGray14,
                   );
                 } else if (mode == LoadStatus.canLoading) {
                   body = Text(
-                    Translation.t(context, '松手,加载更多!'),
+                    Translation.t(context, '松手加载更多'),
                     style: TextConfig.textGray14,
                   );
                 } else {
                   body = Text(
-                    Translation.t(context, '没有更多数据了!'),
+                    Translation.t(context, '没有更多数据了'),
                     style: TextConfig.textGray14,
                   );
                 }

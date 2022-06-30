@@ -3,6 +3,7 @@
  */
 
 import 'package:jiyun_app_client/common/hex_to_color.dart';
+import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -68,8 +69,8 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: const Caption(
-          str: '地址管理',
+        title: Caption(
+          str: Translation.t(context, '地址管理'),
           color: ColorConfig.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -81,7 +82,7 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
           margin: const EdgeInsets.symmetric(horizontal: 15),
           height: 40,
           child: MainButton(
-            text: '添加',
+            text: '添加地址',
             onPressed: () {
               Routers.push(
                   '/ReceiverAddressEditPage', context, {'isEdit': '0'});
@@ -177,8 +178,8 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
                                             borderRadius:
                                                 const BorderRadius.all(
                                                     Radius.circular(2))),
-                                        child: const Caption(
-                                          str: '默认',
+                                        child: Caption(
+                                          str: Translation.t(context, '默认'),
                                           fontSize: 9,
                                           color: ColorConfig.white,
                                         ),
