@@ -4,6 +4,8 @@
 
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/events/application_event.dart';
+import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
 import 'package:jiyun_app_client/models/insurance_item_model.dart';
 import 'package:jiyun_app_client/models/insurance_model.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
@@ -340,6 +342,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
     EasyLoading.dismiss();
     if (data['ok']) {
       EasyLoading.showSuccess('提交成功').then((value) {
+        ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
         Navigator.of(context).pop('succeed');
       });
     } else {

@@ -11,6 +11,7 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/change_page_index_event.dart';
 import 'package:jiyun_app_client/events/home_refresh_event.dart';
+import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
 import 'package:jiyun_app_client/models/user_order_count_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
@@ -40,6 +41,12 @@ class _ModuleCellState extends State<ModuleCell> {
       getWarehouse();
       getOrderCount();
     });
+    ApplicationEvent.getInstance()
+        .event
+        .on<OrderCountRefreshEvent>()
+        .listen((event) {
+      getOrderCount();
+    });
   }
 
   // 默认仓库
@@ -54,7 +61,10 @@ class _ModuleCellState extends State<ModuleCell> {
   void getOrderCount() async {
     var token = await UserStorage.getToken();
     if (token.isNotEmpty) {
-      userOrderCountModel = await UserService.getOrderDataCount();
+      var data = await UserService.getOrderDataCount();
+      setState(() {
+        userOrderCountModel = data;
+      });
     }
   }
 

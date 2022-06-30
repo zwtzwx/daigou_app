@@ -321,8 +321,6 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                 child: LoadImage(
                   url,
                   fit: BoxFit.cover,
-                  holderImg: "PackageAndOrder/defalutIMG@3x",
-                  format: "png",
                 ),
               )
             : Container(

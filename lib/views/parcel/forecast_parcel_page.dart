@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:jiyun_app_client/common/hex_to_color.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
+import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/views/components/banner.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
@@ -58,7 +59,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
   List<ParcelModel> formData = List<ParcelModel>.empty(growable: true);
 
   // 协议确认
-  bool agreementBool = false;
+  bool agreementBool = true;
   // 协议条款
   Map<String, dynamic>? terms;
   //单位，长度
@@ -118,7 +119,6 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
   loadInitData() async {
     var _expressCompanyList = await ExpressCompanyService.getList();
     var _goodsPropsList = await GoodsService.getPropList();
-    // var _goodsCategoryList = await GoodsService.getCategoryList();
     var _single = await GoodsService.getPropConfig();
     var _terms = await CommonService.getTerms();
     if (mounted) {
@@ -126,8 +126,14 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
         expressCompanyList = _expressCompanyList;
         goodsPropsList = _goodsPropsList;
         propSingle = _single;
-        // goodsCategoryList = _goodsCategoryList;
         terms = _terms;
+        formData.add(ParcelModel(
+          packageName: '日用品',
+          packageValue: 1,
+          expressId: _expressCompanyList[0].id,
+          expressName: _expressCompanyList[0].name,
+          prop: [_goodsPropsList[0]],
+        ));
       });
     }
   }
@@ -210,6 +216,10 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                   width: double.infinity,
                   child: MainButton(
                     onPressed: () {
+                      if (!agreementBool) {
+                        Util.showToast('请下同意包裹货运规则');
+                        return;
+                      }
                       for (ParcelModel item in formData) {
                         if (item.expressId == null) {
                           Util.showToast('有包裹没有选择快递公司');
@@ -232,21 +242,14 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                           return;
                         }
                       }
-                      if (!agreementBool) {
-                        Util.showToast('请下同意包裹货运规则');
-                        return;
-                      }
 
                       List<Map> packageList = [];
                       for (ParcelModel item in formData) {
                         List<String> categoryids = [];
-                        // for (GoodsCategoryModel itemca in item.categories!) {
-                        //   categoryids.add(itemca.id.toString());
-                        // }
                         Map<String, dynamic> dic = {
                           'express_num': item.expressNum,
                           'package_name': item.packageName,
-                          'package_value': item.packageValue,
+                          'package_value': item.packageValue! * 100,
                           'prop_id':
                               item.prop == null ? '' : item.prop!.first.id,
                           'express_id': item.expressId,
@@ -274,16 +277,22 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                         EasyLoading.dismiss();
                         if (data.ok) {
                           EasyLoading.showSuccess(data.msg);
+                          ApplicationEvent.getInstance()
+                              .event
+                              .fire(OrderCountRefreshEvent());
                           setState(() {
                             formData.clear();
-                            // selectedCountryModel = CountryModel();
-                            // selectedWarehouseModel = WareHouseModel();
-                            // formData.add(ParcelModel());
-                            agreementBool = false;
                             for (ValueAddedServiceModel item
                                 in valueAddedServiceList) {
                               item.isOpen = false;
                             }
+                            formData.add(ParcelModel(
+                              packageName: '日用品',
+                              packageValue: 1,
+                              expressId: expressCompanyList[0].id,
+                              expressName: expressCompanyList[0].name,
+                              prop: [goodsPropsList[0]],
+                            ));
                           });
                         } else {
                           EasyLoading.showError(data.msg);
@@ -409,7 +418,13 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
         setState(() {
-          formData.add(ParcelModel());
+          formData.add(ParcelModel(
+            packageName: '日用品',
+            packageValue: 1,
+            expressId: expressCompanyList[0].id,
+            expressName: expressCompanyList[0].name,
+            prop: [goodsPropsList[0]],
+          ));
         });
       },
       child: Container(
@@ -499,22 +514,10 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
   }
 
   Widget buildBottomListCell(BuildContext context, int index) {
-    // 包裹名称
-    // String recipientName = "";
-    // 包裹数量
-    // int goodsNumber = 1;
-    // 快递名称
-    String courierName = "请选择快递名称";
-    // 包裹类型
-    // String goodsTypes = "请选择物品类型";
-    // 包裹属性
-    String goodsProperties = "请选择物品属性";
-
     // 快递单号
     TextEditingController orderNumberController = TextEditingController();
     final FocusNode orderNumber = FocusNode();
-    // 包裹名称
-    TextEditingController goodsNameController = TextEditingController();
+
     final FocusNode goodsName = FocusNode();
     // 包裹价值
     TextEditingController goodsValueController = TextEditingController();
@@ -527,12 +530,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
     if (model.expressNum != null) {
       orderNumberController.text = model.expressNum!;
     }
-    if (model.packageName != null) {
-      goodsNameController.text = model.packageName!;
-    }
     if (model.packageValue != null) {
-      goodsValueController.text =
-          (model.packageValue! / 100).toStringAsFixed(2);
+      goodsValueController.text = model.packageValue.toString();
     }
     if (model.remark != null) {
       _remarkController.text = model.remark!;
@@ -574,7 +573,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Text(
-                          model.expressName ?? courierName,
+                          model.expressName ?? "请选择快递名称",
                           style: model.expressName != null
                               ? TextConfig.textDark14
                               : TextConfig.textGray14,
@@ -598,6 +597,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                 title: "快递单号",
                 inputText: NormalInput(
                   hintText: "请输入快递单号",
+                  contentPadding: const EdgeInsets.only(top: 17, right: 15),
                   textAlign: TextAlign.right,
                   controller: orderNumberController,
                   focusNode: orderNumber,
@@ -612,29 +612,13 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                   keyName: '',
                 )),
             InputTextItem(
-                title: "物品名称",
-                inputText: NormalInput(
-                  hintText: "请输入物品名称",
-                  textAlign: TextAlign.right,
-                  controller: goodsNameController,
-                  focusNode: goodsName,
-                  autoFocus: false,
-                  keyboardType: TextInputType.text,
-                  onSubmitted: (res) {
-                    FocusScope.of(context).requestFocus(goodsValue);
-                  },
-                  onChanged: (res) {
-                    model.packageName = res;
-                  },
-                  keyName: '',
-                )),
-            InputTextItem(
                 leftFlex: 3,
                 title: '物品价值（' + localization!.currencySymbol + '）',
                 inputText: NormalInput(
                   hintText: "请输入物品价值",
                   textAlign: TextAlign.right,
                   controller: goodsValueController,
+                  contentPadding: const EdgeInsets.only(top: 17, right: 15),
                   focusNode: goodsValue,
                   autoFocus: false,
                   keyboardType:
@@ -646,60 +630,6 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                     model.packageValue = (double.parse(res) * 100).toInt();
                   },
                 )),
-            // GestureDetector(
-            //   onTap: () async {
-            //     FocusScope.of(context).requestFocus(FocusNode());
-            //     var s = await Navigator.pushNamed(context, '/CategoriesPage',
-            //         arguments: {
-            //           "categories": goodsCategoryList //参数map
-            //         });
-
-            //     if (s is! List<GoodsCategoryModel>) {
-            //       return;
-            //     } else {
-            //       model.categories = s;
-            //       model.categoriesStr = '';
-            //       setState(() {
-            //         for (GoodsCategoryModel item in s) {
-            //           if (model.categoriesStr == null) {
-            //             model.categoriesStr = item.name;
-            //           } else {
-            //             model.categoriesStr =
-            //                 model.categoriesStr! + '、' + item.name;
-            //           }
-            //         }
-            //       });
-            //     }
-            //   },
-            //   child: InputTextItem(
-            //       title: "包裹类型",
-            //       inputText: Container(
-            //         alignment: Alignment.center,
-            //         margin: const EdgeInsets.only(left: 11),
-            //         child: Row(
-            //           mainAxisAlignment: MainAxisAlignment.end,
-            //           children: <Widget>[
-            //             Text(
-            //               model.categoriesStr ?? goodsTypes,
-            //               style: model.categoriesStr == ''
-            //                   ? TextConfig.textGray14
-            //                   : TextConfig.textDark14,
-            //             ),
-            //             Padding(
-            //               padding: const EdgeInsets.only(
-            //                   right: 15, top: 10, bottom: 10),
-            //               child: Icon(
-            //                 Icons.arrow_forward_ios,
-            //                 color: model.categoriesStr == ''
-            //                     ? ColorConfig.textGray
-            //                     : ColorConfig.textBlack,
-            //                 size: 18,
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       )),
-            // ),
             GestureDetector(
               onTap: () async {
                 // 属性选择框
@@ -726,7 +656,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                       children: <Widget>[
                         Text(
                           model.prop == null
-                              ? goodsProperties
+                              ? '请选择物品属性'
                               : model.prop!.map((e) => e.name).join(' '),
                           style: model.prop == null
                               ? TextConfig.textGray14
@@ -806,22 +736,23 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                     )
                   ],
                 )),
-            // InputTextItem(
-            //     title: "包裹备注",
-            //     inputText: NormalInput(
-            //       hintText: "请输入备注",
-            //       textAlign: TextAlign.right,
-            //       controller: _remarkController,
-            //       focusNode: _remark,
-            //       autoFocus: false,
-            //       keyboardType: TextInputType.text,
-            //       onSubmitted: (res) {
-            //         FocusScope.of(context).requestFocus(blankNode);
-            //       },
-            //       onChanged: (res) {
-            //         model.remark = res;
-            //       },
-            //     )),
+            InputTextItem(
+                title: "包裹备注",
+                inputText: NormalInput(
+                  hintText: "请输入备注",
+                  textAlign: TextAlign.right,
+                  controller: _remarkController,
+                  focusNode: _remark,
+                  autoFocus: false,
+                  contentPadding: const EdgeInsets.only(top: 17, right: 15),
+                  keyboardType: TextInputType.text,
+                  onSubmitted: (res) {
+                    FocusScope.of(context).requestFocus(blankNode);
+                  },
+                  onChanged: (res) {
+                    model.remark = res;
+                  },
+                )),
             Container(
               height: 45,
               color: HexToColor('#fafafa'),

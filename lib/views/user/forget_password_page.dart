@@ -30,7 +30,7 @@ class ForgetPasswordPage extends StatefulWidget {
 
 class ForgetPasswordPageState extends State<ForgetPasswordPage> {
   String pageTitle = '';
-  int loginType = 1; //  1 手机号 2 邮箱
+  int loginType = 2; //  1 手机号 2 邮箱
 
   String selectTypeName = '';
 
@@ -129,7 +129,7 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
         color: Colors.white,
         alignment: Alignment.center,
         child: Image.asset(
-          "assets/images/PackageAndOrder/defalutIMG@3x.png",
+          "assets/images/AboutMe/about-logo.png",
           height: 80,
           width: 80,
         ));
@@ -187,21 +187,6 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
                   Navigator.pushNamed(context, '/TabOrderInfo');
                 },
-              ),
-            ),
-            Container(
-              height: 50,
-              padding: const EdgeInsets.only(right: 5, left: 5),
-              alignment: Alignment.centerLeft,
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    loginType = loginType == 1 ? 2 : 1;
-                  });
-                },
-                child: Caption(
-                  str: loginType == 1 ? '邮箱登录' : '手机号登录',
-                ),
               ),
             ),
           ],

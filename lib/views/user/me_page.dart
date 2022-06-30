@@ -271,8 +271,7 @@ class MePageState extends State<MePage> {
 
   Widget buildCustomViews(BuildContext context) {
     //从状态管理中读取
-    UserModel userModel = Provider.of<Model>(context, listen: false).userInfo!;
-
+    UserModel userModel = Provider.of<Model>(context, listen: true).userInfo!;
     var headerView = Container(
         padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
         color: ColorConfig.primary,
@@ -502,41 +501,6 @@ class MePageState extends State<MePage> {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    // 优惠券
-                    Routers.push('/CouponPage', context,
-                        {'select': false, 'lineid': '', 'amount': ''});
-                  },
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const LoadImage(
-                          'AboutMe/center-coupon',
-                          width: 30,
-                          height: 30,
-                        ),
-                        const SizedBox(
-                          height: 2,
-                        ),
-                        const Caption(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          str: '优惠券',
-                        ),
-                        Gaps.vGap4,
-                        Caption(
-                          str: isloading && userOrderModel != null
-                              ? userOrderModel!.couponCount!.toString()
-                              : '0',
-                          fontSize: 16,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
                 agentStatus?.id == 1
                     ? GestureDetector(
                         onTap: () {
@@ -573,6 +537,41 @@ class MePageState extends State<MePage> {
                         ),
                       )
                     : Gaps.empty,
+                GestureDetector(
+                  onTap: () {
+                    // 优惠券
+                    Routers.push('/CouponPage', context,
+                        {'select': false, 'lineid': '', 'amount': ''});
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        const LoadImage(
+                          'AboutMe/center-coupon',
+                          width: 30,
+                          height: 30,
+                        ),
+                        const SizedBox(
+                          height: 2,
+                        ),
+                        const Caption(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          str: '优惠券',
+                        ),
+                        Gaps.vGap4,
+                        Caption(
+                          str: isloading && userOrderModel != null
+                              ? userOrderModel!.couponCount!.toString()
+                              : '0',
+                          fontSize: 16,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

@@ -218,13 +218,17 @@ class UserService {
   /*
     更新个人信息
    */
-  static Future<bool> updateByModel(Map<String, dynamic> params) async {
-    bool result = false;
+  static Future<Map> updateByModel(Map<String, dynamic> params) async {
+    Map result = {'ok': false, 'msg': ''};
 
     await HttpClient()
         .put(userEditApi, queryParameters: params)
         .then((response) {
-      result = response.ok;
+      result = {
+        'ok': response.ok,
+        'data': UserModel.fromJson(response.data),
+        'msg': response.msg ?? response.error?.message,
+      };
     });
 
     return result;

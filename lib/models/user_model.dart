@@ -105,7 +105,9 @@ class UserModel {
     liveCity = json['live_city'] ?? "";
     wechatId = json['wechat_id'] ?? "";
     birth = json['birth'] ?? "";
-    gender = json['gender'] ?? 0;
+    if (json['gender'] != null) {
+      gender = int.parse(json['gender'].toString());
+    }
     orderCount = json['order_count'];
     profit = json['profit'];
   }

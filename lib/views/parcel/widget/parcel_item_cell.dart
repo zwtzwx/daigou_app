@@ -5,6 +5,7 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/list_refresh_event.dart';
+import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
@@ -93,6 +94,10 @@ class ParcelItemCell extends StatelessWidget {
                             str: model.expressNum!,
                             color: HexToColor('#8a8a8a'),
                           ),
+                        ],
+                      ),
+                      Row(
+                        children: [
                           model.isExceptional == 1
                               ? GestureDetector(
                                   onTap: () {
@@ -109,28 +114,20 @@ class ParcelItemCell extends StatelessWidget {
                                     );
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(left: 10),
-                                    alignment: Alignment.center,
-                                    color: ColorConfig.textRed,
+                                    color: Colors.red[700],
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 2, horizontal: 5),
                                     child: const Caption(
-                                      fontSize: 10,
                                       str: '异常件',
-                                      color: ColorConfig.white,
+                                      color: Colors.white,
+                                      fontSize: 12,
                                     ),
-                                  ))
-                              : Container()
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Caption(
-                            str: '查看详情',
-                            fontSize: 12,
-                            color: HexToColor('#8a8a8a'),
-                          ),
+                                  ),
+                                )
+                              : Container(),
                           Icon(
                             Icons.arrow_forward_ios,
-                            size: 12,
+                            size: 14,
                             color: HexToColor('#8a8a8a'),
                           )
                         ],
@@ -287,6 +284,9 @@ class ParcelItemCell extends StatelessWidget {
                                       ApplicationEvent.getInstance().event.fire(
                                           ListRefreshEvent(
                                               type: 'delete', index: index));
+                                      ApplicationEvent.getInstance()
+                                          .event
+                                          .fire(OrderCountRefreshEvent());
                                     } else {
                                       Util.showToast("删除包裹失败");
                                     }

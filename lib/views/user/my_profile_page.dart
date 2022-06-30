@@ -8,8 +8,10 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/profile_updated_event.dart';
+import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
+import 'package:jiyun_app_client/storage/user_storage.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/input/normal_input.dart';
@@ -19,6 +21,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class MyProfilePage extends StatefulWidget {
   const MyProfilePage({Key? key}) : super(key: key);
@@ -77,15 +80,16 @@ class MyProfilePageState extends State<MyProfilePage>
       'birth': userModel!.birth ?? '', // 生日
       'live_city': userModel!.liveCity, // 当前城市
     };
-    EasyLoading.showToast('更新信息...');
-
-    if (await UserService.updateByModel(upData)) {
-      ApplicationEvent.getInstance().event.fire(ProfileUpdateEvent());
-      EasyLoading.dismiss();
-      EasyLoading.showSuccess('修改成功');
+    EasyLoading.show();
+    var result = await UserService.updateByModel(upData);
+    EasyLoading.dismiss();
+    if (result['ok']) {
+      Provider.of<Model>(context, listen: false).setUserInfo(result['data']);
+      await UserStorage.setUserInfo(result['data']);
+      EasyLoading.showSuccess(result['msg']);
       Routers.pop(context);
     } else {
-      EasyLoading.showToast('修改失败');
+      EasyLoading.showToast(result['msg']);
     }
   }
 
@@ -548,7 +552,7 @@ class MyProfilePageState extends State<MyProfilePage>
                           child: LoadImage(
                             userImg.isEmpty ? userModel!.avatar : userImg,
                             fit: BoxFit.fitWidth,
-                            holderImg: "PackageAndOrder/defalutIMG@3x",
+                            holderImg: "AboutMe/about-logo",
                             format: "png",
                           ),
                         ))),

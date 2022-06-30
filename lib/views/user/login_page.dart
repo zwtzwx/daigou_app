@@ -30,11 +30,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  // @override
-  bool isShowWeChatButton = true;
   String result = "无";
   String pageTitle = '';
-  int loginType = 1; // 1、手机号验证码 2: 邮箱验证码 3: 帐号密码  1 手机号密码 2 手机号验证码 3邮箱密码 4邮箱验证码
+  int loginType = 2; // 1、手机号验证码 2: 邮箱验证码 3: 帐号密码  1 手机号密码 2 手机号验证码 3邮箱密码 4邮箱验证码
   String selectTypeName = '';
   List<String> listTitle = ['手机号', '邮箱号'];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -59,7 +57,6 @@ class LoginPageState extends State<LoginPage> {
   String mobileNumber = "";
   // 验证码
   String verifyCode = "";
-  late StreamSubscription<fluwx.BaseWeChatResponse> lis;
 
   bool protocolChecked = false;
 
@@ -68,33 +65,6 @@ class LoginPageState extends State<LoginPage> {
     super.initState();
     pageTitle = '登录/注册';
     selectTypeName = listTitle.first;
-
-    //微信登录响应事件
-    lis = fluwx.weChatResponseEventHandler
-        .distinct((a, b) => a == b)
-        .listen((res) {
-      if (res is fluwx.WeChatAuthResponse) {
-        if (res.isSuccessful) {
-          code = res.code!;
-          loginWithWechat();
-        } else {
-          Util.showToast('登录失败');
-        }
-      }
-    });
-
-    isShowWeChatBtn();
-  }
-
-  /*
-    是否显示微信登录
-   */
-  isShowWeChatBtn() async {
-    var result = await UserService.isShowWechat();
-    Map dic = result;
-    setState(() {
-      isShowWeChatButton = dic['status'];
-    });
   }
 
   /*
@@ -146,7 +116,6 @@ class LoginPageState extends State<LoginPage> {
     }
 
     // timer = null;
-    lis.cancel();
     super.dispose();
   }
 
@@ -330,70 +299,19 @@ class LoginPageState extends State<LoginPage> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        loginType = loginType == 3 ? 1 : 3;
+                        loginType = loginType == 3 ? 2 : 3;
                       });
                     },
                     child: Caption(
                       str: loginType == 3 ? '验证码登录' : '密码登录',
                     ),
                   ),
-                  loginType != 3
-                      ? GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              loginType = loginType == 1 ? 2 : 1;
-                            });
-                          },
-                          child: Caption(
-                            str: loginType == 1 ? '邮箱登录' : '手机号登录',
-                          ),
-                        )
-                      : const SizedBox()
                 ],
               ),
             ),
             const SizedBox(
               height: 50,
             ),
-            isShowWeChatButton
-                ? Container()
-                : GestureDetector(
-                    onTap: () {
-                      // if (!protocolChecked) {
-                      //   Util.showToast('请先同意用户协议');
-                      //   return;
-                      // }
-                      fluwx.isWeChatInstalled.then((installed) {
-                        if (installed) {
-                          fluwx
-                              .sendWeChatAuth(
-                                  scope: "snsapi_userinfo",
-                                  state: "wechat_sdk_demo_test")
-                              .then((data) {});
-                        } else {
-                          Util.showToast("请先安装微信");
-                        }
-                      });
-                    },
-                    child: SizedBox(
-                      height: 80,
-                      child: Column(
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/images/Home/微信图标@3x.png',
-                            height: 45,
-                            width: 45,
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          const Caption(
-                            str: '微信登陆',
-                            fontSize: 13,
-                          )
-                        ],
-                      ),
-                    ))
           ],
         ));
   }
@@ -416,12 +334,12 @@ class LoginPageState extends State<LoginPage> {
                 child: TextField(
                   style: const TextStyle(color: Colors.black87),
                   controller: _emailController,
-                  decoration: InputDecoration(
-                      hintText: loginType == 2 ? '请输入邮箱' : '请输入手机号或邮箱',
-                      enabledBorder: const UnderlineInputBorder(
+                  decoration: const InputDecoration(
+                      hintText: '请输入邮箱',
+                      enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: ColorConfig.line),
                       ),
-                      focusedBorder: const UnderlineInputBorder(
+                      focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: ColorConfig.line),
                       )),
                   onSubmitted: (res) {
