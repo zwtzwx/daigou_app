@@ -70,6 +70,11 @@
 	<string>请允许APP保存图片到相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>APP需要您的同意，才能访问相册进行选择照片上传/发布信息，如禁止将无法上传选择照片上传/发布信息</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

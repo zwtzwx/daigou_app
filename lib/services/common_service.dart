@@ -20,6 +20,8 @@ class CommonService {
   static const String countriesApi = 'country';
   // 上传图片
   static const String uploadImageApi = 'uploads/image';
+  // 保存 device token
+  static const String deviceTokenApi = 'user/push-tokens';
 
   // 获取预报的同意条款
   static Future<Map<String, dynamic>?> getTerms(
@@ -99,5 +101,13 @@ class CommonService {
       }
     });
     return dataList;
+  }
+
+  /*
+    保存 device token
+    用于消息推送
+   */
+  static Future<void> saveDeviceToken(Map<String, dynamic> params) async {
+    await HttpClient().put(deviceTokenApi, data: params);
   }
 }

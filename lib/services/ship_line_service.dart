@@ -25,8 +25,8 @@ class ShipLineService {
 
   // 获列表
   static Future<Map> getList([Map<String, dynamic>? params]) async {
-    Map result = {'ok': false, 'msg': '', 'list': []};
     List<ShipLineModel> list = [];
+    Map result = {'ok': false, 'msg': '', 'list': list};
     await HttpClient().post(LISTAPI, data: params).then((response) {
       response.data?.forEach((item) {
         list.add(ShipLineModel.fromJson(item));
@@ -36,7 +36,7 @@ class ShipLineService {
         'list': list,
         'msg': response.msg ?? response.error!.message,
       };
-    });
+    }).onError((error, stackTrace) => null);
     return result;
   }
 

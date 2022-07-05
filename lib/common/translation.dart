@@ -22,7 +22,7 @@ class Translation {
       List<String> holders = _parsePlaceholder(lang);
       for (var item in holders) {
         RegExp exp = RegExp('{$item}');
-        lang = lang.replaceAll(exp, value[item]);
+        lang = lang.replaceAll(exp, value[item].toString());
       }
     }
     return lang;

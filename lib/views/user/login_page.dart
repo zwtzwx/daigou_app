@@ -8,6 +8,8 @@ import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/token_model.dart';
+import 'package:jiyun_app_client/services/common_service.dart';
+import 'package:jiyun_app_client/storage/user_storage.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -100,6 +102,14 @@ class LoginPageState extends State<LoginPage> {
       var provider = Provider.of<Model>(context, listen: false);
       provider.setToken(tokenModel!.tokenType + ' ' + tokenModel.accessToken);
       provider.setUserInfo(tokenModel.user!);
+      // 保存 device token
+      String? dt = await UserStorage.getDeviceToken();
+      if (dt != null) {
+        await CommonService.saveDeviceToken({
+          'type': 1,
+          'token': dt,
+        });
+      }
       Routers.pop(context);
     } catch (e) {
       Util.showToast(e.toString());

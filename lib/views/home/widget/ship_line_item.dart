@@ -89,7 +89,7 @@ Widget getSecondLineDetail(
   // String strDetail = '';
   List<String> datalist = [];
   String contentSymbol =
-      linedata.baseMode == 0 ? localModel!.weightSymbol : 'm³';
+      linedata.baseMode == 0 ? (localModel?.weightSymbol ?? '') : 'm³';
   num price = 0;
   num basePrice = 0;
   num weight = 0;
@@ -110,26 +110,27 @@ Widget getSecondLineDetail(
           '(' +
           (weight / 1000).toStringAsFixed(2) +
           '$contentSymbol)：',
-      localModel!.currencySymbol + (price / 100).toStringAsFixed(2),
+      (localModel?.currencySymbol ?? '') + (price / 100).toStringAsFixed(2),
     ];
   } else if (linedata.mode == 2) {
     // 2 阶梯价格
     if (price == 0) {
       datalist = [
         Translation.t(context, '价格', listen: true) + '：',
-        localModel!.currencySymbol + (basePrice / 100).toStringAsFixed(2),
+        (localModel?.currencySymbol ?? '') +
+            (basePrice / 100).toStringAsFixed(2),
       ];
     } else {
       datalist = [
         Translation.t(context, '单价', listen: true) + '(' + contentSymbol + ')：',
-        localModel!.currencySymbol + (price / 100).toStringAsFixed(2),
+        (localModel?.currencySymbol ?? '') + (price / 100).toStringAsFixed(2),
       ];
     }
   } else if (linedata.mode == 3) {
     // 3 单位价格加阶梯附加费
     datalist = [
       Translation.t(context, '单价', listen: true) + '(' + contentSymbol + ')：',
-      localModel!.currencySymbol + (price / 100).toStringAsFixed(2),
+      (localModel?.currencySymbol ?? '') + (price / 100).toStringAsFixed(2),
     ];
   } else if (linedata.mode == 5) {
     // 5 阶梯首重续重
@@ -144,7 +145,7 @@ Widget getSecondLineDetail(
           (firstWeight / 1000).toStringAsFixed(2) +
           contentSymbol +
           ')：',
-      localModel!.currencySymbol + price.toStringAsFixed(2),
+      (localModel?.currencySymbol ?? '') + price.toStringAsFixed(2),
     ];
   }
   var view1 = datalist.isNotEmpty

@@ -45,7 +45,6 @@ dependencies:
   provider: ^6.0.2 #状态管理
   fluttertoast: ^8.0.8 #toast
   flutter_easyloading: ^3.0.3
-  sprintf: ^6.0.0
   cached_network_image: ^3.2.0
   flutter_swiper_null_safety: ^1.0.2 #轮播图
   url_launcher: ^6.0.20
@@ -64,6 +63,9 @@ dependencies:
   video_player: ^2.4.5
   flick_video_player: ^0.5.0
   timeline_tile: ^2.0.0
+  firebase_core: ^1.18.0
+  firebase_messaging: ^11.4.3
+  flutter_local_notifications: ^9.5.3+1
 
 dev_dependencies:
   flutter_test:

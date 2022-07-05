@@ -1,8 +1,9 @@
 import 'dart:io';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
+import 'package:jiyun_app_client/firebase/notification.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/provider/language_provider.dart';
@@ -31,7 +32,8 @@ void main() async {
   var token = await UserStorage.getToken();
   var language = await LanguageStore.getLanguage();
   await dotenv.load(fileName: ".env");
-
+  // 初始化 Firebase
+  await Firebase.initializeApp();
   runApp(MyApp(
     token: token,
     userInfo: userInfo,
@@ -70,9 +72,12 @@ class _MyAppState extends State<MyApp> {
     ApplicationEvent.getInstance().event = eventBus;
   }
 
+  late final Notifications notifications;
+
   @override
   void initState() {
     super.initState();
+    notifications = Notifications.init();
     _initFluwx();
   }
 
@@ -110,6 +115,8 @@ class _MyAppState extends State<MyApp> {
       ],
       child: Consumer<Model>(
         builder: (context, model, widget) {
+          print('fgrtgrg');
+          notifications.context = context;
           //加载尺寸长度之类的信息
           model.loadLocalization();
           // 加载翻译
@@ -140,18 +147,7 @@ class _MyAppState extends State<MyApp> {
                     builder: EasyLoading.init(),
                     routes: <String, WidgetBuilder>{
                       '/main': (BuildContext context) => const HomePage(),
-                      // '/OrderListPage': (BuildContext context) =>
-                      //     OrderListPage(),
                     },
-                    // locale: _locale,
-                    localizationsDelegates: const [
-                      // PickerLocalizationsDelegate.delegate,
-                      // S.delegate,
-                      // GlobalMaterialLocalizations.delegate,
-                      // GlobalWidgetsLocalizations.delegate,
-                      // GlobalCupertinoLocalizations.delegate,
-                    ],
-                    // supportedLocales: S.delegate.supportedLocales,
                   ));
         },
       ),
