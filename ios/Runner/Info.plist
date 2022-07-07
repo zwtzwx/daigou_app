@@ -36,6 +36,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wx32978f20cd6dd0b0</string>
+				<string>com.googleusercontent.apps.1011459206295-is63n7k9rvir9ufokkmq47jfj91nfalh</string>
 			</array>
 		</dict>
 		<dict>
@@ -46,7 +47,19 @@
 				<string>com.huijing.jiyunAppClient</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb5251111768291072</string>
+			</array>
+		</dict>
 	</array>
+	<key>FacebookAppID</key>
+	<string>5251111768291072</string>
+	<key>FacebookClientToken</key>
+	<string>1f9284cc3a1b12905945cbf8d070a7ea</string>
+	<key>FacebookDisplayName</key>
+	<string>HJ EXPRESS</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -54,6 +67,8 @@
 		<string>wechat</string>
 		<string>weixinULAPI</string>
 		<string>weixin</string>
+		<string>fbapi</string>
+  	<string>fb-messenger-share-api</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

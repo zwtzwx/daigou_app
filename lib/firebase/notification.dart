@@ -10,20 +10,21 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 
 class Notifications {
-  final FirebaseMessaging messaging = FirebaseMessaging.instance;
-  late BuildContext context;
+  static final FirebaseMessaging messaging = FirebaseMessaging.instance;
+  static late BuildContext context;
 
-  AndroidNotificationChannel? channel;
-  FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
+  static AndroidNotificationChannel? channel;
+  static FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
 
-  Notifications.init() {
+  static initialized(BuildContext ctx) {
+    context = ctx;
     initForegroudSetting();
     getToken();
     registerMessage();
   }
 
   // 获取 device token
-  void getToken() async {
+  static void getToken() async {
     String? token = await messaging.getToken();
     if (token != null) {
       UserStorage.setDeviceToken(token);
@@ -31,7 +32,7 @@ class Notifications {
   }
 
   // Foregroud notification setting
-  void initForegroudSetting() async {
+  static void initForegroudSetting() async {
     if (Platform.isAndroid) {
       channel = const AndroidNotificationChannel(
         'high_importance_channel',
@@ -70,7 +71,7 @@ class Notifications {
   }
 
   // 消息通知
-  void registerMessage() async {
+  static void registerMessage() async {
     // ios 会唤起用户授权、android 直接授予权限
     NotificationSettings settings = await messaging.requestPermission();
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
@@ -111,14 +112,13 @@ class Notifications {
   // 处理消息
   // type 1: 包裹入库 2: 订单待支付、3: 订单发货
   // value: ['order_id']
-  void onMessage(Map<String, dynamic>? data) {
-    print('data');
+  static void onMessage(Map<String, dynamic>? data) {
     if (data == null) return;
-    print('data ${data['type']}');
     if (data['type'] == '1') {
       Routers.push('/InWarehouseParcelListPage', context);
     } else if (['2', '3'].contains(data['type'])) {
-      Routers.push('/OrderDetailPage', context, {'id': data['value']});
+      Routers.push(
+          '/OrderDetailPage', context, {'id': num.parse(data['value'])});
     }
   }
 }

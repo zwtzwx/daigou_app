@@ -14,7 +14,8 @@ import 'package:jiyun_app_client/storage/user_storage.dart';
 class UserService {
   // 登录
   static const String LOGIN = 'website-user/pwd-login';
-
+  // google、facebook 第三方登录
+  static const String LoginWithFirebase = 'firebase/login';
   // 微信登录
   static const String LoginWithWeChat = 'oauth-login/app';
   // 微信登陆switch
@@ -94,6 +95,19 @@ class UserService {
     TokenModel? token;
     await HttpClient()
         .post(UserService.LOGIN, queryParameters: params)
+        .then((response) {
+      token = _loginResult(response);
+    });
+
+    return token;
+  }
+
+  // google、facebook 第三方登录
+  static Future<TokenModel?> loginWithFirebase(
+      Map<String, dynamic> params) async {
+    TokenModel? token;
+    await HttpClient()
+        .post(UserService.LoginWithFirebase, queryParameters: params)
         .then((response) {
       token = _loginResult(response);
     });

@@ -1,6 +1,7 @@
 import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
+import 'package:jiyun_app_client/firebase/notification.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 import 'package:jiyun_app_client/views/express/express_query_page.dart';
@@ -141,7 +142,8 @@ class TabBarState extends State<MainController> {
   @override
   void initState() {
     super.initState();
-
+    // 初始化 notification
+    Notifications.initialized(context);
     ApplicationEvent.getInstance()
         .event
         .on<UnAuthenticateEvent>()

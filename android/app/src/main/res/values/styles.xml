@@ -15,4 +15,8 @@
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
+    <string name="app_name">HJ EXPRESS</string>
+    <string name="facebook_app_id">5251111768291072</string>
+    <string name="fb_login_protocol_scheme">fb5251111768291072</string>
+    <string name="facebook_client_token">1f9284cc3a1b12905945cbf8d070a7ea</string>
 </resources>

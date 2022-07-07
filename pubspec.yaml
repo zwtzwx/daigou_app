@@ -63,9 +63,12 @@ dependencies:
   video_player: ^2.4.5
   flick_video_player: ^0.5.0
   timeline_tile: ^2.0.0
-  firebase_core: ^1.18.0
-  firebase_messaging: ^11.4.3
+  firebase_core: ^1.19.0
+  firebase_messaging: ^11.4.4
   flutter_local_notifications: ^9.5.3+1
+  firebase_auth: ^3.4.1
+  google_sign_in: ^5.3.3
+  flutter_facebook_auth: ^4.3.4
 
 dev_dependencies:
   flutter_test:
@@ -110,11 +113,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   # fonts:
-  #   - family: Schyler
+  #   - family: iconfont
   #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  #       - asset: fonts/iconfont.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1011459206295-2hd9qeht0krg4mj6j2qifnoh03i1nh7l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.huijing.jiyun_app_client",
+            "certificate_hash": "9ef329c1927f42a9e117f30c1a961b7905afc194"
+          }
+        },
+        {
           "client_id": "1011459206295-phmm8lsfv647dgtiplii48r54dlsgfh2.apps.googleusercontent.com",
           "client_type": 3
         }

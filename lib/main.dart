@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/firebase/notification.dart';
+import 'package:jiyun_app_client/firebase_options.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/provider/language_provider.dart';
@@ -33,7 +33,13 @@ void main() async {
   var language = await LanguageStore.getLanguage();
   await dotenv.load(fileName: ".env");
   // 初始化 Firebase
-  await Firebase.initializeApp();
+  if (Platform.isIOS) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
   runApp(MyApp(
     token: token,
     userInfo: userInfo,
@@ -72,12 +78,9 @@ class _MyAppState extends State<MyApp> {
     ApplicationEvent.getInstance().event = eventBus;
   }
 
-  late final Notifications notifications;
-
   @override
   void initState() {
     super.initState();
-    notifications = Notifications.init();
     _initFluwx();
   }
 
@@ -115,8 +118,6 @@ class _MyAppState extends State<MyApp> {
       ],
       child: Consumer<Model>(
         builder: (context, model, widget) {
-          print('fgrtgrg');
-          notifications.context = context;
           //加载尺寸长度之类的信息
           model.loadLocalization();
           // 加载翻译

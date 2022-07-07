@@ -65,6 +65,7 @@ class DefaultFirebaseOptions {
     projectId: 'hj-express-9a264',
     databaseURL: 'https://hj-express-9a264-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'hj-express-9a264.appspot.com',
+    androidClientId: '1011459206295-2hd9qeht0krg4mj6j2qifnoh03i1nh7l.apps.googleusercontent.com',
     iosClientId: '1011459206295-is63n7k9rvir9ufokkmq47jfj91nfalh.apps.googleusercontent.com',
     iosBundleId: 'com.huijing.jiyunAppClient',
   );

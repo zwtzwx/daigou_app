@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
+import 'package:jiyun_app_client/firebase/auth.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/token_model.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
@@ -22,6 +23,7 @@ import 'package:jiyun_app_client/events/logined_event.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -35,7 +37,6 @@ class LoginPageState extends State<LoginPage> {
   String result = "无";
   String pageTitle = '';
   int loginType = 2; // 1、手机号验证码 2: 邮箱验证码 3: 帐号密码  1 手机号密码 2 手机号验证码 3邮箱密码 4邮箱验证码
-  String selectTypeName = '';
   List<String> listTitle = ['手机号', '邮箱号'];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String sent = '';
@@ -60,21 +61,15 @@ class LoginPageState extends State<LoginPage> {
   // 验证码
   String verifyCode = "";
 
-  bool protocolChecked = false;
+  // google、facebook 第三方登录
+  late GoogleAndFacebookAuth _auth;
 
   @override
   void initState() {
     super.initState();
     pageTitle = '登录注册';
     sent = Translation.t(context, '获取验证码');
-    selectTypeName = listTitle.first;
-  }
-
-  /*
-    微信登录
-  */
-  loginWithWechat() async {
-    return loginWith('wechat', {'code': code});
+    _auth = GoogleAndFacebookAuth();
   }
 
   /*
@@ -83,9 +78,10 @@ class LoginPageState extends State<LoginPage> {
   loginWith(String type, Map<String, dynamic> map) async {
     try {
       TokenModel? tokenModel;
+      EasyLoading.show();
       switch (type) {
-        case 'wechat':
-          tokenModel = await UserService.loginWithWechat(map);
+        case 'social':
+          tokenModel = await UserService.loginWithFirebase(map);
           break;
         case 'emailCode':
         case 'mobileCode':
@@ -94,7 +90,7 @@ class LoginPageState extends State<LoginPage> {
         default:
           tokenModel = await UserService.login(map);
       }
-
+      EasyLoading.dismiss();
       EasyLoading.showSuccess(Translation.t(context, '登录成功'));
       //发送登录事件
       ApplicationEvent.getInstance().event.fire(LoginedEvent);
@@ -112,6 +108,7 @@ class LoginPageState extends State<LoginPage> {
       }
       Routers.pop(context);
     } catch (e) {
+      EasyLoading.dismiss();
       Util.showToast(e.toString());
     } finally {}
   }
@@ -148,6 +145,7 @@ class LoginPageState extends State<LoginPage> {
         ),
       ),
       backgroundColor: ColorConfig.white,
+      bottomNavigationBar: buildOtherSignIn(),
       body: SingleChildScrollView(
         child: SizedBox(
           // color: Colors.red,
@@ -155,15 +153,10 @@ class LoginPageState extends State<LoginPage> {
           height: ScreenUtil().screenHeight -
               ScreenUtil().statusBarHeight -
               ScreenUtil().bottomBarHeight,
-          child: Stack(
+          child: Column(
             children: [
-              Column(
-                children: [
-                  buildCustomViews(context),
-                  buildExampleCell(context),
-                ],
-              ),
-              // buildProtol(),
+              buildCustomViews(context),
+              buildExampleCell(context),
             ],
           ),
         ),
@@ -171,61 +164,74 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  // ignore: missing_return
-  Widget buildProtol() {
-    return Positioned(
+  Widget buildOtherSignIn() {
+    return SafeArea(
       child: SizedBox(
-          width: ScreenUtil().screenWidth,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Checkbox(
-                value: protocolChecked,
-                side: MaterialStateBorderSide.resolveWith(
-                  (states) => const BorderSide(
-                      width: 1.0, color: ColorConfig.textGrayC),
+        height: 120,
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 1,
+                      color: ColorConfig.textGray,
+                    ),
+                  ),
+                  Gaps.hGap5,
+                  Caption(
+                    str: Translation.t(context, '其它登录方式'),
+                    color: ColorConfig.textGray,
+                  ),
+                  Gaps.hGap5,
+                  Expanded(
+                    child: Container(
+                      height: 1,
+                      color: ColorConfig.textGray,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Gaps.vGap15,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    String? idToken = await _auth.signInGoogle();
+                    if (idToken != null) {
+                      loginWith('social', {'token': idToken});
+                    }
+                  },
+                  child: const LoadImage(
+                    'AboutMe/google',
+                    width: 34,
+                    fit: BoxFit.fitWidth,
+                  ),
                 ),
-                checkColor: Colors.green,
-                fillColor: MaterialStateProperty.all(Colors.white),
-                onChanged: (bool? value) {
-                  setState(() {
-                    protocolChecked = value!;
-                  });
-                },
-              ),
-              Caption(
-                str: '登录代表您已同意',
-                color: ColorConfig.textGrayC9,
-                fontSize: ScreenUtil().setSp(12),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Routers.push('/UserProtocolPage', context);
-                },
-                child: Caption(
-                  str: '《集运用户协议》',
-                  color: ColorConfig.warningTextDark,
-                  fontSize: ScreenUtil().setSp(12),
+                const SizedBox(width: 30),
+                GestureDetector(
+                  onTap: () async {
+                    String? idToken = await _auth.signInFacebook();
+                    if (idToken != null) {
+                      loginWith('social', {'token': idToken});
+                    }
+                  },
+                  child: const Icon(
+                    Icons.facebook,
+                    color: Color(0xFF1877F2),
+                    size: 39,
+                  ),
                 ),
-              ),
-              Caption(
-                str: '和',
-                color: ColorConfig.textGrayC9,
-                fontSize: ScreenUtil().setSp(12),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Routers.push('/UserPrivacyPage', context);
-                },
-                child: Caption(
-                  str: '《隐私协议》',
-                  color: ColorConfig.warningTextDark,
-                  fontSize: ScreenUtil().setSp(12),
-                ),
-              ),
-            ],
-          )),
-      bottom: 80,
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -267,10 +273,6 @@ class LoginPageState extends State<LoginPage> {
                 text: '登录注册',
                 borderRadis: 4,
                 onPressed: () {
-                  // if (!protocolChecked) {
-                  //   Util.showToast('请先同意用户协议');
-                  //   return;
-                  // }
                   Map<String, dynamic> map;
                   //  1 手机号验证码 2 邮箱验证码 3 帐号密码
                   if (loginType == 3) {
