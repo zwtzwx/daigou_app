@@ -18,9 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluwx/fluwx.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:keyboard_actions/external/platform_check/platform_check.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class HelpSupportPage extends StatefulWidget {
   final Map? arguments;
@@ -252,7 +249,7 @@ class AnnouncementListState extends State<AnnouncementList> {
             isWeChatInstalled.then((installed) {
               if (installed) {
                 launchWeChatMiniProgram(
-                        username: 'gh_e9afa1eee63a', path: model.content)
+                        username: 'gh_4c98b7c6b461', path: model.content)
                     .then((data) {});
               } else {
                 Util.showToast(Translation.t(context, '请先安装微信'));

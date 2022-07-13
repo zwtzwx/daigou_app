@@ -179,8 +179,8 @@ class BaseDialog {
                           fluwx
                               .openWeChatCustomerServiceChat(
                                   url:
-                                      'https://work.weixin.qq.com/kfid/kfcd1850645a45f5db4',
-                                  corpId: 'ww82affb1cf55e55e0')
+                                      'https://work.weixin.qq.com/kfid/kfce5c914af10d474ce',
+                                  corpId: 'ww3087c8445ff9e3a6')
                               .then((data) {});
                         } else {
                           Util.showToast(Translation.t(context, '请先安装微信'));

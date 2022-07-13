@@ -259,7 +259,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
         InputTextItem(
           title: Translation.t(context, '联系电话'),
           inputText: NormalInput(
-            hintText: Translation.t(context, '等待客服确认支付'),
+            hintText: Translation.t(context, '请输入联系电话'),
             textAlign: TextAlign.right,
             contentPadding: const EdgeInsets.only(top: 17, right: 15),
             maxLength: 20,
@@ -316,7 +316,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
           ),
         ),
         InputTextItem(
-          title: Translation.t(context, '等待客服确认支付'),
+          title: Translation.t(context, '邮编'),
           inputText: NormalInput(
             hintText: Translation.t(context, '请输入邮编'),
             contentPadding: const EdgeInsets.only(top: 17, right: 15),

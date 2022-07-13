@@ -117,14 +117,13 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
           height: ScreenUtil().setHeight(160),
           child: Swiper(
             onTap: (index) {
-              // Routers.push('/LineDetail', context);
               AdsPicModel model = adList[index];
               if (model.linkPath.startsWith('/pages')) {
                 fluwx.isWeChatInstalled.then((installed) {
                   if (installed) {
                     fluwx
                         .launchWeChatMiniProgram(
-                            username: 'gh_e9afa1eee63a', path: model.linkPath)
+                            username: 'gh_4c98b7c6b461', path: model.linkPath)
                         .then((data) {
                       if (kDebugMode) {
                         print("---》$data");

@@ -116,6 +116,7 @@ class AboutMePageState extends State<AboutMePage> {
                   ),
                 )
               : Container(),
+          Gaps.vGap20,
           Column(
             children: const [
               Caption(
@@ -149,7 +150,7 @@ class AboutMePageState extends State<AboutMePage> {
                 if (installed) {
                   fluwx
                       .launchWeChatMiniProgram(
-                          username: 'gh_e9afa1eee63a', path: model.content)
+                          username: 'gh_4c98b7c6b461', path: model.content)
                       .then((data) {
                     // print("---》$data");
                   });

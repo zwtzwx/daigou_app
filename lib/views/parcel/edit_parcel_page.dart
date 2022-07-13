@@ -624,7 +624,10 @@ class EditParcelPageState extends State<EditParcelPage>
                         onTap: () async {
                           FocusScope.of(context).requestFocus(FocusNode());
                           var s = await Navigator.pushNamed(
-                              context, '/CountryListPage');
+                              context, '/CountryListPage',
+                              arguments: {
+                                'warehouseId': packageModel.warehouse?.id,
+                              });
                           if (s == null) {
                             return;
                           }
@@ -632,8 +635,12 @@ class EditParcelPageState extends State<EditParcelPage>
                             countryModel = s as CountryModel;
                             isSelectedCountry = true;
                             packageModel.prop = null;
-                            packageModel.warehouse = null;
-                            getWarehouse();
+                            if (packageModel.status == 1 ||
+                                (packageModel.status == 2 &&
+                                    packageModel.warehouse == null)) {
+                              packageModel.warehouse = null;
+                              getWarehouse();
+                            }
                             getPropsList();
                           });
                         },
@@ -676,7 +683,8 @@ class EditParcelPageState extends State<EditParcelPage>
                 Expanded(
                     child: GestureDetector(
                         onTap: () {
-                          if (!isSelectedCountry) {
+                          if ((packageModel.status == 2 &&
+                              packageModel.warehouse != null)) {
                             return;
                           }
                           Picker(
@@ -703,7 +711,9 @@ class EditParcelPageState extends State<EditParcelPage>
                               Caption(
                                   str: packageModel.warehouse?.warehouseName ??
                                       ''),
-                              isSelectedCountry
+                              (packageModel.status == 1 ||
+                                      (packageModel.status == 2 &&
+                                          packageModel.warehouse == null))
                                   ? const Icon(
                                       Icons.keyboard_arrow_right,
                                       color: ColorConfig.textGray,

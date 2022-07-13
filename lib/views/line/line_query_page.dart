@@ -112,9 +112,8 @@ class LineQueryState extends State<LineQueryPage>
 
   // 选择国家
   showPickerDestion(BuildContext context) async {
-    var s = await Routers.push('/CountryListPage', context, {
-      'warehouseId': selectWareHouse!.id,
-    });
+    var s = await Routers.push('/CountryListPage', context,
+        {'warehouseId': selectWareHouse!.id, 'showArea': 1});
     if (s == null) return;
     setState(() {
       if (s is Map) {

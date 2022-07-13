@@ -22,10 +22,10 @@ Widget QuickLinkCell(BuildContext context) {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisSpacing: 8.0, //水平子Widget之间间距
             mainAxisSpacing: 0.0, //垂直子Widget之间间距
-            crossAxisCount: 4, //一行的Widget数量
-            childAspectRatio: 4 / 3,
+            crossAxisCount: 3, //一行的Widget数量
+            childAspectRatio: 4 / 2.3,
           ), // 宽高比例
-          itemCount: 4,
+          itemCount: 3,
           itemBuilder: _buildGrideBtnView(context),
         ),
       ],
@@ -47,10 +47,10 @@ IndexedWidgetBuilder _buildGrideBtnView(context) {
       'title': Translation.t(context, '集运评论', listen: true),
       'img': 'Home/icon-comment',
     },
-    {
-      'title': Translation.t(context, '分享领券', listen: true),
-      'img': 'Home/share-icon',
-    },
+    // {
+    //   'title': Translation.t(context, '分享领券', listen: true),
+    //   'img': 'Home/share-icon',
+    // },
   ];
   return (context, index) {
     return GestureDetector(
