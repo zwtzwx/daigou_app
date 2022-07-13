@@ -1,8 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/common/translation.dart';
+import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/config/routers.dart';
+import 'package:jiyun_app_client/models/order_model.dart';
+import 'package:jiyun_app_client/models/parcel_box_model.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:keyboard_actions/external/platform_check/platform_check.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 
 /*
   公共弹窗
@@ -109,5 +117,136 @@ class BaseDialog {
         );
       },
     );
+  }
+
+  // 客服弹窗
+  static void customerDialog(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
+          ),
+        ),
+        builder: (context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Gaps.vGap20,
+              Caption(
+                str: Translation.t(context, '选择客服'),
+                fontSize: 18,
+              ),
+              Gaps.vGap20,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  InkResponse(
+                    onTap: () async {
+                      String whatsapp = '+821027320501';
+                      String whatsappURlAndroid =
+                          'whatsapp://send?phone=' + whatsapp + '&text=';
+                      String whatappURLIos = "https://wa.me/$whatsapp?text=";
+                      if (PlatformCheck.isIOS) {
+                        if (await canLaunchUrl(Uri.parse(whatappURLIos))) {
+                          await launchUrl(Uri.parse(whatappURLIos));
+                        }
+                      } else {
+                        if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
+                          await launchUrl(Uri.parse(whatsappURlAndroid));
+                        }
+                      }
+                    },
+                    child: Column(
+                      children: const [
+                        Icon(
+                          Icons.whatsapp,
+                          color: Color(0xFF25D366),
+                          size: 45,
+                        ),
+                        Gaps.vGap5,
+                        Caption(
+                          str: 'WhatsApp',
+                        ),
+                      ],
+                    ),
+                  ),
+                  InkResponse(
+                    onTap: () {
+                      fluwx.isWeChatInstalled.then((installed) {
+                        if (installed) {
+                          fluwx
+                              .openWeChatCustomerServiceChat(
+                                  url:
+                                      'https://work.weixin.qq.com/kfid/kfcd1850645a45f5db4',
+                                  corpId: 'ww82affb1cf55e55e0')
+                              .then((data) {});
+                        } else {
+                          Util.showToast(Translation.t(context, '请先安装微信'));
+                        }
+                      });
+                    },
+                    child: Column(
+                      children: const [
+                        Icon(
+                          Icons.wechat,
+                          color: Color(0xFF51C332),
+                          size: 45,
+                        ),
+                        Gaps.vGap5,
+                        Caption(
+                          str: 'Wechat',
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Gaps.vGap20,
+            ],
+          );
+        });
+  }
+
+  // 多箱物流
+  static void showBoxsTracking(
+      BuildContext context, OrderModel orderModel) async {
+    List<Widget> list = [];
+    for (var i = 0; i < orderModel.boxes.length; i++) {
+      ParcelBoxModel boxModel = orderModel.boxes[i];
+      var view = CupertinoActionSheetAction(
+        child: Text(
+          '${Translation.t(context, '子订单')}-' '${i + 1}',
+        ),
+        onPressed: () {
+          Navigator.of(context)
+              .pop(boxModel.logisticsSn.isEmpty ? '' : boxModel.logisticsSn);
+        },
+      );
+      list.add(view);
+    }
+    String? result = await showCupertinoModalPopup(
+        context: context,
+        builder: (context) {
+          return CupertinoActionSheet(
+            actions: list,
+            cancelButton: CupertinoActionSheetAction(
+              child: Text(Translation.t(context, '取消')),
+              onPressed: () {
+                Navigator.of(context).pop('cancel');
+              },
+            ),
+          );
+        });
+    if (result == 'cancel') {
+      return;
+    }
+    if (result != null && result.isEmpty) {
+      Routers.push(
+          '/TrackingDetailPage', context, {"order_sn": orderModel.orderSn});
+    } else {
+      Routers.push('/TrackingDetailPage', context, {"order_sn": result});
+    }
   }
 }

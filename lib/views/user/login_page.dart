@@ -4,8 +4,10 @@
 
 import 'dart:async';
 
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
+import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
 import 'package:jiyun_app_client/firebase/auth.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/token_model.dart';
@@ -23,7 +25,6 @@ import 'package:jiyun_app_client/events/logined_event.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -94,6 +95,7 @@ class LoginPageState extends State<LoginPage> {
       EasyLoading.showSuccess(Translation.t(context, '登录成功'));
       //发送登录事件
       ApplicationEvent.getInstance().event.fire(LoginedEvent);
+      ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent);
       //更新状态管理器
       var provider = Provider.of<Model>(context, listen: false);
       provider.setToken(tokenModel!.tokenType + ' ' + tokenModel.accessToken);
@@ -198,7 +200,7 @@ class LoginPageState extends State<LoginPage> {
             ),
             Gaps.vGap15,
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
                   onTap: () async {
@@ -207,13 +209,30 @@ class LoginPageState extends State<LoginPage> {
                       loginWith('social', {'token': idToken});
                     }
                   },
-                  child: const LoadImage(
-                    'AboutMe/google',
-                    width: 34,
-                    fit: BoxFit.fitWidth,
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: ColorConfig.textGray),
+                            shape: BoxShape.circle,
+                          ),
+                          padding: const EdgeInsets.all(6),
+                          child: SvgPicture.asset(
+                            'assets/images/Home/google.svg',
+                            width: 25,
+                            height: 25,
+                          ),
+                        ),
+                        Gaps.vGap4,
+                        const Caption(
+                          str: 'Google',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(width: 30),
                 GestureDetector(
                   onTap: () async {
                     String? idToken = await _auth.signInFacebook();
@@ -221,10 +240,28 @@ class LoginPageState extends State<LoginPage> {
                       loginWith('social', {'token': idToken});
                     }
                   },
-                  child: const Icon(
-                    Icons.facebook,
-                    color: Color(0xFF1877F2),
-                    size: 39,
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: ColorConfig.textGray),
+                            shape: BoxShape.circle,
+                          ),
+                          // padding: const EdgeInsets.all(6),
+                          child: const Icon(
+                            Icons.facebook,
+                            color: Color(0xFF1877F2),
+                            size: 39,
+                          ),
+                        ),
+                        Gaps.vGap4,
+                        const Caption(
+                          str: 'Facebook',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

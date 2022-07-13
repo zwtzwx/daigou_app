@@ -15,6 +15,7 @@ import 'package:jiyun_app_client/models/pay_type_model.dart';
 import 'package:jiyun_app_client/models/user_coupon_model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/models/user_vip_price_model.dart';
+import 'package:jiyun_app_client/provider/language_provider.dart';
 import 'package:jiyun_app_client/services/balance_service.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
@@ -27,6 +28,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluwx/fluwx.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderPayPage extends StatefulWidget {
   final Map arguments;
@@ -97,6 +99,8 @@ class OrderPayPageState extends State<OrderPayPage> {
         }
       }
     });
+
+    print('sdffsjlj');
   }
 
   @override
@@ -444,6 +448,8 @@ class OrderPayPageState extends State<OrderPayPage> {
       // 支付宝付款
     } else if (model.name == 'paypal') {
       // paypal 支付
+    } else if (model.name == 'iPay88') {
+      iPay88();
     } else if (model.name == 'on_delivery') {
       // 货到付款
       Map<String, dynamic> map = {
@@ -485,8 +491,8 @@ class OrderPayPageState extends State<OrderPayPage> {
     }
   }
 
+  // 余额付款
   payByBalance() async {
-    // 余额付款
     Map result = {};
     EasyLoading.show();
     if (payModel == 0) {
@@ -509,6 +515,48 @@ class OrderPayPageState extends State<OrderPayPage> {
     }
     EasyLoading.dismiss();
     onPayResult(result);
+  }
+
+  // iPay88 支付
+  iPay88() async {
+    String languge =
+        Provider.of<LanguageProvider>(context, listen: false).languge;
+    EasyLoading.show();
+    Map<String, dynamic> result = {};
+    if (payModel == 0) {
+      result = await BalanceService.ipay88VipPay({
+        'return_url': 'https://dev-pc.haiouoms.com/$languge/app-pay',
+        'price_id': vipPriceModel!.id,
+        'price_type': vipPriceModel!.type,
+      });
+    } else if (payModel == 1) {
+      result = await OrderService.orderIpay(orderModel!.id, {
+        'return_url': 'https://dev-pc.haiouoms.com/$languge/app-pay',
+        'point': orderModel?.point,
+        'is_use_point': orderModel?.isusepoint,
+        'point_amount': orderModel?.pointamount,
+      });
+    }
+    EasyLoading.dismiss();
+    if (result['ok']) {
+      print(result['data'].toString());
+      Uri url = Uri(
+        scheme: 'https',
+        host: 'dev-pc.haiouoms.com',
+        path: '/app-pay-request',
+        queryParameters: result['data'],
+      );
+      // Navigator.pushNamed(context, '/webview', arguments: {
+      //   'url': url.toString(),
+      //   'title': 'iPay88',
+      // });
+      launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+      EasyLoading.showError(result['msg']);
+    }
   }
 
   // 支付结果
@@ -584,9 +632,13 @@ class OrderPayPageState extends State<OrderPayPage> {
                             ? Image.asset(
                                 'assets/images/AboutMe/微信支付@3x.png',
                               )
-                            : Image.asset(
-                                'assets/images/AboutMe/银行卡转账@3x.png',
-                              ),
+                            : typeMap.name.contains('iPay88')
+                                ? Image.asset(
+                                    'assets/images/Home/ipay88.png',
+                                  )
+                                : Image.asset(
+                                    'assets/images/AboutMe/银行卡转账@3x.png',
+                                  ),
                   ),
                   Caption(
                     str: Util.getPayTypeName(typeMap.name),

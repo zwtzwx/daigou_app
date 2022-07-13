@@ -37,6 +37,10 @@ class BalanceService {
   static const String buyVipBalanceApi = 'user-member/pay/balance';
   // 获取微信支付数据
   static const String orderPayWeChatApi = 'order/pay/:id';
+  // ipay88余额充值
+  static const String balanceIpayApi = 'balance/recharge/iPay88/web';
+  // ipay88会员充值
+  static const String vipIpayApi = 'user-member/payment/iPay88/web';
 
   /*
     获取支付方式列表
@@ -282,5 +286,37 @@ class BalanceService {
         onFail(response.msg.toString());
       }
     }).onError((error, stackTrace) => onFail(error.toString()));
+  }
+
+  /*
+    iPay88 余额充值
+   */
+  static Future<Map<String, dynamic>> ipay88BalancePay(
+      Map<String, dynamic> params) async {
+    Map<String, dynamic> result = {'ok': false, 'msg': ''};
+    await HttpClient().post(balanceIpayApi, data: params).then((response) {
+      result = {
+        'ok': response.ok,
+        'data': response.data['data'],
+        'msg': response.msg ?? response.error?.message,
+      };
+    });
+    return result;
+  }
+
+  /*
+    iPay88 会员充值
+   */
+  static Future<Map<String, dynamic>> ipay88VipPay(
+      Map<String, dynamic> params) async {
+    Map<String, dynamic> result = {'ok': false, 'msg': ''};
+    await HttpClient().post(vipIpayApi, data: params).then((response) {
+      result = {
+        'ok': response.ok,
+        'data': response.data['data'],
+        'msg': response.msg ?? response.error?.message,
+      };
+    });
+    return result;
   }
 }

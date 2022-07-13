@@ -9,6 +9,7 @@ import 'package:jiyun_app_client/models/announcement_model.dart';
 import 'package:jiyun_app_client/services/announcement_service.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
+import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
@@ -17,6 +18,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluwx/fluwx.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:keyboard_actions/external/platform_check/platform_check.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class HelpSupportPage extends StatefulWidget {
   final Map? arguments;
@@ -129,7 +133,9 @@ class HelpSupportPageState extends State<HelpSupportPage>
               ),
               MainButton(
                 text: Translation.t(context, '在线客服'),
-                onPressed: () {},
+                onPressed: () async {
+                  BaseDialog.customerDialog(context);
+                },
               ),
             ],
           ),

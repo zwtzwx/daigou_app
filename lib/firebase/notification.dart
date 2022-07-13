@@ -110,15 +110,17 @@ class Notifications {
   }
 
   // 处理消息
-  // type 1: 包裹入库 2: 订单待支付、3: 订单发货
+  // type 1: 包裹入库 2: 订单待支付、3: 订单发货、4: 充值结果、5: 支付成功 6: 二程单号更新
   // value: ['order_id']
   static void onMessage(Map<String, dynamic>? data) {
     if (data == null) return;
     if (data['type'] == '1') {
       Routers.push('/InWarehouseParcelListPage', context);
-    } else if (['2', '3'].contains(data['type'])) {
+    } else if (['2', '3', '5', '6'].contains(data['type'])) {
       Routers.push(
           '/OrderDetailPage', context, {'id': num.parse(data['value'])});
+    } else if (data['type'] == '4') {
+      Routers.push('/BalanceHistoryPage', context);
     }
   }
 }

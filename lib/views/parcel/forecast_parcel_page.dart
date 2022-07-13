@@ -89,7 +89,6 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
     localization = Provider.of<Model>(context, listen: false).localizationInfo;
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       created();
-      loadInitData();
     });
     ApplicationEvent.getInstance()
         .event
@@ -109,6 +108,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
         if (countryList.isNotEmpty) {
           selectedCountryModel = countryList[0];
           getWarehouseList();
+          loadInitData();
         }
         valueAddedServiceList = _valueAddedServiceList;
         isloading = true;
@@ -119,7 +119,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
   //加载页面所需要的数据
   loadInitData() async {
     var _expressCompanyList = await ExpressCompanyService.getList();
-    var _goodsPropsList = await GoodsService.getPropList();
+    var _goodsPropsList = await GoodsService.getPropList(
+        {'country_id': selectedCountryModel?.id});
     var _single = await GoodsService.getPropConfig();
     var _terms = await CommonService.getTerms();
     if (mounted) {

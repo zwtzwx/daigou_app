@@ -31,6 +31,8 @@ class OrderService {
   static const String balancePayByWechat = 'balance/wechat-recharge';
   // 会员充值微信支付
   static const String userMemberPayByWechat = 'user-member/pay/wechat';
+  // iPay88 支付
+  static const String ipayApi = 'order/payment/:id/iPay88/web';
   // 预览订单信息
   static const String previewPay = 'order/h5-pay';
 
@@ -148,6 +150,24 @@ class OrderService {
       if (res.ok) {
         result = OrderExceptionalModel.fromJson(res.data);
       }
+    });
+    return result;
+  }
+
+  /*
+    ipay88 支付
+   */
+  static Future<Map<String, dynamic>> orderIpay(int id,
+      [Map<String, dynamic>? params]) async {
+    Map<String, dynamic> result = {'ok': false, 'msg': ''};
+    await HttpClient()
+        .post(ipayApi.replaceAll(':id', id.toString()), data: params)
+        .then((res) {
+      result = {
+        'ok': res.ok,
+        'msg': res.msg ?? res.error?.message,
+        'data': res.data['data']
+      };
     });
     return result;
   }

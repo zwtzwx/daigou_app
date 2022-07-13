@@ -13,6 +13,7 @@ import 'package:jiyun_app_client/models/default_amount_model.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/pay_type_model.dart';
+import 'package:jiyun_app_client/provider/language_provider.dart';
 import 'package:jiyun_app_client/services/balance_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
@@ -25,6 +26,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluwx/fluwx.dart';
 import 'package:jiyun_app_client/views/components/input/base_input.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RechargePage extends StatefulWidget {
   const RechargePage({Key? key}) : super(key: key);
@@ -168,6 +170,8 @@ class RechargePageState extends State<RechargePage> {
                   }
                   if (selectType.first.name == 'wechat') {
                     weChatPayMethod();
+                  } else if (selectType.first.name == 'iPay88') {
+                    iPay88();
                   } else {
                     Routers.push('/TransferAndPaymentPage', context, {
                       'transferType': 1,
@@ -182,43 +186,48 @@ class RechargePageState extends State<RechargePage> {
         ),
       ),
       body: isloading == 2
-          ? SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  buildCustomViews(context),
-                  Container(
-                    decoration: const BoxDecoration(
-                        color: ColorConfig.white,
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
-                    margin: const EdgeInsets.only(
-                        top: 20, left: 15, right: 15, bottom: 10),
-                    padding: const EdgeInsets.only(
-                        top: 10, left: 15, right: 15, bottom: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 40,
-                          child: Caption(str: Translation.t(context, '余额充值')),
-                        ),
-                        buildMoreSupportType(context),
-                        selectButton == defaultAmountList.length
-                            ? buildCustomPrice()
-                            : Gaps.empty,
-                      ],
+          ? GestureDetector(
+              onTap: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    buildCustomViews(context),
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: ColorConfig.white,
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      margin: const EdgeInsets.only(
+                          top: 20, left: 15, right: 15, bottom: 10),
+                      padding: const EdgeInsets.only(
+                          top: 10, left: 15, right: 15, bottom: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 40,
+                            child: Caption(str: Translation.t(context, '余额充值')),
+                          ),
+                          buildMoreSupportType(context),
+                          selectButton == defaultAmountList.length
+                              ? buildCustomPrice()
+                              : Gaps.empty,
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    decoration: const BoxDecoration(
-                        color: ColorConfig.white,
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
-                    margin: const EdgeInsets.only(
-                        top: 20, left: 15, right: 15, bottom: 10),
-                    padding: const EdgeInsets.only(
-                        top: 0, left: 15, right: 15, bottom: 0),
-                    child: buildListView(context),
-                  ),
-                ],
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: ColorConfig.white,
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      margin: const EdgeInsets.only(
+                          top: 20, left: 15, right: 15, bottom: 10),
+                      padding: const EdgeInsets.only(
+                          top: 0, left: 15, right: 15, bottom: 0),
+                      child: buildListView(context),
+                    ),
+                  ],
+                ),
               ),
             )
           : Container(),
@@ -386,9 +395,13 @@ class RechargePageState extends State<RechargePage> {
                             ? Image.asset(
                                 'assets/images/AboutMe/微信支付@3x.png',
                               )
-                            : Image.asset(
-                                'assets/images/AboutMe/银行卡转账@3x.png',
-                              ),
+                            : typeMap.name.contains('iPay88')
+                                ? Image.asset(
+                                    'assets/images/Home/ipay88.png',
+                                  )
+                                : Image.asset(
+                                    'assets/images/AboutMe/银行卡转账@3x.png',
+                                  ),
                   ),
                   Caption(
                     str: Util.getPayTypeName(typeMap.name),
@@ -543,5 +556,30 @@ class RechargePageState extends State<RechargePage> {
         });
       }
     }, (message) => null);
+  }
+
+  iPay88() async {
+    EasyLoading.show();
+    String languge =
+        Provider.of<LanguageProvider>(context, listen: false).languge;
+    var result = await BalanceService.ipay88BalancePay({
+      'amount': amount * 100,
+      'return_url': 'https://dev-pc.haiouoms.com/$languge/app-pay',
+    });
+    EasyLoading.dismiss();
+    if (result['ok']) {
+      Uri url = Uri(
+        scheme: 'https',
+        host: 'dev-pc.haiouoms.com',
+        path: '/app-pay-request',
+        queryParameters: result['data'],
+      );
+      launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+      EasyLoading.showError(result['msg']);
+    }
   }
 }

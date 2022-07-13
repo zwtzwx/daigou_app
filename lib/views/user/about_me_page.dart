@@ -116,6 +116,18 @@ class AboutMePageState extends State<AboutMePage> {
                   ),
                 )
               : Container(),
+          Column(
+            children: const [
+              Caption(
+                str: 'Copyright©2021',
+                color: ColorConfig.textGray,
+              ),
+              Caption(
+                str: '韩国汇景商社 版权所有',
+                color: ColorConfig.textGray,
+              ),
+            ],
+          ),
         ],
       )),
     );

@@ -687,20 +687,23 @@ class OrderDetailPageState extends State<OrderDetailPage> {
             PlainButton(
               text: '联系客服',
               onPressed: () {
-                fluwx.isWeChatInstalled.then((installed) {
-                  if (installed) {
-                    fluwx
-                        .openWeChatCustomerServiceChat(
-                            url:
-                                'https://work.weixin.qq.com/kfid/kfcd1850645a45f5db4',
-                            corpId: 'ww82affb1cf55e55e0')
-                        .then((data) {});
-                  } else {
-                    Util.showToast(Translation.t(context, '请先安装微信'));
-                  }
-                });
+                BaseDialog.customerDialog(context);
               },
             ),
+            Gaps.hGap10,
+            [4, 5].contains(model?.status)
+                ? PlainButton(
+                    text: Translation.t(context, '查看物流'),
+                    onPressed: () {
+                      if (model!.boxes.isNotEmpty) {
+                        BaseDialog.showBoxsTracking(context, model!);
+                      } else {
+                        Routers.push('/TrackingDetailPage', context,
+                            {"order_sn": model!.orderSn});
+                      }
+                    },
+                  )
+                : Gaps.empty,
             Gaps.hGap10,
             [2, 12].contains(model?.status)
                 ? MainButton(

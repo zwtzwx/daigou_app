@@ -63,9 +63,7 @@ class EditParcelPageState extends State<EditParcelPage>
   // 可能改变的数据
   ExpressCompanyModel? expressCompany;
   CountryModel? countryModel;
-  WareHouseModel? wareHouseModel;
 
-  GoodsPropsModel? propModel;
   List<GoodsCategoryModel> selectCategories = [];
 
   List<ExpressCompanyModel> expressCompanyList = [];
@@ -107,8 +105,8 @@ class EditParcelPageState extends State<EditParcelPage>
     _packgeValueController.text =
         ((packageModel.packageValue ?? 0) / 100).toStringAsFixed(2);
     _remarkController.text = (packageModel.remark ?? '');
-
     created();
+    getPropsList();
   }
 
   /*
@@ -117,14 +115,11 @@ class EditParcelPageState extends State<EditParcelPage>
   created() async {
     EasyLoading.show();
     var _expressCompanyList = await ExpressCompanyService.getList();
-
-    var _propList = await GoodsService.getPropList();
     var _single = await GoodsService.getPropConfig();
     var _categoriesList = await GoodsService.getCategoryList();
     EasyLoading.dismiss();
     setState(() {
       expressCompanyList = _expressCompanyList;
-      propList = _propList;
       propSingle = _single;
       categoryList = _categoriesList;
       isLoadingLocal = true;
@@ -137,6 +132,15 @@ class EditParcelPageState extends State<EditParcelPage>
     var data = await WarehouseService.getList({'country_id': id});
     setState(() {
       wareHouseList = data;
+    });
+  }
+
+  // 根据国家获取属性列表
+  getPropsList() async {
+    var _propList = await GoodsService.getPropList(
+        {'country_id': countryModel?.id ?? packageModel.country?.id});
+    setState(() {
+      propList = _propList;
     });
   }
 
@@ -163,7 +167,7 @@ class EditParcelPageState extends State<EditParcelPage>
       msg = '请输入物品总价';
     } else if (double.parse(_packgeValueController.text) <= 0) {
       msg = '请输入正确的物品总价';
-    } else if (propModel == null && packageModel.prop!.isEmpty) {
+    } else if (packageModel.prop!.isEmpty) {
       msg = '请选择物品属性';
     } else if (countryModel == null && packageModel.country == null) {
       msg = '请选择发往国家';
@@ -180,15 +184,13 @@ class EditParcelPageState extends State<EditParcelPage>
       'package_value': value,
       'package_name': _packgeNameController.text,
       'qty': _packgeQtyController.text,
-      'prop_id': propModel?.id == null
-          ? [packageModel.prop!.first.id]
-          : [propModel!.id],
+      'prop_id': packageModel.prop != null
+          ? packageModel.prop!.map((e) => e.id).toList()
+          : [],
       'country_id': countryModel != null
           ? countryModel!.id
           : (packageModel.country != null ? packageModel.country!.id : ''),
-      'warehouse_id': wareHouseModel == null
-          ? packageModel.warehouse!.id!
-          : wareHouseModel!.id!,
+      'warehouse_id': packageModel.warehouse?.id,
       'remark': _remarkController.text,
     };
     EasyLoading.show();
@@ -630,7 +632,10 @@ class EditParcelPageState extends State<EditParcelPage>
                           setState(() {
                             countryModel = s as CountryModel;
                             isSelectedCountry = true;
+                            packageModel.prop = null;
+                            packageModel.warehouse = null;
                             getWarehouse();
+                            getPropsList();
                           });
                         },
                         child: Container(
@@ -685,7 +690,8 @@ class EditParcelPageState extends State<EditParcelPage>
                             onCancel: () {},
                             onConfirm: (Picker picker, List value) {
                               setState(() {
-                                wareHouseModel = wareHouseList[value.first];
+                                packageModel.warehouse =
+                                    wareHouseList[value.first];
                               });
                             },
                           ).showModal(context);
@@ -696,9 +702,8 @@ class EditParcelPageState extends State<EditParcelPage>
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Caption(
-                                  str: wareHouseModel == null
-                                      ? packageModel.warehouse!.warehouseName!
-                                      : wareHouseModel!.warehouseName!),
+                                  str: packageModel.warehouse?.warehouseName ??
+                                      ''),
                               isSelectedCountry
                                   ? const Icon(
                                       Icons.keyboard_arrow_right,

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -10,7 +9,6 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/list_refresh_event.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
-import 'package:jiyun_app_client/models/parcel_box_model.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
@@ -183,7 +181,7 @@ class OrderItemCell extends StatelessWidget {
                           children: [
                             Caption(
                               str:
-                                  '${Translation.t(context, '物流单号')}{orderModel.logisticsSn}',
+                                  '${Translation.t(context, '物流单号')}：${orderModel.logisticsSn}',
                             ),
                             Gaps.hGap10,
                             orderModel.logisticsSn.isNotEmpty
@@ -211,7 +209,7 @@ class OrderItemCell extends StatelessWidget {
                   children: [
                     Caption(
                       str:
-                          '${Translation.t(context, '提交时间')}{orderModel.createdAt}',
+                          '${Translation.t(context, '提交时间')}：${orderModel.createdAt}',
                       fontSize: 13,
                       color: ColorConfig.textGray,
                     ),
@@ -306,7 +304,7 @@ class OrderItemCell extends StatelessWidget {
                 text: Translation.t(context, '查看物流'),
                 onPressed: () {
                   if (orderModel.boxes.isNotEmpty) {
-                    _boxsTracking(context);
+                    BaseDialog.showBoxsTracking(context, orderModel);
                   } else {
                     Routers.push('/TrackingDetailPage', context,
                         {"order_sn": orderModel.orderSn});
@@ -408,49 +406,5 @@ class OrderItemCell extends StatelessWidget {
         Util.showToast(result['msg']);
       }
     }
-  }
-
-// 多箱物流
-  void _boxsTracking(BuildContext context) async {
-    String result = await showCupertinoModalPopup(
-        context: context,
-        builder: (context) {
-          return CupertinoActionSheet(
-            actions: _buildSubList(context),
-            cancelButton: CupertinoActionSheetAction(
-              child: Text(Translation.t(context, '取消')),
-              onPressed: () {
-                Navigator.of(context).pop('cancel');
-              },
-            ),
-          );
-        });
-    if (result == 'cancel') {
-      return;
-    }
-    if (result.isEmpty) {
-      Routers.push(
-          '/TrackingDetailPage', context, {"order_sn": orderModel.orderSn});
-    } else {
-      Routers.push('/TrackingDetailPage', context, {"order_sn": result});
-    }
-  }
-
-  _buildSubList(BuildContext context) {
-    List<Widget> list = [];
-    for (var i = 0; i < orderModel.boxes.length; i++) {
-      ParcelBoxModel boxModel = orderModel.boxes[i];
-      var view = CupertinoActionSheetAction(
-        child: Caption(
-          str: '${Translation.t(context, '子订单')}-' '${i + 1}',
-        ),
-        onPressed: () {
-          Navigator.of(context)
-              .pop(boxModel.logisticsSn.isEmpty ? '' : boxModel.logisticsSn);
-        },
-      );
-      list.add(view);
-    }
-    return list;
   }
 }

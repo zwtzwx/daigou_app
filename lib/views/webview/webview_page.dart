@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:core';
-
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter/webview_flutter.dart' as webview;
 import 'package:flutter_html/flutter_html.dart';
 
 //浏览器
@@ -27,8 +28,8 @@ class WebViewPageState extends State<WebViewPage>
 //   StreamSubscription<WebViewHttpError> _onHttpError;
 //   final flutterWebviewPlugin = new FlutterWebviewPlugin();
 
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+  final Completer<webview.WebViewController> _controller =
+      Completer<webview.WebViewController>();
 
   @override
   void initState() {
@@ -51,13 +52,31 @@ class WebViewPageState extends State<WebViewPage>
           ? SizedBox(
               width: ScreenUtil().screenWidth,
               height: ScreenUtil().screenHeight,
-              child: WebView(
+              child: webview.WebView(
                 initialUrl: url,
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) {
+                javascriptMode: webview.JavascriptMode.unrestricted,
+                // gestureNavigationEnabled: true,
+                onWebViewCreated:
+                    (webview.WebViewController webViewController) {
                   _controller.complete(webViewController);
                 },
-              ))
+                // onPageStarted: (value) {
+                //   EasyLoading.show();
+                // },
+                // onPageFinished: (value) {
+                //   EasyLoading.dismiss();
+                // },
+                navigationDelegate: (request) {
+                  if (request.url.startsWith('huijing://pay')) {
+                    String query = 'huijing://pay?status=1'.split('?')[1];
+                    Map params = Uri.splitQueryString(query);
+                    Routers.pop(context, params);
+                    return webview.NavigationDecision.prevent;
+                  }
+                  return webview.NavigationDecision.navigate;
+                },
+              ),
+            )
           : SingleChildScrollView(
               child: Column(
               children: <Widget>[

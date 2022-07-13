@@ -114,7 +114,7 @@ class _ModuleCellState extends State<ModuleCell> {
           MainButton(
             text: Translation.t(context, '开始集运'),
             backgroundColor: const Color(0xFFF74055),
-            onPressed: () {
+            onPressed: () async {
               ApplicationEvent.getInstance()
                   .event
                   .fire(ChangePageIndexEvent(pageName: 'middle'));
