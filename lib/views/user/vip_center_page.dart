@@ -118,12 +118,11 @@ class VipCenterPageState extends State<VipCenterPage> {
                             Caption(
                               color: ColorConfig.textRed,
                               str: selectButton == 999
-                                  ? localizationInfo!.currencySymbol + '0'
-                                  : localizationInfo!.currencySymbol +
-                                      (userVipModel!.priceList[selectButton]
-                                                  .price /
-                                              100)
-                                          .toString(),
+                                  ? '0.00'
+                                  : (userVipModel!
+                                              .priceList[selectButton].price /
+                                          100)
+                                      .toString(),
                               fontWeight: FontWeight.bold,
                             ),
                           ]),
@@ -406,8 +405,7 @@ class VipCenterPageState extends State<VipCenterPage> {
                           // ),
                           Caption(
                             // 会员价格
-                            str: localizationInfo!.currencySymbol +
-                                (model.price / 100).toString(),
+                            str: (model.price / 100).toString(),
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: ColorConfig.textRed,
@@ -416,8 +414,7 @@ class VipCenterPageState extends State<VipCenterPage> {
                             children: [
                               Caption(
                                 str: model.type != 1
-                                    ? localizationInfo.currencySymbol +
-                                        (model.basePrice / 100).toString()
+                                    ? (model.basePrice / 100).toString()
                                     : '',
                                 fontSize: 12,
                                 fontWeight: FontWeight.w300,

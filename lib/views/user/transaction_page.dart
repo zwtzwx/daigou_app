@@ -90,8 +90,7 @@ class _TransactionPageState extends State<TransactionPage> {
                 Container(
                   alignment: Alignment.center,
                   child: Caption(
-                    str: localModel!.currencySymbol +
-                        (model.amount / 100).toStringAsFixed(2),
+                    str: (model.amount / 100).toStringAsFixed(2),
                     fontSize: 18,
                     color: ColorConfig.textRed,
                   ),

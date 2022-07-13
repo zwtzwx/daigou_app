@@ -249,8 +249,7 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
 
     String storeStr = Translation.t(context, '无限制');
     if (model.freeStoreDays != null && model.freeStoreDays! > 0) {
-      String storeFee =
-          '${localModel?.currencySymbol}${(model.storeFee! / 100).toStringAsFixed(2)}';
+      String storeFee = (model.storeFee! / 100).toStringAsFixed(2);
       storeStr = Translation.t(context, '免费仓储{day}天超期收费{fee}/天',
           value: {'day': model.freeStoreDays, 'fee': storeFee});
     }

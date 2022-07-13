@@ -408,9 +408,8 @@ class CreateOrderPageState extends State<CreateOrderPage>
                       Row(
                         children: <Widget>[
                           Caption(
-                            str: localizationInfo!.currencySymbol +
-                                ((model.packageValue ?? 0) / 100)
-                                    .toStringAsFixed(2),
+                            str: ((model.packageValue ?? 0) / 100)
+                                .toStringAsFixed(2),
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
@@ -851,31 +850,21 @@ class CreateOrderPageState extends State<CreateOrderPage>
               ' 时,';
         }
         if (item.type == 1) {
-          contentStr += '限定【按订单收费】' +
-              localizationInfo!.currencySymbol +
-              (item.value / 100).toStringAsFixed(2);
+          contentStr += '限定【按订单收费】' + (item.value / 100).toStringAsFixed(2);
         } else if (item.type == 2) {
-          contentStr += '限定【按箱收费】' +
-              localizationInfo!.currencySymbol +
-              (item.value / 100).toStringAsFixed(2);
+          contentStr += '限定【按箱收费】' + (item.value / 100).toStringAsFixed(2);
         } else if (item.type == 3) {
-          contentStr += '限定【按单位计费重量收费】' +
-              localizationInfo!.currencySymbol +
-              (item.value / 100).toStringAsFixed(2);
+          contentStr += '限定【按单位计费重量收费】' + (item.value / 100).toStringAsFixed(2);
         } else if (item.type == 4) {
           contentStr += '限定【限制出仓】';
         }
         if (item.minCharge != 0) {
-          contentStr += '（最低收费' +
-              localizationInfo!.currencySymbol +
-              (item.minCharge / 100).toStringAsFixed(2) +
-              ',';
+          contentStr +=
+              '（最低收费' + (item.minCharge / 100).toStringAsFixed(2) + ',';
         }
         if (item.maxCharge != 0) {
-          contentStr += '（最高收费' +
-              localizationInfo!.currencySymbol +
-              (item.maxCharge / 100).toStringAsFixed(2) +
-              '）';
+          contentStr +=
+              '（最高收费' + (item.maxCharge / 100).toStringAsFixed(2) + '）';
         }
         contentList.add(contentStr);
       }
@@ -889,8 +878,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
       if (shipLineModel!.maxRuleFee == 0) {
         contentStr += '无上限';
       } else {
-        contentStr += localizationInfo!.currencySymbol +
-            (shipLineModel!.maxRuleFee / 100).toString();
+        contentStr += (shipLineModel!.maxRuleFee / 100).toString();
       }
       contentList.add(contentStr);
     }
@@ -1012,7 +1000,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
                           ),
                           Gaps.hGap10,
                           Caption(
-                            str: localizationInfo!.currencySymbol + firstStr,
+                            str: firstStr,
                             color: ColorConfig.textRed,
                           )
                         ],
@@ -1061,9 +1049,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
                                       tariffModel!.explanation);
                                 }),
                           ),
-                          Caption(
-                              str: localizationInfo!.currencySymbol + secondStr,
-                              color: ColorConfig.textRed),
+                          Caption(str: secondStr, color: ColorConfig.textRed),
                         ],
                       ),
                       Switch.adaptive(
@@ -1096,8 +1082,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
     if (serviceList.isNotEmpty) {
       for (ValueAddedServiceModel item in serviceList) {
         String first = '';
-        String second = localizationInfo!.currencySymbol +
-            (item.price! / 100).toStringAsFixed(2);
+        String second = (item.price! / 100).toStringAsFixed(2);
         String third = '';
         var view = SizedBox(
           height: 50,
@@ -1211,30 +1196,26 @@ class CreateOrderPageState extends State<CreateOrderPage>
             second = (item.value / 100).toStringAsFixed(2) + '%';
             break;
           case 2:
-            second = localizationInfo!.currencySymbol +
-                (item.value / 100).toStringAsFixed(2);
+            second = (item.value / 100).toStringAsFixed(2);
             break;
           case 3:
-            second = localizationInfo!.currencySymbol +
-                (item.value / 100).toStringAsFixed(2) +
+            second = (item.value / 100).toStringAsFixed(2) +
                 '/${Translation.t(context, '箱')}';
             break;
           case 4:
-            second = localizationInfo!.currencySymbol +
-                (item.value / 100).toStringAsFixed(2) +
+            second = (item.value / 100).toStringAsFixed(2) +
                 '/' +
                 localizationInfo!.weightSymbol;
             third = '(${Translation.t(context, '计费重')})';
             break;
           case 5:
-            second = localizationInfo!.currencySymbol +
-                (item.value / 100).toStringAsFixed(2) +
+            second = (item.value / 100).toStringAsFixed(2) +
                 '/' +
                 localizationInfo!.weightSymbol;
             third = '(${Translation.t(context, '实重')})';
             break;
           case 6:
-            second = localizationInfo!.currencySymbol +
+            second =
                 ((item.value / 10000) * (totalValue / 100)).toStringAsFixed(2);
             break;
           default:

@@ -190,7 +190,6 @@ class MyPointPageState extends State<MyPointPage> {
                         '：' +
                         (userPointModel?.configPoint ?? 0).toString() +
                         '${Translation.t(context, '积分')}=' +
-                        localizationInfo!.currencySymbol +
                         (userPointModel?.configAmount ?? 0).toString(),
                     fontSize: 14,
                     color: ColorConfig.vipNormal,

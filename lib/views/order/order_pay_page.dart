@@ -199,16 +199,6 @@ class OrderPayPageState extends State<OrderPayPage> {
                                           CrossAxisAlignment.center,
                                       children: <Widget>[
                                         Container(
-                                          alignment: Alignment.bottomCenter,
-                                          height: 40,
-                                          child: Caption(
-                                            str: localizationInfo!
-                                                .currencySymbol,
-                                            fontSize: 20,
-                                            color: ColorConfig.textRed,
-                                          ),
-                                        ),
-                                        Container(
                                             alignment: Alignment.bottomCenter,
                                             height: 40,
                                             child: Caption(
@@ -240,16 +230,12 @@ class OrderPayPageState extends State<OrderPayPage> {
                                                     ? ''
                                                     : Translation.t(
                                                             context, '已省') +
-                                                        localizationInfo!
-                                                            .currencySymbol +
                                                         ((vipPriceModel!.basePrice -
                                                                     vipPriceModel!
                                                                         .price) /
                                                                 100)
                                                             .toStringAsFixed(2)
                                                 : Translation.t(context, '已省') +
-                                                    localizationInfo!
-                                                        .currencySymbol +
                                                     ((orderModel!.couponDiscountFee +
                                                                 (isUsePoint
                                                                     ? orderModel!
@@ -315,7 +301,7 @@ class OrderPayPageState extends State<OrderPayPage> {
                                               children: <Widget>[
                                                 Caption(
                                                   str: isUsePoint
-                                                      ? '-${localizationInfo!.currencySymbol}${(orderModel!.pointamount / 100).toStringAsFixed(2)}'
+                                                      ? '-${(orderModel!.pointamount / 100).toStringAsFixed(2)}'
                                                       : Translation.t(
                                                           context, '不使用'),
                                                   color: isUsePoint
@@ -376,8 +362,6 @@ class OrderPayPageState extends State<OrderPayPage> {
                                                         ),
                                                         Caption(
                                                           str: '(-' +
-                                                              localizationInfo!
-                                                                  .currencySymbol +
                                                               (orderModel!.couponDiscountFee /
                                                                       100)
                                                                   .toStringAsFixed(
@@ -793,9 +777,8 @@ class OrderPayPageState extends State<OrderPayPage> {
                                   fontSize: 14,
                                 ),
                                 Caption(
-                                  str: localizationInfo!.currencySymbol +
-                                      (orderModel!.pointamount / 100)
-                                          .toStringAsFixed(2),
+                                  str: (orderModel!.pointamount / 100)
+                                      .toStringAsFixed(2),
                                   fontSize: 14,
                                   color: ColorConfig.textRed,
                                 ),

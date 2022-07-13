@@ -328,8 +328,7 @@ class EditParcelPageState extends State<EditParcelPage>
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Caption(
-                    str: Translation.t(context, '物品总价') +
-                        (localizationInfo!.currencySymbol),
+                    str: Translation.t(context, '物品总价'),
                     color: ColorConfig.textNormal,
                   ),
                 ),

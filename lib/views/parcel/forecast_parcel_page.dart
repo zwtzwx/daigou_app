@@ -614,10 +614,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                 )),
             InputTextItem(
                 leftFlex: 3,
-                title: Translation.t(context, '物品总价') +
-                    '（' +
-                    localization!.currencySymbol +
-                    '）',
+                title: Translation.t(context, '物品总价'),
                 inputText: NormalInput(
                   hintText: Translation.t(context, '请输入物品总价'),
                   textAlign: TextAlign.right,

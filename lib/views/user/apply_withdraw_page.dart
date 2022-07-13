@@ -94,11 +94,6 @@ class ApplyWithDrawPageState extends State<ApplyWithDrawPage> {
                               str: Translation.t(context, '共计') + '：',
                             ),
                             Caption(
-                              str: localizationInfo?.currencySymbol ?? '',
-                              fontSize: 12,
-                              color: ColorConfig.textRed,
-                            ),
-                            Caption(
                               str: (selectNum / 100).toStringAsFixed(2),
                               color: ColorConfig.textRed,
                             ),
@@ -298,8 +293,7 @@ class PrepaidListState extends State<PrepaidList> {
                             ],
                           ),
                           Caption(
-                            str: localizationInfo!.currencySymbol +
-                                (model.orderAmount / 100).toStringAsFixed(2),
+                            str: (model.orderAmount / 100).toStringAsFixed(2),
                             fontSize: 13,
                           ),
                         ],
@@ -325,7 +319,6 @@ class PrepaidListState extends State<PrepaidList> {
                               ),
                               Caption(
                                 str: '+' +
-                                    localizationInfo!.currencySymbol +
                                     (model.commissionAmount / 100)
                                         .toStringAsFixed(2),
                                 fontSize: 13,

@@ -666,8 +666,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
   }
 
   String getPriceStr(num? price) {
-    return localizationInfo!.currencySymbol +
-        ((price ?? 0) / 100).toStringAsFixed(2);
+    return ((price ?? 0) / 100).toStringAsFixed(2);
   }
 
   // 底部按钮

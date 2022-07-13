@@ -166,9 +166,8 @@ class LineItemState extends State<LineItem> {
                             margin: const EdgeInsets.only(top: 0, right: 0),
                             alignment: Alignment.centerRight,
                             child: Caption(
-                              str: localizationInfo!.currencySymbol +
-                                  (model.confirmAmount / 100)
-                                      .toStringAsFixed(2),
+                              str: (model.confirmAmount / 100)
+                                  .toStringAsFixed(2),
                               color: ColorConfig.textBlack,
                               fontSize: 17,
                             ),

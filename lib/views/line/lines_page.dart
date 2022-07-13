@@ -172,8 +172,7 @@ class LinesPageState extends State<LinesPage> {
                   Gaps.vGap4,
                   getTextDes(
                     0,
-                    localModel.currencySymbol +
-                        ((model.expireFee ?? 0) / 100).toStringAsFixed(2),
+                    ((model.expireFee ?? 0) / 100).toStringAsFixed(2),
                     isRequired: true,
                   ),
                   getTextDes(

@@ -172,8 +172,7 @@ class WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
             height: 30,
             alignment: Alignment.center,
             child: Caption(
-              str: localizationInfo!.currencySymbol +
-                  (model.amount / 100).toStringAsFixed(2),
+              str: (model.amount / 100).toStringAsFixed(2),
               fontSize: 22,
               color: ColorConfig.textRed,
             ),

@@ -124,10 +124,9 @@ class MyCouponPageState extends State<MyCouponPage>
                     Caption(
                         color: ColorConfig.textRed,
                         str: selectCoupon == null
-                            ? localizationInfo!.currencySymbol + '0.00'
-                            : localizationInfo!.currencySymbol +
-                                (selectCoupon!.coupon!.amount / 100)
-                                    .toStringAsFixed(2)),
+                            ? '0.00'
+                            : (selectCoupon!.coupon!.amount / 100)
+                                .toStringAsFixed(2)),
                     const SizedBox(
                       width: 10,
                     ),
@@ -283,8 +282,7 @@ class CouponsListState extends State<CouponsList> {
                                   alignment: Alignment.center,
                                   height: 45,
                                   child: Caption(
-                                    str: localizationInfo!.currencySymbol +
-                                        money,
+                                    str: money,
                                     color: ColorConfig.white,
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
@@ -303,11 +301,13 @@ class CouponsListState extends State<CouponsList> {
                                         Caption(
                                           alignment: TextAlign.left,
                                           str: Translation.t(
-                                              context, '满{price}可用',
-                                              value: {
-                                                'price':
-                                                    '${localizationInfo!.currencySymbol}${((model.coupon?.threshold ?? 0) / 100).toStringAsFixed(2)}'
-                                              }),
+                                              context, '满{price}可用', value: {
+                                            'price':
+                                                ((model.coupon?.threshold ??
+                                                            0) /
+                                                        100)
+                                                    .toStringAsFixed(2)
+                                          }),
                                           color: ColorConfig.white,
                                           fontSize: 17,
                                           // fontWeight: FontWeight.bold,

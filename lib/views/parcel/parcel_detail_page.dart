@@ -160,8 +160,7 @@ class PackageDetailPageState extends State<PackageDetailPage>
                   ),
                 ),
                 Caption(
-                    str: localizationInfo!.currencySymbol +
-                        (parcelModel.packageValue! / 100).toStringAsFixed(2)),
+                    str: (parcelModel.packageValue! / 100).toStringAsFixed(2)),
               ],
             ),
           ),

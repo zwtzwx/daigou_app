@@ -485,15 +485,12 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
       isLoading ? userModel!.id.toString() : '',
       isLoading
           ? modelType == 0
-              ? localizationInfo!.currencySymbol +
-                  (vipPriceModel!.price / 100).toStringAsFixed(2)
+              ? (vipPriceModel!.price / 100).toStringAsFixed(2)
               : modelType == 1
-                  ? localizationInfo!.currencySymbol +
-                      (amount!).toStringAsFixed(2)
+                  ? (amount!).toStringAsFixed(2)
                   : modelType == 2
-                      ? localizationInfo!.currencySymbol +
-                          (orderModel!.discountPaymentFee / 100)
-                              .toStringAsFixed(2)
+                      ? (orderModel!.discountPaymentFee / 100)
+                          .toStringAsFixed(2)
                       : '0'
           : '0',
     ];

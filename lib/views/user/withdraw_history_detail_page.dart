@@ -83,8 +83,7 @@ class _WithdrawHistoryDetailPageState extends State<WithdrawHistoryDetailPage> {
             alignment: Alignment.center,
             child: Caption(
               fontSize: 22,
-              str: localModel!.currencySymbol +
-                  ((detailModel?.amount ?? 0) / 100).toStringAsFixed(2),
+              str: ((detailModel?.amount ?? 0) / 100).toStringAsFixed(2),
               color: ColorConfig.textRed,
             ),
           ),

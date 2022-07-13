@@ -217,10 +217,8 @@ class ParcelItemCell extends StatelessWidget {
                           ),
                           Gaps.vGap10,
                           Caption(
-                            str:
-                                '${model.packageName} ${localizationInfo!.currencySymbol}' +
-                                    (model.packageValue! / 100)
-                                        .toStringAsFixed(2),
+                            str: '${model.packageName}' +
+                                (model.packageValue! / 100).toStringAsFixed(2),
                           ),
                         ],
                       ),

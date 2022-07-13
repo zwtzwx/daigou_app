@@ -143,11 +143,6 @@ class RechargePageState extends State<RechargePage> {
                     fontSize: 14,
                   ),
                   Caption(
-                    str: localizationInfo?.currencySymbol ?? '',
-                    fontSize: 14,
-                    color: ColorConfig.textRed,
-                  ),
-                  Caption(
                     str: amount.toStringAsFixed(2),
                     color: ColorConfig.textRed,
                   ),
@@ -476,13 +471,6 @@ class RechargePageState extends State<RechargePage> {
                               overflow: TextOverflow.ellipsis,
                               text: TextSpan(
                                 children: <TextSpan>[
-                                  TextSpan(
-                                    text: localizationInfo?.currencySymbol,
-                                    style: const TextStyle(
-                                        color: ColorConfig.textRed,
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.w300),
-                                  ),
                                   TextSpan(
                                     text: myBalance.split('.').first,
                                     style: const TextStyle(

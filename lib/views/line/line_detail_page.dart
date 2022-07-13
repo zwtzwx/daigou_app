@@ -210,8 +210,7 @@ class LineDetailPageState extends State<LineDetailPage> {
               (detailLine!.mode == 1
                   ? Translation.t(context, '立方')
                   : localModel!.weightSymbol);
-      String expireFee = localModel!.currencySymbol +
-          (detailLine!.expireFee! / 100).toStringAsFixed(2);
+      String expireFee = (detailLine!.expireFee! / 100).toStringAsFixed(2);
       list.add(buildTitleAndContentCell(
           Translation.t(context, '计费重量'), countWeight,
           textColor: ColorConfig.textRed));
@@ -278,8 +277,7 @@ class LineDetailPageState extends State<LineDetailPage> {
               '）';
         }
         num price = item.price;
-        String contentStr =
-            localModel!.currencySymbol + (price / 100).toStringAsFixed(2);
+        String contentStr = (price / 100).toStringAsFixed(2);
         listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
       }
     } else if (detailLine!.mode == 2) {
@@ -305,7 +303,7 @@ class LineDetailPageState extends State<LineDetailPage> {
           } else if (price != 0) {
             priceStr = (price / 100).toStringAsFixed(2) + '/$contentSymbol';
           }
-          newPirces[titleStr] = localModel!.currencySymbol + priceStr;
+          newPirces[titleStr] = priceStr;
         }
       }
       for (var key in newPirces.keys) {
@@ -317,17 +315,15 @@ class LineDetailPageState extends State<LineDetailPage> {
       for (var item in model.prices!) {
         if (item.type == 3) {
           String titleStr = Translation.t(context, '单位价格');
-          String contentStr = localModel!.currencySymbol +
-              (item.price / 100).toStringAsFixed(2) +
-              '/$contentSymbol';
+          String contentStr =
+              (item.price / 100).toStringAsFixed(2) + '/$contentSymbol';
           listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
         } else {
           String titleStr = (item.start / 1000).toStringAsFixed(2) +
               '~' +
               (item.end / 1000).toStringAsFixed(2) +
               contentSymbol;
-          String contentStr = localModel!.currencySymbol +
-              (item.price / 100).toStringAsFixed(2);
+          String contentStr = (item.price / 100).toStringAsFixed(2);
           listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
         }
       }
@@ -341,8 +337,7 @@ class LineDetailPageState extends State<LineDetailPage> {
               contentSymbol +
               '）';
           num price = item.price;
-          String contentStr = localModel!.currencySymbol +
-              (price / 100).toStringAsFixed(2) +
+          String contentStr = (price / 100).toStringAsFixed(2) +
               '/' +
               (item.start / 1000).toStringAsFixed(2) +
               contentSymbol;
@@ -351,8 +346,7 @@ class LineDetailPageState extends State<LineDetailPage> {
           ++k;
           String titleStr = Translation.t(context, '续重') + k.toString();
           num price = item.price;
-          String contentStr = localModel!.currencySymbol +
-              (price / 100).toStringAsFixed(2) +
+          String contentStr = (price / 100).toStringAsFixed(2) +
               '/' +
               (item.unitWeight != null
                   ? (item.unitWeight! / 1000).toStringAsFixed(2)
@@ -405,8 +399,7 @@ class LineDetailPageState extends State<LineDetailPage> {
                 '${Translation.t(context, '首重')}(${(item.firstWeight / 1000).toStringAsFixed(2)}$contentSymbol)';
           }
           num? unitPrice = item.type == 6 ? item.firstWeight : item.unitWeight;
-          String contentStr = localModel!.currencySymbol +
-              ((item.price ?? 0) / 100).toStringAsFixed(2) +
+          String contentStr = ((item.price ?? 0) / 100).toStringAsFixed(2) +
               '/' +
               ((unitPrice ?? 0) / 1000).toStringAsFixed(2) +
               contentSymbol;
@@ -507,24 +500,20 @@ class LineDetailPageState extends State<LineDetailPage> {
           second = (item.value / 100).toStringAsFixed(2) + '%';
           break;
         case 2:
-          second = localModel!.currencySymbol +
-              (item.value / 100).toStringAsFixed(2);
+          second = (item.value / 100).toStringAsFixed(2);
           break;
         case 3:
-          second = localModel!.currencySymbol +
-              (item.value / 100).toStringAsFixed(2) +
+          second = (item.value / 100).toStringAsFixed(2) +
               '/${Translation.t(context, '箱')}';
           break;
         case 4:
-          second = localModel!.currencySymbol +
-              (item.value / 100).toStringAsFixed(2) +
+          second = (item.value / 100).toStringAsFixed(2) +
               '/' +
               localModel!.weightSymbol;
           third = '(${Translation.t(context, '计费重')})';
           break;
         case 5:
-          second = localModel!.currencySymbol +
-              (item.value / 100).toStringAsFixed(2) +
+          second = (item.value / 100).toStringAsFixed(2) +
               '/' +
               localModel!.weightSymbol;
           third = '(${Translation.t(context, '实重')})';
@@ -533,8 +522,6 @@ class LineDetailPageState extends State<LineDetailPage> {
           second = Translation.t(context, '申报价值') +
               (item.value / 100).toString() +
               '%';
-          // localModel.currencySymbol +
-          //     ((item.value / 10000) * (totalValue / 100)).toStringAsFixed(2);
           break;
         default:
       }
@@ -660,31 +647,21 @@ class LineDetailPageState extends State<LineDetailPage> {
               ' 时,';
         }
         if (item.type == 1) {
-          contentStr += '限定【按订单收费】' +
-              localModel!.currencySymbol +
-              (item.value / 100).toStringAsFixed(2);
+          contentStr += '限定【按订单收费】' + (item.value / 100).toStringAsFixed(2);
         } else if (item.type == 2) {
-          contentStr += '限定【按箱收费】' +
-              localModel!.currencySymbol +
-              (item.value / 100).toStringAsFixed(2);
+          contentStr += '限定【按箱收费】' + (item.value / 100).toStringAsFixed(2);
         } else if (item.type == 3) {
-          contentStr += '限定【按单位计费重量收费】' +
-              localModel!.currencySymbol +
-              (item.value / 100).toStringAsFixed(2);
+          contentStr += '限定【按单位计费重量收费】' + (item.value / 100).toStringAsFixed(2);
         } else if (item.type == 4) {
           contentStr += '限定【限制出仓】';
         }
         if (item.minCharge != 0) {
-          contentStr += '（最低收费' +
-              localModel!.currencySymbol +
-              (item.minCharge / 100).toStringAsFixed(2) +
-              ',';
+          contentStr +=
+              '（最低收费' + (item.minCharge / 100).toStringAsFixed(2) + ',';
         }
         if (item.maxCharge != 0) {
-          contentStr += '（最高收费' +
-              localModel!.currencySymbol +
-              (item.maxCharge / 100).toStringAsFixed(2) +
-              '）';
+          contentStr +=
+              '（最高收费' + (item.maxCharge / 100).toStringAsFixed(2) + '）';
         }
 
         contentList.add(contentStr);
@@ -699,8 +676,7 @@ class LineDetailPageState extends State<LineDetailPage> {
       if (detailLine!.maxRuleFee == 0) {
         contentStr += '无上限';
       } else {
-        contentStr += localModel!.currencySymbol +
-            (detailLine!.maxRuleFee / 100).toString();
+        contentStr += (detailLine!.maxRuleFee / 100).toString();
       }
       contentList.add(contentStr);
     }
