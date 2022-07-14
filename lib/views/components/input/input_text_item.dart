@@ -70,9 +70,11 @@ class _InputTextItemState extends State<InputTextItem> {
                                 color: ColorConfig.textRed,
                               )
                             : Gaps.empty,
-                        Text(
-                          Translation.t(context, widget.title),
-                          style: TextConfig.textDark14,
+                        Flexible(
+                          child: Text(
+                            Translation.t(context, widget.title),
+                            style: TextConfig.textDark14,
+                          ),
                         ),
                       ],
                     ),

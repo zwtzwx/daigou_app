@@ -55,6 +55,8 @@ class _MainButtonState extends State<MainButton> {
         color: widget.textColor,
         fontSize: widget.fontSize,
         fontWeight: widget.fontWeight,
+        alignment: TextAlign.center,
+        lines: 2,
       ),
     );
   }

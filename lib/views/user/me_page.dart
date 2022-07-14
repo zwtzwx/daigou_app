@@ -12,6 +12,7 @@ import 'package:jiyun_app_client/models/user_order_count_model.dart';
 import 'package:jiyun_app_client/models/user_vip_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
+import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -142,7 +143,7 @@ class MePageState extends State<MePage> {
           Container(
             padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
             child: GridView.builder(
-              itemCount: 8,
+              itemCount: 9,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -160,6 +161,7 @@ class MePageState extends State<MePage> {
   Widget buildBottomListCell(BuildContext context, int index) {
     List<String> titleList = [
       '个人资料',
+      '在线客服',
       '收货地址',
       '更改手机号',
       '更改邮箱',
@@ -170,6 +172,7 @@ class MePageState extends State<MePage> {
     ];
     List<String> iconList = [
       'AboutMe/info-icon',
+      'AboutMe/kefu',
       'AboutMe/adress-icon',
       'AboutMe/phone-icon',
       'AboutMe/emai-icon',
@@ -184,18 +187,21 @@ class MePageState extends State<MePage> {
           // 个人资料
           Routers.push('/MyProfilePage', context);
         } else if (index == 1) {
+          // 客服
+          BaseDialog.customerDialog(context);
+        } else if (index == 2) {
           // 收件地址
           Routers.push('/ReceiverAddressListPage', context, {'select': 0});
-        } else if (index == 2) {
-// 更改手机号
-          Routers.push('/ChangeMobileEmailPage', context, {'type': 1});
         } else if (index == 3) {
+          // 更改手机号
+          Routers.push('/ChangeMobileEmailPage', context, {'type': 1});
+        } else if (index == 4) {
           // 更改邮箱
           Routers.push('/ChangeMobileEmailPage', context, {'type': 2});
-        } else if (index == 4) {
+        } else if (index == 5) {
           // 交易记录
           Routers.push('/TransactionPage', context);
-        } else if (index == 5) {
+        } else if (index == 6) {
           // 代理
           if (agentStatus?.id == 2) {
             return;
@@ -205,16 +211,17 @@ class MePageState extends State<MePage> {
           } else {
             Routers.push('/AgentMemberPage', context);
           }
-        } else if (index == 6) {
+        } else if (index == 7) {
           // 关于我们
           Routers.push('/AboutMePage', context);
-        } else if (index == 7) {
+        } else if (index == 8) {
           // 退出登录
           showActionSheet(context);
         }
       },
       child: Container(
         color: Colors.white,
+        alignment: Alignment.center,
         child: Column(
           children: [
             LoadImage(
@@ -225,7 +232,9 @@ class MePageState extends State<MePage> {
             Gaps.vGap10,
             Caption(
               str: Translation.t(context, titleList[index]),
-            )
+              lines: 2,
+              alignment: TextAlign.center,
+            ),
           ],
         ),
       ),

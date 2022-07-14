@@ -168,7 +168,7 @@ class NoOwnerParcelPageState extends State<NoOwnerParcelPage> {
               ),
             ],
           ),
-          SizedBox(
+          Flexible(
             child: MainButton(
               text: '认领',
               onPressed: () {
@@ -176,7 +176,7 @@ class NoOwnerParcelPageState extends State<NoOwnerParcelPage> {
                     '/NoOwnerParcelDetailPage', context, {'order': model});
               },
             ),
-          )
+          ),
         ],
       ),
     );

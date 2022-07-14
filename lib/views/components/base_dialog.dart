@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +10,6 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
 import 'package:jiyun_app_client/models/parcel_box_model.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:keyboard_actions/external/platform_check/platform_check.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 
@@ -148,7 +149,7 @@ class BaseDialog {
                       String whatsappURlAndroid =
                           'whatsapp://send?phone=' + whatsapp + '&text=';
                       String whatappURLIos = "https://wa.me/$whatsapp?text=";
-                      if (PlatformCheck.isIOS) {
+                      if (Platform.isIOS) {
                         if (await canLaunchUrl(Uri.parse(whatappURLIos))) {
                           await launchUrl(Uri.parse(whatappURLIos));
                         }

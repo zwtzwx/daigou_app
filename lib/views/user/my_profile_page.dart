@@ -325,8 +325,6 @@ class MyProfilePageState extends State<MyProfilePage>
                                   Container(
                                     alignment: Alignment.centerLeft,
                                     height: 55,
-                                    width:
-                                        ScreenUtil().screenWidth - 25 - 90 - 66,
                                     child: Caption(
                                       // fontSize: 14,
                                       lines: 2,
@@ -437,7 +435,7 @@ class MyProfilePageState extends State<MyProfilePage>
                                           Translation.t(context, '请输入现居城市'),
                                       textAlign: TextAlign.left,
                                       contentPadding: const EdgeInsets.only(
-                                          top: 17, bottom: 0),
+                                          top: 19, bottom: 0),
                                       controller: _cityNameController,
                                       focusNode: _cityName,
                                       autoFocus: false,

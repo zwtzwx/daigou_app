@@ -143,52 +143,49 @@ class NoOwnerParcelDetailPageState extends State<NoOwnerParcelDetailPage>
   Widget buildSubViews() {
     var content = Column(
       children: <Widget>[
-        Row(
-          children: <Widget>[
-            SizedBox(
-              width: ScreenUtil().screenWidth,
-              child: InputTextItem(
-                  leftFlex: 3,
-                  rightFlex: 8,
-                  title: Translation.t(context, '快递单号'),
-                  inputText: Container(
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Expanded(
-                              flex: 1,
-                              child: Caption(
-                                alignment: TextAlign.left,
-                                str: headerStr,
-                              )),
-                          Expanded(
-                              flex: 6,
-                              child: NormalInput(
-                                hintText: Translation.t(context, '请输入中间单号'),
-                                contentPadding: const EdgeInsets.only(top: 17),
-                                textAlign: TextAlign.left,
-                                controller: _projectNameController,
-                                focusNode: _projectName,
-                                autoFocus: false,
-                                keyboardType: TextInputType.text,
-                                onSubmitted: (res) {
-                                  FocusScope.of(context)
-                                      .requestFocus(blankNode);
-                                },
-                                onChanged: (res) {
-                                  courierNumber = res;
-                                },
-                              )),
-                          Expanded(
-                              flex: 1,
-                              child: Caption(
-                                str: footerStr,
-                              )),
-                        ],
-                      ))),
-            )
-          ],
+        SizedBox(
+          width: ScreenUtil().screenWidth,
+          child: InputTextItem(
+            leftFlex: 3,
+            rightFlex: 8,
+            title: Translation.t(context, '快递单号'),
+            inputText: Container(
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Expanded(
+                      flex: 1,
+                      child: Caption(
+                        alignment: TextAlign.left,
+                        str: headerStr,
+                      )),
+                  Expanded(
+                      flex: 6,
+                      child: NormalInput(
+                        hintText: Translation.t(context, '请输入中间单号'),
+                        contentPadding: const EdgeInsets.only(top: 17),
+                        textAlign: TextAlign.left,
+                        controller: _projectNameController,
+                        focusNode: _projectName,
+                        autoFocus: false,
+                        keyboardType: TextInputType.text,
+                        onSubmitted: (res) {
+                          FocusScope.of(context).requestFocus(blankNode);
+                        },
+                        onChanged: (res) {
+                          courierNumber = res;
+                        },
+                      )),
+                  Expanded(
+                      flex: 1,
+                      child: Caption(
+                        str: footerStr,
+                      )),
+                ],
+              ),
+            ),
+          ),
         ),
         const SizedBox(
           height: 15,

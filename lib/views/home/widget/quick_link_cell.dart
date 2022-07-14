@@ -72,7 +72,6 @@ IndexedWidgetBuilder _buildGrideBtnView(context) {
         }
       },
       child: Container(
-        margin: const EdgeInsets.all(2),
         padding: const EdgeInsets.symmetric(horizontal: 6),
         decoration: const BoxDecoration(
           color: ColorConfig.mainAlpha,

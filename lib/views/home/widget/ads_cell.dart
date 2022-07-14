@@ -114,7 +114,7 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
     return Stack(
       children: [
         SizedBox(
-          height: ScreenUtil().setHeight(160),
+          height: ScreenUtil().setHeight(190),
           child: Swiper(
             onTap: (index) {
               AdsPicModel model = adList[index];
@@ -164,9 +164,12 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
             itemCount: adList.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (BuildContext context, int index) {
-              return LoadImage(
-                adList[index].fullPath,
-                fit: BoxFit.fitWidth,
+              return Container(
+                alignment: Alignment.topLeft,
+                child: LoadImage(
+                  adList[index].fullPath,
+                  fit: BoxFit.fitWidth,
+                ),
               );
             },
             autoplay: adList.length > 1,

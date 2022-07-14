@@ -70,20 +70,22 @@ class _ModuleCellState extends State<ModuleCell> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        buildReceiverView(),
-        Gaps.vGap15,
-        buildOrderView(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Column(
+        children: [
+          buildReceiverView(),
+          Gaps.vGap20,
+          buildOrderView(),
+        ],
+      ),
     );
   }
 
   // 收货员
   buildReceiverView() {
     return Container(
-      margin: EdgeInsets.only(
-          left: 10, right: 10, top: ScreenUtil().setHeight(145)),
+      margin: EdgeInsets.only(top: ScreenUtil().setHeight(175)),
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -111,14 +113,16 @@ class _ModuleCellState extends State<ModuleCell> {
               )
             ],
           ),
-          MainButton(
-            text: Translation.t(context, '开始集运'),
-            backgroundColor: const Color(0xFFF74055),
-            onPressed: () async {
-              ApplicationEvent.getInstance()
-                  .event
-                  .fire(ChangePageIndexEvent(pageName: 'middle'));
-            },
+          Flexible(
+            child: MainButton(
+              text: Translation.t(context, '开始集运'),
+              backgroundColor: const Color(0xFFF74055),
+              onPressed: () async {
+                ApplicationEvent.getInstance()
+                    .event
+                    .fire(ChangePageIndexEvent(pageName: 'middle'));
+              },
+            ),
           ),
         ],
       ),
@@ -136,7 +140,7 @@ class _ModuleCellState extends State<ModuleCell> {
           crossAxisSpacing: 0.0, //水平子Widget之间间距
           mainAxisSpacing: 0.0, //垂直子Widget之间间距
           crossAxisCount: 4, //一行的Widget数量
-          // childAspectRatio: 3 / 4,
+          childAspectRatio: 3 / 2.8,
         ), // 宽高比例
         itemCount: 8,
         itemBuilder: _buildGrideBtnViewFirst());
@@ -229,7 +233,6 @@ class _ModuleCellState extends State<ModuleCell> {
         child: Container(
           color: ColorConfig.white,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Stack(children: <Widget>[
                 Container(
@@ -273,8 +276,8 @@ class _ModuleCellState extends State<ModuleCell> {
               ]),
               Text(
                 Translation.t(context, listDesTitle[index]),
-                style:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                style: const TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
               )
             ],
           ),

@@ -128,11 +128,13 @@ class HelpSupportPageState extends State<HelpSupportPage>
                   )
                 ],
               ),
-              MainButton(
-                text: Translation.t(context, '在线客服'),
-                onPressed: () async {
-                  BaseDialog.customerDialog(context);
-                },
+              Flexible(
+                child: MainButton(
+                  text: Translation.t(context, '在线客服'),
+                  onPressed: () async {
+                    BaseDialog.customerDialog(context);
+                  },
+                ),
               ),
             ],
           ),
@@ -146,6 +148,7 @@ class HelpSupportPageState extends State<HelpSupportPage>
       margin: const EdgeInsets.symmetric(vertical: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildHelpItem(
             'Help/how',
@@ -173,27 +176,31 @@ class HelpSupportPageState extends State<HelpSupportPage>
   }
 
   Widget buildHelpItem(String img, String label, int type) {
-    return GestureDetector(
-      onTap: () {
-        if (type > 0) {
-          Routers.push('/QuestionPage', context, {'type': type});
-        } else {
-          Routers.push('/SuggestPage', context);
-        }
-      },
-      child: Column(
-        children: [
-          LoadImage(
-            img,
-            width: 46,
-            height: 46,
-          ),
-          Gaps.vGap5,
-          Caption(
-            str: label,
-            fontSize: 14,
-          )
-        ],
+    return Flexible(
+      child: GestureDetector(
+        onTap: () {
+          if (type > 0) {
+            Routers.push('/QuestionPage', context, {'type': type});
+          } else {
+            Routers.push('/SuggestPage', context);
+          }
+        },
+        child: Column(
+          children: [
+            LoadImage(
+              img,
+              width: 46,
+              height: 46,
+            ),
+            Gaps.vGap5,
+            Caption(
+              str: label,
+              fontSize: 14,
+              lines: 2,
+              alignment: TextAlign.center,
+            )
+          ],
+        ),
       ),
     );
   }

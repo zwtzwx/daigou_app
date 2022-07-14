@@ -229,24 +229,28 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
                             ],
                           ),
                         ),
-                        SizedBox(
-                          child: Row(
-                            children: [
-                              Caption(
-                                str: Translation.t(context, '已选{count}件',
-                                    value: {'count': selectedQty}),
-                                fontSize: 14,
-                                color: ColorConfig.textGrayC9,
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(left: 10),
-                                height: 40,
-                                child: MainButton(
-                                  text: '申请打包合箱',
-                                  onPressed: onSubmit,
+                        Flexible(
+                          child: SizedBox(
+                            child: Row(
+                              children: [
+                                Caption(
+                                  str: Translation.t(context, '已选{count}件',
+                                      value: {'count': selectedQty}),
+                                  fontSize: 14,
+                                  color: ColorConfig.textGrayC9,
                                 ),
-                              )
-                            ],
+                                Flexible(
+                                  child: Container(
+                                    margin: const EdgeInsets.only(left: 10),
+                                    height: 40,
+                                    child: MainButton(
+                                      text: '申请打包合箱',
+                                      onPressed: onSubmit,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

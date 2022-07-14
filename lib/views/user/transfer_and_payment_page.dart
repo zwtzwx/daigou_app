@@ -468,6 +468,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                 child: Caption(
                   str: Translation.t(context, '复制'),
                   fontSize: 13,
+                  color: Colors.white,
                 ),
               ),
             )
@@ -545,6 +546,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
                       child: Caption(
                         str: Translation.t(context, '复制'),
                         fontSize: 13,
+                        color: Colors.white,
                       ),
                     ),
                   )
@@ -561,26 +563,17 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          SizedBox(
-            height: 50,
-            child: Row(
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  height: 50,
-                  width: 100,
-                  child: Caption(
-                    str: Translation.t(context, '温馨提示'),
-                    fontSize: 14,
-                  ),
-                ),
-              ],
+          Container(
+            alignment: Alignment.centerLeft,
+            width: 100,
+            child: Caption(
+              str: Translation.t(context, '温馨提示'),
+              fontSize: 14,
+              lines: 2,
             ),
           ),
           Container(
             alignment: Alignment.centerLeft,
-            height: warmHeight + 28,
-            width: ScreenUtil().screenWidth - 60 - 80 - 20,
             child: Caption(
               lines: 99,
               str: payModel!.remark,

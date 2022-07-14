@@ -61,12 +61,7 @@ class RechargePageState extends State<RechargePage> {
     super.initState();
     localizationInfo =
         Provider.of<Model>(context, listen: false).localizationInfo;
-    EasyLoading.show();
-    created();
-
-    /*
-      支付回调
-     */
+    // 微信支付回调
     wechatResponse =
         weChatResponseEventHandler.distinct((a, b) => a == b).listen((res) {
       if (res is WeChatPaymentResponse) {
@@ -77,7 +72,7 @@ class RechargePageState extends State<RechargePage> {
         }
       }
     });
-    EasyLoading.dismiss();
+    created();
   }
 
   created() async {
@@ -106,6 +101,8 @@ class RechargePageState extends State<RechargePage> {
   @override
   void dispose() {
     wechatResponse?.cancel();
+    _otherPriceController.dispose();
+    _otherPriceNode.dispose();
     super.dispose();
   }
 
@@ -121,7 +118,6 @@ class RechargePageState extends State<RechargePage> {
           str: Translation.t(context, '余额'),
           color: ColorConfig.white,
           fontSize: 18,
-          fontWeight: FontWeight.w400,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
@@ -256,6 +252,7 @@ class RechargePageState extends State<RechargePage> {
             focusNode: _otherPriceNode,
             hintText: Translation.t(context, '其它任意金额'),
             isCollapsed: true,
+            textInputAction: TextInputAction.done,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             contentPadding: const EdgeInsets.symmetric(
               vertical: 10,

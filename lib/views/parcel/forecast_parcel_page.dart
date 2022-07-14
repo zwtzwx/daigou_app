@@ -119,14 +119,11 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
   //加载页面所需要的数据
   loadInitData() async {
     var _expressCompanyList = await ExpressCompanyService.getList();
-    var _goodsPropsList = await GoodsService.getPropList(
-        {'country_id': selectedCountryModel?.id});
     var _single = await GoodsService.getPropConfig();
     var _terms = await CommonService.getTerms();
     if (mounted) {
       setState(() {
         expressCompanyList = _expressCompanyList;
-        goodsPropsList = _goodsPropsList;
         propSingle = _single;
         terms = _terms;
         formData.add(ParcelModel(
@@ -134,10 +131,21 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
           packageValue: 1,
           expressId: _expressCompanyList[0].id,
           expressName: _expressCompanyList[0].name,
-          prop: [_goodsPropsList[0]],
         ));
+        getProps();
       });
     }
+  }
+
+  getProps() async {
+    var _goodsPropsList = await GoodsService.getPropList(
+        {'country_id': selectedCountryModel?.id});
+    setState(() {
+      goodsPropsList = _goodsPropsList;
+      for (var item in formData) {
+        item.prop = [goodsPropsList[0]];
+      }
+    });
   }
 
   // 根据国家获取仓库列表
@@ -169,51 +177,53 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
       body: isloading
           ? SingleChildScrollView(
               child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 buildCustomViews(context),
                 buildListView(context),
                 buildBottomListView(),
-                Container(
-                  height: 55,
-                  color: ColorConfig.bgGray,
-                  child: Row(
-                    children: <Widget>[
-                      TextButton.icon(
-                          style: ButtonStyle(
-                            overlayColor: MaterialStateColor.resolveWith(
-                                (states) => Colors.transparent),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              agreementBool = !agreementBool;
-                            });
-                          },
-                          icon: agreementBool
-                              ? const Icon(
-                                  Icons.check_box_outlined,
-                                  color: ColorConfig.green,
-                                )
-                              : const Icon(
-                                  Icons.check_box_outline_blank_outlined,
-                                  color: ColorConfig.textGray,
-                                ),
-                          label: Caption(
-                            str: Translation.t(context, '已查看并同意'),
-                          )),
-                      GestureDetector(
-                        onTap: () {
-                          showTipsView();
-                        },
-                        child: Caption(
-                          str: '《${Translation.t(context, '包裹转运验货协议')}》',
-                          color: HexToColor('#fe8b25'),
+                Gaps.vGap15,
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: <Widget>[
+                    TextButton.icon(
+                        style: ButtonStyle(
+                          overlayColor: MaterialStateColor.resolveWith(
+                              (states) => Colors.transparent),
                         ),
-                      )
-                    ],
-                  ),
+                        onPressed: () {
+                          setState(() {
+                            agreementBool = !agreementBool;
+                          });
+                        },
+                        icon: agreementBool
+                            ? const Icon(
+                                Icons.check_box_outlined,
+                                color: ColorConfig.green,
+                              )
+                            : const Icon(
+                                Icons.check_box_outline_blank_outlined,
+                                color: ColorConfig.textGray,
+                              ),
+                        label: Caption(
+                          str: Translation.t(context, '已查看并同意'),
+                        )),
+                    GestureDetector(
+                      onTap: () {
+                        showTipsView();
+                      },
+                      child: Caption(
+                        str: '《${Translation.t(context, '包裹转运验货协议')}》',
+                        color: HexToColor('#fe8b25'),
+                      ),
+                    )
+                  ],
                 ),
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  margin: const EdgeInsets.only(
+                    left: 15,
+                    right: 15,
+                  ),
                   height: 50,
                   width: double.infinity,
                   child: MainButton(
@@ -338,6 +348,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                 setState(() {
                   selectedCountryModel = s;
                   getWarehouseList();
+                  getProps();
                 });
               },
               child: Caption(
@@ -566,6 +577,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
               },
               child: InputTextItem(
                   title: Translation.t(context, '快递名称'),
+                  leftFlex: 2,
                   inputText: Container(
                     alignment: Alignment.center,
                     margin: const EdgeInsets.only(left: 11),
@@ -596,6 +608,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
             ),
             InputTextItem(
                 title: Translation.t(context, '快递单号'),
+                leftFlex: 2,
                 inputText: NormalInput(
                   hintText: Translation.t(context, '请输入快递单号'),
                   contentPadding: const EdgeInsets.only(top: 17, right: 15),
@@ -795,7 +808,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: ScreenUtil().setHeight(70),
+              width: double.infinity,
+              height: ScreenUtil().setHeight(110),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: const BannerBox(imgType: 'forecast_image'),

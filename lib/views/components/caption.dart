@@ -10,7 +10,7 @@ class Caption extends StatefulWidget {
       this.fontWeight = FontWeight.w400,
       this.lines = 1,
       this.decoration,
-      this.alignment = TextAlign.right});
+      this.alignment = TextAlign.left});
 
   final String str;
   final int lines;
@@ -37,6 +37,7 @@ class CaptionState extends State<Caption> {
       ),
       overflow: TextOverflow.ellipsis,
       maxLines: widget.lines,
+      textAlign: widget.alignment,
     );
   }
 }

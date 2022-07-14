@@ -74,7 +74,8 @@ class Routers {
     '/CommentListPage',
     '/LineAllPage',
     '/ExpressQueryPage',
-    '/StationPage'
+    '/StationPage',
+    '/CountryListPage'
   ];
 
   // 路由声明

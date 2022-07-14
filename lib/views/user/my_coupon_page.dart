@@ -88,7 +88,6 @@ class MyCouponPageState extends State<MyCouponPage>
           str: Translation.t(context, '优惠券'),
           color: ColorConfig.textBlack,
           fontSize: 18,
-          fontWeight: FontWeight.w400,
         ),
         bottom: TabBar(
             labelColor: ColorConfig.primary,

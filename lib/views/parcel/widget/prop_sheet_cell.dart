@@ -59,8 +59,8 @@ class _PropSheetCellState extends State<PropSheetCell> {
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisSpacing: 20.0, //水平子Widget之间间距
                     mainAxisSpacing: 20.0, //垂直子Widget之间间距
-                    crossAxisCount: 3, //一行的Widget数量
-                    childAspectRatio: 2.6,
+                    crossAxisCount: 2, //一行的Widget数量
+                    childAspectRatio: 4 / 1,
                   ), // 宽高比例
                   itemCount: widget.goodsPropsList.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -83,6 +83,7 @@ class _PropSheetCellState extends State<PropSheetCell> {
                         });
                       },
                       child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
                             color: selectProp.contains(propmodel.id)
                                 ? ColorConfig.primary
@@ -98,6 +99,7 @@ class _PropSheetCellState extends State<PropSheetCell> {
                             Caption(
                               fontSize: 14,
                               str: propmodel.name!,
+                              lines: 2,
                               color: selectProp.contains(propmodel.id)
                                   ? Colors.white
                                   : ColorConfig.textDark,

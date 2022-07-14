@@ -482,11 +482,11 @@ class LineDetailPageState extends State<LineDetailPage> {
     List<Widget> viewList = [];
     viewList.add(Container(
       alignment: Alignment.centerLeft,
-      height: 30,
       child: Caption(
         str: Translation.t(context, '渠道增值服务'),
         fontSize: 20,
         fontWeight: FontWeight.bold,
+        lines: 2,
       ),
     ));
     for (var item in model.services!) {
@@ -526,16 +526,14 @@ class LineDetailPageState extends State<LineDetailPage> {
         default:
       }
       var view = SizedBox(
-        height: 30,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             SizedBox(
-              height: 30,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       Caption(
                         str: item.name,
@@ -543,75 +541,76 @@ class LineDetailPageState extends State<LineDetailPage> {
                       Caption(
                           str: item.isForced == 0
                               ? '（${Translation.t(context, '可选')}）'
-                              : '（${Translation.t(context, '必选')}'),
+                              : '（${Translation.t(context, '必选')}）'),
                       item.remark.isNotEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.only(left: 0),
-                              child: IconButton(
-                                  icon: const Icon(
-                                    Icons.error_outline_outlined,
-                                    color: ColorConfig.green,
-                                    size: 25,
-                                  ),
-                                  onPressed: () {
-                                    showTipsView(item);
-                                  }),
+                          ? InkResponse(
+                              child: const Icon(
+                                Icons.error_outline_outlined,
+                                color: ColorConfig.green,
+                                size: 25,
+                              ),
+                              onTap: () {
+                                showTipsView(item);
+                              },
                             )
                           : Container(),
                     ],
                   ),
-                  Container(
-                    height: 49,
-                    alignment: Alignment.bottomRight,
-                    child: RichText(
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: first,
-                            style: const TextStyle(
+                  Flexible(
+                    child: Container(
+                      alignment: Alignment.bottomRight,
+                      child: RichText(
+                        maxLines: 2,
+                        textAlign: TextAlign.right,
+                        overflow: TextOverflow.ellipsis,
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: first,
+                              style: const TextStyle(
+                                  color: ColorConfig.textDark,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            const TextSpan(
+                              text: ' ',
+                              style: TextStyle(
+                                color: ColorConfig.textBlack,
+                                fontSize: 10.0,
+                              ),
+                            ),
+                            TextSpan(
+                              text: second,
+                              style: const TextStyle(
+                                color: ColorConfig.textBlack,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                            const TextSpan(
+                              text: ' ',
+                              style: TextStyle(
+                                color: ColorConfig.textBlack,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            TextSpan(
+                              text: third,
+                              style: const TextStyle(
                                 color: ColorConfig.textDark,
                                 fontSize: 15,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          const TextSpan(
-                            text: ' ',
-                            style: TextStyle(
-                              color: ColorConfig.textBlack,
-                              fontSize: 10.0,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
-                          ),
-                          TextSpan(
-                            text: second,
-                            style: const TextStyle(
-                              color: ColorConfig.textBlack,
-                              fontSize: 15.0,
-                            ),
-                          ),
-                          const TextSpan(
-                            text: ' ',
-                            style: TextStyle(
-                              color: ColorConfig.textBlack,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TextSpan(
-                            text: third,
-                            style: const TextStyle(
-                              color: ColorConfig.textDark,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
+            Gaps.vGap10,
           ],
         ),
       );
@@ -687,11 +686,11 @@ class LineDetailPageState extends State<LineDetailPage> {
     List<Widget> textList = [];
     textList.add(Container(
       alignment: Alignment.centerLeft,
-      height: 30,
       child: Caption(
         str: Translation.t(context, '渠道限制规则'),
         fontSize: 20,
         fontWeight: FontWeight.bold,
+        lines: 2,
       ),
     ));
     for (var item in list) {

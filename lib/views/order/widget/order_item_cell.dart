@@ -313,13 +313,15 @@ class OrderItemCell extends StatelessWidget {
               )
             : Gaps.empty,
         orderModel.status == 4
-            ? Container(
-                padding: const EdgeInsets.only(left: 10),
-                child: MainButton(
-                  text: '确认收货',
-                  onPressed: () {
-                    onSign(context);
-                  },
+            ? Flexible(
+                child: Container(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: MainButton(
+                    text: '确认收货',
+                    onPressed: () {
+                      onSign(context);
+                    },
+                  ),
                 ),
               )
             : Gaps.empty,

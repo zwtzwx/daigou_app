@@ -399,6 +399,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
     return baseInfoItem(
       '${Translation.t(context, '包裹')} ${index + 1}',
       labelColor: Colors.black,
+      leftFlex: 0,
       // bottom: index == model!.boxes.length - 1 ? 0 : 15,
       content: Expanded(
         child: Column(
@@ -641,6 +642,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
     String? text,
     Widget? content,
     Color? labelColor,
+    int? leftFlex,
     CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
     bool redText = false,
   }) {
@@ -650,9 +652,13 @@ class OrderDetailPageState extends State<OrderDetailPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: crossAxisAlignment,
         children: [
-          caption.Caption(
-            str: Translation.t(context, label),
-            color: labelColor ?? ColorConfig.textGray,
+          Flexible(
+            flex: leftFlex ?? 1,
+            child: caption.Caption(
+              str: Translation.t(context, label),
+              color: labelColor ?? ColorConfig.textGray,
+              lines: 2,
+            ),
           ),
           content ??
               caption.Caption(
@@ -682,11 +688,13 @@ class OrderDetailPageState extends State<OrderDetailPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            PlainButton(
-              text: '联系客服',
-              onPressed: () {
-                BaseDialog.customerDialog(context);
-              },
+            Flexible(
+              child: PlainButton(
+                text: '联系客服',
+                onPressed: () {
+                  BaseDialog.customerDialog(context);
+                },
+              ),
             ),
             Gaps.hGap10,
             [4, 5].contains(model?.status)
@@ -719,9 +727,11 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                   )
                 : Gaps.empty,
             model?.status == 4
-                ? MainButton(
-                    text: '确认收货',
-                    onPressed: onSign,
+                ? Flexible(
+                    child: MainButton(
+                      text: '确认收货',
+                      onPressed: onSign,
+                    ),
                   )
                 : Gaps.empty,
             model?.status == 5
@@ -887,7 +897,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
               padding: const EdgeInsets.only(top: 30, left: 15),
               width: ScreenUtil().screenWidth,
               child: caption.Caption(
-                str: statusStr,
+                str: Translation.t(context, statusStr),
                 color: ColorConfig.white,
                 fontSize: 20,
                 fontWeight: FontWeight.w500,

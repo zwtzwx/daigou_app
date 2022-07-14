@@ -500,14 +500,18 @@ class VipCenterPageState extends State<VipCenterPage> {
                         fontSize: 13,
                         color: ColorConfig.vipNormal,
                       ),
-                      GestureDetector(
-                        child: Caption(
-                          str: Translation.t(context, '距离下一等级还差{cmount}成长值',
-                                  value: {
-                                    'count': firstNum < 0 ? 0 : firstNum
-                                  }) +
-                              ' >',
-                          color: ColorConfig.vipNormal,
+                      Gaps.hGap10,
+                      Flexible(
+                        child: GestureDetector(
+                          child: Caption(
+                            str: Translation.t(context, '距离下一等级还差{cmount}成长值',
+                                    value: {
+                                      'count': firstNum < 0 ? 0 : firstNum
+                                    }) +
+                                ' >',
+                            color: ColorConfig.vipNormal,
+                            lines: 2,
+                          ),
                         ),
                       ),
                     ],

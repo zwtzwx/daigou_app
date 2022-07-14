@@ -84,7 +84,7 @@ class LineQueryState extends State<LineQueryPage>
   void getWarehouse() async {
     EasyLoading.show();
     var data = await WarehouseService.getList();
-    var propData = await GoodsService.getPropList();
+
     var _single = await GoodsService.getPropConfig();
     EasyLoading.dismiss();
     setState(() {
@@ -100,8 +100,17 @@ class LineQueryState extends State<LineQueryPage>
           }
         }
       }
-      propList = propData;
+      getProps();
       isLoading = true;
+    });
+  }
+
+  getProps() async {
+    var propData = await GoodsService.getPropList({
+      'country_id': selectCountry?.id,
+    });
+    setState(() {
+      propList = propData;
     });
   }
 
@@ -112,8 +121,8 @@ class LineQueryState extends State<LineQueryPage>
 
   // 选择国家
   showPickerDestion(BuildContext context) async {
-    var s = await Routers.push('/CountryListPage', context,
-        {'warehouseId': selectWareHouse!.id, 'showArea': 1});
+    var s = await Navigator.pushNamed(context, '/CountryListPage',
+        arguments: {'warehouseId': selectWareHouse!.id, 'showArea': 1});
     if (s == null) return;
     setState(() {
       if (s is Map) {
@@ -121,10 +130,12 @@ class LineQueryState extends State<LineQueryPage>
         area = s['area'];
         subarea = s['subArea'];
       } else {
-        selectCountry = s;
+        selectCountry = (s as CountryModel);
         area = null;
         subarea = null;
       }
+      selectPropList.clear();
+      getProps();
     });
   }
 

@@ -176,31 +176,38 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
             str: Translation.t(context, '寄件到仓库'),
             fontSize: 16,
           ),
-          GestureDetector(
-            onTap: () {
-              Routers.push('/StationPage', context);
-            },
-            child: Row(
-              children: [
-                Caption(
-                  str: Translation.t(context, '查看海外自提点地址'),
-                  color: ColorConfig.main,
-                  fontSize: 12,
-                ),
-                Gaps.hGap10,
-                ClipOval(
-                  child: Container(
-                    color: ColorConfig.main,
-                    width: 12,
-                    height: 12,
-                    child: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 10,
-                      color: Colors.white,
+          Gaps.hGap10,
+          Flexible(
+            child: GestureDetector(
+              onTap: () {
+                Routers.push('/StationPage', context);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Flexible(
+                    child: Caption(
+                      str: Translation.t(context, '查看海外自提点地址'),
+                      color: ColorConfig.main,
+                      fontSize: 12,
+                      lines: 2,
                     ),
                   ),
-                ),
-              ],
+                  Gaps.hGap10,
+                  ClipOval(
+                    child: Container(
+                      color: ColorConfig.main,
+                      width: 12,
+                      height: 12,
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 10,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -279,6 +286,7 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
                 str: Translation.t(context, labels[i]),
                 color: ColorConfig.textGray,
                 fontSize: 16,
+                lines: 3,
               ),
             ),
             Expanded(

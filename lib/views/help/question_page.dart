@@ -47,7 +47,7 @@ class QuestionPageState extends State<QuestionPage> {
         _pageTitle = '禁运物品';
         break;
       case 3:
-        _pageTitle = '入门教程';
+        _pageTitle = '如何下单';
         break;
     }
     setState(() {

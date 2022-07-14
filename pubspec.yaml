@@ -48,7 +48,6 @@ dependencies:
   cached_network_image: ^3.2.0
   flutter_swiper_null_safety: ^1.0.2 #轮播图
   url_launcher: ^6.0.20
-  keyboard_actions: ^3.4.0 #键盘
   image_gallery_saver: ^1.6.9
   permission_handler: ^9.2.0
   flutter_picker: ^2.0.2

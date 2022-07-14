@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jiyun_app_client/models/self_pickup_station_order_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
-import 'package:keyboard_actions/keyboard_actions.dart';
 
 class Util {
   static String getTimeDuration(String comTime) {
@@ -48,31 +47,6 @@ class Util {
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     } else {}
-  }
-
-  static KeyboardActionsConfig getKeyboardActionsConfig(List<FocusNode> list) {
-    return KeyboardActionsConfig(
-        keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
-        keyboardBarColor: Colors.grey[200],
-        nextFocus: true,
-        actions: List.generate(
-          list.length,
-          (i) => KeyboardActionsItem(
-            focusNode: list[i],
-            toolbarButtons: [
-              (node) {
-                return GestureDetector(
-                  onTap: () => node.unfocus(),
-                  child: Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.all(8.0),
-                    child: const Text("关闭"),
-                  ),
-                );
-              }
-            ],
-          ),
-        ));
   }
 
   static void showSnackBar(BuildContext context, String msg,

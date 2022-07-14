@@ -284,8 +284,8 @@ class PrepaidListState extends State<PrepaidList> {
                               ),
                               Gaps.hGap5,
                               model.settled == 0
-                                  ? const Caption(
-                                      str: '等待确认',
+                                  ? Caption(
+                                      str: Translation.t(context, '等待确认'),
                                       fontSize: 13,
                                       color: ColorConfig.textRed,
                                     )

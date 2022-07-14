@@ -1,8 +1,9 @@
+import 'dart:io';
+
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
 import 'package:flutter/material.dart';
-import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:flutter/foundation.dart';
+import 'package:jiyun_app_client/views/components/keyboard_number_done.dart';
 
 class BaseInput extends StatefulWidget {
   const BaseInput(
@@ -14,7 +15,6 @@ class BaseInput extends StatefulWidget {
       this.keyboardType = TextInputType.text,
       this.hintText = "",
       required this.focusNode,
-      this.config,
       this.keyName,
       this.suffix,
       this.isScureText = false,
@@ -44,7 +44,6 @@ class BaseInput extends StatefulWidget {
   final TextInputType keyboardType;
   final String hintText;
   final FocusNode? focusNode;
-  final KeyboardActionsConfig? config;
   final Widget? suffix;
   final TextStyle hintStyle;
   final bool isScureText;
@@ -71,6 +70,7 @@ class BaseInput extends StatefulWidget {
 class _BaseInputState extends State<BaseInput> {
   late bool _isShowRemove;
   bool _isFoucsed = false;
+  KeyboardDone? _keyboardDone;
 
   @override
   void initState() {
@@ -94,10 +94,15 @@ class _BaseInputState extends State<BaseInput> {
         });
       });
     }
-
-    if (widget.config != null && defaultTargetPlatform == TargetPlatform.iOS) {
+    bool isNumberKeybord = [
+      const TextInputType.numberWithOptions(decimal: true),
+      TextInputType.number
+    ].contains(widget.keyboardType);
+    print(isNumberKeybord);
+    if (Platform.isIOS && widget.focusNode != null && isNumberKeybord) {
       // 因Android平台输入法兼容问题，所以只配置IOS平台
-      // FormKeyboardActions.setKeyboardActions(context, widget.config);
+      _keyboardDone = KeyboardDone(context, widget.focusNode!);
+      _keyboardDone!.initState();
     }
   }
 

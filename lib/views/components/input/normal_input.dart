@@ -17,6 +17,7 @@ class NormalInput extends StatefulWidget {
       this.prefixIcon,
       this.textAlign = TextAlign.left,
       this.onChanged,
+      this.isScureText = false,
       this.onSubmitted,
       this.contentPadding,
       this.textInputAction = TextInputAction.next})
@@ -27,6 +28,7 @@ class NormalInput extends StatefulWidget {
   final int maxLines;
   final bool autoFocus;
   final bool board;
+  final bool isScureText;
   final TextInputType keyboardType;
   final String hintText;
   final FocusNode focusNode;
@@ -64,6 +66,7 @@ class _NormalInput extends State<NormalInput> {
       autoFocus: widget.autoFocus,
       focusNode: widget.focusNode,
       prefixIcon: widget.prefixIcon,
+      isScureText: widget.isScureText,
       onChanged: widget.onChanged,
       onSubmitted: widget.onSubmitted,
       textInputAction: widget.textInputAction,
