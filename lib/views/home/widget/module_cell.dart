@@ -278,6 +278,8 @@ class _ModuleCellState extends State<ModuleCell> {
                 Translation.t(context, listDesTitle[index]),
                 style: const TextStyle(fontSize: 14),
                 textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               )
             ],
           ),

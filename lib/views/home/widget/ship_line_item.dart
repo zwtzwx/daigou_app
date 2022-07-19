@@ -149,7 +149,7 @@ Widget getSecondLineDetail(
   }
   var view1 = datalist.isNotEmpty
       ? RichText(
-          maxLines: 2,
+          maxLines: 1,
           overflow: TextOverflow.ellipsis,
           text: TextSpan(children: <TextSpan>[
             TextSpan(

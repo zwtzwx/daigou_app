@@ -143,7 +143,7 @@ class MePageState extends State<MePage> {
           Container(
             padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
             child: GridView.builder(
-              itemCount: 9,
+              itemCount: 8,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -163,7 +163,6 @@ class MePageState extends State<MePage> {
       '个人资料',
       '在线客服',
       '收货地址',
-      '更改手机号',
       '更改邮箱',
       '交易记录',
       agentStatus?.name ?? '申请代理',
@@ -174,7 +173,6 @@ class MePageState extends State<MePage> {
       'AboutMe/info-icon',
       'AboutMe/kefu',
       'AboutMe/adress-icon',
-      'AboutMe/phone-icon',
       'AboutMe/emai-icon',
       'AboutMe/pay-record-icon',
       'AboutMe/proxy-icon',
@@ -193,15 +191,12 @@ class MePageState extends State<MePage> {
           // 收件地址
           Routers.push('/ReceiverAddressListPage', context, {'select': 0});
         } else if (index == 3) {
-          // 更改手机号
-          Routers.push('/ChangeMobileEmailPage', context, {'type': 1});
-        } else if (index == 4) {
           // 更改邮箱
           Routers.push('/ChangeMobileEmailPage', context, {'type': 2});
-        } else if (index == 5) {
+        } else if (index == 4) {
           // 交易记录
           Routers.push('/TransactionPage', context);
-        } else if (index == 6) {
+        } else if (index == 5) {
           // 代理
           if (agentStatus?.id == 2) {
             return;
@@ -211,10 +206,10 @@ class MePageState extends State<MePage> {
           } else {
             Routers.push('/AgentMemberPage', context);
           }
-        } else if (index == 7) {
+        } else if (index == 6) {
           // 关于我们
           Routers.push('/AboutMePage', context);
-        } else if (index == 8) {
+        } else if (index == 7) {
           // 退出登录
           showActionSheet(context);
         }

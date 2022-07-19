@@ -247,57 +247,57 @@ class MyProfilePageState extends State<MyProfilePage>
                           ),
                         ),
                       ),
-                      Gaps.line,
-                      GestureDetector(
-                        onTap: () {
-                          Routers.push(
-                              '/ChangeMobileEmailPage', context, {'type': 1});
-                        },
-                        child: Container(
-                          color: ColorConfig.white,
-                          height: 55,
-                          padding: const EdgeInsets.only(left: 10, right: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    color: ColorConfig.white,
-                                    height: 55,
-                                    width: 90,
-                                    alignment: Alignment.centerLeft,
-                                    child: Caption(
-                                      str: Translation.t(context, '手机号码'),
-                                    ),
-                                  ),
-                                  Caption(
-                                    str: userModel!.phone == null ||
-                                            userModel!.phone!.isEmpty
-                                        ? Translation.t(context, '绑定手机号')
-                                        : userModel!.phone!,
-                                    color: userModel!.email == null ||
-                                            userModel!.email!.isEmpty
-                                        ? ColorConfig.textGray
-                                        : ColorConfig.textDark,
-                                  ),
-                                ],
-                              ),
-                              userModel!.phone == null ||
-                                      userModel!.phone!.isEmpty
-                                  ? const Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: ColorConfig.textGrayC,
-                                      size: 18,
-                                    )
-                                  : Caption(
-                                      str: Translation.t(context, '更改手机号'),
-                                      color: ColorConfig.primary,
-                                    )
-                            ],
-                          ),
-                        ),
-                      ),
+                      // Gaps.line,
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Routers.push(
+                      //         '/ChangeMobileEmailPage', context, {'type': 1});
+                      //   },
+                      //   child: Container(
+                      //     color: ColorConfig.white,
+                      //     height: 55,
+                      //     padding: const EdgeInsets.only(left: 10, right: 15),
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: <Widget>[
+                      //         Row(
+                      //           children: <Widget>[
+                      //             Container(
+                      //               color: ColorConfig.white,
+                      //               height: 55,
+                      //               width: 90,
+                      //               alignment: Alignment.centerLeft,
+                      //               child: Caption(
+                      //                 str: Translation.t(context, '手机号码'),
+                      //               ),
+                      //             ),
+                      //             Caption(
+                      //               str: userModel!.phone == null ||
+                      //                       userModel!.phone!.isEmpty
+                      //                   ? Translation.t(context, '绑定手机号')
+                      //                   : userModel!.phone!,
+                      //               color: userModel!.email == null ||
+                      //                       userModel!.email!.isEmpty
+                      //                   ? ColorConfig.textGray
+                      //                   : ColorConfig.textDark,
+                      //             ),
+                      //           ],
+                      //         ),
+                      //         userModel!.phone == null ||
+                      //                 userModel!.phone!.isEmpty
+                      //             ? const Icon(
+                      //                 Icons.arrow_forward_ios,
+                      //                 color: ColorConfig.textGrayC,
+                      //                 size: 18,
+                      //               )
+                      //             : Caption(
+                      //                 str: Translation.t(context, '更改手机号'),
+                      //                 color: ColorConfig.primary,
+                      //               )
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       Gaps.line,
                       GestureDetector(
                         onTap: () {

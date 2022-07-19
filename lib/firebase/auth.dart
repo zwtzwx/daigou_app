@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 
 /*
@@ -15,7 +14,7 @@ class GoogleAndFacebookAuth {
 
   GoogleAndFacebookAuth() {
     _googleAuth = GoogleSignIn(
-      scopes: ['email', 'https://www.googleapis.com/auth/contacts.readonly'],
+      scopes: ['email'],
     );
     _facebookAuth = FacebookAuth.instance;
   }

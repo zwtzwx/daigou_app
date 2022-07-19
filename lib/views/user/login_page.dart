@@ -25,6 +25,7 @@ import 'package:jiyun_app_client/events/logined_event.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -35,7 +36,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  String result = "无";
   String pageTitle = '';
   int loginType = 2; // 1、手机号验证码 2: 邮箱验证码 3: 帐号密码  1 手机号密码 2 手机号验证码 3邮箱密码 4邮箱验证码
   List<String> listTitle = ['手机号', '邮箱号'];
@@ -61,16 +61,41 @@ class LoginPageState extends State<LoginPage> {
   String mobileNumber = "";
   // 验证码
   String verifyCode = "";
+  late StreamSubscription<fluwx.BaseWeChatResponse> lis;
 
   // google、facebook 第三方登录
   late GoogleAndFacebookAuth _auth;
+  bool showThridLogin = false;
 
   @override
   void initState() {
     super.initState();
     pageTitle = '登录注册';
     sent = Translation.t(context, '获取验证码');
-    _auth = GoogleAndFacebookAuth();
+    getThirdLoginStatus();
+    //微信登录响应事件
+    lis = fluwx.weChatResponseEventHandler
+        .distinct((a, b) => a == b)
+        .listen((res) {
+      if (res is fluwx.WeChatAuthResponse) {
+        if (res.isSuccessful) {
+          code = res.code!;
+          loginWith('wechat', {'code': code});
+        } else {
+          Util.showToast('登录失败');
+        }
+      }
+    });
+  }
+
+  getThirdLoginStatus() async {
+    var result = await UserService.getThirdLoginStatus();
+    if (result) {
+      setState(() {
+        showThridLogin = true;
+        _auth = GoogleAndFacebookAuth();
+      });
+    }
   }
 
   /*
@@ -81,6 +106,9 @@ class LoginPageState extends State<LoginPage> {
       TokenModel? tokenModel;
       EasyLoading.show();
       switch (type) {
+        case 'wechat':
+          tokenModel = await UserService.loginWithWechat(map);
+          break;
         case 'social':
           tokenModel = await UserService.loginWithFirebase(map);
           break;
@@ -124,8 +152,7 @@ class LoginPageState extends State<LoginPage> {
       timer!.cancel(); //销毁计时器
       timer = null;
     }
-
-    // timer = null;
+    lis.cancel();
     super.dispose();
   }
 
@@ -147,7 +174,8 @@ class LoginPageState extends State<LoginPage> {
         ),
       ),
       backgroundColor: ColorConfig.white,
-      bottomNavigationBar: buildOtherSignIn(),
+      bottomNavigationBar:
+          showThridLogin ? buildOtherSignIn() : const SizedBox(),
       body: SingleChildScrollView(
         child: SizedBox(
           // color: Colors.red,
@@ -218,7 +246,7 @@ class LoginPageState extends State<LoginPage> {
                             border: Border.all(color: ColorConfig.textGray),
                             shape: BoxShape.circle,
                           ),
-                          padding: const EdgeInsets.all(6),
+                          padding: const EdgeInsets.all(7),
                           child: SvgPicture.asset(
                             'assets/images/Home/google.svg',
                             width: 25,
@@ -259,6 +287,42 @@ class LoginPageState extends State<LoginPage> {
                         Gaps.vGap4,
                         const Caption(
                           str: 'Facebook',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    var _isInstalled = await fluwx.isWeChatInstalled;
+                    if (_isInstalled) {
+                      fluwx.sendWeChatAuth(
+                        scope: "snsapi_userinfo",
+                        state: "wechat_sdk_demo_test",
+                      );
+                    } else {
+                      Util.showToast(Translation.t(context, '请先安装微信'));
+                    }
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: ColorConfig.textGray),
+                            shape: BoxShape.circle,
+                          ),
+                          padding: const EdgeInsets.all(2),
+                          child: const Icon(
+                            Icons.wechat,
+                            color: Color(0xFF51C332),
+                            size: 35,
+                          ),
+                        ),
+                        Gaps.vGap4,
+                        const Caption(
+                          str: 'Wechat',
                         ),
                       ],
                     ),

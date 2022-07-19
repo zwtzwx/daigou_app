@@ -54,6 +54,8 @@ class UserService {
   static const String bindEmailApi = 'user/bind-email';
   // 重置密码然后登录
   static const String resetPaswordApi = 'website-user/reset-password';
+  // 第三方登录开启状态
+  static const String thirdLoginStatusApi = 'app-third-login-status';
 
   // 微信登陆switch
   static Future<Map> isShowWechat() async {
@@ -316,5 +318,18 @@ class UserService {
       token = _loginResult(response);
     });
     return token;
+  }
+
+  /*
+    获取第三方登录开启状态
+   */
+  static Future<bool> getThirdLoginStatus() async {
+    bool result = false;
+    await HttpClient().get(thirdLoginStatusApi).then((res) {
+      if (res.ok && res.data['status'] == 1) {
+        result = true;
+      }
+    });
+    return result;
   }
 }

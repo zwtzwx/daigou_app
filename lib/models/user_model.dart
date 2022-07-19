@@ -25,7 +25,7 @@ class UserModel {
   late num source;
   late String shareInfo;
   late String inviteType;
-  late String timezone;
+  String? timezone;
   ProfileModel? profile;
   late String registerIp;
   late String lastLoginIp;
