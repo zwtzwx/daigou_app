@@ -41,6 +41,7 @@ class AnnoucementDialog extends StatelessWidget {
                 ),
                 Container(
                   alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   margin: const EdgeInsets.only(bottom: 15),
                   child: Text(
                     model.content,
