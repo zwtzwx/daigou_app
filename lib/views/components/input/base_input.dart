@@ -98,7 +98,6 @@ class _BaseInputState extends State<BaseInput> {
       const TextInputType.numberWithOptions(decimal: true),
       TextInputType.number
     ].contains(widget.keyboardType);
-    print(isNumberKeybord);
     if (Platform.isIOS && widget.focusNode != null && isNumberKeybord) {
       // 因Android平台输入法兼容问题，所以只配置IOS平台
       _keyboardDone = KeyboardDone(context, widget.focusNode!);

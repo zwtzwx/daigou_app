@@ -17,6 +17,7 @@ import 'package:jiyun_app_client/events/home_refresh_event.dart';
 import 'package:jiyun_app_client/views/home/widget/ads_cell.dart';
 import 'package:jiyun_app_client/views/home/widget/module_cell.dart';
 import 'package:jiyun_app_client/views/home/widget/quick_link_cell.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:jiyun_app_client/views/home/widget/recommand_ship_lines_cell.dart';
 
 /*
@@ -152,8 +153,9 @@ class HomePageState extends State<HomePage> {
       left: leftOffset,
       top: topOffset,
       child: GestureDetector(
-        onTap: () {
-          BaseDialog.customerDialog(context);
+        onTap: () async {
+          var showWechat = await fluwx.isWeChatInstalled;
+          BaseDialog.customerDialog(context, showWechat);
         },
         onPanUpdate: (detail) {
           _calcOffset(detail.delta);

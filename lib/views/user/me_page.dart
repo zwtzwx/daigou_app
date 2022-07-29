@@ -17,6 +17,7 @@ import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
@@ -186,7 +187,8 @@ class MePageState extends State<MePage> {
           Routers.push('/MyProfilePage', context);
         } else if (index == 1) {
           // 客服
-          BaseDialog.customerDialog(context);
+          var showWechat = await fluwx.isWeChatInstalled;
+          BaseDialog.customerDialog(context, showWechat);
         } else if (index == 2) {
           // 收件地址
           Routers.push('/ReceiverAddressListPage', context, {'select': 0});

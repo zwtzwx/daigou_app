@@ -17,6 +17,7 @@ import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluwx/fluwx.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:jiyun_app_client/views/components/load_image.dart';
 
 class HelpSupportPage extends StatefulWidget {
@@ -132,7 +133,8 @@ class HelpSupportPageState extends State<HelpSupportPage>
                 child: MainButton(
                   text: Translation.t(context, '在线客服'),
                   onPressed: () async {
-                    BaseDialog.customerDialog(context);
+                    var showWechat = await fluwx.isWeChatInstalled;
+                    BaseDialog.customerDialog(context, showWechat);
                   },
                 ),
               ),

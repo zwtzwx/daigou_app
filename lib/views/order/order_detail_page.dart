@@ -24,6 +24,7 @@ import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/components/photo_view_gallery_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -691,8 +692,9 @@ class OrderDetailPageState extends State<OrderDetailPage> {
             Flexible(
               child: PlainButton(
                 text: '联系客服',
-                onPressed: () {
-                  BaseDialog.customerDialog(context);
+                onPressed: () async {
+                  var showWechat = await fluwx.isWeChatInstalled;
+                  BaseDialog.customerDialog(context, showWechat);
                 },
               ),
             ),

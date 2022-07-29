@@ -3,6 +3,7 @@
 */
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jiyun_app_client/common/translation.dart';
@@ -90,7 +91,7 @@ class LoginPageState extends State<LoginPage> {
 
   getThirdLoginStatus() async {
     var result = await UserService.getThirdLoginStatus();
-    if (result) {
+    if (result || Platform.isAndroid) {
       setState(() {
         showThridLogin = true;
         _auth = GoogleAndFacebookAuth();
