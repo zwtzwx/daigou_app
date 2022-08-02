@@ -2,6 +2,8 @@
   个人信息
 */
 
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/upload_util.dart';
@@ -11,6 +13,7 @@ import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
+import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/input/normal_input.dart';
@@ -50,11 +53,14 @@ class MyProfilePageState extends State<MyProfilePage>
   final FocusNode _cityName = FocusNode();
 
   FocusNode blankNode = FocusNode();
+  // 注销按钮
+  bool deleteShow = false;
 
   @override
   void initState() {
     super.initState();
     created();
+    getStatus();
   }
 
   created() async {
@@ -67,6 +73,15 @@ class MyProfilePageState extends State<MyProfilePage>
       _nameController.text = userModel!.name;
       isloading = true;
     });
+  }
+
+  getStatus() async {
+    var result = await UserService.getThirdLoginStatus();
+    if (!result && Platform.isIOS) {
+      setState(() {
+        deleteShow = true;
+      });
+    }
   }
 
   // 更改个人信息
@@ -465,6 +480,37 @@ class MyProfilePageState extends State<MyProfilePage>
                           onPressed: onSubmit,
                         ),
                       ),
+                      Gaps.vGap20,
+                      deleteShow
+                          ? SizedBox(
+                              width: ScreenUtil().screenWidth - 30,
+                              height: 40,
+                              child: MainButton(
+                                text: '注销',
+                                backgroundColor: ColorConfig.textRed,
+                                onPressed: () async {
+                                  var confirmed =
+                                      await BaseDialog.cupertinoConfirmDialog(
+                                          context, '您确定要注销吗？可能会造成无法挽回的损失！');
+                                  if (confirmed!) {
+                                    EasyLoading.show();
+                                    var res = await UserService.userDeletion();
+                                    EasyLoading.dismiss();
+                                    if (res['ok']) {
+                                      EasyLoading.showSuccess('注销成功');
+                                      UserStorage.clearToken();
+                                      //清除TOKEN
+                                      Provider.of<Model>(context, listen: false)
+                                          .loginOut();
+                                      Routers.push('/TabOrderInfo', context);
+                                    } else {
+                                      EasyLoading.showError(res['msg']);
+                                    }
+                                  }
+                                },
+                              ),
+                            )
+                          : const SizedBox(),
                     ],
                   ),
                 ),

@@ -56,6 +56,8 @@ class UserService {
   static const String resetPaswordApi = 'website-user/reset-password';
   // 第三方登录开启状态
   static const String thirdLoginStatusApi = 'app-third-login-status';
+  // 注销用户
+  static const String deletionApi = 'user/cancel';
 
   // 微信登陆switch
   static Future<Map> isShowWechat() async {
@@ -329,6 +331,20 @@ class UserService {
       if (res.ok && res.data['status'] == 1) {
         result = true;
       }
+    });
+    return result;
+  }
+
+  /*
+    用户注销
+   */
+  static Future<Map> userDeletion() async {
+    Map result = {'ok': false, 'msg': ''};
+    await HttpClient().put(deletionApi).then((res) {
+      result = {
+        'ok': res.ok,
+        'msg': res.msg ?? res.error!.message,
+      };
     });
     return result;
   }

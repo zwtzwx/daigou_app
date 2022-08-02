@@ -75,7 +75,8 @@ class Routers {
     '/LineAllPage',
     '/ExpressQueryPage',
     '/StationPage',
-    '/CountryListPage'
+    '/CountryListPage',
+    '/TabOrderInfo'
   ];
 
   // 路由声明

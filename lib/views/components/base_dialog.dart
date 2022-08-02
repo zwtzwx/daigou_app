@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/common/translation.dart';
-import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
@@ -19,14 +18,13 @@ import 'package:fluwx/fluwx.dart' as fluwx;
 
 class BaseDialog {
   // 确认弹窗
-  static Future<bool?> confirmDialog(
-    BuildContext context,
-    String content, {
-    String? title,
-    bool showCancelButton = true,
-  }) {
+  static Future<bool?> confirmDialog(BuildContext context, String content,
+      {String? title,
+      bool showCancelButton = true,
+      bool barrierDismissible = false}) {
     return showDialog<bool>(
         context: context,
+        barrierDismissible: barrierDismissible,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Container(
@@ -61,6 +59,42 @@ class BaseDialog {
             ],
           );
         });
+  }
+
+  // ios 风格 确认弹窗
+  static Future<bool?> cupertinoConfirmDialog(
+      BuildContext context, String content,
+      {String? title,
+      bool showCancelButton = true,
+      bool barrierDismissible = false}) {
+    return showDialog<bool>(
+      barrierDismissible: barrierDismissible,
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text(Translation.t(context, title ?? "提示")),
+          content: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Text(content),
+          ),
+          actions: [
+            CupertinoDialogAction(
+              child: Text(Translation.t(context, '取消')),
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+            ),
+            CupertinoDialogAction(
+              child: Text(Translation.t(context, '确定')),
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   // 普通弹窗
