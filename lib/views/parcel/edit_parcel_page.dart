@@ -14,6 +14,7 @@ import 'package:jiyun_app_client/models/goods_category_model.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
+import 'package:jiyun_app_client/models/parcel_goods_model.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/models/value_added_service_model.dart';
 import 'package:jiyun_app_client/models/warehouse_model.dart';
@@ -22,6 +23,7 @@ import 'package:jiyun_app_client/services/goods_service.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
+import 'package:jiyun_app_client/views/components/button/plain_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/input/base_input.dart';
 import 'package:flutter/material.dart';
@@ -79,50 +81,60 @@ class EditParcelPageState extends State<EditParcelPage>
   @override
   void initState() {
     super.initState();
-    packageModel = widget.arguments['model'];
-    if (packageModel.categories != null) {
-      if (packageModel.categoriesStr == null) {
-        packageModel.categoriesStr = '';
-      } else {
-        packageModel.categoriesStr = '';
-      }
-      for (var item in packageModel.categories!) {
-        if (packageModel.categoriesStr == null ||
-            packageModel.categoriesStr!.isEmpty) {
-          packageModel.categoriesStr = packageModel.categoriesStr! + item.name;
-        } else {
-          packageModel.categoriesStr =
-              packageModel.categoriesStr! + '、' + item.name;
-        }
-      }
-    }
-    if (packageModel.country != null) {
-      isSelectedCountry = true;
-      getWarehouse();
-    }
-    _packgeNameController.text = (packageModel.packageName ?? '');
-    _packgeQtyController.text = (packageModel.qty ?? '').toString();
-    _packgeValueController.text =
-        ((packageModel.packageValue ?? 0) / 100).toStringAsFixed(2);
-    _remarkController.text = (packageModel.remark ?? '');
+    getDetail(widget.arguments['id']);
     created();
     getPropsList();
+  }
+
+  void getDetail(int id) async {
+    EasyLoading.show();
+    var data = await ParcelService.getDetail(id);
+    EasyLoading.dismiss();
+    if (data != null) {
+      setState(() {
+        packageModel = data;
+        if (packageModel.categories != null) {
+          if (packageModel.categoriesStr == null) {
+            packageModel.categoriesStr = '';
+          } else {
+            packageModel.categoriesStr = '';
+          }
+          for (var item in packageModel.categories!) {
+            if (packageModel.categoriesStr == null ||
+                packageModel.categoriesStr!.isEmpty) {
+              packageModel.categoriesStr =
+                  packageModel.categoriesStr! + item.name;
+            } else {
+              packageModel.categoriesStr =
+                  packageModel.categoriesStr! + '、' + item.name;
+            }
+          }
+        }
+        if (packageModel.country != null) {
+          isSelectedCountry = true;
+          getWarehouse();
+        }
+        _packgeNameController.text = (packageModel.packageName ?? '');
+        _packgeQtyController.text = (packageModel.qty ?? '').toString();
+        _packgeValueController.text =
+            ((packageModel.packageValue ?? 0) / 100).toStringAsFixed(2);
+        _remarkController.text = (packageModel.remark ?? '');
+        isLoadingLocal = true;
+      });
+    }
   }
 
   /*
     加载
    */
   created() async {
-    EasyLoading.show();
     var _expressCompanyList = await ExpressCompanyService.getList();
     var _single = await GoodsService.getPropConfig();
     var _categoriesList = await GoodsService.getCategoryList();
-    EasyLoading.dismiss();
     setState(() {
       expressCompanyList = _expressCompanyList;
       propSingle = _single;
       categoryList = _categoriesList;
-      isLoadingLocal = true;
     });
   }
 
@@ -144,6 +156,14 @@ class EditParcelPageState extends State<EditParcelPage>
     });
   }
 
+  ParcelGoodsModel getGoodsInfo(int index) {
+    return ParcelGoodsModel(
+      name: '物品${index + 1}',
+      qty: 1,
+      price: 1,
+    );
+  }
+
   @override
   bool get wantKeepAlive => true;
 
@@ -161,13 +181,40 @@ class EditParcelPageState extends State<EditParcelPage>
       }
     }
     String msg = '';
-    if (_packgeNameController.text.isEmpty) {
+    int packageValue = 0;
+    int qty = 0;
+    List<String> names = [];
+    List<Map> details = [];
+    if (packageModel.details != null) {
+      for (var item in packageModel.details!) {
+        if (item.price == null || item.qty == null || item.name!.isEmpty) {
+          msg = '请完善物品信息';
+          break;
+        }
+        item.totalPrice = (item.price! * 100 * item.qty!).toInt();
+        packageValue += item.totalPrice!;
+        qty += item.qty!;
+        names.add(item.name!);
+        details.add({
+          'name': item.name,
+          'total_price': item.totalPrice,
+          'qty': item.qty,
+        });
+      }
+      if (msg.isNotEmpty) {
+        Util.showToast(Translation.t(context, msg));
+        return;
+      }
+    }
+    if (packageModel.details == null && _packgeNameController.text.isEmpty) {
       msg = '请输入物品名称';
-    } else if (_packgeValueController.text.isEmpty) {
+    } else if (packageModel.details == null &&
+        _packgeValueController.text.isEmpty) {
       msg = '请输入物品总价';
-    } else if (double.parse(_packgeValueController.text) <= 0) {
+    } else if (packageModel.details == null &&
+        double.parse(_packgeValueController.text) <= 0) {
       msg = '请输入正确的物品总价';
-    } else if (packageModel.prop!.isEmpty) {
+    } else if (packageModel.prop == null || packageModel.prop!.isEmpty) {
       msg = '请选择物品属性';
     } else if (countryModel == null && packageModel.country == null) {
       msg = '请选择发往国家';
@@ -181,9 +228,11 @@ class EditParcelPageState extends State<EditParcelPage>
       'express_num': packageModel.expressNum,
       'express_id': expressCompany?.id ?? packageModel.id,
       'category_ids': categoryList,
-      'package_value': value,
-      'package_name': _packgeNameController.text,
-      'qty': _packgeQtyController.text,
+      'package_value': packageModel.details == null ? value : packageValue,
+      'package_name': packageModel.details == null
+          ? _packgeNameController.text
+          : names.join(' '),
+      'qty': packageModel.details == null ? _packgeQtyController.text : qty,
       'prop_id': packageModel.prop != null
           ? packageModel.prop!.map((e) => e.id).toList()
           : [],
@@ -193,6 +242,9 @@ class EditParcelPageState extends State<EditParcelPage>
       'warehouse_id': packageModel.warehouse?.id,
       'remark': _remarkController.text,
     };
+    if (details.isNotEmpty) {
+      map['details'] = details;
+    }
     EasyLoading.show();
     bool data = await ParcelService.update(packageModel.id!, map);
     EasyLoading.dismiss();
@@ -289,163 +341,10 @@ class EditParcelPageState extends State<EditParcelPage>
             ),
           ),
           Gaps.line,
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            height: 42,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Caption(
-                    str: Translation.t(context, '物品名称'),
-                    color: ColorConfig.textNormal,
-                  ),
-                ),
-                Expanded(
-                    child: BaseInput(
-                  hintText: Translation.t(context, '请输入物品名称'),
-                  controller: _packgeNameController,
-                  focusNode: _packageNameNode,
-                  contentPadding: const EdgeInsets.all(0),
-                  isCollapsed: true,
-                  autoShowRemove: false,
-                  textAlign: TextAlign.right,
-                  maxLines: 1,
-                )),
-              ],
-            ),
-          ),
+          packageModel.details != null
+              ? buildGoodsDetails()
+              : buildSingleGoods(),
           Gaps.line,
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            height: 42,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Caption(
-                    str: Translation.t(context, '物品总价'),
-                    color: ColorConfig.textNormal,
-                  ),
-                ),
-                Expanded(
-                    child: BaseInput(
-                  hintText: Translation.t(context, '请输入物品总价'),
-                  controller: _packgeValueController,
-                  focusNode: _packageValueNode,
-                  contentPadding: const EdgeInsets.all(0),
-                  isCollapsed: true,
-                  textAlign: TextAlign.right,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  autoShowRemove: false,
-                  maxLines: 1,
-                )),
-                // Caption(
-                //     str: (packageModel.packageValue! / 100).toStringAsFixed(2))
-              ],
-            ),
-          ),
-          Gaps.line,
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            height: 42,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Caption(
-                    str: Translation.t(context, '物品数量'),
-                    color: ColorConfig.textNormal,
-                  ),
-                ),
-                Expanded(
-                    child: BaseInput(
-                  hintText: Translation.t(context, '请输入物品数量'),
-                  controller: _packgeQtyController,
-                  focusNode: _packageQtyNode,
-                  contentPadding: const EdgeInsets.all(0),
-                  isCollapsed: true,
-                  keyboardType: TextInputType.number,
-                  autoShowRemove: false,
-                  textAlign: TextAlign.right,
-                  maxLines: 1,
-                )),
-                // Caption(
-                //   str: packageModel.qty.toString(),
-                // )
-              ],
-            ),
-          ),
-          Gaps.line,
-          // Container(
-          //   padding: const EdgeInsets.symmetric(horizontal: 15),
-          //   height: 42,
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.start,
-          //     crossAxisAlignment: CrossAxisAlignment.center,
-          //     children: <Widget>[
-          //       Container(
-          //         alignment: Alignment.centerLeft,
-          //         child: const Caption(
-          //           str: '物品类型',
-          //           color: ColorConfig.textNormal,
-          //         ),
-          //       ),
-          //       Expanded(
-          //           child: GestureDetector(
-          //               onTap: () async {
-          //                 var s = await Navigator.pushNamed(
-          //                     context, '/CategoriesPage',
-          //                     arguments: {
-          //                       "categories": categoryList //参数map
-          //                     });
-          //                 if (s == null) {
-          //                   return;
-          //                 } else {
-          //                   selectCategories = s as List<GoodsCategoryModel>;
-          //                   packageModel.categoriesStr = '';
-          //                   setState(() {
-          //                     for (GoodsCategoryModel item
-          //                         in selectCategories) {
-          //                       if (packageModel.categoriesStr == null ||
-          //                           packageModel.categoriesStr!.isEmpty) {
-          //                         packageModel.categoriesStr = item.name;
-          //                       } else {
-          //                         packageModel.categoriesStr =
-          //                             packageModel.categoriesStr! +
-          //                                 '、' +
-          //                                 item.name;
-          //                       }
-          //                     }
-          //                   });
-          //                 }
-          //               },
-          //               child: Container(
-          //                 color: ColorConfig.white,
-          //                 child: Row(
-          //                   mainAxisAlignment: MainAxisAlignment.end,
-          //                   children: <Widget>[
-          //                     Caption(
-          //                       str: packageModel.categoriesStr!,
-          //                     ),
-          //                     const Icon(
-          //                       Icons.keyboard_arrow_right,
-          //                       color: ColorConfig.textGray,
-          //                     ),
-          //                   ],
-          //                 ),
-          //               )))
-          //     ],
-          //   ),
-          // ),
-          // Gaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             height: 42,
@@ -472,7 +371,9 @@ class EditParcelPageState extends State<EditParcelPage>
                                   propSingle: propSingle,
                                   prop: packageModel.prop,
                                   onConfirm: (data) {
-                                    packageModel.prop = data;
+                                    setState(() {
+                                      packageModel.prop = data;
+                                    });
                                   },
                                 );
                               });
@@ -525,6 +426,254 @@ class EditParcelPageState extends State<EditParcelPage>
                   maxLength: 200,
                 )),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 没有商品详细清单
+  Widget buildSingleGoods() {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          height: 42,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Caption(
+                  str: Translation.t(context, '物品名称'),
+                  color: ColorConfig.textNormal,
+                ),
+              ),
+              Expanded(
+                  child: BaseInput(
+                hintText: Translation.t(context, '请输入物品名称'),
+                controller: _packgeNameController,
+                focusNode: _packageNameNode,
+                contentPadding: const EdgeInsets.all(0),
+                isCollapsed: true,
+                autoShowRemove: false,
+                textAlign: TextAlign.right,
+                maxLines: 1,
+              )),
+            ],
+          ),
+        ),
+        Gaps.line,
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          height: 42,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Caption(
+                  str: Translation.t(context, '物品总价'),
+                  color: ColorConfig.textNormal,
+                ),
+              ),
+              Expanded(
+                  child: BaseInput(
+                hintText: Translation.t(context, '请输入物品总价'),
+                controller: _packgeValueController,
+                focusNode: _packageValueNode,
+                contentPadding: const EdgeInsets.all(0),
+                isCollapsed: true,
+                textAlign: TextAlign.right,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                autoShowRemove: false,
+                maxLines: 1,
+              )),
+              // Caption(
+              //     str: (packageModel.packageValue! / 100).toStringAsFixed(2))
+            ],
+          ),
+        ),
+        Gaps.line,
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          height: 42,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Caption(
+                  str: Translation.t(context, '物品数量'),
+                  color: ColorConfig.textNormal,
+                ),
+              ),
+              Expanded(
+                  child: BaseInput(
+                hintText: Translation.t(context, '请输入物品数量'),
+                controller: _packgeQtyController,
+                focusNode: _packageQtyNode,
+                contentPadding: const EdgeInsets.all(0),
+                isCollapsed: true,
+                keyboardType: TextInputType.number,
+                autoShowRemove: false,
+                textAlign: TextAlign.right,
+                maxLines: 1,
+              )),
+              // Caption(
+              //   str: packageModel.qty.toString(),
+              // )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // 商品详细清单
+  Widget buildGoodsDetails() {
+    return Container(
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Caption(
+                    str: Translation.t(context, '物品名称'),
+                    color: ColorConfig.textNormal,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Caption(
+                    str: Translation.t(context, '物品价值'),
+                    color: ColorConfig.textNormal,
+                  ),
+                ),
+                Expanded(
+                  child: Caption(
+                    str: Translation.t(context, '数量'),
+                    color: ColorConfig.textNormal,
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                  child: PlainButton(
+                    visualDensity: VisualDensity.compact,
+                    text: '添加',
+                    onPressed: () {
+                      var length = packageModel.details!.length;
+                      setState(() {
+                        packageModel.details!.add(getGoodsInfo(length));
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ListView.builder(
+            itemCount: packageModel.details!.length,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context, i) {
+              return buildGoodsCell(i, packageModel.details![i]);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 包裹内物品
+  Widget buildGoodsCell(int index, ParcelGoodsModel model) {
+    TextEditingController nameController = TextEditingController();
+    TextEditingController qtyController = TextEditingController();
+    TextEditingController priceController = TextEditingController();
+    FocusNode nameNode = FocusNode();
+    FocusNode qtyNode = FocusNode();
+    FocusNode priceNode = FocusNode();
+
+    if (model.name != null) {
+      nameController.text = model.name!;
+    }
+    if (model.qty != null) {
+      qtyController.text = model.qty.toString();
+    }
+    if (model.price != null) {
+      priceController.text = model.price.toString();
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      decoration: const BoxDecoration(
+        border: Border(top: BorderSide(color: ColorConfig.line)),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: BaseInput(
+              controller: nameController,
+              focusNode: nameNode,
+              onChanged: (value) {
+                model.name = value;
+              },
+            ),
+            flex: 2,
+          ),
+          Expanded(
+            child: BaseInput(
+              controller: priceController,
+              focusNode: priceNode,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              onChanged: (value) {
+                if (value.isEmpty) {
+                  model.price = null;
+                } else {
+                  model.price = double.parse(value);
+                }
+              },
+            ),
+          ),
+          Expanded(
+            child: BaseInput(
+              controller: qtyController,
+              focusNode: qtyNode,
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                if (value.isEmpty) {
+                  model.qty = null;
+                } else {
+                  model.qty = int.parse(value);
+                }
+              },
+            ),
+          ),
+          SizedBox(
+            height: 30,
+            child: PlainButton(
+              visualDensity: VisualDensity.compact,
+              borderColor: ColorConfig.textRed,
+              textColor: ColorConfig.textRed,
+              text: '删除',
+              onPressed: () {
+                if (packageModel.details!.length == 1) {
+                  Util.showToast(Translation.t(context, '至少填写一个物品'));
+                  return;
+                }
+                setState(() {
+                  packageModel.details!.removeAt(index);
+                });
+              },
             ),
           ),
         ],

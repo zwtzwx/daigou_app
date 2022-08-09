@@ -173,10 +173,12 @@ class ParcelService {
   static Future<ParcelModel?> getDetail(int id) async {
     ParcelModel? result;
     await HttpClient()
-        .get(parcelOneApi.replaceAll(':id', id.toString()),
-            queryParameters: null)
-        .then((response) => {result = ParcelModel.fromJson(response.data)})
-        .onError((error, stackTrace) => {});
+        .get(parcelOneApi.replaceAll(':id', id.toString()))
+        .then((response) {
+      if (response.ok) {
+        result = ParcelModel.fromJson(response.data);
+      }
+    }).onError((error, stackTrace) => null);
     return result;
   }
 

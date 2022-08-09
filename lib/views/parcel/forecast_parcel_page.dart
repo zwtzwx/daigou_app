@@ -5,9 +5,12 @@ import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
 import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
 import 'package:jiyun_app_client/models/model.dart';
+import 'package:jiyun_app_client/models/parcel_goods_model.dart';
 import 'package:jiyun_app_client/views/components/banner.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
+import 'package:jiyun_app_client/views/components/button/plain_button.dart';
+import 'package:jiyun_app_client/views/components/input/base_input.dart';
 import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
 import 'package:jiyun_app_client/views/components/input/normal_input.dart';
 import 'package:flutter/material.dart';
@@ -127,9 +130,8 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
         propSingle = _single;
         terms = _terms;
         formData.add(ParcelModel(
-          packageName: '日用品',
-          packageValue: 1,
           expressId: _expressCompanyList[0].id,
+          details: [getGoodsInfo(0)],
           expressName: _expressCompanyList[0].name,
         ));
         getProps();
@@ -157,6 +159,16 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
       selectedWarehouseModel = wareHouseList.first;
     });
   }
+
+  ParcelGoodsModel getGoodsInfo(int index) {
+    return ParcelGoodsModel(
+      name: '物品${index + 1}',
+      qty: 1,
+      price: 1,
+    );
+  }
+
+  addDetailLine(int index) {}
 
   @override
   Widget build(BuildContext context) {
@@ -241,28 +253,59 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                           Util.showToast(Translation.t(context, '有包裹没有填写快递单号'));
                           return;
                         }
-                        if (item.packageValue == null) {
-                          Util.showToast(Translation.t(context, '有包裹没有填写物品价值'));
-                          return;
-                        }
+
                         if (item.prop == null) {
                           Util.showToast(Translation.t(context, '有包裹没有选择物品属性'));
                           return;
+                        }
+
+                        for (var ele in item.details!) {
+                          if (ele.name!.isEmpty) {
+                            Util.showToast(Translation.t(context, '有物品没有填写名称'));
+                            return;
+                          }
+                          if (ele.price == null || ele.price == 0) {
+                            Util.showToast(Translation.t(context, '请正确填写物品价值'));
+                            return;
+                          }
+                          if (ele.qty == null || ele.qty == 0) {
+                            Util.showToast(Translation.t(context, '请正确填写物品数量'));
+                            return;
+                          }
                         }
                       }
 
                       List<Map> packageList = [];
                       for (ParcelModel item in formData) {
+                        List<Map> detailList = [];
                         List<String> categoryids = [];
+                        item.qty ??= 0;
+                        item.packageValue ??= 0;
+                        List<String> names = [];
+                        for (var ele in item.details!) {
+                          ele.totalPrice =
+                              (ele.price! * 100 * ele.qty!).toInt();
+                          item.qty = item.qty! + ele.qty!;
+                          item.packageValue =
+                              item.packageValue! + ele.totalPrice!;
+                          names.add(ele.name!);
+                          Map<String, dynamic> detail = {
+                            'name': ele.name,
+                            'total_price': ele.totalPrice,
+                            'qty': ele.qty,
+                          };
+                          detailList.add(detail);
+                        }
                         Map<String, dynamic> dic = {
                           'express_num': item.expressNum,
-                          'package_name': item.packageName,
-                          'package_value': item.packageValue! * 100,
+                          'package_name': names.join(' '),
+                          'package_value': item.packageValue,
                           'prop_id':
                               item.prop == null ? '' : item.prop!.first.id,
                           'express_id': item.expressId,
                           'category_ids': categoryids,
                           'qty': item.qty,
+                          'details': detailList,
                           'remark': item.remark ?? '',
                         };
                         packageList.add(dic);
@@ -295,11 +338,10 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                               item.isOpen = false;
                             }
                             formData.add(ParcelModel(
-                              packageName: '日用品',
-                              packageValue: 1,
                               expressId: expressCompanyList[0].id,
                               expressName: expressCompanyList[0].name,
                               prop: [goodsPropsList[0]],
+                              details: [getGoodsInfo(0)],
                             ));
                           });
                         } else {
@@ -430,10 +472,9 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
         FocusScope.of(context).requestFocus(FocusNode());
         setState(() {
           formData.add(ParcelModel(
-            packageName: '日用品',
-            packageValue: 1,
             expressId: expressCompanyList[0].id,
             expressName: expressCompanyList[0].name,
+            details: [getGoodsInfo(0)],
             prop: [goodsPropsList[0]],
           ));
         });
@@ -524,15 +565,14 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
     return listView;
   }
 
+  // 包裹
   Widget buildBottomListCell(BuildContext context, int index) {
     // 快递单号
     TextEditingController orderNumberController = TextEditingController();
     final FocusNode orderNumber = FocusNode();
 
     final FocusNode goodsName = FocusNode();
-    // 包裹价值
-    TextEditingController goodsValueController = TextEditingController();
-    final FocusNode goodsValue = FocusNode();
+
     // 包裹备注
     TextEditingController _remarkController = TextEditingController();
     final FocusNode _remark = FocusNode();
@@ -540,9 +580,6 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
     ParcelModel model = formData[index];
     if (model.expressNum != null) {
       orderNumberController.text = model.expressNum!;
-    }
-    if (model.packageValue != null) {
-      goodsValueController.text = model.packageValue.toString();
     }
     if (model.remark != null) {
       _remarkController.text = model.remark!;
@@ -555,6 +592,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             GestureDetector(
               onTap: () async {
@@ -625,25 +663,67 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                   },
                   keyName: '',
                 )),
-            InputTextItem(
-                leftFlex: 3,
-                title: Translation.t(context, '物品总价'),
-                inputText: NormalInput(
-                  hintText: Translation.t(context, '请输入物品总价'),
-                  textAlign: TextAlign.right,
-                  controller: goodsValueController,
-                  contentPadding: const EdgeInsets.only(top: 17, right: 15),
-                  focusNode: goodsValue,
-                  autoFocus: false,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  onSubmitted: (res) {
-                    FocusScope.of(context).requestFocus(_remark);
-                  },
-                  onChanged: (res) {
-                    model.packageValue = (double.parse(res) * 100).toInt();
-                  },
-                )),
+            Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(15),
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Caption(
+                    str: Translation.t(context, '物品信息'),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Caption(
+                            str: Translation.t(context, '物品名称'),
+                          ),
+                          flex: 2,
+                        ),
+                        Expanded(
+                          child: Caption(
+                            str: Translation.t(context, '物品价值'),
+                          ),
+                        ),
+                        Expanded(
+                          child: Caption(
+                            str: Translation.t(context, '数量'),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30,
+                          child: PlainButton(
+                            visualDensity: VisualDensity.compact,
+                            text: '添加',
+                            onPressed: () {
+                              var length = formData[index].details!.length;
+                              setState(() {
+                                formData[index]
+                                    .details!
+                                    .add(getGoodsInfo(length));
+                              });
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  ListView.builder(
+                    itemCount: model.details!.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, i) {
+                      return buildGoodsCell(index, i, model.details![i]);
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Gaps.line,
             GestureDetector(
               onTap: () async {
                 // 属性选择框
@@ -655,7 +735,9 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                         propSingle: propSingle,
                         prop: model.prop,
                         onConfirm: (data) {
-                          model.prop = data;
+                          setState(() {
+                            model.prop = data;
+                          });
                         },
                       );
                     });
@@ -800,6 +882,94 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
     );
   }
 
+  // 包裹内物品
+  Widget buildGoodsCell(int pIndex, int gIndex, ParcelGoodsModel model) {
+    TextEditingController nameController = TextEditingController();
+    TextEditingController qtyController = TextEditingController();
+    TextEditingController priceController = TextEditingController();
+    FocusNode nameNode = FocusNode();
+    FocusNode qtyNode = FocusNode();
+    FocusNode priceNode = FocusNode();
+
+    if (model.name != null) {
+      nameController.text = model.name!;
+    }
+    if (model.qty != null) {
+      qtyController.text = model.qty.toString();
+    }
+    if (model.price != null) {
+      priceController.text = model.price.toString();
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      decoration: const BoxDecoration(
+        border: Border(top: BorderSide(color: ColorConfig.line)),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: BaseInput(
+              controller: nameController,
+              focusNode: nameNode,
+              onChanged: (value) {
+                model.name = value;
+              },
+            ),
+            flex: 2,
+          ),
+          Expanded(
+            child: BaseInput(
+              controller: priceController,
+              focusNode: priceNode,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              onChanged: (value) {
+                if (value.isEmpty) {
+                  model.price = null;
+                } else {
+                  model.price = double.parse(value);
+                }
+              },
+            ),
+          ),
+          Expanded(
+            child: BaseInput(
+              controller: qtyController,
+              focusNode: qtyNode,
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                if (value.isEmpty) {
+                  model.qty = null;
+                } else {
+                  model.qty = int.parse(value);
+                }
+              },
+            ),
+          ),
+          SizedBox(
+            height: 30,
+            child: PlainButton(
+              visualDensity: VisualDensity.compact,
+              borderColor: ColorConfig.textRed,
+              textColor: ColorConfig.textRed,
+              text: '删除',
+              onPressed: () {
+                if (formData[pIndex].details!.length == 1) {
+                  Util.showToast(Translation.t(context, '至少填写一个物品'));
+                  return;
+                }
+                setState(() {
+                  formData[pIndex].details!.removeAt(gIndex);
+                });
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget buildCustomViews(BuildContext context) {
     var headerView = Container(
         margin: const EdgeInsets.only(top: 10),
@@ -824,7 +994,6 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
     return headerView;
   }
 
-  showPickerWareHouse(BuildContext context) {}
   getPickerExpressCompany(List<ExpressCompanyModel> list) {
     List<PickerItem> data = [];
     for (var item in list) {

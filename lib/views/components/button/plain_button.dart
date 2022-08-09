@@ -9,6 +9,8 @@ class PlainButton extends StatefulWidget {
     required this.text,
     this.fontSize = 15,
     this.borderRadis = 5,
+    this.padding,
+    this.visualDensity,
     this.borderColor = ColorConfig.primary,
     this.textColor = ColorConfig.primary,
     this.onPressed,
@@ -19,6 +21,8 @@ class PlainButton extends StatefulWidget {
   final Color borderColor;
   final Color textColor;
   final Function? onPressed;
+  final VisualDensity? visualDensity;
+  final EdgeInsetsGeometry? padding;
   @override
   State<PlainButton> createState() => _PlainButtonState();
 }
@@ -38,17 +42,17 @@ class _PlainButtonState extends State<PlainButton> {
             borderRadius: BorderRadius.circular(widget.borderRadis),
           ),
         ),
+        visualDensity: widget.visualDensity ?? VisualDensity.standard,
+        padding: MaterialStateProperty.all(
+            widget.padding ?? const EdgeInsets.symmetric(horizontal: 10)),
         side: MaterialStateProperty.all(
           BorderSide(color: widget.borderColor),
         ),
       ),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Caption(
-          str: Translation.t(context, widget.text),
-          fontSize: widget.fontSize,
-          color: widget.textColor,
-        ),
+      child: Caption(
+        str: Translation.t(context, widget.text),
+        fontSize: widget.fontSize,
+        color: widget.textColor,
       ),
     );
   }

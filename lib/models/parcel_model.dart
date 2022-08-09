@@ -3,6 +3,7 @@ import 'package:jiyun_app_client/models/concat_info_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/goods_category_model.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
+import 'package:jiyun_app_client/models/parcel_goods_model.dart';
 import 'package:jiyun_app_client/models/warehouse_model.dart';
 
 //定义枚举类型
@@ -91,6 +92,7 @@ class ParcelModel {
   bool? select;
   String? categoriesStr;
   int? isExceptional;
+  List<ParcelGoodsModel>? details;
 
   ParcelModel(
       {this.isExceptional,
@@ -158,6 +160,7 @@ class ParcelModel {
       this.express,
       this.country,
       this.categoriesStr = '',
+      this.details,
       this.select = false});
 
   ParcelModel.fromJson(Map<String, dynamic> json) {
@@ -267,6 +270,12 @@ class ParcelModel {
 
     if (json['country'] != null) {
       country = CountryModel.fromJson(json['country']);
+    }
+    if (json['details'] != null && json['details'].isNotEmpty) {
+      details = List.empty(growable: true);
+      for (var item in json['details']) {
+        details!.add(ParcelGoodsModel.fromJson(item));
+      }
     }
 
     select = false;

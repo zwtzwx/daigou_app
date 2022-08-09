@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/announcement_model.dart';
@@ -23,44 +24,49 @@ class AnnoucementDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
+            constraints: BoxConstraints(
+              maxHeight: ScreenUtil().screenHeight / 2,
+            ),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Column(
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  child: Caption(
-                    str: model.title,
-                    fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 20),
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    child: Caption(
+                      str: model.title,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  margin: const EdgeInsets.only(bottom: 15),
-                  child: Text(
-                    model.content,
+                  Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    margin: const EdgeInsets.only(bottom: 15),
+                    child: Text(
+                      model.content,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 100,
-                  child: MainButton(
-                    text: Translation.t(context, '查看更多'),
-                    fontSize: 14,
-                    borderRadis: 20.0,
-                    backgroundColor: ColorConfig.green,
-                    onPressed: () {
-                      Navigator.pop(context, true);
-                    },
+                  SizedBox(
+                    width: 100,
+                    child: MainButton(
+                      text: Translation.t(context, '查看更多'),
+                      fontSize: 14,
+                      borderRadis: 20.0,
+                      backgroundColor: ColorConfig.green,
+                      onPressed: () {
+                        Navigator.pop(context, true);
+                      },
+                    ),
                   ),
-                ),
-                Gaps.vGap20,
-              ],
+                  Gaps.vGap20,
+                ],
+              ),
             ),
           ),
           Gaps.vGap15,

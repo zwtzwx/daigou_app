@@ -232,6 +232,7 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
                         Flexible(
                           child: SizedBox(
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Caption(
                                   str: Translation.t(context, '已选{count}件',

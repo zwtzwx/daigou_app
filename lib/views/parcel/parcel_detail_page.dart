@@ -9,6 +9,7 @@ import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
+import 'package:jiyun_app_client/models/parcel_goods_model.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/models/warehouse_model.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
@@ -126,84 +127,9 @@ class PackageDetailPageState extends State<PackageDetailPage>
             ),
           ),
           Gaps.line,
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            height: 42,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Caption(
-                    str: Translation.t(context, '物品名称'),
-                    color: ColorConfig.textNormal,
-                  ),
-                ),
-                Caption(
-                  str: parcelModel.packageName!,
-                ),
-              ],
-            ),
-          ),
-          Gaps.line,
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            height: 42,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Caption(
-                    str: Translation.t(context, '物品总价'),
-                    color: ColorConfig.textNormal,
-                  ),
-                ),
-                Caption(
-                    str: (parcelModel.packageValue! / 100).toStringAsFixed(2)),
-              ],
-            ),
-          ),
-          Gaps.line,
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            height: 42,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Caption(
-                    str: Translation.t(context, '物品数量'),
-                    color: ColorConfig.textNormal,
-                  ),
-                ),
-                Caption(
-                  str: parcelModel.qty.toString(),
-                ),
-              ],
-            ),
-          ),
-          Gaps.line,
-          // Container(
-          //   padding: const EdgeInsets.symmetric(horizontal: 15),
-          //   height: 42,
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: <Widget>[
-          //       Container(
-          //         alignment: Alignment.centerLeft,
-          //         child: const Caption(
-          //           str: '物品类型',
-          //           color: ColorConfig.textNormal,
-          //         ),
-          //       ),
-          //       Caption(
-          //         str: categoriesStr,
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          parcelModel.details == null
+              ? buildSingleGoods()
+              : buildGoodsDetails(),
           Gaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -252,6 +178,148 @@ class PackageDetailPageState extends State<PackageDetailPage>
                   ),
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 没有商品详细清单
+  Widget buildSingleGoods() {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          height: 42,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Caption(
+                  str: Translation.t(context, '物品名称'),
+                  color: ColorConfig.textNormal,
+                ),
+              ),
+              Caption(
+                str: parcelModel.packageName ?? '',
+              ),
+            ],
+          ),
+        ),
+        Gaps.line,
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          height: 42,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Caption(
+                  str: Translation.t(context, '物品总价'),
+                  color: ColorConfig.textNormal,
+                ),
+              ),
+              Caption(str: (parcelModel.packageValue! / 100).toStringAsFixed(2))
+            ],
+          ),
+        ),
+        Gaps.line,
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          height: 42,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Caption(
+                  str: Translation.t(context, '物品数量'),
+                  color: ColorConfig.textNormal,
+                ),
+              ),
+              Caption(
+                str: parcelModel.qty.toString(),
+              )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // 商品详细清单
+  Widget buildGoodsDetails() {
+    return Container(
+      padding: const EdgeInsets.only(top: 15),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Caption(
+                    str: Translation.t(context, '物品名称'),
+                    color: ColorConfig.textNormal,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Caption(
+                    str: Translation.t(context, '物品价值'),
+                    color: ColorConfig.textNormal,
+                  ),
+                ),
+                Expanded(
+                  child: Caption(
+                    str: Translation.t(context, '数量'),
+                    color: ColorConfig.textNormal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ListView.builder(
+            itemCount: parcelModel.details!.length,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context, i) {
+              return buildGoodsCell(parcelModel.details![i]);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 包裹内物品
+  Widget buildGoodsCell(ParcelGoodsModel model) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      decoration: const BoxDecoration(
+        border: Border(top: BorderSide(color: ColorConfig.line)),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Caption(
+              str: model.name ?? '',
+              lines: 3,
+            ),
+            flex: 2,
+          ),
+          Expanded(
+            child: Caption(
+              str: model.price.toString(),
+            ),
+          ),
+          Expanded(
+            child: Caption(
+              str: model.qty.toString(),
             ),
           ),
         ],

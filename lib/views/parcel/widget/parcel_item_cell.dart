@@ -217,7 +217,7 @@ class ParcelItemCell extends StatelessWidget {
                           ),
                           Gaps.vGap10,
                           Caption(
-                            str: '${model.packageName}' +
+                            str: '${model.packageName} ' +
                                 (model.packageValue! / 100).toStringAsFixed(2),
                           ),
                         ],
@@ -306,7 +306,7 @@ class ParcelItemCell extends StatelessWidget {
                           text: model.notConfirmed == 1 ? '补全信息' : '修改',
                           onPressed: () {
                             Routers.push('/EditParcelPage', context,
-                                {'model': model, 'edit': true});
+                                {'id': model.id, 'edit': true});
                           },
                         )
                       ],
