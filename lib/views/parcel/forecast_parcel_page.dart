@@ -187,179 +187,190 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
       ),
       backgroundColor: ColorConfig.bgGray,
       body: isloading
-          ? SingleChildScrollView(
-              child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                buildCustomViews(context),
-                buildListView(context),
-                buildBottomListView(),
-                Gaps.vGap15,
-                Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
+          ? GestureDetector(
+              onTap: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    TextButton.icon(
-                        style: ButtonStyle(
-                          overlayColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.transparent),
-                        ),
+                    buildCustomViews(context),
+                    buildListView(context),
+                    buildBottomListView(),
+                    Gaps.vGap15,
+                    Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: <Widget>[
+                        TextButton.icon(
+                            style: ButtonStyle(
+                              overlayColor: MaterialStateColor.resolveWith(
+                                  (states) => Colors.transparent),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                agreementBool = !agreementBool;
+                              });
+                            },
+                            icon: agreementBool
+                                ? const Icon(
+                                    Icons.check_box_outlined,
+                                    color: ColorConfig.green,
+                                  )
+                                : const Icon(
+                                    Icons.check_box_outline_blank_outlined,
+                                    color: ColorConfig.textGray,
+                                  ),
+                            label: Caption(
+                              str: Translation.t(context, '已查看并同意'),
+                            )),
+                        GestureDetector(
+                          onTap: () {
+                            showTipsView();
+                          },
+                          child: Caption(
+                            str: '《${Translation.t(context, '包裹转运验货协议')}》',
+                            color: HexToColor('#fe8b25'),
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(
+                        left: 15,
+                        right: 15,
+                      ),
+                      height: 50,
+                      width: double.infinity,
+                      child: MainButton(
                         onPressed: () {
-                          setState(() {
-                            agreementBool = !agreementBool;
+                          if (!agreementBool) {
+                            Util.showToast(Translation.t(context, '请同意包裹转运协议'));
+                            return;
+                          }
+                          for (ParcelModel item in formData) {
+                            if (item.expressId == null) {
+                              Util.showToast(
+                                  Translation.t(context, '有包裹没有选择快递公司'));
+                              return;
+                            }
+                            if (item.expressNum == null) {
+                              Util.showToast(
+                                  Translation.t(context, '有包裹没有填写快递单号'));
+                              return;
+                            }
+
+                            if (item.prop == null) {
+                              Util.showToast(
+                                  Translation.t(context, '有包裹没有选择物品属性'));
+                              return;
+                            }
+
+                            for (var ele in item.details!) {
+                              if (ele.name!.isEmpty) {
+                                Util.showToast(
+                                    Translation.t(context, '有物品没有填写名称'));
+                                return;
+                              }
+                              if (ele.price == null || ele.price == 0) {
+                                Util.showToast(
+                                    Translation.t(context, '请正确填写物品价值'));
+                                return;
+                              }
+                              if (ele.qty == null || ele.qty == 0) {
+                                Util.showToast(
+                                    Translation.t(context, '请正确填写物品数量'));
+                                return;
+                              }
+                            }
+                          }
+
+                          List<Map> packageList = [];
+                          for (ParcelModel item in formData) {
+                            List<Map> detailList = [];
+                            List<String> categoryids = [];
+                            item.qty ??= 0;
+                            item.packageValue ??= 0;
+                            List<String> names = [];
+                            for (var ele in item.details!) {
+                              ele.totalPrice =
+                                  (ele.price! * 100 * ele.qty!).toInt();
+                              item.qty = item.qty! + ele.qty!;
+                              item.packageValue =
+                                  item.packageValue! + ele.totalPrice!;
+                              names.add(ele.name!);
+                              Map<String, dynamic> detail = {
+                                'name': ele.name,
+                                'total_price': ele.totalPrice,
+                                'qty': ele.qty,
+                              };
+                              detailList.add(detail);
+                            }
+                            Map<String, dynamic> dic = {
+                              'express_num': item.expressNum,
+                              'package_name': names.join(' '),
+                              'package_value': item.packageValue,
+                              'prop_id': item.prop!.map((e) => e.id).toList(),
+                              'express_id': item.expressId,
+                              'category_ids': categoryids,
+                              'qty': item.qty,
+                              'details': detailList,
+                              'remark': item.remark ?? '',
+                            };
+                            packageList.add(dic);
+                          }
+                          List<int> selectService = [];
+                          for (ValueAddedServiceModel item
+                              in valueAddedServiceList) {
+                            if (item.isOpen) {
+                              selectService.add(item.id);
+                            }
+                          }
+                          EasyLoading.show();
+                          //开始提交预报
+                          ParcelService.store({
+                            'packages': packageList,
+                            'country_id': selectedCountryModel!.id,
+                            'warehouse_id': selectedWarehouseModel!.id,
+                            'op_service_ids': selectService,
+                          }, (data) {
+                            EasyLoading.dismiss();
+                            if (data.ok) {
+                              EasyLoading.showSuccess(data.msg);
+                              ApplicationEvent.getInstance()
+                                  .event
+                                  .fire(OrderCountRefreshEvent());
+                              setState(() {
+                                formData.clear();
+                                for (ValueAddedServiceModel item
+                                    in valueAddedServiceList) {
+                                  item.isOpen = false;
+                                }
+                                formData.add(ParcelModel(
+                                  expressId: expressCompanyList[0].id,
+                                  expressName: expressCompanyList[0].name,
+                                  prop: [goodsPropsList[0]],
+                                  details: [getGoodsInfo(0)],
+                                ));
+                              });
+                            } else {
+                              EasyLoading.showError(data.msg);
+                            }
+                          }, (message) {
+                            EasyLoading.showError(message);
                           });
                         },
-                        icon: agreementBool
-                            ? const Icon(
-                                Icons.check_box_outlined,
-                                color: ColorConfig.green,
-                              )
-                            : const Icon(
-                                Icons.check_box_outline_blank_outlined,
-                                color: ColorConfig.textGray,
-                              ),
-                        label: Caption(
-                          str: Translation.t(context, '已查看并同意'),
-                        )),
-                    GestureDetector(
-                      onTap: () {
-                        showTipsView();
-                      },
-                      child: Caption(
-                        str: '《${Translation.t(context, '包裹转运验货协议')}》',
-                        color: HexToColor('#fe8b25'),
+                        text: '提交预报',
                       ),
+                    ),
+                    Container(
+                      color: ColorConfig.bgGray,
+                      height: 60,
                     )
                   ],
                 ),
-                Container(
-                  margin: const EdgeInsets.only(
-                    left: 15,
-                    right: 15,
-                  ),
-                  height: 50,
-                  width: double.infinity,
-                  child: MainButton(
-                    onPressed: () {
-                      if (!agreementBool) {
-                        Util.showToast(Translation.t(context, '请同意包裹转运协议'));
-                        return;
-                      }
-                      for (ParcelModel item in formData) {
-                        if (item.expressId == null) {
-                          Util.showToast(Translation.t(context, '有包裹没有选择快递公司'));
-                          return;
-                        }
-                        if (item.expressNum == null) {
-                          Util.showToast(Translation.t(context, '有包裹没有填写快递单号'));
-                          return;
-                        }
-
-                        if (item.prop == null) {
-                          Util.showToast(Translation.t(context, '有包裹没有选择物品属性'));
-                          return;
-                        }
-
-                        for (var ele in item.details!) {
-                          if (ele.name!.isEmpty) {
-                            Util.showToast(Translation.t(context, '有物品没有填写名称'));
-                            return;
-                          }
-                          if (ele.price == null || ele.price == 0) {
-                            Util.showToast(Translation.t(context, '请正确填写物品价值'));
-                            return;
-                          }
-                          if (ele.qty == null || ele.qty == 0) {
-                            Util.showToast(Translation.t(context, '请正确填写物品数量'));
-                            return;
-                          }
-                        }
-                      }
-
-                      List<Map> packageList = [];
-                      for (ParcelModel item in formData) {
-                        List<Map> detailList = [];
-                        List<String> categoryids = [];
-                        item.qty ??= 0;
-                        item.packageValue ??= 0;
-                        List<String> names = [];
-                        for (var ele in item.details!) {
-                          ele.totalPrice =
-                              (ele.price! * 100 * ele.qty!).toInt();
-                          item.qty = item.qty! + ele.qty!;
-                          item.packageValue =
-                              item.packageValue! + ele.totalPrice!;
-                          names.add(ele.name!);
-                          Map<String, dynamic> detail = {
-                            'name': ele.name,
-                            'total_price': ele.totalPrice,
-                            'qty': ele.qty,
-                          };
-                          detailList.add(detail);
-                        }
-                        Map<String, dynamic> dic = {
-                          'express_num': item.expressNum,
-                          'package_name': names.join(' '),
-                          'package_value': item.packageValue,
-                          'prop_id':
-                              item.prop == null ? '' : item.prop!.first.id,
-                          'express_id': item.expressId,
-                          'category_ids': categoryids,
-                          'qty': item.qty,
-                          'details': detailList,
-                          'remark': item.remark ?? '',
-                        };
-                        packageList.add(dic);
-                      }
-                      List<int> selectService = [];
-                      for (ValueAddedServiceModel item
-                          in valueAddedServiceList) {
-                        if (item.isOpen) {
-                          selectService.add(item.id);
-                        }
-                      }
-                      EasyLoading.show();
-                      //开始提交预报
-                      ParcelService.store({
-                        'packages': packageList,
-                        'country_id': selectedCountryModel!.id,
-                        'warehouse_id': selectedWarehouseModel!.id,
-                        'op_service_ids': selectService,
-                      }, (data) {
-                        EasyLoading.dismiss();
-                        if (data.ok) {
-                          EasyLoading.showSuccess(data.msg);
-                          ApplicationEvent.getInstance()
-                              .event
-                              .fire(OrderCountRefreshEvent());
-                          setState(() {
-                            formData.clear();
-                            for (ValueAddedServiceModel item
-                                in valueAddedServiceList) {
-                              item.isOpen = false;
-                            }
-                            formData.add(ParcelModel(
-                              expressId: expressCompanyList[0].id,
-                              expressName: expressCompanyList[0].name,
-                              prop: [goodsPropsList[0]],
-                              details: [getGoodsInfo(0)],
-                            ));
-                          });
-                        } else {
-                          EasyLoading.showError(data.msg);
-                        }
-                      }, (message) {
-                        EasyLoading.showError(message);
-                      });
-                    },
-                    text: '提交预报',
-                  ),
-                ),
-                Container(
-                  color: ColorConfig.bgGray,
-                  height: 60,
-                )
-              ],
-            ))
+              ),
+            )
           : Container(),
     );
   }
@@ -750,13 +761,18 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Text(
-                          model.prop == null
-                              ? Translation.t(context, '请选择物品属性')
-                              : model.prop!.map((e) => e.name).join(' '),
-                          style: model.prop == null
-                              ? TextConfig.textGray14
-                              : TextConfig.textDark14,
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              model.prop == null
+                                  ? Translation.t(context, '请选择物品属性')
+                                  : model.prop!.map((e) => e.name).join(' '),
+                              style: model.prop == null
+                                  ? TextConfig.textGray14
+                                  : TextConfig.textDark14,
+                            ),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
@@ -773,65 +789,65 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                     ),
                   )),
             ),
-            InputTextItem(
-                leftFlex: 5,
-                rightFlex: 5,
-                title: Translation.t(context, '物品数量'),
-                inputText: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.center,
-                      child: IconButton(
-                          icon: Icon(
-                            model.qty == 1
-                                ? Icons.remove_circle
-                                : Icons.remove_circle,
-                            color: model.qty == 1
-                                ? ColorConfig.textGray
-                                : ColorConfig.primary,
-                            size: 35,
-                          ),
-                          onPressed: () {
-                            int k = model.qty!;
-                            if (k == 1) {
-                              return;
-                            }
-                            k--;
-                            setState(() {
-                              model.qty = k;
-                            });
-                          }),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(right: 0),
-                      alignment: Alignment.center,
-                      child: Text(
-                        model.qty.toString(),
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: IconButton(
-                          icon: const Icon(
-                            Icons.add_circle,
-                            color: ColorConfig.primary,
-                            size: 35,
-                          ),
-                          onPressed: () {
-                            int k = model.qty!;
-                            k++;
-                            setState(() {
-                              model.qty = k;
-                              // print(model.qty);
-                            });
-                          }),
-                    )
-                  ],
-                )),
+            // InputTextItem(
+            //     leftFlex: 5,
+            //     rightFlex: 5,
+            //     title: Translation.t(context, '物品数量'),
+            //     inputText: Row(
+            //       mainAxisSize: MainAxisSize.max,
+            //       mainAxisAlignment: MainAxisAlignment.end,
+            //       crossAxisAlignment: CrossAxisAlignment.center,
+            //       children: <Widget>[
+            //         Container(
+            //           alignment: Alignment.center,
+            //           child: IconButton(
+            //               icon: Icon(
+            //                 model.qty == 1
+            //                     ? Icons.remove_circle
+            //                     : Icons.remove_circle,
+            //                 color: model.qty == 1
+            //                     ? ColorConfig.textGray
+            //                     : ColorConfig.primary,
+            //                 size: 35,
+            //               ),
+            //               onPressed: () {
+            //                 int k = model.qty!;
+            //                 if (k == 1) {
+            //                   return;
+            //                 }
+            //                 k--;
+            //                 setState(() {
+            //                   model.qty = k;
+            //                 });
+            //               }),
+            //         ),
+            //         Container(
+            //           margin: const EdgeInsets.only(right: 0),
+            //           alignment: Alignment.center,
+            //           child: Text(
+            //             model.qty.toString(),
+            //             style: const TextStyle(fontSize: 20),
+            //           ),
+            //         ),
+            //         Container(
+            //           alignment: Alignment.center,
+            //           child: IconButton(
+            //               icon: const Icon(
+            //                 Icons.add_circle,
+            //                 color: ColorConfig.primary,
+            //                 size: 35,
+            //               ),
+            //               onPressed: () {
+            //                 int k = model.qty!;
+            //                 k++;
+            //                 setState(() {
+            //                   model.qty = k;
+            //                   // print(model.qty);
+            //                 });
+            //               }),
+            //         )
+            //       ],
+            //     )),
             InputTextItem(
                 title: Translation.t(context, '商品备注'),
                 inputText: NormalInput(
@@ -849,32 +865,35 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                     model.remark = res;
                   },
                 )),
-            Container(
-              height: 45,
-              color: HexToColor('#fafafa'),
-              width: ScreenUtil().screenWidth,
-              child: TextButton.icon(
-                  style: ButtonStyle(
-                    overlayColor: MaterialStateColor.resolveWith(
-                        (states) => Colors.transparent),
-                  ),
-                  onPressed: () async {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    var data = await BaseDialog.confirmDialog(
-                        context, Translation.t(context, '您确定要删除这个包裹吗'));
-                    if (data != null) {
-                      setState(() {
-                        formData.removeAt(index);
-                      });
-                    }
-                  },
-                  icon: const Icon(Icons.delete_outline,
-                      color: ColorConfig.textGrayC),
-                  label: Caption(
-                    str: Translation.t(context, '删除'),
-                    color: ColorConfig.textGrayC,
-                  )),
-            ),
+            formData.length > 1
+                ? Container(
+                    height: 45,
+                    color: HexToColor('#fafafa'),
+                    width: ScreenUtil().screenWidth,
+                    child: TextButton.icon(
+                      style: ButtonStyle(
+                        overlayColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.transparent),
+                      ),
+                      onPressed: () async {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        var data = await BaseDialog.confirmDialog(
+                            context, Translation.t(context, '您确定要删除这个包裹吗'));
+                        if (data != null) {
+                          setState(() {
+                            formData.removeAt(index);
+                          });
+                        }
+                      },
+                      icon: const Icon(Icons.delete_outline,
+                          color: ColorConfig.textGrayC),
+                      label: Caption(
+                        str: Translation.t(context, '删除'),
+                        color: ColorConfig.textGrayC,
+                      ),
+                    ),
+                  )
+                : Gaps.empty,
             // Gaps.vGap15,
           ],
         ),
@@ -922,6 +941,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
             child: BaseInput(
               controller: priceController,
               focusNode: priceNode,
+              showDone: false,
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
               onChanged: (value) {
@@ -938,6 +958,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
               controller: qtyController,
               focusNode: qtyNode,
               keyboardType: TextInputType.number,
+              showDone: false,
               onChanged: (value) {
                 if (value.isEmpty) {
                   model.qty = null;

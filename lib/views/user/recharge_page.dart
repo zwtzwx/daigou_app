@@ -373,33 +373,39 @@ class RechargePageState extends State<RechargePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(right: 15),
-                    height: 30,
-                    width: 30,
-                    child: typeMap.name.contains('alipay')
-                        ? Image.asset(
-                            'assets/images/AboutMe/支付宝支付@3x.png',
-                          )
-                        : typeMap.name.contains('wechat')
-                            ? Image.asset(
-                                'assets/images/AboutMe/微信支付@3x.png',
-                              )
-                            : typeMap.name.contains('iPay88')
-                                ? Image.asset(
-                                    'assets/images/Home/ipay88.png',
-                                  )
-                                : Image.asset(
-                                    'assets/images/AboutMe/银行卡转账@3x.png',
-                                  ),
-                  ),
-                  Caption(
-                    str: Util.getPayTypeName(typeMap.name),
-                  ),
-                ],
+              Expanded(
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      width: 30,
+                      height: 30,
+                      margin: const EdgeInsets.only(right: 15),
+                      child: typeMap.name.contains('alipay')
+                          ? Image.asset(
+                              'assets/images/AboutMe/支付宝支付@3x.png',
+                            )
+                          : typeMap.name.contains('wechat')
+                              ? Image.asset(
+                                  'assets/images/AboutMe/微信支付@3x.png',
+                                )
+                              : typeMap.name.contains('iPay88')
+                                  ? Image.asset(
+                                      'assets/images/Home/ipay88.png',
+                                    )
+                                  : Image.asset(
+                                      'assets/images/AboutMe/银行卡转账@3x.png',
+                                    ),
+                    ),
+                    Expanded(
+                      child: Caption(
+                        str: Util.getPayTypeName(typeMap.name),
+                        lines: 2,
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              Gaps.vGap10,
               selectType.contains(typeMap)
                   ? const Icon(
                       Icons.check_circle,

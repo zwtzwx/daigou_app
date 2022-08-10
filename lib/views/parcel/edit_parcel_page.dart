@@ -83,7 +83,6 @@ class EditParcelPageState extends State<EditParcelPage>
     super.initState();
     getDetail(widget.arguments['id']);
     created();
-    getPropsList();
   }
 
   void getDetail(int id) async {
@@ -114,6 +113,7 @@ class EditParcelPageState extends State<EditParcelPage>
           isSelectedCountry = true;
           getWarehouse();
         }
+        getPropsList();
         _packgeNameController.text = (packageModel.packageName ?? '');
         _packgeQtyController.text = (packageModel.qty ?? '').toString();
         _packgeValueController.text =
@@ -359,6 +359,7 @@ class EditParcelPageState extends State<EditParcelPage>
                     color: ColorConfig.textNormal,
                   ),
                 ),
+                Gaps.hGap10,
                 Expanded(
                     child: GestureDetector(
                         onTap: () {
@@ -383,12 +384,17 @@ class EditParcelPageState extends State<EditParcelPage>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Caption(
+                              Expanded(
+                                child: Caption(
                                   str: packageModel.prop != null
                                       ? packageModel.prop!
                                           .map((e) => e.name)
                                           .join(' ')
-                                      : ''),
+                                      : '',
+                                  lines: 2,
+                                  alignment: TextAlign.right,
+                                ),
+                              ),
                               const Icon(
                                 Icons.keyboard_arrow_right,
                                 color: ColorConfig.textGray,
@@ -633,6 +639,7 @@ class EditParcelPageState extends State<EditParcelPage>
             child: BaseInput(
               controller: priceController,
               focusNode: priceNode,
+              showDone: false,
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
               onChanged: (value) {
@@ -648,6 +655,7 @@ class EditParcelPageState extends State<EditParcelPage>
             child: BaseInput(
               controller: qtyController,
               focusNode: qtyNode,
+              showDone: false,
               keyboardType: TextInputType.number,
               onChanged: (value) {
                 if (value.isEmpty) {

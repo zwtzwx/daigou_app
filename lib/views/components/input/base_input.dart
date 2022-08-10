@@ -31,6 +31,7 @@ class BaseInput extends StatefulWidget {
       this.style,
       this.isCollapsed = false,
       this.hintStyle = TextConfig.textGray14,
+      this.showDone = true,
       this.textInputAction = TextInputAction.next,
       this.contentPadding = const EdgeInsets.symmetric(vertical: 16.0)})
       : super(key: key);
@@ -59,6 +60,7 @@ class BaseInput extends StatefulWidget {
   final EdgeInsets? contentPadding;
   final TextStyle? style;
   final bool isSearchInput;
+  final bool showDone;
 
   /// 用于集成测试寻找widget
   final String? keyName;
@@ -98,7 +100,10 @@ class _BaseInputState extends State<BaseInput> {
       const TextInputType.numberWithOptions(decimal: true),
       TextInputType.number
     ].contains(widget.keyboardType);
-    if (Platform.isIOS && widget.focusNode != null && isNumberKeybord) {
+    if (Platform.isIOS &&
+        widget.focusNode != null &&
+        isNumberKeybord &&
+        widget.showDone) {
       // 因Android平台输入法兼容问题，所以只配置IOS平台
       _keyboardDone = KeyboardDone(context, widget.focusNode!);
       _keyboardDone!.initState();
