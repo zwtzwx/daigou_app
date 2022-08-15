@@ -165,7 +165,7 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
             scrollDirection: Axis.horizontal,
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                alignment: Alignment.topLeft,
+                alignment: Alignment.topCenter,
                 child: LoadImage(
                   adList[index].fullPath,
                   fit: BoxFit.fitWidth,

@@ -504,7 +504,7 @@ class VipCenterPageState extends State<VipCenterPage> {
                       Flexible(
                         child: GestureDetector(
                           child: Caption(
-                            str: Translation.t(context, '距离下一等级还差{cmount}成长值',
+                            str: Translation.t(context, '距离下一等级还差{count}成长值',
                                     value: {
                                       'count': firstNum < 0 ? 0 : firstNum
                                     }) +

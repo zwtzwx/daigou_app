@@ -301,6 +301,10 @@ class CreateOrderPageState extends State<CreateOrderPage>
       Util.showToast(Translation.t(context, msg));
       return;
     }
+    String address = getAddressContent();
+    var result = await BaseDialog.confirmDialog(context, address,
+        title: Translation.t(context, '确认地址无误'));
+    if (result == null) return;
     List<String> packagesId = [];
     for (var item in packageList) {
       packagesId.add(item.id.toString());
@@ -535,8 +539,7 @@ class CreateOrderPageState extends State<CreateOrderPage>
     ).showModal(context);
   }
 
-  // 地址信息
-  Widget buildMiddleView() {
+  String getAddressContent() {
     String contentStr = '';
     if (selectedAddressModel != null) {
       if (selectedAddressModel!.area != null) {
@@ -560,6 +563,12 @@ class CreateOrderPageState extends State<CreateOrderPage>
         }
       }
     }
+    return contentStr;
+  }
+
+  // 地址信息
+  Widget buildMiddleView() {
+    String contentStr = getAddressContent();
     var midView = Container(
       decoration: BoxDecoration(
         color: Colors.white,
