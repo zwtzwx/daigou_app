@@ -8,7 +8,7 @@ import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/logined_event.dart';
+import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/token_model.dart';
@@ -182,7 +182,9 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
                   EasyLoading.showSuccess(Translation.t(context, '登录成功'));
 
                   //发送登录事件
-                  ApplicationEvent.getInstance().event.fire(LoginedEvent);
+                  ApplicationEvent.getInstance()
+                      .event
+                      .fire(OrderCountRefreshEvent());
                   //更新状态管理器
                   var provider = Provider.of<Model>(context, listen: false);
                   provider.setToken(

@@ -45,6 +45,7 @@ class ParcelItemCell extends StatelessWidget {
           ),
           margin: const EdgeInsets.only(top: 15, right: 15, left: 15),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
                   alignment: Alignment.centerLeft,
@@ -136,6 +137,17 @@ class ParcelItemCell extends StatelessWidget {
                     ],
                   )),
               Gaps.line,
+              model.remark != null && model.remark!.isNotEmpty
+                  ? Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20, left: 15, right: 15),
+                      child: Caption(
+                        str: model.remark!,
+                        color: ColorConfig.textRed,
+                        lines: 30,
+                      ),
+                    )
+                  : Gaps.empty,
               Container(
                 margin: const EdgeInsets.only(
                   left: 15,

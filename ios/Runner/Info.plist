@@ -44,6 +44,14 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wx2628ecc5cadc8a7f</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+			<!-- GoogleService-info.plist REVERSED_CLIENT_ID 用于 google 登录 -->
 				<string>com.googleusercontent.apps.1011459206295-is63n7k9rvir9ufokkmq47jfj91nfalh</string>
 			</array>
 		</dict>

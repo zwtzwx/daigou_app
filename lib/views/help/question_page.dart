@@ -38,6 +38,9 @@ class QuestionPageState extends State<QuestionPage> {
 
   void getPageTitle() {
     var type = widget.arguments['type'];
+    if (type is String) {
+      type = int.parse(type);
+    }
     String _pageTitle = '';
     switch (type) {
       case 1:

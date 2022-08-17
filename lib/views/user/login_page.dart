@@ -22,7 +22,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/logined_event.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -123,8 +122,8 @@ class LoginPageState extends State<LoginPage> {
       EasyLoading.dismiss();
       EasyLoading.showSuccess(Translation.t(context, '登录成功'));
       //发送登录事件
-      ApplicationEvent.getInstance().event.fire(LoginedEvent);
-      ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent);
+      // ApplicationEvent.getInstance().event.fire(LoginedEvent);
+      ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
       //更新状态管理器
       var provider = Provider.of<Model>(context, listen: false);
       provider.setToken(tokenModel!.tokenType + ' ' + tokenModel.accessToken);

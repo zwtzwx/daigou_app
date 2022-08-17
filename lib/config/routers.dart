@@ -76,6 +76,7 @@ class Routers {
     '/ExpressQueryPage',
     '/StationPage',
     '/CountryListPage',
+    '/AboutMePage',
     '/TabOrderInfo'
   ];
 

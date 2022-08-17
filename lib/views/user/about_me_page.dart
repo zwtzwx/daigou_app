@@ -1,5 +1,4 @@
 import 'package:jiyun_app_client/common/translation.dart';
-import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/article_model.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 // import 'package:jiyun_app_client/event/application_event.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:flutter/services.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
 
 /*
   关于我们
@@ -145,26 +143,11 @@ class AboutMePageState extends State<AboutMePage> {
           ),
           trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () {
-            if (model.content.startsWith('/pages')) {
-              fluwx.isWeChatInstalled.then((installed) {
-                if (installed) {
-                  fluwx
-                      .launchWeChatMiniProgram(
-                          username: 'gh_4c98b7c6b461', path: model.content)
-                      .then((data) {
-                    // print("---》$data");
-                  });
-                } else {
-                  Util.showToast("请先安装微信");
-                }
-              });
-            } else {
-              Routers.push('/webview', context, {
-                'url': model.content,
-                'title': model.title,
-                'time': model.createdAt
-              });
-            }
+            Routers.push('/webview', context, {
+              'url': model.content,
+              'title': model.title,
+              'time': model.createdAt
+            });
           },
         ));
   }

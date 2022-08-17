@@ -45,6 +45,7 @@ class _ModuleCellState extends State<ModuleCell> {
         .event
         .on<OrderCountRefreshEvent>()
         .listen((event) {
+      print('order refresh');
       getOrderCount();
     });
   }
@@ -64,6 +65,10 @@ class _ModuleCellState extends State<ModuleCell> {
       var data = await UserService.getOrderDataCount();
       setState(() {
         userOrderCountModel = data;
+      });
+    } else {
+      setState(() {
+        userOrderCountModel = null;
       });
     }
   }

@@ -4,6 +4,7 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/change_page_index_event.dart';
+import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
 import 'package:jiyun_app_client/events/profile_updated_event.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/user_agent_status_model.dart';
@@ -261,13 +262,13 @@ class MePageState extends State<MePage> {
               ),
             ],
           );
-        }).then((value) {
+        }).then((value) async {
       // 点击确定
       if (value == 1) {
-        UserStorage.clearToken();
+        await UserStorage.clearToken();
         //清除TOKEN
         Provider.of<Model>(context, listen: false).loginOut();
-        // ApplicationEvent.getInstance().event.fire(HomeRefreshEvent());
+        ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
         ApplicationEvent.getInstance()
             .event
             .fire(ChangePageIndexEvent(pageName: 'home'));

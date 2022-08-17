@@ -136,18 +136,15 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
               } else {
                 if (model.linkType == 1) {
                   // 应用内
-                  Routers.push(
-                      '/HelpSecondListPage', context, {'type': model.linkType});
-                } else if (model.linkType == 2) {
-                  // 外部URL
-
-                  Routers.push('/webview', context, {
-                    'url': model.linkPath,
-                    'title': 'HJ EXPRESS',
-                    'time': ''
-                  });
-                } else if (model.linkType == 3) {
-                  // 公众号 URL
+                  var paths = model.linkPath.split('?');
+                  if (paths.length > 1) {
+                    var parsedQuery = Uri.splitQueryString(paths[1]);
+                    Routers.push(paths[0], context, parsedQuery);
+                  } else {
+                    Routers.push(model.linkPath, context);
+                  }
+                } else {
+                  // 外部URL 公众号 URL
                   Routers.push('/webview', context, {
                     'url': model.linkPath,
                     'title': 'HJ EXPRESS',
@@ -155,11 +152,6 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
                   });
                 }
               }
-
-              //  else if (model.type == 4) {
-              //   Routers.push(
-              //       '/HelpSecondListPage', context, {'type': model.linkType});
-              // }
             },
             itemCount: adList.length,
             scrollDirection: Axis.horizontal,

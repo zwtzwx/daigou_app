@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:core';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
