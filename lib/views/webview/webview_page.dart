@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:core';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jiyun_app_client/config/routers.dart';
+import 'package:jiyun_app_client/services/announcement_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,9 +32,33 @@ class WebViewPageState extends State<WebViewPage>
   final Completer<webview.WebViewController> _controller =
       Completer<webview.WebViewController>();
 
+  String? url;
+  String? title;
+  String? time;
+
   @override
   void initState() {
     super.initState();
+    url = widget.arguments["url"];
+    title = widget.arguments["title"];
+    time = widget.arguments['time'];
+    if (widget.arguments['id'] != null) {
+      getDetail();
+    }
+  }
+
+  void getDetail() async {
+    EasyLoading.show();
+    if (widget.arguments['type'] == 'notice') {
+      // 公告
+      var data = await AnnouncementService.getDetail(widget.arguments['id']);
+      if (data != null) {
+        setState(() {
+          url = data.content;
+        });
+      }
+    }
+    EasyLoading.dismiss();
   }
 
   @override
@@ -42,12 +68,8 @@ class WebViewPageState extends State<WebViewPage>
 
   @override
   Widget build(BuildContext context) {
-    Map map = widget.arguments;
-    String url = map["url"];
-    String title = map["title"];
-    String time = map['time'] ?? "";
     return Scaffold(
-      body: url.startsWith('http')
+      body: url != null && url!.startsWith('http')
           ? SizedBox(
               width: ScreenUtil().screenWidth,
               height: ScreenUtil().screenHeight,
@@ -89,7 +111,7 @@ class WebViewPageState extends State<WebViewPage>
                                 fontSize: FontSize.large,
                                 lineHeight: LineHeight.number(1.2))
                           },
-                          data: url,
+                          data: url ?? '',
                           // onLinkTap: (linkUrl) {},
                         ))),
                 Container(
@@ -97,7 +119,7 @@ class WebViewPageState extends State<WebViewPage>
                   alignment: Alignment.centerRight,
                   height: 60,
                   child: Caption(
-                    str: time,
+                    str: time ?? '',
                   ),
                 )
               ],
@@ -112,7 +134,7 @@ class WebViewPageState extends State<WebViewPage>
           color: Colors.black, //修改颜色
         ),
         title: Caption(
-          str: title,
+          str: title ?? '',
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),

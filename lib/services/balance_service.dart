@@ -46,7 +46,7 @@ class BalanceService {
     获取支付方式列表
    */
   static Future<List<PayTypeModel>> getPayTypeList(
-      {noBalanceType = false, noDelivery = true}) async {
+      {noBalanceType = false, noDelivery = true, noIPay88 = false}) async {
     List<PayTypeModel> result = <PayTypeModel>[];
 
     await HttpClient().get(payTypeApi, queryParameters: null).then((response) {
@@ -59,6 +59,7 @@ class BalanceService {
         if (list[item] == 1) {
           if (noBalanceType && item == "balance") continue;
           if (noDelivery && item == 'on_delivery') continue;
+          if (noIPay88 && item == 'iPay88') continue;
           PayTypeModel payModel = PayTypeModel.empty();
           payModel.name = item;
           payModel.enabled = 1;

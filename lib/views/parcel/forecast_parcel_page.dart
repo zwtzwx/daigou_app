@@ -271,6 +271,12 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
                                 Util.showToast(
                                     Translation.t(context, '有物品没有填写名称'));
                                 return;
+                              } else if (selectedCountryModel?.code == 'id' &&
+                                  ele.name!.startsWith('物品')) {
+                                // 印尼需要填写准确物品信息
+                                Util.showToast(
+                                    Translation.t(context, '请填写准确物品信息'));
+                                return;
                               }
                               if (ele.price == null || ele.price == 0) {
                                 Util.showToast(
@@ -382,51 +388,6 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
         Column(
           children: [
             Caption(
-              str: Translation.t(context, '国家地区'),
-              fontSize: 12,
-              color: ColorConfig.main,
-            ),
-            Gaps.vGap10,
-            GestureDetector(
-              onTap: () async {
-                var tmp =
-                    await Navigator.pushNamed(context, '/CountryListPage');
-                if (tmp == null) {
-                  return;
-                }
-                CountryModel? s = tmp as CountryModel;
-                if (s.id == null) {
-                  return;
-                }
-                setState(() {
-                  selectedCountryModel = s;
-                  getWarehouseList();
-                  getProps();
-                });
-              },
-              child: Caption(
-                str: selectedCountryModel?.name ??
-                    Translation.t(context, '请选择国家地区'),
-                fontSize: 18,
-                color: ColorConfig.primary,
-              ),
-            ),
-            Gaps.vGap10,
-            Caption(
-              str: Translation.t(context, '切换'),
-              fontSize: 12,
-              color: ColorConfig.main,
-            ),
-          ],
-        ),
-        const LoadImage(
-          'Home/arrow2',
-          width: 50,
-          fit: BoxFit.fitWidth,
-        ),
-        Column(
-          children: [
-            Caption(
               str: Translation.t(context, '转运仓库'),
               fontSize: 12,
               color: ColorConfig.main,
@@ -465,7 +426,52 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
               color: ColorConfig.main,
             ),
           ],
-        )
+        ),
+        const LoadImage(
+          'Home/arrow2',
+          width: 50,
+          fit: BoxFit.fitWidth,
+        ),
+        Column(
+          children: [
+            Caption(
+              str: Translation.t(context, '国家地区'),
+              fontSize: 12,
+              color: ColorConfig.main,
+            ),
+            Gaps.vGap10,
+            GestureDetector(
+              onTap: () async {
+                var tmp =
+                    await Navigator.pushNamed(context, '/CountryListPage');
+                if (tmp == null) {
+                  return;
+                }
+                CountryModel? s = tmp as CountryModel;
+                if (s.id == null) {
+                  return;
+                }
+                setState(() {
+                  selectedCountryModel = s;
+                  getWarehouseList();
+                  getProps();
+                });
+              },
+              child: Caption(
+                str: selectedCountryModel?.name ??
+                    Translation.t(context, '请选择国家地区'),
+                fontSize: 18,
+                color: ColorConfig.primary,
+              ),
+            ),
+            Gaps.vGap10,
+            Caption(
+              str: Translation.t(context, '切换'),
+              fontSize: 12,
+              color: ColorConfig.main,
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -931,6 +937,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
             child: BaseInput(
               controller: nameController,
               focusNode: nameNode,
+              autoShowRemove: false,
               onChanged: (value) {
                 model.name = value;
               },
@@ -942,6 +949,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
               controller: priceController,
               focusNode: priceNode,
               showDone: false,
+              autoShowRemove: false,
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
               onChanged: (value) {
@@ -959,6 +967,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
               focusNode: qtyNode,
               keyboardType: TextInputType.number,
               showDone: false,
+              autoShowRemove: false,
               onChanged: (value) {
                 if (value.isEmpty) {
                   model.qty = null;

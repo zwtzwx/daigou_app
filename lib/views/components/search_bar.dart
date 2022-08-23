@@ -47,7 +47,7 @@ class SearchBarWidgetState extends State<SearchBar> {
   Widget _searchPanel() {
     return SizedBox(
       width: ScreenUtil().screenWidth,
-      height: 44,
+      height: 30,
       child: TextField(
         textAlign: TextAlign.start,
         cursorColor: ColorConfig.textGray,
@@ -78,19 +78,9 @@ class SearchBarWidgetState extends State<SearchBar> {
           contentPadding: const EdgeInsets.only(top: 10),
           prefixIcon: const Icon(
             Icons.search_outlined,
-            color: ColorConfig.textGray,
             size: 25,
           ),
           suffixIcon: _action(),
-          // GestureDetector(
-          //     onTap: () {
-          //       print(1111);
-          //     },
-          //     child: Icon(
-          //       Icons.search_outlined,
-          //       color: ColorConfig.textGray,
-          //       size: 25,
-          //     )),
           filled: false,
           hintText: Translation.t(context, '输入关键字查询'),
           hintStyle: TextConfig.textGray14,
@@ -107,12 +97,15 @@ class SearchBarWidgetState extends State<SearchBar> {
   // 搜索/取消按钮
   Widget _action() {
     return Container(
-      color: Colors.white,
-      width: 50,
-      margin: const EdgeInsets.only(top: 10, bottom: 10, right: 10),
+      width: 70,
+      margin: const EdgeInsets.only(right: 10),
       child: RawMaterialButton(
-        padding: const EdgeInsets.all(0),
-        child: Caption(str: Translation.t(context, '搜索')),
+        fillColor: ColorConfig.primary,
+        child: Caption(
+          str: Translation.t(context, '搜索'),
+          color: Colors.white,
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         onPressed: () {
           // print("$_title");
           widget.onSearchClick(_title);
@@ -124,14 +117,9 @@ class SearchBarWidgetState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
-      //背景与圆角
-      decoration: const BoxDecoration(
-        color: ColorConfig.white,
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-      ),
+      margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+      color: ColorConfig.white,
       alignment: Alignment.center,
-      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
       child: _searchPanel(),
     );
   }

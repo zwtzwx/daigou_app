@@ -82,12 +82,11 @@ class OrderPayPageState extends State<OrderPayPage> {
 
     if (payModel == 0) {
       vipPriceModel = widget.arguments['model'] as UserVipPriceModel;
+      created();
     } else if (payModel == 1) {
       orderId = widget.arguments['id'];
       previewOrder();
     }
-
-    created();
 
     wechatResponse =
         weChatResponseEventHandler.distinct((a, b) => a == b).listen((res) {
@@ -99,8 +98,6 @@ class OrderPayPageState extends State<OrderPayPage> {
         }
       }
     });
-
-    print('sdffsjlj');
   }
 
   @override
@@ -109,13 +106,14 @@ class OrderPayPageState extends State<OrderPayPage> {
     super.dispose();
   }
 
-  created() async {
+  created({bool? noIPay88 = true}) async {
     /*
     得到支付类型
     */
     bool noDelivery = payModel == 0 || widget.arguments['deliveryStatus'] == 1;
     EasyLoading.show();
-    payTypeList = await BalanceService.getPayTypeList(noDelivery: noDelivery);
+    payTypeList = await BalanceService.getPayTypeList(
+        noDelivery: noDelivery, noIPay88: noIPay88);
     var userOrderDataCount = await UserService.getOrderDataCount();
     var vipInfo = await UserService.getVipMemberData();
     EasyLoading.dismiss();
@@ -143,6 +141,8 @@ class OrderPayPageState extends State<OrderPayPage> {
         if (orderModel!.coupon != null) {
           selectCoupon = orderModel!.coupon;
         }
+        bool noIpay88 = orderModel?.address.country?.code == 'id';
+        created(noIPay88: noIpay88);
         isloading++;
       });
     }, (message) => EasyLoading.showError(message));
@@ -509,13 +509,13 @@ class OrderPayPageState extends State<OrderPayPage> {
     Map<String, dynamic> result = {};
     if (payModel == 0) {
       result = await BalanceService.ipay88VipPay({
-        'return_url': 'https://dev-pc.haiouoms.com/$languge/app-pay',
+        'return_url': 'https://hjexpress.top/$languge/app-pay',
         'price_id': vipPriceModel!.id,
         'price_type': vipPriceModel!.type,
       });
     } else if (payModel == 1) {
       result = await OrderService.orderIpay(orderModel!.id, {
-        'return_url': 'https://dev-pc.haiouoms.com/$languge/app-pay',
+        'return_url': 'https://hjexpress.top/$languge/app-pay',
         'point': orderModel?.point,
         'is_use_point': orderModel?.isusepoint,
         'point_amount': orderModel?.pointamount,
@@ -523,10 +523,9 @@ class OrderPayPageState extends State<OrderPayPage> {
     }
     EasyLoading.dismiss();
     if (result['ok']) {
-      print(result['data'].toString());
       Uri url = Uri(
         scheme: 'https',
-        host: 'dev-pc.haiouoms.com',
+        host: 'hjexpress.top',
         path: '/app-pay-request',
         queryParameters: result['data'],
       );

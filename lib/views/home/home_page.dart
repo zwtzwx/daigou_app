@@ -74,9 +74,10 @@ class HomePageState extends State<HomePage> {
     );
     if (detail) {
       Routers.push('/webview', context, {
-        'url': data.content,
+        'id': data.id,
         'title': data.title,
         'time': data.createdAt,
+        'type': 'notice',
       });
     }
   }

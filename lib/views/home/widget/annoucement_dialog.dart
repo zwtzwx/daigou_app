@@ -50,6 +50,8 @@ class AnnoucementDialog extends StatelessWidget {
                     margin: const EdgeInsets.only(bottom: 15),
                     child: Text(
                       model.content,
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   SizedBox(

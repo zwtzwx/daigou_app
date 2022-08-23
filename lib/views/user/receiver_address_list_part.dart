@@ -13,9 +13,9 @@ import 'package:jiyun_app_client/services/address_service.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiyun_app_client/views/components/search_bar.dart';
 
 class ReceiverAddressListPage extends StatefulWidget {
   final Map? arguments;
@@ -36,6 +36,9 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
   final ScrollController _scrollController = ScrollController();
 
   List<ReceiverAddressModel> addressList = [];
+  final TextEditingController _controller = TextEditingController();
+  final FocusNode _keywordNode = FocusNode();
+  String keyword = '';
 
   @override
   void initState() {
@@ -51,7 +54,7 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
 
   created() async {
     EasyLoading.show();
-    var data = await AddressService.getReceiverList();
+    var data = await AddressService.getReceiverList({'keyword': keyword});
     EasyLoading.dismiss();
     setState(() {
       addressList = data;
@@ -63,35 +66,61 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
     super.build(context);
 
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        leading: const BackButton(color: Colors.black),
-        backgroundColor: Colors.white,
-        elevation: 0.5,
-        centerTitle: true,
-        title: Caption(
-          str: Translation.t(context, '地址管理'),
-          color: ColorConfig.textBlack,
-          fontSize: 18,
-          fontWeight: FontWeight.w400,
-        ),
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
-      ),
-      bottomNavigationBar: SafeArea(
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 15),
-          height: 40,
-          child: MainButton(
-            text: '添加地址',
-            onPressed: () {
-              Routers.push(
-                  '/ReceiverAddressEditPage', context, {'isEdit': '0'});
-            },
+        key: _scaffoldKey,
+        appBar: AppBar(
+          leading: const BackButton(color: Colors.black),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          centerTitle: true,
+          title: Caption(
+            str: Translation.t(context, '地址管理'),
+            fontSize: 18,
           ),
         ),
+        bottomNavigationBar: SafeArea(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            height: 40,
+            child: MainButton(
+              text: '添加地址',
+              onPressed: () {
+                Routers.push(
+                    '/ReceiverAddressEditPage', context, {'isEdit': '0'});
+              },
+            ),
+          ),
+        ),
+        backgroundColor: ColorConfig.bgGray,
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: Column(
+            children: [
+              buildSearchView(),
+              Expanded(
+                child: buildListView(),
+              ),
+            ],
+          ),
+        ));
+  }
+
+  Widget buildSearchView() {
+    return Container(
+      color: Colors.white,
+      child: SearchBar(
+        onSearch: (value) {
+          setState(() {
+            keyword = value;
+          });
+        },
+        onSearchClick: (value) {
+          created();
+        },
+        controller: _controller,
+        focusNode: _keywordNode,
       ),
-      backgroundColor: ColorConfig.bgGray,
-      body: buildListView(),
     );
   }
 
@@ -142,7 +171,7 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
             decoration: const BoxDecoration(
               color: ColorConfig.white,
               border: Border(
-                bottom: BorderSide(
+                top: BorderSide(
                   color: ColorConfig.line,
                 ),
               ),
@@ -225,5 +254,12 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
                 ),
               ],
             )));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _keywordNode.dispose();
+    super.dispose();
   }
 }

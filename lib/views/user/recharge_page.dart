@@ -80,7 +80,8 @@ class RechargePageState extends State<RechargePage> {
     得到支付类型
     */
     EasyLoading.show();
-    payTypeList = await BalanceService.getPayTypeList(noBalanceType: true);
+    payTypeList = await BalanceService.getPayTypeList(
+        noBalanceType: true, noIPay88: true);
     var userOrderDataCount = await UserService.getOrderDataCount();
     EasyLoading.dismiss();
     setState(() {
@@ -555,13 +556,13 @@ class RechargePageState extends State<RechargePage> {
         Provider.of<LanguageProvider>(context, listen: false).languge;
     var result = await BalanceService.ipay88BalancePay({
       'amount': amount * 100,
-      'return_url': 'https://dev-pc.haiouoms.com/$languge/app-pay',
+      'return_url': 'https://hjexpress.top/$languge/app-pay',
     });
     EasyLoading.dismiss();
     if (result['ok']) {
       Uri url = Uri(
         scheme: 'https',
-        host: 'dev-pc.haiouoms.com',
+        host: 'hjexpress.top',
         path: '/app-pay-request',
         queryParameters: result['data'],
       );

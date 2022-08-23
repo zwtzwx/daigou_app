@@ -8,6 +8,8 @@ class AnnouncementService {
   static const String LISTAPI = 'announcement';
   // 首页最新公告
   static const String latestApi = 'announcement/index-announcement';
+  // 详情
+  static const String detailApi = 'announcement/:id';
 
   // 获列表
   static Future<Map> getList([Map<String, dynamic>? params]) async {
@@ -34,6 +36,18 @@ class AnnouncementService {
     await HttpClient().get(latestApi).then((res) => {
           if (res.data != null) {result = AnnouncementModel.fromJson(res.data)}
         });
+    return result;
+  }
+
+  // 公告详情
+  static Future<AnnouncementModel?> getDetail(int id) async {
+    AnnouncementModel? result;
+    await HttpClient()
+        .get(detailApi.replaceAll(':id', id.toString()))
+        .then((res) => {
+              if (res.data != null)
+                {result = AnnouncementModel.fromJson(res.data)}
+            });
     return result;
   }
 }
