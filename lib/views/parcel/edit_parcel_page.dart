@@ -226,7 +226,7 @@ class EditParcelPageState extends State<EditParcelPage>
     num value = double.parse(_packgeValueController.text) * 100;
     Map<String, dynamic> map = {
       'express_num': packageModel.expressNum,
-      'express_id': expressCompany?.id ?? packageModel.id,
+      'express_id': expressCompany?.id ?? packageModel.expressId,
       'category_ids': categoryList,
       'package_value': packageModel.details == null ? value : packageValue,
       'package_name': packageModel.details == null
