@@ -1,4 +1,5 @@
 import 'package:jiyun_app_client/common/translation.dart';
+import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/firebase/notification.dart';
@@ -148,6 +149,7 @@ class TabBarState extends State<MainController> {
         .event
         .on<UnAuthenticateEvent>()
         .listen((event) {
+      Util.showToast(Translation.t(context, '登录凭证已失效'));
       pushToLogin();
     });
 
@@ -166,8 +168,9 @@ class TabBarState extends State<MainController> {
     if (token != '') {
       await UserStorage.clearToken();
       Provider.of<Model>(context, listen: false).setToken('');
-      Routers.push('/LoginPage', context);
     }
+    // Routers.push('/LoginPage', context);
+    jumpToIndex('home');
   }
 
   int jumpToIndex(String pageName) {

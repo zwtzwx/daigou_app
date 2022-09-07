@@ -93,12 +93,12 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       created();
     });
-    ApplicationEvent.getInstance()
-        .event
-        .on<UnAuthenticateEvent>()
-        .listen((event) {
-      Routers.push('/LoginPage', context);
-    });
+    // ApplicationEvent.getInstance()
+    //     .event
+    //     .on<UnAuthenticateEvent>()
+    //     .listen((event) {
+    //   Routers.push('/LoginPage', context);
+    // });
   }
 
   created() async {

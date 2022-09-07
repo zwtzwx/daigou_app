@@ -93,6 +93,7 @@ class ParcelModel {
   String? categoriesStr;
   int? isExceptional;
   List<ParcelGoodsModel>? details;
+  int? freeTime;
 
   ParcelModel(
       {this.isExceptional,
@@ -277,7 +278,11 @@ class ParcelModel {
         details!.add(ParcelGoodsModel.fromJson(item));
       }
     }
-
+    if (status == 2 &&
+        (warehouse?.freeStoreDays ?? 0) > 0 &&
+        (weighedAt != null || inStorageAt != null)) {
+      getFreeDay();
+    }
     select = false;
   }
 
@@ -288,6 +293,20 @@ class ParcelModel {
     id = json['id'];
     status = json['status'];
     expressNum = json['express_num'];
+  }
+
+  // 仓储时间
+  void getFreeDay() {
+    var nowTime = DateTime.now().millisecondsSinceEpoch;
+    var packTime = (weighedAt ?? inStorageAt)!.split(' ').join('T');
+    var storage = DateTime.parse(packTime).millisecondsSinceEpoch +
+        (warehouse!.freeStoreDays! * 24 * 60 * 60 * 1000);
+    var diff = (storage - nowTime) / (24 * 60 * 60 * 1000);
+    if (diff > 0) {
+      freeTime = diff.floor();
+    } else {
+      freeTime = diff.ceil();
+    }
   }
 
   Map<String, dynamic> toJson() {

@@ -278,6 +278,77 @@ class ParcelItemCell extends StatelessWidget {
                             ),
                           )
                         : Gaps.empty,
+                    model.status == 2 &&
+                            (model.warehouse?.freeStoreDays ?? 0) > 0 &&
+                            (model.inStorageAt != null ||
+                                model.weighedAt != null)
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 3),
+                            child: RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                  text: '${Translation.t(context, '免费仓储')}：',
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    color: ColorConfig.textGray,
+                                  ),
+                                ),
+                                model.freeTime! >= 0
+                                    ? TextSpan(
+                                        text: Translation.t(
+                                          context,
+                                          '还剩{freeTime}天，超期收费{price}/天',
+                                          value: {
+                                            'freeTime': model.freeTime,
+                                            'price':
+                                                ((model.warehouse?.storeFee ??
+                                                            0) /
+                                                        100)
+                                                    .toStringAsFixed(2),
+                                          },
+                                        ),
+                                        style: const TextStyle(
+                                          fontSize: 13,
+                                          color: ColorConfig.textGray,
+                                        ),
+                                      )
+                                    : TextSpan(children: [
+                                        TextSpan(
+                                          text: Translation.t(
+                                            context,
+                                            '已超期{freeTime}天',
+                                            value: {
+                                              'freeTime': -model.freeTime!
+                                            },
+                                          ),
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            color: ColorConfig.textRed,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: '，' +
+                                              Translation.t(
+                                                context,
+                                                '超期收费{price}/天',
+                                                value: {
+                                                  'price': ((model.warehouse
+                                                                  ?.storeFee ??
+                                                              0) /
+                                                          100)
+                                                      .toStringAsFixed(2),
+                                                },
+                                              ),
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            color: ColorConfig.textGray,
+                                          ),
+                                        ),
+                                      ])
+                              ]),
+                            ),
+                          )
+                        : Gaps.empty,
                   ],
                 ),
               ),
