@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/home_refresh_event.dart';
+import 'package:jiyun_app_client/events/logined_event.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/ship_line_model.dart';
 import 'package:jiyun_app_client/services/localization_service.dart';
@@ -29,6 +30,9 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
     super.initState();
     loadData();
     ApplicationEvent.getInstance().event.on<HomeRefreshEvent>().listen((event) {
+      loadData();
+    });
+    ApplicationEvent.getInstance().event.on<LoginedEvent>().listen((event) {
       loadData();
     });
   }

@@ -55,6 +55,8 @@ class WebViewPageState extends State<WebViewPage>
       if (data != null) {
         setState(() {
           url = data.content;
+          title ??= data.title;
+          time ??= data.createdAt;
         });
       }
     }

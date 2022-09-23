@@ -265,19 +265,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
   Widget packInfoView() {
     String actualWeight = (model!.actualWeight / 1000).toStringAsFixed(2) +
         localizationInfo!.weightSymbol;
-    String outVolumnSum = (model!.boxType == 1
-            ? ((model!.length / 100).toString() +
-                '*' +
-                (model!.width / 100).toString() +
-                '*' +
-                (model!.height / 100).toString() +
-                '/' +
-                (model!.factor ?? 0).toString() +
-                '=' +
-                (model!.volumeWeight / 1000).toStringAsFixed(2))
-            : (model!.volumeWeight / 1000).toStringAsFixed(2)) +
-        localizationInfo!.weightSymbol;
-    String inVolumnSum = ((model!.volumeSum ?? 0) / 1000).toStringAsFixed(2) +
+    String paymentWeight = (model!.paymentWeight / 1000).toStringAsFixed(2) +
         localizationInfo!.weightSymbol;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -294,8 +282,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                 ))
             : Gaps.empty,
         baseInfoItem('称重重量', text: actualWeight),
-        baseInfoItem('出库体积重量', text: outVolumnSum),
-        baseInfoItem('入库体积重量', text: inVolumnSum),
+        baseInfoItem('计费重量', text: paymentWeight),
         baseInfoItem('留仓物品', text: model!.inWarehouseItem),
         packVideoManager.isNotEmpty
             ? Column(

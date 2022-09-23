@@ -45,7 +45,6 @@ class _ModuleCellState extends State<ModuleCell> {
         .event
         .on<OrderCountRefreshEvent>()
         .listen((event) {
-      print('order refresh');
       getOrderCount();
     });
   }

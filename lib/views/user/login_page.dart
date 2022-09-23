@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
+import 'package:jiyun_app_client/events/logined_event.dart';
 import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
 import 'package:jiyun_app_client/firebase/auth.dart';
 import 'package:jiyun_app_client/models/model.dart';
@@ -122,7 +123,7 @@ class LoginPageState extends State<LoginPage> {
       EasyLoading.dismiss();
       EasyLoading.showSuccess(Translation.t(context, '登录成功'));
       //发送登录事件
-      // ApplicationEvent.getInstance().event.fire(LoginedEvent);
+      ApplicationEvent.getInstance().event.fire(LoginedEvent());
       ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
       //更新状态管理器
       var provider = Provider.of<Model>(context, listen: false);

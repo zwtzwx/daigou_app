@@ -121,6 +121,9 @@ class Notifications {
           '/OrderDetailPage', context, {'id': num.parse(data['value'])});
     } else if (data['type'] == '4') {
       Routers.push('/BalanceHistoryPage', context);
+    } else if (data['type'] == '7') {
+      Routers.push('/webview', context,
+          {'type': 'notice', 'id': int.parse(data['value'])});
     }
   }
 }
