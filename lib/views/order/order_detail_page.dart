@@ -146,16 +146,23 @@ class OrderDetailPageState extends State<OrderDetailPage> {
   Widget addressView() {
     String reciverStr =
         '${model!.address.receiverName} ${model!.address.timezone}${model!.address.phone}';
-    String addressStr = (model!.address.area?.name ?? '') +
-        (model!.address.subArea != null
-            ? ' ${model!.address.subArea!.name}'
-            : '') +
-        (model!.address.street.isNotEmpty ? ' ${model!.address.street}' : '') +
-        (model!.address.doorNo.isNotEmpty ? ' ${model!.address.doorNo}' : '') +
-        (model!.address.postcode.isNotEmpty
-            ? ' ${model!.address.postcode}'
-            : '') +
-        (model!.address.city.isNotEmpty ? ' ${model!.address.city}' : '');
+    String addressStr = (model!.address.address != null &&
+            model!.address.address!.isNotEmpty)
+        ? model!.address.address!
+        : ((model!.address.area?.name ?? '') +
+            (model!.address.subArea != null
+                ? ' ${model!.address.subArea!.name}'
+                : '') +
+            (model!.address.street.isNotEmpty
+                ? ' ${model!.address.street}'
+                : '') +
+            (model!.address.doorNo.isNotEmpty
+                ? ' ${model!.address.doorNo}'
+                : '') +
+            (model!.address.postcode.isNotEmpty
+                ? ' ${model!.address.postcode}'
+                : '') +
+            (model!.address.city.isNotEmpty ? ' ${model!.address.city}' : ''));
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(15),
@@ -203,7 +210,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
           Gaps.vGap5,
           caption.Caption(
             str: addressStr,
-            lines: 3,
+            lines: 4,
           ),
           Gaps.vGap5,
           caption.Caption(

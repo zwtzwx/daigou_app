@@ -64,8 +64,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
   // 订单付款数据
   OrderModel? orderModel;
 
-  // 'transferType': 0,
-  //                           'modelType': 0,
+  bool isRequest = false;
   int modelType = 0; // 数据类型  0转账购买会员  1转账充值余额 2转账订单付款
 
   @override
@@ -98,6 +97,10 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
 
   // 提交
   onSubmit() async {
+    if (isRequest) return;
+    setState(() {
+      isRequest = true;
+    });
     List<String> listImg = [];
     for (var item in selectImg) {
       if (item != '') {
@@ -138,11 +141,10 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
       result = await BalanceService.orderPayTransfer(upData);
     }
     EasyLoading.dismiss();
+    setState(() {
+      isRequest = false;
+    });
     if (result['ok']) {
-      // Routers.push('/PaySuccessPage', context, {
-      //   'model': orderModel,
-      //   'type': modelType == 2 ? 1 : 3,
-      // });
       Navigator.of(context)
         ..pop()
         ..pop('succeed');

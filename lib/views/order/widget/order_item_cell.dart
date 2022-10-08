@@ -161,9 +161,11 @@ class OrderItemCell extends StatelessWidget {
                 ),
                 Gaps.vGap4,
                 Caption(
-                  str:
-                      '${orderModel.address.area != null ? '${orderModel.address.area!.name} ' : ''}${orderModel.address.subArea != null ? '${orderModel.address.subArea!.name} ' : ''}${orderModel.address.street} ${orderModel.address.doorNo} ${orderModel.address.city}',
-                  lines: 2,
+                  str: (orderModel.address.address != null &&
+                          orderModel.address.address!.isNotEmpty)
+                      ? orderModel.address.address!
+                      : '${orderModel.address.area != null ? '${orderModel.address.area!.name} ' : ''}${orderModel.address.subArea != null ? '${orderModel.address.subArea!.name} ' : ''}${orderModel.address.street} ${orderModel.address.doorNo} ${orderModel.address.city}',
+                  lines: 4,
                 ),
                 Gaps.vGap4,
                 Caption(
