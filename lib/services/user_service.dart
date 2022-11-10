@@ -59,6 +59,9 @@ class UserService {
   // 注销用户
   static const String deletionApi = 'user/cancel';
 
+  // 修改密码
+  static const String passwordApi = 'website-user/set-pwd';
+
   // 微信登陆switch
   static Future<Map> isShowWechat() async {
     Map? result;
@@ -344,6 +347,21 @@ class UserService {
       result = {
         'ok': res.ok,
         'msg': res.msg ?? res.error!.message,
+      };
+    });
+    return result;
+  }
+
+  /*
+    修改密码
+   */
+  static Future<Map> onChangePassword(Map<String, dynamic> params) async {
+    Map result = {'ok': false, 'msg': ''};
+    await HttpClient().post(passwordApi, queryParameters: params).then((res) {
+      result = {
+        'ok': res.ok,
+        'msg': res.msg ?? res.error!.message,
+        // 'data':
       };
     });
     return result;

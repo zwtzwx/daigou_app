@@ -60,7 +60,7 @@ class VipCenterPageState extends State<VipCenterPage> {
     super.initState();
     pageTitle = '会员中心';
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {});
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
 
     created();
     // ApplicationEvent.getInstance().event.on<DelegateRefresh>().listen((event) {
@@ -319,8 +319,8 @@ class VipCenterPageState extends State<VipCenterPage> {
   }
 
   IndexedWidgetBuilder _buildGrideBtnView() {
-    LocalizationModel? localizationInfo =
-        Provider.of<Model>(context, listen: false).localizationInfo;
+    // LocalizationModel? localizationInfo =
+    //     Provider.of<Model>(context, listen: false).localizationInfo;
     return (context, index) {
       UserVipPriceModel model = userVipModel!.priceList[index];
       return GestureDetector(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 double btnHeight = 60;
 double borderWidth = 2;
 
+// ignore: must_be_immutable
 class RenameDialogContent extends StatefulWidget {
   String? title;
   int? needIdCard;

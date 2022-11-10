@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:jiyun_app_client/common/hex_to_color.dart';
 import 'package:jiyun_app_client/common/translation.dart';
@@ -38,7 +37,7 @@ class ShareInfoPageState extends State<SharePage> {
   void initState() {
     super.initState();
     pageTitle = '我要分享';
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getShareData();
     });
   }

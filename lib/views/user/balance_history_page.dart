@@ -113,18 +113,19 @@ class LineItemState extends State<LineItem> {
   Widget cellViews(UserRechargeModel model) {
     var creatView = Container(
         margin: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
-        height: 110,
+        // height: 110,
         decoration: BoxDecoration(
           color: ColorConfig.white,
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           border: Border.all(width: 1, color: Colors.white),
         ),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
                 margin: const EdgeInsets.only(left: 15, top: 15),
                 alignment: Alignment.topCenter,
-                height: 90,
                 width: 30,
                 child: model.payType.contains('支付宝')
                     ? Image.asset(
@@ -141,10 +142,11 @@ class LineItemState extends State<LineItem> {
                             : Image.asset(
                                 'assets/images/AboutMe/好评Dis@3x.png',
                               )),
-            SizedBox(
-                height: 90,
-                width: ScreenUtil().screenWidth - 90,
+            Container(
+                width: ScreenUtil().screenWidth - 100,
+                margin: const EdgeInsets.only(left: 10),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
                       height: 30,
@@ -153,7 +155,6 @@ class LineItemState extends State<LineItem> {
                         children: <Widget>[
                           Container(
                             alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(top: 0, left: 10),
                             child: Caption(
                               alignment: TextAlign.left,
                               str: Translation.t(context, '充值金额'),
@@ -163,7 +164,6 @@ class LineItemState extends State<LineItem> {
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(top: 0, right: 0),
                             alignment: Alignment.centerRight,
                             child: Caption(
                               str: (model.confirmAmount / 100)
@@ -182,7 +182,6 @@ class LineItemState extends State<LineItem> {
                         children: <Widget>[
                           Container(
                             alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.only(top: 0, left: 10),
                             child: Caption(
                               alignment: TextAlign.left,
                               str: model.payType,
@@ -212,7 +211,6 @@ class LineItemState extends State<LineItem> {
                       child: Row(
                         children: <Widget>[
                           Container(
-                            margin: const EdgeInsets.only(top: 0, left: 10),
                             alignment: Alignment.centerRight,
                             child: Caption(
                               alignment: TextAlign.left,
@@ -224,6 +222,14 @@ class LineItemState extends State<LineItem> {
                         ],
                       ),
                     ),
+                    model.status == 2
+                        ? SizedBox(
+                            child: Caption(
+                              str: '备注：${model.customerRemark}',
+                              lines: 20,
+                            ),
+                          )
+                        : Gaps.empty,
                   ],
                 ))
           ],

@@ -31,6 +31,7 @@ import 'package:jiyun_app_client/views/user/agent_member_page.dart';
 import 'package:jiyun_app_client/views/user/apply_withdraw_success_page.dart';
 import 'package:jiyun_app_client/views/user/balance_history_page.dart';
 import 'package:jiyun_app_client/views/user/change_mobile_email_page.dart';
+import 'package:jiyun_app_client/views/user/change_password_page.dart';
 import 'package:jiyun_app_client/views/user/forget_password_page.dart';
 import 'package:jiyun_app_client/views/user/login_page.dart';
 import 'package:jiyun_app_client/views/user/my_coupon_page.dart';
@@ -158,6 +159,7 @@ class Routers {
     '/LoginPage': (context) => const LoginPage(),
     '/UserPrivacyPage': (context) => const UserPrivacyPage(),
     '/UserProtocolPage': (context) => const UserProtocolPage(),
+    '/ChangePasswordPage': (context) => const ChangePasswordPage(),
     // '/PackageOrOrder': (context) => PackageOrOrder(),
     // '/BeganToFreight': (context) => BeganToFreight(),
     '/LineAllPage': (context) => const LineAllPage(),

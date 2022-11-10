@@ -20,9 +20,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/un_authenticate_event.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/express_company_model.dart';
 import 'package:jiyun_app_client/models/goods_category_model.dart';
@@ -90,7 +88,7 @@ class ForcastParcelPageState extends State<ForcastParcelPage> {
   void initState() {
     super.initState();
     localization = Provider.of<Model>(context, listen: false).localizationInfo;
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       created();
     });
     // ApplicationEvent.getInstance()

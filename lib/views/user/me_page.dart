@@ -145,7 +145,7 @@ class MePageState extends State<MePage> {
           Container(
             padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
             child: GridView.builder(
-              itemCount: 8,
+              itemCount: 9,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -169,6 +169,7 @@ class MePageState extends State<MePage> {
       '交易记录',
       agentStatus?.name ?? '申请代理',
       '关于我们',
+      '修改密码',
       '退出登录',
     ];
     List<String> iconList = [
@@ -179,6 +180,7 @@ class MePageState extends State<MePage> {
       'AboutMe/pay-record-icon',
       'AboutMe/proxy-icon',
       'AboutMe/about-me-icon',
+      'AboutMe/password',
       'AboutMe/logout-icon',
     ];
     return GestureDetector(
@@ -213,6 +215,8 @@ class MePageState extends State<MePage> {
           // 关于我们
           Routers.push('/AboutMePage', context);
         } else if (index == 7) {
+          Routers.push('/ChangePasswordPage', context);
+        } else if (index == 8) {
           // 退出登录
           showActionSheet(context);
         }

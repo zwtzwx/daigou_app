@@ -34,7 +34,7 @@ class _CategoryPageState extends State<CategoryPage> {
   void initState() {
     super.initState();
     data = widget.arguments!['categories'];
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _callback();
     });
   }

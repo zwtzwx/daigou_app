@@ -51,8 +51,8 @@ class ApplyWithDrawPageState extends State<ApplyWithDrawPage> {
 
   @override
   Widget build(BuildContext context) {
-    LocalizationModel? localizationInfo =
-        Provider.of<Model>(context, listen: false).localizationInfo;
+    // LocalizationModel? localizationInfo =
+    //     Provider.of<Model>(context, listen: false).localizationInfo;
 
     return Scaffold(
       appBar: AppBar(

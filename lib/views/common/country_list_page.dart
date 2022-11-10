@@ -183,7 +183,6 @@ class _CountryListPageState extends State<CountryListPage> {
                                           onTap: () async {
                                             CountryModel model =
                                                 cellList[index2];
-                                            print('g');
                                             if (widget.arguments?['showArea'] !=
                                                     null &&
                                                 model.areas != null &&

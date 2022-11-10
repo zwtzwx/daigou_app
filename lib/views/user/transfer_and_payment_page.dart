@@ -82,7 +82,7 @@ class TransferAndPaymentPageState extends State<TransferAndPaymentPage> {
     } else if (modelType == 2) {
       orderModel = widget.arguments['contentModel'];
     }
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {});
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
 
     created();
   }

@@ -66,13 +66,13 @@ class RechargePageState extends State<RechargePage> {
         weChatResponseEventHandler.distinct((a, b) => a == b).listen((res) {
       if (res is WeChatPaymentResponse) {
         if (res.isSuccessful) {
-          Routers.push('/PaySuccessPage', context, {'type': 3});
         } else {
           Util.showToast(Translation.t(context, '支付失败'));
         }
       }
     });
     created();
+    getBalance();
   }
 
   created() async {
@@ -82,19 +82,20 @@ class RechargePageState extends State<RechargePage> {
     EasyLoading.show();
     payTypeList = await BalanceService.getPayTypeList(
         noBalanceType: true, noIPay88: true);
-    var userOrderDataCount = await UserService.getOrderDataCount();
-    EasyLoading.dismiss();
-    setState(() {
-      myBalance = ((userOrderDataCount!.balance ?? 0) / 100).toStringAsFixed(2);
-      isloading++;
-    });
-
     //拉取默认的充值金额选项
     List<DefaultAmountModel>? _defaultAmountList =
         await BalanceService.getDefaultAmountList();
-
+    EasyLoading.dismiss();
     setState(() {
       defaultAmountList = _defaultAmountList;
+      isloading++;
+    });
+  }
+
+  void getBalance() async {
+    var userOrderDataCount = await UserService.getOrderDataCount();
+    setState(() {
+      myBalance = ((userOrderDataCount!.balance ?? 0) / 100).toStringAsFixed(2);
       isloading++;
     });
   }
@@ -177,7 +178,7 @@ class RechargePageState extends State<RechargePage> {
           ),
         ),
       ),
-      body: isloading == 2
+      body: isloading >= 2
           ? GestureDetector(
               onTap: () {
                 FocusScope.of(context).requestFocus(FocusNode());

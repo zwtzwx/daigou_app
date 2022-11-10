@@ -54,7 +54,7 @@ class WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
   void initState() {
     super.initState();
     pageTitle = '提现记录';
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {});
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
   }
 
   loadList({type}) async {
