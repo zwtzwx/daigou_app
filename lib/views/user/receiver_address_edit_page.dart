@@ -50,6 +50,10 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
   // 详细地址
   final TextEditingController _streetNameController = TextEditingController();
   final FocusNode _streetName = FocusNode();
+  final TextEditingController _doorNoController = TextEditingController();
+  final FocusNode _doorNoNode = FocusNode();
+  final TextEditingController _cityController = TextEditingController();
+  final FocusNode _cityNode = FocusNode();
 
   FocusNode blankNode = FocusNode();
 
@@ -72,20 +76,22 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
         _recipientNameController.text = model.receiverName;
         _mobileNumberController.text = model.phone;
         _zipCodeController.text = model.postcode;
+        _streetNameController.text = model.street;
+        _cityController.text = model.city;
+        _doorNoController.text = model.doorNo;
         if (model.area != null) {
           areaModel = model.area;
           if (model.subArea != null) {
             subAreaModel = model.subArea;
           }
         }
-        _streetNameController.text = model.address ?? '';
       } else {
         model.phone = '';
         model.receiverName = '';
         model.timezone = '';
         model.city = '';
         model.countryId = 999;
-        model.address = '';
+        model.street = '';
         model.postcode = '';
         model.doorNo = '';
       }
@@ -148,7 +154,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: Caption(
+          title: ZHTextLine(
             str: Translation.t(context, !isEdit ? '添加地址' : '修改地址'),
             color: ColorConfig.textBlack,
             fontSize: 18,
@@ -237,7 +243,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Caption(
+                  ZHTextLine(
                     str: model.timezone.isEmpty
                         ? Translation.t(context, '请选择电话区号')
                         : model.timezone,
@@ -296,7 +302,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Caption(
+                  ZHTextLine(
                     str: countryModel.name == null
                         ? Translation.t(context, '请选择国家地区')
                         : countryModel.name!,
@@ -325,37 +331,58 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
             focusNode: _zipCode,
             maxLength: 20,
             onSubmitted: (res) {
-              FocusScope.of(context).requestFocus(_streetName);
+              FocusScope.of(context).requestFocus(_doorNoNode);
             },
             onChanged: (res) {
               model.postcode = res;
             },
           ),
         ),
-        Container(
-          color: Colors.white,
-          width: double.infinity,
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Caption(
-                str: Translation.t(context, '详细地址'),
-              ),
-              NormalInput(
-                controller: _streetNameController,
-                focusNode: _streetName,
-                maxLength: 300,
-                hintText: Translation.t(context, '请输入详细地址'),
-                maxLines: 10,
-                contentPadding: const EdgeInsets.only(top: 10),
-                onChanged: (res) {
-                  model.address = res;
-                },
-              ),
-            ],
+        InputTextItem(
+          title: Translation.t(context, '门牌号'),
+          inputText: NormalInput(
+            hintText: Translation.t(context, '请输入门牌号'),
+            contentPadding: const EdgeInsets.only(top: 17, right: 15),
+            textAlign: TextAlign.right,
+            controller: _doorNoController,
+            focusNode: _doorNoNode,
+            onSubmitted: (res) {
+              FocusScope.of(context).requestFocus(_streetName);
+            },
+            onChanged: (res) {
+              model.doorNo = res;
+            },
           ),
-        )
+        ),
+        InputTextItem(
+          title: Translation.t(context, '街道'),
+          inputText: NormalInput(
+            hintText: Translation.t(context, '请输入街道'),
+            contentPadding: const EdgeInsets.only(top: 17, right: 15),
+            textAlign: TextAlign.right,
+            controller: _streetNameController,
+            focusNode: _streetName,
+            onSubmitted: (res) {
+              FocusScope.of(context).requestFocus(_cityNode);
+            },
+            onChanged: (res) {
+              model.street = res;
+            },
+          ),
+        ),
+        InputTextItem(
+          title: Translation.t(context, '城市'),
+          inputText: NormalInput(
+            hintText: Translation.t(context, '请输入城市'),
+            contentPadding: const EdgeInsets.only(top: 17, right: 15),
+            textAlign: TextAlign.right,
+            controller: _cityController,
+            focusNode: _cityNode,
+            onChanged: (res) {
+              model.postcode = res;
+            },
+          ),
+        ),
       ],
     );
   }
@@ -385,7 +412,9 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
       'receiver_name': model.receiverName,
       'timezone': model.timezone,
       'phone': model.phone,
-      'address': model.address,
+      'street': model.street,
+      'door_no': model.doorNo,
+      'city': model.city,
       'country_id': countryModel.id,
       'postcode': model.postcode,
       'area_id': areaModel?.id ?? '',
@@ -437,7 +466,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
     List<PickerItem> data = [];
     for (var item in countryModel.areas!) {
       var containe = PickerItem(
-          text: Caption(
+          text: ZHTextLine(
             fontSize: 24,
             str: item.name,
           ),
@@ -451,7 +480,7 @@ class ReceiverAddressEditPageState extends State<ReceiverAddressEditPage>
     List<PickerItem> subList = [];
     for (var item in areasitem.areas!) {
       var subArea = PickerItem(
-        text: Caption(
+        text: ZHTextLine(
           fontSize: 24,
           str: item.name,
         ),

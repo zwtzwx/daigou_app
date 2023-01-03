@@ -72,7 +72,7 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
-          title: Caption(
+          title: ZHTextLine(
             str: Translation.t(context, '地址管理'),
             fontSize: 18,
           ),
@@ -151,14 +151,11 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
       if (model.subArea != null) {
         contentStr += ' ' + model.subArea!.name;
       }
-      String address = model.address ?? '';
-      contentStr += ' ' + address;
     } else {
-      contentStr = model.countryName;
-      contentStr += ' ' + model.province;
-      String address = model.address ?? '';
+      contentStr += model.street;
+      contentStr += ' ' + model.doorNo;
       contentStr += ' ' + model.city;
-      contentStr += ' ' + address;
+      contentStr += ' ' + model.countryName;
     }
 
     return GestureDetector(
@@ -207,7 +204,7 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
                                             borderRadius:
                                                 const BorderRadius.all(
                                                     Radius.circular(2))),
-                                        child: Caption(
+                                        child: ZHTextLine(
                                           str: Translation.t(context, '默认'),
                                           fontSize: 9,
                                           color: ColorConfig.white,
@@ -216,12 +213,12 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
                                     : Container(),
                                 Container(
                                   margin: const EdgeInsets.only(right: 10),
-                                  child: Caption(
+                                  child: ZHTextLine(
                                     str: nameN,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Caption(
+                                ZHTextLine(
                                   str: nameAll,
                                 )
                               ],
@@ -231,7 +228,7 @@ class ReceiverAddressListPageState extends State<ReceiverAddressListPage>
                             padding: const EdgeInsets.only(top: 5),
                             width: ScreenUtil().screenWidth - 60,
                             alignment: Alignment.topLeft,
-                            child: Caption(
+                            child: ZHTextLine(
                               str: contentStr,
                               lines: 3,
                             ),

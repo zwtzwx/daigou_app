@@ -44,7 +44,7 @@ class _PropSheetCellState extends State<PropSheetCell> {
               height: 44,
               margin: const EdgeInsets.only(left: 15),
               alignment: Alignment.centerLeft,
-              child: Caption(
+              child: ZHTextLine(
                 str: Translation.t(context, '物品属性'),
                 fontSize: 19,
               ),
@@ -96,7 +96,7 @@ class _PropSheetCellState extends State<PropSheetCell> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Caption(
+                            ZHTextLine(
                               fontSize: 14,
                               str: propmodel.name!,
                               lines: 2,
@@ -131,7 +131,7 @@ class _PropSheetCellState extends State<PropSheetCell> {
                       border: Border.all(width: 1, color: ColorConfig.primary)),
                   alignment: Alignment.center,
                   height: 40,
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '确认'),
                     color: Colors.white,
                   ),

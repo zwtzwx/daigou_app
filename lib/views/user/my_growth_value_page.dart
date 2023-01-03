@@ -94,7 +94,7 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
             flex: 2,
             child: Container(
               alignment: Alignment.center,
-              child: Caption(
+              child: ZHTextLine(
                 str: model.ruleName,
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
@@ -108,7 +108,7 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
             flex: 2,
             child: Container(
               alignment: Alignment.center,
-              child: Caption(
+              child: ZHTextLine(
                 alignment: TextAlign.center,
                 str: model.createdAt,
                 fontSize: 11,
@@ -123,7 +123,7 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
             flex: 2,
             child: Container(
               alignment: Alignment.center,
-              child: Caption(
+              child: ZHTextLine(
                 str: model.type == 1
                     ? '+' + model.value.toString()
                     : '-' + model.value.toString(),
@@ -177,14 +177,14 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Caption(
+                  ZHTextLine(
                     str: vipDataModel!.profile.currentGrowthValue.toString(),
                     color: ColorConfig.vipNormal,
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                   ),
                   Gaps.vGap5,
-                  Caption(
+                  ZHTextLine(
                     str: Translation.t(context, '成长值'),
                     color: ColorConfig.vipNormal,
                   ),
@@ -192,13 +192,13 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Caption(
+                      ZHTextLine(
                         str: Translation.t(context, '当前等级') +
                             '：' +
                             vipDataModel!.profile.levelName,
                         color: ColorConfig.vipNormal,
                       ),
-                      Caption(
+                      ZHTextLine(
                         str: Translation.t(context, '下一等级成长值') +
                             '：' +
                             vipDataModel!.profile.nextGrowthValue.toString(),
@@ -240,7 +240,7 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
                             flex: 2,
                             child: Container(
                               alignment: Alignment.center,
-                              child: Caption(
+                              child: ZHTextLine(
                                 str: Translation.t(context, '类型'),
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -251,7 +251,7 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
                             flex: 2,
                             child: Container(
                               alignment: Alignment.center,
-                              child: Caption(
+                              child: ZHTextLine(
                                 str: Translation.t(context, '时间'),
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -262,7 +262,7 @@ class GrowthValuePageState extends State<MyGrowthValuePage> {
                             flex: 2,
                             child: Container(
                                 alignment: Alignment.center,
-                                child: Caption(
+                                child: ZHTextLine(
                                   str: Translation.t(context, '明细'),
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,

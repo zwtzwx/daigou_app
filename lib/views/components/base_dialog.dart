@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,8 +7,6 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
 import 'package:jiyun_app_client/models/parcel_box_model.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
 
 /*
   公共弹窗
@@ -38,7 +34,7 @@ class BaseDialog {
             actions: <Widget>[
               showCancelButton
                   ? TextButton(
-                      child: Caption(
+                      child: ZHTextLine(
                         str: Translation.t(context, '取消'),
                         color: ColorConfig.textNormal,
                       ),
@@ -48,7 +44,7 @@ class BaseDialog {
                     )
                   : Gaps.empty,
               TextButton(
-                child: Caption(
+                child: ZHTextLine(
                   str: Translation.t(context, '确认'),
                   color: ColorConfig.textBlack,
                 ),
@@ -126,7 +122,7 @@ class BaseDialog {
                           bottom: BorderSide(color: ColorConfig.line),
                         )),
                         alignment: Alignment.center,
-                        child: Caption(
+                        child: ZHTextLine(
                           str: title,
                           fontSize: titleFontSize ?? 15,
                         ),
@@ -141,7 +137,7 @@ class BaseDialog {
                   child: Container(
                     height: 40,
                     alignment: Alignment.center,
-                    child: Caption(
+                    child: ZHTextLine(
                         str: Translation.t(context, '确认'),
                         color: ColorConfig.primary),
                   ),
@@ -152,97 +148,6 @@ class BaseDialog {
         );
       },
     );
-  }
-
-  // 客服弹窗
-  static void customerDialog(BuildContext context, bool showWechat) {
-    showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
-          ),
-        ),
-        builder: (context) {
-          return SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Gaps.vGap20,
-                Caption(
-                  str: Translation.t(context, '选择客服'),
-                  fontSize: 18,
-                ),
-                Gaps.vGap20,
-                Row(
-                  mainAxisAlignment: showWechat
-                      ? MainAxisAlignment.spaceEvenly
-                      : MainAxisAlignment.center,
-                  children: [
-                    InkResponse(
-                      onTap: () async {
-                        String whatsapp = '+821027320501';
-                        String whatsappURlAndroid =
-                            'whatsapp://send?phone=' + whatsapp + '&text=';
-                        String whatappURLIos = "https://wa.me/$whatsapp?text=";
-                        if (Platform.isIOS) {
-                          if (await canLaunchUrl(Uri.parse(whatappURLIos))) {
-                            await launchUrl(Uri.parse(whatappURLIos));
-                          }
-                        } else {
-                          if (await canLaunchUrl(
-                              Uri.parse(whatsappURlAndroid))) {
-                            await launchUrl(Uri.parse(whatsappURlAndroid));
-                          }
-                        }
-                      },
-                      child: Column(
-                        children: const [
-                          Icon(
-                            Icons.whatsapp,
-                            color: Color(0xFF25D366),
-                            size: 45,
-                          ),
-                          Gaps.vGap5,
-                          Caption(
-                            str: 'WhatsApp',
-                          ),
-                        ],
-                      ),
-                    ),
-                    showWechat
-                        ? InkResponse(
-                            onTap: () {
-                              fluwx
-                                  .openWeChatCustomerServiceChat(
-                                      url:
-                                          'https://work.weixin.qq.com/kfid/kfce5c914af10d474ce',
-                                      corpId: 'ww3087c8445ff9e3a6')
-                                  .then((data) {});
-                            },
-                            child: Column(
-                              children: const [
-                                Icon(
-                                  Icons.wechat,
-                                  color: Color(0xFF51C332),
-                                  size: 45,
-                                ),
-                                Gaps.vGap5,
-                                Caption(
-                                  str: 'Wechat',
-                                ),
-                              ],
-                            ),
-                          )
-                        : Gaps.empty,
-                  ],
-                ),
-                Gaps.vGap20,
-              ],
-            ),
-          );
-        });
   }
 
   // 多箱物流

@@ -65,7 +65,7 @@ class _InputTextItemState extends State<InputTextItem> {
                     child: Row(
                       children: [
                         widget.isRequired
-                            ? const Caption(
+                            ? const ZHTextLine(
                                 str: '*',
                                 color: ColorConfig.textRed,
                               )

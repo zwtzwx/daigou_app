@@ -34,7 +34,8 @@ class AnnouncementService {
   static Future<AnnouncementModel?> getLatest() async {
     AnnouncementModel? result;
     await HttpClient().get(latestApi).then((res) => {
-          if (res.data != null) {result = AnnouncementModel.fromJson(res.data)}
+          if (res.data != null && res.data.isNotEmpty)
+            {result = AnnouncementModel.fromJson(res.data)}
         });
     return result;
   }

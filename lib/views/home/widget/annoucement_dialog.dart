@@ -39,7 +39,7 @@ class AnnoucementDialog extends StatelessWidget {
                         vertical: 15, horizontal: 20),
                     width: double.infinity,
                     alignment: Alignment.center,
-                    child: Caption(
+                    child: ZHTextLine(
                       str: model.title,
                       fontWeight: FontWeight.bold,
                     ),

@@ -1,49 +1,49 @@
 {
   "project_info": {
-    "project_number": "1011459206295",
-    "firebase_url": "https://hj-express-9a264-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "hj-express-9a264",
-    "storage_bucket": "hj-express-9a264.appspot.com"
+    "project_number": "521370548270",
+    "firebase_url": "https://jiyun-app-1df62-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "jiyun-app-1df62",
+    "storage_bucket": "jiyun-app-1df62.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1011459206295:android:5e796083218d8a57fe0dd2",
+        "mobilesdk_app_id": "1:521370548270:android:dfaaf4a63687120eb047bf",
         "android_client_info": {
-          "package_name": "com.huijing.jiyun_app_client"
+          "package_name": "com.zhongha.jiyun_app_client"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1011459206295-2hd9qeht0krg4mj6j2qifnoh03i1nh7l.apps.googleusercontent.com",
+          "client_id": "521370548270-f0tdas0lllp048vci57h6q2fvohgipaq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.huijing.jiyun_app_client",
+            "package_name": "com.zhongha.jiyun_app_client",
             "certificate_hash": "9ef329c1927f42a9e117f30c1a961b7905afc194"
           }
         },
         {
-          "client_id": "1011459206295-phmm8lsfv647dgtiplii48r54dlsgfh2.apps.googleusercontent.com",
+          "client_id": "521370548270-fruai3hgmpg4k4gmabcd83tfiov8sr1a.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDnSYuVb9OwMtJlY7Kp7HaivKP3nrckqMs"
+          "current_key": "AIzaSyAVCeaIbNaXro_c3dCXbQmQXGdiMrBaypA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1011459206295-phmm8lsfv647dgtiplii48r54dlsgfh2.apps.googleusercontent.com",
+              "client_id": "521370548270-fruai3hgmpg4k4gmabcd83tfiov8sr1a.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1011459206295-is63n7k9rvir9ufokkmq47jfj91nfalh.apps.googleusercontent.com",
+              "client_id": "521370548270-9i9f4jn0grjubmo75epl9ulb14q80vbb.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.huijing.jiyunAppClient"
+                "bundle_id": "com.zhongha.jiyunAppClient"
               }
             }
           ]

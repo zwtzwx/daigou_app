@@ -101,7 +101,7 @@ class SearchBarWidgetState extends State<SearchBar> {
       margin: const EdgeInsets.only(right: 10),
       child: RawMaterialButton(
         fillColor: ColorConfig.primary,
-        child: Caption(
+        child: ZHTextLine(
           str: Translation.t(context, '搜索'),
           color: Colors.white,
         ),

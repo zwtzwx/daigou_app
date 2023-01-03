@@ -120,7 +120,7 @@ class WebViewPageState extends State<WebViewPage>
                   margin: const EdgeInsets.only(right: 15),
                   alignment: Alignment.centerRight,
                   height: 60,
-                  child: Caption(
+                  child: ZHTextLine(
                     str: time ?? '',
                   ),
                 )
@@ -135,7 +135,7 @@ class WebViewPageState extends State<WebViewPage>
         iconTheme: const IconThemeData(
           color: Colors.black, //修改颜色
         ),
-        title: Caption(
+        title: ZHTextLine(
           str: title ?? '',
           fontSize: 18,
           fontWeight: FontWeight.w400,

@@ -2,10 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>HJ EXPRESS</string>
+	<string>FF077Cargo</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>HJ EXPRESS</string>
+	<string>FF077Cargo</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -23,11 +25,11 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleURLName</key>
-			<string>pay</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>huijing</string>
+				<string>ZhongHa</string>
 			</array>
 		</dict>
 		<dict>
@@ -35,7 +37,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>HuiJing</string>
+				<string>com.googleusercontent.apps.521370548270-9i9f4jn0grjubmo75epl9ulb14q80vbb</string>
 			</array>
 		</dict>
 		<dict>
@@ -43,47 +45,16 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wx2628ecc5cadc8a7f</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.1011459206295-is63n7k9rvir9ufokkmq47jfj91nfalh</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.huijing.jiyunAppClient</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb5251111768291072</string>
+				<string>com.zhongha.jiyunAppClient</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>FacebookAppID</key>
-	<string>5251111768291072</string>
-	<key>FacebookClientToken</key>
-	<string>1f9284cc3a1b12905945cbf8d070a7ea</string>
-	<key>FacebookDisplayName</key>
-	<string>HJ EXPRESS</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>wechat</string>
-		<string>weixinULAPI</string>
-		<string>weixin</string>
-		<string>fbapi</string>
-		<string>fb-messenger-share-api</string>
+		<string>tel</string>
+		<string>mailto</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -95,11 +66,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>APP需要您的同意，才能访问相机进行拍摄商品信息，如禁止将无法拍照拍摄图片无法更新信息</string>
+	<string>APP需要您的同意，才能访问相机设置个人头像信息</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>请允许APP保存图片到相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>APP需要您的同意，才能访问相册进行选择照片上传/发布信息，如禁止将无法上传选择照片上传/发布信息</string>
+	<string>APP需要您的同意，才能访问相册进行选择照片上传</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

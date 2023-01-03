@@ -118,7 +118,7 @@ class MyProfilePageState extends State<MyProfilePage>
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: Caption(
+          title: ZHTextLine(
             str: Translation.t(context, '个人信息'),
             color: ColorConfig.textBlack,
             fontSize: 18,
@@ -157,7 +157,7 @@ class MyProfilePageState extends State<MyProfilePage>
                                     height: 55,
                                     width: 90,
                                     alignment: Alignment.centerLeft,
-                                    child: Caption(
+                                    child: ZHTextLine(
                                       str: Translation.t(context, '用户昵称'),
                                     ),
                                   ),
@@ -205,11 +205,11 @@ class MyProfilePageState extends State<MyProfilePage>
                                   height: 55,
                                   width: 90,
                                   alignment: Alignment.centerLeft,
-                                  child: Caption(
+                                  child: ZHTextLine(
                                     str: Translation.t(context, '用户ID'),
                                   ),
                                 ),
-                                Caption(
+                                ZHTextLine(
                                   str: userModel!.id.toString(),
                                 )
                               ],
@@ -218,55 +218,9 @@ class MyProfilePageState extends State<MyProfilePage>
                         ),
                       ),
                       Gaps.line,
-                      GestureDetector(
-                        onTap: () {
-                          showPickerModal(context);
-                        },
-                        child: Container(
-                          color: ColorConfig.white,
-                          height: 55,
-                          padding: const EdgeInsets.only(left: 10, right: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    color: ColorConfig.white,
-                                    height: 55,
-                                    width: 90,
-                                    alignment: Alignment.centerLeft,
-                                    child: Caption(
-                                      str: Translation.t(
-                                          context, '性别'), // 1 男  2 女
-                                    ),
-                                  ),
-                                  Caption(
-                                    str: userModel!.gender == null
-                                        ? Translation.t(context, '请选择性别')
-                                        : userModel!.gender == 1
-                                            ? Translation.t(context, '男')
-                                            : Translation.t(context, '女'),
-                                    color: userModel!.gender == null
-                                        ? ColorConfig.textGray
-                                        : ColorConfig.textDark,
-                                  )
-                                ],
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios,
-                                color: ColorConfig.textGrayC,
-                                size: 18,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      // Gaps.line,
                       // GestureDetector(
                       //   onTap: () {
-                      //     Routers.push(
-                      //         '/ChangeMobileEmailPage', context, {'type': 1});
+                      //     showPickerModal(context);
                       //   },
                       //   child: Container(
                       //     color: ColorConfig.white,
@@ -282,37 +236,83 @@ class MyProfilePageState extends State<MyProfilePage>
                       //               height: 55,
                       //               width: 90,
                       //               alignment: Alignment.centerLeft,
-                      //               child: Caption(
-                      //                 str: Translation.t(context, '手机号码'),
+                      //               child: ZHTextLine(
+                      //                 str: Translation.t(
+                      //                     context, '性别'), // 1 男  2 女
                       //               ),
                       //             ),
-                      //             Caption(
-                      //               str: userModel!.phone == null ||
-                      //                       userModel!.phone!.isEmpty
-                      //                   ? Translation.t(context, '绑定手机号')
-                      //                   : userModel!.phone!,
-                      //               color: userModel!.email == null ||
-                      //                       userModel!.email!.isEmpty
+                      //             ZHTextLine(
+                      //               str: userModel!.gender == null
+                      //                   ? Translation.t(context, '请选择性别')
+                      //                   : userModel!.gender == 1
+                      //                       ? Translation.t(context, '男')
+                      //                       : Translation.t(context, '女'),
+                      //               color: userModel!.gender == null
                       //                   ? ColorConfig.textGray
                       //                   : ColorConfig.textDark,
-                      //             ),
+                      //             )
                       //           ],
                       //         ),
-                      //         userModel!.phone == null ||
-                      //                 userModel!.phone!.isEmpty
-                      //             ? const Icon(
-                      //                 Icons.arrow_forward_ios,
-                      //                 color: ColorConfig.textGrayC,
-                      //                 size: 18,
-                      //               )
-                      //             : Caption(
-                      //                 str: Translation.t(context, '更改手机号'),
-                      //                 color: ColorConfig.primary,
-                      //               )
+                      //         const Icon(
+                      //           Icons.arrow_forward_ios,
+                      //           color: ColorConfig.textGrayC,
+                      //           size: 18,
+                      //         )
                       //       ],
                       //     ),
                       //   ),
                       // ),
+                      // Gaps.line,
+                      GestureDetector(
+                        onTap: () {
+                          Routers.push(
+                              '/ChangeMobileEmailPage', context, {'type': 1});
+                        },
+                        child: Container(
+                          color: ColorConfig.white,
+                          height: 55,
+                          padding: const EdgeInsets.only(left: 10, right: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    color: ColorConfig.white,
+                                    height: 55,
+                                    width: 90,
+                                    alignment: Alignment.centerLeft,
+                                    child: ZHTextLine(
+                                      str: Translation.t(context, '手机号码'),
+                                    ),
+                                  ),
+                                  ZHTextLine(
+                                    str: userModel!.phone == null ||
+                                            userModel!.phone!.isEmpty
+                                        ? Translation.t(context, '绑定手机号')
+                                        : userModel!.phone!,
+                                    color: userModel!.email == null ||
+                                            userModel!.email!.isEmpty
+                                        ? ColorConfig.textGray
+                                        : ColorConfig.textDark,
+                                  ),
+                                ],
+                              ),
+                              userModel!.phone == null ||
+                                      userModel!.phone!.isEmpty
+                                  ? const Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: ColorConfig.textGrayC,
+                                      size: 18,
+                                    )
+                                  : ZHTextLine(
+                                      str: Translation.t(context, '更改手机号'),
+                                      color: ColorConfig.primary,
+                                    )
+                            ],
+                          ),
+                        ),
+                      ),
                       Gaps.line,
                       GestureDetector(
                         onTap: () {
@@ -333,14 +333,14 @@ class MyProfilePageState extends State<MyProfilePage>
                                     height: 55,
                                     width: 90,
                                     alignment: Alignment.centerLeft,
-                                    child: Caption(
+                                    child: ZHTextLine(
                                       str: Translation.t(context, '电子邮箱'),
                                     ),
                                   ),
                                   Container(
                                     alignment: Alignment.centerLeft,
                                     height: 55,
-                                    child: Caption(
+                                    child: ZHTextLine(
                                       // fontSize: 14,
                                       lines: 2,
                                       str: userModel!.email == null ||
@@ -362,7 +362,7 @@ class MyProfilePageState extends State<MyProfilePage>
                                       color: ColorConfig.textGrayC,
                                       size: 18,
                                     )
-                                  : Caption(
+                                  : ZHTextLine(
                                       str: Translation.t(context, '更改邮箱'),
                                       color: ColorConfig.primary,
                                     )
@@ -387,7 +387,7 @@ class MyProfilePageState extends State<MyProfilePage>
                       //               height: 55,
                       //               width: 90,
                       //               alignment: Alignment.centerLeft,
-                      //               child: const Caption(
+                      //               child: const ZHTextLine(
                       //                 str: '微信号',
                       //               ),
                       //             ),
@@ -436,7 +436,7 @@ class MyProfilePageState extends State<MyProfilePage>
                                     height: 55,
                                     width: 90,
                                     alignment: Alignment.centerLeft,
-                                    child: Caption(
+                                    child: ZHTextLine(
                                       str: Translation.t(context, '现居城市'),
                                     ),
                                   ),

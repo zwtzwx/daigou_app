@@ -99,7 +99,7 @@ class MyPointPageState extends State<MyPointPage> {
             flex: 2,
             child: Container(
               alignment: Alignment.center,
-              child: Caption(
+              child: ZHTextLine(
                 str: model.ruleName,
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
@@ -110,7 +110,7 @@ class MyPointPageState extends State<MyPointPage> {
             flex: 2,
             child: Container(
               alignment: Alignment.center,
-              child: Caption(
+              child: ZHTextLine(
                 alignment: TextAlign.center,
                 str: model.createdAt,
                 fontSize: 12,
@@ -122,7 +122,7 @@ class MyPointPageState extends State<MyPointPage> {
             flex: 2,
             child: Container(
               alignment: Alignment.center,
-              child: Caption(
+              child: ZHTextLine(
                 str: model.type == 1
                     ? '+' + model.value.toString()
                     : '-' + model.value.toString(),
@@ -173,19 +173,19 @@ class MyPointPageState extends State<MyPointPage> {
               width: ScreenUtil().screenWidth,
               child: Column(
                 children: <Widget>[
-                  Caption(
+                  ZHTextLine(
                     str: (userPointModel?.point ?? 0).toString(),
                     fontSize: 30,
                     color: ColorConfig.vipNormal,
                     fontWeight: FontWeight.bold,
                   ),
                   Gaps.vGap5,
-                  Caption(
+                  ZHTextLine(
                     str: Translation.t(context, '可用积分'),
                     color: ColorConfig.vipNormal,
                   ),
                   Gaps.vGap15,
-                  Caption(
+                  ZHTextLine(
                     str: Translation.t(context, '使用规则') +
                         '：' +
                         (userPointModel?.configPoint ?? 0).toString() +
@@ -213,7 +213,7 @@ class MyPointPageState extends State<MyPointPage> {
                         flex: 2,
                         child: Container(
                           alignment: Alignment.center,
-                          child: Caption(
+                          child: ZHTextLine(
                             str: Translation.t(context, '类型'),
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -224,7 +224,7 @@ class MyPointPageState extends State<MyPointPage> {
                         flex: 2,
                         child: Container(
                           alignment: Alignment.center,
-                          child: Caption(
+                          child: ZHTextLine(
                             str: Translation.t(context, '时间'),
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -235,7 +235,7 @@ class MyPointPageState extends State<MyPointPage> {
                         flex: 2,
                         child: Container(
                             alignment: Alignment.center,
-                            child: Caption(
+                            child: ZHTextLine(
                               str: Translation.t(context, '明细'),
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

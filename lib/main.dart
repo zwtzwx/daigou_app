@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/firebase_options.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/provider/language_provider.dart';
@@ -12,12 +11,10 @@ import 'package:jiyun_app_client/storage/user_storage.dart';
 import 'package:jiyun_app_client/views/home/home_page.dart';
 import 'package:jiyun_app_client/views/main_controller.dart';
 import 'package:event_bus/event_bus.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:fluwx/fluwx.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -33,13 +30,7 @@ void main() async {
   var language = await LanguageStore.getLanguage();
   await dotenv.load(fileName: ".env");
   // 初始化 Firebase
-  if (Platform.isIOS) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  } else {
-    await Firebase.initializeApp();
-  }
+  await Firebase.initializeApp();
   runApp(MyApp(
     token: token,
     userInfo: userInfo,
@@ -81,20 +72,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _initFluwx();
-  }
-
-  _initFluwx() async {
-    await registerWxApi(
-      appId: "wx2628ecc5cadc8a7f",
-      doOnAndroid: true,
-      doOnIOS: true,
-      universalLink: "https://hjexpress.top/app/",
-    );
-    var result = await isWeChatInstalled;
-    if (kDebugMode) {
-      print("is installed $result");
-    }
   }
 
   PageTransitionsBuilder createTransition() {

@@ -42,7 +42,7 @@ class _StationPageState extends State<StationPage> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: Caption(
+        title: ZHTextLine(
           str: Translation.t(context, '自提点'),
           color: ColorConfig.textBlack,
           fontSize: 18,
@@ -71,7 +71,7 @@ class _StationPageState extends State<StationPage> {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: Caption(
+            child: ZHTextLine(
               str: model.name,
               fontSize: 18,
               color: ColorConfig.primary,
@@ -83,14 +83,14 @@ class _StationPageState extends State<StationPage> {
               children: [
                 SizedBox(
                   width: 100,
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '联系人'),
                     color: ColorConfig.textGray,
                     fontSize: 16,
                   ),
                 ),
                 Expanded(
-                  child: Caption(
+                  child: ZHTextLine(
                     str: model.contactor ?? '',
                     fontSize: 16,
                   ),
@@ -105,14 +105,14 @@ class _StationPageState extends State<StationPage> {
               children: [
                 SizedBox(
                   width: 100,
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '收件电话'),
                     color: ColorConfig.textGray,
                     fontSize: 16,
                   ),
                 ),
                 Expanded(
-                  child: Caption(
+                  child: ZHTextLine(
                     str: model.contactInfo ?? '',
                     fontSize: 16,
                   ),
@@ -127,14 +127,14 @@ class _StationPageState extends State<StationPage> {
               children: [
                 SizedBox(
                   width: 100,
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '详细地址'),
                     color: ColorConfig.textGray,
                     fontSize: 16,
                   ),
                 ),
                 Expanded(
-                  child: Caption(
+                  child: ZHTextLine(
                     str: model.address ?? '',
                     fontSize: 16,
                   ),
@@ -149,14 +149,14 @@ class _StationPageState extends State<StationPage> {
               children: [
                 SizedBox(
                   width: 100,
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '国家地区'),
                     color: ColorConfig.textGray,
                     fontSize: 16,
                   ),
                 ),
                 Expanded(
-                  child: Caption(
+                  child: ZHTextLine(
                     str:
                         '${model.country?.name ?? ''}${model.area?.name ?? ''}${model.subArea?.name ?? ''}',
                     fontSize: 16,
@@ -168,7 +168,7 @@ class _StationPageState extends State<StationPage> {
           Gaps.line,
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: Caption(
+            child: ZHTextLine(
               str: Translation.t(context, '支持渠道'),
               color: ColorConfig.textGray,
               fontSize: 16,
@@ -217,7 +217,7 @@ class _StationPageState extends State<StationPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Caption(
+                ZHTextLine(
                   str: lineModel.name,
                   fontSize: 18,
                 ),
@@ -225,7 +225,7 @@ class _StationPageState extends State<StationPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Caption(
+                    ZHTextLine(
                       str: lineModel.regions!.isNotEmpty
                           ? (lineModel.regions?[0].referenceTime ?? '')
                           : '',
@@ -236,7 +236,7 @@ class _StationPageState extends State<StationPage> {
                         Routers.push('/LineDetailPage', context,
                             {'id': lineModel.id, 'type': 1});
                       },
-                      child: Caption(
+                      child: ZHTextLine(
                         str: Translation.t(context, '查看详情'),
                         fontSize: 12,
                         color: ColorConfig.main,
@@ -246,7 +246,7 @@ class _StationPageState extends State<StationPage> {
                   ],
                 ),
                 Gaps.vGap4,
-                Caption(
+                ZHTextLine(
                   str: propStr ?? '',
                   fontSize: 12,
                 ),

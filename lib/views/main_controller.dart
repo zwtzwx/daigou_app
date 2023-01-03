@@ -6,8 +6,7 @@ import 'package:jiyun_app_client/firebase/notification.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 import 'package:jiyun_app_client/views/express/express_query_page.dart';
-import 'package:jiyun_app_client/views/line/line_query_page.dart';
-import 'package:jiyun_app_client/views/parcel/forecast_parcel_page.dart';
+import 'package:jiyun_app_client/views/order/order_center_page.dart';
 import 'package:jiyun_app_client/views/user/me_page.dart';
 import 'package:flutter/material.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -53,8 +52,7 @@ class TabBarState extends State<MainController> {
             //在这里定义TAB栏目对应的页
             HomePage(),
             ExpressQueryPage(),
-            ForcastParcelPage(),
-            LineQueryPage(),
+            OrderCenterPage(),
             MePage()
           ],
         ),
@@ -64,70 +62,57 @@ class TabBarState extends State<MainController> {
               type: BottomNavigationBarType.fixed,
               onTap: onTap,
               selectedItemColor: ColorConfig.primary,
-              unselectedItemColor: Colors.grey,
+              unselectedItemColor: ColorConfig.textDark,
               currentIndex: _selectIndex,
               backgroundColor: Colors.white,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Image.asset(
-                    'assets/images/TabbarIcon/home.png',
+                    'assets/images/TabbarIcon/home-uns.png',
                     width: 26,
                     height: 26,
                   ),
                   label: Translation.t(context, '首页', listen: true),
                   activeIcon: Image.asset(
-                    'assets/images/TabbarIcon/home-select.png',
+                    'assets/images/TabbarIcon/home.png',
                     width: 26,
                     height: 26,
                   ),
                 ),
                 BottomNavigationBarItem(
                     icon: Image.asset(
-                      'assets/images/TabbarIcon/express.png',
+                      'assets/images/TabbarIcon/wuliu-uns.png',
                       width: 26,
                       height: 26,
                     ),
                     label: Translation.t(context, '快递跟踪', listen: true),
                     activeIcon: Image.asset(
-                      'assets/images/TabbarIcon/express-select.png',
+                      'assets/images/TabbarIcon/wuliu.png',
                       width: 26,
                       height: 26,
                     )),
                 BottomNavigationBarItem(
                   icon: Image.asset(
-                    'assets/images/TabbarIcon/forecast.png',
+                    'assets/images/TabbarIcon/order-uns.png',
                     width: 26,
                     height: 26,
                   ),
-                  label: Translation.t(context, '包裹预报', listen: true),
+                  label: Translation.t(context, '我的包裹', listen: true),
                   activeIcon: Image.asset(
-                    'assets/images/TabbarIcon/forecast.png',
-                    width: 26,
-                    height: 26,
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  icon: Image.asset(
-                    'assets/images/TabbarIcon/calc.png',
-                    width: 26,
-                    height: 26,
-                  ),
-                  label: Translation.t(context, '运费估算', listen: true),
-                  activeIcon: Image.asset(
-                    'assets/images/TabbarIcon/calc-select.png',
+                    'assets/images/TabbarIcon/order.png',
                     width: 26,
                     height: 26,
                   ),
                 ),
                 BottomNavigationBarItem(
                     icon: Image.asset(
-                      'assets/images/TabbarIcon/my.png',
+                      'assets/images/TabbarIcon/center-uns.png',
                       width: 26,
                       height: 26,
                     ),
                     label: Translation.t(context, '我的', listen: true),
                     activeIcon: Image.asset(
-                      'assets/images/TabbarIcon/my-select.png',
+                      'assets/images/TabbarIcon/center.png',
                       width: 26,
                       height: 26,
                     )),
@@ -179,11 +164,11 @@ class TabBarState extends State<MainController> {
       case 'home':
         index = 0;
         break;
-      case 'middle':
-        index = 2;
+      case 'express':
+        index = 1;
         break;
-      case 'warehouse':
-        index = 3;
+      case 'orders':
+        index = 2;
         break;
     }
 
@@ -194,7 +179,6 @@ class TabBarState extends State<MainController> {
     //Token存在Model状态管理器中的
     if (Provider.of<Model>(context, listen: false).token.isEmpty &&
         index != 1 &&
-        index != 3 &&
         index != 0) {
       Routers.push('/LoginPage', context);
       return;

@@ -49,7 +49,7 @@ class _PlainButtonState extends State<PlainButton> {
           BorderSide(color: widget.borderColor),
         ),
       ),
-      child: Caption(
+      child: ZHTextLine(
         str: Translation.t(context, widget.text),
         fontSize: widget.fontSize,
         color: widget.textColor,

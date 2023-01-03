@@ -19,12 +19,11 @@ import 'package:jiyun_app_client/services/order_service.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/button/plain_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart' as caption;
+import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/components/photo_view_gallery_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -111,7 +110,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: caption.Caption(
+          title: ZHTextLine(
             str: Translation.t(context, '订单详情'),
             color: ColorConfig.textBlack,
             fontSize: 18,
@@ -184,7 +183,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   color: HexToColor('#eceeff'),
-                  child: caption.Caption(
+                  child: ZHTextLine(
                     str: model!.address.countryName,
                     color: ColorConfig.primary,
                     fontSize: 12,
@@ -196,24 +195,24 @@ class OrderDetailPageState extends State<OrderDetailPage> {
           Gaps.vGap15,
           Gaps.line,
           Gaps.vGap15,
-          caption.Caption(
+          ZHTextLine(
             str: Translation.t(context, '收货地址'),
             fontSize: 13,
             color: ColorConfig.textGray,
           ),
           Gaps.vGap5,
-          caption.Caption(
+          ZHTextLine(
             str: reciverStr,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
           Gaps.vGap5,
-          caption.Caption(
+          ZHTextLine(
             str: addressStr,
             lines: 4,
           ),
           Gaps.vGap5,
-          caption.Caption(
+          ZHTextLine(
             str: model!.station != null
                 ? '${Translation.t(context, '自提收货')}-${model!.station!.name}'
                 : Translation.t(context, '送货上门'),
@@ -232,13 +231,13 @@ class OrderDetailPageState extends State<OrderDetailPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          caption.Caption(
+          ZHTextLine(
             str: Translation.t(context, '客服备注'),
             color: ColorConfig.textGray,
           ),
           Container(
             margin: const EdgeInsets.only(top: 5),
-            child: caption.Caption(
+            child: ZHTextLine(
               str: model!.remark,
               lines: 10,
             ),
@@ -295,7 +294,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  caption.Caption(
+                  ZHTextLine(
                     str: Translation.t(context, '打包视频'),
                     color: ColorConfig.textGray,
                   ),
@@ -320,7 +319,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
             Expanded(
               child: Column(
                 children: [
-                  caption.Caption(
+                  ZHTextLine(
                     str: Translation.t(context, '打包照片'),
                     color: ColorConfig.textGray,
                   ),
@@ -348,7 +347,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
             Expanded(
               child: Column(
                 children: [
-                  caption.Caption(
+                  ZHTextLine(
                     str: Translation.t(context, '物品照片'),
                     color: ColorConfig.textGray,
                   ),
@@ -404,11 +403,11 @@ class OrderDetailPageState extends State<OrderDetailPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 15),
-                  child: caption.Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '实重'),
                   ),
                 ),
-                caption.Caption(
+                ZHTextLine(
                   str: ((boxModel.weight ?? 0) / 1000).toStringAsFixed(2) +
                       localizationInfo!.weightSymbol,
                 ),
@@ -420,11 +419,11 @@ class OrderDetailPageState extends State<OrderDetailPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 15),
-                  child: caption.Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '体积重'),
                   ),
                 ),
-                caption.Caption(
+                ZHTextLine(
                   str: volumnSum,
                 ),
               ],
@@ -452,7 +451,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                     children: [
                       model!.price != null &&
                               num.parse(model!.price!.discount) != 1
-                          ? caption.Caption(
+                          ? ZHTextLine(
                               str: getPriceStr(model!.price!.originPrice),
                               color: ColorConfig.textGray,
                               fontSize: 13,
@@ -460,7 +459,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                             )
                           : Gaps.empty,
                       Gaps.hGap10,
-                      caption.Caption(
+                      ZHTextLine(
                         str: getPriceStr(model!.allFreightFee),
                       ),
                     ],
@@ -484,13 +483,13 @@ class OrderDetailPageState extends State<OrderDetailPage> {
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                caption.Caption(
+                ZHTextLine(
                   str: model!.valueAddedService.isNotEmpty
                       ? '+${getPriceStr(valueAddAmount)}'
                       : Translation.t(context, '无'),
                 ),
                 ...model!.valueAddedService.map((e) {
-                  return caption.Caption(
+                  return ZHTextLine(
                     str: e.name! + '(${getPriceStr(e.price)})',
                   );
                 }).toList(),
@@ -509,7 +508,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       model!.status != 1
-                          ? caption.Caption(
+                          ? ZHTextLine(
                               str: '+${getPriceStr(model!.lineServiceFee)}',
                             )
                           : Gaps.empty,
@@ -537,7 +536,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                                   )
                                 : Gaps.empty,
                             Gaps.hGap10,
-                            caption.Caption(
+                            ZHTextLine(
                               str: e.name +
                                   (model!.status != 1
                                       ? '(${getPriceStr(e.price)})'
@@ -649,14 +648,14 @@ class OrderDetailPageState extends State<OrderDetailPage> {
         children: [
           Flexible(
             flex: leftFlex ?? 1,
-            child: caption.Caption(
+            child: ZHTextLine(
               str: Translation.t(context, label),
               color: labelColor ?? ColorConfig.textGray,
               lines: 2,
             ),
           ),
           content ??
-              caption.Caption(
+              ZHTextLine(
                 str: text ?? Translation.t(context, '无'),
                 color: redText ? ColorConfig.textRed : ColorConfig.textBlack,
               ),
@@ -687,8 +686,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
               child: PlainButton(
                 text: '联系客服',
                 onPressed: () async {
-                  var showWechat = await fluwx.isWeChatInstalled;
-                  BaseDialog.customerDialog(context, showWechat);
+                  Routers.push('/contactPage', context);
                 },
               ),
             ),
@@ -815,7 +813,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          caption.Caption(
+          ZHTextLine(
             str: Translation.t(context, '转运订单号'),
             fontSize: 13,
             color: ColorConfig.textGray,
@@ -823,7 +821,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
           Gaps.vGap10,
           Row(
             children: [
-              caption.Caption(
+              ZHTextLine(
                 str: model?.orderSn ?? '',
               ),
               Gaps.hGap15,
@@ -844,7 +842,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
             ],
           ),
           Gaps.vGap10,
-          caption.Caption(
+          ZHTextLine(
             str: Translation.t(context, '包含的包裹'),
             fontSize: 13,
             color: ColorConfig.textGray,
@@ -870,7 +868,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
                       height: 24,
                     ),
                     Gaps.hGap10,
-                    caption.Caption(
+                    ZHTextLine(
                       str: e.expressNum ?? '',
                     )
                   ],
@@ -892,7 +890,7 @@ class OrderDetailPageState extends State<OrderDetailPage> {
               height: 80,
               padding: const EdgeInsets.only(top: 30, left: 15),
               width: ScreenUtil().screenWidth,
-              child: caption.Caption(
+              child: ZHTextLine(
                 str: Translation.t(context, statusStr),
                 color: ColorConfig.white,
                 fontSize: 20,

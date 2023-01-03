@@ -16,7 +16,7 @@ Widget emptyBox(BuildContext context, [String? content]) {
               width: 140,
               fit: BoxFit.fitWidth,
             ),
-            Caption(
+            ZHTextLine(
               str: Translation.t(context, content ?? '暂无内容'),
               color: ColorConfig.textGray,
             )

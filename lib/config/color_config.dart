@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 //颜色配置
 class ColorConfig {
-  static const Color primary = Color(0xff3540a5);
+  static const Color primary = Color(0xFF0E6224);
   static const Color themeRed = Color(0xffe4382d);
   static const Color white = Color(0xFFFFFFFF);
   static const Color whiteGray = Color(0xFFF8F8F8);
@@ -12,7 +12,7 @@ class ColorConfig {
   static const Color textDark = Color(0xFF333333);
   static const Color textBlack = Color(0xFF1C1717);
   static const Color textNormal = Color(0xFF666666);
-  static const Color textGray = Color(0xFF9A9A9A);
+  static const Color textGray = Color(0xFFB8B8B8);
   static const Color textGrayC = Color(0xFFcccccc);
   static const Color textGrayCS = Color(0x72F0F0F0);
   static const Color textGrayC9 = Color(0xFF999999);

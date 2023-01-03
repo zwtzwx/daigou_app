@@ -75,7 +75,7 @@ class _CountryListPageState extends State<CountryListPage> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: Caption(
+        title: ZHTextLine(
           str: Translation.t(context, '选择国家或地区'),
           color: ColorConfig.textBlack,
           fontSize: 18,
@@ -91,7 +91,7 @@ class _CountryListPageState extends State<CountryListPage> {
                   }
                 });
               },
-              child: Caption(
+              child: ZHTextLine(
                 str: !isSearch
                     ? Translation.t(context, '搜索')
                     : Translation.t(context, '取消'),
@@ -132,7 +132,7 @@ class _CountryListPageState extends State<CountryListPage> {
                               format: "png",
                             ),
                           ),
-                          Caption(
+                          ZHTextLine(
                             str: Translation.t(context, '没有匹配的国家'),
                             color: ColorConfig.textGrayC,
                           )
@@ -168,12 +168,12 @@ class _CountryListPageState extends State<CountryListPage> {
                                                       vertical: 10),
                                               child: Row(
                                                 children: <Widget>[
-                                                  Caption(
+                                                  ZHTextLine(
                                                     str: cellList[index2]
                                                         .timezone!,
                                                   ),
                                                   Gaps.hGap10,
-                                                  Caption(
+                                                  ZHTextLine(
                                                     str: cellList[index2].name!,
                                                   ),
                                                 ],
@@ -236,7 +236,7 @@ class _CountryListPageState extends State<CountryListPage> {
                                   color: Colors.transparent,
                                   height: 35,
                                   width: 50,
-                                  child: Caption(
+                                  child: ZHTextLine(
                                     str: dataList[index].letter,
                                     color: ColorConfig.main,
                                   )),
@@ -266,7 +266,7 @@ Widget phoneCodeIndexName(BuildContext context, int index, String indexName) {
     width: MediaQuery.of(context).size.width,
     height: 25,
     color: HexToColor('#F5F5F5'),
-    child: Caption(
+    child: ZHTextLine(
       str: indexName,
     ),
   );
@@ -353,7 +353,7 @@ class __AreaListPageState extends State<_AreaListPage> {
         centerTitle: true,
         elevation: 0.5,
         backgroundColor: Colors.white,
-        title: Caption(
+        title: ZHTextLine(
           str: pageTitle,
           fontSize: 18,
         ),
@@ -367,7 +367,7 @@ class __AreaListPageState extends State<_AreaListPage> {
           return Column(
             children: [
               ListTile(
-                title: Caption(
+                title: ZHTextLine(
                   str: model.name,
                 ),
                 tileColor: Colors.white,

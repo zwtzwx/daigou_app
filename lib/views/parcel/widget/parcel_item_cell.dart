@@ -21,14 +21,10 @@ class ParcelItemCell extends StatelessWidget {
     required this.model,
     this.index,
     this.localizationInfo,
-    this.onChecked,
-    this.checked,
   }) : super(key: key);
   final ParcelModel model;
   final int? index;
   final LocalizationModel? localizationInfo;
-  final Function? onChecked;
-  final bool? checked;
 
   @override
   Widget build(BuildContext context) {
@@ -57,41 +53,13 @@ class ParcelItemCell extends StatelessWidget {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          model.status == 2
-                              ? IconButton(
-                                  constraints: const BoxConstraints(
-                                    maxWidth: 30,
-                                  ),
-                                  padding: const EdgeInsets.only(right: 10),
-                                  alignment: Alignment.centerLeft,
-                                  onPressed: () {
-                                    if (model.notConfirmed == 1) return;
-                                    if (onChecked != null) {
-                                      onChecked!(model.id);
-                                    }
-                                  },
-                                  icon: model.notConfirmed == 1
-                                      ? const Icon(
-                                          Icons.error_outline,
-                                          color: ColorConfig.textRed,
-                                        )
-                                      : checked!
-                                          ? const Icon(
-                                              Icons.check_circle,
-                                              color: ColorConfig.primary,
-                                            )
-                                          : const Icon(
-                                              Icons.radio_button_unchecked,
-                                              color: ColorConfig.line,
-                                            ))
-                              : Gaps.empty,
                           const LoadImage(
                             'PackageAndOrder/package',
                             width: 23,
                             height: 23,
                           ),
                           Gaps.hGap10,
-                          Caption(
+                          ZHTextLine(
                             fontSize: 16,
                             str: model.expressNum!,
                             color: HexToColor('#8a8a8a'),
@@ -109,7 +77,7 @@ class ParcelItemCell extends StatelessWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 20, horizontal: 15),
-                                        child: Caption(
+                                        child: ZHTextLine(
                                           str: model.exceptionalRemark!,
                                         ),
                                       ),
@@ -119,7 +87,7 @@ class ParcelItemCell extends StatelessWidget {
                                     color: Colors.red[700],
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 2, horizontal: 5),
-                                    child: Caption(
+                                    child: ZHTextLine(
                                       str: Translation.t(context, '异常件'),
                                       color: Colors.white,
                                       fontSize: 12,
@@ -141,7 +109,7 @@ class ParcelItemCell extends StatelessWidget {
                   ? Padding(
                       padding:
                           const EdgeInsets.only(top: 20, left: 15, right: 15),
-                      child: Caption(
+                      child: ZHTextLine(
                         str: model.remark!,
                         color: ColorConfig.textRed,
                         lines: 30,
@@ -170,7 +138,7 @@ class ParcelItemCell extends StatelessWidget {
                               ),
                             ),
                             Gaps.vGap20,
-                            Caption(
+                            ZHTextLine(
                               str: model.warehouse?.warehouseName ?? '',
                             )
                           ],
@@ -183,7 +151,7 @@ class ParcelItemCell extends StatelessWidget {
                               height: 24,
                             ),
                             Gaps.vGap4,
-                            Caption(
+                            ZHTextLine(
                               str: model.status == 1
                                   ? Translation.t(context, '等待称重')
                                   : Translation.t(context, '已入库'),
@@ -202,7 +170,7 @@ class ParcelItemCell extends StatelessWidget {
                               ),
                             ),
                             Gaps.vGap20,
-                            Caption(
+                            ZHTextLine(
                               str: model.country?.name ?? '',
                             )
                           ],
@@ -228,7 +196,7 @@ class ParcelItemCell extends StatelessWidget {
                             children: buildPropList(),
                           ),
                           Gaps.vGap10,
-                          Caption(
+                          ZHTextLine(
                             str: '${model.packageName} ' +
                                 (model.packageValue! / 100).toStringAsFixed(2),
                           ),
@@ -239,7 +207,7 @@ class ParcelItemCell extends StatelessWidget {
                     model.status == 2
                         ? Padding(
                             padding: const EdgeInsets.only(bottom: 3),
-                            child: Caption(
+                            child: ZHTextLine(
                               str: Translation.t(context, '称重重量') +
                                   '：${((model.countWeight ?? 0) / 1000).toStringAsFixed(2)}${localizationInfo?.weightSymbol}',
                               fontSize: 13,
@@ -250,7 +218,7 @@ class ParcelItemCell extends StatelessWidget {
                     model.status == 2
                         ? Padding(
                             padding: const EdgeInsets.only(bottom: 3),
-                            child: Caption(
+                            child: ZHTextLine(
                               str: Translation.t(context, '入库尺寸') +
                                   '：'
                                       '${((model.length ?? 0) / 100).toStringAsFixed(2)}*'
@@ -261,7 +229,7 @@ class ParcelItemCell extends StatelessWidget {
                             ),
                           )
                         : Gaps.empty,
-                    Caption(
+                    ZHTextLine(
                       str: Translation.t(context, '提交时间') +
                           '：${model.createdAt}',
                       fontSize: 13,
@@ -270,7 +238,7 @@ class ParcelItemCell extends StatelessWidget {
                     model.status == 2
                         ? Padding(
                             padding: const EdgeInsets.only(top: 3),
-                            child: Caption(
+                            child: ZHTextLine(
                               str: Translation.t(context, '入库时间') +
                                   '：${model.inStorageAt}',
                               fontSize: 13,
@@ -411,7 +379,7 @@ class ParcelItemCell extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(color: ColorConfig.primary),
         ),
-        child: Caption(
+        child: ZHTextLine(
           str: element.name ?? '',
           fontSize: 12,
           color: ColorConfig.primary,

@@ -60,7 +60,7 @@ class OrderListPageState extends State<OrderListPage> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: Caption(
+        title: ZHTextLine(
           str: Translation.t(context, pageTitle),
           color: ColorConfig.textBlack,
           fontSize: 18,

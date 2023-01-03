@@ -7,8 +7,8 @@ import 'package:jiyun_app_client/models/self_pickup_station_model.dart';
 class StationService {
   static String listApi = 'self-pickup-stations';
 
-  static Future<Map> getList(Map<String, dynamic> params) async {
-    var page = params['page'];
+  static Future<Map> getList([Map<String, dynamic>? params]) async {
+    var page = params?['page'] ?? 1;
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     await HttpClient()
         .get(

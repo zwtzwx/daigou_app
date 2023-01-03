@@ -116,11 +116,6 @@ class Notifications {
     if (data == null) return;
     if (data['type'] == '1') {
       Routers.push('/InWarehouseParcelListPage', context);
-    } else if (['2', '3', '5', '6'].contains(data['type'])) {
-      Routers.push(
-          '/OrderDetailPage', context, {'id': num.parse(data['value'])});
-    } else if (data['type'] == '4') {
-      Routers.push('/BalanceHistoryPage', context);
     } else if (data['type'] == '7') {
       Routers.push('/webview', context,
           {'type': 'notice', 'id': int.parse(data['value'])});

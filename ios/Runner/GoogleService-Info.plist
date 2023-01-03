@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1011459206295-is63n7k9rvir9ufokkmq47jfj91nfalh.apps.googleusercontent.com</string>
+	<string>521370548270-9i9f4jn0grjubmo75epl9ulb14q80vbb.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1011459206295-is63n7k9rvir9ufokkmq47jfj91nfalh</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>1011459206295-k4qd3slbdm4qqthvoogs34ofrop9sasd.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.521370548270-9i9f4jn0grjubmo75epl9ulb14q80vbb</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDNWmh5Mrohqdts44-fDhIwOrM-p3LeTWQ</string>
+	<string>AIzaSyD4c_mfGDiagF4T2jrRqOYUL9B9RO91rmY</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1011459206295</string>
+	<string>521370548270</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.huijing.jiyunAppClient</string>
+	<string>com.zhongha.jiyunAppClient</string>
 	<key>PROJECT_ID</key>
-	<string>hj-express-9a264</string>
+	<string>jiyun-app-1df62</string>
 	<key>STORAGE_BUCKET</key>
-	<string>hj-express-9a264.appspot.com</string>
+	<string>jiyun-app-1df62.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1011459206295:ios:822f67b4511236e9fe0dd2</string>
-	<key>DATABASE_URL</key>
-	<string>https://hj-express-9a264-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+	<string>1:521370548270:ios:f6c4734b8d314f96b047bf</string>
 </dict>
 </plist>

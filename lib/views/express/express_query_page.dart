@@ -102,7 +102,7 @@ class _ExpressQueryPageState extends State<ExpressQueryPage> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-            child: Caption(
+            child: ZHTextLine(
               str: Translation.t(context, '物流跟踪'),
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -187,13 +187,13 @@ class _ExpressQueryPageState extends State<ExpressQueryPage> {
                   endChild: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Caption(
+                      ZHTextLine(
                         str: model.ftime,
                         fontSize: 14,
                         color: ColorConfig.textGray,
                       ),
                       Gaps.vGap10,
-                      Caption(
+                      ZHTextLine(
                         str: model.context,
                         lines: 10,
                       ),

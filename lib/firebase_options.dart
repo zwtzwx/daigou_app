@@ -50,23 +50,23 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDnSYuVb9OwMtJlY7Kp7HaivKP3nrckqMs',
-    appId: '1:1011459206295:android:5e796083218d8a57fe0dd2',
-    messagingSenderId: '1011459206295',
-    projectId: 'hj-express-9a264',
-    databaseURL: 'https://hj-express-9a264-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'hj-express-9a264.appspot.com',
+    apiKey: 'AIzaSyAVCeaIbNaXro_c3dCXbQmQXGdiMrBaypA',
+    appId: '1:521370548270:android:dfaaf4a63687120eb047bf',
+    messagingSenderId: '521370548270',
+    projectId: 'jiyun-app-1df62',
+    databaseURL: 'https://jiyun-app-1df62-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'jiyun-app-1df62.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDNWmh5Mrohqdts44-fDhIwOrM-p3LeTWQ',
-    appId: '1:1011459206295:ios:822f67b4511236e9fe0dd2',
-    messagingSenderId: '1011459206295',
-    projectId: 'hj-express-9a264',
-    databaseURL: 'https://hj-express-9a264-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'hj-express-9a264.appspot.com',
-    androidClientId: '1011459206295-2hd9qeht0krg4mj6j2qifnoh03i1nh7l.apps.googleusercontent.com',
-    iosClientId: '1011459206295-is63n7k9rvir9ufokkmq47jfj91nfalh.apps.googleusercontent.com',
-    iosBundleId: 'com.huijing.jiyunAppClient',
+    apiKey: 'AIzaSyD4c_mfGDiagF4T2jrRqOYUL9B9RO91rmY',
+    appId: '1:521370548270:ios:f6c4734b8d314f96b047bf',
+    messagingSenderId: '521370548270',
+    projectId: 'jiyun-app-1df62',
+    databaseURL: 'https://jiyun-app-1df62-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'jiyun-app-1df62.appspot.com',
+    androidClientId: '521370548270-f0tdas0lllp048vci57h6q2fvohgipaq.apps.googleusercontent.com',
+    iosClientId: '521370548270-9i9f4jn0grjubmo75epl9ulb14q80vbb.apps.googleusercontent.com',
+    iosBundleId: 'com.zhongha.jiyunAppClient',
   );
 }

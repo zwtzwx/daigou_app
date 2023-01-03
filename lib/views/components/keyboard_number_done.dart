@@ -52,7 +52,7 @@ class KeyboardDone {
         onPressed: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        child: const Caption(
+        child: const ZHTextLine(
           str: 'Done',
           color: Colors.blueAccent,
           fontWeight: FontWeight.bold,

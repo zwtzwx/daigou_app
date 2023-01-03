@@ -10,6 +10,7 @@ class TokenModel {
   late UserModel? user;
   late num isAgent;
   late String? unionid;
+  int? isNewUser;
 
   TokenModel(
       {required this.accessToken,
@@ -26,6 +27,7 @@ class TokenModel {
     user = (json['user'] != null ? UserModel.fromJson(json['user']) : null)!;
     isAgent = json['is_agent'] ?? 0;
     unionid = json['unionid'];
+    isNewUser = json['is_new_user'];
   }
 
   Map<String, dynamic> toJson() {

@@ -256,7 +256,7 @@ class _ListRefreshState extends State<ListRefresh> {
             format: "png",
           ),
         ),
-        Caption(
+        ZHTextLine(
           str: Translation.t(context, widget.noMessageTip),
           color: ColorConfig.textGrayC,
         )

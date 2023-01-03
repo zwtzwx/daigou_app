@@ -97,7 +97,7 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: Caption(
+        title: ZHTextLine(
           str: Translation.t(context, pageTitle),
           color: ColorConfig.textBlack,
           fontSize: 18,
@@ -284,7 +284,7 @@ class ForgetPasswordPageState extends State<ForgetPasswordPage> {
                 overlayColor: MaterialStateColor.resolveWith(
                     (states) => Colors.transparent),
               ),
-              child: Caption(str: sent, color: codeColor),
+              child: ZHTextLine(str: sent, color: codeColor),
               onPressed: () async {
                 if (isButtonEnable) {
                   if (_mobileNumberController.text.isEmpty) {

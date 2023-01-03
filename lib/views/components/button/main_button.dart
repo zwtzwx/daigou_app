@@ -50,7 +50,7 @@ class _MainButtonState extends State<MainButton> {
           BorderSide(color: widget.backgroundColor),
         ),
       ),
-      child: Caption(
+      child: ZHTextLine(
         str: Translation.t(context, widget.text),
         color: widget.textColor,
         fontSize: widget.fontSize,

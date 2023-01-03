@@ -167,7 +167,7 @@ class ChangeMobileEmailPageState extends State<ChangeMobileEmailPage>
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: Caption(
+          title: ZHTextLine(
             str: Translation.t(
                 context,
                 flagBool == 1
@@ -206,7 +206,7 @@ class ChangeMobileEmailPageState extends State<ChangeMobileEmailPage>
                         inputText: Container(
                           height: 55,
                           alignment: Alignment.centerLeft,
-                          child: Caption(
+                          child: ZHTextLine(
                             str: flagBool == 1
                                 ? userModel == null || userModel!.phone != null
                                     ? Translation.t(context, '无')

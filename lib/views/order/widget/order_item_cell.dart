@@ -51,7 +51,7 @@ class OrderItemCell extends StatelessWidget {
                       height: 25,
                     ),
                     Gaps.hGap5,
-                    Caption(
+                    ZHTextLine(
                       str: orderModel.orderSn,
                     ),
                   ],
@@ -67,7 +67,7 @@ class OrderItemCell extends StatelessWidget {
                               color: Colors.red[700],
                               padding: const EdgeInsets.symmetric(
                                   vertical: 2, horizontal: 5),
-                              child: Caption(
+                              child: ZHTextLine(
                                 str: Translation.t(context, '订单异常'),
                                 color: Colors.white,
                                 fontSize: 12,
@@ -101,7 +101,7 @@ class OrderItemCell extends StatelessWidget {
                         ),
                       ),
                       Gaps.vGap20,
-                      Caption(
+                      ZHTextLine(
                         str: orderModel.warehouse.warehouseName!,
                       )
                     ],
@@ -118,7 +118,7 @@ class OrderItemCell extends StatelessWidget {
                           height: 24,
                         ),
                         Gaps.vGap4,
-                        Caption(
+                        ZHTextLine(
                           str: Util.getOrderStatusName(
                               orderModel.status, orderModel.stationOrder),
                           color: ColorConfig.primary,
@@ -137,7 +137,7 @@ class OrderItemCell extends StatelessWidget {
                         ),
                       ),
                       Gaps.vGap20,
-                      Caption(
+                      ZHTextLine(
                         str: orderModel.address.countryName,
                       )
                     ],
@@ -152,7 +152,7 @@ class OrderItemCell extends StatelessWidget {
               children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Caption(
+                  child: ZHTextLine(
                     str:
                         '${orderModel.address.receiverName} ${orderModel.address.timezone} ${orderModel.address.phone}',
                     fontWeight: FontWeight.bold,
@@ -160,7 +160,7 @@ class OrderItemCell extends StatelessWidget {
                   ),
                 ),
                 Gaps.vGap4,
-                Caption(
+                ZHTextLine(
                   str: (orderModel.address.address != null &&
                           orderModel.address.address!.isNotEmpty)
                       ? orderModel.address.address!
@@ -168,7 +168,7 @@ class OrderItemCell extends StatelessWidget {
                   lines: 4,
                 ),
                 Gaps.vGap4,
-                Caption(
+                ZHTextLine(
                   str: orderModel.station != null
                       ? '${Translation.t(context, '自提收货')}-${orderModel.station!.name}'
                       : Translation.t(context, '送货上门'),
@@ -181,7 +181,7 @@ class OrderItemCell extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Caption(
+                            ZHTextLine(
                               str:
                                   '${Translation.t(context, '物流单号')}：${orderModel.logisticsSn}',
                             ),
@@ -196,7 +196,7 @@ class OrderItemCell extends StatelessWidget {
                                                   Translation.t(
                                                       context, '复制成功')));
                                     },
-                                    child: Caption(
+                                    child: ZHTextLine(
                                       str: Translation.t(context, '复制'),
                                       color: ColorConfig.primary,
                                     ),
@@ -209,13 +209,13 @@ class OrderItemCell extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Caption(
+                    ZHTextLine(
                       str:
                           '${Translation.t(context, '提交时间')}：${orderModel.createdAt}',
                       fontSize: 13,
                       color: ColorConfig.textGray,
                     ),
-                    Caption(
+                    ZHTextLine(
                       str: orderModel.paymentTypeName,
                       fontSize: 13,
                       color: orderModel.onDeliveryStatus != 0
@@ -239,7 +239,7 @@ class OrderItemCell extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         orderModel.status == 11
-            ? Caption(
+            ? ZHTextLine(
                 str: Translation.t(context, '等待客服确认支付'),
                 fontSize: 14,
                 color: ColorConfig.textRed,
@@ -277,7 +277,7 @@ class OrderItemCell extends StatelessWidget {
                 child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Caption(
+                  const ZHTextLine(
                     str: '该团购单为团长代款,请您及时付款',
                     fontSize: 14,
                     color: ColorConfig.textRed,
@@ -295,7 +295,7 @@ class OrderItemCell extends StatelessWidget {
         [2, 12].contains(orderModel.status) &&
                 orderModel.groupMode != 0 &&
                 !orderModel.isLeaderOrder
-            ? const Caption(
+            ? const ZHTextLine(
                 str: '该团购单为团长代款,您无需支付',
                 fontSize: 14,
                 color: ColorConfig.textRed,

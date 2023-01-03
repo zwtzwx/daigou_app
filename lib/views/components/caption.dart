@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 
-class Caption extends StatefulWidget {
+class ZHTextLine extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
-  const Caption(
+  const ZHTextLine(
       {this.str = "",
       this.color = ColorConfig.textBlack,
       this.fontSize = 15,
@@ -21,10 +21,10 @@ class Caption extends StatefulWidget {
   final TextDecoration? decoration;
 
   @override
-  CaptionState createState() => CaptionState();
+  ZHTextLineState createState() => ZHTextLineState();
 }
 
-class CaptionState extends State<Caption> {
+class ZHTextLineState extends State<ZHTextLine> {
   @override
   Widget build(BuildContext context) {
     return Text(

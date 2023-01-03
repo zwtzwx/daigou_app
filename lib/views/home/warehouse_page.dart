@@ -1,19 +1,16 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/models/warehouse_model.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
-import 'package:jiyun_app_client/views/components/banner.dart';
+import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
 import 'package:provider/provider.dart';
 
 /*
@@ -31,8 +28,15 @@ class WarehousePageState extends State<WarehousePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      primary: false,
-      appBar: const EmptyAppBar(),
+      appBar: AppBar(
+        leading: const BackButton(color: Colors.black),
+        elevation: 0.5,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: ZHTextLine(
+          str: Translation.t(context, '仓库地址'),
+        ),
+      ),
       backgroundColor: ColorConfig.bgGray,
       body: ListView.builder(
         itemCount: 2,
@@ -50,44 +54,26 @@ class WarehousePageState extends State<WarehousePage>
   }
 
   Widget buildTopItem() {
-    return Column(
-      children: [
-        Stack(
-          children: [
-            SizedBox(
-              width: ScreenUtil().screenWidth,
-              height: ScreenUtil().setHeight(130),
-              child: const BannerBox(imgType: 'warehouse_image'),
-            ),
-            Positioned(
-              top: ScreenUtil().statusBarHeight,
-              left: 10,
-              child: const BackButton(color: Colors.white),
-            ),
-          ],
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-          color: ColorConfig.warningText,
-          child: Row(
-            children: [
-              const Icon(
-                Icons.info,
-                color: Colors.white,
-              ),
-              Gaps.hGap5,
-              Expanded(
-                child: Caption(
-                  str: Translation.t(context, '收件人后面的字母和数字是您的唯一标识快递单务必填写'),
-                  color: Colors.white,
-                  fontSize: 13,
-                  lines: 2,
-                ),
-              ),
-            ],
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+      color: ColorConfig.warningText,
+      child: Row(
+        children: [
+          const Icon(
+            Icons.info,
+            color: Colors.white,
           ),
-        ),
-      ],
+          Gaps.hGap5,
+          Expanded(
+            child: ZHTextLine(
+              str: Translation.t(context, '收件人后面的字母和数字是您的唯一标识快递单务必填写'),
+              color: Colors.white,
+              fontSize: 13,
+              lines: 2,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -157,59 +143,7 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
       margin: const EdgeInsets.only(top: 10),
       child: Column(
         children: [
-          buildStationBox(),
-          Gaps.vGap10,
           isLoading ? buildWarehouseList() : Gaps.empty,
-        ],
-      ),
-    );
-  }
-
-  Widget buildStationBox() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-      color: Colors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Caption(
-            str: Translation.t(context, '寄件到仓库'),
-            fontSize: 16,
-          ),
-          Gaps.hGap10,
-          Flexible(
-            child: GestureDetector(
-              onTap: () {
-                Routers.push('/StationPage', context);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Flexible(
-                    child: Caption(
-                      str: Translation.t(context, '查看海外自提点地址'),
-                      color: ColorConfig.main,
-                      fontSize: 12,
-                      lines: 2,
-                    ),
-                  ),
-                  Gaps.hGap10,
-                  ClipOval(
-                    child: Container(
-                      color: ColorConfig.main,
-                      width: 12,
-                      height: 12,
-                      child: const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 10,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -240,7 +174,6 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
     WareHouseModel model = warehouseList[index];
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
-      color: Colors.white,
       child: cellItem(model),
     );
   }
@@ -274,6 +207,7 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
       widgets.add(Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         decoration: const BoxDecoration(
+          color: Colors.white,
           border: Border(
             bottom: BorderSide(color: ColorConfig.line),
           ),
@@ -282,7 +216,7 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
           children: [
             SizedBox(
               width: 100,
-              child: Caption(
+              child: ZHTextLine(
                 str: Translation.t(context, labels[i]),
                 color: ColorConfig.textGray,
                 fontSize: 16,
@@ -290,7 +224,7 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
               ),
             ),
             Expanded(
-              child: Caption(
+              child: ZHTextLine(
                 str: contents[i],
                 lines: 4,
                 fontSize: 16,
@@ -311,7 +245,7 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
                             .then((value) => EasyLoading.showSuccess(
                                 Translation.t(context, '复制成功')));
                       },
-                      child: Caption(
+                      child: ZHTextLine(
                         str: Translation.t(context, '复制'),
                         color: ColorConfig.primary,
                         fontSize: 14,
@@ -324,53 +258,53 @@ class WareHouseArrdessListState extends State<WareHouseArrdessList>
       ));
     }
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          color: const Color(0xFFE4E6F6),
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Caption(
+              ZHTextLine(
                 str: model.warehouseName!,
-                color: ColorConfig.primary,
                 fontSize: 18,
-              ),
-              GestureDetector(
-                onTap: () {
-                  String copyStr =
-                      '${labels[0]}：${contents[0]}\n${labels[1]}：${contents[1]}\n${labels[4]}：${contents[4]}\n${labels[2]}：${contents[2]}';
-                  Clipboard.setData(ClipboardData(text: copyStr)).then(
-                      (value) => EasyLoading.showSuccess(
-                          Translation.t(context, '复制成功')));
-                },
-                child: Caption(
-                  str: Translation.t(context, '复制本仓库'),
-                  fontSize: 14,
-                  color: ColorConfig.primary,
-                ),
+                fontWeight: FontWeight.bold,
               ),
             ],
           ),
         ),
         ...widgets,
         Container(
+          color: Colors.white,
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Caption(
+              ZHTextLine(
                 str: Translation.t(context, '温馨提示') + '：',
                 fontSize: 12,
               ),
               Gaps.vGap5,
-              Caption(
+              ZHTextLine(
                 str: model.tips ?? '',
                 fontSize: 12,
                 lines: 4,
               ),
             ],
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.all(15),
+          height: 50,
+          color: ColorConfig.bgGray,
+          child: MainButton(
+            text: '一键复制仓库地址',
+            onPressed: () {
+              String copyStr =
+                  '${labels[0]}：${contents[0]}\n${labels[1]}：${contents[1]}\n${labels[4]}：${contents[4]}\n${labels[2]}：${contents[2]}';
+              Clipboard.setData(ClipboardData(text: copyStr)).then((value) =>
+                  EasyLoading.showSuccess(Translation.t(context, '复制成功')));
+            },
           ),
         ),
       ],

@@ -3,14 +3,11 @@
 */
 
 import 'dart:async';
-import 'dart:io';
 
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/events/logined_event.dart';
 import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
-import 'package:jiyun_app_client/firebase/auth.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/token_model.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
@@ -26,7 +23,6 @@ import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -38,7 +34,7 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   String pageTitle = '';
-  int loginType = 2; // 1、手机号验证码 2: 邮箱验证码 3: 帐号密码  1 手机号密码 2 手机号验证码 3邮箱密码 4邮箱验证码
+  int loginType = 1; // 1、手机号验证码 2: 邮箱验证码 3: 帐号密码  1 手机号密码 2 手机号验证码 3邮箱密码 4邮箱验证码
   List<String> listTitle = ['手机号', '邮箱号'];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String sent = '';
@@ -62,41 +58,14 @@ class LoginPageState extends State<LoginPage> {
   String mobileNumber = "";
   // 验证码
   String verifyCode = "";
-  late StreamSubscription<fluwx.BaseWeChatResponse> lis;
 
-  // google、facebook 第三方登录
-  late GoogleAndFacebookAuth _auth;
-  bool showThridLogin = false;
+  // final GoogleAndAppleAuth _auth = GoogleAndAppleAuth();
 
   @override
   void initState() {
     super.initState();
     pageTitle = '登录注册';
     sent = Translation.t(context, '获取验证码');
-    getThirdLoginStatus();
-    //微信登录响应事件
-    lis = fluwx.weChatResponseEventHandler
-        .distinct((a, b) => a == b)
-        .listen((res) {
-      if (res is fluwx.WeChatAuthResponse) {
-        if (res.isSuccessful) {
-          code = res.code!;
-          loginWith('wechat', {'code': code});
-        } else {
-          Util.showToast('登录失败');
-        }
-      }
-    });
-  }
-
-  getThirdLoginStatus() async {
-    var result = await UserService.getThirdLoginStatus();
-    if (result || Platform.isAndroid) {
-      setState(() {
-        showThridLogin = true;
-        _auth = GoogleAndFacebookAuth();
-      });
-    }
   }
 
   /*
@@ -107,9 +76,6 @@ class LoginPageState extends State<LoginPage> {
       TokenModel? tokenModel;
       EasyLoading.show();
       switch (type) {
-        case 'wechat':
-          tokenModel = await UserService.loginWithWechat(map);
-          break;
         case 'social':
           tokenModel = await UserService.loginWithFirebase(map);
           break;
@@ -153,7 +119,6 @@ class LoginPageState extends State<LoginPage> {
       timer!.cancel(); //销毁计时器
       timer = null;
     }
-    lis.cancel();
     super.dispose();
   }
 
@@ -167,7 +132,7 @@ class LoginPageState extends State<LoginPage> {
         elevation: 0.5,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
-        title: Caption(
+        title: ZHTextLine(
           str: Translation.t(context, pageTitle),
           color: ColorConfig.textBlack,
           fontSize: 18,
@@ -175,8 +140,7 @@ class LoginPageState extends State<LoginPage> {
         ),
       ),
       backgroundColor: ColorConfig.white,
-      bottomNavigationBar:
-          showThridLogin ? buildOtherSignIn() : const SizedBox(),
+      // bottomNavigationBar: buildOtherSignIn(),
       body: SingleChildScrollView(
         child: SizedBox(
           // color: Colors.red,
@@ -195,147 +159,102 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget buildOtherSignIn() {
-    return SafeArea(
-      child: SizedBox(
-        height: 120,
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 1,
-                      color: ColorConfig.textGray,
-                    ),
-                  ),
-                  Gaps.hGap5,
-                  Caption(
-                    str: Translation.t(context, '其它登录方式'),
-                    color: ColorConfig.textGray,
-                  ),
-                  Gaps.hGap5,
-                  Expanded(
-                    child: Container(
-                      height: 1,
-                      color: ColorConfig.textGray,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Gaps.vGap15,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    String? idToken = await _auth.signInGoogle();
-                    if (idToken != null) {
-                      loginWith('social', {'token': idToken});
-                    }
-                  },
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: ColorConfig.textGray),
-                            shape: BoxShape.circle,
-                          ),
-                          padding: const EdgeInsets.all(7),
-                          child: SvgPicture.asset(
-                            'assets/images/Home/google.svg',
-                            width: 25,
-                            height: 25,
-                          ),
-                        ),
-                        Gaps.vGap4,
-                        const Caption(
-                          str: 'Google',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    String? idToken = await _auth.signInFacebook();
-                    if (idToken != null) {
-                      loginWith('social', {'token': idToken});
-                    }
-                  },
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: ColorConfig.textGray),
-                            shape: BoxShape.circle,
-                          ),
-                          // padding: const EdgeInsets.all(6),
-                          child: const Icon(
-                            Icons.facebook,
-                            color: Color(0xFF1877F2),
-                            size: 39,
-                          ),
-                        ),
-                        Gaps.vGap4,
-                        const Caption(
-                          str: 'Facebook',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    var _isInstalled = await fluwx.isWeChatInstalled;
-                    if (_isInstalled) {
-                      fluwx.sendWeChatAuth(
-                        scope: "snsapi_userinfo",
-                        state: "wechat_sdk_demo_test",
-                      );
-                    } else {
-                      Util.showToast(Translation.t(context, '请先安装微信'));
-                    }
-                  },
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: ColorConfig.textGray),
-                            shape: BoxShape.circle,
-                          ),
-                          padding: const EdgeInsets.all(2),
-                          child: const Icon(
-                            Icons.wechat,
-                            color: Color(0xFF51C332),
-                            size: 35,
-                          ),
-                        ),
-                        Gaps.vGap4,
-                        const Caption(
-                          str: 'Wechat',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget buildOtherSignIn() {
+  //   return SafeArea(
+  //     child: SizedBox(
+  //       height: 120,
+  //       child: Column(
+  //         children: [
+  //           Container(
+  //             padding: const EdgeInsets.symmetric(horizontal: 40),
+  //             child: Row(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: [
+  //                 Expanded(
+  //                   child: Container(
+  //                     height: 1,
+  //                     color: ColorConfig.textGray,
+  //                   ),
+  //                 ),
+  //                 Gaps.hGap5,
+  //                 ZHTextLine(
+  //                   str: Translation.t(context, '其它登录方式'),
+  //                   color: ColorConfig.textGray,
+  //                 ),
+  //                 Gaps.hGap5,
+  //                 Expanded(
+  //                   child: Container(
+  //                     height: 1,
+  //                     color: ColorConfig.textGray,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //           Gaps.vGap15,
+  //           Row(
+  //             mainAxisAlignment: Platform.isIOS
+  //                 ? MainAxisAlignment.spaceEvenly
+  //                 : MainAxisAlignment.center,
+  //             children: [
+  //               GestureDetector(
+  //                 onTap: () async {
+  //                   // String? idToken = await _auth.signInGoogle();
+  //                   if (idToken != null) {
+  //                     loginWith('social', {'token': idToken});
+  //                   }
+  //                 },
+  //                 child: Container(
+  //                   color: Colors.white,
+  //                   child: Column(
+  //                     children: [
+  //                       Container(
+  //                         decoration: BoxDecoration(
+  //                           border: Border.all(color: ColorConfig.textGray),
+  //                           shape: BoxShape.circle,
+  //                         ),
+  //                         padding: const EdgeInsets.all(7),
+  //                         child: SvgPicture.asset(
+  //                           'assets/images/Home/google.svg',
+  //                           width: 25,
+  //                           height: 25,
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ),
+  //               Platform.isIOS
+  //                   ? GestureDetector(
+  //                       onTap: () async {
+  //                         String? idToken = await _auth.signInApple();
+  //                         if (idToken != null) {
+  //                           loginWith('social', {'token': idToken});
+  //                         }
+  //                       },
+  //                       child: Container(
+  //                         decoration: const BoxDecoration(
+  //                           shape: BoxShape.circle,
+  //                           color: Colors.black,
+  //                         ),
+  //                         width: 40,
+  //                         height: 40,
+  //                         alignment: Alignment.center,
+  //                         child: const Icon(
+  //                           Icons.apple,
+  //                           color: Colors.white,
+  //                           size: 38,
+  //                         ),
+  //                       ),
+  //                     )
+  //                   : Gaps.empty,
+  //             ],
+  //           )
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget buildCustomViews(BuildContext context) {
     var headerView = Container(
@@ -414,10 +333,10 @@ class LoginPageState extends State<LoginPage> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        loginType = loginType == 3 ? 2 : 3;
+                        loginType = loginType == 3 ? 1 : 3;
                       });
                     },
-                    child: Caption(
+                    child: ZHTextLine(
                       str: Translation.t(
                           context, loginType == 3 ? '验证码登录' : '密码登录'),
                     ),
@@ -451,7 +370,8 @@ class LoginPageState extends State<LoginPage> {
                   style: const TextStyle(color: Colors.black87),
                   controller: _emailController,
                   decoration: InputDecoration(
-                      hintText: Translation.t(context, '请输入邮箱'),
+                      hintText: Translation.t(
+                          context, loginType == 3 ? '请输入手机号' : '请输入邮箱'),
                       enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: ColorConfig.line),
                       ),
@@ -510,7 +430,7 @@ class LoginPageState extends State<LoginPage> {
                       overlayColor: MaterialStateColor.resolveWith(
                           (states) => Colors.transparent),
                     ),
-                    child: Caption(str: sent, color: codeColor),
+                    child: ZHTextLine(str: sent, color: codeColor),
                     onPressed: () async {
                       if (isButtonEnable) {
                         //当按钮可点击时   action  动作 1 绑定邮箱 2 更改邮箱 3 更改手机号 4 邮箱登录 5 手机登录
@@ -552,7 +472,7 @@ class LoginPageState extends State<LoginPage> {
                       overlayColor: MaterialStateColor.resolveWith(
                           (states) => Colors.transparent),
                     ),
-                    child: Caption(
+                    child: ZHTextLine(
                         str: Translation.t(context, '忘记密码') + '？',
                         color: ColorConfig.textBlack),
                     onPressed: () async {

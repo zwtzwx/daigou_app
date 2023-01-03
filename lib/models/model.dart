@@ -50,5 +50,6 @@ class Model with ChangeNotifier {
   void loginOut() {
     _userInfo = null;
     _token = '';
+    notifyListeners();
   }
 }

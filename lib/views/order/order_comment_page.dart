@@ -135,7 +135,7 @@ class OrderCommentPageState extends State<OrderCommentPage> {
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: Caption(
+          title: ZHTextLine(
             str: Translation.t(context, pageTitle),
             color: ColorConfig.textBlack,
             fontSize: 18,
@@ -241,7 +241,7 @@ class OrderCommentPageState extends State<OrderCommentPage> {
                       size: 30,
                       color: ColorConfig.textGray,
                     ),
-                    Caption(
+                    ZHTextLine(
                       str: Translation.t(context, '添加图片'),
                       fontSize: 10,
                     )
@@ -386,7 +386,7 @@ class OrderCommentPageState extends State<OrderCommentPage> {
                                 margin:
                                     const EdgeInsets.only(top: 10, left: 15),
                                 alignment: Alignment.centerLeft,
-                                child: Caption(
+                                child: ZHTextLine(
                                   str: '订单号：' + model.orderSn,
                                   fontSize: 14,
                                   color: ColorConfig.textBlack,
@@ -404,7 +404,7 @@ class OrderCommentPageState extends State<OrderCommentPage> {
                                     margin:
                                         const EdgeInsets.only(top: 5, left: 15),
                                     alignment: Alignment.centerLeft,
-                                    child: Caption(
+                                    child: ZHTextLine(
                                       str: Translation.t(context, '综合评分'),
                                       fontSize: 14,
                                       color: ColorConfig.textBlack,
@@ -481,7 +481,7 @@ class OrderCommentPageState extends State<OrderCommentPage> {
                       height: 30,
                       margin: const EdgeInsets.only(top: 5, left: 0),
                       alignment: Alignment.centerLeft,
-                      child: Caption(
+                      child: ZHTextLine(
                         str: Translation.t(context, '物流评分'),
                         fontSize: 15,
                         color: ColorConfig.textBlack,
@@ -507,7 +507,7 @@ class OrderCommentPageState extends State<OrderCommentPage> {
                       height: 30,
                       margin: const EdgeInsets.only(top: 5, left: 0),
                       alignment: Alignment.centerLeft,
-                      child: Caption(
+                      child: ZHTextLine(
                         str: Translation.t(context, '客服评分'),
                         fontSize: 15,
                         color: ColorConfig.textBlack,
@@ -531,7 +531,7 @@ class OrderCommentPageState extends State<OrderCommentPage> {
                       height: 30,
                       margin: const EdgeInsets.only(top: 5, left: 0),
                       alignment: Alignment.centerLeft,
-                      child: Caption(
+                      child: ZHTextLine(
                         str: Translation.t(context, '打包评分'),
                         fontSize: 15,
                         color: ColorConfig.textBlack,

@@ -46,9 +46,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   @override
   void dispose() {
-    _newPasswordController.dispose();
     _newPaddwordNode.dispose();
-    _confirmPasswordController.dispose();
     _confirmPaddwordNode.dispose();
     super.dispose();
   }
@@ -61,7 +59,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         leading: const BackButton(color: Colors.black),
         centerTitle: true,
         elevation: 0.5,
-        title: Caption(
+        title: ZHTextLine(
           str: Translation.t(context, '修改密码'),
           fontSize: 18,
         ),

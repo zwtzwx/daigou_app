@@ -4,10 +4,7 @@
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jiyun_app_client/common/translation.dart';
-import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/list_refresh_event.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/model.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
@@ -15,7 +12,6 @@ import 'package:jiyun_app_client/models/warehouse_model.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:flutter/material.dart';
@@ -87,87 +83,8 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
     }
   }
 
-  // 获取包裹数据
-  void onLoadList(List<ParcelModel> data, bool clear) {
-    setState(() {
-      if (clear) {
-        allParcelList.clear();
-      }
-      allParcelList.addAll(data);
-    });
-  }
-
-  // 选择单个包裹
-  void onChecked(int id) {
-    setState(() {
-      if (selectedParcelList.contains(id)) {
-        selectedParcelList.remove(id);
-      } else {
-        selectedParcelList.add(id);
-      }
-      selectedQty = selectedParcelList.length;
-      int confirmedLength =
-          allParcelList.where((e) => e.notConfirmed! == 0).toList().length;
-      selectAll = selectedParcelList.length == confirmedLength;
-    });
-  }
-
-  // 全选
-  void onAllChecked() {
-    setState(() {
-      int totalQty = 0;
-      if (selectAll) {
-        selectedParcelList.clear();
-      } else {
-        List<int> ids = [];
-        for (var e in allParcelList) {
-          if (e.notConfirmed! == 0) {
-            ids.add(e.id!);
-            totalQty += 1;
-          }
-        }
-        selectedParcelList = ids;
-      }
-      selectedQty = totalQty;
-      selectAll = !selectAll;
-    });
-  }
-
-  // 合并打包
-  void onSubmit() async {
-    if (selectedParcelList.isEmpty) {
-      Util.showToast(Translation.t(context, '请选择包裹'));
-      return;
-    }
-    List<ParcelModel> checkedList =
-        allParcelList.where((e) => selectedParcelList.contains(e.id!)).toList();
-    var s = await Navigator.pushNamed(context, '/CreateOrderPage',
-        arguments: {'modelList': checkedList});
-    if (s == 'succeed') {
-      setState(() {
-        selectAll = false;
-        selectedParcelList.clear();
-        selectedQty = 0;
-      });
-      ApplicationEvent.getInstance()
-          .event
-          .fire(ListRefreshEvent(type: 'refresh'));
-    }
-  }
-
-  // 清除选择数据
-  void onCleanSelected() {
-    setState(() {
-      allParcelList.clear();
-      selectedParcelList.clear();
-      selectAll = false;
-      selectedQty = 0;
-    });
-  }
-
   void _onPageChange(int index) {
     _tabController?.animateTo(index);
-    onCleanSelected();
   }
 
   @override
@@ -180,7 +97,7 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: Caption(
+          title: ZHTextLine(
             str: Translation.t(context, '已入库包裹'),
             color: ColorConfig.textBlack,
             fontSize: 18,
@@ -190,7 +107,6 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
                   onTap: (value) {
                     if (!mounted) return;
                     _pageController.jumpToPage(value);
-                    onCleanSelected();
                   },
                   tabs: buildTabs(),
                   isScrollable: true,
@@ -201,62 +117,6 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
                 )
               : null,
         ),
-        bottomNavigationBar: SafeArea(
-            child: isLoading
-                ? Container(
-                    color: ColorConfig.white,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: onAllChecked,
-                          child: Row(
-                            children: [
-                              Icon(
-                                selectAll
-                                    ? Icons.check_circle
-                                    : Icons.radio_button_unchecked,
-                                color: selectAll
-                                    ? ColorConfig.primary
-                                    : ColorConfig.line,
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(left: 5),
-                                child: Text(Translation.t(context, '全选')),
-                              )
-                            ],
-                          ),
-                        ),
-                        Flexible(
-                          child: SizedBox(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Caption(
-                                  str: Translation.t(context, '已选{count}件',
-                                      value: {'count': selectedQty}),
-                                  fontSize: 14,
-                                  color: ColorConfig.textGrayC9,
-                                ),
-                                Flexible(
-                                  child: Container(
-                                    margin: const EdgeInsets.only(left: 10),
-                                    height: 40,
-                                    child: MainButton(
-                                      text: '申请打包合箱',
-                                      onPressed: onSubmit,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ))
-                : Container()),
         body: isLoading
             ? PageView.builder(
                 itemCount: warehouseList.length,
@@ -266,9 +126,6 @@ class InWarehouseParcelListPageState extends State<InWarehouseParcelListPage>
                   return _InWarehouseParcelList(
                     localizationInfo: localizationInfo,
                     warehouseModel: warehouseList[index],
-                    selectedParcelList: selectedParcelList,
-                    onChecked: onChecked,
-                    onLoadList: onLoadList,
                   );
                 })
             : Container());
@@ -298,15 +155,9 @@ class _InWarehouseParcelList extends StatefulWidget {
     Key? key,
     required this.localizationInfo,
     required this.warehouseModel,
-    required this.selectedParcelList,
-    required this.onChecked,
-    required this.onLoadList,
   }) : super(key: key);
   final LocalizationModel? localizationInfo;
   final WareHouseModel warehouseModel;
-  final List<int> selectedParcelList;
-  final Function onChecked;
-  final Function onLoadList;
 
   @override
   State<_InWarehouseParcelList> createState() => __InWarehouseParcelListState();
@@ -326,13 +177,7 @@ class __InWarehouseParcelListState extends State<_InWarehouseParcelList> {
       'warehouse_id': widget.warehouseModel.id,
       'page': (++pageIndex),
     });
-    widget.onLoadList(data['dataList'], pageIndex == 1);
     return data;
-  }
-
-  // 选择包裹
-  _onChecked(int id) {
-    widget.onChecked(id);
   }
 
   @override
@@ -351,8 +196,6 @@ class __InWarehouseParcelListState extends State<_InWarehouseParcelList> {
     return ParcelItemCell(
       model: model,
       localizationInfo: widget.localizationInfo,
-      checked: widget.selectedParcelList.contains(model.id),
-      onChecked: _onChecked,
     );
   }
 }

@@ -128,13 +128,13 @@ class TrackingDetailPageState extends State<TrackingDetailPage> {
         endChild: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Caption(
+            ZHTextLine(
               str: model.ftime,
               fontSize: 14,
               color: ColorConfig.textGray,
             ),
             Gaps.vGap10,
-            Caption(
+            ZHTextLine(
               str: model.context,
               lines: 10,
             ),

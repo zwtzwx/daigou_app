@@ -111,11 +111,11 @@ class VipCenterPageState extends State<VipCenterPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Row(children: <Widget>[
-                            Caption(
+                            ZHTextLine(
                               str: Translation.t(context, '合计') + '：',
                               fontWeight: FontWeight.bold,
                             ),
-                            Caption(
+                            ZHTextLine(
                               color: ColorConfig.textRed,
                               str: selectButton == 999
                                   ? '0.00'
@@ -126,7 +126,7 @@ class VipCenterPageState extends State<VipCenterPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ]),
-                          Caption(
+                          ZHTextLine(
                             str: selectButton == 999
                                 ? '+ 0 ' + Translation.t(context, '成长值')
                                 : '+' +
@@ -195,7 +195,7 @@ class VipCenterPageState extends State<VipCenterPage> {
         children: <Widget>[
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: const Caption(
+            child: const ZHTextLine(
               str: '成长值说明',
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -204,7 +204,7 @@ class VipCenterPageState extends State<VipCenterPage> {
           Gaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            child: Caption(
+            child: ZHTextLine(
               lines: 99,
               str: userVipModel!.levelRemark!,
               fontSize: 14,
@@ -249,7 +249,7 @@ class VipCenterPageState extends State<VipCenterPage> {
               alignment: Alignment.center,
               color:
                   isTitle ? const Color(0xFFf2edde) : const Color(0xFFf9f8f4),
-              child: Caption(
+              child: ZHTextLine(
                 str: label,
                 color: ColorConfig.vipNormal,
               ),
@@ -265,7 +265,7 @@ class VipCenterPageState extends State<VipCenterPage> {
               alignment: Alignment.center,
               color:
                   isTitle ? const Color(0xFFf2edde) : const Color(0xFFf9f8f4),
-              child: Caption(
+              child: ZHTextLine(
                 str: content,
                 color: ColorConfig.vipNormal,
               ),
@@ -291,7 +291,7 @@ class VipCenterPageState extends State<VipCenterPage> {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: Caption(
+            child: ZHTextLine(
               str: Translation.t(context, '购买会员'),
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -367,7 +367,7 @@ class VipCenterPageState extends State<VipCenterPage> {
                                 topRight: Radius.circular(10),
                               ),
                             ),
-                            child: Caption(
+                            child: ZHTextLine(
                               str: model.name,
                               color: Colors.white,
                             ),
@@ -394,7 +394,7 @@ class VipCenterPageState extends State<VipCenterPage> {
                           //                 bottomLeft:
                           //                     const Radius.circular((15))),
                           //           ),
-                          //           child:  Caption(
+                          //           child:  ZHTextLine(
                           //             str: Translation.t(context, '活动'),
                           //             fontSize: 9,
                           //             fontWeight: FontWeight.w400,
@@ -403,7 +403,7 @@ class VipCenterPageState extends State<VipCenterPage> {
                           //         )
                           //       : Container(),
                           // ),
-                          Caption(
+                          ZHTextLine(
                             // 会员价格
                             str: (model.price / 100).toString(),
                             fontSize: 20,
@@ -412,7 +412,7 @@ class VipCenterPageState extends State<VipCenterPage> {
                           ),
                           Stack(
                             children: [
-                              Caption(
+                              ZHTextLine(
                                 str: model.type != 1
                                     ? (model.basePrice / 100).toString()
                                     : '',
@@ -438,7 +438,7 @@ class VipCenterPageState extends State<VipCenterPage> {
                       child: Container(
                         alignment: Alignment.center,
                         width: (ScreenUtil().screenWidth - 70) / 3,
-                        child: Caption(
+                        child: ZHTextLine(
                           str: model.illustrate,
                           fontSize: 14,
                         ),
@@ -495,7 +495,7 @@ class VipCenterPageState extends State<VipCenterPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Caption(
+                      ZHTextLine(
                         str: Translation.t(context, '成长值'),
                         fontSize: 13,
                         color: ColorConfig.vipNormal,
@@ -503,7 +503,7 @@ class VipCenterPageState extends State<VipCenterPage> {
                       Gaps.hGap10,
                       Flexible(
                         child: GestureDetector(
-                          child: Caption(
+                          child: ZHTextLine(
                             str: Translation.t(context, '距离下一等级还差{count}成长值',
                                     value: {
                                       'count': firstNum < 0 ? 0 : firstNum
@@ -519,7 +519,7 @@ class VipCenterPageState extends State<VipCenterPage> {
                   Gaps.vGap15,
                   Row(
                     children: [
-                      Caption(
+                      ZHTextLine(
                         str: growthValue.toString(),
                         color: ColorConfig.vipNormal,
                         fontWeight: FontWeight.bold,
@@ -559,7 +559,7 @@ class VipCenterPageState extends State<VipCenterPage> {
                         ),
                       ),
                       Gaps.hGap10,
-                      Caption(
+                      ZHTextLine(
                         str: nextLevelGrowthValue.toString(),
                         color: ColorConfig.vipNormal,
                         fontSize: 13,
@@ -590,14 +590,14 @@ class VipCenterPageState extends State<VipCenterPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Caption(
+                    ZHTextLine(
                       str: userInfo!.name,
                       fontSize: 16,
                       color: ColorConfig.vipNormal,
                       fontWeight: FontWeight.bold,
                     ),
                     Gaps.vGap4,
-                    Caption(
+                    ZHTextLine(
                       str: 'ID：${userInfo!.id}',
                       color: ColorConfig.vipNormal,
                     ),
@@ -608,12 +608,12 @@ class VipCenterPageState extends State<VipCenterPage> {
                       },
                       child: Row(
                         children: [
-                          Caption(
+                          ZHTextLine(
                             str: Translation.t(context, '积分'),
                             color: ColorConfig.vipNormal,
                           ),
                           Gaps.hGap10,
-                          Caption(
+                          ZHTextLine(
                             str: (userVipModel?.profile.point ?? 0).toString(),
                             color: ColorConfig.vipNormal,
                             fontWeight: FontWeight.bold,

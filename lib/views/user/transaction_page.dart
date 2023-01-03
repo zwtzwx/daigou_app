@@ -46,7 +46,7 @@ class _TransactionPageState extends State<TransactionPage> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: Caption(
+        title: ZHTextLine(
           str: Translation.t(context, '财务流水'),
           color: ColorConfig.textBlack,
           fontSize: 18,
@@ -76,39 +76,39 @@ class _TransactionPageState extends State<TransactionPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Caption(
+                ZHTextLine(
                   str: model.createdAt,
                 ),
                 Gaps.vGap15,
                 Container(
                   alignment: Alignment.center,
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '金额'),
                     fontSize: 18,
                   ),
                 ),
                 Container(
                   alignment: Alignment.center,
-                  child: Caption(
+                  child: ZHTextLine(
                     str: (model.amount / 100).toStringAsFixed(2),
                     fontSize: 18,
                     color: ColorConfig.textRed,
                   ),
                 ),
                 Gaps.vGap15,
-                Caption(
+                ZHTextLine(
                   str: Translation.t(context, '类型') +
                       '：' +
                       Translation.t(context, getType(model.type)),
                 ),
                 Gaps.vGap10,
                 ([1, 3].contains(model.type) && model.order != null)
-                    ? Caption(
+                    ? ZHTextLine(
                         str: Translation.t(context, '相关订单') +
                             '：' +
                             (model.orderSn ?? ''),
                       )
-                    : Caption(
+                    : ZHTextLine(
                         str: Translation.t(context, '流水号') +
                             '：' +
                             model.serialNo,
@@ -134,7 +134,7 @@ class _TransactionPageState extends State<TransactionPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Caption(
+                        ZHTextLine(
                           str: Translation.t(context, '查看详情'),
                           fontSize: 14,
                         ),

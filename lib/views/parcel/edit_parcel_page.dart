@@ -272,7 +272,7 @@ class EditParcelPageState extends State<EditParcelPage>
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: Caption(
+          title: ZHTextLine(
             str: Translation.t(context, '修改包裹'),
             color: ColorConfig.textBlack,
             fontSize: 18,
@@ -335,7 +335,7 @@ class EditParcelPageState extends State<EditParcelPage>
             height: 42,
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Caption(
+            child: ZHTextLine(
               fontWeight: FontWeight.bold,
               str: Translation.t(context, '商品信息'),
             ),
@@ -354,7 +354,7 @@ class EditParcelPageState extends State<EditParcelPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '物品属性'),
                     color: ColorConfig.textNormal,
                   ),
@@ -385,7 +385,7 @@ class EditParcelPageState extends State<EditParcelPage>
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Expanded(
-                                child: Caption(
+                                child: ZHTextLine(
                                   str: packageModel.prop != null
                                       ? packageModel.prop!
                                           .map((e) => e.name)
@@ -414,7 +414,7 @@ class EditParcelPageState extends State<EditParcelPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '商品备注'),
                     color: ColorConfig.textNormal,
                   ),
@@ -452,7 +452,7 @@ class EditParcelPageState extends State<EditParcelPage>
             children: <Widget>[
               Container(
                 alignment: Alignment.centerLeft,
-                child: Caption(
+                child: ZHTextLine(
                   str: Translation.t(context, '物品名称'),
                   color: ColorConfig.textNormal,
                 ),
@@ -481,7 +481,7 @@ class EditParcelPageState extends State<EditParcelPage>
             children: <Widget>[
               Container(
                 alignment: Alignment.centerLeft,
-                child: Caption(
+                child: ZHTextLine(
                   str: Translation.t(context, '物品总价'),
                   color: ColorConfig.textNormal,
                 ),
@@ -499,7 +499,7 @@ class EditParcelPageState extends State<EditParcelPage>
                 autoShowRemove: false,
                 maxLines: 1,
               )),
-              // Caption(
+              // ZHTextLine(
               //     str: (packageModel.packageValue! / 100).toStringAsFixed(2))
             ],
           ),
@@ -514,7 +514,7 @@ class EditParcelPageState extends State<EditParcelPage>
             children: <Widget>[
               Container(
                 alignment: Alignment.centerLeft,
-                child: Caption(
+                child: ZHTextLine(
                   str: Translation.t(context, '物品数量'),
                   color: ColorConfig.textNormal,
                 ),
@@ -531,7 +531,7 @@ class EditParcelPageState extends State<EditParcelPage>
                 textAlign: TextAlign.right,
                 maxLines: 1,
               )),
-              // Caption(
+              // ZHTextLine(
               //   str: packageModel.qty.toString(),
               // )
             ],
@@ -552,20 +552,20 @@ class EditParcelPageState extends State<EditParcelPage>
             child: Row(
               children: [
                 Expanded(
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '物品名称'),
                     color: ColorConfig.textNormal,
                   ),
                   flex: 2,
                 ),
                 Expanded(
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '物品价值'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
                 Expanded(
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '数量'),
                     color: ColorConfig.textNormal,
                   ),
@@ -699,7 +699,7 @@ class EditParcelPageState extends State<EditParcelPage>
             height: 42,
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Caption(
+            child: ZHTextLine(
               fontWeight: FontWeight.bold,
               str: Translation.t(context, '包裹信息'),
             ),
@@ -714,7 +714,7 @@ class EditParcelPageState extends State<EditParcelPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '快递名称'),
                     color: ColorConfig.textNormal,
                   ),
@@ -727,7 +727,7 @@ class EditParcelPageState extends State<EditParcelPage>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Caption(
+                              ZHTextLine(
                                 str: expressCompany == null
                                     ? packageModel.expressName!
                                     : expressCompany!.name,
@@ -751,12 +751,12 @@ class EditParcelPageState extends State<EditParcelPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '快递单号'),
                     color: ColorConfig.textNormal,
                   ),
                 ),
-                Caption(
+                ZHTextLine(
                   str: packageModel.expressNum!,
                 )
               ],
@@ -771,7 +771,7 @@ class EditParcelPageState extends State<EditParcelPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '发往国家'),
                     color: ColorConfig.textNormal,
                   ),
@@ -806,7 +806,7 @@ class EditParcelPageState extends State<EditParcelPage>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Caption(
+                              ZHTextLine(
                                   str: countryModel == null
                                       ? (packageModel.country != null
                                           ? packageModel.country!.name!
@@ -832,7 +832,7 @@ class EditParcelPageState extends State<EditParcelPage>
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Caption(
+                  child: ZHTextLine(
                     str: Translation.t(context, '发往仓库'),
                     color: ColorConfig.textNormal,
                   ),
@@ -865,7 +865,7 @@ class EditParcelPageState extends State<EditParcelPage>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Caption(
+                              ZHTextLine(
                                   str: packageModel.warehouse?.warehouseName ??
                                       ''),
                               (packageModel.status == 1 ||
@@ -892,7 +892,7 @@ class EditParcelPageState extends State<EditParcelPage>
     for (var item in packageModel.chosenService!) {
       var con = SizedBox(
         height: 20,
-        child: Caption(
+        child: ZHTextLine(
           str: item['content'],
         ),
       );
@@ -905,7 +905,7 @@ class EditParcelPageState extends State<EditParcelPage>
     List<PickerItem> data = [];
     for (var item in list) {
       var containe = PickerItem(
-        text: Caption(
+        text: ZHTextLine(
           fontSize: 24,
           str: item.name,
         ),
@@ -919,7 +919,7 @@ class EditParcelPageState extends State<EditParcelPage>
     List<PickerItem> data = [];
     for (var item in list) {
       var containe = PickerItem(
-        text: Caption(
+        text: ZHTextLine(
           fontSize: 24,
           str: item.warehouseName!,
         ),

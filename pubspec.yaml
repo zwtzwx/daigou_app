@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.6+10
+version: 1.0.0+1
 
 environment:
   sdk: '>=2.16.2 <3.0.0'
@@ -34,30 +34,25 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   event_bus: ^2.0.0 #事件监听
-  flutter_spinkit: ^5.1.0 #常用的加载控件
   shared_preferences: ^2.0.13 # 本地存储、收藏功能
   dio: ^4.0.4 # 网络请求
   dio_cache_interceptor: ^3.2.6
   dio_cookie_manager: ^2.0.0
   pull_to_refresh: ^2.0.0 # 下拉刷新
   flutter_screenutil: ^5.5.3+2 #屏幕适配
-  fluwx: ^3.9.0+2 #微信
   provider: ^6.0.2 #状态管理
   fluttertoast: ^8.0.8 #toast
   flutter_easyloading: ^3.0.3
   cached_network_image: ^3.2.0
-  flutter_swiper_null_safety: ^1.0.2 #轮播图
   url_launcher: ^6.0.20
   image_gallery_saver: ^1.6.9
   permission_handler: ^9.2.0
   flutter_picker: ^2.0.2
   flutter_html: ^2.2.1
   dio_http2_adapter: ^2.0.0
-  smooth_page_indicator: ^1.0.0+2 #页面指示器
   image_cropper: ^2.0.2
   image_picker: ^0.8.5+3
   photo_view: ^0.13.0
-  dotted_border: ^2.0.0+1
   flutter_dotenv: ^5.0.2
   video_player: ^2.4.5
   flick_video_player: ^0.5.0
@@ -67,7 +62,8 @@ dependencies:
   flutter_local_notifications: ^9.5.3+1
   firebase_auth: ^3.4.1
   google_sign_in: ^5.3.3
-  flutter_facebook_auth: ^4.3.4
+  sign_in_with_apple: ^4.1.0
+  crypto: ^3.0.2
 
 dev_dependencies:
   flutter_test:

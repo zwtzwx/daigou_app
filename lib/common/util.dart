@@ -1,54 +1,8 @@
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jiyun_app_client/models/self_pickup_station_order_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 
 class Util {
-  static String getTimeDuration(String comTime) {
-    var nowTime = DateTime.now();
-    var compareTime = DateTime.parse(comTime);
-    if (nowTime.isAfter(compareTime)) {
-      if (nowTime.year == compareTime.year) {
-        if (nowTime.month == compareTime.month) {
-          if (nowTime.day == compareTime.day) {
-            if (nowTime.hour == compareTime.hour) {
-              if (nowTime.minute == compareTime.minute) {
-                return '片刻之间';
-              }
-              return (nowTime.minute - compareTime.minute).toString() + '分钟前';
-            }
-            return (nowTime.hour - compareTime.hour).toString() + '小时前';
-          }
-          return (nowTime.day - compareTime.day).toString() + '天前';
-        }
-        return (nowTime.month - compareTime.month).toString() + '月前';
-      }
-      return (nowTime.year - compareTime.year).toString() + '年前';
-    }
-    return 'time error';
-  }
-
-  // 数组分组
-  static List listToSort({required List toSort, required int chunk}) {
-    var newList = [];
-    for (var i = 0; i < toSort.length; i += chunk) {
-      var end = i + chunk > toSort.length ? toSort.length : i + chunk;
-      newList.add(toSort.sublist(i, end));
-    }
-    return newList;
-  }
-
-  /// 调起拨号页
-  static void launchTelURL(String phone) async {
-    Uri url = Uri.parse('tel:' + phone);
-
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {}
-  }
-
   static void showSnackBar(BuildContext context, String msg,
       [GlobalKey<ScaffoldState>? _scaffoldKey]) {
     if (_scaffoldKey != null) {
@@ -69,35 +23,6 @@ class Util {
         backgroundColor: Colors.black,
         textColor: Colors.white,
         fontSize: 16.0);
-  }
-
-  static Widget buildLoadingWithWiget(
-      BuildContext context, Widget widget, isLoading) {
-    return Stack(
-      children: <Widget>[
-        // 显示app
-        Offstage(
-          child: widget,
-          offstage: false,
-        ),
-        // 显示广告
-        Offstage(
-          child: Stack(
-            children: <Widget>[
-              Opacity(
-                opacity: 0.5,
-                child: Container(color: Colors.black),
-              ),
-              const SpinKitFoldingCube(
-                color: Color(WidgetColor.themeColor),
-                size: 50.0,
-              )
-            ],
-          ),
-          offstage: !isLoading,
-        ),
-      ],
-    );
   }
 
   // 支付方式名称
