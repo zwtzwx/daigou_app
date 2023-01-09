@@ -119,6 +119,9 @@ class Notifications {
     } else if (data['type'] == '7') {
       Routers.push('/webview', context,
           {'type': 'notice', 'id': int.parse(data['value'])});
+    } else if (data['type'] == '8') {
+      Routers.push(
+          '/OrderDetailPage', context, {'id': num.parse(data['value'])});
     }
   }
 }

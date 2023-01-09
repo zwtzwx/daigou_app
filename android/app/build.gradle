@@ -32,7 +32,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 dependencies {
     implementation 'com.google.firebase:firebase-messaging:23.0.6'
-    implementation 'com.facebook.android:facebook-login:14.1.0'
 }
 
 // END: FlutterFire Configuration
