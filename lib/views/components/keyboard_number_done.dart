@@ -45,7 +45,7 @@ class KeyboardDone {
   Widget doneWidget() {
     return Container(
       width: double.infinity,
-      color: ColorConfig.bgGray,
+      color: BaseStylesConfig.bgGray,
       alignment: Alignment.centerRight,
       child: CupertinoButton(
         padding: const EdgeInsets.only(right: 24, top: 8, bottom: 8),

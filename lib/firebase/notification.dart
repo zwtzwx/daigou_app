@@ -11,13 +11,11 @@ import 'package:jiyun_app_client/storage/user_storage.dart';
 
 class Notifications {
   static final FirebaseMessaging messaging = FirebaseMessaging.instance;
-  static late BuildContext context;
 
   static AndroidNotificationChannel? channel;
   static FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
 
-  static initialized(BuildContext ctx) {
-    context = ctx;
+  static initialized() {
     initForegroudSetting();
     getToken();
     registerMessage();
@@ -115,13 +113,12 @@ class Notifications {
   static void onMessage(Map<String, dynamic>? data) {
     if (data == null) return;
     if (data['type'] == '1') {
-      Routers.push('/InWarehouseParcelListPage', context);
+      Routers.push(Routers.parcelList, 2);
     } else if (data['type'] == '7') {
-      Routers.push('/webview', context,
-          {'type': 'notice', 'id': int.parse(data['value'])});
-    } else if (data['type'] == '8') {
       Routers.push(
-          '/OrderDetailPage', context, {'id': num.parse(data['value'])});
+          Routers.webview, {'type': 'notice', 'id': int.parse(data['value'])});
+    } else if (data['type'] == '8') {
+      Routers.push(Routers.orderDetail, {'id': num.parse(data['value'])});
     }
   }
 }

@@ -5,7 +5,7 @@ class ZHTextLine extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
   const ZHTextLine(
       {this.str = "",
-      this.color = ColorConfig.textBlack,
+      this.color = BaseStylesConfig.textBlack,
       this.fontSize = 15,
       this.fontWeight = FontWeight.w400,
       this.lines = 1,

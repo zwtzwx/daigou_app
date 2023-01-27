@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
+import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
 import 'package:jiyun_app_client/models/parcel_box_model.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -25,7 +25,7 @@ class BaseDialog {
           return AlertDialog(
             title: Container(
               alignment: Alignment.center,
-              child: Text(title ?? Translation.t(context, '提示')),
+              child: Text((title ?? '提示').ts),
             ),
             content: Container(
               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -35,18 +35,18 @@ class BaseDialog {
               showCancelButton
                   ? TextButton(
                       child: ZHTextLine(
-                        str: Translation.t(context, '取消'),
-                        color: ColorConfig.textNormal,
+                        str: '取消'.ts,
+                        color: BaseStylesConfig.textNormal,
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     )
-                  : Gaps.empty,
+                  : Sized.empty,
               TextButton(
                 child: ZHTextLine(
-                  str: Translation.t(context, '确认'),
-                  color: ColorConfig.textBlack,
+                  str: '确认'.ts,
+                  color: BaseStylesConfig.textBlack,
                 ),
                 onPressed: () {
                   Navigator.of(context).pop(true);
@@ -68,7 +68,7 @@ class BaseDialog {
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: Text(Translation.t(context, title ?? "提示")),
+          title: Text((title ?? "提示").ts),
           content: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -76,13 +76,13 @@ class BaseDialog {
           ),
           actions: [
             CupertinoDialogAction(
-              child: Text(Translation.t(context, '取消')),
+              child: Text('取消'.ts),
               onPressed: () {
                 Navigator.pop(context, false);
               },
             ),
             CupertinoDialogAction(
-              child: Text(Translation.t(context, '确定')),
+              child: Text('确定'.ts),
               onPressed: () {
                 Navigator.pop(context, true);
               },
@@ -119,7 +119,7 @@ class BaseDialog {
                             vertical: 10, horizontal: 15),
                         decoration: const BoxDecoration(
                             border: Border(
-                          bottom: BorderSide(color: ColorConfig.line),
+                          bottom: BorderSide(color: BaseStylesConfig.line),
                         )),
                         alignment: Alignment.center,
                         child: ZHTextLine(
@@ -127,9 +127,9 @@ class BaseDialog {
                           fontSize: titleFontSize ?? 15,
                         ),
                       )
-                    : Gaps.empty,
+                    : Sized.empty,
                 child,
-                Gaps.line,
+                Sized.line,
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -138,8 +138,7 @@ class BaseDialog {
                     height: 40,
                     alignment: Alignment.center,
                     child: ZHTextLine(
-                        str: Translation.t(context, '确认'),
-                        color: ColorConfig.primary),
+                        str: '确认'.ts, color: BaseStylesConfig.primary),
                   ),
                 ),
               ],
@@ -158,7 +157,7 @@ class BaseDialog {
       ParcelBoxModel boxModel = orderModel.boxes[i];
       var view = CupertinoActionSheetAction(
         child: Text(
-          '${Translation.t(context, '子订单')}-' '${i + 1}',
+          '${'子订单'.ts}-' '${i + 1}',
         ),
         onPressed: () {
           Navigator.of(context)
@@ -173,7 +172,7 @@ class BaseDialog {
           return CupertinoActionSheet(
             actions: list,
             cancelButton: CupertinoActionSheetAction(
-              child: Text(Translation.t(context, '取消')),
+              child: Text('取消'.ts),
               onPressed: () {
                 Navigator.of(context).pop('cancel');
               },
@@ -184,10 +183,9 @@ class BaseDialog {
       return;
     }
     if (result != null && result.isEmpty) {
-      Routers.push(
-          '/TrackingDetailPage', context, {"order_sn": orderModel.orderSn});
+      Routers.push(Routers.orderTracking, {"order_sn": orderModel.orderSn});
     } else {
-      Routers.push('/TrackingDetailPage', context, {"order_sn": result});
+      Routers.push(Routers.orderTracking, {"order_sn": result});
     }
   }
 }

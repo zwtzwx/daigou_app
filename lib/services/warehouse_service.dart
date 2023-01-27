@@ -3,7 +3,6 @@
 import 'package:jiyun_app_client/common/http_client.dart';
 import 'package:flutter/material.dart';
 import 'package:jiyun_app_client/models/warehouse_model.dart';
-import 'package:jiyun_app_client/storage/warehouse_storage.dart';
 
 class WarehouseService extends ChangeNotifier {
   // 获取包裹的仓库数据
@@ -37,22 +36,5 @@ class WarehouseService extends ChangeNotifier {
             })
         .onError((error, stackTrace) => {});
     return result;
-  }
-
-  //设置
-  static void setCacheList(List<WareHouseModel> list) async {
-    WarehouseStorage.set(list);
-  }
-
-  static Future<List<WareHouseModel>> getCacheList(
-      {bool autoRenew = true}) async {
-    List<WareHouseModel> warehouses =
-        List<WareHouseModel>.empty(growable: true);
-    WarehouseStorage.get().then((value) => {warehouses = value});
-
-    if (warehouses.isEmpty && autoRenew) {
-      return getList();
-    }
-    return warehouses;
   }
 }

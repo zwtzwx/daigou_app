@@ -1,6 +1,6 @@
-import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
+import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,7 +50,7 @@ class SearchBarWidgetState extends State<SearchBar> {
       height: 30,
       child: TextField(
         textAlign: TextAlign.start,
-        cursorColor: ColorConfig.textGray,
+        cursorColor: BaseStylesConfig.textGray,
         focusNode: widget.focusNode,
         controller: widget.controller,
         autofocus: false,
@@ -82,9 +82,9 @@ class SearchBarWidgetState extends State<SearchBar> {
           ),
           suffixIcon: _action(),
           filled: false,
-          hintText: Translation.t(context, '输入关键字查询'),
+          hintText: '输入关键字查询'.ts,
           hintStyle: TextConfig.textGray14,
-          fillColor: ColorConfig.bgGray,
+          fillColor: BaseStylesConfig.bgGray,
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.circular(6),
@@ -100,9 +100,9 @@ class SearchBarWidgetState extends State<SearchBar> {
       width: 70,
       margin: const EdgeInsets.only(right: 10),
       child: RawMaterialButton(
-        fillColor: ColorConfig.primary,
+        fillColor: BaseStylesConfig.primary,
         child: ZHTextLine(
-          str: Translation.t(context, '搜索'),
+          str: '搜索'.ts,
           color: Colors.white,
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -118,7 +118,7 @@ class SearchBarWidgetState extends State<SearchBar> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-      color: ColorConfig.white,
+      color: BaseStylesConfig.white,
       alignment: Alignment.center,
       child: _searchPanel(),
     );

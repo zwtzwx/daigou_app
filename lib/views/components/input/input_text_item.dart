@@ -1,7 +1,7 @@
-import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
 import 'package:flutter/material.dart';
+import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 
 class InputTextItem extends StatefulWidget {
@@ -47,10 +47,10 @@ class _InputTextItemState extends State<InputTextItem> {
             : const EdgeInsets.all(0),
         width: double.infinity,
         decoration: BoxDecoration(
-            color: ColorConfig.white,
+            color: BaseStylesConfig.white,
             border: Border(
               bottom: Divider.createBorderSide(context,
-                  color: ColorConfig.line, width: widget.flag ? 1 : 0),
+                  color: BaseStylesConfig.line, width: widget.flag ? 1 : 0),
             )),
         child: Row(
             crossAxisAlignment: widget.alignment,
@@ -67,12 +67,12 @@ class _InputTextItemState extends State<InputTextItem> {
                         widget.isRequired
                             ? const ZHTextLine(
                                 str: '*',
-                                color: ColorConfig.textRed,
+                                color: BaseStylesConfig.textRed,
                               )
-                            : Gaps.empty,
+                            : Sized.empty,
                         Flexible(
                           child: Text(
-                            Translation.t(context, widget.title),
+                            (widget.title).ts,
                             style: TextConfig.textDark14,
                           ),
                         ),

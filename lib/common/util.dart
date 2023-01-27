@@ -99,4 +99,26 @@ class Util {
     }
     return statusStr;
   }
+
+  // 语言占位符替换
+  static List<String> parsePlaceholder(String str) {
+    List<String> list = [];
+    int position = 0;
+    int strLength = str.length;
+    while (position < strLength) {
+      String char = str[position++];
+      if (char == '{') {
+        String sub = '';
+        if (position < strLength) {
+          char = str[position++];
+        }
+        while (position < strLength && char != '}') {
+          sub += char;
+          char = str[position++];
+        }
+        list.add(sub);
+      }
+    }
+    return list;
+  }
 }

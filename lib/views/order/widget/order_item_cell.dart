@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/list_refresh_event.dart';
+import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
@@ -24,7 +24,7 @@ class OrderItemCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Routers.push('/OrderDetailPage', context, {'id': orderModel.id});
+        Routers.push(Routers.orderDetail, {'id': orderModel.id});
       },
       child: Container(
         decoration: const BoxDecoration(
@@ -50,7 +50,7 @@ class OrderItemCell extends StatelessWidget {
                       width: 25,
                       height: 25,
                     ),
-                    Gaps.hGap5,
+                    Sized.hGap5,
                     ZHTextLine(
                       str: orderModel.orderSn,
                     ),
@@ -68,13 +68,13 @@ class OrderItemCell extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 2, horizontal: 5),
                               child: ZHTextLine(
-                                str: Translation.t(context, '订单异常'),
+                                str: '订单异常'.ts,
                                 color: Colors.white,
                                 fontSize: 12,
                               ),
                             ),
                           )
-                        : Gaps.empty,
+                        : Sized.empty,
                     const Icon(
                       Icons.arrow_forward_ios,
                       size: 14,
@@ -100,7 +100,7 @@ class OrderItemCell extends StatelessWidget {
                           height: 8,
                         ),
                       ),
-                      Gaps.vGap20,
+                      Sized.vGap20,
                       ZHTextLine(
                         str: orderModel.warehouse.warehouseName!,
                       )
@@ -117,11 +117,11 @@ class OrderItemCell extends StatelessWidget {
                           width: 24,
                           height: 24,
                         ),
-                        Gaps.vGap4,
+                        Sized.vGap4,
                         ZHTextLine(
                           str: Util.getOrderStatusName(
                               orderModel.status, orderModel.stationOrder),
-                          color: ColorConfig.primary,
+                          color: BaseStylesConfig.primary,
                           fontSize: 14,
                         )
                       ],
@@ -136,7 +136,7 @@ class OrderItemCell extends StatelessWidget {
                           height: 8,
                         ),
                       ),
-                      Gaps.vGap20,
+                      Sized.vGap20,
                       ZHTextLine(
                         str: orderModel.address.countryName,
                       )
@@ -145,8 +145,8 @@ class OrderItemCell extends StatelessWidget {
                 ],
               ),
             ),
-            Gaps.line,
-            Gaps.vGap15,
+            Sized.line,
+            Sized.vGap15,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -159,7 +159,7 @@ class OrderItemCell extends StatelessWidget {
                     fontSize: 16,
                   ),
                 ),
-                Gaps.vGap4,
+                Sized.vGap4,
                 ZHTextLine(
                   str: (orderModel.address.address != null &&
                           orderModel.address.address!.isNotEmpty)
@@ -167,14 +167,14 @@ class OrderItemCell extends StatelessWidget {
                       : '${orderModel.address.area != null ? '${orderModel.address.area!.name} ' : ''}${orderModel.address.subArea != null ? '${orderModel.address.subArea!.name} ' : ''}${orderModel.address.street} ${orderModel.address.doorNo} ${orderModel.address.city}',
                   lines: 4,
                 ),
-                Gaps.vGap4,
+                Sized.vGap4,
                 ZHTextLine(
                   str: orderModel.station != null
-                      ? '${Translation.t(context, '自提收货')}-${orderModel.station!.name}'
-                      : Translation.t(context, '送货上门'),
+                      ? '${'自提收货'.ts}-${orderModel.station!.name}'
+                      : '送货上门'.ts,
                   fontSize: 14,
                 ),
-                Gaps.vGap4,
+                Sized.vGap4,
                 [3, 4, 5].contains(orderModel.status)
                     ? Container(
                         margin: const EdgeInsets.only(bottom: 4),
@@ -182,10 +182,9 @@ class OrderItemCell extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             ZHTextLine(
-                              str:
-                                  '${Translation.t(context, '物流单号')}：${orderModel.logisticsSn}',
+                              str: '${'物流单号'.ts}：${orderModel.logisticsSn}',
                             ),
-                            Gaps.hGap10,
+                            Sized.hGap10,
                             orderModel.logisticsSn.isNotEmpty
                                 ? GestureDetector(
                                     onTap: () {
@@ -193,40 +192,38 @@ class OrderItemCell extends StatelessWidget {
                                               text: orderModel.logisticsSn))
                                           .then((value) =>
                                               EasyLoading.showSuccess(
-                                                  Translation.t(
-                                                      context, '复制成功')));
+                                                  '复制成功'.ts));
                                     },
                                     child: ZHTextLine(
-                                      str: Translation.t(context, '复制'),
-                                      color: ColorConfig.primary,
+                                      str: '复制'.ts,
+                                      color: BaseStylesConfig.primary,
                                     ),
                                   )
-                                : Gaps.empty
+                                : Sized.empty
                           ],
                         ),
                       )
-                    : Gaps.empty,
+                    : Sized.empty,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ZHTextLine(
-                      str:
-                          '${Translation.t(context, '提交时间')}：${orderModel.createdAt}',
+                      str: '${'提交时间'.ts}：${orderModel.createdAt}',
                       fontSize: 13,
-                      color: ColorConfig.textGray,
+                      color: BaseStylesConfig.textGray,
                     ),
                     ZHTextLine(
                       str: orderModel.paymentTypeName,
                       fontSize: 13,
                       color: orderModel.onDeliveryStatus != 0
-                          ? ColorConfig.textRed
-                          : ColorConfig.textBlack,
+                          ? BaseStylesConfig.textRed
+                          : BaseStylesConfig.textBlack,
                     )
                   ],
                 )
               ],
             ),
-            Gaps.vGap10,
+            Sized.vGap10,
             _buildOrderBtns(context),
           ],
         ),
@@ -238,82 +235,19 @@ class OrderItemCell extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        orderModel.status == 11
-            ? ZHTextLine(
-                str: Translation.t(context, '等待客服确认支付'),
-                fontSize: 14,
-                color: ColorConfig.textRed,
-              )
-            : Gaps.empty,
-        [2, 12].contains(orderModel.status) &&
-                orderModel.onDeliveryStatus != 11 &&
-                orderModel.groupMode == 0
-            ? Container(
-                margin: const EdgeInsets.only(left: 10),
-                child: MainButton(
-                  text: (orderModel.status == 2 ||
-                          orderModel.onDeliveryStatus == 1)
-                      ? '去付款'
-                      : '重新支付',
-                  onPressed: () {
-                    var s = Routers.push('/OrderPayPage', context, {
-                      'id': orderModel.id,
-                      'payModel': 1,
-                      'deliveryStatus': orderModel.onDeliveryStatus,
-                    });
-                    if (s != null) {
-                      ApplicationEvent.getInstance()
-                          .event
-                          .fire(ListRefreshEvent(type: 'refresh'));
-                    }
-                  },
-                ),
-              )
-            : Gaps.empty,
-        [2, 12].contains(orderModel.status) &&
-                orderModel.groupMode != 0 &&
-                orderModel.isLeaderOrder
-            ? Expanded(
-                child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const ZHTextLine(
-                    str: '该团购单为团长代款,请您及时付款',
-                    fontSize: 14,
-                    color: ColorConfig.textRed,
-                  ),
-                  MainButton(
-                    text: '去付款',
-                    onPressed: () {
-                      Routers.push(
-                          '/OrderPayPage', context, {'id': orderModel.id});
-                    },
-                  ),
-                ],
-              ))
-            : Gaps.empty,
-        [2, 12].contains(orderModel.status) &&
-                orderModel.groupMode != 0 &&
-                !orderModel.isLeaderOrder
-            ? const ZHTextLine(
-                str: '该团购单为团长代款,您无需支付',
-                fontSize: 14,
-                color: ColorConfig.textRed,
-              )
-            : Gaps.empty,
         [4, 5].contains(orderModel.status)
             ? PlainButton(
-                text: Translation.t(context, '查看物流'),
+                text: '查看物流',
                 onPressed: () {
                   if (orderModel.boxes.isNotEmpty) {
                     BaseDialog.showBoxsTracking(context, orderModel);
                   } else {
-                    Routers.push('/TrackingDetailPage', context,
+                    Routers.push(Routers.orderTracking,
                         {"order_sn": orderModel.orderSn});
                   }
                 },
               )
-            : Gaps.empty,
+            : Sized.empty,
         orderModel.status == 4
             ? Flexible(
                 child: Container(
@@ -326,36 +260,7 @@ class OrderItemCell extends StatelessWidget {
                   ),
                 ),
               )
-            : Gaps.empty,
-        orderModel.status == 5 && orderModel.evaluated == 0
-            ? Container(
-                padding: const EdgeInsets.only(left: 10),
-                child: MainButton(
-                  text: '我要评价',
-                  onPressed: () {
-                    var s = Routers.push(
-                        '/OrderCommentPage', context, {'order': orderModel});
-                    if (s != null) {
-                      ApplicationEvent.getInstance()
-                          .event
-                          .fire(ListRefreshEvent(type: 'refresh'));
-                    }
-                  },
-                ),
-              )
-            : Gaps.empty,
-        orderModel.status == 5 && orderModel.evaluated == 1
-            ? Container(
-                padding: const EdgeInsets.only(left: 10),
-                child: MainButton(
-                  text: '查看评价',
-                  onPressed: () {
-                    Routers.push('/OrderCommentPage', context,
-                        {'order': orderModel, 'detail': true});
-                  },
-                ),
-              )
-            : Gaps.empty,
+            : Sized.empty,
       ],
     );
   }
@@ -366,7 +271,7 @@ class OrderItemCell extends StatelessWidget {
     if (result != null) {
       BaseDialog.normalDialog(
         context,
-        title: Translation.t(context, '异常说明'),
+        title: '异常说明'.ts,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
           child: Column(
@@ -384,7 +289,7 @@ class OrderItemCell extends StatelessWidget {
                         width: 100,
                       ),
                     )
-                  : Gaps.empty,
+                  : Sized.empty,
             ],
           ),
         ),
@@ -394,15 +299,14 @@ class OrderItemCell extends StatelessWidget {
 
   // 签收
   void onSign(BuildContext context) async {
-    var data = await BaseDialog.confirmDialog(
-        context, '${Translation.t(context, '您确定要签收吗')}？');
+    var data = await BaseDialog.confirmDialog(context, '${'您确定要签收吗'.ts}？');
     if (data != null) {
       int id = orderModel.id;
       EasyLoading.show();
       var result = await OrderService.signed(id);
       EasyLoading.dismiss();
       if (result['ok']) {
-        Util.showToast(Translation.t(context, '签收成功'));
+        Util.showToast('签收成功'.ts);
         ApplicationEvent.getInstance()
             .event
             .fire(ListRefreshEvent(type: 'refresh'));

@@ -120,7 +120,7 @@ class _BaseInputState extends State<BaseInput> {
   @override
   Widget build(BuildContext context) {
     var inputDecoration = InputDecoration(
-        fillColor: widget.board ? ColorConfig.line : Colors.white,
+        fillColor: widget.board ? BaseStylesConfig.line : Colors.white,
         filled: true,
         contentPadding: widget.contentPadding,
         hintText: widget.hintText,

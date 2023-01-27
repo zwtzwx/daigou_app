@@ -2,11 +2,11 @@
   下单刷新
  */
 
-import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/list_refresh_event.dart';
+import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -155,7 +155,7 @@ class _ListRefreshState extends State<ListRefresh> {
                   Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: Text(
-                      Translation.t(context, '加载中') + '...',
+                      '加载中'.ts + '...',
                       style: TextConfig.textGray14,
                     ),
                   )
@@ -193,7 +193,7 @@ class _ListRefreshState extends State<ListRefresh> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Text(
-                          Translation.t(context, '删除'),
+                          '删除'.ts,
                           style: const TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.w300,
@@ -257,8 +257,8 @@ class _ListRefreshState extends State<ListRefresh> {
           ),
         ),
         ZHTextLine(
-          str: Translation.t(context, widget.noMessageTip),
-          color: ColorConfig.textGrayC,
+          str: widget.noMessageTip.ts,
+          color: BaseStylesConfig.textGrayC,
         )
       ],
     ));
@@ -277,11 +277,11 @@ class _ListRefreshState extends State<ListRefresh> {
             header: ClassicHeader(
               refreshingIcon: const CupertinoActivityIndicator(),
               height: 45.0,
-              releaseText: Translation.t(context, '松开手刷新'),
-              refreshingText: Translation.t(context, '刷新中'),
-              completeText: Translation.t(context, '刷新完成'),
-              failedText: Translation.t(context, '刷新失败'),
-              idleText: Translation.t(context, '下拉刷新'),
+              releaseText: '松开手刷新'.ts,
+              refreshingText: '刷新中'.ts,
+              completeText: '刷新完成'.ts,
+              failedText: '刷新失败'.ts,
+              idleText: '下拉刷新'.ts,
             ),
             footer: CustomFooter(
               height: _items.length < 10 ? 0 : 60,
@@ -289,24 +289,24 @@ class _ListRefreshState extends State<ListRefresh> {
                 Widget body;
                 if (mode == LoadStatus.idle) {
                   body = Text(
-                    Translation.t(context, '上拉加载'),
+                    '上拉加载'.ts,
                     style: TextConfig.textGray14,
                   );
                 } else if (mode == LoadStatus.loading) {
                   body = _buildProgressIndicator();
                 } else if (mode == LoadStatus.failed) {
                   body = Text(
-                    Translation.t(context, '加载失败点击重试'),
+                    '加载失败点击重试'.ts,
                     style: TextConfig.textGray14,
                   );
                 } else if (mode == LoadStatus.canLoading) {
                   body = Text(
-                    Translation.t(context, '松手加载更多'),
+                    '松手加载更多'.ts,
                     style: TextConfig.textGray14,
                   );
                 } else {
                   body = Text(
-                    Translation.t(context, '没有更多数据了'),
+                    '没有更多数据了'.ts,
                     style: TextConfig.textGray14,
                   );
                 }

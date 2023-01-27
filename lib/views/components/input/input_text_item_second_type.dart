@@ -42,7 +42,7 @@ class _InputTextItemSecondTypeState extends State<InputTextItemSecondType> {
         decoration: BoxDecoration(
             border: Border(
           bottom: Divider.createBorderSide(context,
-              color: ColorConfig.line, width: 1),
+              color: BaseStylesConfig.line, width: 1),
         )),
         child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

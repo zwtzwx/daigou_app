@@ -1,9 +1,9 @@
-import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 
-class MainButton extends StatefulWidget {
+class MainButton extends StatelessWidget {
   const MainButton({
     Key? key,
     required this.text,
@@ -11,8 +11,8 @@ class MainButton extends StatefulWidget {
     this.elevation = 0,
     this.borderRadis = 5,
     this.fontWeight = FontWeight.w400,
-    this.backgroundColor = ColorConfig.primary,
-    this.textColor = ColorConfig.white,
+    this.backgroundColor = BaseStylesConfig.primary,
+    this.textColor = BaseStylesConfig.white,
     this.onPressed,
   }) : super(key: key);
 
@@ -26,35 +26,30 @@ class MainButton extends StatefulWidget {
   final Function? onPressed;
 
   @override
-  State<MainButton> createState() => _MainButtonState();
-}
-
-class _MainButtonState extends State<MainButton> {
-  @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        if (widget.onPressed != null) {
-          widget.onPressed!();
+        if (onPressed != null) {
+          onPressed!();
         }
       },
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(widget.backgroundColor),
-        elevation: MaterialStateProperty.all(widget.elevation),
+        backgroundColor: MaterialStateProperty.all(backgroundColor),
+        elevation: MaterialStateProperty.all(elevation),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(widget.borderRadis),
+            borderRadius: BorderRadius.circular(borderRadis),
           ),
         ),
         side: MaterialStateProperty.all(
-          BorderSide(color: widget.backgroundColor),
+          BorderSide(color: backgroundColor),
         ),
       ),
       child: ZHTextLine(
-        str: Translation.t(context, widget.text),
-        color: widget.textColor,
-        fontSize: widget.fontSize,
-        fontWeight: widget.fontWeight,
+        str: text.ts,
+        color: textColor,
+        fontSize: fontSize,
+        fontWeight: fontWeight,
         alignment: TextAlign.center,
         lines: 2,
       ),

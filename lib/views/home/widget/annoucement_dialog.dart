@@ -1,14 +1,20 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/common/translation.dart';
+import 'package:get/instance_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/announcement_model.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
+import 'package:jiyun_app_client/views/home/home_controller.dart';
 
 class AnnoucementDialog extends StatelessWidget {
-  const AnnoucementDialog({Key? key, required this.model}) : super(key: key);
+  AnnoucementDialog({
+    Key? key,
+    required this.model,
+  }) : super(key: key);
   final AnnouncementModel model;
+  final HomeController controller = Get.find<HomeController>();
 
   // 获取日期
   String getDate(String dateTime) {
@@ -57,21 +63,21 @@ class AnnoucementDialog extends StatelessWidget {
                   SizedBox(
                     width: 100,
                     child: MainButton(
-                      text: Translation.t(context, '查看更多'),
+                      text: '查看更多'.ts,
                       fontSize: 14,
                       borderRadis: 20.0,
-                      backgroundColor: ColorConfig.green,
+                      backgroundColor: BaseStylesConfig.green,
                       onPressed: () {
                         Navigator.pop(context, true);
                       },
                     ),
                   ),
-                  Gaps.vGap20,
+                  Sized.vGap20,
                 ],
               ),
             ),
           ),
-          Gaps.vGap15,
+          Sized.vGap15,
           GestureDetector(
               onTap: () {
                 Navigator.pop(context, false);

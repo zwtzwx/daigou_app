@@ -1,5 +1,5 @@
-import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +11,8 @@ class PlainButton extends StatefulWidget {
     this.borderRadis = 5,
     this.padding,
     this.visualDensity,
-    this.borderColor = ColorConfig.primary,
-    this.textColor = ColorConfig.primary,
+    this.borderColor = BaseStylesConfig.primary,
+    this.textColor = BaseStylesConfig.primary,
     this.onPressed,
   }) : super(key: key);
   final String text;
@@ -50,7 +50,7 @@ class _PlainButtonState extends State<PlainButton> {
         ),
       ),
       child: ZHTextLine(
-        str: Translation.t(context, widget.text),
+        str: widget.text.ts,
         fontSize: widget.fontSize,
         color: widget.textColor,
       ),

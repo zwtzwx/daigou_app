@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jiyun_app_client/common/translation.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 
@@ -45,11 +45,11 @@ class _PropSheetCellState extends State<PropSheetCell> {
               margin: const EdgeInsets.only(left: 15),
               alignment: Alignment.centerLeft,
               child: ZHTextLine(
-                str: Translation.t(context, '物品属性'),
+                str: '物品属性'.ts,
                 fontSize: 19,
               ),
             ),
-            Gaps.line,
+            Sized.line,
             Container(
               height: 190,
               margin: const EdgeInsets.only(right: 20, left: 20, top: 20),
@@ -86,12 +86,12 @@ class _PropSheetCellState extends State<PropSheetCell> {
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
                             color: selectProp.contains(propmodel.id)
-                                ? ColorConfig.primary
-                                : ColorConfig.white,
+                                ? BaseStylesConfig.primary
+                                : BaseStylesConfig.white,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(4.0)),
-                            border:
-                                Border.all(width: 1, color: ColorConfig.line)),
+                            border: Border.all(
+                                width: 1, color: BaseStylesConfig.line)),
                         alignment: Alignment.center,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -102,7 +102,7 @@ class _PropSheetCellState extends State<PropSheetCell> {
                               lines: 2,
                               color: selectProp.contains(propmodel.id)
                                   ? Colors.white
-                                  : ColorConfig.textDark,
+                                  : BaseStylesConfig.textDark,
                             ),
                           ],
                         ),
@@ -125,14 +125,15 @@ class _PropSheetCellState extends State<PropSheetCell> {
                 child: Container(
                   margin: const EdgeInsets.only(right: 15, left: 15),
                   decoration: BoxDecoration(
-                      color: ColorConfig.primary,
+                      color: BaseStylesConfig.primary,
                       borderRadius:
                           const BorderRadius.all(Radius.circular(4.0)),
-                      border: Border.all(width: 1, color: ColorConfig.primary)),
+                      border: Border.all(
+                          width: 1, color: BaseStylesConfig.primary)),
                   alignment: Alignment.center,
                   height: 40,
                   child: ZHTextLine(
-                    str: Translation.t(context, '确认'),
+                    str: '确认'.ts,
                     color: Colors.white,
                   ),
                 )),
