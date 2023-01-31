@@ -13,6 +13,6 @@ class LanguageStore {
   static String getLanguage() {
     SharedPreferences sp = Get.find<SharedPreferences>();
     // SharedPreferences sp = await SharedPreferences.getInstance();
-    return sp.getString(languageKey) ?? 'zh_CN';
+    return sp.getString(languageKey) ?? 'ru_RU';
   }
 }

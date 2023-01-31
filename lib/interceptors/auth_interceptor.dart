@@ -8,12 +8,12 @@ import 'package:jiyun_app_client/storage/user_storage.dart';
 class AuthInterceptor extends Interceptor {
   @override
   onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    var accessToken = await UserStorage.getToken();
+    var accessToken = UserStorage.getToken();
     if (accessToken.isNotEmpty) {
       options.headers["authorization"] = accessToken;
     }
     options.headers['x-uuid'] = AppConfig.getUUID();
-    String language = await LanguageStore.getLanguage();
+    String language = LanguageStore.getLanguage();
     options.headers['language'] = language;
     options.headers["accept-language"] = 'zh-CN';
     options.headers["x-requested-with"] = 'XMLHttpRequest';
