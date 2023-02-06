@@ -210,6 +210,19 @@ class LoginView extends GetView<LoginController> {
                               : '密码登录'.ts),
                     ),
                   ),
+                  Obx(() => controller.loginType.value != 3
+                      ? GestureDetector(
+                          onTap: () {
+                            controller.loginType.value =
+                                controller.loginType.value == 1 ? 2 : 1;
+                          },
+                          child: ZHTextLine(
+                            str: controller.loginType.value == 1
+                                ? '邮箱登录'.ts
+                                : '手机号登录'.ts,
+                          ),
+                        )
+                      : const SizedBox()),
                 ],
               ),
             ),
@@ -243,7 +256,7 @@ class LoginView extends GetView<LoginController> {
                   controller: controller.emailController,
                   decoration: InputDecoration(
                       hintText: controller.loginType.value == 3
-                          ? '请输入手机号'.ts
+                          ? '请输入手机号或邮箱'.ts
                           : '请输入邮箱'.ts,
                       enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: BaseStylesConfig.line),

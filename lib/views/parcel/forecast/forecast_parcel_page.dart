@@ -189,57 +189,57 @@ class ForecastParcelView extends GetView<ForecastController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            GestureDetector(
-              onTap: () async {
-                FocusScope.of(context).requestFocus(FocusNode());
-                Picker(
-                  adapter: PickerDataAdapter(
-                      data: getPickerExpressCompany(
-                          controller.expressCompanyList)),
-                  cancelText: '取消'.ts,
-                  confirmText: '确认'.ts,
-                  selectedTextStyle:
-                      const TextStyle(color: Colors.blue, fontSize: 12),
-                  onCancel: () {},
-                  onConfirm: (Picker picker, List value) {
-                    model.expressName =
-                        controller.expressCompanyList[value.first].name;
-                    model.expressId =
-                        controller.expressCompanyList[value.first].id;
-                  },
-                ).showModal(context);
-              },
-              child: InputTextItem(
-                  title: '快递名称'.ts,
-                  leftFlex: 2,
-                  isRequired: true,
-                  inputText: Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(left: 11),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          model.expressName ?? '请选择快递名称'.ts,
-                          style: model.expressName != null
-                              ? TextConfig.textDark14
-                              : TextConfig.textGray14,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              right: 15, top: 10, bottom: 10),
-                          child: Icon(
-                            Icons.arrow_forward_ios,
-                            color: model.expressName != null
-                                ? BaseStylesConfig.textBlack
-                                : BaseStylesConfig.textGray,
-                            size: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )),
-            ),
+            // GestureDetector(
+            //   onTap: () async {
+            //     FocusScope.of(context).requestFocus(FocusNode());
+            //     Picker(
+            //       adapter: PickerDataAdapter(
+            //           data: getPickerExpressCompany(
+            //               controller.expressCompanyList)),
+            //       cancelText: '取消'.ts,
+            //       confirmText: '确认'.ts,
+            //       selectedTextStyle:
+            //           const TextStyle(color: Colors.blue, fontSize: 12),
+            //       onCancel: () {},
+            //       onConfirm: (Picker picker, List value) {
+            //         model.expressName =
+            //             controller.expressCompanyList[value.first].name;
+            //         model.expressId =
+            //             controller.expressCompanyList[value.first].id;
+            //       },
+            //     ).showModal(context);
+            //   },
+            //   child: InputTextItem(
+            //       title: '快递名称'.ts,
+            //       leftFlex: 2,
+            //       isRequired: true,
+            //       inputText: Container(
+            //         alignment: Alignment.center,
+            //         margin: const EdgeInsets.only(left: 11),
+            //         child: Row(
+            //           mainAxisAlignment: MainAxisAlignment.end,
+            //           children: <Widget>[
+            //             Text(
+            //               model.expressName ?? '请选择快递名称'.ts,
+            //               style: model.expressName != null
+            //                   ? TextConfig.textDark14
+            //                   : TextConfig.textGray14,
+            //             ),
+            //             Padding(
+            //               padding: const EdgeInsets.only(
+            //                   right: 15, top: 10, bottom: 10),
+            //               child: Icon(
+            //                 Icons.arrow_forward_ios,
+            //                 color: model.expressName != null
+            //                     ? BaseStylesConfig.textBlack
+            //                     : BaseStylesConfig.textGray,
+            //                 size: 18,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       )),
+            // ),
             InputTextItem(
               title: '快递单号'.ts,
               leftFlex: 2,

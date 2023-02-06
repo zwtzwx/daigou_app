@@ -120,12 +120,8 @@ class ForecastController extends BaseController {
       return;
     }
     for (ParcelModel item in formData) {
-      if (item.expressId == null) {
-        showToast('有包裹没有选择快递公司');
-        return;
-      }
       if (item.expressNum == null) {
-        showToast('有包裹没有填写快递单号');
+        showToast('请填写快递单号');
         return;
       }
     }
@@ -138,7 +134,7 @@ class ForecastController extends BaseController {
         'package_name': '日用品',
         'package_value': 100,
         'prop_id': [defaultProp],
-        'express_id': item.expressId,
+        'express_id': expressCompanyList[0].id,
         'category_ids': [],
         'qty': 1,
         'remark': '',
