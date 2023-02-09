@@ -131,8 +131,8 @@ class ForecastController extends BaseController {
     for (ParcelModel item in formData) {
       Map<String, dynamic> dic = {
         'express_num': item.expressNum,
-        'package_name': '日用品',
-        'package_value': 100,
+        'package_name': 'ежедневные нужды',
+        'package_value': 480,
         'prop_id': [defaultProp],
         'express_id': expressCompanyList[0].id,
         'category_ids': [],
