@@ -57,9 +57,9 @@ class OrderDetailView extends GetView<OrderDetailController> {
                       Sized.vGap10,
                       valueInfoView(context),
                       Sized.vGap10,
-                      controller.model.value!.status > 2
-                          ? payInfoView()
-                          : Sized.empty,
+                      // controller.model.value!.status > 2
+                      //     ? payInfoView()
+                      //     : Sized.empty,
                     ],
                     // children: returnSubView(),
                   )
@@ -373,37 +373,37 @@ class OrderDetailView extends GetView<OrderDetailController> {
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       child: Column(
         children: [
-          controller.model.value!.status != 1
-              ? baseInfoItem(
-                  '合计运费',
-                  content: Row(
-                    children: [
-                      controller.model.value!.price != null &&
-                              num.parse(controller
-                                      .model.value!.price!.discount) !=
-                                  1
-                          ? ZHTextLine(
-                              str: controller.getPriceStr(
-                                  controller.model.value!.price!.originPrice),
-                              color: BaseStylesConfig.textGray,
-                              fontSize: 13,
-                              decoration: TextDecoration.lineThrough,
-                            )
-                          : Sized.empty,
-                      Sized.hGap10,
-                      ZHTextLine(
-                        str: controller
-                            .getPriceStr(controller.model.value!.allFreightFee),
-                      ),
-                    ],
-                  ),
-                )
-              : Sized.empty,
-          controller.model.value!.status != 1
-              ? baseInfoItem('帮您运费节省',
-                  text: controller
-                      .getPriceStr(controller.model.value!.thriftFreightFee))
-              : Sized.empty,
+          // controller.model.value!.status != 1
+          //     ? baseInfoItem(
+          //         '合计运费',
+          //         content: Row(
+          //           children: [
+          //             controller.model.value!.price != null &&
+          //                     num.parse(controller
+          //                             .model.value!.price!.discount) !=
+          //                         1
+          //                 ? ZHTextLine(
+          //                     str: controller.getPriceStr(
+          //                         controller.model.value!.price!.originPrice),
+          //                     color: BaseStylesConfig.textGray,
+          //                     fontSize: 13,
+          //                     decoration: TextDecoration.lineThrough,
+          //                   )
+          //                 : Sized.empty,
+          //             Sized.hGap10,
+          //             ZHTextLine(
+          //               str: controller
+          //                   .getPriceStr(controller.model.value!.allFreightFee),
+          //             ),
+          //           ],
+          //         ),
+          //       )
+          //     : Sized.empty,
+          // controller.model.value!.status != 1
+          //     ? baseInfoItem('帮您运费节省',
+          //         text: controller
+          //             .getPriceStr(controller.model.value!.thriftFreightFee))
+          //     : Sized.empty,
           controller.model.value!.insuranceFee > 0
               ? baseInfoItem('保险费',
                   text:
@@ -507,13 +507,13 @@ class OrderDetailView extends GetView<OrderDetailController> {
                           controller.model.value!.transaction[0].pointAmount),
                 )
               : Sized.empty,
-          controller.model.value!.status != 1
-              ? baseInfoItem(
-                  '订单总价',
-                  text: controller
-                      .getPriceStr(controller.model.value!.actualPaymentFee),
-                )
-              : Sized.empty,
+          // controller.model.value!.status != 1
+          //     ? baseInfoItem(
+          //         '订单总价',
+          //         text: controller
+          //             .getPriceStr(controller.model.value!.actualPaymentFee),
+          //       )
+          //     : Sized.empty,
         ],
       ),
     );
