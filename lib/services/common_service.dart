@@ -6,6 +6,7 @@ import 'package:jiyun_app_client/common/http_client.dart';
 import 'package:jiyun_app_client/models/alphabetical_country_model.dart';
 import 'package:jiyun_app_client/models/banners_model.dart';
 import 'package:dio/dio.dart';
+import 'package:jiyun_app_client/models/captcha_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 
 //通用服务
@@ -22,6 +23,10 @@ class CommonService {
   static const String uploadImageApi = 'uploads/image';
   // 保存 device token
   static const String deviceTokenApi = 'user/push-tokens';
+  // 刷新 token
+  static const String refreshTokenApi = 'user/refresh-token';
+  // 获取图形验证码
+  static const String captchaApi = 'captcha';
 
   // 获取预报的同意条款
   static Future<Map<String, dynamic>?> getTerms(
@@ -109,5 +114,27 @@ class CommonService {
    */
   static Future<void> saveDeviceToken(Map<String, dynamic> params) async {
     await HttpClient().put(deviceTokenApi, data: params);
+  }
+
+  // 刷新 token
+  static Future<String?> refreshToken() async {
+    String? token;
+    await HttpClient().post(refreshTokenApi).then((res) {
+      if (res.ok) {
+        token = '${res.data['token_type']} ${res.data['access_token']}';
+      }
+    });
+    return token;
+  }
+
+  // 获取图形验证码
+  static Future<CaptchaModel?> getCaptcha() async {
+    CaptchaModel? captcha;
+    await HttpClient().get(captchaApi).then((res) {
+      if (res.ok) {
+        captcha = CaptchaModel.formJson(res.data['captcha']);
+      }
+    });
+    return captcha;
   }
 }

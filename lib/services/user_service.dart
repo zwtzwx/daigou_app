@@ -14,6 +14,8 @@ import 'package:jiyun_app_client/storage/user_storage.dart';
 class UserService {
   // 登录
   static const String LOGIN = 'website-user/pwd-login';
+  // 注册
+  static const String registerApi = 'website-user/register';
   // google、facebook 第三方登录
   static const String LoginWithFirebase = 'firebase/login';
   // 微信登录
@@ -21,7 +23,7 @@ class UserService {
   // 微信登陆switch
   static const String WeChatSwitch = 'third-part-login/status';
   // 验证码登录
-  static const String VeritfyCodeLOGIN = 'website-user/verify-code-login';
+  static const String VeritfyCodeLOGIN = 'website-user/verify-login';
   // 获取验证码
   static const String GETVERIFYCODE = 'user/verify-code';
   // 我要分享数据
@@ -92,13 +94,23 @@ class UserService {
     }
   }
 
+  // 注册
+  static Future<Map> register(Map<String, dynamic> params) async {
+    Map res = {'ok': false, 'msg': ''};
+    await HttpClient()
+        .post(UserService.registerApi, queryParameters: params)
+        .then((response) {
+      res = {
+        'ok': response.ok,
+        'msg': response.msg ?? response.error?.message ?? ''
+      };
+    });
+
+    return res;
+  }
+
   // 账号密码登录
   static Future<TokenModel?> login(Map<String, dynamic> params) async {
-    params = {
-      'account': params['account'],
-      'password': params['password'],
-    };
-
     TokenModel? token;
     await HttpClient()
         .post(UserService.LOGIN, queryParameters: params)

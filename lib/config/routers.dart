@@ -35,6 +35,8 @@ import 'package:jiyun_app_client/views/user/forget_password/forget_password_bind
 import 'package:jiyun_app_client/views/user/forget_password/forget_password_page.dart';
 import 'package:jiyun_app_client/views/user/profile/profile_binding.dart';
 import 'package:jiyun_app_client/views/user/profile/profile_view.dart';
+import 'package:jiyun_app_client/views/user/register/register_binding.dart';
+import 'package:jiyun_app_client/views/user/register/register_page.dart';
 import 'package:jiyun_app_client/views/user/setting_password/setting_password_binding.dart';
 import 'package:jiyun_app_client/views/user/setting_password/setting_password_view.dart';
 import 'package:jiyun_app_client/views/user/transaction/transaction_binding.dart';
@@ -76,6 +78,7 @@ class Routers {
       '/changeMobileAndEmail'; // 修改手机号、邮箱
   static const String country = '/country'; // 国家列表
   static const String login = '/login'; // 登录
+  static const String register = '/register'; // 注册
   static const String password = '/password'; // 修改密码
   static const String station = '/station'; // 自提点列表
   static const String abountMe = '/aboutMe'; // 关于我们
@@ -97,6 +100,7 @@ class Routers {
     contact,
     home,
     login,
+    register
   ];
 
   // 路由声明
@@ -230,6 +234,11 @@ class Routers {
       name: growthValue,
       page: () => const GrowthValueView(),
       binding: GrowthValueBinding(),
+    ),
+    GetPage(
+      name: register,
+      page: () => const RegisterView(),
+      binding: RegisterBingding(),
     ),
   ];
 

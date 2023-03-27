@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -18,21 +19,20 @@ import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 
-class LoginController extends BaseController {
+class RegisterController extends BaseController {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   // 新号码
   final TextEditingController mobileNumberController = TextEditingController();
   // 新号码
   final TextEditingController emailController = TextEditingController();
+  // 密码
+  final TextEditingController passwordController = TextEditingController();
   // 验证码
   final TextEditingController validationController = TextEditingController();
-  final FocusNode validation = FocusNode();
   // 图形验证码
   final TextEditingController captchaController = TextEditingController();
-  final FocusNode captchaNode = FocusNode();
-  RxString pageTitle = '登录'.ts.obs;
-  RxInt loginType =
-      3.obs; // 1、手机号验证码 2: 邮箱验证码 3: 帐号密码  1 手机号密码 2 手机号验证码 3邮箱密码 4邮箱验证码
+  RxString pageTitle = '注册'.ts.obs;
+  RxInt loginType = 1.obs; // 1、手机号验证码 2: 邮箱验证码
   RxString sent = '获取验证码'.ts.obs;
   RxString code = ''.obs;
   RxBool isButtonEnable = true.obs;
@@ -61,36 +61,34 @@ class LoginController extends BaseController {
   }
 
   // 登录
-  onLogin() {
-    Map<String, dynamic> map;
-    //  1 手机号验证码 2 邮箱验证码 3 帐号密码
-    if (loginType.value == 3) {
-      //邮箱密码 1 手机密码
-      map = {
-        'account': emailController.text,
-        'password': validationController.text,
-        'key': captcha.value?.key,
-        'code': captchaController.text,
-      };
-      loginWith('password', map);
-    } else if (loginType.value == 2) {
-      // 邮箱验证码
-      map = {
-        'email': emailController.text,
+  onRegister() async {
+    try {
+      showLoading();
+      Map<String, dynamic> map = {
         'verify_code': validationController.text,
         'key': captcha.value?.key,
         'code': captchaController.text,
+        'password': passwordController.text,
+        'confirm_password': passwordController.text,
       };
-      loginWith('emailCode', map);
-    } else if (loginType.value == 1) {
-      // 手机验证码
-      map = {
-        'phone': areaNumber.value + mobileNumberController.text,
-        'verify_code': validationController.text,
-        'key': captcha.value?.key,
-        'code': captchaController.text,
-      };
-      loginWith('mobileCode', map);
+      //  1 手机号验证码 2 邮箱验证码
+      if (loginType.value == 2) {
+        map['email'] = emailController.text;
+      } else if (loginType.value == 1) {
+        map['phone'] = areaNumber.value + mobileNumberController.text;
+      }
+      var res = await UserService.register(map);
+      hideLoading();
+      if (res['ok']) {
+        await EasyLoading.showSuccess(res['msg']);
+        Routers.pop();
+      } else {
+        showToast(res['msg']);
+      }
+    } catch (e) {
+      hideLoading();
+      showToast(e.toString());
+      getCaptcha();
     }
   }
 
@@ -203,19 +201,12 @@ class LoginController extends BaseController {
     return timezone.replaceAll(reg, '');
   }
 
-  // 注册
-  void onRegister() {
-    Routers.push(Routers.register);
-  }
-
   @override
   void onClose() {
     mobileNumberController.dispose();
     emailController.dispose();
     validationController.dispose();
     captchaController.dispose();
-    captchaNode.dispose();
-    validation.dispose();
     if (timer.value != null) {
       timer.value!.cancel(); //销毁计时器
       timer.value = null;
