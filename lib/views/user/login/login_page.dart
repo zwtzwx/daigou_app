@@ -44,11 +44,25 @@ class LoginView extends GetView<LoginController> {
               ScreenUtil().bottomBarHeight,
           child: Column(
             children: [
+              noticeBar(),
               logoCell(context),
               loginCell(context),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget noticeBar() {
+    return Container(
+      color: const Color(0xfffffbe8),
+      padding: const EdgeInsets.all(10),
+      child: ZHTextLine(
+        color: const Color(0xffed6a0c),
+        str: '通知：为了便捷软件登录，验证码登录已下线，还未设置密码的用户，请点击“忘记密码”，设置登录密码.'.ts,
+        fontSize: 14,
+        lines: 10,
       ),
     );
   }
@@ -176,71 +190,104 @@ class LoginView extends GetView<LoginController> {
         padding: const EdgeInsets.only(right: 40, left: 40),
         child: Column(
           children: <Widget>[
-            Obx(
-              () => Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      controller.loginType.value = 3;
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 2,
-                            color: controller.loginType.value == 3
-                                ? BaseStylesConfig.primary
-                                : Colors.white,
-                          ),
-                        ),
-                      ),
-                      height: 40,
-                      child: ZHTextLine(
-                        str: '密码登录'.ts,
-                        fontSize: 17,
-                        color: controller.loginType.value == 3
-                            ? BaseStylesConfig.primary
-                            : BaseStylesConfig.textBlack,
-                      ),
-                    ),
-                  ),
-                  Sized.hGap15,
-                  GestureDetector(
-                    onTap: () {
-                      controller.loginType.value = 1;
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 2,
-                            color: controller.loginType.value != 3
-                                ? BaseStylesConfig.primary
-                                : Colors.white,
-                          ),
-                        ),
-                      ),
-                      height: 40,
-                      child: ZHTextLine(
-                        str: '验证码登录'.ts,
-                        fontSize: 17,
-                        color: controller.loginType.value != 3
-                            ? BaseStylesConfig.primary
-                            : BaseStylesConfig.textBlack,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Sized.vGap50,
+            // Obx(
+            //   () => Row(
+            //     children: [
+            //       GestureDetector(
+            //         onTap: () {
+            //           controller.loginType.value = 3;
+            //         },
+            //         child: Container(
+            //           alignment: Alignment.center,
+            //           decoration: BoxDecoration(
+            //             border: Border(
+            //               bottom: BorderSide(
+            //                 width: 2,
+            //                 color: controller.loginType.value == 3
+            //                     ? BaseStylesConfig.primary
+            //                     : Colors.white,
+            //               ),
+            //             ),
+            //           ),
+            //           height: 40,
+            //           child: ZHTextLine(
+            //             str: '密码登录'.ts,
+            //             fontSize: 17,
+            //             color: controller.loginType.value == 3
+            //                 ? BaseStylesConfig.primary
+            //                 : BaseStylesConfig.textBlack,
+            //           ),
+            //         ),
+            //       ),
+            //       Sized.hGap15,
+            //       GestureDetector(
+            //         onTap: () {
+            //           controller.loginType.value = 1;
+            //         },
+            //         child: Container(
+            //           alignment: Alignment.center,
+            //           decoration: BoxDecoration(
+            //             border: Border(
+            //               bottom: BorderSide(
+            //                 width: 2,
+            //                 color: controller.loginType.value != 3
+            //                     ? BaseStylesConfig.primary
+            //                     : Colors.white,
+            //               ),
+            //             ),
+            //           ),
+            //           height: 40,
+            //           child: ZHTextLine(
+            //             str: '验证码登录'.ts,
+            //             fontSize: 17,
+            //             color: controller.loginType.value != 3
+            //                 ? BaseStylesConfig.primary
+            //                 : BaseStylesConfig.textBlack,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // Sized.vGap50,
             Obx(() => controller.loginType.value == 1
                 ? inputPhoneView(context)
                 : inPutEmailNumber(context)),
             inPutVeritfyNumber(context),
-            captchaVerify(context),
+            Obx(() => controller.loginType.value == 3
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: Checkbox(
+                                value: controller.saveAccount.value,
+                                onChanged: controller.onSaveAccount,
+                                activeColor: BaseStylesConfig.primary,
+                              ),
+                            ),
+                            Sized.hGap10,
+                            ZHTextLine(
+                              str: '记住密码'.ts,
+                            ),
+                          ],
+                        ),
+                        GestureDetector(
+                          onTap: controller.toForgetPassword,
+                          child: ZHTextLine(
+                            str: '忘记密码'.ts + '？',
+                            color: BaseStylesConfig.primary,
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                : Sized.empty),
             Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.symmetric(vertical: 20),
@@ -380,21 +427,7 @@ class LoginView extends GetView<LoginController> {
                       onPressed: controller.onGetCode,
                     ),
                   )
-                : SizedBox(
-                    child: TextButton(
-                      style: ButtonStyle(
-                        overlayColor: MaterialStateColor.resolveWith(
-                            (states) => Colors.transparent),
-                      ),
-                      child: ZHTextLine(
-                          str: '忘记密码'.ts + '？',
-                          color: BaseStylesConfig.textBlack),
-                      onPressed: () async {
-                        Routers.push(Routers.forgetPassword,
-                            {'type': controller.loginType.value});
-                      },
-                    ),
-                  );
+                : Sized.empty;
           })
         ],
       ),
@@ -403,52 +436,52 @@ class LoginView extends GetView<LoginController> {
   }
 
   // 图形验证码
-  captchaVerify(BuildContext context) {
-    var captchaVerify = Container(
-      decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
-        border: Border(
-            bottom: BorderSide(
-                width: 0.5,
-                color: BaseStylesConfig.line,
-                style: BorderStyle.solid)),
-      ),
-      alignment: Alignment.center,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            flex: 8,
-            child: Obx(
-              () => TextField(
-                style: const TextStyle(color: Colors.black87),
-                controller: controller.captchaController,
-                decoration: InputDecoration(
-                    hintText: '请输入图形验证码'.ts,
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: BaseStylesConfig.line),
-                    ),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: BaseStylesConfig.line),
-                    )),
-                onSubmitted: (res) {
-                  FocusScope.of(context).requestFocus(controller.validation);
-                },
-              ),
-            ),
-          ),
-          Obx(() {
-            return controller.captcha.value != null
-                ? GestureDetector(
-                    onTap: controller.getCaptcha,
-                    child: Image.memory(controller.captcha.value!.img))
-                : Sized.empty;
-          })
-        ],
-      ),
-    );
-    return captchaVerify;
-  }
+  // captchaVerify(BuildContext context) {
+  //   var captchaVerify = Container(
+  //     decoration: const BoxDecoration(
+  //       color: BaseStylesConfig.white,
+  //       border: Border(
+  //           bottom: BorderSide(
+  //               width: 0.5,
+  //               color: BaseStylesConfig.line,
+  //               style: BorderStyle.solid)),
+  //     ),
+  //     alignment: Alignment.center,
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.start,
+  //       children: <Widget>[
+  //         Expanded(
+  //           flex: 8,
+  //           child: Obx(
+  //             () => TextField(
+  //               style: const TextStyle(color: Colors.black87),
+  //               controller: controller.captchaController,
+  //               decoration: InputDecoration(
+  //                   hintText: '请输入图形验证码'.ts,
+  //                   enabledBorder: const UnderlineInputBorder(
+  //                     borderSide: BorderSide(color: BaseStylesConfig.line),
+  //                   ),
+  //                   focusedBorder: const UnderlineInputBorder(
+  //                     borderSide: BorderSide(color: BaseStylesConfig.line),
+  //                   )),
+  //               onSubmitted: (res) {
+  //                 FocusScope.of(context).requestFocus(controller.validation);
+  //               },
+  //             ),
+  //           ),
+  //         ),
+  //         Obx(() {
+  //           return controller.captcha.value != null
+  //               ? GestureDetector(
+  //                   onTap: controller.getCaptcha,
+  //                   child: Image.memory(controller.captcha.value!.img))
+  //               : Sized.empty;
+  //         })
+  //       ],
+  //     ),
+  //   );
+  //   return captchaVerify;
+  // }
 
   inputPhoneView(BuildContext context) {
     var inputAccountView = Container(

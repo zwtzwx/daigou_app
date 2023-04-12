@@ -9,6 +9,7 @@ class UserStorage {
   static String userInfo = 'jiyun-user-info';
   static String agentStatus = 'agentStatus';
   static String deviceToken = 'device-token';
+  static String accountInfo = 'account-info';
 
   static void clearToken() {
     // SharedPreferences sp = await SharedPreferences.getInstance();
@@ -57,5 +58,25 @@ class UserStorage {
     // SharedPreferences sp = await SharedPreferences.getInstance();
     SharedPreferences sp = Get.find<SharedPreferences>();
     return sp.getString(deviceToken);
+  }
+
+  // 账号密码信息
+  static void setAccountInfo(Map data) {
+    SharedPreferences sp = Get.find<SharedPreferences>();
+    sp.setString(accountInfo, jsonEncode(data));
+  }
+
+  static void clearnAccountInfo() {
+    SharedPreferences sp = Get.find<SharedPreferences>();
+    sp.remove(accountInfo);
+  }
+
+  static Map? getAccountInfo() {
+    SharedPreferences sp = Get.find<SharedPreferences>();
+    var json = sp.getString(accountInfo);
+    if (json != null) {
+      return jsonDecode(json);
+    }
+    return null;
   }
 }

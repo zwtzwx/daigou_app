@@ -23,7 +23,9 @@ class CountryController extends BaseController {
   }
 
   loadList(String str) async {
-    str.isNotEmpty && showLoading('搜索中');
+    if (str.isNotEmpty) {
+      showLoading('搜索中');
+    }
     var routeParams = Get.arguments;
     var tmp = await CommonService.getCountryListByAlphabetical({
       'keyword': str,

@@ -6,10 +6,12 @@ import 'package:jiyun_app_client/storage/user_storage.dart';
 class UserInfoModel {
   final token = ''.obs;
   final userInfo = Rxn<UserModel?>();
+  final accountInfo = Rxn<Map?>();
 
   UserInfoModel() {
     token.value = UserStorage.getToken();
     userInfo.value = UserStorage.getUserInfo();
+    accountInfo.value = UserStorage.getAccountInfo();
     refreshToken();
   }
 
@@ -20,6 +22,16 @@ class UserInfoModel {
 
   setUserInfo(UserModel u) {
     userInfo.value = u;
+  }
+
+  saveAccount(Map data) {
+    accountInfo.value = data;
+    UserStorage.setAccountInfo(data);
+  }
+
+  clearAccount() {
+    accountInfo.value = null;
+    UserStorage.clearnAccountInfo();
   }
 
   clear() {

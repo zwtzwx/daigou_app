@@ -70,6 +70,22 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
             inputAccountView(context),
             inPutVeritfyNumber(context),
             inPutEmailNumber(context),
+            Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.only(top: 20),
+              child: Obx(() => GestureDetector(
+                    onTap: () {
+                      controller.loginType.value =
+                          controller.loginType.value == 1 ? 2 : 1;
+                    },
+                    child: ZHTextLine(
+                      str: controller.loginType.value == 1
+                          ? '邮箱验证'.ts
+                          : '手机号验证'.ts,
+                      color: BaseStylesConfig.primary,
+                    ),
+                  )),
+            ),
             const SizedBox(
               height: 40,
             ),
@@ -108,7 +124,7 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                   style: const TextStyle(color: Colors.black87),
                   controller: controller.emailController,
                   decoration: InputDecoration(
-                      hintText: '请输入密码'.ts,
+                      hintText: '请输入新密码'.ts,
                       enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
@@ -192,67 +208,68 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                 color: BaseStylesConfig.line,
                 style: BorderStyle.solid)),
       ),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 5,
-            child: GestureDetector(
-              onTap: () async {
-                FocusScope.of(context).requestFocus(FocusNode());
-                controller.onTimezone();
-              },
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 40,
-                    alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.only(left: 10),
-                    child: Obx(
-                      () => Text(
-                        '+' +
-                            controller
-                                .formatTimezone(controller.areaNumber.value),
-                        style: const TextStyle(
-                          fontSize: 16.0, //textsize
+      child: Obx(
+        () => Row(
+          children: <Widget>[
+            controller.loginType.value == 1
+                ? GestureDetector(
+                    onTap: () async {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      controller.onTimezone();
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          height: 40,
+                          alignment: Alignment.centerLeft,
+                          margin: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            '+' +
+                                controller.formatTimezone(
+                                    controller.areaNumber.value),
+                            style: const TextStyle(
+                              fontSize: 16.0, //textsize
+                              color: BaseStylesConfig.textNormal,
+                            ),
+                          ),
+                        ),
+                        const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 14,
                           color: BaseStylesConfig.textNormal,
                         ),
-                      ),
+                      ],
                     ),
-                  ),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 14,
-                    color: BaseStylesConfig.textNormal,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-              flex: 11,
+                  )
+                : Sized.empty,
+            Expanded(
               child: Container(
                 height: 40,
-                margin: controller.loginType == 2
+                margin: controller.loginType.value == 2
                     ? const EdgeInsets.only(right: 10)
                     : const EdgeInsets.only(right: 10, left: 10),
                 child: TextField(
                   style: const TextStyle(color: Colors.black87),
                   controller: controller.mobileNumberController,
                   decoration: InputDecoration(
-                      hintText:
-                          (controller.loginType == 1 ? '请输入手机号' : '请输入邮箱').ts,
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide.none,
-                      )),
+                    hintText:
+                        (controller.loginType.value == 1 ? '请输入手机号' : '请输入邮箱')
+                            .ts,
+                    enabledBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
                   onSubmitted: (res) {
                     FocusScope.of(context).requestFocus(controller.validation);
                   },
                 ),
-              ))
-        ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
     return inputAccountView;

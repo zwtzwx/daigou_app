@@ -83,7 +83,6 @@ class RegisterView extends GetView<RegisterController> {
                 : inPutEmailNumber(context)),
             passwordCell(context),
             inPutVeritfyNumber(context),
-            captchaVerify(context),
             Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.symmetric(vertical: 20),
@@ -97,6 +96,7 @@ class RegisterView extends GetView<RegisterController> {
                         str: controller.loginType.value == 1
                             ? '邮箱注册'.ts
                             : '手机号注册'.ts,
+                        color: BaseStylesConfig.primary,
                       ),
                     )
                   : const SizedBox()),
@@ -239,52 +239,6 @@ class RegisterView extends GetView<RegisterController> {
       ),
     );
     return passwordCell;
-  }
-
-  // 图形验证码
-  captchaVerify(BuildContext context) {
-    var captchaVerify = Container(
-      decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
-        border: Border(
-            bottom: BorderSide(
-                width: 0.5,
-                color: BaseStylesConfig.line,
-                style: BorderStyle.solid)),
-      ),
-      alignment: Alignment.center,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            flex: 8,
-            child: Obx(
-              () => TextField(
-                style: const TextStyle(color: Colors.black87),
-                controller: controller.captchaController,
-                decoration: InputDecoration(
-                  hintText: '请输入图形验证码'.ts,
-                  enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: BaseStylesConfig.line),
-                  ),
-                  focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: BaseStylesConfig.line),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Obx(() {
-            return controller.captcha.value != null
-                ? GestureDetector(
-                    onTap: controller.getCaptcha,
-                    child: Image.memory(controller.captcha.value!.img))
-                : Sized.empty;
-          })
-        ],
-      ),
-    );
-    return captchaVerify;
   }
 
   inputPhoneView(BuildContext context) {

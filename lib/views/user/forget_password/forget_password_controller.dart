@@ -18,7 +18,7 @@ import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 
 class ForgetPasswordController extends BaseController {
-  int loginType = 1; //  1 手机号 2 邮箱
+  final loginType = 2.obs; //  1 手机号 2 邮箱
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -61,7 +61,7 @@ class ForgetPasswordController extends BaseController {
   void getCode() async {
     if (isButtonEnable.value) {
       if (mobileNumberController.text.isEmpty) {
-        if (loginType == 1) {
+        if (loginType.value == 1) {
           showToast('请输入手机号');
         } else {
           showToast('请输入邮箱号');
@@ -70,7 +70,7 @@ class ForgetPasswordController extends BaseController {
       }
       //当按钮可点击时   action  动作 1 绑定邮箱 2 更改邮箱 3 更改手机号 4 邮箱登录 5 手机登录
       Map<String, dynamic> map = {
-        'receiver': loginType == 1
+        'receiver': loginType.value == 1
             ? areaNumber + mobileNumberController.text
             : mobileNumberController.text,
         'action': 6 // 重置密码 获取验证码
@@ -118,7 +118,7 @@ class ForgetPasswordController extends BaseController {
 
   onSubmit() async {
     Map<String, dynamic> map = {
-      'account': loginType == 1
+      'account': loginType.value == 1
           ? areaNumber.value + mobileNumberController.text
           : mobileNumberController.text,
       'verify_code': validationController.text,

@@ -11,7 +11,6 @@ import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/logined_event.dart';
 import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/captcha_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/token_model.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
@@ -29,10 +28,9 @@ class RegisterController extends BaseController {
   final TextEditingController passwordController = TextEditingController();
   // 验证码
   final TextEditingController validationController = TextEditingController();
-  // 图形验证码
-  final TextEditingController captchaController = TextEditingController();
+
   RxString pageTitle = '注册'.ts.obs;
-  RxInt loginType = 1.obs; // 1、手机号验证码 2: 邮箱验证码
+  RxInt loginType = 2.obs; // 1、手机号验证码 2: 邮箱验证码
   RxString sent = '获取验证码'.ts.obs;
   RxString code = ''.obs;
   RxBool isButtonEnable = true.obs;
@@ -45,20 +43,6 @@ class RegisterController extends BaseController {
   RxString mobileNumber = ''.obs;
   // 验证码
   RxString verifyCode = ''.obs;
-  // 图形验证码
-  final captcha = Rxn<CaptchaModel?>();
-
-  @override
-  onInit() {
-    super.onInit();
-    getCaptcha();
-  }
-
-  // 获取图形验证码
-  void getCaptcha() async {
-    var data = await CommonService.getCaptcha();
-    captcha.value = data;
-  }
 
   // 登录
   onRegister() async {
@@ -66,8 +50,6 @@ class RegisterController extends BaseController {
       showLoading();
       Map<String, dynamic> map = {
         'verify_code': validationController.text,
-        'key': captcha.value?.key,
-        'code': captchaController.text,
         'password': passwordController.text,
         'confirm_password': passwordController.text,
       };
@@ -81,57 +63,15 @@ class RegisterController extends BaseController {
       hideLoading();
       if (res['ok']) {
         await EasyLoading.showSuccess(res['msg']);
-        Routers.pop();
+        Routers.pop(loginType.value == 1
+            ? mobileNumberController.text
+            : emailController.text);
       } else {
         showToast(res['msg']);
       }
     } catch (e) {
       hideLoading();
       showToast(e.toString());
-      getCaptcha();
-    }
-  }
-
-  // 登录方式
-  loginWith(String type, Map<String, dynamic> map) async {
-    try {
-      TokenModel? tokenModel;
-      showLoading();
-      switch (type) {
-        case 'social':
-          tokenModel = await UserService.loginWithFirebase(map);
-          break;
-        case 'emailCode':
-        case 'mobileCode':
-          tokenModel = await UserService.loginBy(map);
-          break;
-        default:
-          tokenModel = await UserService.login(map);
-      }
-      hideLoading();
-      showSuccess('登录成功');
-      //发送登录事件
-      ApplicationEvent.getInstance().event.fire(LoginedEvent());
-      ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
-      //更新状态管理器
-      UserInfoModel userInfoModel = Get.find<UserInfoModel>();
-      userInfoModel.saveInfo(
-          tokenModel!.tokenType + ' ' + tokenModel.accessToken,
-          tokenModel.user!);
-
-      // 保存 device token
-      String? dt = UserStorage.getDeviceToken();
-      if (dt != null) {
-        await CommonService.saveDeviceToken({
-          'type': 1,
-          'token': dt,
-        });
-      }
-      Routers.pop();
-    } catch (e) {
-      hideLoading();
-      showToast(e.toString());
-      getCaptcha();
     }
   }
 
@@ -206,7 +146,6 @@ class RegisterController extends BaseController {
     mobileNumberController.dispose();
     emailController.dispose();
     validationController.dispose();
-    captchaController.dispose();
     if (timer.value != null) {
       timer.value!.cancel(); //销毁计时器
       timer.value = null;

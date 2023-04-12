@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/state_manager.dart';
+import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -27,9 +28,6 @@ class LoginController extends BaseController {
   // 验证码
   final TextEditingController validationController = TextEditingController();
   final FocusNode validation = FocusNode();
-  // 图形验证码
-  final TextEditingController captchaController = TextEditingController();
-  final FocusNode captchaNode = FocusNode();
   RxString pageTitle = '登录'.ts.obs;
   RxInt loginType =
       3.obs; // 1、手机号验证码 2: 邮箱验证码 3: 帐号密码  1 手机号密码 2 手机号验证码 3邮箱密码 4邮箱验证码
@@ -45,19 +43,42 @@ class LoginController extends BaseController {
   RxString mobileNumber = ''.obs;
   // 验证码
   RxString verifyCode = ''.obs;
-  // 图形验证码
-  final captcha = Rxn<CaptchaModel?>();
+  // 记住密码
+  final saveAccount = false.obs;
 
   @override
   onInit() {
     super.onInit();
-    getCaptcha();
+    var accountInfo = Get.find<UserInfoModel>().accountInfo.value;
+    if (accountInfo != null) {
+      saveAccount.value = true;
+      emailController.text = accountInfo['account'];
+      validationController.text = accountInfo['password'];
+    }
   }
 
-  // 获取图形验证码
-  void getCaptcha() async {
-    var data = await CommonService.getCaptcha();
-    captcha.value = data;
+  // 记住密码
+  onSaveAccount(bool? value) {
+    if (value!) {
+      if (emailController.text.isNotEmpty &&
+          validationController.text.isNotEmpty) {
+        saveAccount.value = value;
+        Get.find<UserInfoModel>().saveAccount({
+          'account': emailController.text,
+          'password': validationController.text
+        });
+      } else {
+        Util.showToast('请输入账号密码'.ts);
+      }
+    } else {
+      saveAccount.value = value;
+      Get.find<UserInfoModel>().clearAccount();
+    }
+  }
+
+  // 忘记密码
+  toForgetPassword() async {
+    Routers.push(Routers.forgetPassword, {'type': loginType.value});
   }
 
   // 登录
@@ -69,8 +90,6 @@ class LoginController extends BaseController {
       map = {
         'account': emailController.text,
         'password': validationController.text,
-        'key': captcha.value?.key,
-        'code': captchaController.text,
       };
       loginWith('password', map);
     } else if (loginType.value == 2) {
@@ -78,8 +97,6 @@ class LoginController extends BaseController {
       map = {
         'email': emailController.text,
         'verify_code': validationController.text,
-        'key': captcha.value?.key,
-        'code': captchaController.text,
       };
       loginWith('emailCode', map);
     } else if (loginType.value == 1) {
@@ -87,8 +104,6 @@ class LoginController extends BaseController {
       map = {
         'phone': areaNumber.value + mobileNumberController.text,
         'verify_code': validationController.text,
-        'key': captcha.value?.key,
-        'code': captchaController.text,
       };
       loginWith('mobileCode', map);
     }
@@ -133,7 +148,6 @@ class LoginController extends BaseController {
     } catch (e) {
       hideLoading();
       showToast(e.toString());
-      getCaptcha();
     }
   }
 
@@ -204,8 +218,11 @@ class LoginController extends BaseController {
   }
 
   // 注册
-  void onRegister() {
-    Routers.push(Routers.register);
+  void onRegister() async {
+    var s = await Routers.push(Routers.register);
+    if (s != null) {
+      emailController.text = s;
+    }
   }
 
   @override
@@ -213,8 +230,7 @@ class LoginController extends BaseController {
     mobileNumberController.dispose();
     emailController.dispose();
     validationController.dispose();
-    captchaController.dispose();
-    captchaNode.dispose();
+
     validation.dispose();
     if (timer.value != null) {
       timer.value!.cancel(); //销毁计时器
