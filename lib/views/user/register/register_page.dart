@@ -3,7 +3,6 @@
 */
 
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:flutter/material.dart';
@@ -84,6 +83,16 @@ class RegisterView extends GetView<RegisterController> {
             passwordCell(context),
             inPutVeritfyNumber(context),
             Container(
+              margin: const EdgeInsets.only(top: 40),
+              height: 40,
+              width: double.infinity,
+              child: MainButton(
+                text: '注册',
+                borderRadis: 4,
+                onPressed: controller.onRegister,
+              ),
+            ),
+            Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Obx(() => controller.loginType.value != 3
@@ -100,16 +109,6 @@ class RegisterView extends GetView<RegisterController> {
                       ),
                     )
                   : const SizedBox()),
-            ),
-            Sized.vGap10,
-            SizedBox(
-              height: 40,
-              width: double.infinity,
-              child: MainButton(
-                text: '注册',
-                borderRadis: 4,
-                onPressed: controller.onRegister,
-              ),
             ),
           ],
         ));

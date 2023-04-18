@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
+import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -117,39 +119,45 @@ class ForgetPasswordController extends BaseController {
   }
 
   onSubmit() async {
-    Map<String, dynamic> map = {
-      'account': loginType.value == 1
-          ? areaNumber.value + mobileNumberController.text
-          : mobileNumberController.text,
-      'verify_code': validationController.text,
-      'password': emailController.text,
-      'confirm_password': emailController.text
-    };
-    showLoading();
-    TokenModel? tokenModel = await UserService.resetPaswordAndLogin(map);
-    hideLoading();
-    if (tokenModel == null) {
-      showToast('操作失败');
-      return;
+    try {
+      Map<String, dynamic> map = {
+        'account': loginType.value == 1
+            ? areaNumber.value + mobileNumberController.text
+            : mobileNumberController.text,
+        'verify_code': validationController.text,
+        'password': emailController.text,
+        'confirm_password': emailController.text
+      };
+      showLoading();
+      TokenModel? tokenModel = await UserService.resetPaswordAndLogin(map);
+      hideLoading();
+      if (tokenModel == null) {
+        showToast('操作失败');
+        return;
+      }
+      showSuccess('登录成功');
+      // 清除记住的账号密码
+      Get.find<UserInfoModel>().clearAccount();
+      //发送登录事件
+      ApplicationEvent.getInstance().event.fire(LoginedEvent());
+      ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
+      //更新状态管理器
+      userModelInfo.saveInfo(
+          tokenModel.tokenType + ' ' + tokenModel.accessToken,
+          tokenModel.user!);
+
+      String? dt = UserStorage.getDeviceToken();
+      if (dt != null) {
+        await CommonService.saveDeviceToken({
+          'type': 1,
+          'token': dt,
+        });
+      }
+      Routers.redirect(Routers.home);
+    } catch (err) {
+      EasyLoading.dismiss();
+      Util.showToast(err.toString());
     }
-
-    showSuccess('登录成功');
-
-    //发送登录事件
-    ApplicationEvent.getInstance().event.fire(LoginedEvent());
-    ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
-    //更新状态管理器
-    userModelInfo.saveInfo(
-        tokenModel.tokenType + ' ' + tokenModel.accessToken, tokenModel.user!);
-
-    String? dt = UserStorage.getDeviceToken();
-    if (dt != null) {
-      await CommonService.saveDeviceToken({
-        'type': 1,
-        'token': dt,
-      });
-    }
-    Routers.redirect(Routers.home);
   }
 
   @override

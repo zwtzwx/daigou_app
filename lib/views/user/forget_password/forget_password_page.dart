@@ -70,6 +70,18 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
             inputAccountView(context),
             inPutVeritfyNumber(context),
             inPutEmailNumber(context),
+            const SizedBox(
+              height: 40,
+            ),
+            SizedBox(
+              height: 40,
+              width: double.infinity,
+              child: MainButton(
+                text: '确认并登录',
+                borderRadis: 4.0,
+                onPressed: controller.onSubmit,
+              ),
+            ),
             Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.only(top: 20),
@@ -85,18 +97,6 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                       color: BaseStylesConfig.primary,
                     ),
                   )),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            SizedBox(
-              height: 40,
-              width: double.infinity,
-              child: MainButton(
-                text: '确认并登录',
-                borderRadis: 4.0,
-                onPressed: controller.onSubmit,
-              ),
             ),
           ],
         ));

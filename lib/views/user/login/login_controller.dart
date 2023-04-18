@@ -11,7 +11,6 @@ import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/logined_event.dart';
 import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/captcha_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/token_model.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
@@ -29,8 +28,7 @@ class LoginController extends BaseController {
   final TextEditingController validationController = TextEditingController();
   final FocusNode validation = FocusNode();
   RxString pageTitle = '登录'.ts.obs;
-  RxInt loginType =
-      3.obs; // 1、手机号验证码 2: 邮箱验证码 3: 帐号密码  1 手机号密码 2 手机号验证码 3邮箱密码 4邮箱验证码
+  RxInt loginType = 1.obs; // 1、手机号密码 2: 邮箱密码
   RxString sent = '获取验证码'.ts.obs;
   RxString code = ''.obs;
   RxBool isButtonEnable = true.obs;
@@ -51,21 +49,51 @@ class LoginController extends BaseController {
     super.onInit();
     var accountInfo = Get.find<UserInfoModel>().accountInfo.value;
     if (accountInfo != null) {
-      saveAccount.value = true;
-      emailController.text = accountInfo['account'];
-      validationController.text = accountInfo['password'];
+      if (accountInfo['loginType'] != null) {
+        saveAccount.value = true;
+        validationController.text = accountInfo['password'];
+        loginType.value = accountInfo['loginType'];
+        if (loginType.value == 1) {
+          mobileNumberController.text = accountInfo['account'];
+        } else {
+          emailController.text = accountInfo['account'];
+        }
+        if (loginType.value == 1 && accountInfo['timezone'] != null) {
+          areaNumber.value = accountInfo['timezone'];
+        }
+      } else {
+        onSaveAccount(false);
+      }
+    }
+  }
+
+  // 登录方式
+  onLoginType(int value) {
+    if (loginType.value == value) return;
+    loginType.value = value;
+    validationController.text = '';
+    emailController.text = '';
+    mobileNumberController.text = '';
+    if (saveAccount.value) {
+      onSaveAccount(false);
     }
   }
 
   // 记住密码
   onSaveAccount(bool? value) {
     if (value!) {
-      if (emailController.text.isNotEmpty &&
-          validationController.text.isNotEmpty) {
+      var account = loginType.value == 1
+          ? mobileNumberController.text
+          : emailController.text;
+      if (account.isEmpty || validationController.text.isNotEmpty) {
         saveAccount.value = value;
         Get.find<UserInfoModel>().saveAccount({
-          'account': emailController.text,
-          'password': validationController.text
+          'account': loginType.value == 1
+              ? mobileNumberController.text
+              : emailController.text,
+          'password': validationController.text,
+          'loginType': loginType.value,
+          'timezone': areaNumber.value
         });
       } else {
         Util.showToast('请输入账号密码'.ts);
@@ -84,29 +112,31 @@ class LoginController extends BaseController {
   // 登录
   onLogin() {
     Map<String, dynamic> map;
+    map = {
+      'account': loginType.value == 1
+          ? mobileNumberController.text
+          : emailController.text,
+      'password': validationController.text,
+    };
+    loginWith('password', map);
     //  1 手机号验证码 2 邮箱验证码 3 帐号密码
-    if (loginType.value == 3) {
-      //邮箱密码 1 手机密码
-      map = {
-        'account': emailController.text,
-        'password': validationController.text,
-      };
-      loginWith('password', map);
-    } else if (loginType.value == 2) {
-      // 邮箱验证码
-      map = {
-        'email': emailController.text,
-        'verify_code': validationController.text,
-      };
-      loginWith('emailCode', map);
-    } else if (loginType.value == 1) {
-      // 手机验证码
-      map = {
-        'phone': areaNumber.value + mobileNumberController.text,
-        'verify_code': validationController.text,
-      };
-      loginWith('mobileCode', map);
-    }
+    // if (loginType.value == 3) {
+    //   //邮箱密码 1 手机密码
+    // } else if (loginType.value == 2) {
+    //   // 邮箱验证码
+    //   map = {
+    //     'email': emailController.text,
+    //     'verify_code': validationController.text,
+    //   };
+    //   loginWith('emailCode', map);
+    // } else if (loginType.value == 1) {
+    //   // 手机验证码
+    //   map = {
+    //     'phone': areaNumber.value + mobileNumberController.text,
+    //     'verify_code': validationController.text,
+    //   };
+    //   loginWith('mobileCode', map);
+    // }
   }
 
   // 登录方式

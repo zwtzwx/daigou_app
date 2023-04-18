@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jiyun_app_client/common/http_client.dart';
 import 'package:jiyun_app_client/common/http_response.dart';
 import 'package:jiyun_app_client/exceptions/login_error_exception.dart';
