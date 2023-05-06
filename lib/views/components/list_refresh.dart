@@ -131,7 +131,7 @@ class _ListRefreshState extends State<ListRefresh> {
       } else if (event.type == 'operate') {
         setState(() {
           currentIndex = event.index!;
-          _items[event.index].isRead = event.value;
+          _items[event.index].read = event.value;
         });
       } else if (event.type == 'refresh') {
         _refresh();

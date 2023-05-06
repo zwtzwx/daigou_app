@@ -5,6 +5,8 @@ import 'package:jiyun_app_client/views/common/country/country_binding.dart';
 import 'package:jiyun_app_client/views/common/country/country_list_page.dart';
 import 'package:jiyun_app_client/views/contact/contact_binding.dart';
 import 'package:jiyun_app_client/views/contact/contact_page.dart';
+import 'package:jiyun_app_client/views/express/express_query_bind.dart';
+import 'package:jiyun_app_client/views/express/express_query_page.dart';
 import 'package:jiyun_app_client/views/order/detail/order_detail_binding.dart';
 import 'package:jiyun_app_client/views/order/detail/order_detail_page.dart';
 import 'package:jiyun_app_client/views/order/list/order_list_binding.dart';
@@ -90,6 +92,7 @@ class Routers {
   static const String forecast = '/forecast'; // 包裹预报
   static const String noOwnerList = '/noOwner/list'; // 异常件列表
   static const String noOwnerDetail = '/noOwner/detail'; // 异常件认领
+  static const String track = '/track'; // 快递跟踪
 
   static List filterList = [
     webview,
@@ -100,7 +103,8 @@ class Routers {
     contact,
     home,
     login,
-    register
+    register,
+    track
   ];
 
   // 路由声明
@@ -240,6 +244,11 @@ class Routers {
       page: () => const RegisterView(),
       binding: RegisterBingding(),
     ),
+    GetPage(
+      name: track,
+      page: () => const ExpressQueryView(),
+      binding: ExpressQueryBind(),
+    )
   ];
 
   static String currentRouteName = "";

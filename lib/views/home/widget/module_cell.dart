@@ -98,7 +98,7 @@ class EntryLinkCell extends StatelessWidget {
                   img: 'Home/home-3',
                   name: '快递跟踪',
                   enName: 'Find track',
-                  route: 'express',
+                  route: Routers.track,
                 ),
                 Sized.columnsLine,
                 linkItem(

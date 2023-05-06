@@ -4,15 +4,17 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/change_page_index_event.dart';
+import 'package:jiyun_app_client/events/notice_refresh_event.dart';
 import 'package:jiyun_app_client/events/un_authenticate_event.dart';
 import 'package:jiyun_app_client/firebase/notification.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/storage/user_storage.dart';
+import 'package:jiyun_app_client/services/common_service.dart';
 
 class TabbarController extends BaseController {
   final pageController = PageController(initialPage: 0);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final selectIndex = 0.obs;
+  final noticeUnRead = false.obs;
   UserInfoModel userInfoModel = Get.find<UserInfoModel>();
 
   @override
@@ -20,6 +22,7 @@ class TabbarController extends BaseController {
     super.onInit();
     // 初始化 notification
     Notifications.initialized();
+    onGetUnReadNotice();
     ApplicationEvent.getInstance()
         .event
         .on<UnAuthenticateEvent>()
@@ -35,6 +38,13 @@ class TabbarController extends BaseController {
       int index = jumpToIndex(event.pageName);
       onPageSelect(index);
       pageController.jumpToPage(index);
+    });
+
+    ApplicationEvent.getInstance()
+        .event
+        .on<NoticeRefreshEvent>()
+        .listen((event) {
+      onGetUnReadNotice();
     });
   }
 
@@ -70,10 +80,17 @@ class TabbarController extends BaseController {
 
   void onTap(int index) async {
     //Token存在Model状态管理器中的
-    if (userInfoModel.token.value.isEmpty && index != 1 && index != 0) {
+    if (userInfoModel.token.value.isEmpty && index != 0) {
       Routers.push(Routers.login);
       return;
     }
     pageController.jumpToPage(index);
+  }
+
+  // 是否有未读消息
+  onGetUnReadNotice() async {
+    if (userInfoModel.token.value.isEmpty) return;
+    var res = await CommonService.hasUnReadInfo();
+    noticeUnRead.value = res;
   }
 }

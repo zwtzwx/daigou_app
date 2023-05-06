@@ -1,0 +1,3 @@
+class NoticeRefreshEvent {
+  NoticeRefreshEvent();
+}

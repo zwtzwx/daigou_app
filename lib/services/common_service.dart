@@ -8,6 +8,7 @@ import 'package:jiyun_app_client/models/banners_model.dart';
 import 'package:dio/dio.dart';
 import 'package:jiyun_app_client/models/captcha_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
+import 'package:jiyun_app_client/models/notice_model.dart';
 
 //通用服务
 class CommonService {
@@ -27,6 +28,12 @@ class CommonService {
   static const String refreshTokenApi = 'user/refresh-token';
   // 获取图形验证码
   static const String captchaApi = 'captcha';
+  // 消息列表
+  static const String noticeListApi = 'notification-records';
+  // 消息已读
+  static const String noticeReadApi = 'notification-records/read';
+  // 未读消息数量
+  static const String unReadNoticeApi = 'notification-records/no-read-count';
 
   // 获取预报的同意条款
   static Future<Map<String, dynamic>?> getTerms(
@@ -136,5 +143,47 @@ class CommonService {
       }
     });
     return captcha;
+  }
+
+  // 消息列表
+  static Future<Map> getNoticeList(Map<String, dynamic> params) async {
+    Map result = {"dataList": null, 'total': 1, 'pageIndex': params['page']};
+    List<NoticeModel> dataList = [];
+    await HttpClient()
+        .get(noticeListApi, queryParameters: params)
+        .then((response) {
+      if (response.ret) {
+        var list = response.data;
+        list.forEach((item) {
+          dataList.add(NoticeModel.fromJson(item));
+        });
+        result = {
+          "dataList": dataList,
+          'total': response.meta!['last_page'],
+          'pageIndex': response.meta!['current_page']
+        };
+      }
+    });
+    return result;
+  }
+
+  // 消息设为已读
+  static Future<bool> onNoticeRead(Map<String, dynamic> params) async {
+    bool res = false;
+    await HttpClient().put(noticeReadApi, data: params).then((response) {
+      res = response.ok;
+    });
+    return res;
+  }
+
+  // 是否有未读消息
+  static Future<bool> hasUnReadInfo() async {
+    bool res = false;
+    await HttpClient().get(unReadNoticeApi).then((response) {
+      if (response.ok) {
+        res = response.data['no_read_count'] > 0;
+      }
+    });
+    return res;
   }
 }

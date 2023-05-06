@@ -29,10 +29,21 @@ class ExpressQueryView extends GetView<ExpressQueryController> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              width: ScreenUtil().screenWidth,
-              height: ScreenUtil().setHeight(190),
-              child: const BannerBox(imgType: 'track_image'),
+            Stack(
+              children: [
+                SizedBox(
+                  width: ScreenUtil().screenWidth,
+                  height: ScreenUtil().setHeight(190),
+                  child: const BannerBox(imgType: 'track_image'),
+                ),
+                Positioned(
+                  left: 15,
+                  top: ScreenUtil().statusBarHeight,
+                  child: const BackButton(
+                    color: Colors.black,
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(15),

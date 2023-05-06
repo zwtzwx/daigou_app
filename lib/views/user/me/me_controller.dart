@@ -8,8 +8,6 @@ import 'package:jiyun_app_client/events/profile_updated_event.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/models/user_vip_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
-import 'package:jiyun_app_client/storage/user_storage.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
 
 class MeController extends BaseController {
   final ScrollController scrollController = ScrollController();
