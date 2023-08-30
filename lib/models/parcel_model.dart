@@ -82,7 +82,7 @@ class ParcelModel {
   num? countWeight;
   String? expressName;
   String? brandName;
-  List<GoodsPropsModel>? prop;
+  List<ParcelPropsModel>? prop;
   Map? order;
   List<Map>? chosenService;
   List<GoodsCategoryModel>? categories;
@@ -244,9 +244,9 @@ class ParcelModel {
     expressName = json['express_name'];
     brandName = json['brand_name'];
     if (json['prop'] != null) {
-      prop = List<GoodsPropsModel>.empty(growable: true);
+      prop = List<ParcelPropsModel>.empty(growable: true);
       json['prop'].forEach((v) {
-        prop!.add(GoodsPropsModel.fromJson(v));
+        prop!.add(ParcelPropsModel.fromJson(v));
       });
     }
     order = json['order'];

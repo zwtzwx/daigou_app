@@ -21,7 +21,10 @@ class CountryModel {
   PivotModel? pivot;
   List<AreaModel>? areas;
 
-  CountryModel();
+  CountryModel({
+    this.id,
+    this.name,
+  });
 
   CountryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -17,7 +17,7 @@ class CouponService {
     Map result = {"dataList": [], 'total': 1, 'pageIndex': page};
     List<UserCouponModel> dataList = <UserCouponModel>[];
 
-    await HttpClient()
+    await HttpClient.instance
         .get(dataListApi, queryParameters: params)
         .then((response) {
       var list = response.data;

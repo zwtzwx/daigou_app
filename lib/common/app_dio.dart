@@ -7,6 +7,7 @@ import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:jiyun_app_client/interceptors/response_interceptor.dart';
 import '../config/http_config.dart';
 
 class AppDio with DioMixin implements Dio {
@@ -50,6 +51,9 @@ class AppDio with DioMixin implements Dio {
           request: false,
           requestBody: true));
     }
+
+    interceptors.add(ResponseInterceptor());
+
     if (dioConfig?.interceptors?.isNotEmpty ?? false) {
       interceptors.addAll(dioConfig!.interceptors!);
     }

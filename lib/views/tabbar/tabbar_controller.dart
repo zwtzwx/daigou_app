@@ -3,18 +3,22 @@ import 'package:get/get.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
+import 'package:jiyun_app_client/events/cart_count_refresh_event.dart';
 import 'package:jiyun_app_client/events/change_page_index_event.dart';
 import 'package:jiyun_app_client/events/notice_refresh_event.dart';
 import 'package:jiyun_app_client/events/un_authenticate_event.dart';
 import 'package:jiyun_app_client/firebase/notification.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
+import 'package:jiyun_app_client/services/shop_service.dart';
+import 'package:jiyun_app_client/storage/user_storage.dart';
 
 class TabbarController extends BaseController {
-  final pageController = PageController(initialPage: 0);
+  late final pageController;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final selectIndex = 0.obs;
   final noticeUnRead = false.obs;
+  final cartCount = 0.obs;
   UserInfoModel userInfoModel = Get.find<UserInfoModel>();
 
   @override
@@ -22,7 +26,15 @@ class TabbarController extends BaseController {
     super.onInit();
     // 初始化 notification
     Notifications.initialized();
-    onGetUnReadNotice();
+    if (Get.arguments is Map && Get.arguments['index'] != null) {
+      selectIndex.value = Get.arguments['index'];
+      // pageController.jumpToPage(Get.arguments['index']);
+      pageController = PageController(initialPage: Get.arguments['index']);
+    } else {
+      pageController = PageController(initialPage: 0);
+    }
+    // onGetUnReadNotice();
+    getCartCount();
     ApplicationEvent.getInstance()
         .event
         .on<UnAuthenticateEvent>()
@@ -40,11 +52,18 @@ class TabbarController extends BaseController {
       pageController.jumpToPage(index);
     });
 
+    // ApplicationEvent.getInstance()
+    //     .event
+    //     .on<NoticeRefreshEvent>()
+    //     .listen((event) {
+    //   onGetUnReadNotice();
+    // });
+
     ApplicationEvent.getInstance()
         .event
-        .on<NoticeRefreshEvent>()
+        .on<CartCountRefreshEvent>()
         .listen((event) {
-      onGetUnReadNotice();
+      getCartCount();
     });
   }
 
@@ -80,7 +99,7 @@ class TabbarController extends BaseController {
 
   void onTap(int index) async {
     //Token存在Model状态管理器中的
-    if (userInfoModel.token.value.isEmpty && index != 0) {
+    if (userInfoModel.token.value.isEmpty && [3, 4].contains(index)) {
       Routers.push(Routers.login);
       return;
     }
@@ -92,5 +111,16 @@ class TabbarController extends BaseController {
     if (userInfoModel.token.value.isEmpty) return;
     var res = await CommonService.hasUnReadInfo();
     noticeUnRead.value = res;
+  }
+
+  // 购物车商品数量
+  void getCartCount() async {
+    var token = UserStorage.getToken();
+    if (token.isNotEmpty) {
+      var data = await ShopService.getCartCount();
+      cartCount.value = data ?? 0;
+    } else {
+      cartCount.value = 0;
+    }
   }
 }

@@ -16,7 +16,9 @@ class AnnouncementService {
     var page = (params is Map) ? params!['page'] : 1;
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<AnnouncementModel> dataList = [];
-    await HttpClient().get(LISTAPI, queryParameters: params).then((response) {
+    await HttpClient.instance
+        .get(LISTAPI, queryParameters: params)
+        .then((response) {
       var list = response.data;
       list['data']?.forEach((item) {
         dataList.add(AnnouncementModel.fromJson(item));
@@ -33,7 +35,7 @@ class AnnouncementService {
   // 首页最新公告
   static Future<AnnouncementModel?> getLatest() async {
     AnnouncementModel? result;
-    await HttpClient().get(latestApi).then((res) => {
+    await HttpClient.instance.get(latestApi).then((res) => {
           if (res.data != null && res.data.isNotEmpty)
             {result = AnnouncementModel.fromJson(res.data)}
         });
@@ -43,7 +45,7 @@ class AnnouncementService {
   // 公告详情
   static Future<AnnouncementModel?> getDetail(int id) async {
     AnnouncementModel? result;
-    await HttpClient()
+    await HttpClient.instance
         .get(detailApi.replaceAll(':id', id.toString()))
         .then((res) => {
               if (res.data != null)

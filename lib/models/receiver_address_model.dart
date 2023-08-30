@@ -123,6 +123,7 @@ class ReceiverAddressModel {
   CountryModel? country;
   AreaModel? subArea;
   AreaModel? area;
+  int? addressType;
 
   ReceiverAddressModel();
 
@@ -134,7 +135,7 @@ class ReceiverAddressModel {
     city = json['city'] ?? '';
     phone = json['phone'] ?? '';
     timezone = json['timezone'] ?? '';
-
+    addressType = json['address_type'];
     userId = json['user_id'];
     receiverName = json['receiver_name'];
     countryId = json['country_id'];
@@ -201,5 +202,38 @@ class ReceiverAddressModel {
     data['country'] = country?.toJson();
     data['sub_area'] = subArea?.toJson();
     return data;
+  }
+
+  String getShortContent() {
+    List<String> content = [];
+    if (area != null) {
+      content.add(area!.name);
+      if (subArea != null) {
+        content.add(subArea!.name);
+      }
+    } else {
+      content.add(city);
+    }
+    content.add(countryName);
+    return content.join(' ');
+  }
+
+  String getContent() {
+    String contentStr = '';
+    if (area != null) {
+      if (area != null) {
+        contentStr = countryName + ' ' + area!.name;
+      }
+      if (subArea != null) {
+        contentStr += ' ' + subArea!.name;
+      }
+      contentStr += ' ' + street;
+    } else {
+      contentStr += street;
+      contentStr += ' ' + doorNo;
+      contentStr += ' ' + city;
+      contentStr += ' ' + countryName;
+    }
+    return contentStr;
   }
 }

@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
@@ -7,6 +10,14 @@ import 'package:jiyun_app_client/views/contact/contact_binding.dart';
 import 'package:jiyun_app_client/views/contact/contact_page.dart';
 import 'package:jiyun_app_client/views/express/express_query_bind.dart';
 import 'package:jiyun_app_client/views/express/express_query_page.dart';
+import 'package:jiyun_app_client/views/line/detail/line_detail_binding.dart';
+import 'package:jiyun_app_client/views/line/detail/line_detail_view.dart';
+import 'package:jiyun_app_client/views/line/query/line_query_binding.dart';
+import 'package:jiyun_app_client/views/line/query/line_query_view.dart';
+import 'package:jiyun_app_client/views/line/query_result/line_query_result_binding.dart';
+import 'package:jiyun_app_client/views/line/query_result/line_query_result_view.dart';
+import 'package:jiyun_app_client/views/notice/notice_binding.dart';
+import 'package:jiyun_app_client/views/notice/notice_page.dart';
 import 'package:jiyun_app_client/views/order/detail/order_detail_binding.dart';
 import 'package:jiyun_app_client/views/order/detail/order_detail_page.dart';
 import 'package:jiyun_app_client/views/order/list/order_list_binding.dart';
@@ -25,6 +36,30 @@ import 'package:jiyun_app_client/views/parcel/parcel_edit/parcel_edit_binding.da
 import 'package:jiyun_app_client/views/parcel/parcel_edit/parcel_edit_page.dart';
 import 'package:jiyun_app_client/views/parcel/parcel_list/parcel_list_binding.dart';
 import 'package:jiyun_app_client/views/parcel/parcel_list/parcel_list_page.dart';
+import 'package:jiyun_app_client/views/payment/pay_success/pay_success_binding.dart';
+import 'package:jiyun_app_client/views/payment/pay_success/pay_success_view.dart';
+import 'package:jiyun_app_client/views/payment/shop_pay/shop_order_pay_binding.dart';
+import 'package:jiyun_app_client/views/payment/shop_pay/shop_order_pay_view.dart';
+import 'package:jiyun_app_client/views/shop/center/shop_center_binding.dart';
+import 'package:jiyun_app_client/views/shop/center/shop_center_view.dart';
+import 'package:jiyun_app_client/views/shop/chat_detail/order_chat_detail_binding.dart';
+import 'package:jiyun_app_client/views/shop/chat_detail/order_chat_detail_view.dart';
+import 'package:jiyun_app_client/views/shop/goods_detail/goods_detail_binding.dart';
+import 'package:jiyun_app_client/views/shop/goods_detail/goods_detail_view.dart';
+import 'package:jiyun_app_client/views/shop/goods_list/goods_list_binding.dart';
+import 'package:jiyun_app_client/views/shop/goods_list/goods_list_view.dart';
+import 'package:jiyun_app_client/views/shop/order/shop_order_binding.dart';
+import 'package:jiyun_app_client/views/shop/order/shop_order_view.dart';
+import 'package:jiyun_app_client/views/shop/order_chat/shop_order_chat_binding.dart';
+import 'package:jiyun_app_client/views/shop/order_chat/shop_order_chat_view.dart';
+import 'package:jiyun_app_client/views/shop/order_detail/order_detail_binding.dart';
+import 'package:jiyun_app_client/views/shop/order_detail/order_detail_view.dart';
+import 'package:jiyun_app_client/views/shop/order_preview/order_preview_binding.dart';
+import 'package:jiyun_app_client/views/shop/order_preview/order_preview_view.dart';
+import 'package:jiyun_app_client/views/shop/platform_goods/platform_goods_binding.dart';
+import 'package:jiyun_app_client/views/shop/platform_goods/platform_goods_list_view.dart';
+import 'package:jiyun_app_client/views/shop/problem_order/problem_order_binding.dart';
+import 'package:jiyun_app_client/views/shop/problem_order/problem_order_view.dart';
 import 'package:jiyun_app_client/views/user/abount/about_me_binding.dart';
 import 'package:jiyun_app_client/views/user/abount/about_me_page.dart';
 import 'package:jiyun_app_client/views/user/address/add/address_add_edit_binding.dart';
@@ -37,6 +72,7 @@ import 'package:jiyun_app_client/views/user/forget_password/forget_password_bind
 import 'package:jiyun_app_client/views/user/forget_password/forget_password_page.dart';
 import 'package:jiyun_app_client/views/user/profile/profile_binding.dart';
 import 'package:jiyun_app_client/views/user/profile/profile_view.dart';
+import 'package:jiyun_app_client/views/user/recharge_page.dart';
 import 'package:jiyun_app_client/views/user/register/register_binding.dart';
 import 'package:jiyun_app_client/views/user/register/register_page.dart';
 import 'package:jiyun_app_client/views/user/setting_password/setting_password_binding.dart';
@@ -93,6 +129,24 @@ class Routers {
   static const String noOwnerList = '/noOwner/list'; // 异常件列表
   static const String noOwnerDetail = '/noOwner/detail'; // 异常件认领
   static const String track = '/track'; // 快递跟踪
+  static const String lineQuery = '/lineQuery'; // 运费估算
+  static const String lineQueryResult = '/lineQueryResult'; // 运费估算
+  static const String lineDetail = '/lineDetail'; // 运费估算
+  static const String notice = '/notice'; // 消息通知
+  static const String recharge = '/recharge'; // 充值
+
+  static const String shopCenter = '/shopCenter'; //自营商城中心
+  static const String goodsList = '/goodsList'; // 自营商品列表
+  static const String platformGoodsList = '/platformGoodsList'; // 代购商品列表
+  static const String goodsDetail = '/goodsDetail'; // 商品详情
+  static const String orderPreview = '/orderPreview'; // 商品订单确认
+  static const String shopOrderPay = '/shopOrderPay'; // 商城订单支付
+  static const String paySuccess = '/paySuccess'; // 支付成功
+  static const String shopOrderList = '/shopOrderList'; // 商城订单列表
+  static const String shopOrderDetail = '/shopOrderDetail'; // 商城订单详情
+  static const String probleShopOrder = '/probleShopOrder'; // 问题商品列表
+  static const String shopOrderChat = '/shopOrderChat'; // 我的咨询
+  static const String shopOrderChatDetail = '/shopOrderChatDetail'; // 咨询详情
 
   static List filterList = [
     webview,
@@ -104,7 +158,14 @@ class Routers {
     home,
     login,
     register,
-    track
+    track,
+    shopCenter,
+    goodsList,
+    platformGoodsList,
+    goodsDetail,
+    lineQuery,
+    lineDetail,
+    lineQueryResult,
   ];
 
   // 路由声明
@@ -248,13 +309,97 @@ class Routers {
       name: track,
       page: () => const ExpressQueryView(),
       binding: ExpressQueryBind(),
-    )
+    ),
+    GetPage(
+      name: shopCenter,
+      page: () => const ShopCenterView(),
+      binding: ShopCenterBinding(),
+    ),
+    GetPage(
+      name: goodsList,
+      page: () => const GoodsListView(),
+      binding: GoodsListBinding(),
+    ),
+    GetPage(
+      name: platformGoodsList,
+      page: () => const PlatformGoodsListView(),
+      binding: PlatformGoodsBinding(),
+    ),
+    GetPage(
+      name: goodsDetail,
+      page: () => const GoodsDetailView(),
+      binding: GoodsDetailBinding(),
+    ),
+    GetPage(
+      name: orderPreview,
+      page: () => const OrderPreviewView(),
+      binding: OrderPreviewBinding(),
+    ),
+    GetPage(
+      name: lineQuery,
+      page: () => const LineQueryView(),
+      binding: LineQueryBinding(),
+    ),
+    GetPage(
+      name: lineQueryResult,
+      page: () => const LineQueryResultView(),
+      binding: LineQueryResultBinding(),
+    ),
+    GetPage(
+      name: lineDetail,
+      page: () => const LineDetailView(),
+      binding: LineDetailBinding(),
+    ),
+    GetPage(
+      name: shopOrderPay,
+      page: () => const ShopOrderPayView(),
+      binding: ShopOrderPayBinding(),
+    ),
+    GetPage(
+      name: paySuccess,
+      page: () => const PaySuccessView(),
+      binding: PaySuccessBinding(),
+    ),
+    GetPage(
+      name: shopOrderList,
+      page: () => const ShopOrderView(),
+      binding: ShopOrderBinding(),
+    ),
+    GetPage(
+      name: shopOrderDetail,
+      page: () => const ShopOrderDetailView(),
+      binding: ShopOrderDetailBinding(),
+    ),
+    GetPage(
+      name: probleShopOrder,
+      page: () => const ProblemOrderView(),
+      binding: ProblemOrderBinding(),
+    ),
+    GetPage(
+      name: shopOrderChat,
+      page: () => const ShopOrderChatView(),
+      binding: ShopOrderChatBinding(),
+    ),
+    GetPage(
+      name: shopOrderChatDetail,
+      page: () => const ShopChatDetailView(),
+      binding: ShopOrderChatDetailBinding(),
+    ),
+    GetPage(
+      name: notice,
+      page: () => const NoticePage(),
+      binding: NoticeBinding(),
+    ),
   ];
+
+  static Map<String, Function> excludeGetPageRoute = {
+    Routers.recharge: (context) => const RechargePage(),
+  };
 
   static String currentRouteName = "";
 
   // 跳转到下个页面
-  static push(String page, [dynamic arguments]) {
+  static Future<dynamic>? push(String page, [dynamic arguments]) {
     UserInfoModel userInfo = Get.find<UserInfoModel>();
     if (filterList.contains(page) || userInfo.token.value.isNotEmpty) {
       return Get.toNamed(page, arguments: arguments);
@@ -272,27 +417,28 @@ class Routers {
   }
 
   // // 路由初始化
-  // static run(RouteSettings settings) {
-  //   final Function? pageContentBuilder = Routers.routes[settings.name];
+  static run(RouteSettings settings) {
+    final Function? pageContentBuilder =
+        Routers.excludeGetPageRoute[settings.name];
 
-  //   if (pageContentBuilder != null) {
-  //     currentRouteName = settings.name!;
-  //     if (settings.arguments != null) {
-  //       // 传参路由
-  //       return CupertinoPageRoute(
-  //           fullscreenDialog: false,
-  //           builder: (context) =>
-  //               pageContentBuilder(context, arguments: settings.arguments));
-  //     } else {
-  //       // 无参数路由
-  //       return CupertinoPageRoute(
-  //           builder: (context) => pageContentBuilder(context));
-  //     }
-  //   } else {
-  //     // 404页
-  //     // return CupertinoPageRoute(builder: (context) => NotFoundPage());
-  //   }
-  // }
+    if (pageContentBuilder != null) {
+      currentRouteName = settings.name!;
+      if (settings.arguments != null) {
+        // 传参路由
+        return CupertinoPageRoute(
+            fullscreenDialog: false,
+            builder: (context) =>
+                pageContentBuilder(context, arguments: settings.arguments));
+      } else {
+        // 无参数路由
+        return CupertinoPageRoute(
+            builder: (context) => pageContentBuilder(context));
+      }
+    } else {
+      // 404页
+      // return CupertinoPageRoute(builder: (context) => NotFoundPage());
+    }
+  }
 
   // 组件跳转
   // static link(Widget child, String routeName, BuildContext context,
@@ -309,41 +455,40 @@ class Routers {
   //   );
   // }
 
-  // // 方法跳转
-  // static push(String routeName, BuildContext context, [Map? parmas]) async {
-  //   if (filterList.contains(routeName)) {
-  //     if (parmas != null) {
-  //       Navigator.pushNamed(context, routeName, arguments: parmas);
-  //     } else {
-  //       Navigator.pushNamed(context, routeName);
-  //     }
-  //     return;
-  //   }
-  //   // 如果状态管理器中的Token是空的
-  //   if (Provider.of<Model>(context, listen: false).token.isEmpty) {
-  //     Navigator.pushNamed(
-  //       context,
-  //       '/LoginPage',
-  //     );
-  //     return;
-  //   }
+  // 方法跳转
+  static pushNormalPage(String routeName, BuildContext context,
+      [Map? parmas]) async {
+    if (filterList.contains(routeName)) {
+      if (parmas != null) {
+        Navigator.pushNamed(context, routeName, arguments: parmas);
+      } else {
+        Navigator.pushNamed(context, routeName);
+      }
+      return;
+    }
+    // 如果状态管理器中的Token是空的
+    var token = Get.find<UserInfoModel>().token;
+    if (token.value.isEmpty) {
+      Routers.push(Routers.login);
+      return;
+    }
 
-  //   if (parmas != null) {
-  //     return Navigator.pushNamed(context, routeName, arguments: parmas)
-  //         .then((value) {
-  //       EasyLoading.dismiss();
-  //       return value;
-  //     });
-  //   } else {
-  //     return Navigator.pushNamed(
-  //       context,
-  //       routeName,
-  //     ).then((value) {
-  //       EasyLoading.dismiss();
-  //       return value;
-  //     });
-  //   }
-  // }
+    if (parmas != null) {
+      return Navigator.pushNamed(context, routeName, arguments: parmas)
+          .then((value) {
+        EasyLoading.dismiss();
+        return value;
+      });
+    } else {
+      return Navigator.pushNamed(
+        context,
+        routeName,
+      ).then((value) {
+        EasyLoading.dismiss();
+        return value;
+      });
+    }
+  }
 
   // // 方法跳转,无返回
   // static redirect(String routeName, BuildContext context, [Map? parmas]) {

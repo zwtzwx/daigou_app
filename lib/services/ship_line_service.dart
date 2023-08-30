@@ -27,7 +27,7 @@ class ShipLineService {
   static Future<Map> getList([Map<String, dynamic>? params]) async {
     List<ShipLineModel> list = [];
     Map result = {'ok': false, 'msg': '', 'list': list};
-    await HttpClient().post(LISTAPI, data: params).then((response) {
+    await HttpClient.instance.post(LISTAPI, data: params).then((response) {
       response.data?.forEach((item) {
         list.add(ShipLineModel.fromJson(item));
       });
@@ -43,7 +43,7 @@ class ShipLineService {
   // 渠道详情
   static Future<ShipLineModel?> getDetail(int id) async {
     ShipLineModel? result;
-    await HttpClient()
+    await HttpClient.instance
         .get(DETAILAPI.replaceAll(':id', id.toString()))
         .then((res) => {result = ShipLineModel.fromJson(res.data)});
     return result;
@@ -54,7 +54,7 @@ class ShipLineService {
    */
   static Future<InsuranceModel?> getInsurance() async {
     InsuranceModel? result;
-    await HttpClient()
+    await HttpClient.instance
         .get(hasInsuranceApi)
         .then((response) => {result = InsuranceModel.fromJson(response.data)});
 
@@ -67,7 +67,7 @@ class ShipLineService {
   static Future<TariffModel?> getTariff() async {
     TariffModel? result;
 
-    await HttpClient()
+    await HttpClient.instance
         .get(tariffConfigApi)
         .then((res) => {result = TariffModel.fromJson(res.data)});
 
@@ -80,7 +80,7 @@ class ShipLineService {
   static Future<List<ValueAddedServiceModel>> getValueAddedServiceList(
       [Map<String, dynamic>? params]) async {
     List<ValueAddedServiceModel> result = [];
-    await HttpClient()
+    await HttpClient.instance
         .get(addValueServiceApi, queryParameters: params)
         .then((response) => {
               response.data.forEach((item) {

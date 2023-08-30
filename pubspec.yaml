@@ -58,8 +58,10 @@ dependencies:
   timeline_tile: ^2.0.0
   firebase_core: ^1.19.0
   firebase_messaging: ^11.4.4
+  flutter_swiper_null_safety: ^1.0.2
   flutter_local_notifications: ^9.5.3+1
   get: ^4.6.5
+  #fluwx: ^3.9.0+2
 
 dev_dependencies:
   flutter_test:
@@ -89,6 +91,8 @@ flutter:
     - assets/images/AboutMe/
     - assets/images/TabbarIcon/
     - assets/images/Help/
+    - assets/images/Shop/
+    - assets/images/Transport/
     - assets/images/none.png
     - .env
 

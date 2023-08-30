@@ -10,6 +10,8 @@ class InsuranceItemModel {
   late int start;
   late String remark;
   late int isForce;
+  num? max;
+  num? min;
 
   InsuranceItemModel();
 
@@ -21,6 +23,8 @@ class InsuranceItemModel {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     name = json['name'];
+    max = json['max'];
+    min = json['min'];
     insuranceType = json['insurance_type'];
     start = json['start'];
     remark = json['remark'];

@@ -48,7 +48,10 @@ class OrderService {
     var page = (params is Map) ? params!['page'] : 1;
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<OrderModel> dataList = List<OrderModel>.empty(growable: true);
-    await HttpClient().get(ORDER, queryParameters: params).then((response) {
+    await HttpClient.instance
+        .get(ORDER, queryParameters: params)
+        .then((response) {
+      print('哈哈哈');
       var list = response.data;
       list['data']?.forEach((good) {
         dataList.add(OrderModel.fromJson(good));
@@ -69,7 +72,7 @@ class OrderService {
   static Future<Map> signed(int id) async {
     Map result = {'ok': false, 'msg': ''};
 
-    await HttpClient()
+    await HttpClient.instance
         .post(CHECKORDER.replaceAll(':id', id.toString()))
         .then((response) => {
               result = {
@@ -84,7 +87,7 @@ class OrderService {
   // 获取订单详情
   static Future<OrderModel?> getDetail(int id) async {
     OrderModel? result;
-    await HttpClient()
+    await HttpClient.instance
         .get(
           ORDERDETAIL.replaceAll(':id', id.toString()),
         )
@@ -99,7 +102,9 @@ class OrderService {
    */
   static Future updateReadyPay(
       Map params, OnSuccess onSuccess, OnFail onFail) async {
-    return await HttpClient().post(previewPay, data: params).then((response) {
+    return await HttpClient.instance
+        .post(previewPay, data: params)
+        .then((response) {
       if (response.ok) {
         onSuccess(response);
       } else {
@@ -114,7 +119,7 @@ class OrderService {
   static Future<Map> store(Map<String, dynamic> params) async {
     Map result = {'ok': false, 'msg': ''};
 
-    await HttpClient().post(ORDER, data: params).then((response) {
+    await HttpClient.instance.post(ORDER, data: params).then((response) {
       result = {
         'ok': response.ok,
         'msg': response.msg ?? response.error!.message
@@ -129,7 +134,7 @@ class OrderService {
    */
   static Future<List<String>> getOrderPackVideo(int id) async {
     List<String> result = [];
-    await HttpClient()
+    await HttpClient.instance
         .get(orderVideoApi.replaceAll(':id', id.toString()))
         .then((res) {
       if (res.ok) {
@@ -144,7 +149,7 @@ class OrderService {
    */
   static Future<OrderExceptionalModel?> getOrderExceptional(int id) async {
     OrderExceptionalModel? result;
-    await HttpClient()
+    await HttpClient.instance
         .get(orderExceptionalApi.replaceAll(':id', id.toString()))
         .then((res) {
       if (res.ok) {
@@ -160,7 +165,7 @@ class OrderService {
   static Future<Map<String, dynamic>> orderIpay(int id,
       [Map<String, dynamic>? params]) async {
     Map<String, dynamic> result = {'ok': false, 'msg': ''};
-    await HttpClient()
+    await HttpClient.instance
         .post(ipayApi.replaceAll(':id', id.toString()), data: params)
         .then((res) {
       result = {

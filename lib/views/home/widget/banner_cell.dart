@@ -7,6 +7,7 @@ import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/state/i10n.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:jiyun_app_client/views/components/language_cell/language_cell.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/home/home_controller.dart';
 
@@ -31,50 +32,10 @@ class BannerCell extends GetView<HomeController> {
 
   // 支持语言
   Widget buildLanguageView() {
-    final I10n i10n = Get.find<I10n>();
     return Positioned(
       left: 10,
       top: ScreenUtil().statusBarHeight + 10,
-      child: GestureDetector(
-        onTap: controller.showLanguage,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
-          decoration: BoxDecoration(
-            color: const Color(0x33000000),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: const Color(0x4DFFFFFF)),
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                // child: ZHTextLine(
-                //   str: codeStr,
-                // ),
-                child: Obx(() {
-                  String language = i10n.language;
-                  var codeList = language.split('_');
-                  String codeStr =
-                      codeList.length > 1 ? codeList[1] : codeList[0];
-                  return ZHTextLine(
-                    str: codeStr,
-                  );
-                }),
-              ),
-              Sized.hGap15,
-              const Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.white,
-                size: 14,
-              ),
-            ],
-          ),
-        ),
-      ),
+      child: LanguageCell(),
     );
   }
 

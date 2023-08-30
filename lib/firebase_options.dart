@@ -54,7 +54,8 @@ class DefaultFirebaseOptions {
     appId: '1:521370548270:android:dfaaf4a63687120eb047bf',
     messagingSenderId: '521370548270',
     projectId: 'jiyun-app-1df62',
-    databaseURL: 'https://jiyun-app-1df62-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://jiyun-app-1df62-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'jiyun-app-1df62.appspot.com',
   );
 
@@ -63,10 +64,13 @@ class DefaultFirebaseOptions {
     appId: '1:521370548270:ios:f6c4734b8d314f96b047bf',
     messagingSenderId: '521370548270',
     projectId: 'jiyun-app-1df62',
-    databaseURL: 'https://jiyun-app-1df62-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://jiyun-app-1df62-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'jiyun-app-1df62.appspot.com',
-    androidClientId: '521370548270-f0tdas0lllp048vci57h6q2fvohgipaq.apps.googleusercontent.com',
-    iosClientId: '521370548270-9i9f4jn0grjubmo75epl9ulb14q80vbb.apps.googleusercontent.com',
-    iosBundleId: 'com.zhongha.jiyunAppClient',
+    androidClientId:
+        '521370548270-f0tdas0lllp048vci57h6q2fvohgipaq.apps.googleusercontent.com',
+    iosClientId:
+        '521370548270-9i9f4jn0grjubmo75epl9ulb14q80vbb.apps.googleusercontent.com',
+    iosBundleId: 'com.zhongha.shopAppClient',
   );
 }

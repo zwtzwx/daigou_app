@@ -15,7 +15,7 @@ class InvoiceService {
    */
   static Future<InvoiceModel?> getDefault() async {
     InvoiceModel? result;
-    await HttpClient()
+    await HttpClient.instance
         .get(listApi, queryParameters: null)
         .then((response) => {result = InvoiceModel.fromJson(response.data)})
         .onError((error, stackTrace) => {});
@@ -27,7 +27,7 @@ class InvoiceService {
    */
   static Future<InvoiceModel?> getDetail(int id) async {
     InvoiceModel? result;
-    await HttpClient()
+    await HttpClient.instance
         .get(oneApi.replaceAll(":id", id.toString()), queryParameters: null)
         .then((response) => {InvoiceModel.fromJson(response.data)})
         .onError((error, stackTrace) => {});
@@ -40,7 +40,7 @@ class InvoiceService {
   static Future<bool> update(int id, Map<String, dynamic>? params) async {
     bool result = false;
 
-    await HttpClient()
+    await HttpClient.instance
         .post(oneApi.replaceAll(':id', id.toString()), data: params)
         // ignore: unrelated_type_equality_checks
         .then((response) => {result = response.ret});

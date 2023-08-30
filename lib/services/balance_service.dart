@@ -46,10 +46,12 @@ class BalanceService {
     获取支付方式列表
    */
   static Future<List<PayTypeModel>> getPayTypeList(
-      {noBalanceType = false, noDelivery = true, noIPay88 = false}) async {
+      {noBalanceType = false, noDelivery = true, onOther = false}) async {
     List<PayTypeModel> result = <PayTypeModel>[];
 
-    await HttpClient().get(payTypeApi, queryParameters: null).then((response) {
+    await HttpClient.instance
+        .get(payTypeApi, queryParameters: null)
+        .then((response) {
       Map list = response.data;
 
       List<dynamic> keyList = [];
@@ -59,19 +61,20 @@ class BalanceService {
         if (list[item] == 1) {
           if (noBalanceType && item == "balance") continue;
           if (noDelivery && item == 'on_delivery') continue;
-          if (noIPay88 && item == 'iPay88') continue;
           PayTypeModel payModel = PayTypeModel.empty();
           payModel.name = item;
           payModel.enabled = 1;
           result.add(payModel);
         }
       }
-      list['other'].forEach((v) {
-        PayTypeModel payModel = PayTypeModel.fromJson(v);
-        if (payModel.enabled == 1) {
-          result.add(payModel);
-        }
-      });
+      if (!onOther) {
+        list['other'].forEach((v) {
+          PayTypeModel payModel = PayTypeModel.fromJson(v);
+          if (payModel.enabled == 1) {
+            result.add(payModel);
+          }
+        });
+      }
     });
     return result;
   }
@@ -83,7 +86,7 @@ class BalanceService {
       {Map<String, dynamic>? params}) async {
     List<DefaultAmountModel> result = <DefaultAmountModel>[];
 
-    await HttpClient()
+    await HttpClient.instance
         .get(defaultAmountApi, queryParameters: params)
         .then((response) {
       response.data.forEach((item) {
@@ -100,7 +103,7 @@ class BalanceService {
   */
   static Future rechargePayByWeChat(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    return await HttpClient()
+    return await HttpClient.instance
         .post(balancePayByWechatApi, data: params)
         .then((response) {
       if (response.ok) {
@@ -121,7 +124,7 @@ class BalanceService {
 
     List<OrderTransactionModel> dataList = <OrderTransactionModel>[];
 
-    await HttpClient()
+    await HttpClient.instance
         .get(transactionHistoryApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -148,7 +151,7 @@ class BalanceService {
 
     List<UserRechargeModel> dataList = <UserRechargeModel>[];
 
-    await HttpClient()
+    await HttpClient.instance
         .get(rechargeApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -170,12 +173,14 @@ class BalanceService {
    */
   static Future<Map> buyVipTransfer(Map params) async {
     Map result = {"ok": false, "msg": null};
-    await HttpClient().post(buyVipTransApi, data: params).then((response) => {
-          result = {
-            "ok": response.ok,
-            "msg": response.msg ?? response.error!.message,
-          }
-        });
+    await HttpClient.instance
+        .post(buyVipTransApi, data: params)
+        .then((response) => {
+              result = {
+                "ok": response.ok,
+                "msg": response.msg ?? response.error!.message,
+              }
+            });
 
     return result;
   }
@@ -185,12 +190,14 @@ class BalanceService {
    */
   static Future<Map> buyVipBalance(Map params) async {
     Map result = {"ok": false, "msg": null};
-    await HttpClient().post(buyVipBalanceApi, data: params).then((response) => {
-          result = {
-            "ok": response.ok,
-            "msg": response.msg ?? response.error!.message,
-          }
-        });
+    await HttpClient.instance
+        .post(buyVipBalanceApi, data: params)
+        .then((response) => {
+              result = {
+                "ok": response.ok,
+                "msg": response.msg ?? response.error!.message,
+              }
+            });
 
     return result;
   }
@@ -200,12 +207,14 @@ class BalanceService {
    */
   static Future<Map> rechargeTransfer(Map params) async {
     Map result = {"ok": false, "msg": null};
-    await HttpClient().post(rechargeTransApi, data: params).then((response) => {
-          result = {
-            "ok": response.ok,
-            "msg": response.msg ?? response.error!.message,
-          }
-        });
+    await HttpClient.instance
+        .post(rechargeTransApi, data: params)
+        .then((response) => {
+              result = {
+                "ok": response.ok,
+                "msg": response.msg ?? response.error!.message,
+              }
+            });
 
     return result;
   }
@@ -215,12 +224,14 @@ class BalanceService {
    */
   static Future<Map> orderPayTransfer(Map params) async {
     Map result = {"ok": false, "msg": null};
-    await HttpClient().post(orderTransApi, data: params).then((response) => {
-          result = {
-            "ok": response.ok,
-            "msg": response.msg ?? response.error!.message,
-          }
-        });
+    await HttpClient.instance
+        .post(orderTransApi, data: params)
+        .then((response) => {
+              result = {
+                "ok": response.ok,
+                "msg": response.msg ?? response.error!.message,
+              }
+            });
 
     return result;
   }
@@ -230,12 +241,14 @@ class BalanceService {
    */
   static Future<Map> orderBalancePay(Map params) async {
     Map result = {'ok': false, 'msg': null};
-    await HttpClient().post(balancePayOrder, data: params).then((response) => {
-          result = {
-            'ok': response.ok,
-            'msg': response.msg ?? response.error!.message,
-          }
-        });
+    await HttpClient.instance
+        .post(balancePayOrder, data: params)
+        .then((response) => {
+              result = {
+                'ok': response.ok,
+                'msg': response.msg ?? response.error!.message,
+              }
+            });
 
     return result;
   }
@@ -245,7 +258,7 @@ class BalanceService {
    */
   static Future orderWechatPay(int id, Map<String, dynamic> params,
       OnSuccess onSuccess, OnFail onFail) async {
-    return await HttpClient()
+    return await HttpClient.instance
         .post(orderPayWeChatApi.replaceAll(':id', id.toString()), data: params)
         .then((response) {
       if (response.ok) {
@@ -261,7 +274,7 @@ class BalanceService {
    */
   static Future<Map> orderOnDelivery(Map params) async {
     Map result = {'ok': false, 'msg': null};
-    await HttpClient()
+    await HttpClient.instance
         .post(onDeliveryPayOrder, data: params)
         .then((response) => {
               result = {
@@ -278,7 +291,7 @@ class BalanceService {
    */
   static Future buyVipWechatPay(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    return await HttpClient()
+    return await HttpClient.instance
         .post(buyVipWechatPayApi, data: params)
         .then((response) {
       if (response.ok) {
@@ -295,7 +308,9 @@ class BalanceService {
   static Future<Map<String, dynamic>> ipay88BalancePay(
       Map<String, dynamic> params) async {
     Map<String, dynamic> result = {'ok': false, 'msg': ''};
-    await HttpClient().post(balanceIpayApi, data: params).then((response) {
+    await HttpClient.instance
+        .post(balanceIpayApi, data: params)
+        .then((response) {
       result = {
         'ok': response.ok,
         'data': response.data['data'],
@@ -311,7 +326,7 @@ class BalanceService {
   static Future<Map<String, dynamic>> ipay88VipPay(
       Map<String, dynamic> params) async {
     Map<String, dynamic> result = {'ok': false, 'msg': ''};
-    await HttpClient().post(vipIpayApi, data: params).then((response) {
+    await HttpClient.instance.post(vipIpayApi, data: params).then((response) {
       result = {
         'ok': response.ok,
         'data': response.data['data'],

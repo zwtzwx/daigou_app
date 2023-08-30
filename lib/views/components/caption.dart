@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 
 class ZHTextLine extends StatefulWidget {
@@ -31,7 +32,7 @@ class ZHTextLineState extends State<ZHTextLine> {
       widget.str,
       style: TextStyle(
         color: widget.color,
-        fontSize: widget.fontSize,
+        fontSize: widget.fontSize.sp,
         fontWeight: widget.fontWeight,
         decoration: widget.decoration,
       ),

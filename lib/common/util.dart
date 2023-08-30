@@ -100,6 +100,28 @@ class Util {
     return statusStr;
   }
 
+  static String getLineModelName(num model) {
+    String modeStr = '';
+    switch (model) {
+      case 1:
+        modeStr = '首重续重模式';
+        break;
+      case 2:
+        modeStr = '阶梯价格模式';
+        break;
+      case 3:
+        modeStr = '单位价格+阶梯总价模式';
+        break;
+      case 4:
+        modeStr = '多级续重模式';
+        break;
+      case 5:
+        modeStr = '阶梯首重续重模式';
+        break;
+    }
+    return modeStr;
+  }
+
   // 语言占位符替换
   static List<String> parsePlaceholder(String str) {
     List<String> list = [];

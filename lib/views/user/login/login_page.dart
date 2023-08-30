@@ -43,25 +43,11 @@ class LoginView extends GetView<LoginController> {
               ScreenUtil().bottomBarHeight,
           child: Column(
             children: [
-              noticeBar(),
               logoCell(context),
               loginCell(context),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget noticeBar() {
-    return Container(
-      color: const Color(0xfffffbe8),
-      padding: const EdgeInsets.all(10),
-      child: ZHTextLine(
-        color: const Color(0xffed6a0c),
-        str: '通知：为了便捷软件登录，验证码登录已下线，还未设置密码的用户，请点击“忘记密码”，设置登录密码.'.ts,
-        fontSize: 14,
-        lines: 10,
       ),
     );
   }
@@ -212,9 +198,9 @@ class LoginView extends GetView<LoginController> {
                       child: ZHTextLine(
                         str: '手机号登录'.ts,
                         fontSize: 17,
-                        color: controller.loginType.value == 1
-                            ? BaseStylesConfig.primary
-                            : BaseStylesConfig.textBlack,
+                        fontWeight: controller.loginType.value == 1
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                       ),
                     ),
                   ),
@@ -239,9 +225,9 @@ class LoginView extends GetView<LoginController> {
                       child: ZHTextLine(
                         str: '邮箱登录'.ts,
                         fontSize: 17,
-                        color: controller.loginType.value == 2
-                            ? BaseStylesConfig.primary
-                            : BaseStylesConfig.textBlack,
+                        fontWeight: controller.loginType.value == 2
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                       ),
                     ),
                   ),

@@ -41,8 +41,8 @@ class ForecastController extends BaseController {
   //快递公司
   final expressCompanyList = <ExpressCompanyModel>[].obs;
   //商品属性
-  List<GoodsPropsModel> goodsPropsList =
-      List<GoodsPropsModel>.empty(growable: true);
+  List<ParcelPropsModel> goodsPropsList =
+      List<ParcelPropsModel>.empty(growable: true);
 
   //预报服务
   // final valueAddedServiceList = <ValueAddedServiceModel>[].obs;

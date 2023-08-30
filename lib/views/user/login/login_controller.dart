@@ -143,7 +143,6 @@ class LoginController extends BaseController {
   loginWith(String type, Map<String, dynamic> map) async {
     try {
       TokenModel? tokenModel;
-      showLoading();
       switch (type) {
         case 'social':
           tokenModel = await UserService.loginWithFirebase(map);
@@ -155,8 +154,6 @@ class LoginController extends BaseController {
         default:
           tokenModel = await UserService.login(map);
       }
-      hideLoading();
-      showSuccess('登录成功');
       //发送登录事件
       ApplicationEvent.getInstance().event.fire(LoginedEvent());
       ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
@@ -176,7 +173,6 @@ class LoginController extends BaseController {
       }
       Routers.pop();
     } catch (e) {
-      hideLoading();
       showToast(e.toString());
     }
   }

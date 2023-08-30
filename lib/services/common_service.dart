@@ -8,6 +8,7 @@ import 'package:jiyun_app_client/models/banners_model.dart';
 import 'package:dio/dio.dart';
 import 'package:jiyun_app_client/models/captcha_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
+import 'package:jiyun_app_client/models/currency_rate_model.dart';
 import 'package:jiyun_app_client/models/notice_model.dart';
 
 //通用服务
@@ -34,13 +35,15 @@ class CommonService {
   static const String noticeReadApi = 'notification-records/read';
   // 未读消息数量
   static const String unReadNoticeApi = 'notification-records/no-read-count';
+  // 汇率
+  static const String exchangeRateApi = 'exchange/rates';
 
   // 获取预报的同意条款
   static Future<Map<String, dynamic>?> getTerms(
       [Map<String, dynamic>? params]) async {
     Map<String, dynamic>? result;
 
-    await HttpClient()
+    await HttpClient.instance
         .get(_TERMS_API, queryParameters: params)
         .then((response) => {result = response.data});
     return result;
@@ -50,7 +53,7 @@ class CommonService {
   static Future<BannersModel?> getAllBannersInfo(
       [Map<String, dynamic>? params]) async {
     BannersModel? result;
-    await HttpClient()
+    await HttpClient.instance
         .get(_ALL_BANNERS_API, queryParameters: params)
         .then((response) => {result = BannersModel.fromJson(response.data)});
     return result;
@@ -70,7 +73,9 @@ class CommonService {
 
     String result = "";
 
-    await HttpClient().post(uploadImageApi, data: formData).then((response) {
+    await HttpClient.instance
+        .post(uploadImageApi, data: formData)
+        .then((response) {
       result = response.data;
     });
     return result;
@@ -83,7 +88,7 @@ class CommonService {
   static Future<List<AlphabeticalCountryModel>> getCountryListByAlphabetical(
       [Map<String, dynamic>? params]) async {
     List<AlphabeticalCountryModel> dataList = <AlphabeticalCountryModel>[];
-    await HttpClient()
+    await HttpClient.instance
         .get(countryListApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -105,7 +110,9 @@ class CommonService {
   static Future<List<CountryModel>> getCountryList(
       [Map<String, dynamic>? params]) async {
     List<CountryModel> dataList = [];
-    await HttpClient().get(countriesApi, queryParameters: params).then((res) {
+    await HttpClient.instance
+        .get(countriesApi, queryParameters: params)
+        .then((res) {
       if (res.ok) {
         for (var item in res.data) {
           dataList.add(CountryModel.fromJson(item));
@@ -120,13 +127,13 @@ class CommonService {
     用于消息推送
    */
   static Future<void> saveDeviceToken(Map<String, dynamic> params) async {
-    await HttpClient().put(deviceTokenApi, data: params);
+    await HttpClient.instance.put(deviceTokenApi, data: params);
   }
 
   // 刷新 token
   static Future<String?> refreshToken() async {
     String? token;
-    await HttpClient().post(refreshTokenApi).then((res) {
+    await HttpClient.instance.post(refreshTokenApi).then((res) {
       if (res.ok) {
         token = '${res.data['token_type']} ${res.data['access_token']}';
       }
@@ -137,7 +144,7 @@ class CommonService {
   // 获取图形验证码
   static Future<CaptchaModel?> getCaptcha() async {
     CaptchaModel? captcha;
-    await HttpClient().get(captchaApi).then((res) {
+    await HttpClient.instance.get(captchaApi).then((res) {
       if (res.ok) {
         captcha = CaptchaModel.formJson(res.data['captcha']);
       }
@@ -149,7 +156,7 @@ class CommonService {
   static Future<Map> getNoticeList(Map<String, dynamic> params) async {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': params['page']};
     List<NoticeModel> dataList = [];
-    await HttpClient()
+    await HttpClient.instance
         .get(noticeListApi, queryParameters: params)
         .then((response) {
       if (response.ret) {
@@ -170,7 +177,7 @@ class CommonService {
   // 消息设为已读
   static Future<bool> onNoticeRead(Map<String, dynamic> params) async {
     bool res = false;
-    await HttpClient().put(noticeReadApi, data: params).then((response) {
+    await HttpClient.instance.put(noticeReadApi, data: params).then((response) {
       res = response.ok;
     });
     return res;
@@ -179,11 +186,24 @@ class CommonService {
   // 是否有未读消息
   static Future<bool> hasUnReadInfo() async {
     bool res = false;
-    await HttpClient().get(unReadNoticeApi).then((response) {
+    await HttpClient.instance.get(unReadNoticeApi).then((response) {
       if (response.ok) {
         res = response.data['no_read_count'] > 0;
       }
     });
     return res;
+  }
+
+  /*
+    汇率列表
+   */
+  static Future<List<CurrencyRateModel>> getRateList() async {
+    List<CurrencyRateModel> datas = [];
+    await HttpClient().get(exchangeRateApi).then((res) {
+      if (res.ok) {
+        res.data.forEach((item) => datas.add(CurrencyRateModel.from(item)));
+      }
+    });
+    return datas;
   }
 }

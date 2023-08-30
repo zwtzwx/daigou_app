@@ -10,7 +10,7 @@ class StationService {
   static Future<Map> getList([Map<String, dynamic>? params]) async {
     var page = params?['page'] ?? 1;
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
-    await HttpClient()
+    await HttpClient.instance
         .get(
       listApi,
       queryParameters: params,

@@ -37,10 +37,10 @@ class ParcelEditController extends BaseController {
   final countryModel = Rxn<CountryModel?>();
 
   final expressCompanyList = <ExpressCompanyModel>[].obs;
-  final propList = <GoodsPropsModel>[].obs;
+  final propList = <ParcelPropsModel>[].obs;
   final serviceList = <ValueAddedServiceModel>[].obs;
   final wareHouseList = <WareHouseModel>[].obs;
-  final selectedProps = <GoodsPropsModel>[].obs;
+  final selectedProps = <ParcelPropsModel>[].obs;
 
   final propSingle = false.obs;
 

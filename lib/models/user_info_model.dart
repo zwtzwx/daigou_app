@@ -1,18 +1,25 @@
+import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
+import 'package:jiyun_app_client/models/currency_rate_model.dart';
+import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
+import 'package:jiyun_app_client/storage/language_storage.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 
 class UserInfoModel {
   final token = ''.obs;
   final userInfo = Rxn<UserModel?>();
   final accountInfo = Rxn<Map?>();
+  final currencyModel = Rxn<CurrencyRateModel?>();
+  final rateList = <CurrencyRateModel>[].obs;
 
   UserInfoModel() {
     token.value = UserStorage.getToken();
     userInfo.value = UserStorage.getUserInfo();
     accountInfo.value = UserStorage.getAccountInfo();
     refreshToken();
+    initCurrency();
   }
 
   saveInfo(String t, UserModel u) {
@@ -48,5 +55,29 @@ class UserInfoModel {
         token.value = res;
       }
     }
+  }
+
+  initCurrency() async {
+    var currency = await LanguageStore.getCurrency();
+    rateList.value = await CommonService.getRateList();
+    var data = Get.find<LocalizationModel?>();
+    if (currencyModel.value == null) {
+      var _data = CurrencyRateModel(
+        code: currency?['code'] ?? data?.currency ?? '',
+        symbol: currency?['symbol'] ?? data?.currencySymbol,
+      );
+      if (_data.code != data?.currency) {
+        // 获取对应的汇率
+        var index = rateList.indexWhere((e) => e.code == _data.code);
+        if (index != -1) {
+          _data.rate = rateList[index].rate;
+        }
+      }
+      currencyModel.value = _data;
+    }
+  }
+
+  setCurrency(CurrencyRateModel data) async {
+    currencyModel.value = data;
   }
 }

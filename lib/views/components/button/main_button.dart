@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -12,7 +13,7 @@ class MainButton extends StatelessWidget {
     this.borderRadis = 5,
     this.fontWeight = FontWeight.w400,
     this.backgroundColor = BaseStylesConfig.primary,
-    this.textColor = BaseStylesConfig.white,
+    this.textColor = BaseStylesConfig.textDark,
     this.onPressed,
   }) : super(key: key);
 
@@ -27,31 +28,36 @@ class MainButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        if (onPressed != null) {
-          onPressed!();
-        }
-      },
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(backgroundColor),
-        elevation: MaterialStateProperty.all(elevation),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadis),
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minWidth: 70.w,
+      ),
+      child: ElevatedButton(
+        onPressed: () {
+          if (onPressed != null) {
+            onPressed!();
+          }
+        },
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(backgroundColor),
+          elevation: MaterialStateProperty.all(elevation),
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(borderRadis),
+            ),
+          ),
+          side: MaterialStateProperty.all(
+            BorderSide(color: backgroundColor),
           ),
         ),
-        side: MaterialStateProperty.all(
-          BorderSide(color: backgroundColor),
+        child: ZHTextLine(
+          str: text.ts,
+          color: textColor,
+          fontSize: fontSize,
+          fontWeight: fontWeight,
+          alignment: TextAlign.center,
+          lines: 2,
         ),
-      ),
-      child: ZHTextLine(
-        str: text.ts,
-        color: textColor,
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        alignment: TextAlign.center,
-        lines: 2,
       ),
     );
   }

@@ -13,14 +13,15 @@ class GoodsService {
   static const String propConfigApi = 'package/configs';
 
   // 获取属性列表
-  static Future<List<GoodsPropsModel>> getPropList(
+  static Future<List<ParcelPropsModel>> getPropList(
       [Map<String, dynamic>? params]) async {
-    List<GoodsPropsModel> result = List<GoodsPropsModel>.empty(growable: true);
-    await HttpClient()
+    List<ParcelPropsModel> result =
+        List<ParcelPropsModel>.empty(growable: true);
+    await HttpClient.instance
         .get(PROPLIST, queryParameters: params)
         .then((response) => {
               response.data?.forEach((good) {
-                result.add(GoodsPropsModel.fromJson(good));
+                result.add(ParcelPropsModel.fromJson(good));
               })
             });
     return result;
@@ -29,7 +30,7 @@ class GoodsService {
   // 获取属性配置
   static Future<bool> getPropConfig() async {
     bool result = false;
-    await HttpClient().get(propConfigApi).then((res) {
+    await HttpClient.instance.get(propConfigApi).then((res) {
       if (res.ok) {
         result = res.data['package_prop'] == 1;
       }
@@ -43,7 +44,7 @@ class GoodsService {
     List<GoodsCategoryModel> result =
         List<GoodsCategoryModel>.empty(growable: true);
 
-    await HttpClient()
+    await HttpClient.instance
         .get(CATEGORIES, queryParameters: params)
         .then((response) {
       if (response.data != null) {

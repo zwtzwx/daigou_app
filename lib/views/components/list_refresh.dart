@@ -2,6 +2,7 @@
   下单刷新
  */
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/text_config.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
@@ -27,6 +28,10 @@ class ListRefresh extends StatefulWidget {
   final String noMessageTip;
   final bool isCanRemoveCell;
   final ValueChanged<List<dynamic>>? putAlldatas;
+  final double gridViewChildAspectRatio;
+  final double gridViewCrossSpace;
+  final double gridViewMainSpace;
+  final String? emptyImg;
 
   const ListRefresh(
       {Key? key,
@@ -40,8 +45,12 @@ class ListRefresh extends StatefulWidget {
       this.listType = 'ListView',
       this.noMessageTip = '目前还没有数据',
       required this.refresh,
+      this.gridViewChildAspectRatio = 0.8,
       required this.more,
+      this.gridViewCrossSpace = 10,
+      this.gridViewMainSpace = 10,
       this.separator,
+      this.emptyImg,
       this.putAlldatas})
       : super(key: key);
 
@@ -216,9 +225,11 @@ class _ListRefreshState extends State<ListRefresh> {
       case 'GirdView':
         return GridView.builder(
             shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, //一行的Widget数量
-              childAspectRatio: 0.8,
+              childAspectRatio: widget.gridViewChildAspectRatio,
+              crossAxisSpacing: widget.gridViewCrossSpace.w,
+              mainAxisSpacing: widget.gridViewMainSpace.w,
             ),
             itemCount: _items.length,
             itemBuilder: _itemBuilder());

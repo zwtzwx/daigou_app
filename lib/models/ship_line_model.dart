@@ -65,7 +65,7 @@ class ShipLineModel {
   List<RegionModel>? regions;
   num? expireFee;
   LineIconModel? icon;
-  List<GoodsPropsModel>? props;
+  List<ParcelPropsModel>? props;
   List<PriceGradeModel>? priceGrade;
   Map? defaultStation;
   List<SelfPickupStationModel>? selfPickupStations;
@@ -137,8 +137,8 @@ class ShipLineModel {
     id = json['id'];
     // cnName = json['cn_name'];
     // enName = json['en_name'];
-    mode = json['mode'];
-    isGreatValue = json['is_great_value'];
+    mode = json['mode'] ?? 0;
+    isGreatValue = json['is_great_value'] ?? 0;
     iconId = json['icon_id'];
     firstWeight = json['first_weight'];
     firstMoney = json['first_money'];
@@ -150,22 +150,22 @@ class ShipLineModel {
     maxWeight = json['max_weight'];
     referenceTime = json['reference_time'];
     enabled = json['enabled'];
-    remark = json['remark'];
-    createdAt = json['created_at'];
+    remark = json['remark'] ?? '';
+    createdAt = json['created_at'] ?? '';
     // updatedAt = json['updated_at'];
     // companyId = json['company_id'];
-    factor = json['factor'];
-    hasFactor = json['has_factor'];
+    factor = json['factor'] ?? 0;
+    hasFactor = json['has_factor'] ?? 0;
     extraRemarkEnabled = json['extra_remark_enabled'];
     extraRemarkName = json['extra_remark_name'];
     extraRemarkInstruction = json['extra_remark_instruction'];
-    needClearanceCode = json['need_clearance_code'];
-    clearanceCodeRemark = json['clearance_code_remark'];
-    needIdCard = json['need_id_card'];
+    needClearanceCode = json['need_clearance_code'] ?? 0;
+    clearanceCodeRemark = json['clearance_code_remark'] ?? '';
+    needIdCard = json['need_id_card'] ?? 0;
     name = json['name'];
-    isDelivery = json['is_delivery'];
+    isDelivery = json['is_delivery'] ?? 0;
     // defaultPickupStationId = json['default_pickup_station_id'];
-    shouldAutoDelivery = json['should_auto_delivery'];
+    shouldAutoDelivery = json['should_auto_delivery'] ?? 0;
     ceilWeight = json['ceil_weight'];
     weightRise = json['weight_rise'];
     multiBoxes = json['multi_boxes'];
@@ -190,9 +190,9 @@ class ShipLineModel {
     expireFee = json['expire_fee'];
     icon = (json['icon'] != null ? LineIconModel.fromJson(json['icon']) : null);
     if (json['props'] != null) {
-      props = List<GoodsPropsModel>.empty(growable: true);
+      props = List<ParcelPropsModel>.empty(growable: true);
       json['props'].forEach((v) {
-        props!.add(GoodsPropsModel.fromJson(v));
+        props!.add(ParcelPropsModel.fromJson(v));
       });
     }
     defaultStation = json['default_station'];
@@ -220,6 +220,32 @@ class ShipLineModel {
         labels!.add(ShipLineLabelModel.fromJson(v));
       });
     }
+  }
+
+  String get propStr => (props ?? []).map((e) => e.name).join('、');
+
+  String get basePrice {
+    num price = 0;
+    num basePrice = 0;
+    if (region != null) {
+      for (var item in region!.prices!) {
+        if (item.type == 8) {
+          basePrice = item.price;
+        } else if ([0, 2, 3].contains(item.type)) {
+          price = item.price;
+        }
+      }
+      if (mode == 1 || mode == 3 || mode == 4 || (mode == 2 && price != 0)) {
+        return (price / 100).toStringAsFixed(2);
+      } else if (mode == 2) {
+        return (basePrice / 100).toStringAsFixed(2);
+      } else if (mode == 5) {
+        price =
+            region!.prices!.first.price.isNaN ? 0 : region!.prices!.first.price;
+        return (price / 100).toStringAsFixed(2);
+      }
+    }
+    return '0.00';
   }
 
   Map<String, dynamic> toJson() {

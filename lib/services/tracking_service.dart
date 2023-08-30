@@ -13,7 +13,9 @@ class TrackingService {
   static Future<List<TrackingModel>> getList(
       [Map<String, dynamic>? params]) async {
     List<TrackingModel> result = [];
-    await HttpClient().get(listApi, queryParameters: params).then((response) {
+    await HttpClient.instance
+        .get(listApi, queryParameters: params)
+        .then((response) {
       var list = response.data;
       list['data']?.forEach((item) {
         result.add(TrackingModel.fromJson(item));

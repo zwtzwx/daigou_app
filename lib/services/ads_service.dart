@@ -11,7 +11,7 @@ class AdsService {
   static Future<List<AdsPicModel>> getList(
       [Map<String, dynamic>? params]) async {
     List<AdsPicModel> result = [];
-    await HttpClient()
+    await HttpClient.instance
         .get(LISTAPI, queryParameters: params)
         .then((response) => {
               response.data.forEach((good) {

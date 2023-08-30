@@ -1,7 +1,7 @@
 /*
   货物属性
  */
-class GoodsPropsModel {
+class ParcelPropsModel {
   late int id;
   String? cnName;
   String? enName;
@@ -9,9 +9,9 @@ class GoodsPropsModel {
   String? propName;
   // GoodsPropPivotModel? pivot;
 
-  GoodsPropsModel();
+  ParcelPropsModel();
 
-  GoodsPropsModel.fromJson(Map<String, dynamic> json) {
+  ParcelPropsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     cnName = json['cn_name'];
     enName = json['en_name'];

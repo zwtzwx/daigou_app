@@ -3,29 +3,23 @@
  */
 class GoodsCategoryModel {
   late int id;
-  late String nameCn;
-  late String nameEn;
-  late String detail;
-  late String riskWarningTitle;
-  late String riskWarningContent;
-  late num riskWarningEnabled;
+  String? nameCn;
+  String? nameEn;
+  String? detail;
+  String? riskWarningTitle;
+  String? riskWarningContent;
+  num? riskWarningEnabled;
   late String name;
+  String? image;
   // late PivotModel? pivot;
-  late List<GoodsCategoryModel>? children;
-  late bool select;
+  List<GoodsCategoryModel>? children;
+  bool select = false;
 
-  GoodsCategoryModel(
-      {required this.id,
-      required this.nameCn,
-      required this.nameEn,
-      required this.detail,
-      required this.riskWarningTitle,
-      required this.riskWarningContent,
-      required this.riskWarningEnabled,
-      required this.name,
-      // required this.pivot,
-      required this.children,
-      this.select = false});
+  GoodsCategoryModel({
+    required this.id,
+    required this.name,
+    this.image,
+  });
 
   GoodsCategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -45,7 +39,6 @@ class GoodsCategoryModel {
     }
     // pivot =
     // (json['pivot'] != null ? PivotModel.fromJson(json['pivot']) : null)!;
-    select = false;
   }
 
   Map<String, dynamic> toJson() {

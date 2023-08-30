@@ -13,9 +13,9 @@ class PropSheetCell extends StatefulWidget {
     required this.onConfirm,
     this.prop,
   }) : super(key: key);
-  final List<GoodsPropsModel> goodsPropsList;
+  final List<ParcelPropsModel> goodsPropsList;
   final bool propSingle;
-  final List<GoodsPropsModel>? prop;
+  final List<ParcelPropsModel>? prop;
   final Function onConfirm;
   @override
   State<PropSheetCell> createState() => _PropSheetCellState();
@@ -64,7 +64,7 @@ class _PropSheetCellState extends State<PropSheetCell> {
                   ), // 宽高比例
                   itemCount: widget.goodsPropsList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    GoodsPropsModel propmodel = widget.goodsPropsList[index];
+                    ParcelPropsModel propmodel = widget.goodsPropsList[index];
                     return GestureDetector(
                       onTap: () {
                         int id = widget.goodsPropsList[index].id;

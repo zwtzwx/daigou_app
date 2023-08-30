@@ -14,7 +14,9 @@ class ArticleService {
       [Map<String, dynamic>? params]) async {
     List<ArticleModel> dataList = <ArticleModel>[];
 
-    await HttpClient().get(listApi, queryParameters: params).then((response) {
+    await HttpClient.instance
+        .get(listApi, queryParameters: params)
+        .then((response) {
       var list = response.data;
 
       list.forEach((item) {
@@ -27,7 +29,7 @@ class ArticleService {
   // 投诉建议
   static void onSuggestion(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    await HttpClient().post(suggestionApi, queryParameters: params).then((res) {
+    await HttpClient.instance.post(suggestionApi, data: params).then((res) {
       if (res.ok) {
         onSuccess(res.msg);
       } else {

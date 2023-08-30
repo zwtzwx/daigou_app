@@ -68,7 +68,7 @@ class UserService {
   // 微信登陆switch
   static Future<Map> isShowWechat() async {
     Map? result;
-    await HttpClient()
+    await HttpClient.instance
         .get(WeChatSwitch)
         .then((response) => {result = response.data}, onError: (ret, msg) {
       result = {
@@ -98,8 +98,8 @@ class UserService {
   // 注册
   static Future<Map> register(Map<String, dynamic> params) async {
     Map res = {'ok': false, 'msg': ''};
-    await HttpClient()
-        .post(UserService.registerApi, queryParameters: params)
+    await HttpClient.instance
+        .post(UserService.registerApi, data: params)
         .then((response) {
       res = {
         'ok': response.ok,
@@ -113,8 +113,8 @@ class UserService {
   // 账号密码登录
   static Future<TokenModel?> login(Map<String, dynamic> params) async {
     TokenModel? token;
-    await HttpClient()
-        .post(UserService.LOGIN, queryParameters: params)
+    await HttpClient.instance
+        .post(UserService.LOGIN, data: params)
         .then((response) {
       token = _loginResult(response);
     });
@@ -126,8 +126,8 @@ class UserService {
   static Future<TokenModel?> loginWithFirebase(
       Map<String, dynamic> params) async {
     TokenModel? token;
-    await HttpClient()
-        .post(UserService.LoginWithFirebase, queryParameters: params)
+    await HttpClient.instance
+        .post(UserService.LoginWithFirebase, data: params)
         .then((response) {
       token = _loginResult(response);
     });
@@ -142,8 +142,8 @@ class UserService {
       'code': params['code'],
     };
     TokenModel? token;
-    await HttpClient()
-        .post(LoginWithWeChat, queryParameters: params)
+    await HttpClient.instance
+        .post(LoginWithWeChat, data: params)
         .then((response) {
       token = _loginResult(response);
     });
@@ -152,8 +152,8 @@ class UserService {
 
   static Future<TokenModel?> loginBy(Map<String, dynamic> params) async {
     TokenModel? token;
-    await HttpClient()
-        .post(VeritfyCodeLOGIN, queryParameters: params)
+    await HttpClient.instance
+        .post(VeritfyCodeLOGIN, data: params)
         .then((response) {
       token = _loginResult(response);
     });
@@ -166,8 +166,8 @@ class UserService {
    */
   static Future getVerifyCode(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    await HttpClient()
-        .post(GETVERIFYCODE, queryParameters: params)
+    await HttpClient.instance
+        .post(GETVERIFYCODE, data: params)
         .then((response) {
       if (response.ok) {
         return onSuccess(response);
@@ -179,7 +179,7 @@ class UserService {
 
   static Future getShareInfo(
       Map<String, dynamic>? params, OnSuccess onSuccess, OnFail onFail) async {
-    await HttpClient()
+    await HttpClient.instance
         .get(USERSHAREINFO, queryParameters: params)
         .then((response) => {
               // String jsonStr = convert.jsonEncode(response.data);
@@ -197,7 +197,9 @@ class UserService {
   static Future<UserOrderCountModel?> getOrderDataCount(
       [Map<String, dynamic>? params]) async {
     UserOrderCountModel? model;
-    await HttpClient().get(INDEX, queryParameters: params).then((response) {
+    await HttpClient.instance
+        .get(INDEX, queryParameters: params)
+        .then((response) {
       model = UserOrderCountModel.fromJson(response.data);
     }).onError((error, stackTrace) {});
     return model;
@@ -210,7 +212,7 @@ class UserService {
   static Future<UserVipModel?> getVipMemberData(
       [Map<String, dynamic>? params]) async {
     UserVipModel? model;
-    await HttpClient()
+    await HttpClient.instance
         .get(UserMemberInfo, queryParameters: params)
         .then((response) {
       model = UserVipModel.fromJson(response.data);
@@ -229,7 +231,7 @@ class UserService {
   static Future<UserAgentStatusModel?> getAgentStatus(
       [Map<String, dynamic>? params]) async {
     UserAgentStatusModel? result;
-    await HttpClient()
+    await HttpClient.instance
         .get(AgentStatus, queryParameters: params)
         .then((response) {
       result = UserAgentStatusModel.fromId(response.data);
@@ -243,7 +245,7 @@ class UserService {
   static Future<UserModel?> getProfile() async {
     UserModel? result;
 
-    await HttpClient().get(userProfileApi).then((response) {
+    await HttpClient.instance.get(userProfileApi).then((response) {
       result = UserModel.fromJson(response.data);
     });
     return result;
@@ -255,9 +257,7 @@ class UserService {
   static Future<Map> updateByModel(Map<String, dynamic> params) async {
     Map result = {'ok': false, 'msg': ''};
 
-    await HttpClient()
-        .put(userEditApi, queryParameters: params)
-        .then((response) {
+    await HttpClient.instance.put(userEditApi, data: params).then((response) {
       result = {
         'ok': response.ok,
         'data': UserModel.fromJson(response.data),
@@ -275,8 +275,8 @@ class UserService {
   static Future<bool> updateByMap(Map<String, dynamic> params) async {
     bool result = false;
 
-    await HttpClient()
-        .put(userEditNameAndAvaterApi, queryParameters: params)
+    await HttpClient.instance
+        .put(userEditNameAndAvaterApi, data: params)
         .then((response) {
       result = response.ok;
     });
@@ -289,7 +289,9 @@ class UserService {
    */
   static Future<void> changePhone(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    await HttpClient().post(changePhoneApi, data: params).then((response) {
+    await HttpClient.instance
+        .post(changePhoneApi, data: params)
+        .then((response) {
       if (response.ok) {
         onSuccess(response.msg);
       } else {
@@ -303,7 +305,9 @@ class UserService {
    */
   static Future<void> changeEmail(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    await HttpClient().post(changeEmailApi, data: params).then((response) {
+    await HttpClient.instance
+        .post(changeEmailApi, data: params)
+        .then((response) {
       if (response.ok) {
         onSuccess(response.msg);
       } else {
@@ -317,7 +321,7 @@ class UserService {
    */
   static Future<void> bindEmail(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    await HttpClient().post(bindEmailApi, data: params).then((response) {
+    await HttpClient.instance.post(bindEmailApi, data: params).then((response) {
       if (response.ok) {
         onSuccess(response.msg);
       } else {
@@ -332,7 +336,9 @@ class UserService {
   static Future<TokenModel?> resetPaswordAndLogin(
       Map<String, dynamic> params) async {
     TokenModel? token;
-    await HttpClient().put(resetPaswordApi, data: params).then((response) {
+    await HttpClient.instance
+        .put(resetPaswordApi, data: params)
+        .then((response) {
       token = _loginResult(response);
     });
     return token;
@@ -343,7 +349,7 @@ class UserService {
    */
   static Future<bool> getThirdLoginStatus() async {
     bool result = false;
-    await HttpClient().get(thirdLoginStatusApi).then((res) {
+    await HttpClient.instance.get(thirdLoginStatusApi).then((res) {
       if (res.ok && res.data['status'] == 1) {
         result = true;
       }
@@ -356,7 +362,7 @@ class UserService {
    */
   static Future<Map> userDeletion() async {
     Map result = {'ok': false, 'msg': ''};
-    await HttpClient().put(deletionApi).then((res) {
+    await HttpClient.instance.put(deletionApi).then((res) {
       result = {
         'ok': res.ok,
         'msg': res.msg ?? res.error!.message,
@@ -370,7 +376,7 @@ class UserService {
    */
   static Future<Map> onChangePassword(Map<String, dynamic> params) async {
     Map result = {'ok': false, 'msg': ''};
-    await HttpClient().post(passwordApi, queryParameters: params).then((res) {
+    await HttpClient.instance.post(passwordApi, data: params).then((res) {
       result = {
         'ok': res.ok,
         'msg': res.msg ?? res.error!.message,

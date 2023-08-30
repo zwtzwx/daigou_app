@@ -20,9 +20,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   //传入可能的登录用户
-  // var userInfo = await UserStorage.getUserInfo();
-  // var token = await UserStorage.getToken();
-  // var language = await LanguageStore.getLanguage();
   await dotenv.load(fileName: ".env");
   await GlobalInject.init();
   // 初始化 Firebase
@@ -34,15 +31,10 @@ void main() async {
     SystemUiOverlayStyle systemUiOverlayStyle =
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-    // SystemChrome.setEnabledSystemUIOverlays([]); //隐藏状态栏
   }
 }
 
 class MyApp extends StatefulWidget {
-  // final String token;
-  // final UserModel? userInfo;
-  // final String language;
-
   const MyApp({
     Key? key,
   }) : super(key: key);
@@ -84,6 +76,7 @@ class _MyAppState extends State<MyApp> {
                 backgroundColor: BaseStylesConfig.bgGray,
                 canvasColor: Colors.white,
               ),
+              onGenerateRoute: (settings) => Routers.run(settings),
               showSemanticsDebugger: false,
               debugShowCheckedModeBanner: false,
               getPages: Routers.routes,

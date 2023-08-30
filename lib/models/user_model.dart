@@ -4,7 +4,7 @@ import 'package:jiyun_app_client/models/profile_model.dart';
   用户基本资料
  */
 class UserModel {
-  late num id;
+  late dynamic id;
   late String uid;
   late String? openId;
   late num userGroupId;

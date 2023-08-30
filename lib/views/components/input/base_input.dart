@@ -23,6 +23,7 @@ class BaseInput extends StatefulWidget {
       this.onTab,
       this.autoShowRemove = true,
       this.maxLines = 1,
+      this.minLines = 1,
       this.prefixIcon,
       this.onEditingComplete,
       this.onChanged,
@@ -33,6 +34,8 @@ class BaseInput extends StatefulWidget {
       this.hintStyle = TextConfig.textGray14,
       this.showDone = true,
       this.textInputAction = TextInputAction.next,
+      this.autoRemoveController = true,
+      this.border,
       this.contentPadding = const EdgeInsets.symmetric(vertical: 16.0)})
       : super(key: key);
 
@@ -55,12 +58,15 @@ class BaseInput extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onSubmitted;
   final int maxLines;
+  final int minLines;
   final Icon? prefixIcon;
   final TextInputAction? textInputAction;
   final EdgeInsets? contentPadding;
   final TextStyle? style;
   final bool isSearchInput;
   final bool showDone;
+  final bool autoRemoveController;
+  final InputBorder? border;
 
   /// 用于集成测试寻找widget
   final String? keyName;
@@ -112,27 +118,31 @@ class _BaseInputState extends State<BaseInput> {
 
   @override
   void dispose() {
-    widget.controller.removeListener(() {});
-    widget.controller.dispose();
+    if (widget.autoRemoveController) {
+      widget.controller.removeListener(() {});
+      widget.controller.dispose();
+    }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     var inputDecoration = InputDecoration(
-        fillColor: widget.board ? BaseStylesConfig.line : Colors.white,
+        fillColor: widget.board ? BaseStylesConfig.bgGray : Colors.white,
         filled: true,
         contentPadding: widget.contentPadding,
         hintText: widget.hintText,
         hintStyle: widget.hintStyle,
         isCollapsed: widget.isCollapsed,
         prefixIcon: widget.prefixIcon,
+        border: widget.border,
         suffixIcon: (_isShowRemove && _isFoucsed && widget.suffix == null)
             ? GestureDetector(
                 // padding: const EdgeInsets.all(0),
                 child: const Icon(
                   Icons.cancel,
                   size: 20,
+                  color: BaseStylesConfig.textGray,
                 ),
                 onTap: () {
                   setState(() {
@@ -162,6 +172,7 @@ class _BaseInputState extends State<BaseInput> {
         maxLength: widget.maxLength,
         textAlign: widget.textAlign,
         maxLines: widget.maxLines,
+        minLines: widget.minLines,
         obscureText: widget.isScureText,
         autofocus: widget.autoFocus,
         controller: widget.controller,

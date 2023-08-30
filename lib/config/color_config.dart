@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 //颜色配置
 class BaseStylesConfig {
-  static const Color primary = Color(0xFF0E6224);
+  static const Color primary = Color(0xFFFFE300);
   static const Color themeRed = Color(0xffe4382d);
   static const Color white = Color(0xFFFFFFFF);
   static const Color whiteGray = Color(0xFFF8F8F8);
@@ -16,11 +16,12 @@ class BaseStylesConfig {
   static const Color textGrayC = Color(0xFFcccccc);
   static const Color textGrayCS = Color(0x72F0F0F0);
   static const Color textGrayC9 = Color(0xFF999999);
-  static const Color bgGray = Color(0xFFF5F5F5); //Color(0xFFF0F0F0)
+  static const Color bgGray = Color(0xFFF6F6F6); //Color(0xFFF0F0F0)
   static const Color line = Color(0xffF0F0F0);
   static const Color orderLine = Color(0xFFDDDDDD);
   static const Color textRed = Color(0xFFFF4759);
   static const Color main = Color(0xFF9FA2C2);
+  static const Color groupText = Color(0xFFF06838);
   static const Color vipBG = Color(0xFFAE886D);
   static const Color vipNormal = Color(0xFFab8d3b);
   static const Color warningBg = Color(0xFFFFFDE7);

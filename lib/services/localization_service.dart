@@ -11,7 +11,7 @@ class LocalizationService {
   static Future<LocalizationModel?> getInfo(
       [Map<String, dynamic>? params]) async {
     LocalizationModel? result;
-    await HttpClient()
+    await HttpClient.instance
         .get(LISTAPI, queryParameters: params)
         .then(
             (response) => {result = LocalizationModel.fromJson(response.data)})
