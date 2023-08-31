@@ -8,10 +8,10 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/common/hex_to_color.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/user_vip_level_model.dart';
 import 'package:jiyun_app_client/models/user_vip_price_model.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
@@ -339,8 +339,7 @@ class VipCenterView extends GetView<VipCenterController> {
                         // ),
                         ZHTextLine(
                           // 会员价格
-                          str: (controller.localModel?.currencySymbol ?? '') +
-                              (model.price / 100).toString(),
+                          str: model.price.rate(),
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                           color: BaseStylesConfig.textRed,
@@ -348,11 +347,8 @@ class VipCenterView extends GetView<VipCenterController> {
                         Stack(
                           children: [
                             ZHTextLine(
-                              str: model.type != 1
-                                  ? (controller.localModel?.currencySymbol ??
-                                          '') +
-                                      (model.basePrice / 100).toString()
-                                  : '',
+                              str:
+                                  model.type != 1 ? model.basePrice.rate() : '',
                               fontSize: 12,
                               fontWeight: FontWeight.w300,
                               color: BaseStylesConfig.textGray,

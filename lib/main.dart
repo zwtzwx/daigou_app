@@ -76,7 +76,6 @@ class _MyAppState extends State<MyApp> {
                 backgroundColor: BaseStylesConfig.bgGray,
                 canvasColor: Colors.white,
               ),
-              onGenerateRoute: (settings) => Routers.run(settings),
               showSemanticsDebugger: false,
               debugShowCheckedModeBanner: false,
               getPages: Routers.routes,

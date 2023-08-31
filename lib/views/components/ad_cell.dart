@@ -25,7 +25,7 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
   void initState() {
     super.initState();
     getAds();
-    ApplicationEvent.getInstance().event.on<HomeRefreshEvent>().listen((event) {
+    ApplicationEvent.getInstance().event.on<PageRefreshEvent>().listen((event) {
       getAds();
     });
   }

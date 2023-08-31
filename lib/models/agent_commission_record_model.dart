@@ -9,6 +9,7 @@ class AgentCommissionRecordModel {
   late String createdAt;
   late List<AgentCommissionsModel> data;
   bool isOpen = false;
+  int? id;
 
   AgentCommissionRecordModel({
     required this.commissionAmount,

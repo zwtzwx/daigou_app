@@ -19,6 +19,8 @@ class ParcelListController extends BaseController
   final pageIndex = 0.obs;
   int currentWarehouse = 0;
   final type = 1.obs;
+  final checkedIds = <int>[].obs;
+  final allIds = [];
 
   @override
   void onReady() {
@@ -42,6 +44,8 @@ class ParcelListController extends BaseController
 
   onPageChange(int index) {
     currentWarehouse = warehouseList[index].id!;
+    checkedIds.clear();
+    allIds.clear();
     tabController?.animateTo(index);
   }
 
@@ -51,11 +55,15 @@ class ParcelListController extends BaseController
   }
 
   loadMoreList() async {
-    return await ParcelService.getList({
+    var data = await ParcelService.getList({
       'status': type, // 未入库包裹
       'warehouse_id': currentWarehouse,
       'page': (++pageIndex.value),
     });
+    if (data['dataList'] is List) {
+      allIds.addAll(data['dataList'].map((e) => e.id).toList());
+    }
+    return data;
   }
 
   // 删除包裹
@@ -71,6 +79,14 @@ class ParcelListController extends BaseController
       ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
     } else {
       showToast('删除包裹失败');
+    }
+  }
+
+  onChecked(id) {
+    if (checkedIds.contains(id)) {
+      checkedIds.remove(id);
+    } else {
+      checkedIds.add(id);
     }
   }
 }

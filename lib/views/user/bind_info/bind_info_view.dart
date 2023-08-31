@@ -98,7 +98,7 @@ class BindInfoView extends GetView<BindInfoController> {
                               ? '请输入新邮箱'.ts
                               : '请输入新号码'.ts,
                           textAlign: TextAlign.left,
-                          contentPadding: const EdgeInsets.only(top: 15),
+                          contentPadding: const EdgeInsets.only(left: 0),
                           controller: controller.newNumberController,
                           focusNode: controller.newNumber,
                           autoFocus: false,
@@ -127,7 +127,7 @@ class BindInfoView extends GetView<BindInfoController> {
                             child: NormalInput(
                           hintText: '请输入验证码'.ts,
                           textAlign: TextAlign.left,
-                          contentPadding: const EdgeInsets.only(top: 15),
+                          contentPadding: const EdgeInsets.only(left: 0),
                           controller: controller.validationController,
                           focusNode: controller.validation,
                           autoFocus: false,

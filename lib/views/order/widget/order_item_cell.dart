@@ -235,6 +235,73 @@ class OrderItemCell extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
+        orderModel.status == OrderStatus.checking.id
+            ? ZHTextLine(
+                str: '等待客服确认支付'.ts,
+                fontSize: 14,
+                color: BaseStylesConfig.textRed,
+              )
+            : Sized.empty,
+        [OrderStatus.waitPay.id, OrderStatus.checkFailure.id]
+                    .contains(orderModel.status) &&
+                orderModel.onDeliveryStatus != 11 &&
+                orderModel.groupMode == 0
+            ? Container(
+                margin: const EdgeInsets.only(left: 10),
+                child: MainButton(
+                  text: (orderModel.status == OrderStatus.waitPay.id ||
+                          orderModel.onDeliveryStatus == 1 ||
+                          orderModel.paymentStatus == 1)
+                      ? '去付款'
+                      : '重新支付',
+                  onPressed: () async {
+                    var s = await Navigator.pushNamed(context, '/OrderPayPage',
+                        arguments: {
+                          'id': orderModel.id,
+                          'payModel': 1,
+                          'deliveryStatus': orderModel.onDeliveryStatus,
+                        });
+                    if (s != null) {
+                      ApplicationEvent.getInstance()
+                          .event
+                          .fire(ListRefreshEvent(type: 'refresh'));
+                    }
+                  },
+                ),
+              )
+            : Sized.empty,
+        [OrderStatus.waitPay.id, OrderStatus.checkFailure.id]
+                    .contains(orderModel.status) &&
+                orderModel.groupMode != 0 &&
+                orderModel.isLeaderOrder
+            ? Expanded(
+                child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const ZHTextLine(
+                    str: '该团购单为团长代款,请您及时付款',
+                    fontSize: 14,
+                    color: BaseStylesConfig.textRed,
+                  ),
+                  MainButton(
+                    text: '去付款',
+                    onPressed: () {
+                      Routers.push('/OrderPayPage', {'id': orderModel.id});
+                    },
+                  ),
+                ],
+              ))
+            : Sized.empty,
+        [OrderStatus.waitPay.id, OrderStatus.checkFailure.id]
+                    .contains(orderModel.status) &&
+                orderModel.groupMode != 0 &&
+                !orderModel.isLeaderOrder
+            ? ZHTextLine(
+                str: '该团购单为团长代款,您无需支付'.ts,
+                fontSize: 14,
+                color: BaseStylesConfig.textRed,
+              )
+            : Sized.empty,
         [4, 5].contains(orderModel.status)
             ? PlainButton(
                 text: '查看物流',

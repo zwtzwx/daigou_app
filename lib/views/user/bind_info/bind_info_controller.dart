@@ -65,7 +65,6 @@ class BindInfoController extends BaseController {
   // 发送验证码
   onGetCode() {
     if (isButtonEnable.value) {
-      showLoading();
       //当按钮可点击时   action  动作 1 绑定邮箱 2 更改邮箱 3 更改手机号 4 邮箱登录 5 手机登录
       UserService.getVerifyCode({
         'receiver': (flagBool.value == 1 ? timezone.value : '') +
@@ -76,25 +75,19 @@ class BindInfoController extends BaseController {
                 ? 2 // 更改邮箱
                 : 1 // 绑定邮箱
       }, (data) {
-        hideLoading();
         if (data.ok) {
-          showSuccess(data.msg);
           _buttonClickListen();
         }
-      }, (message) {
-        hideLoading();
-        showError(message);
-      });
+      }, (message) {});
     }
   }
 
   // 绑定
   onSubmit() async {
-    showLoading();
     if (flagBool.value == 1) {
       Map<String, dynamic> params = {
         'phone': newNumberController.text,
-        'code': verifyCode,
+        'code': verifyCode.value,
       };
       await UserService.changePhone(params, (msg) {
         onResult(true, msg);
@@ -102,7 +95,7 @@ class BindInfoController extends BaseController {
     } else {
       Map<String, dynamic> params = {
         'email': newNumberController.text,
-        'code': verifyCode,
+        'code': verifyCode.value,
       };
       if (emailFlag.value) {
         await UserService.changeEmail(params, (msg) {
@@ -117,13 +110,8 @@ class BindInfoController extends BaseController {
   }
 
   onResult(bool ok, String msg) {
-    hideLoading();
     if (ok) {
-      showSuccess(msg).then((value) {
-        Routers.pop();
-      });
-    } else {
-      showError(msg);
+      Routers.pop();
     }
   }
 

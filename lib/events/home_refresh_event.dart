@@ -1,3 +1,4 @@
-class HomeRefreshEvent {
-  HomeRefreshEvent();
+class PageRefreshEvent {
+  String page;
+  PageRefreshEvent({required this.page});
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/instance_manager.dart';
+import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/common/hex_to_color.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
@@ -16,9 +19,13 @@ class ParcelItemCell extends StatelessWidget {
     Key? key,
     required this.model,
     this.index,
+    this.onChecked,
+    this.checkedIds,
   }) : super(key: key);
   final ParcelModel model;
   final int? index;
+  final Function? onChecked;
+  final List<int>? checkedIds;
 
   @override
   Widget build(BuildContext context) {
@@ -37,67 +44,98 @@ class ParcelItemCell extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
-                  alignment: Alignment.centerLeft,
-                  height: 30,
-                  margin: const EdgeInsets.only(
-                      top: 10, left: 15, right: 15, bottom: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          const LoadImage(
-                            'PackageAndOrder/package',
-                            width: 23,
-                            height: 23,
-                          ),
-                          Sized.hGap10,
-                          ZHTextLine(
-                            fontSize: 16,
-                            str: model.expressNum!,
-                            color: HexToColor('#8a8a8a'),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          model.isExceptional == 1
-                              ? GestureDetector(
-                                  onTap: () {
-                                    BaseDialog.normalDialog(
-                                      context,
-                                      title: '异常件提示'.ts,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 20, horizontal: 15),
-                                        child: ZHTextLine(
-                                          str: model.exceptionalRemark!,
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                    alignment: Alignment.centerLeft,
+                    color: Colors.transparent,
+                    height: 30,
+                    margin: const EdgeInsets.only(
+                        top: 10, left: 15, right: 15, bottom: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            model.status == 2
+                                ? (model.notConfirmed == 1
+                                    ? const Icon(
+                                        Icons.error_outline,
+                                        color: BaseStylesConfig.textRed,
+                                      )
+                                    : Obx(
+                                        () => SizedBox(
+                                          width: 20.w,
+                                          height: 20.w,
+                                          child: Checkbox(
+                                            value: (checkedIds ?? [])
+                                                .contains(model.id),
+                                            shape: const CircleBorder(),
+                                            activeColor:
+                                                BaseStylesConfig.primary,
+                                            checkColor: Colors.black,
+                                            onChanged: (value) {
+                                              if (onChecked != null) {
+                                                onChecked!(model.id);
+                                              }
+                                            },
+                                          ),
                                         ),
+                                      ))
+                                : Sized.empty,
+                            model.status == 2 ? 5.horizontalSpace : Sized.empty,
+                            const LoadImage(
+                              'PackageAndOrder/package',
+                              width: 23,
+                              height: 23,
+                            ),
+                            Sized.hGap10,
+                            ZHTextLine(
+                              fontSize: 16,
+                              str: model.expressNum!,
+                              color: HexToColor('#8a8a8a'),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            model.isExceptional == 1
+                                ? GestureDetector(
+                                    onTap: () {
+                                      BaseDialog.normalDialog(
+                                        context,
+                                        title: '异常件提示'.ts,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 20, horizontal: 15),
+                                          child: ZHTextLine(
+                                            str: model.exceptionalRemark!,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      color: Colors.red[700],
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 2, horizontal: 5),
+                                      child: ZHTextLine(
+                                        str: '异常件'.ts,
+                                        color: Colors.white,
+                                        fontSize: 12,
                                       ),
-                                    );
-                                  },
-                                  child: Container(
-                                    color: Colors.red[700],
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 2, horizontal: 5),
-                                    child: ZHTextLine(
-                                      str: '异常件'.ts,
-                                      color: Colors.white,
-                                      fontSize: 12,
                                     ),
-                                  ),
-                                )
-                              : Container(),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 14,
-                            color: HexToColor('#8a8a8a'),
-                          )
-                        ],
-                      ),
-                    ],
-                  )),
+                                  )
+                                : Container(),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 14,
+                              color: HexToColor('#8a8a8a'),
+                            )
+                          ],
+                        ),
+                      ],
+                    )),
+              ),
               Sized.line,
               model.remark != null && model.remark!.isNotEmpty
                   ? Padding(
@@ -190,8 +228,7 @@ class ParcelItemCell extends StatelessWidget {
                           Sized.vGap10,
                           ZHTextLine(
                             str: '${model.packageName} ' +
-                                (controller.localModel?.currencySymbol ?? '') +
-                                (model.packageValue! / 100).toStringAsFixed(2),
+                                (model.packageValue!).rate(),
                           ),
                         ],
                       ),
@@ -231,7 +268,7 @@ class ParcelItemCell extends StatelessWidget {
                         ? Padding(
                             padding: const EdgeInsets.only(top: 3),
                             child: ZHTextLine(
-                              str: '入库时间'.ts + '：${model.inStorageAt}',
+                              str: '入库时间'.ts + '：${model.inStorageAt ?? ''}',
                               fontSize: 13,
                               color: BaseStylesConfig.textGray,
                             ),
@@ -326,6 +363,9 @@ class ParcelItemCell extends StatelessWidget {
                             : Sized.empty,
                         Sized.hGap10,
                         PlainButton(
+                          textColor: Colors.black,
+                          borderRadis: 999,
+                          fontSize: 14,
                           text: model.notConfirmed == 1 ? '补全信息' : '修改',
                           onPressed: () {
                             Routers.push(Routers.editParcel,

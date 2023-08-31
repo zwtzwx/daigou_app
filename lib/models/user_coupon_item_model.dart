@@ -28,6 +28,9 @@ class UserCouponItemModel {
   late String createdAt;
   late String updatedAt;
   late List<Map> usableLines;
+  int? discountType;
+  num? weight;
+  num? minWeight;
 
   UserCouponItemModel(
       {required this.id,
@@ -64,6 +67,7 @@ class UserCouponItemModel {
     amount = json['amount'];
     threshold = json['threshold'];
     enabled = json['enabled'];
+    discountType = json['discount_type'];
     totalCount = json['total_count'];
     usedCount = json['used_count'];
     expiredAt = json['expired_at'];
@@ -81,6 +85,8 @@ class UserCouponItemModel {
     ignoreLaunchCount = json['ignore_launch_count'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    weight = json['weight'];
+    minWeight = json['min_weight'];
     if (json['usable_lines'] != null) {
       usableLines = <Map>[];
       json['usable_lines'].forEach((v) {
@@ -96,6 +102,7 @@ class UserCouponItemModel {
     data['name'] = name;
     data['coupon_type_id'] = couponTypeId;
     data['amount'] = amount;
+
     data['threshold'] = threshold;
     data['enabled'] = enabled;
     data['total_count'] = totalCount;

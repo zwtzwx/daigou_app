@@ -188,4 +188,36 @@ class BaseDialog {
       Routers.push(Routers.orderTracking, {"order_sn": result});
     }
   }
+
+  // 底部 actionSheet
+  static Future<T?> showBottomActionSheet<T>({
+    required BuildContext context,
+    required List<Map<String, dynamic>> list,
+    bool translation = true,
+  }) {
+    return showCupertinoModalPopup<T>(
+      context: context,
+      builder: (context) {
+        return CupertinoActionSheet(
+          actions: list
+              .map(
+                (e) => CupertinoActionSheetAction(
+                  child:
+                      Text(translation ? (e['name'] as String).ts : e['name']),
+                  onPressed: () {
+                    Navigator.of(context).pop(e['id']);
+                  },
+                ),
+              )
+              .toList(),
+          cancelButton: CupertinoActionSheetAction(
+            child: Text('取消'.ts),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        );
+      },
+    );
+  }
 }

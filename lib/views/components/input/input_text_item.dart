@@ -15,6 +15,7 @@ class InputTextItem extends StatefulWidget {
       this.leftFlex = 1,
       this.rightFlex = 3,
       this.isRequired = false,
+      this.bgColor,
       this.alignment = CrossAxisAlignment.center,
       this.height = 55.0})
       : super(key: key);
@@ -29,6 +30,7 @@ class InputTextItem extends StatefulWidget {
   final double height;
   final bool isRequired;
   final CrossAxisAlignment alignment;
+  final Color? bgColor;
 
   @override
   _InputTextItemState createState() => _InputTextItemState();
@@ -47,7 +49,7 @@ class _InputTextItemState extends State<InputTextItem> {
             : const EdgeInsets.all(0),
         width: double.infinity,
         decoration: BoxDecoration(
-            color: BaseStylesConfig.white,
+            color: widget.bgColor ?? BaseStylesConfig.white,
             border: Border(
               bottom: Divider.createBorderSide(context,
                   color: BaseStylesConfig.line, width: widget.flag ? 1 : 0),

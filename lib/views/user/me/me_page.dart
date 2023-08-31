@@ -44,22 +44,22 @@ class MeView extends GetView<MeController> {
       {
         'name': '我的余额',
         'icon': 'AboutMe/center-yue',
-        'route': Routers.profile,
+        'route': Routers.recharge,
       },
       {
         'name': '优惠券',
         'icon': 'AboutMe/center-coupon',
-        'route': Routers.profile,
+        'route': Routers.coupon,
       },
       {
         'name': '佣金收入',
         'icon': 'AboutMe/center-yj',
-        'route': Routers.profile,
+        'route': Routers.agentCommission,
       },
       {
         'name': '我的积分',
         'icon': 'AboutMe/center-point',
-        'route': Routers.profile,
+        'route': Routers.point,
       },
     ];
     List<Map<String, dynamic>> orderList = [
@@ -76,7 +76,7 @@ class MeView extends GetView<MeController> {
       {
         'name': '集运/转运包裹',
         'icon': 'AboutMe/parcel',
-        'route': Routers.profile,
+        'route': Routers.orderCenter,
       },
     ];
     List<Map<String, dynamic>> list1 = [
@@ -96,16 +96,16 @@ class MeView extends GetView<MeController> {
         'icon': 'AboutMe/pay-record-icon',
         'route': Routers.transaction,
       },
-      {
-        'name': '一键预报',
-        'icon': 'AboutMe/chorme',
-        'route': Routers.transaction,
-      },
-      {
-        'name': '取件列表',
-        'icon': 'AboutMe/smqj',
-        'route': Routers.transaction,
-      },
+      // {
+      //   'name': '一键预报',
+      //   'icon': 'AboutMe/chorme',
+      //   'route': Routers.transaction,
+      // },
+      // {
+      //   'name': '取件列表',
+      //   'icon': 'AboutMe/smqj',
+      //   'route': Routers.transaction,
+      // },
       {
         'name': '我的咨询',
         'icon': 'AboutMe/kefu',
@@ -114,7 +114,7 @@ class MeView extends GetView<MeController> {
       {
         'name': '代理',
         'icon': 'AboutMe/proxy-icon',
-        'route': Routers.transaction,
+        'route': Routers.agentApply,
       },
       {
         'name': '更改手机号',
@@ -205,7 +205,16 @@ class MeView extends GetView<MeController> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  Routers.push(list[index]['route']);
+                  if (list[index]['route'] == Routers.agentApply) {
+                    if (controller.agentStatus.value?.id == 1) {
+                      // 代理
+                      Routers.push(Routers.agentMember);
+                    } else {
+                      Routers.push(list[index]['route'], list[index]['params']);
+                    }
+                  } else {
+                    Routers.push(list[index]['route'], list[index]['params']);
+                  }
                 },
                 child: Container(
                   color: Colors.transparent,

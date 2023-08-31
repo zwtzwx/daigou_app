@@ -155,7 +155,6 @@ class WarehouseView extends GetView<WarehouseController> {
                       },
                       child: ZHTextLine(
                         str: '复制'.ts,
-                        color: BaseStylesConfig.primary,
                         fontSize: 14,
                       ),
                     ),

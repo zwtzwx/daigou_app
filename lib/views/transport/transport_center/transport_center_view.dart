@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/ad_cell.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -53,7 +53,7 @@ class TransportCenterView extends GetView<TransportCenterController> {
                 ),
                 25.verticalSpaceFromWidth,
                 RecommandShipLinesCell(
-                  localModel: controller.localModel,
+                  currencySymbol: controller.currencyModel.value,
                 ),
                 const RecommendGroupCell(size: 2),
                 30.verticalSpaceFromWidth,
@@ -68,9 +68,9 @@ class TransportCenterView extends GetView<TransportCenterController> {
 
   Widget mainModuleCell() {
     List<Map<String, String>> links = [
-      {'img': 'zy', 'name': '我要直邮', 'route': ''},
+      {'img': 'zy', 'name': '我要直邮', 'route': Routers.forecast},
       {'img': 'smqj', 'name': '我要拼邮', 'route': ''},
-      {'img': 'py', 'name': '上门取件', 'route': ''},
+      {'img': 'py', 'name': '自提点', 'route': Routers.station},
     ];
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -83,19 +83,24 @@ class TransportCenterView extends GetView<TransportCenterController> {
           childAspectRatio: 11 / 7,
         ),
         itemCount: links.length,
-        itemBuilder: (context, index) => Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.w),
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                  'assets/images/Transport/${links[index]['img']}.png'),
-              fit: BoxFit.fill,
+        itemBuilder: (context, index) => GestureDetector(
+          onTap: () {
+            Routers.push(links[index]['route']!);
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.w),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                    'assets/images/Transport/${links[index]['img']}.png'),
+                fit: BoxFit.fill,
+              ),
             ),
-          ),
-          child: ZHTextLine(
-            str: links[index]['name']!.ts,
-            fontSize: 14,
-            lines: 3,
+            child: ZHTextLine(
+              str: links[index]['name']!.ts,
+              fontSize: 14,
+              lines: 3,
+            ),
           ),
         ),
       ),
@@ -104,14 +109,14 @@ class TransportCenterView extends GetView<TransportCenterController> {
 
   Widget linksCell() {
     List<Map<String, String>> list1 = [
-      {'img': 'ckdz', 'name': '仓库地址', 'route': ''},
-      {'img': 'yfss', 'name': '运费失算', 'route': ''},
-      {'img': 'wlgz', 'name': '物流查询', 'route': ''},
-      {'img': 'order', 'name': '我的订单', 'route': ''},
+      {'img': 'ckdz', 'name': '仓库地址', 'route': Routers.warehouse},
+      {'img': 'yfss', 'name': '运费试算', 'route': Routers.lineQuery},
+      {'img': 'wlgz', 'name': '物流查询', 'route': Routers.track},
+      {'img': 'order', 'name': '我的订单', 'route': Routers.orderCenter},
     ];
     List<Map<String, String>> list2 = [
-      {'img': 'help', 'name': '帮助支持', 'route': ''},
-      {'img': 'comment', 'name': '集运评论', 'route': ''},
+      {'img': 'help', 'name': '帮助支持', 'route': Routers.help},
+      {'img': 'comment', 'name': '集运评论', 'route': Routers.comment},
       {'img': 'chrome', 'name': 'chrome一健预报', 'route': ''},
     ];
     return Container(
@@ -127,6 +132,9 @@ class TransportCenterView extends GetView<TransportCenterController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: list1
                 .map((e) => GestureDetector(
+                      onTap: () {
+                        Routers.push(e['route']!);
+                      },
                       child: Container(
                         color: Colors.transparent,
                         child: Column(
@@ -151,6 +159,9 @@ class TransportCenterView extends GetView<TransportCenterController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: list2
                 .map((e) => GestureDetector(
+                      onTap: () {
+                        Routers.push(e['route']!);
+                      },
                       child: Container(
                         color: Colors.transparent,
                         child: Row(

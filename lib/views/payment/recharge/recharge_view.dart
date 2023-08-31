@@ -1,119 +1,34 @@
-/*
-  充值页面
- */
-
-import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/common/hex_to_color.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/default_amount_model.dart';
-import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/pay_type_model.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/services/balance_service.dart';
-import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/views/components/input/base_input.dart';
+import 'package:jiyun_app_client/views/payment/recharge/recharge_controller.dart';
 
-class RechargePage extends StatefulWidget {
-  const RechargePage({Key? key}) : super(key: key);
-
-  @override
-  RechargePageState createState() => RechargePageState();
-}
-
-class RechargePageState extends State<RechargePage> {
-  final ScrollController _scrollController = ScrollController();
-  final TextEditingController _otherPriceController = TextEditingController();
-  final FocusNode _otherPriceNode = FocusNode();
-
-  int isloading = 0;
-  //我的余额
-  String myBalance = '0.00';
-
-  // 选择的金额
-  int selectButton = -1;
-  double amount = 0;
-  // 选择的充值方式
-
-  List<DefaultAmountModel> defaultAmountList = [];
-  List<PayTypeModel> payTypeList = [];
-  List<PayTypeModel> selectType = [];
-  LocalizationModel? localizationInfo;
-
-  // StreamSubscription<BaseWeChatResponse>? wechatResponse;
-
-  @override
-  void initState() {
-    super.initState();
-    localizationInfo = Get.find<LocalizationModel?>();
-    // 微信支付回调
-    // wechatResponse =
-    //     weChatResponseEventHandler.distinct((a, b) => a == b).listen((res) {
-    //   if (res is WeChatPaymentResponse) {
-    //     if (res.isSuccessful) {
-    //     } else {
-    //       Util.showToast(Translation.t(context, '支付失败'));
-    //     }
-    //   }
-    // });
-    created();
-    getBalance();
-  }
-
-  created() async {
-    /*
-    得到支付类型
-    */
-    EasyLoading.show();
-    payTypeList = await BalanceService.getPayTypeList(noBalanceType: true);
-    //拉取默认的充值金额选项
-    List<DefaultAmountModel>? _defaultAmountList =
-        await BalanceService.getDefaultAmountList();
-    EasyLoading.dismiss();
-    setState(() {
-      defaultAmountList = _defaultAmountList;
-      isloading++;
-    });
-  }
-
-  void getBalance() async {
-    var userOrderDataCount = await UserService.getOrderDataCount();
-    setState(() {
-      myBalance = ((userOrderDataCount!.balance ?? 0) / 100).toStringAsFixed(2);
-      isloading++;
-    });
-  }
-
-  @override
-  void dispose() {
-    // wechatResponse?.cancel();
-    _otherPriceNode.dispose();
-    super.dispose();
-  }
+class RechargeView extends GetView<RechargeController> {
+  const RechargeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(color: Colors.white),
-        backgroundColor: BaseStylesConfig.primary,
+        leading: const BackButton(color: Colors.black),
+        backgroundColor: BaseStylesConfig.bgGray,
         elevation: 0,
         centerTitle: true,
         title: ZHTextLine(
           str: '余额'.ts,
-          color: BaseStylesConfig.white,
-          fontSize: 18,
+          fontSize: 17,
         ),
-        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       backgroundColor: BaseStylesConfig.bgGray,
       bottomNavigationBar: Container(
@@ -132,43 +47,24 @@ class RechargePageState extends State<RechargePage> {
                     str: '充值'.ts + '：',
                     fontSize: 14,
                   ),
-                  ZHTextLine(
-                    str: amount.rate(needFormat: false),
-                    color: BaseStylesConfig.textRed,
-                  ),
+                  Obx(
+                    () => ZHTextLine(
+                      str: controller.amount.value.rate(needFormat: false),
+                      color: BaseStylesConfig.textRed,
+                    ),
+                  )
                 ],
               ),
               10.horizontalSpace,
               MainButton(
                 text: '确认支付',
-                onPressed: () {
-                  if (selectButton == -1) {
-                    EasyLoading.showToast('请选择充值金额'.ts);
-                    return;
-                  } else if (selectButton == defaultAmountList.length &&
-                      (amount * 100).toInt() == 0) {
-                    EasyLoading.showToast('请输入充值金额'.ts);
-                    return;
-                  } else if (selectType.isEmpty) {
-                    EasyLoading.showToast('请选择充值方式'.ts);
-                    return;
-                  }
-                  if (selectType.first.name == 'wechat') {
-                    weChatPayMethod();
-                  } else {
-                    Routers.pushNormalPage('/TransferAndPaymentPage', context, {
-                      'transferType': 1,
-                      'amount': amount,
-                      'payModel': selectType.first,
-                    });
-                  }
-                },
+                onPressed: controller.onPay,
               ),
             ],
           ),
         ),
       ),
-      body: isloading >= 2
+      body: Obx(() => controller.isloading.value >= 2
           ? GestureDetector(
               onTap: () {
                 FocusScope.of(context).requestFocus(FocusNode());
@@ -193,9 +89,12 @@ class RechargePageState extends State<RechargePage> {
                             child: ZHTextLine(str: '余额充值'.ts),
                           ),
                           buildMoreSupportType(context),
-                          Offstage(
-                            offstage: selectButton != defaultAmountList.length,
-                            child: buildCustomPrice(),
+                          Obx(
+                            () => Offstage(
+                              offstage: controller.selectButton.value !=
+                                  controller.defaultAmountList.length,
+                              child: buildCustomPrice(),
+                            ),
                           ),
                         ],
                       ),
@@ -214,7 +113,7 @@ class RechargePageState extends State<RechargePage> {
                 ),
               ),
             )
-          : Container(),
+          : Container()),
     );
   }
 
@@ -241,8 +140,8 @@ class RechargePageState extends State<RechargePage> {
             borderRadius: BorderRadius.circular(10),
           ),
           child: BaseInput(
-            controller: _otherPriceController,
-            focusNode: _otherPriceNode,
+            controller: controller.otherPriceController,
+            focusNode: controller.otherPriceNode,
             hintText: '其它任意金额'.ts,
             isCollapsed: true,
             textInputAction: TextInputAction.done,
@@ -251,16 +150,14 @@ class RechargePageState extends State<RechargePage> {
               vertical: 10,
             ),
             autoShowRemove: false,
+            autoRemoveController: false,
             onChanged: (value) {
-              var rate =
-                  Get.find<UserInfoModel>().currencyModel.value?.rate ?? 1;
-              setState(() {
-                if (double.tryParse(value) != null) {
-                  amount = double.parse(value) / rate;
-                } else if (value.isEmpty) {
-                  amount = 0;
-                }
-              });
+              var rate = controller.currencyModel.value?.rate ?? 1;
+              if (double.tryParse(value) != null) {
+                controller.amount.value = double.parse(value) / rate;
+              } else if (value.isEmpty) {
+                controller.amount.value = 0;
+              }
             },
           ),
         ),
@@ -278,7 +175,7 @@ class RechargePageState extends State<RechargePage> {
         crossAxisCount: 3, //一行的Widget数量
         childAspectRatio: 3 / 2,
       ), // 宽高比例
-      itemCount: defaultAmountList.length + 1,
+      itemCount: controller.defaultAmountList.length + 1,
       itemBuilder: _buildGrideBtnView(),
     );
   }
@@ -286,29 +183,27 @@ class RechargePageState extends State<RechargePage> {
   IndexedWidgetBuilder _buildGrideBtnView() {
     return (context, index) {
       DefaultAmountModel? model;
-      if (index != defaultAmountList.length) {
-        model = defaultAmountList[index];
+      if (index != controller.defaultAmountList.length) {
+        model = controller.defaultAmountList[index];
       }
       return GestureDetector(
         onTap: () {
-          setState(() {
-            selectButton = index;
-            if (model == null) {
-              amount = 0;
-            } else {
-              amount = (model.amount).toDouble();
-            }
-          });
+          controller.selectButton.value = index;
+          if (model == null) {
+            controller.amount.value = 0;
+          } else {
+            controller.amount.value = (model.amount).toDouble();
+          }
         },
-        child: Container(
+        child: Obx(
+          () => Container(
             decoration: BoxDecoration(
-                color: HexToColor('#eceeff'),
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(
-                    width: 0.5,
-                    color: selectButton == index
-                        ? BaseStylesConfig.primary
-                        : Colors.transparent)),
+              color: controller.selectButton.value == index
+                  ? BaseStylesConfig.primary
+                  : const Color(0xFFFFF9DB),
+              // color: ,
+              borderRadius: BorderRadius.circular(5),
+            ),
             alignment: Alignment.center,
             child: model != null
                 ? Column(
@@ -345,7 +240,9 @@ class RechargePageState extends State<RechargePage> {
                 : ZHTextLine(
                     str: '其它金额'.ts,
                     fontWeight: FontWeight.w500,
-                  )),
+                  ),
+          ),
+        ),
       );
     };
   }
@@ -355,23 +252,20 @@ class RechargePageState extends State<RechargePage> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: payTypeCell,
-      controller: _scrollController,
-      itemCount: payTypeList.length,
+      itemCount: controller.payTypeList.length,
     );
     return listView;
   }
 
   Widget payTypeCell(BuildContext context, int index) {
-    PayTypeModel typeMap = payTypeList[index];
+    PayTypeModel typeMap = controller.payTypeList[index];
     return GestureDetector(
         onTap: () {
-          if (selectType.contains(typeMap)) {
+          if (controller.selectType.contains(typeMap)) {
             return;
           } else {
-            selectType.clear();
-            setState(() {
-              selectType.add(typeMap);
-            });
+            controller.selectType.clear();
+            controller.selectType.add(typeMap);
           }
         },
         child: Container(
@@ -415,13 +309,15 @@ class RechargePageState extends State<RechargePage> {
                 ),
               ),
               10.verticalSpace,
-              selectType.contains(typeMap)
-                  ? const Icon(
-                      Icons.check_circle,
-                      color: BaseStylesConfig.green,
-                    )
-                  : const Icon(Icons.radio_button_unchecked,
-                      color: BaseStylesConfig.textGray),
+              Obx(
+                () => controller.selectType.contains(typeMap)
+                    ? const Icon(
+                        Icons.check_circle,
+                        color: BaseStylesConfig.green,
+                      )
+                    : const Icon(Icons.radio_button_unchecked,
+                        color: BaseStylesConfig.textGray),
+              ),
             ],
           ),
         ));
@@ -436,7 +332,6 @@ class RechargePageState extends State<RechargePage> {
         children: <Widget>[
           Container(
             padding: const EdgeInsets.only(left: 15, top: 70, right: 15),
-            color: BaseStylesConfig.primary,
             constraints: const BoxConstraints.expand(
               height: 130.0,
             ),
@@ -449,7 +344,9 @@ class RechargePageState extends State<RechargePage> {
               child: Container(
                   padding: const EdgeInsets.only(right: 15, top: 15, left: 15),
                   width: ScreenUtil().screenWidth - 30,
-                  color: BaseStylesConfig.white,
+                  decoration: BoxDecoration(
+                      color: BaseStylesConfig.white,
+                      borderRadius: BorderRadius.circular(8.r)),
                   child: Column(
                     children: <Widget>[
                       SizedBox(
@@ -463,8 +360,7 @@ class RechargePageState extends State<RechargePage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Routers.pushNormalPage(
-                                    '/BalanceHistoryPage', context);
+                                Routers.push(Routers.rechargeHistory);
                               },
                               child: ZHTextLine(
                                 str: '充值记录'.ts,
@@ -485,10 +381,8 @@ class RechargePageState extends State<RechargePage> {
                               text: TextSpan(
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: Get.find<UserInfoModel>()
-                                            .currencyModel
-                                            .value
-                                            ?.symbol ??
+                                    text: controller
+                                            .currencyModel.value?.symbol ??
                                         '',
                                     style: const TextStyle(
                                       color: BaseStylesConfig.textRed,
@@ -496,9 +390,8 @@ class RechargePageState extends State<RechargePage> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: num.parse(myBalance)
+                                    text: controller.myBalance.value
                                         .rate(
-                                          needFormat: false,
                                           showPriceSymbol: false,
                                         )
                                         .split('.')
@@ -516,9 +409,8 @@ class RechargePageState extends State<RechargePage> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: num.parse(myBalance)
+                                    text: controller.myBalance.value
                                         .rate(
-                                          needFormat: false,
                                           showPriceSymbol: false,
                                         )
                                         .split('.')
@@ -540,48 +432,5 @@ class RechargePageState extends State<RechargePage> {
       ),
     );
     return headerView;
-  }
-
-  /*
-    微信在线支付
-   */
-  weChatPayMethod() async {
-    var currencyModel = Get.find<UserInfoModel>().currencyModel.value;
-    // 微信支付充值余额
-    Map<String, dynamic> map = {
-      'amount': amount * 100,
-      'type': '4', // 微信支付
-      'version': 'v3',
-      'trans_currency': currencyModel?.code ?? '',
-      'trans_rate': currencyModel?.rate ?? 1,
-    };
-
-    /*
-      获取微信支付配置
-     */
-    BalanceService.rechargePayByWeChat(map, (data) {
-      if (data.ok) {
-        Map appconfig = data.data;
-        // isWeChatInstalled.then((installed) {
-        //   if (installed) {
-        //     payWithWeChat(
-        //       appId: appconfig['appid'].toString(),
-        //       partnerId: appconfig['partnerid'].toString(),
-        //       prepayId: appconfig['prepayid'].toString(),
-        //       packageValue: appconfig['package'].toString(),
-        //       nonceStr: appconfig['noncestr'].toString(),
-        //       timeStamp: appconfig['timestamp'],
-        //       sign: appconfig['sign'].toString(),
-        //     ).then((data) {
-        //       if (kDebugMode) {
-        //         print("---》$data");
-        //       }
-        //     });
-        //   } else {
-        //     Util.showToast("请先安装微信");
-        //   }
-        // });
-      }
-    }, (message) => null);
   }
 }

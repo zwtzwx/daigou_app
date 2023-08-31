@@ -1,10 +1,15 @@
 // 超值线路组件
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/events/application_event.dart';
+import 'package:jiyun_app_client/events/home_refresh_event.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
+import 'package:jiyun_app_client/models/currency_rate_model.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/ship_line_model.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
@@ -19,9 +24,9 @@ import 'package:jiyun_app_client/views/home/widget/title_cell.dart';
 class RecommandShipLinesCell extends StatefulWidget {
   const RecommandShipLinesCell({
     Key? key,
-    this.localModel,
+    this.currencySymbol,
   }) : super(key: key);
-  final LocalizationModel? localModel;
+  final CurrencyRateModel? currencySymbol;
 
   @override
   _RecommandShipLinesState createState() => _RecommandShipLinesState();
@@ -40,9 +45,11 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
     super.initState();
     getCountries();
     loadData();
-    // ApplicationEvent.getInstance().event.on<HomeRefreshEvent>().listen((event) {
-    //   loadData();
-    // });
+    ApplicationEvent.getInstance().event.on<PageRefreshEvent>().listen((event) {
+      if (event.page == 'transport') {
+        loadData();
+      }
+    });
   }
 
   void getCountries() async {
@@ -55,10 +62,10 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
   }
 
   Future<void> loadData() async {
-    Map result = await ShipLineService.getList({
+    Map result = await ShipLineService.getList(params: {
       'is_great_value': 1,
       'country_id': (countryModel?.id ?? 0) != 0 ? countryModel?.id : ''
-    });
+    }, option: Options(extra: {'loading': false, 'showSuccess': false}));
     setState(() {
       lineList = result['list'];
       isLoading = false;
@@ -216,10 +223,13 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
                   ),
                   children: [
                     TextSpan(
-                      text: widget.localModel?.currencySymbol ?? '',
+                      text: widget.currencySymbol?.symbol ?? '',
                     ),
                     TextSpan(
-                      text: model.basePrice,
+                      text: num.parse(model.basePrice).rate(
+                        showPriceSymbol: false,
+                        needFormat: false,
+                      ),
                       style: TextStyle(
                         fontSize: 14.sp,
                       ),

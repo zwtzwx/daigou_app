@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:dio/dio.dart';
 import 'package:jiyun_app_client/common/http_client.dart';
 import 'package:jiyun_app_client/models/insurance_model.dart';
 import 'package:jiyun_app_client/models/ship_line_model.dart';
@@ -24,10 +25,13 @@ class ShipLineService {
   static const String addValueServiceApi = 'addvalue';
 
   // 获列表
-  static Future<Map> getList([Map<String, dynamic>? params]) async {
+  static Future<Map> getList(
+      {Map<String, dynamic>? params, Options? option}) async {
     List<ShipLineModel> list = [];
     Map result = {'ok': false, 'msg': '', 'list': list};
-    await HttpClient.instance.post(LISTAPI, data: params).then((response) {
+    await HttpClient.instance
+        .post(LISTAPI, data: params, options: option)
+        .then((response) {
       response.data?.forEach((item) {
         list.add(ShipLineModel.fromJson(item));
       });

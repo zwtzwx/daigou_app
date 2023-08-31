@@ -6,6 +6,7 @@
 
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/user_point_item_model.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -139,8 +140,10 @@ class PointView extends GetView<PointController> {
                         (controller.userPointModel.value?.configPoint ?? 0)
                             .toString() +
                         '${'积分'.ts}=' +
-                        (controller.localModel?.currencySymbol ?? '') +
-                        (controller.userPointModel.value?.configAmount ?? 0)
+                        num.parse((controller
+                                    .userPointModel.value?.configAmount ??
+                                '0'))
+                            .rate(needFormat: false)
                             .toString(),
                     fontSize: 14,
                     color: BaseStylesConfig.vipNormal,

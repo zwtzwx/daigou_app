@@ -1,0 +1,56 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jiyun_app_client/config/base_conctroller.dart';
+import 'package:jiyun_app_client/events/application_event.dart';
+import 'package:jiyun_app_client/events/profile_updated_event.dart';
+import 'package:jiyun_app_client/services/agent_service.dart';
+
+class AgentApplyController extends BaseController {
+  final TextEditingController oldNumberController = TextEditingController();
+  final FocusNode oldNumber = FocusNode();
+  // 新号码
+  final TextEditingController mobileNumberController = TextEditingController();
+  final FocusNode mobileNumber = FocusNode();
+  // 验证码
+  final TextEditingController validationController = TextEditingController();
+  final FocusNode validation = FocusNode();
+
+  FocusNode blankNode = FocusNode();
+
+  /// 在 widget 内存中分配后立即调用。
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  onSubmit() async {
+    if (mobileNumberController.text.isEmpty ||
+        oldNumberController.text.isEmpty ||
+        validationController.text.isEmpty) {
+      showToast('请填写完整信息');
+      return;
+    }
+    Map<String, dynamic> dic = {
+      'name': mobileNumberController.text,
+      'phone': oldNumberController.text,
+      'email': validationController.text,
+    };
+    var resulst = await AgentService.applyAgent(dic);
+    if (resulst['ok']) {
+      ApplicationEvent.getInstance().event.fire(ProfileUpdateEvent());
+      Get.back(result: 'refresh');
+    }
+  }
+
+  /// 在 [onDelete] 方法之前调用。
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  /// dispose 释放内存
+  @override
+  void dispose() {
+    super.dispose();
+  }
+}

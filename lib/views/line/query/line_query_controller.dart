@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
 import 'package:jiyun_app_client/models/warehouse_model.dart';

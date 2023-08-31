@@ -5,6 +5,7 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/change_page_index_event.dart';
 import 'package:jiyun_app_client/events/profile_updated_event.dart';
+import 'package:jiyun_app_client/models/user_agent_status_model.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/models/user_vip_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
@@ -16,6 +17,7 @@ class MeController extends BaseController {
   final userVipModel = Rxn<UserVipModel?>();
   final isloading = false.obs;
   UserInfoModel userInfoModel = Get.find<UserInfoModel>();
+  final agentStatus = Rxn<UserAgentStatusModel?>();
   @override
   void onInit() {
     super.onInit();
@@ -37,6 +39,7 @@ class MeController extends BaseController {
     var token = userInfoModel.token;
     if (token.isNotEmpty) {
       userVipModel.value = await UserService.getVipMemberData();
+      agentStatus.value = await UserService.getAgentStatus();
       isloading.value = true;
     }
   }

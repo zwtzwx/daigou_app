@@ -25,7 +25,7 @@ class LineQueryView extends GetView<LineQueryController> {
           elevation: 0.5,
           backgroundColor: Colors.white,
           title: ZHTextLine(
-            str: '包裹测算'.ts,
+            str: '运费试算'.ts,
             fontSize: 18,
           ),
           leading: const BackButton(color: Colors.black),

@@ -3,9 +3,11 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
+import 'package:jiyun_app_client/models/user_info_model.dart';
 
 class BaseController extends GetxController {
   LocalizationModel? localModel = Get.find<LocalizationModel?>();
+  final currencyModel = Get.find<UserInfoModel>().currencyModel;
 
   showToast(String msg) {
     EasyLoading.showToast(msg.ts);

@@ -7,11 +7,14 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
 import 'package:jiyun_app_client/events/un_authenticate_event.dart';
+import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/express_company_model.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
+import 'package:jiyun_app_client/models/receiver_address_model.dart';
 import 'package:jiyun_app_client/models/self_pickup_station_model.dart';
+import 'package:jiyun_app_client/models/ship_line_model.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/models/value_added_service_model.dart';
@@ -22,16 +25,19 @@ import 'package:jiyun_app_client/services/goods_service.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
 import 'package:jiyun_app_client/services/station_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
+import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 
 class ForecastController extends BaseController {
   ScrollController scrollController = ScrollController();
   FocusNode blankNode = FocusNode();
-  CountryModel? selectedCountryModel;
-  WareHouseModel? selectedWarehouseModel;
+  final selectedCountryModel = Rxn<CountryModel?>();
+  final selectedWarehouseModel = Rxn<WareHouseModel?>();
+  final TextEditingController remarkController = TextEditingController();
+  final FocusNode remarkNode = FocusNode();
 
   //预报的包裹列表
-  List<ParcelModel> formData = [ParcelModel()];
+  final formData = <Rx<ParcelModel>>[ParcelModel().obs].obs;
 
   // 协议确认
   final agreementBool = true.obs;
@@ -44,8 +50,13 @@ class ForecastController extends BaseController {
   List<ParcelPropsModel> goodsPropsList =
       List<ParcelPropsModel>.empty(growable: true);
 
+  final forecastType = 1.obs;
+  final addressModel = Rxn<ReceiverAddressModel?>();
+  final lineModel = Rxn<ShipLineModel?>();
+  final LineServiceId = <num>[].obs;
+
   //预报服务
-  // final valueAddedServiceList = <ValueAddedServiceModel>[].obs;
+  final valueAddedServiceList = <Rx<ValueAddedServiceModel>>[].obs;
   //仓库列表
   List<WareHouseModel> wareHouseList = [];
   // 默认自提点
@@ -64,15 +75,16 @@ class ForecastController extends BaseController {
       Routers.push(Routers.login);
     });
     created();
-    getStation();
     loadInitData();
   }
 
   created() async {
     var countryList = await CommonService.getCountryList();
-    // var _valueAddedServiceList = await ParcelService.getValueAddedServiceList();
+    var _valueAddedServiceList = await ParcelService.getValueAddedServiceList();
     if (countryList.isNotEmpty) {
-      selectedCountryModel = countryList[0];
+      valueAddedServiceList.value =
+          _valueAddedServiceList.map((e) => Rx(e)).toList();
+      selectedCountryModel.value = countryList[0];
       getWarehouseList();
       getProps();
     }
@@ -90,88 +102,114 @@ class ForecastController extends BaseController {
     }
   }
 
-  // 获取自提点
-  getStation() async {
-    var data = await StationService.getList();
-    if (data['dataList'] != null) {
-      stationModel = data['dataList'][0];
-    }
-  }
-
   // 物品属性
   getProps() async {
     var _goodsPropsList = await GoodsService.getPropList(
-        {'country_id': selectedCountryModel?.id});
+        {'country_id': selectedCountryModel.value?.id});
     goodsPropsList = _goodsPropsList;
   }
 
   // 根据国家获取仓库列表
   getWarehouseList() async {
     var data = await WarehouseService.getList(
-        {'country_id': selectedCountryModel?.id});
+        {'country_id': selectedCountryModel.value?.id});
     wareHouseList = data;
-    selectedWarehouseModel = wareHouseList.first;
+    selectedWarehouseModel.value = wareHouseList.first;
+  }
+
+  // 选择下单方式
+  void onForecastType(BuildContext context) async {
+    var data = await BaseDialog.showBottomActionSheet<int?>(
+      context: context,
+      list: [
+        {'id': 1, 'name': '集齐再发'.ts},
+        {'id': 2, 'name': '到件即发'.ts},
+      ],
+    );
+    if (data != null) {
+      forecastType.value = data;
+    }
+  }
+
+  // 到件即发选择收件地址
+  onAddress() async {
+    var s = await Routers.push(Routers.addressList, {'select': 1});
+    if (s == null) return;
+
+    addressModel.value = s as ReceiverAddressModel;
+  }
+
+  // 选择渠道
+  onLine() async {
+    var propIds = formData.fold<List>([], (pre, cur) {
+      (pre).addAll((cur.value.prop ?? []).map((e) => e.id));
+      return pre;
+    }).toSet();
+    if (addressModel.value == null) {
+      showToast('请选择收货地址');
+      return;
+    } else if (propIds.isEmpty) {
+      return showToast('请选择一个物品属性');
+    }
+    Map<String, dynamic> params = {
+      'country_id': selectedCountryModel.value?.id,
+      'area_id': addressModel.value?.area?.id ?? '',
+      'sub_area_id': addressModel.value?.subArea?.id ?? '',
+      'warehouse_id': selectedWarehouseModel.value?.id ?? '',
+      'prop_ids': propIds.toList(),
+      'postcode': addressModel.value?.postcode,
+    };
+    var s = await Routers.push(Routers.lineQueryResult, {"data": params});
+    if (s == null) return;
+
+    lineModel.value = s as ShipLineModel;
+    if ((lineModel.value!.region?.services ?? []).isNotEmpty) {
+      LineServiceId.value = lineModel.value!.region!.services!
+          .where((e) => e.isForced == 1)
+          .map((e) => e.id)
+          .toList();
+    }
   }
 
   // 提交预报
-  void onSubmit() async {
+  onSubmit() async {
     if (!agreementBool.value) {
       showToast('请同意包裹转运协议');
       return;
+    } else if (forecastType.value == 2 && addressModel.value == null) {
+      return showToast('请选择收货地址');
+    } else if (forecastType.value == 2 && lineModel.value == null) {
+      return showToast('请选择运送方式');
     }
-    for (ParcelModel item in formData) {
-      if (item.expressNum == null) {
-        showToast('请填写快递单号');
+    for (var item in formData) {
+      if (item.value.expressNum == null) {
+        showToast('有包裹没有填写快递单号');
+        return;
+      }
+
+      if (item.value.prop == null) {
+        showToast('有包裹没有选择物品属性');
         return;
       }
     }
-
-    List<Map> packageList = [];
-    int defaultProp = goodsPropsList.first.id;
-    for (ParcelModel item in formData) {
-      Map<String, dynamic> dic = {
-        'express_num': item.expressNum,
-        'package_name': 'ежедневные нужды',
-        'package_value': 480,
-        'prop_id': [defaultProp],
-        'express_id': expressCompanyList[0].id,
-        'category_ids': [],
-        'qty': 1,
-        'remark': '',
-      };
-      packageList.add(dic);
+    var params = getParcels();
+    if (forecastType.value == 2) {
+      params.addAll({
+        'ship_mode': 2,
+        'mode': 3,
+        'express_line_id': lineModel.value!.id,
+        'address_id': addressModel.value!.id,
+        'line_service_ids': LineServiceId,
+        'remark': remarkController.text,
+      });
     }
-    List<int> selectService = [];
-    // for (ValueAddedServiceModel item in valueAddedServiceList) {
-    //   if (item.isOpen) {
-    //     selectService.add(item.id);
-    //   }
-    // }
-    showLoading();
-    //开始提交预报
-    ParcelService.store({
-      'packages': packageList,
-      'country_id': selectedCountryModel!.id,
-      'warehouse_id': selectedWarehouseModel!.id,
-      'op_service_ids': selectService,
-      'ship_mode': 3,
-      'mode': 2,
-      'station_id': stationModel?.id ?? '',
-      'express_line_id': stationModel?.expressLines?.first.id,
-      'name': userModel?.name ?? '',
-      'phone': userModel?.phone ?? '',
-    }, (data) async {
-      hideLoading();
+    ParcelService.store(params, (data) {
       if (data.ok) {
         ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
-        await showSuccess(data.msg);
+
         Routers.pop();
-      } else {
-        showError(data.msg);
       }
-    }, (message) {
-      showError(message);
-    });
+    }, (message) {});
   }
 
   // 获取快递公司
@@ -187,5 +225,89 @@ class ForecastController extends BaseController {
       data.add(containe);
     }
     return data;
+  }
+
+  getPickerWareHouse(List<WareHouseModel> list) {
+    List<PickerItem> data = [];
+    for (var item in list) {
+      var containe = PickerItem(
+        text: ZHTextLine(
+          fontSize: 24,
+          str: item.warehouseName!,
+        ),
+      );
+      data.add(containe);
+    }
+    return data;
+  }
+
+  // 选择快递公司
+  onPickerExpressName(BuildContext context, int index) {
+    Picker(
+      adapter: PickerDataAdapter(
+          data: expressCompanyList
+              .map(
+                (e) => PickerItem(
+                  text: ZHTextLine(
+                    fontSize: 24,
+                    str: e.name,
+                  ),
+                ),
+              )
+              .toList()),
+      cancelText: '取消'.ts,
+      confirmText: '确认'.ts,
+      selectedTextStyle: const TextStyle(color: Colors.blue, fontSize: 12),
+      onCancel: () {},
+      onConfirm: (Picker picker, List value) {
+        formData[index].value.expressId = expressCompanyList[value.first].id;
+        formData[index].value.expressName =
+            expressCompanyList[value.first].name;
+      },
+    ).showModal(context);
+  }
+
+  // 渠道增值服务备注
+  showRemark(BuildContext context, String title, String content) {
+    BaseDialog.normalDialog(
+      context,
+      title: title,
+      titleFontSize: 18,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        child: Text(
+          content,
+        ),
+      ),
+    );
+  }
+
+  Map<String, dynamic> getParcels() {
+    List<Map> packageList = [];
+    List<int> selectService = [];
+    var rate = currencyModel.value?.rate ?? 1;
+    for (var item in formData) {
+      Map<String, dynamic> dic = {
+        'express_num': item.value.expressNum,
+        'package_name': item.value.packageName ?? '',
+        'package_value': (item.value.packageValue ?? 1) / rate * 100,
+        'prop_id': item.value.prop!.map((e) => e.id).toList(),
+        'express_id': item.value.expressId ?? '',
+        'qty': item.value.qty,
+        'remark': item.value.remark ?? '',
+      };
+      packageList.add(dic);
+    }
+    for (var item in valueAddedServiceList) {
+      if (item.value.isOpen) {
+        selectService.add(item.value.id);
+      }
+    }
+    return {
+      'packages': packageList,
+      'country_id': selectedCountryModel.value!.id,
+      'warehouse_id': selectedWarehouseModel.value!.id,
+      'op_service_ids': selectService,
+    };
   }
 }

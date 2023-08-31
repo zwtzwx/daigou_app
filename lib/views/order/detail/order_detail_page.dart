@@ -104,7 +104,6 @@ class OrderDetailView extends GetView<OrderDetailController> {
                   color: HexToColor('#eceeff'),
                   child: ZHTextLine(
                     str: address.countryName,
-                    color: BaseStylesConfig.primary,
                     fontSize: 12,
                   ),
                 ),
@@ -635,12 +634,18 @@ class OrderDetailView extends GetView<OrderDetailController> {
                 onPressed: () async {
                   Routers.push(Routers.contact);
                 },
+                fontSize: 14,
+                borderRadis: 999,
+                textColor: Colors.black,
               ),
             ),
             Sized.hGap10,
             [4, 5].contains(controller.model.value?.status)
                 ? PlainButton(
                     text: '查看物流',
+                    fontSize: 14,
+                    borderRadis: 999,
+                    textColor: Colors.black,
                     onPressed: () {
                       if (controller.model.value!.boxes.isNotEmpty) {
                         BaseDialog.showBoxsTracking(
@@ -657,6 +662,8 @@ class OrderDetailView extends GetView<OrderDetailController> {
                 ? Flexible(
                     child: MainButton(
                       text: '确认收货',
+                      fontSize: 14,
+                      borderRadis: 999,
                       onPressed: () async {
                         var data = await BaseDialog.confirmDialog(
                             context, '请确认您已收到货'.ts);
@@ -786,9 +793,8 @@ class OrderDetailView extends GetView<OrderDetailController> {
               width: ScreenUtil().screenWidth,
               child: ZHTextLine(
                 str: controller.statusStr.value.ts,
-                color: BaseStylesConfig.white,
                 fontSize: 20,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.bold,
               ),
             ),
             secondView(),

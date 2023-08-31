@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -30,6 +31,7 @@ class OrderCenterView extends GetView<OrderCenterController> {
             fontSize: 18,
           ),
         ),
+        leading: const BackButton(color: Colors.black),
       ),
       backgroundColor: BaseStylesConfig.bgGray,
       body: RefreshIndicator(
@@ -49,6 +51,7 @@ class OrderCenterView extends GetView<OrderCenterController> {
         color: BaseStylesConfig.white,
         borderRadius: BorderRadius.circular(5),
       ),
+      padding: EdgeInsets.only(top: 10.h),
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
       child: GridView.builder(
           shrinkWrap: true,
@@ -56,10 +59,10 @@ class OrderCenterView extends GetView<OrderCenterController> {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisSpacing: 0.0, //水平子Widget之间间距
             mainAxisSpacing: 0.0, //垂直子Widget之间间距
-            crossAxisCount: 3, //一行的Widget数量
-            childAspectRatio: 5 / 4,
+            crossAxisCount: 4, //一行的Widget数量
+            childAspectRatio: 1,
           ), // 宽高比例
-          itemCount: 6,
+          itemCount: 8,
           itemBuilder: (context, index) {
             return Obx(() => itemCell(context, index));
           }),
@@ -70,35 +73,45 @@ class OrderCenterView extends GetView<OrderCenterController> {
     List<Map<String, dynamic>> list = [
       {
         'title': '未入库',
-        'icon': 'PackageAndOrder/wrk-icon',
+        'icon': 'PackageAndOrder/undone-icon',
         'qty':
             controller.userOrderCountModel.value?.waitStorage.toString() ?? '',
       },
       {
         'title': '已入库',
-        'icon': 'PackageAndOrder/yiruku-icon',
+        'icon': 'PackageAndOrder/done-icon',
         'qty':
             controller.userOrderCountModel.value?.alreadyStorage.toString() ??
                 '',
       },
       {
+        'title': '待处理',
+        'icon': 'PackageAndOrder/process-icon',
+        'qty': controller.userOrderCountModel.value?.waitPack.toString() ?? '',
+      },
+      {
+        'title': '待支付',
+        'icon': 'PackageAndOrder/unpaid-icon',
+        'qty': controller.userOrderCountModel.value?.waitPay.toString() ?? '',
+      },
+      {
         'title': '待发货',
-        'icon': 'PackageAndOrder/daifahuo-icon',
+        'icon': 'PackageAndOrder/unship-icon',
         'qty': controller.userOrderCountModel.value?.waitTran.toString() ?? '',
       },
       {
         'title': '已发货',
-        'icon': 'PackageAndOrder/yifahuo-icon',
+        'icon': 'PackageAndOrder/ship-icon',
         'qty': controller.userOrderCountModel.value?.shipping.toString() ?? '',
       },
       {
         'title': '已签收',
-        'icon': 'PackageAndOrder/yiqianshou-icon',
+        'icon': 'PackageAndOrder/sign-icon',
         'qty': '',
       },
       {
         'title': '异常件认领',
-        'icon': 'PackageAndOrder/yicj-icon',
+        'icon': 'PackageAndOrder/abnormal-icon',
         'qty': '',
       },
     ];
@@ -108,13 +121,9 @@ class OrderCenterView extends GetView<OrderCenterController> {
           Routers.push(Routers.parcelList, 1);
         } else if (index == 1) {
           Routers.push(Routers.parcelList, 2);
-        } else if (index == 2) {
-          Routers.push(Routers.orderList, {'index': 3});
-        } else if (index == 3) {
-          Routers.push(Routers.orderList, {'index': 4});
-        } else if (index == 4) {
-          Routers.push(Routers.orderList, {'index': 5});
-        } else if (index == 5) {
+        } else if (index < 7) {
+          Routers.push(Routers.orderList, {'index': index - 1});
+        } else if (index == 7) {
           Routers.push(Routers.noOwnerList);
         }
       },

@@ -1,15 +1,18 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
+import 'package:jiyun_app_client/views/common/comment/bindings.dart';
+import 'package:jiyun_app_client/views/common/comment/view.dart';
 import 'package:jiyun_app_client/views/common/country/country_binding.dart';
 import 'package:jiyun_app_client/views/common/country/country_list_page.dart';
 import 'package:jiyun_app_client/views/contact/contact_binding.dart';
 import 'package:jiyun_app_client/views/contact/contact_page.dart';
 import 'package:jiyun_app_client/views/express/express_query_bind.dart';
 import 'package:jiyun_app_client/views/express/express_query_page.dart';
+import 'package:jiyun_app_client/views/help/help_center/bindings.dart';
+import 'package:jiyun_app_client/views/help/help_center/view.dart';
+import 'package:jiyun_app_client/views/help/question/bindings.dart';
+import 'package:jiyun_app_client/views/help/question/view.dart';
 import 'package:jiyun_app_client/views/line/detail/line_detail_binding.dart';
 import 'package:jiyun_app_client/views/line/detail/line_detail_view.dart';
 import 'package:jiyun_app_client/views/line/query/line_query_binding.dart';
@@ -18,6 +21,8 @@ import 'package:jiyun_app_client/views/line/query_result/line_query_result_bindi
 import 'package:jiyun_app_client/views/line/query_result/line_query_result_view.dart';
 import 'package:jiyun_app_client/views/notice/notice_binding.dart';
 import 'package:jiyun_app_client/views/notice/notice_page.dart';
+import 'package:jiyun_app_client/views/order/center/order_center_binding.dart';
+import 'package:jiyun_app_client/views/order/center/order_center_page.dart';
 import 'package:jiyun_app_client/views/order/detail/order_detail_binding.dart';
 import 'package:jiyun_app_client/views/order/detail/order_detail_page.dart';
 import 'package:jiyun_app_client/views/order/list/order_list_binding.dart';
@@ -38,8 +43,14 @@ import 'package:jiyun_app_client/views/parcel/parcel_list/parcel_list_binding.da
 import 'package:jiyun_app_client/views/parcel/parcel_list/parcel_list_page.dart';
 import 'package:jiyun_app_client/views/payment/pay_success/pay_success_binding.dart';
 import 'package:jiyun_app_client/views/payment/pay_success/pay_success_view.dart';
+import 'package:jiyun_app_client/views/payment/recharge/recharge_binding.dart';
+import 'package:jiyun_app_client/views/payment/recharge/recharge_view.dart';
+import 'package:jiyun_app_client/views/payment/recharge_history/bindings.dart';
+import 'package:jiyun_app_client/views/payment/recharge_history/view.dart';
 import 'package:jiyun_app_client/views/payment/shop_pay/shop_order_pay_binding.dart';
 import 'package:jiyun_app_client/views/payment/shop_pay/shop_order_pay_view.dart';
+import 'package:jiyun_app_client/views/payment/transfer_payment/bindings.dart';
+import 'package:jiyun_app_client/views/payment/transfer_payment/view.dart';
 import 'package:jiyun_app_client/views/shop/center/shop_center_binding.dart';
 import 'package:jiyun_app_client/views/shop/center/shop_center_view.dart';
 import 'package:jiyun_app_client/views/shop/chat_detail/order_chat_detail_binding.dart';
@@ -66,17 +77,36 @@ import 'package:jiyun_app_client/views/user/address/add/address_add_edit_binding
 import 'package:jiyun_app_client/views/user/address/add/address_add_edit_view.dart';
 import 'package:jiyun_app_client/views/user/address/list/address_list_binding.dart';
 import 'package:jiyun_app_client/views/user/address/list/address_list_view.dart';
+import 'package:jiyun_app_client/views/user/agent/agent_apply/bindings.dart';
+import 'package:jiyun_app_client/views/user/agent/agent_apply/view.dart';
+import 'package:jiyun_app_client/views/user/agent/agent_commission/bindings.dart';
+import 'package:jiyun_app_client/views/user/agent/agent_commission/view.dart';
+import 'package:jiyun_app_client/views/user/agent/agent_commission_apply/bindings.dart';
+import 'package:jiyun_app_client/views/user/agent/agent_commission_apply/view.dart';
+import 'package:jiyun_app_client/views/user/agent/agent_commission_history/bindings.dart';
+import 'package:jiyun_app_client/views/user/agent/agent_commission_history/view.dart';
+import 'package:jiyun_app_client/views/user/agent/agent_member/bindings.dart';
+import 'package:jiyun_app_client/views/user/agent/agent_member/view.dart';
+import 'package:jiyun_app_client/views/user/agent/agent_withdraw_detail/bindings.dart';
+import 'package:jiyun_app_client/views/user/agent/agent_withdraw_detail/view.dart';
+import 'package:jiyun_app_client/views/user/agent/agent_withdraw_record/bindings.dart';
+import 'package:jiyun_app_client/views/user/agent/agent_withdraw_record/view.dart';
 import 'package:jiyun_app_client/views/user/bind_info/bind_info_binding.dart';
 import 'package:jiyun_app_client/views/user/bind_info/bind_info_view.dart';
+import 'package:jiyun_app_client/views/user/coupon/bindings.dart';
+import 'package:jiyun_app_client/views/user/coupon/view.dart';
 import 'package:jiyun_app_client/views/user/forget_password/forget_password_binding.dart';
 import 'package:jiyun_app_client/views/user/forget_password/forget_password_page.dart';
 import 'package:jiyun_app_client/views/user/profile/profile_binding.dart';
 import 'package:jiyun_app_client/views/user/profile/profile_view.dart';
-import 'package:jiyun_app_client/views/user/recharge_page.dart';
 import 'package:jiyun_app_client/views/user/register/register_binding.dart';
 import 'package:jiyun_app_client/views/user/register/register_page.dart';
 import 'package:jiyun_app_client/views/user/setting_password/setting_password_binding.dart';
 import 'package:jiyun_app_client/views/user/setting_password/setting_password_view.dart';
+import 'package:jiyun_app_client/views/user/station/station_binding.dart';
+import 'package:jiyun_app_client/views/user/station/station_view.dart';
+import 'package:jiyun_app_client/views/user/station_select/station_select_binding.dart';
+import 'package:jiyun_app_client/views/user/station_select/station_select_view.dart';
 import 'package:jiyun_app_client/views/user/transaction/transaction_binding.dart';
 import 'package:jiyun_app_client/views/user/transaction/transaction_page.dart';
 import 'package:jiyun_app_client/views/user/vip/center/vip_center_binding.dart';
@@ -133,7 +163,22 @@ class Routers {
   static const String lineQueryResult = '/lineQueryResult'; // 运费估算
   static const String lineDetail = '/lineDetail'; // 运费估算
   static const String notice = '/notice'; // 消息通知
-  static const String recharge = '/recharge'; // 充值
+  static const String recharge = '/rechargePage'; // 充值
+  static const String rechargeHistory = '/rechargeHistory'; // 充值
+  static const String paymentTransfer = '/paymentTransfer'; // 充值
+  static const String coupon = '/coupon'; // 优惠券
+  static const String agentApply = '/agentApply'; // 代理申请
+  static const String agentMember = '/agentMember'; // 代理推广好友
+  static const String agentCommission = '/agentCommission'; // 佣金申请列表
+  static const String agentWithdrawDetail = '/agentWithdrawDetail'; // 佣金申请记录详情
+  static const String agentWithdrawRecord = '/agentWithdrawRecord'; // 佣金成交记录
+  static const String agentCommissionList = '/agentCommissionList'; // 佣金列表
+  static const String agentCommissionApply = '/agentCommissionApply'; // 佣金提现
+  static const String comment = '/comment'; // 评论列表
+  static const String help = '/help'; // 帮助中心
+  static const String question = '/question'; // 问题
+  static const String orderCenter = '/orderCenter'; // 包裹/订单中心
+  static const String stationSelect = '/stationSelect'; // 自提点
 
   static const String shopCenter = '/shopCenter'; //自营商城中心
   static const String goodsList = '/goodsList'; // 自营商品列表
@@ -166,6 +211,9 @@ class Routers {
     lineQuery,
     lineDetail,
     lineQueryResult,
+    help,
+    question,
+    comment,
   ];
 
   // 路由声明
@@ -390,11 +438,92 @@ class Routers {
       page: () => const NoticePage(),
       binding: NoticeBinding(),
     ),
+    GetPage(
+      name: recharge,
+      page: () => const RechargeView(),
+      binding: RechargeBinding(),
+    ),
+    GetPage(
+      name: rechargeHistory,
+      page: () => const RechargeHistoryPage(),
+      binding: RechargeHistoryBinding(),
+    ),
+    GetPage(
+      name: paymentTransfer,
+      page: () => const TransferPaymentPage(),
+      binding: TransferPaymentBinding(),
+    ),
+    GetPage(
+      name: coupon,
+      page: () => const CouponPage(),
+      binding: CouponBinding(),
+    ),
+    GetPage(
+      name: agentApply,
+      page: () => const AgentApplyPage(),
+      binding: AgentApplyBinding(),
+    ),
+    GetPage(
+      name: agentMember,
+      page: () => const AgentMemberPage(),
+      binding: AgentMemberBinding(),
+    ),
+    GetPage(
+      name: agentCommission,
+      page: () => const AgentCommissionHistoryPage(),
+      binding: AgentCommissionHistoryBinding(),
+    ),
+    GetPage(
+      name: agentWithdrawDetail,
+      page: () => const AgentWithdrawDetailPage(),
+      binding: AgentWithdrawDetailBinding(),
+    ),
+    GetPage(
+      name: agentWithdrawRecord,
+      page: () => const AgentWithdrawRecordPage(),
+      binding: AgentWithdrawRecordBinding(),
+    ),
+    GetPage(
+      name: agentCommissionList,
+      page: () => const AgentCommissionPage(),
+      binding: AgentCommissionBinding(),
+    ),
+    GetPage(
+      name: agentCommissionApply,
+      page: () => const AgentCommissionApplyPage(),
+      binding: AgentCommissionApplyBinding(),
+    ),
+    GetPage(
+      name: comment,
+      page: () => const CommentPage(),
+      binding: CommentBinding(),
+    ),
+    GetPage(
+      name: help,
+      page: () => const HelpCenterPage(),
+      binding: HelpCenterBinding(),
+    ),
+    GetPage(
+      name: question,
+      page: () => const QuestionPage(),
+      binding: QuestionBinding(),
+    ),
+    GetPage(
+      name: orderCenter,
+      page: () => const OrderCenterView(),
+      binding: OrderCenterBinding(),
+    ),
+    GetPage(
+      name: station,
+      page: () => const StationView(),
+      binding: StationBinding(),
+    ),
+    GetPage(
+      name: stationSelect,
+      page: () => const StationSelectView(),
+      binding: StationSelectBinding(),
+    ),
   ];
-
-  static Map<String, Function> excludeGetPageRoute = {
-    Routers.recharge: (context) => const RechargePage(),
-  };
 
   static String currentRouteName = "";
 
@@ -416,29 +545,29 @@ class Routers {
     Get.offNamed(page, arguments: arguments);
   }
 
-  // // 路由初始化
-  static run(RouteSettings settings) {
-    final Function? pageContentBuilder =
-        Routers.excludeGetPageRoute[settings.name];
+  // // // 路由初始化
+  // static run(RouteSettings settings) {
+  //   final Function? pageContentBuilder =
+  //       Routers.excludeGetPageRoute[settings.name];
 
-    if (pageContentBuilder != null) {
-      currentRouteName = settings.name!;
-      if (settings.arguments != null) {
-        // 传参路由
-        return CupertinoPageRoute(
-            fullscreenDialog: false,
-            builder: (context) =>
-                pageContentBuilder(context, arguments: settings.arguments));
-      } else {
-        // 无参数路由
-        return CupertinoPageRoute(
-            builder: (context) => pageContentBuilder(context));
-      }
-    } else {
-      // 404页
-      // return CupertinoPageRoute(builder: (context) => NotFoundPage());
-    }
-  }
+  //   if (pageContentBuilder != null) {
+  //     currentRouteName = settings.name!;
+  //     if (settings.arguments != null) {
+  //       // 传参路由
+  //       return CupertinoPageRoute(
+  //           fullscreenDialog: false,
+  //           builder: (context) =>
+  //               pageContentBuilder(context, arguments: settings.arguments));
+  //     } else {
+  //       // 无参数路由
+  //       return CupertinoPageRoute(
+  //           builder: (context) => pageContentBuilder(context));
+  //     }
+  //   } else {
+  //     // 404页
+  //     // return CupertinoPageRoute(builder: (context) => NotFoundPage());
+  //   }
+  // }
 
   // 组件跳转
   // static link(Widget child, String routeName, BuildContext context,
@@ -456,39 +585,39 @@ class Routers {
   // }
 
   // 方法跳转
-  static pushNormalPage(String routeName, BuildContext context,
-      [Map? parmas]) async {
-    if (filterList.contains(routeName)) {
-      if (parmas != null) {
-        Navigator.pushNamed(context, routeName, arguments: parmas);
-      } else {
-        Navigator.pushNamed(context, routeName);
-      }
-      return;
-    }
-    // 如果状态管理器中的Token是空的
-    var token = Get.find<UserInfoModel>().token;
-    if (token.value.isEmpty) {
-      Routers.push(Routers.login);
-      return;
-    }
+  // static pushNormalPage(String routeName, BuildContext context,
+  //     [Map? parmas]) async {
+  //   if (filterList.contains(routeName)) {
+  //     if (parmas != null) {
+  //       Navigator.pushNamed(context, routeName, arguments: parmas);
+  //     } else {
+  //       Navigator.pushNamed(context, routeName);
+  //     }
+  //     return;
+  //   }
+  //   // 如果状态管理器中的Token是空的
+  //   var token = Get.find<UserInfoModel>().token;
+  //   if (token.value.isEmpty) {
+  //     Routers.push(Routers.login);
+  //     return;
+  //   }
 
-    if (parmas != null) {
-      return Navigator.pushNamed(context, routeName, arguments: parmas)
-          .then((value) {
-        EasyLoading.dismiss();
-        return value;
-      });
-    } else {
-      return Navigator.pushNamed(
-        context,
-        routeName,
-      ).then((value) {
-        EasyLoading.dismiss();
-        return value;
-      });
-    }
-  }
+  //   if (parmas != null) {
+  //     return Navigator.pushNamed(context, routeName, arguments: parmas)
+  //         .then((value) {
+  //       EasyLoading.dismiss();
+  //       return value;
+  //     });
+  //   } else {
+  //     return Navigator.pushNamed(
+  //       context,
+  //       routeName,
+  //     ).then((value) {
+  //       EasyLoading.dismiss();
+  //       return value;
+  //     });
+  //   }
+  // }
 
   // // 方法跳转,无返回
   // static redirect(String routeName, BuildContext context, [Map? parmas]) {

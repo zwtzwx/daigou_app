@@ -1,6 +1,7 @@
 /*
   订单
  */
+import 'package:jiyun_app_client/models/group_model.dart';
 import 'package:jiyun_app_client/models/receiver_address_model.dart';
 import 'package:jiyun_app_client/models/order_transaction_model.dart';
 import 'package:jiyun_app_client/models/parcel_box_model.dart';
@@ -406,6 +407,12 @@ class OrderModel {
   late PriceModel? price;
 
   late int exceptional;
+  int? paymentStatus;
+  GroupModel? groupBuying; // 拼团信息
+  GroupMemberModel? user;
+  num? exceptWeight;
+  num? exceptVolumeWeight;
+  int? boxesCount;
 
   OrderModel();
 
@@ -415,8 +422,10 @@ class OrderModel {
     orderSn = json['order_sn'];
     logisticsSn = json['logistics_sn'] ?? '';
     logisticsCompany = json['logistics_company'];
-    //这里需要有一个状态
+    boxesCount = json['boxes_count'];
     status = json['status'];
+    exceptWeight = json['except_weight'];
+    exceptVolumeWeight = json['except_volume_weight'];
     onDeliveryStatus = json['on_delivery_status'];
     evaluated = json['evaluated'] ?? 0;
     expressLineId = json['express_line_id'] ?? 0;
@@ -446,6 +455,12 @@ class OrderModel {
       json['add_service'].forEach((v) {
         addService.add(v);
       });
+    }
+    if (json['user'] != null) {
+      user = GroupMemberModel.fromJson(json['user']);
+    }
+    if (json['group_buying'] != null) {
+      groupBuying = GroupModel.fromJson(json['group_buying']);
     }
 
     shipmentId = json['shipment_id'];
@@ -495,6 +510,7 @@ class OrderModel {
     isusepoint = json['is_use_point'];
     pointamount = json['point_amount'];
     userPoint = json['user_point'] ?? 0;
+    paymentStatus = json['payment_status'];
     if (json['value_added_service'] != null) {
       valueAddedService = <ValueAddedServiceModel>[];
       json['value_added_service'].forEach((v) {

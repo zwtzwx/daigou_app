@@ -74,6 +74,8 @@ class ParcelListView extends GetView<ParcelListController> {
     return ParcelItemCell(
       model: model,
       index: index,
+      checkedIds: controller.checkedIds,
+      onChecked: controller.onChecked,
     );
   }
 
