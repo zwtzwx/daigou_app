@@ -66,7 +66,7 @@ class AnnoucementDialog extends StatelessWidget {
                       text: '查看更多'.ts,
                       fontSize: 14,
                       borderRadis: 20.0,
-                      backgroundColor: BaseStylesConfig.green,
+                      backgroundColor: BaseStylesConfig.primary,
                       onPressed: () {
                         Navigator.pop(context, true);
                       },

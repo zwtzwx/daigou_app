@@ -2,10 +2,13 @@
   未入库包裹
 */
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/route_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
+import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +52,71 @@ class ParcelListView extends GetView<ParcelListController> {
                 )
               : null,
         ),
+        bottomNavigationBar: controller.type.value == 2
+            ? Container(
+                color: BaseStylesConfig.white,
+                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+                child: SafeArea(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: controller.onAllChecked,
+                        child: Row(
+                          children: [
+                            Obx(
+                              () => Icon(
+                                controller.checkedIds.isNotEmpty &&
+                                        controller.checkedIds.length ==
+                                            controller.allParcels.length
+                                    ? Icons.check_circle
+                                    : Icons.radio_button_unchecked,
+                                color: controller.checkedIds.isNotEmpty &&
+                                        controller.checkedIds.length ==
+                                            controller.allParcels.length
+                                    ? BaseStylesConfig.primary
+                                    : BaseStylesConfig.line,
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(left: 5),
+                              child: Text('全选'.ts),
+                            )
+                          ],
+                        ),
+                      ),
+                      Flexible(
+                        child: SizedBox(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Obx(
+                                () => ZHTextLine(
+                                  str: '已选{count}件'.tsArgs(
+                                      {'count': controller.checkedIds.length}),
+                                  fontSize: 14,
+                                  color: BaseStylesConfig.textGrayC9,
+                                ),
+                              ),
+                              Flexible(
+                                child: Container(
+                                  margin: const EdgeInsets.only(left: 10),
+                                  height: 40,
+                                  child: MainButton(
+                                    text: '申请打包合箱',
+                                    onPressed: controller.onSubmit,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : Sized.empty,
         body: PageView.builder(
           key: const Key('pageView'),
           itemCount: controller.warehouseList.length,

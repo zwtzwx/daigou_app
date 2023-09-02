@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -44,7 +45,7 @@ class _PlainButtonState extends State<PlainButton> {
         ),
         visualDensity: widget.visualDensity ?? VisualDensity.standard,
         padding: MaterialStateProperty.all(
-            widget.padding ?? const EdgeInsets.symmetric(horizontal: 10)),
+            widget.padding ?? EdgeInsets.symmetric(horizontal: 15.w)),
         side: MaterialStateProperty.all(
           BorderSide(color: widget.borderColor),
         ),

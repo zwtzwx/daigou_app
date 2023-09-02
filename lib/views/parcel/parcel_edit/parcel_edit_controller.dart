@@ -5,6 +5,7 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/list_refresh_event.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/express_company_model.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
@@ -69,7 +70,7 @@ class ParcelEditController extends BaseController {
       packgeNameController.text = (packageModel.value.packageName ?? '');
       packgeQtyController.text = (packageModel.value.qty ?? '').toString();
       packgeValueController.text =
-          ((packageModel.value.packageValue ?? 0) / 100).toStringAsFixed(2);
+          (packageModel.value.packageValue ?? 0).rate(showPriceSymbol: false);
       remarkController.text = (packageModel.value.remark ?? '');
       isLoadingLocal.value = true;
     }
@@ -121,7 +122,9 @@ class ParcelEditController extends BaseController {
       showToast(msg);
       return;
     }
-    num value = double.parse(packgeValueController.text) * 100;
+    num value = double.parse(packgeValueController.text) *
+        100 /
+        (currencyModel.value?.rate ?? 1);
     Map<String, dynamic> map = {
       'express_num': packageModel.value.expressNum,
       'express_id': expressCompany.value?.id ?? packageModel.value.expressId,

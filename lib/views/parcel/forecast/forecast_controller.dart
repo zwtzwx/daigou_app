@@ -156,7 +156,7 @@ class ForecastController extends BaseController {
       'area_id': addressModel.value?.area?.id ?? '',
       'sub_area_id': addressModel.value?.subArea?.id ?? '',
       'warehouse_id': selectedWarehouseModel.value?.id ?? '',
-      'prop_ids': propIds.toList(),
+      'props': propIds.toList(),
       'postcode': addressModel.value?.postcode,
     };
     var s = await Routers.push(Routers.lineQueryResult, {"data": params});

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -16,10 +17,12 @@ Widget emptyBox([String? content]) {
               width: 140,
               fit: BoxFit.fitWidth,
             ),
-            ZHTextLine(
-              str: (content ?? '暂无内容').ts,
-              color: BaseStylesConfig.textGray,
-            )
+            Obx(
+              () => ZHTextLine(
+                str: (content ?? '暂无内容').ts,
+                color: BaseStylesConfig.textGray,
+              ),
+            ),
           ],
         ),
       ),

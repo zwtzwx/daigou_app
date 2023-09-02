@@ -69,7 +69,7 @@ class TransportCenterView extends GetView<TransportCenterController> {
   Widget mainModuleCell() {
     List<Map<String, String>> links = [
       {'img': 'zy', 'name': '我要直邮', 'route': Routers.forecast},
-      {'img': 'smqj', 'name': '我要拼邮', 'route': ''},
+      {'img': 'smqj', 'name': '我要拼邮', 'route': Routers.forecast},
       {'img': 'py', 'name': '自提点', 'route': Routers.station},
     ];
     return Padding(
@@ -96,10 +96,12 @@ class TransportCenterView extends GetView<TransportCenterController> {
                 fit: BoxFit.fill,
               ),
             ),
-            child: ZHTextLine(
-              str: links[index]['name']!.ts,
-              fontSize: 14,
-              lines: 3,
+            child: Obx(
+              () => ZHTextLine(
+                str: links[index]['name']!.ts,
+                fontSize: 14,
+                lines: 3,
+              ),
             ),
           ),
         ),
@@ -117,7 +119,7 @@ class TransportCenterView extends GetView<TransportCenterController> {
     List<Map<String, String>> list2 = [
       {'img': 'help', 'name': '帮助支持', 'route': Routers.help},
       {'img': 'comment', 'name': '集运评论', 'route': Routers.comment},
-      {'img': 'chrome', 'name': 'chrome一健预报', 'route': ''},
+      // {'img': 'chrome', 'name': 'chrome一健预报', 'route': ''},
     ];
     return Container(
       padding: EdgeInsets.fromLTRB(16.w, 20.w, 16.w, 10.w),
@@ -144,10 +146,13 @@ class TransportCenterView extends GetView<TransportCenterController> {
                               width: 40.w,
                             ),
                             2.verticalSpace,
-                            ZHTextLine(
-                              str: e['name']!.ts,
-                              fontSize: 12,
-                            )
+                            Obx(
+                              () => ZHTextLine(
+                                str: e['name']!.ts,
+                                fontSize: 12,
+                                lines: 3,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -156,7 +161,7 @@ class TransportCenterView extends GetView<TransportCenterController> {
           ),
           15.verticalSpace,
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: list2
                 .map((e) => GestureDetector(
                       onTap: () {
@@ -171,10 +176,13 @@ class TransportCenterView extends GetView<TransportCenterController> {
                               width: 14.w,
                             ),
                             5.horizontalSpace,
-                            ZHTextLine(
-                              str: e['name']!.ts,
-                              fontSize: 10,
-                              color: BaseStylesConfig.textGrayC9,
+                            Obx(
+                              () => ZHTextLine(
+                                str: e['name']!.ts,
+                                fontSize: 10,
+                                color: BaseStylesConfig.textGrayC9,
+                                lines: 2,
+                              ),
                             ),
                           ],
                         ),

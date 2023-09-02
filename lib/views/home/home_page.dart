@@ -1,6 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/ad_cell.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -65,10 +66,27 @@ class HomeView extends GetView<HomeController> {
                               ),
                               14.horizontalSpace,
                               GestureDetector(
-                                child: LoadImage(
-                                  'Home/bell',
-                                  width: 28.w,
-                                  height: 28.w,
+                                onTap: () {
+                                  Routers.push(Routers.notice);
+                                },
+                                child: Stack(
+                                  alignment: Alignment.topRight,
+                                  children: [
+                                    LoadImage(
+                                      'Home/bell',
+                                      width: 28.w,
+                                      height: 28.w,
+                                    ),
+                                    Obx(() => controller.noticeUnRead.value
+                                        ? ClipOval(
+                                            child: Container(
+                                              width: 6.w,
+                                              height: 6.w,
+                                              color: BaseStylesConfig.textRed,
+                                            ),
+                                          )
+                                        : Sized.empty)
+                                  ],
                                 ),
                               ),
                             ],
@@ -130,10 +148,17 @@ class HomeView extends GetView<HomeController> {
                                 width: ScreenUtil().setWidth(40),
                                 height: ScreenUtil().setWidth(40),
                               ),
-                              ZHTextLine(
-                                str: e.name,
-                                fontSize: 12,
-                              ),
+                              e.id == 0
+                                  ? Obx(
+                                      () => ZHTextLine(
+                                        str: e.name.ts,
+                                        fontSize: 12,
+                                      ),
+                                    )
+                                  : ZHTextLine(
+                                      str: e.name,
+                                      fontSize: 12,
+                                    ),
                             ],
                           ),
                         ),
@@ -153,7 +178,7 @@ class HomeView extends GetView<HomeController> {
     return Column(
       children: [
         TitleCell(
-          title: '精选商品'.ts,
+          title: '精选商品',
           onMore: () {
             controller.onCategory();
           },
@@ -191,8 +216,8 @@ class HomeView extends GetView<HomeController> {
   Widget recommendGoodsList() {
     return Column(
       children: [
-        TitleCell(
-          title: '推荐商品'.ts,
+        const TitleCell(
+          title: '推荐商品',
         ),
         Obx(
           () => Visibility(

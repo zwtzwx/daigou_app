@@ -14,9 +14,9 @@ class GoodsSkuModel {
     id = json['id'];
     skuId = json['sku_id'];
     if (json['quantity'] is String) {
-      price = int.parse(json['quantity']);
+      quantity = int.parse(json['quantity']);
     } else {
-      price = json['quantity'];
+      quantity = json['quantity'];
     }
     if (json['price'] is String) {
       price = num.parse(json['price']);

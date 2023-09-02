@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/state_manager.dart';
+import 'package:jiyun_app_client/events/application_event.dart';
+import 'package:jiyun_app_client/events/language_change_event.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/currency_rate_model.dart';
 import 'package:jiyun_app_client/models/language_model.dart';
@@ -36,8 +39,11 @@ class LanguageCellController extends GetxController {
   showSetting(BuildContext context) async {
     String languageCode = i10n.language;
 
-    String language =
-        langList.firstWhere((ele) => ele.languageCode == languageCode).name;
+    String language = '';
+    var findList = langList.where((ele) => ele.languageCode == languageCode);
+    if (findList.isNotEmpty) {
+      language = findList.first.name;
+    }
     List<Map> list = [
       {'type': 'lang', 'label': '多语言', 'value': language},
       {
@@ -69,7 +75,7 @@ class LanguageCellController extends GetxController {
                     child: Container(
                       color: Colors.transparent,
                       padding: EdgeInsets.symmetric(
-                          vertical: 10.h, horizontal: 10.w),
+                          vertical: 15.h, horizontal: 10.w),
                       child: Row(
                         children: [
                           Expanded(
@@ -166,7 +172,8 @@ class LanguageCellController extends GetxController {
       if (code == languge) return;
       LanguageStore.setLanguage(code);
       i10n.setLanguage(code);
-      await i10n.loadTranslations();
+      await i10n.loadTranslations(Options(extra: {'loading': true}));
+      ApplicationEvent.getInstance().event.fire(LanguageChangeEvent());
     }
   }
 }

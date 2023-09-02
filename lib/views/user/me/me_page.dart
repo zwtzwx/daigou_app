@@ -187,10 +187,12 @@ class MeView extends GetView<MeController> {
         children: [
           Padding(
             padding: EdgeInsets.only(top: 15.h, bottom: 9.h),
-            child: ZHTextLine(
-              str: title.ts,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+            child: Obx(
+              () => ZHTextLine(
+                str: title.ts,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           GridView.builder(
@@ -226,10 +228,12 @@ class MeView extends GetView<MeController> {
                         height: iconWidth ?? 38.w,
                       ),
                       2.verticalSpace,
-                      ZHTextLine(
-                        str: (list[index]['name']! as String).ts,
-                        fontSize: 12,
-                        color: BaseStylesConfig.textNormal,
+                      Obx(
+                        () => ZHTextLine(
+                          str: (list[index]['name']! as String).ts,
+                          fontSize: 12,
+                          color: BaseStylesConfig.textNormal,
+                        ),
                       ),
                     ],
                   ),
@@ -330,10 +334,27 @@ class MeView extends GetView<MeController> {
                             ),
                             5.horizontalSpace,
                             GestureDetector(
-                              child: LoadImage(
-                                'Home/bell',
-                                width: 28.w,
-                                height: 28.w,
+                              onTap: () {
+                                Routers.push(Routers.notice);
+                              },
+                              child: Stack(
+                                alignment: Alignment.topRight,
+                                children: [
+                                  LoadImage(
+                                    'Home/bell',
+                                    width: 28.w,
+                                    height: 28.w,
+                                  ),
+                                  Obx(() => controller.noticeUnRead.value
+                                      ? ClipOval(
+                                          child: Container(
+                                            width: 6.w,
+                                            height: 6.w,
+                                            color: BaseStylesConfig.textRed,
+                                          ),
+                                        )
+                                      : Sized.empty)
+                                ],
                               ),
                             ),
                           ],

@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/config/routers.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/pay_type_model.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
@@ -53,7 +55,8 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                         children: [
                           TextSpan(text: '总计'.ts + '：'),
                           TextSpan(
-                            text: controller.totalAmount.toStringAsFixed(2),
+                            text:
+                                controller.totalAmount.rate(needFormat: false),
                             style: TextStyle(
                               fontSize: 16.sp,
                               color: BaseStylesConfig.textRed,
@@ -120,9 +123,23 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                       RichText(
                         text: TextSpan(children: [
                           TextSpan(
+                            text: controller.currencyModel.value?.symbol ?? '',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.sp,
+                              color: BaseStylesConfig.textDark,
+                            ),
+                          ),
+                          TextSpan(
                             text: controller.problemOrder.value != null
-                                ? controller.problemOrder.value!.amount
-                                : controller.totalAmount.toStringAsFixed(2),
+                                ? num.parse(
+                                        controller.problemOrder.value!.amount ??
+                                            '0')
+                                    .rate(
+                                        showPriceSymbol: false,
+                                        needFormat: false)
+                                : controller.totalAmount.rate(
+                                    showPriceSymbol: false, needFormat: false),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 36.sp,
@@ -145,11 +162,12 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                         children: <Widget>[
                           ZHTextLine(
                             str: '${'余额'.ts}：' +
-                                controller.myBalance.value.toStringAsFixed(2),
+                                controller.myBalance.value
+                                    .rate(needFormat: false),
                           ),
                           GestureDetector(
                             onTap: () {
-                              // Routers.push('/RechargePage', context);
+                              Routers.push(Routers.recharge, context);
                             },
                             child: Row(
                               children: <Widget>[

@@ -141,8 +141,8 @@ class ShopCenterView extends GetView<ShopCenterController> {
   Widget goodsListCell() {
     return Column(
       children: [
-        TitleCell(
-          title: '热销商品'.ts,
+        const TitleCell(
+          title: '热销商品',
         ),
         Obx(
           () => Visibility(

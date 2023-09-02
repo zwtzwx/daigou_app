@@ -2,8 +2,8 @@
   联系人信息
  */
 class ContactModel {
-  late String name;
-  late String phone;
+  String? name;
+  String? phone;
 
   ContactModel({required this.name, required this.phone});
 

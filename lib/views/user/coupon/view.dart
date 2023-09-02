@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
@@ -85,10 +86,10 @@ class CouponPage extends GetView<CouponController> {
                           text: '确认',
                           borderRadis: 20.0,
                           onPressed: () {
-                            // Navigator.of(context).pop({
-                            //   'confirm': true,
-                            //   'selectCoupon': selectCoupon,
-                            // });
+                            Routers.pop({
+                              'confirm': true,
+                              'selectCoupon': controller.selectCoupon.value,
+                            });
                           },
                         ),
                       ),

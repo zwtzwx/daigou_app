@@ -22,6 +22,7 @@ class NoticePage extends GetView<NoticeController> {
         ),
         elevation: 0.5,
         backgroundColor: Colors.white,
+        leading: const BackButton(color: Colors.black),
       ),
       backgroundColor: BaseStylesConfig.bgGray,
       body: ListRefresh(

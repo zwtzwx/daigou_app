@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/shop/cart_model.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
@@ -58,9 +59,11 @@ class CartView extends GetView<CartController> {
                   ),
                   2.horizontalSpace,
                   Expanded(
-                    child: ZHTextLine(
-                      str: '全选'.ts,
-                      fontSize: 14,
+                    child: Obx(
+                      () => ZHTextLine(
+                        str: '全选'.ts,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                   controller.configState.value
@@ -77,30 +80,38 @@ class CartView extends GetView<CartController> {
                         )
                       : Row(
                           children: [
-                            Text.rich(
-                              TextSpan(
-                                style: TextStyle(
-                                  color: const Color(0xFFFF6868),
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.bold,
+                            Obx(
+                              () => Text.rich(
+                                TextSpan(
+                                  style: TextStyle(
+                                    color: const Color(0xFFFF6868),
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: '总计'.ts + '：',
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: BaseStylesConfig.textDark,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: controller
+                                              .currencyModel.value?.symbol ??
+                                          '',
+                                    ),
+                                    TextSpan(
+                                      text: controller.totalCheckedPrice.rate(
+                                          needFormat: false,
+                                          showPriceSymbol: false),
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                children: [
-                                  TextSpan(
-                                    text: '总计'.ts + '：',
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: BaseStylesConfig.textDark,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: controller.totalCheckedPrice
-                                        .toStringAsFixed(2),
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                    ),
-                                  ),
-                                ],
                               ),
                             ),
                             15.horizontalSpace,
@@ -155,70 +166,68 @@ class CartView extends GetView<CartController> {
   }
 
   Widget cartCell() {
-    return Obx(
-      () => controller.allCartList.isEmpty
-          ? emptyCell()
-          : Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: const [Colors.white, BaseStylesConfig.bgGray],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [controller.showCartList.isNotEmpty ? 0.1 : 1, 0.3],
-                ),
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    color: Colors.white,
-                    padding: EdgeInsets.only(bottom: 10.h),
-                    child: Row(
-                      children: [
-                        cartTypeItem('代购', 1),
-                        10.horizontalSpace,
-                        Expanded(
-                          child: cartTypeItem('自营', 2),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            controller.configState.value =
-                                !controller.configState.value;
-                          },
-                          child: ZHTextLine(
-                            str: controller.configState.value
-                                ? '退出管理'.ts
-                                : '管理'.ts,
-                            fontSize: 14,
-                            color: controller.configState.value
-                                ? const Color(0xFFFFA441)
-                                : BaseStylesConfig.textDark,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  controller.showCartList.isNotEmpty
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: controller.showCartList
-                              .map(
-                                (cart) => CartGoodsItem(
-                                  cartModel: cart,
-                                  checkedIds: controller.checkedList,
-                                  onStep: controller.onSkuQty,
-                                  onChecked: controller.onChecked,
-                                  onChangeQty: (CartSkuModel value) {
-                                    controller.onChangeQty(value);
-                                  },
-                                ),
-                              )
-                              .toList())
-                      : emptyCell(),
-                ],
+    return controller.allCartList.isEmpty
+        ? emptyCell()
+        : Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: const [Colors.white, BaseStylesConfig.bgGray],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [controller.showCartList.isNotEmpty ? 0.1 : 1, 0.3],
               ),
             ),
-    );
+            child: Column(
+              children: [
+                Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.only(bottom: 10.h),
+                  child: Row(
+                    children: [
+                      cartTypeItem('代购', 1),
+                      10.horizontalSpace,
+                      Expanded(
+                        child: cartTypeItem('自营', 2),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          controller.configState.value =
+                              !controller.configState.value;
+                        },
+                        child: ZHTextLine(
+                          str: controller.configState.value
+                              ? '退出管理'.ts
+                              : '管理'.ts,
+                          fontSize: 14,
+                          color: controller.configState.value
+                              ? const Color(0xFFFFA441)
+                              : BaseStylesConfig.textDark,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                controller.showCartList.isNotEmpty
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: controller.showCartList
+                            .map(
+                              (cart) => CartGoodsItem(
+                                cartModel: cart,
+                                checkedIds: controller.checkedList,
+                                onStep: controller.onSkuQty,
+                                onChecked: controller.onChecked,
+                                onChangeQty: (CartSkuModel value) {
+                                  controller.onChangeQty(value);
+                                },
+                              ),
+                            )
+                            .toList())
+                    : emptyCell(),
+              ],
+            ),
+          );
   }
 
   Widget cartTypeItem(String label, int type) {
@@ -252,10 +261,12 @@ class CartView extends GetView<CartController> {
             width: 200.w,
           ),
           10.verticalSpace,
-          ZHTextLine(
-            str: '购物车空空如也'.ts + '~',
-            fontSize: 12,
-            color: BaseStylesConfig.textGrayC,
+          Obx(
+            () => ZHTextLine(
+              str: '购物车空空如也'.ts + '~',
+              fontSize: 12,
+              color: BaseStylesConfig.textGrayC,
+            ),
           ),
         ],
       ),
@@ -267,12 +278,15 @@ class CartView extends GetView<CartController> {
     return Column(
       children: [
         Container(
-            margin: EdgeInsets.symmetric(vertical: 10.h),
-            alignment: Alignment.center,
-            child: ZHTextLine(
+          margin: EdgeInsets.symmetric(vertical: 10.h),
+          alignment: Alignment.center,
+          child: Obx(
+            () => ZHTextLine(
               str: '推荐商品'.ts,
               fontWeight: FontWeight.bold,
-            )),
+            ),
+          ),
+        ),
         Obx(
           () => Visibility(
             visible: controller.loadingUtil.value.list.isNotEmpty,

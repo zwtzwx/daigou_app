@@ -4,10 +4,12 @@ import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/change_page_index_event.dart';
+import 'package:jiyun_app_client/events/notice_refresh_event.dart';
 import 'package:jiyun_app_client/events/profile_updated_event.dart';
 import 'package:jiyun_app_client/models/user_agent_status_model.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/models/user_vip_model.dart';
+import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 
 class MeController extends BaseController {
@@ -18,6 +20,7 @@ class MeController extends BaseController {
   final isloading = false.obs;
   UserInfoModel userInfoModel = Get.find<UserInfoModel>();
   final agentStatus = Rxn<UserAgentStatusModel?>();
+  final noticeUnRead = false.obs;
   @override
   void onInit() {
     super.onInit();
@@ -27,7 +30,22 @@ class MeController extends BaseController {
         .listen((event) {
       created();
     });
+    ApplicationEvent.getInstance()
+        .event
+        .on<NoticeRefreshEvent>()
+        .listen((event) {
+      onGetUnReadNotice();
+    });
     created();
+    onGetUnReadNotice();
+  }
+
+  // 是否有未读消息
+  onGetUnReadNotice() async {
+    var token = Get.find<UserInfoModel>().token.value;
+    if (token.isEmpty) return;
+    var res = await CommonService.hasUnReadInfo();
+    noticeUnRead.value = res;
   }
 
   /*

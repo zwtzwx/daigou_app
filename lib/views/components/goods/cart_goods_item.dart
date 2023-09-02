@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/instance_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/models/shop/cart_model.dart';
+import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 
@@ -29,6 +32,7 @@ class CartGoodsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var currencyModel = Get.find<UserInfoModel>().currencyModel;
     return Container(
       margin: EdgeInsets.only(bottom: previewMode ? 0 : 10.h),
       decoration: BoxDecoration(
@@ -142,13 +146,31 @@ class CartGoodsItem extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            ZHTextLine(
-                              str: previewMode
-                                  ? (sku.amount).toStringAsFixed(2)
-                                  : (sku.quantity * sku.price)
-                                      .toStringAsFixed(2),
-                              fontWeight: FontWeight.bold,
-                              color: BaseStylesConfig.textBlack,
+                            Obx(
+                              () => Text.rich(
+                                TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: currencyModel.value?.symbol ?? '',
+                                      ),
+                                      TextSpan(
+                                        text: previewMode
+                                            ? (sku.amount).rate(
+                                                needFormat: false,
+                                                showPriceSymbol: false)
+                                            : (sku.quantity * sku.price).rate(
+                                                needFormat: false,
+                                                showPriceSymbol: false),
+                                        style: TextStyle(
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ]),
+                              ),
                             ),
                             previewMode
                                 ? ZHTextLine(

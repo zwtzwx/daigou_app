@@ -9,6 +9,8 @@ import 'package:jiyun_app_client/views/contact/contact_binding.dart';
 import 'package:jiyun_app_client/views/contact/contact_page.dart';
 import 'package:jiyun_app_client/views/express/express_query_bind.dart';
 import 'package:jiyun_app_client/views/express/express_query_page.dart';
+import 'package:jiyun_app_client/views/group/group_center/bindings.dart';
+import 'package:jiyun_app_client/views/group/group_center/view.dart';
 import 'package:jiyun_app_client/views/help/help_center/bindings.dart';
 import 'package:jiyun_app_client/views/help/help_center/view.dart';
 import 'package:jiyun_app_client/views/help/question/bindings.dart';
@@ -29,6 +31,8 @@ import 'package:jiyun_app_client/views/order/list/order_list_binding.dart';
 import 'package:jiyun_app_client/views/order/list/order_list_view.dart';
 import 'package:jiyun_app_client/views/order/tracking/tracking_binding.dart';
 import 'package:jiyun_app_client/views/order/tracking/tracking_detail_page.dart';
+import 'package:jiyun_app_client/views/parcel/create_order/bindings.dart';
+import 'package:jiyun_app_client/views/parcel/create_order/view.dart';
 import 'package:jiyun_app_client/views/parcel/forecast/forecast_binding.dart';
 import 'package:jiyun_app_client/views/parcel/forecast/forecast_parcel_page.dart';
 import 'package:jiyun_app_client/views/parcel/no_owner/detail/no_owner_parcel_detail_binding.dart';
@@ -51,6 +55,8 @@ import 'package:jiyun_app_client/views/payment/shop_pay/shop_order_pay_binding.d
 import 'package:jiyun_app_client/views/payment/shop_pay/shop_order_pay_view.dart';
 import 'package:jiyun_app_client/views/payment/transfer_payment/bindings.dart';
 import 'package:jiyun_app_client/views/payment/transfer_payment/view.dart';
+import 'package:jiyun_app_client/views/payment/transport_pay/bindings.dart';
+import 'package:jiyun_app_client/views/payment/transport_pay/view.dart';
 import 'package:jiyun_app_client/views/shop/center/shop_center_binding.dart';
 import 'package:jiyun_app_client/views/shop/center/shop_center_view.dart';
 import 'package:jiyun_app_client/views/shop/chat_detail/order_chat_detail_binding.dart';
@@ -179,6 +185,10 @@ class Routers {
   static const String question = '/question'; // 问题
   static const String orderCenter = '/orderCenter'; // 包裹/订单中心
   static const String stationSelect = '/stationSelect'; // 自提点
+  static const String transportPay = '/transportPay'; // 集运订单支付
+  static const String createOrder = '/createOrder'; // 合箱
+
+  static const String groupCenter = '/groupCenter'; // 拼团中心
 
   static const String shopCenter = '/shopCenter'; //自营商城中心
   static const String goodsList = '/goodsList'; // 自营商品列表
@@ -522,6 +532,21 @@ class Routers {
       name: stationSelect,
       page: () => const StationSelectView(),
       binding: StationSelectBinding(),
+    ),
+    GetPage(
+      name: transportPay,
+      page: () => const TransportPayPage(),
+      binding: TransportPayBinding(),
+    ),
+    GetPage(
+      name: createOrder,
+      page: () => const CreateOrderPage(),
+      binding: CreateOrderBinding(),
+    ),
+    GetPage(
+      name: groupCenter,
+      page: () => const GroupCenterPage(),
+      binding: GroupCenterBinding(),
     ),
   ];
 

@@ -5,6 +5,7 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/common/fade_route.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/parcel_goods_model.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -170,8 +171,8 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
                 ),
               ),
               ZHTextLine(
-                  str: (controller.parcelModel.value!.packageValue! / 100)
-                      .toStringAsFixed(2))
+                  str: controller.parcelModel.value!.packageValue!
+                      .rate(showPriceSymbol: false, showInt: true))
             ],
           ),
         ),

@@ -372,37 +372,37 @@ class OrderDetailView extends GetView<OrderDetailController> {
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       child: Column(
         children: [
-          // controller.model.value!.status != 1
-          //     ? baseInfoItem(
-          //         '合计运费',
-          //         content: Row(
-          //           children: [
-          //             controller.model.value!.price != null &&
-          //                     num.parse(controller
-          //                             .model.value!.price!.discount) !=
-          //                         1
-          //                 ? ZHTextLine(
-          //                     str: controller.getPriceStr(
-          //                         controller.model.value!.price!.originPrice),
-          //                     color: BaseStylesConfig.textGray,
-          //                     fontSize: 13,
-          //                     decoration: TextDecoration.lineThrough,
-          //                   )
-          //                 : Sized.empty,
-          //             Sized.hGap10,
-          //             ZHTextLine(
-          //               str: controller
-          //                   .getPriceStr(controller.model.value!.allFreightFee),
-          //             ),
-          //           ],
-          //         ),
-          //       )
-          //     : Sized.empty,
-          // controller.model.value!.status != 1
-          //     ? baseInfoItem('帮您运费节省',
-          //         text: controller
-          //             .getPriceStr(controller.model.value!.thriftFreightFee))
-          //     : Sized.empty,
+          controller.model.value!.status != 1
+              ? baseInfoItem(
+                  '合计运费',
+                  content: Row(
+                    children: [
+                      controller.model.value!.price != null &&
+                              num.parse(controller
+                                      .model.value!.price!.discount) !=
+                                  1
+                          ? ZHTextLine(
+                              str: controller.getPriceStr(
+                                  controller.model.value!.price!.originPrice),
+                              color: BaseStylesConfig.textGray,
+                              fontSize: 13,
+                              decoration: TextDecoration.lineThrough,
+                            )
+                          : Sized.empty,
+                      Sized.hGap10,
+                      ZHTextLine(
+                        str: controller
+                            .getPriceStr(controller.model.value!.allFreightFee),
+                      ),
+                    ],
+                  ),
+                )
+              : Sized.empty,
+          controller.model.value!.status != 1
+              ? baseInfoItem('帮您运费节省',
+                  text: controller
+                      .getPriceStr(controller.model.value!.thriftFreightFee))
+              : Sized.empty,
           controller.model.value!.insuranceFee > 0
               ? baseInfoItem('保险费',
                   text:
@@ -640,6 +640,27 @@ class OrderDetailView extends GetView<OrderDetailController> {
               ),
             ),
             Sized.hGap10,
+            [2, 12].contains(controller.model.value?.status) ||
+                    controller.model.value?.paymentStatus == 1
+                ? MainButton(
+                    fontSize: 14,
+                    borderRadis: 999,
+                    text: controller.model.value?.status == 12 ? '重新支付' : '去付款',
+                    onPressed: () async {
+                      var s = await Navigator.pushNamed(
+                          context, '/OrderPayPage',
+                          arguments: {
+                            'id': controller.model.value?.id,
+                            'payModel': 1,
+                            'deliveryStatus':
+                                controller.model.value?.onDeliveryStatus,
+                          });
+                      if (s != null) {
+                        controller.onRefresh();
+                      }
+                    },
+                  )
+                : Sized.empty,
             [4, 5].contains(controller.model.value?.status)
                 ? PlainButton(
                     text: '查看物流',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/shop/goods_props_model.dart';
 import 'package:jiyun_app_client/models/shop/goods_sku_model.dart';
@@ -21,6 +22,7 @@ class SKUBottomSheet extends StatefulWidget {
     this.onQtyChange,
     this.onAddCart,
     this.onBuy,
+    this.currencySymbol,
   }) : super(key: key);
   final PlatformGoodsModel model;
   final GoodsSkuModel? sku;
@@ -30,6 +32,7 @@ class SKUBottomSheet extends StatefulWidget {
   final Function? onAddCart;
   final Function? onBuy;
   final String type;
+  final String? currencySymbol;
 
   @override
   State<SKUBottomSheet> createState() => _SKUBottomSheetState();
@@ -178,11 +181,19 @@ class _SKUBottomSheetState extends State<SKUBottomSheet> {
                     children: [
                       Text.rich(
                         TextSpan(
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                          ),
                           children: [
+                            TextSpan(
+                              text: widget.currencySymbol ?? '',
+                            ),
                             TextSpan(
                               text: ((sku?.price ?? widget.model.price ?? 0) *
                                       qty)
-                                  .toStringAsFixed(2),
+                                  .rate(
+                                      needFormat: false,
+                                      showPriceSymbol: false),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 26.sp,

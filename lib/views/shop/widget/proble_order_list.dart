@@ -4,6 +4,7 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/list_refresh_event.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/shop/problem_order_model.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
@@ -108,7 +109,8 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
                   ? ZHTextLine(
                       str: (model.status == 1 ? '待补款'.ts : '补款成功'.ts) +
                           '：' +
-                          (model.amount ?? ''),
+                          num.parse(model.amount ?? '0')
+                              .rate(needFormat: false),
                       color: model.status == 1
                           ? const Color(0xFFFFAF44)
                           : BaseStylesConfig.textGrayC9,
@@ -120,7 +122,8 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
                               : BaseStylesConfig.textGrayC9,
                           str: (model.status == 0 ? '待退款'.ts : '退款成功'.ts) +
                               '：' +
-                              (model.amount ?? ''))
+                              num.parse(model.amount ?? '0')
+                                  .rate(needFormat: false))
                       : null))),
           12.verticalSpace,
           Row(
@@ -131,7 +134,7 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
                 fontSize: 14,
               ),
               ZHTextLine(
-                str: (model.order?.freightFee ?? 0).toStringAsFixed(2),
+                str: (model.order?.freightFee ?? 0).rate(needFormat: false),
                 fontSize: 14,
                 color: BaseStylesConfig.textGrayC9,
               ),

@@ -341,7 +341,6 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                 child: ZHTextLine(
                   str: '复制'.ts,
                   fontSize: 13,
-                  color: Colors.white,
                 ),
               ),
             )
@@ -418,7 +417,6 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                       child: ZHTextLine(
                         str: '复制'.ts,
                         fontSize: 13,
-                        color: Colors.white,
                       ),
                     ),
                   )

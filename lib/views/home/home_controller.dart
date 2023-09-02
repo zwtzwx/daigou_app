@@ -3,17 +3,21 @@ import 'package:get/get.dart';
 import 'package:jiyun_app_client/common/loading_util.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/routers.dart';
+import 'package:jiyun_app_client/events/application_event.dart';
+import 'package:jiyun_app_client/events/notice_refresh_event.dart';
+import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/announcement_model.dart';
 import 'package:jiyun_app_client/models/goods_category_model.dart';
 import 'package:jiyun_app_client/models/language_model.dart';
 import 'package:jiyun_app_client/models/shop/goods_model.dart';
 import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/services/announcement_service.dart';
+import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
 import 'package:jiyun_app_client/state/i10n.dart';
 import 'package:jiyun_app_client/storage/annoucement_storage.dart';
+import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/home/widget/annoucement_dialog.dart';
 
 class HomeController extends BaseController {
@@ -21,7 +25,7 @@ class HomeController extends BaseController {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final I10n i10n = Get.find<I10n>();
   RxList<LanguageModel> langList = <LanguageModel>[].obs;
-  UserModel? userInfo = Get.find<UserInfoModel>().userInfo.value;
+  final noticeUnRead = false.obs;
   final RxList<GoodsCategoryModel> categoryList = <GoodsCategoryModel>[].obs;
   final RxList<GoodsModel> hotGoodsList = <GoodsModel>[].obs;
   final loadingUtil = LoadingUtil<PlatformGoodsModel>().obs;
@@ -35,7 +39,35 @@ class HomeController extends BaseController {
       image: 'Home/shop',
     ));
     getIndexAnnoucement();
+    onGetUnReadNotice();
     loadingUtil.value.initListener(getRecommendGoods);
+    ApplicationEvent.getInstance()
+        .event
+        .on<NoticeRefreshEvent>()
+        .listen((event) {
+      onGetUnReadNotice();
+    });
+  }
+
+  @override
+  onReady() {
+    // Get.dialog(
+    //   Container(
+    //     decoration: BoxDecoration(
+    //       color: Colors.white,
+    //       borderRadius: BorderRadius.circular(8),
+    //     ),
+    //     child: Column(
+    //       mainAxisSize: MainAxisSize.min,
+    //       children: [
+    //         ZHTextLine(
+    //           str: '监测到一个商品链接，是否立即跳转到商品详情'.ts,
+    //           fontSize: 14,
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   @override
@@ -67,6 +99,14 @@ class HomeController extends BaseController {
         'type': 'notice',
       });
     }
+  }
+
+  // 是否有未读消息
+  onGetUnReadNotice() async {
+    var token = Get.find<UserInfoModel>().token.value;
+    if (token.isEmpty) return;
+    var res = await CommonService.hasUnReadInfo();
+    noticeUnRead.value = res;
   }
 
   // 页面刷新

@@ -1,5 +1,6 @@
 import 'package:jiyun_app_client/models/area_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
+import 'package:jiyun_app_client/models/self_pickup_station_model.dart';
 
 /*
   收件人地址
@@ -124,6 +125,7 @@ class ReceiverAddressModel {
   AreaModel? subArea;
   AreaModel? area;
   int? addressType;
+  SelfPickupStationModel? station;
 
   ReceiverAddressModel();
 
@@ -165,6 +167,9 @@ class ReceiverAddressModel {
 
     if (json['sub_area'] != null) {
       subArea = AreaModel.fromJson(json['sub_area']);
+    }
+    if (json['station'] != null) {
+      station = SelfPickupStationModel.fromJson(json['station']);
     }
   }
 

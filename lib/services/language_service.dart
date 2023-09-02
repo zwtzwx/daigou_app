@@ -26,13 +26,14 @@ class LanguageService {
   /*
     获取对应语言的翻译内容
    */
-  static Future<Map<String, dynamic>?> getTransform(
-      Map<String, dynamic> params) async {
+  static Future<Map<String, dynamic>?> getTransform(Map<String, dynamic> params,
+      [Options? option]) async {
     Map<String, dynamic>? result;
     await HttpClient.instance
         .get(
       transformApi,
       queryParameters: params,
+      options: option,
     )
         .then((res) {
       if (res.ok) {

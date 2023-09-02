@@ -1,4 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -50,13 +51,15 @@ class MainButton extends StatelessWidget {
             BorderSide(color: backgroundColor),
           ),
         ),
-        child: ZHTextLine(
-          str: text.ts,
-          color: textColor,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          alignment: TextAlign.center,
-          lines: 2,
+        child: Obx(
+          () => ZHTextLine(
+            str: text.ts,
+            color: textColor,
+            fontSize: fontSize,
+            fontWeight: fontWeight,
+            alignment: TextAlign.center,
+            lines: 2,
+          ),
         ),
       ),
     );

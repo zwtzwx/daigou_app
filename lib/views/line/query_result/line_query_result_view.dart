@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/route_manager.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
 import 'package:jiyun_app_client/models/ship_line_model.dart';
@@ -174,7 +173,7 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                 Sized.hGap10,
                 Flexible(
                   child: Wrap(
-                    children: ((controller.postDic.value?['props'] ?? [])
+                    children: ((controller.postDic.value?['propList'] ?? [])
                             as List<ParcelPropsModel>)
                         .map((prop) => Container(
                               padding: const EdgeInsets.symmetric(
@@ -255,9 +254,10 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                     style: const TextStyle(color: BaseStylesConfig.textRed),
                     children: [
                       TextSpan(
-                          text: (controller.localModel?.currencySymbol ?? '')),
+                          text: (controller.currencyModel.value?.symbol ?? '')),
                       TextSpan(
-                        text: ((model.expireFee ?? 0) / 100).toStringAsFixed(2),
+                        text:
+                            (model.expireFee ?? 0).rate(showPriceSymbol: false),
                         style: const TextStyle(fontSize: 24),
                       ),
                     ],
@@ -327,7 +327,8 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                     : Sized.empty,
                 GestureDetector(
                     onTap: () {
-                      Routers.push(Routers.lineDetail, {'line': model});
+                      Routers.push(
+                          Routers.lineDetail, {'line': model, 'type': 2});
                     },
                     child: ZHTextLine(
                       str: '查看详情'.ts,

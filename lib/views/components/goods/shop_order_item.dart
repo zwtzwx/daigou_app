@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/shop/shop_order_model.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
@@ -63,7 +64,7 @@ class ShopOrderItem extends StatelessWidget {
                         fontSize: 14,
                       ),
                       ZHTextLine(
-                        str: (model.freightFee ?? 0).toStringAsFixed(2),
+                        str: (model.freightFee ?? 0).rate(needFormat: false),
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -78,7 +79,7 @@ class ShopOrderItem extends StatelessWidget {
                         fontSize: 14,
                       ),
                       ZHTextLine(
-                        str: (model.serviceFee ?? 0).toStringAsFixed(2),
+                        str: (model.serviceFee ?? 0).rate(needFormat: false),
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -93,7 +94,7 @@ class ShopOrderItem extends StatelessWidget {
                         fontSize: 14,
                       ),
                       ZHTextLine(
-                        str: (model.amount ?? 0).toStringAsFixed(2),
+                        str: (model.amount ?? 0).rate(needFormat: false),
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: BaseStylesConfig.textRed,

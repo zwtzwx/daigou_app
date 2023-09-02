@@ -51,18 +51,16 @@ class GoodsItem extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 13.w),
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    height: 30.h,
-                    child: ZHTextLine(
-                      str: goods.name,
-                      fontSize: 13,
-                      color: BaseStylesConfig.textDark,
-                      lines: 2,
-                    ),
+                  ZHTextLine(
+                    str: goods.name,
+                    fontSize: 13,
+                    color: BaseStylesConfig.textDark,
+                    lines: 2,
                   ),
                   5.verticalSpace,
                   Row(
@@ -76,10 +74,12 @@ class GoodsItem extends StatelessWidget {
                           fontSize: 14,
                         ),
                       ),
-                      ZHTextLine(
-                        str: '已卖{count}件'.tsArgs({'count': goods.saleCount}),
-                        fontSize: 10,
-                        color: BaseStylesConfig.textGrayC9,
+                      Obx(
+                        () => ZHTextLine(
+                          str: '已卖{count}件'.tsArgs({'count': goods.saleCount}),
+                          fontSize: 10,
+                          color: BaseStylesConfig.textGrayC9,
+                        ),
                       ),
                     ],
                   ),

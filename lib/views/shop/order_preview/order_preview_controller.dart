@@ -5,6 +5,7 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/cart_count_refresh_event.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/insurance_item_model.dart';
 import 'package:jiyun_app_client/models/insurance_model.dart';
@@ -385,21 +386,14 @@ class OrderPreviewController extends BaseController {
     String content = '';
     switch (feeType) {
       case 1:
-        content = '固定费用为'.ts +
-            '：' +
-            (localModel?.currencySymbol ?? '') +
-            fee.toStringAsFixed(2);
+        content = '固定费用为'.ts + '：' + fee.rate(needFormat: false);
         break;
       case 2:
       case 4:
         content = '比例值为'.ts + '：' + fee.toStringAsFixed(2) + '%';
         break;
       case 3:
-        content = '固定费用为'.ts +
-            '：' +
-            (localModel?.currencySymbol ?? '') +
-            fee.toStringAsFixed(2) +
-            '/${'件'.ts}';
+        content = '固定费用为'.ts + '：' + fee.rate(needFormat: false) + '/${'件'.ts}';
         break;
     }
     return content;

@@ -110,7 +110,8 @@ class LineQueryController extends BaseController {
       'width': wideController.text,
       'height': highController.text,
       'weight': num.parse(weightController.text) * 1000,
-      'props': selectPropList,
+      'props': selectPropList.map((ele) => ele.id).toList(),
+      'propList': selectPropList,
       'warehouse_id': selectWareHouse.value?.id ?? '',
       'warehouseName': selectWareHouse.value?.warehouseName ?? '',
     };

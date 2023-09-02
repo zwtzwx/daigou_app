@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/services/language_service.dart';
 import 'package:jiyun_app_client/storage/language_storage.dart';
@@ -16,9 +17,9 @@ class I10n {
     loadTranslations();
   }
 
-  Future<void> loadTranslations() async {
+  Future<void> loadTranslations([Options? option]) async {
     _translations.value =
-        await LanguageService.getTransform({'source': 3}) ?? {};
+        await LanguageService.getTransform({'source': 3}, option) ?? {};
   }
 
   setLanguage(String data) {

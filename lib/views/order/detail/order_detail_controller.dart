@@ -5,6 +5,7 @@ import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/list_refresh_event.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
 import 'package:video_player/video_player.dart';
@@ -72,8 +73,7 @@ class OrderDetailController extends BaseController {
   }
 
   String getPriceStr(num? price) {
-    return (localModel?.currencySymbol ?? '') +
-        ((price ?? 0) / 100).toStringAsFixed(2);
+    return (price ?? 0).rate();
   }
 
   @override

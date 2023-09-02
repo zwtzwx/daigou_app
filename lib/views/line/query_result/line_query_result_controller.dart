@@ -39,16 +39,22 @@ class LineQueryResultController extends BaseController {
       'country_id': postDic.value?['country_id'] ?? '',
       'area_id': postDic.value?['area_id'],
       'sub_area_id': postDic.value?['sub_area_id'],
-      'length': postDic.value?['length'] ?? '',
-      'width': postDic.value?['width'] ?? '',
-      'height': postDic.value?['height'] ?? '',
       'warehouse_id': postDic.value?['warehouse_id'] ?? '',
-      'prop_ids': (postDic.value?['props'] ?? []).map((e) => e.id).toList(),
+      'prop_ids': (postDic.value?['props'] ?? []),
     };
     if (postDic.value?['weight'] != null) {
       params['weight'] = postDic.value?['weight'] ?? '';
     }
-    Map result = await ShipLineService.getList(params: {});
+    if (postDic.value?['length'] != null) {
+      params['length'] = postDic.value?['length'] ?? '';
+    }
+    if (postDic.value?['width'] != null) {
+      params['width'] = postDic.value?['width'] ?? '';
+    }
+    if (postDic.value?['height'] != null) {
+      params['height'] = postDic.value?['height'] ?? '';
+    }
+    Map result = await ShipLineService.getList(params: params);
     lineData.value = result['list'];
     if (!result['ok']) {
       isEmpty.value = true;

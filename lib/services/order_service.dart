@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:dio/dio.dart';
 import 'package:jiyun_app_client/common/http_client.dart';
 import 'package:jiyun_app_client/models/order_exceptional_model.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
@@ -92,7 +93,9 @@ class OrderService {
           ORDERDETAIL.replaceAll(':id', id.toString()),
         )
         .then((response) => {result = OrderModel.fromJson(response.data)})
-        .onError((error, stackTrace) => {});
+        .onError((error, stackTrace) {
+      return {};
+    });
     return result;
   }
 
@@ -103,7 +106,8 @@ class OrderService {
   static Future updateReadyPay(
       Map params, OnSuccess onSuccess, OnFail onFail) async {
     return await HttpClient.instance
-        .post(previewPay, data: params)
+        .post(previewPay,
+            data: params, options: Options(extra: {'showSuccess': false}))
         .then((response) {
       if (response.ok) {
         onSuccess(response);

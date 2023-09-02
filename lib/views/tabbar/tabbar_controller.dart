@@ -17,7 +17,6 @@ class TabbarController extends BaseController {
   late final pageController;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final selectIndex = 0.obs;
-  final noticeUnRead = false.obs;
   final cartCount = 0.obs;
   UserInfoModel userInfoModel = Get.find<UserInfoModel>();
 
@@ -51,13 +50,6 @@ class TabbarController extends BaseController {
       onPageSelect(index);
       pageController.jumpToPage(index);
     });
-
-    // ApplicationEvent.getInstance()
-    //     .event
-    //     .on<NoticeRefreshEvent>()
-    //     .listen((event) {
-    //   onGetUnReadNotice();
-    // });
 
     ApplicationEvent.getInstance()
         .event
@@ -104,13 +96,6 @@ class TabbarController extends BaseController {
       return;
     }
     pageController.jumpToPage(index);
-  }
-
-  // 是否有未读消息
-  onGetUnReadNotice() async {
-    if (userInfoModel.token.value.isEmpty) return;
-    var res = await CommonService.hasUnReadInfo();
-    noticeUnRead.value = res;
   }
 
   // 购物车商品数量

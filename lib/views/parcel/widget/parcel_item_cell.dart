@@ -351,6 +351,10 @@ class ParcelItemCell extends StatelessWidget {
                         model.status == 1
                             ? PlainButton(
                                 text: '删除',
+                                textColor: BaseStylesConfig.textRed,
+                                borderRadis: 999,
+                                fontSize: 14,
+                                borderColor: BaseStylesConfig.textRed,
                                 onPressed: () async {
                                   var data = await BaseDialog.confirmDialog(
                                       context, '确定要删除吗'.ts + '？');

@@ -22,15 +22,15 @@ class PlatformGoodsCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textPainter = TextPainter(
-      text: TextSpan(text: goods.title, style: TextStyle(fontSize: 13.sp)),
-      maxLines: 1,
-      textDirection: TextDirection.ltr,
-    )..layout(maxWidth: (1.sw - 34.w) / 2 - 41.w);
-    final maxChars = textPainter
-        .getPositionForOffset(Offset((1.sw - 34.w) / 2 - 41.w, 0))
-        .offset
-        .toInt();
+    // final textPainter = TextPainter(
+    //   text: TextSpan(text: goods.title, style: TextStyle(fontSize: 13.sp)),
+    //   maxLines: 1,
+    //   textDirection: TextDirection.ltr,
+    // )..layout(maxWidth: (1.sw - 34.w) / 2 - 41.w);
+    // final maxChars = textPainter
+    //     .getPositionForOffset(Offset((1.sw - 34.w) / 2 - 41.w, 0))
+    //     .offset
+    //     .toInt();
     return GestureDetector(
       onTap: () {
         Routers.push(Routers.goodsDetail, {'url': goods.detailUrl});
@@ -66,32 +66,56 @@ class PlatformGoodsCell extends StatelessWidget {
                     height: 35.h,
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            LoadImage(
-                              'Home/tao',
-                              width: 16.w,
-                              height: 16.w,
+                        Text.rich(
+                          TextSpan(
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              height: 1.2,
                             ),
-                            5.horizontalSpace,
-                            ZHTextLine(
-                              str: goods.title.length > maxChars
-                                  ? goods.title.substring(0, maxChars)
-                                  : goods.title,
-                              fontSize: 13,
-                              color: BaseStylesConfig.textDark,
-                            ),
-                          ],
+                            children: [
+                              WidgetSpan(
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 5.w),
+                                  child: LoadImage(
+                                    'Home/tao',
+                                    width: 16.w,
+                                    height: 16.w,
+                                  ),
+                                ),
+                                alignment: PlaceholderAlignment.middle,
+                              ),
+                              TextSpan(text: goods.title),
+                            ],
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        Container(
-                          child: goods.title.length > maxChars
-                              ? ZHTextLine(
-                                  str: goods.title.substring(maxChars),
-                                  fontSize: 13,
-                                  color: BaseStylesConfig.textDark,
-                                )
-                              : Sized.empty,
-                        ),
+                        // Row(
+                        //   children: [
+                        //     LoadImage(
+                        //       'Home/tao',
+                        //       width: 16.w,
+                        //       height: 16.w,
+                        //     ),
+                        //     5.horizontalSpace,
+                        //     ZHTextLine(
+                        //       str: goods.title.length > maxChars
+                        //           ? goods.title.substring(0, maxChars)
+                        //           : goods.title,
+                        //       fontSize: 13,
+                        //       color: BaseStylesConfig.textDark,
+                        //     ),
+                        //   ],
+                        // ),
+                        // Container(
+                        //   child: goods.title.length > maxChars
+                        //       ? ZHTextLine(
+                        //           str: goods.title.substring(maxChars),
+                        //           fontSize: 13,
+                        //           color: BaseStylesConfig.textDark,
+                        //         )
+                        //       : Sized.empty,
+                        // ),
                       ],
                     ),
                   ),
@@ -106,12 +130,14 @@ class PlatformGoodsCell extends StatelessWidget {
                           fontSize: 16,
                         ),
                       ),
-                      ZHTextLine(
-                        str: '{count}人付款'.tsArgs(
-                          {'count': (goods.sales ?? 0).toString()},
+                      Obx(
+                        () => ZHTextLine(
+                          str: '{count}人付款'.tsArgs(
+                            {'count': (goods.sales ?? 0).toString()},
+                          ),
+                          color: BaseStylesConfig.textGrayC9,
+                          fontSize: 10,
                         ),
-                        color: BaseStylesConfig.textGrayC9,
-                        fontSize: 10,
                       ),
                     ],
                   )

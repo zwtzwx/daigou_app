@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/common/loading_util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/empty_box.dart';
 import 'package:jiyun_app_client/views/components/error_box.dart';
@@ -33,9 +32,11 @@ class LoadingCell extends StatelessWidget {
             const CupertinoActivityIndicator(
                 color: BaseStylesConfig.textNormal),
             5.horizontalSpace,
-            ZHTextLine(
-              str: '加载中'.ts + '...',
-              color: BaseStylesConfig.textNormal,
+            Obx(
+              () => ZHTextLine(
+                str: '加载中'.ts + '...',
+                color: BaseStylesConfig.textNormal,
+              ),
             ),
           ],
         ),
@@ -44,10 +45,12 @@ class LoadingCell extends StatelessWidget {
       return Padding(
         padding: EdgeInsets.fromLTRB(0, 12.h, 0, 20.h),
         child: Center(
-          child: ZHTextLine(
-            str: '没有更多商品了'.ts,
-            fontSize: 14,
-            color: BaseStylesConfig.textNormal,
+          child: Obx(
+            () => ZHTextLine(
+              str: '没有更多商品了'.ts,
+              fontSize: 14,
+              color: BaseStylesConfig.textNormal,
+            ),
           ),
         ),
       );

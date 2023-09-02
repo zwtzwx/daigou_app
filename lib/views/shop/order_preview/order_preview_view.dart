@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
@@ -51,7 +52,15 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                       children: [
                         TextSpan(text: '总计'.ts + '：'),
                         TextSpan(
-                          text: controller.shopOrderValue.toStringAsFixed(2),
+                          text: controller.currencyModel.value?.symbol ?? '',
+                          style: const TextStyle(
+                            color: BaseStylesConfig.textRed,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextSpan(
+                          text: controller.shopOrderValue
+                              .rate(needFormat: false, showPriceSymbol: false),
                           style: const TextStyle(
                             fontSize: 16,
                             color: BaseStylesConfig.textRed,
@@ -584,7 +593,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                         : Sized.empty,
                     Expanded(
                       child: ZHTextLine(
-                        str: ((service.price ?? 0) / 100).toStringAsFixed(2),
+                        str: (service.price ?? 0).rate(),
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         alignment: TextAlign.right,
@@ -683,7 +692,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                           fontSize: 14,
                         ),
                         ZHTextLine(
-                          str: (shop.freightFee ?? 0).toStringAsFixed(2),
+                          str: (shop.freightFee ?? 0).rate(needFormat: false),
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
@@ -704,7 +713,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                   ),
                                   ZHTextLine(
                                     str: (shop.service?.serviceFee ?? 0)
-                                        .toStringAsFixed(2),
+                                        .rate(needFormat: false),
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -784,8 +793,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                         ),
                                       ),
                                       ZHTextLine(
-                                        str: ((service.charge ?? 0) / 100)
-                                            .toStringAsFixed(2),
+                                        str: (service.charge ?? 0).rate(),
                                         fontSize: 14,
                                       ),
                                       10.horizontalSpace,

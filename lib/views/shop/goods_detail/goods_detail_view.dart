@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
@@ -168,14 +169,28 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ZHTextLine(
-                    str: ((controller.sku.value?.price ??
-                                controller.goodsModel.value?.price ??
-                                0) *
-                            controller.qty.value)
-                        .toStringAsFixed(2),
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
+                  Text.rich(
+                    TextSpan(
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: controller.currencyModel.value?.symbol ?? '',
+                          ),
+                          TextSpan(
+                            text: ((controller.sku.value?.price ??
+                                        controller.goodsModel.value?.price ??
+                                        0) *
+                                    controller.qty.value)
+                                .rate(
+                                    showPriceSymbol: false, needFormat: false),
+                            style: TextStyle(
+                              fontSize: 26.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ]),
                   ),
                   6.verticalSpaceFromWidth,
                   Text.rich(
@@ -243,7 +258,15 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                               width: 80.w,
                               height: 30.h,
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  ZHTextLine(
+                                    str: controller
+                                            .currencyModel.value?.symbol ??
+                                        '',
+                                    fontSize: 14,
+                                  ),
+                                  3.horizontalSpace,
                                   Expanded(
                                     child: BaseInput(
                                       controller: controller.priceController,
@@ -253,8 +276,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                                       autoShowRemove: false,
                                       style: TextStyle(fontSize: 16.sp),
                                       contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              vertical: 10),
+                                          EdgeInsets.symmetric(vertical: 8.h),
                                       keyboardType:
                                           const TextInputType.numberWithOptions(
                                               decimal: true),

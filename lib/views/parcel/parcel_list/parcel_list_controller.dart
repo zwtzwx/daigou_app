@@ -3,9 +3,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
+import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/list_refresh_event.dart';
 import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
+import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/models/warehouse_model.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
@@ -20,7 +22,7 @@ class ParcelListController extends BaseController
   int currentWarehouse = 0;
   final type = 1.obs;
   final checkedIds = <int>[].obs;
-  final allIds = [];
+  final allParcels = <ParcelModel>[];
 
   @override
   void onReady() {
@@ -38,6 +40,7 @@ class ParcelListController extends BaseController
     var _warehouseList = await WarehouseService.getList();
     hideLoading();
     warehouseList = _warehouseList;
+    currentWarehouse = _warehouseList.first.id!;
     tabController = TabController(length: _warehouseList.length, vsync: this);
     isLoading.value = true;
   }
@@ -45,8 +48,34 @@ class ParcelListController extends BaseController
   onPageChange(int index) {
     currentWarehouse = warehouseList[index].id!;
     checkedIds.clear();
-    allIds.clear();
+    allParcels.clear();
     tabController?.animateTo(index);
+  }
+
+  onAllChecked() {
+    if (checkedIds.length == allParcels.length && checkedIds.isNotEmpty) {
+      checkedIds.clear();
+    } else {
+      checkedIds.value = allParcels.map((e) => e.id!).toList();
+    }
+  }
+
+  onSubmit() async {
+    if (checkedIds.isEmpty) {
+      return showToast('请选择包裹');
+    }
+    List<ParcelModel> checkedList =
+        allParcels.where((e) => checkedIds.contains(e.id!)).toList();
+    var s = await Routers.push(Routers.createOrder, {
+      'modelList': checkedList,
+    });
+    if (s == 'succeed') {
+      allParcels.clear();
+      checkedIds.clear();
+      ApplicationEvent.getInstance()
+          .event
+          .fire(ListRefreshEvent(type: 'refresh'));
+    }
   }
 
   loadList({type}) async {
@@ -61,7 +90,7 @@ class ParcelListController extends BaseController
       'page': (++pageIndex.value),
     });
     if (data['dataList'] is List) {
-      allIds.addAll(data['dataList'].map((e) => e.id).toList());
+      allParcels.addAll((data['dataList'] as List<ParcelModel>));
     }
     return data;
   }

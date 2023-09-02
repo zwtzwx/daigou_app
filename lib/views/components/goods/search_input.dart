@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
@@ -66,21 +67,23 @@ class _SearchCellState extends State<SearchCell> {
       child: Row(
         children: [
           Expanded(
-            child: BaseInput(
-              board: true,
-              controller: controller,
-              focusNode: focusNode,
-              isCollapsed: true,
-              isSearchInput: true,
-              textInputAction: TextInputAction.search,
-              hintStyle: TextStyle(
-                  fontSize: 12.sp, color: BaseStylesConfig.textGrayC9),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(7)),
-              hintText: widget.hintText.ts,
-              onSubmitted: (value) {
-                onConfirm(context, value);
-              },
+            child: Obx(
+              () => BaseInput(
+                board: true,
+                controller: controller,
+                focusNode: focusNode,
+                isCollapsed: true,
+                isSearchInput: true,
+                textInputAction: TextInputAction.search,
+                hintStyle: TextStyle(
+                    fontSize: 12.sp, color: BaseStylesConfig.textGrayC9),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(7)),
+                hintText: widget.hintText.ts,
+                onSubmitted: (value) {
+                  onConfirm(context, value);
+                },
+              ),
             ),
           ),
           Sized.hGap10,

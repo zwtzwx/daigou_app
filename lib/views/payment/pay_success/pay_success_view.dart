@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
@@ -33,7 +32,7 @@ class PaySuccessView extends GetView<PaySuccessController> {
             children: [
               20.verticalSpace,
               LoadImage(
-                'Shop/order_pay',
+                'Shop/pay_success',
                 width: 150.w,
               ),
               10.verticalSpace,

@@ -117,7 +117,9 @@ class GoodsDetailController extends BaseController {
       'price': sku.value?.price,
       'quantity': qty.value,
       'amount': (sku.value?.price ?? 0) * qty.value,
-      'freight_fee': priceController.text,
+      'freight_fee': priceController.text.isNotEmpty
+          ? num.parse(priceController.text) / (currencyModel.value?.rate ?? 1)
+          : 0,
       'sku_info': {
         'shop_id': goodsModel.value?.shopId,
         'imgs': goodsModel.value?.images,
@@ -148,7 +150,7 @@ class GoodsDetailController extends BaseController {
     var params = {
       'shop': {
         'freight_fee': num.tryParse(priceController.text) != null
-            ? num.parse(priceController.text)
+            ? num.parse(priceController.text) / (currencyModel.value?.rate ?? 1)
             : 0,
         'goods_amount': (sku.value?.price ?? 0) * qty.value,
         'id': goodsModel.value?.shopId,
@@ -213,6 +215,7 @@ class GoodsDetailController extends BaseController {
         qty: qty.value,
         sku: sku.value,
         type: type,
+        currencySymbol: currencyModel.value?.symbol,
         onSkuChange: (value) {
           sku.value = value;
         },

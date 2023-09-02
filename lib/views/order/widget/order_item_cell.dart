@@ -255,12 +255,11 @@ class OrderItemCell extends StatelessWidget {
                       ? '去付款'
                       : '重新支付',
                   onPressed: () async {
-                    var s = await Navigator.pushNamed(context, '/OrderPayPage',
-                        arguments: {
-                          'id': orderModel.id,
-                          'payModel': 1,
-                          'deliveryStatus': orderModel.onDeliveryStatus,
-                        });
+                    var s = await Routers.push(Routers.transportPay, {
+                      'id': orderModel.id,
+                      'payModel': 1,
+                      'deliveryStatus': orderModel.onDeliveryStatus,
+                    });
                     if (s != null) {
                       ApplicationEvent.getInstance()
                           .event

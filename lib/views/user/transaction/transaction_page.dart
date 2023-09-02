@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
+import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/order_transaction_model.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -63,8 +64,7 @@ class TransactionView extends GetView<TransactionController> {
                 Container(
                   alignment: Alignment.center,
                   child: ZHTextLine(
-                    str: (controller.localModel?.currencySymbol ?? '') +
-                        (model.amount / 100).toStringAsFixed(2),
+                    str: model.amount.rate(),
                     fontSize: 18,
                     color: BaseStylesConfig.textRed,
                   ),

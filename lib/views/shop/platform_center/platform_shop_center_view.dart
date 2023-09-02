@@ -47,7 +47,7 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
                       const LanguageCell(),
                       Padding(
                         padding: EdgeInsets.fromLTRB(12.w, 0, 12.w, 10.h),
-                        child: const SearchCell(),
+                        child: const SearchCell(goPlatformGoods: true),
                       ),
                       const AdsCell(type: 5),
                       20.verticalSpaceFromWidth,
@@ -81,10 +81,12 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ZHTextLine(
-            str: '代购流程'.ts,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
+          Obx(
+            () => ZHTextLine(
+              str: '代购流程'.ts,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
           ),
           10.verticalSpace,
           Padding(
@@ -96,7 +98,7 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
                   children: list
                       .map(
                         (e) => Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          // crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             LoadImage(
                               'Shop/${e['img']}',
@@ -104,11 +106,13 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
                               height: 40.w,
                             ),
                             3.verticalSpace,
-                            ZHTextLine(
-                              str: e['name']!.ts,
-                              fontSize: 12,
-                              lines: 4,
-                              alignment: TextAlign.center,
+                            Obx(
+                              () => ZHTextLine(
+                                str: e['name']!.ts,
+                                fontSize: 12,
+                                lines: 4,
+                                alignment: TextAlign.center,
+                              ),
                             ),
                           ],
                         ),
@@ -149,16 +153,31 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
                     ? BorderSide(color: BaseStylesConfig.primary, width: 2.h)
                     : BorderSide.none,
               )),
-              child: ZHTextLine(
-                str: controller.categoryList[index].name,
-                fontSize: controller.categoryIndex.value == index ? 16 : 14,
-                color: controller.categoryIndex.value == index
-                    ? BaseStylesConfig.textDark
-                    : BaseStylesConfig.textNormal,
-                fontWeight: controller.categoryIndex.value == index
-                    ? FontWeight.bold
-                    : FontWeight.normal,
-              ),
+              child: controller.categoryList[index].id == 0
+                  ? Obx(
+                      () => ZHTextLine(
+                        str: controller.categoryList[index].name.ts,
+                        fontSize:
+                            controller.categoryIndex.value == index ? 16 : 14,
+                        color: controller.categoryIndex.value == index
+                            ? BaseStylesConfig.textDark
+                            : BaseStylesConfig.textNormal,
+                        fontWeight: controller.categoryIndex.value == index
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
+                    )
+                  : ZHTextLine(
+                      str: controller.categoryList[index].name,
+                      fontSize:
+                          controller.categoryIndex.value == index ? 16 : 14,
+                      color: controller.categoryIndex.value == index
+                          ? BaseStylesConfig.textDark
+                          : BaseStylesConfig.textNormal,
+                      fontWeight: controller.categoryIndex.value == index
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
             );
           },
         ),

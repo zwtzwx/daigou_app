@@ -4,6 +4,7 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/home_refresh_event.dart';
+import 'package:jiyun_app_client/events/language_change_event.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/group_model.dart';
 import 'package:jiyun_app_client/services/group_service.dart';
@@ -33,6 +34,12 @@ class _RecommendGroupCellState extends State<RecommendGroupCell>
       if (event.page == 'transport') {
         getList();
       }
+    });
+    ApplicationEvent.getInstance()
+        .event
+        .on<LanguageChangeEvent>()
+        .listen((event) {
+      getList();
     });
   }
 

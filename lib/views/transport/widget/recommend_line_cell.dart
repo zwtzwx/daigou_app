@@ -3,15 +3,20 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/instance_manager.dart';
+import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/home_refresh_event.dart';
+import 'package:jiyun_app_client/events/language_change_event.dart';
 import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/currency_rate_model.dart';
-import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/ship_line_model.dart';
+import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/ship_line_service.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
@@ -50,6 +55,13 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
         loadData();
       }
     });
+    ApplicationEvent.getInstance()
+        .event
+        .on<LanguageChangeEvent>()
+        .listen((event) {
+      loadData();
+      getCountries();
+    });
   }
 
   void getCountries() async {
@@ -82,7 +94,7 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
             .map(
               (e) => PickerItem(
                 text: ZHTextLine(
-                  str: e.name ?? '',
+                  str: e.id == 0 ? e.name!.ts : (e.name ?? ''),
                 ),
                 value: e.id!,
               ),
@@ -120,11 +132,19 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
               ),
               child: Row(
                 children: [
-                  ZHTextLine(
-                    str: countryModel?.name ?? '',
-                    color: const Color(0xff555555),
-                    fontSize: 12,
-                  ),
+                  countryModel?.id == 0
+                      ? Obx(
+                          () => ZHTextLine(
+                            str: countryModel!.name!.ts,
+                            color: const Color(0xff555555),
+                            fontSize: 12,
+                          ),
+                        )
+                      : ZHTextLine(
+                          str: countryModel?.name ?? '',
+                          color: const Color(0xff555555),
+                          fontSize: 12,
+                        ),
                   3.horizontalSpace,
                   Icon(
                     Icons.keyboard_arrow_down,
@@ -137,14 +157,16 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
           ),
         ),
         Container(
-          height: 220.h,
+          height: 230.h,
           margin: EdgeInsets.symmetric(horizontal: 12.w),
           child: isLoading
-              ? const Skeleton(
-                  type: SkeletonType.goodsSkeleton,
+              ? Skeleton(
+                  type: SkeletonType.listSkeleton,
+                  lineCount: 9,
+                  height: 230.h,
                 )
               : Swiper(
-                  itemHeight: 220.h,
+                  itemHeight: 230.h,
                   itemCount: (lineList.length / 2).ceil(),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
@@ -181,6 +203,7 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
   }
 
   Widget lineItemCell(ShipLineModel model) {
+    var currencyModel = Get.find<UserInfoModel>().currencyModel;
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
       width: (1.sw - 36.w) / 2,
@@ -199,7 +222,7 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
         children: [
           LoadImage(
             model.icon?.icon ?? '',
-            width: 70.w,
+            width: 65.w,
           ),
           3.verticalSpace,
           ZHTextLine(
@@ -214,30 +237,32 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
           ),
           Expanded(
               child: Center(
-            child: Text.rich(
-              TextSpan(
-                  style: TextStyle(
-                    color: const Color(0xFFFA6363),
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: widget.currencySymbol?.symbol ?? '',
+            child: Obx(
+              () => Text.rich(
+                TextSpan(
+                    style: TextStyle(
+                      color: const Color(0xFFFA6363),
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.bold,
                     ),
-                    TextSpan(
-                      text: num.parse(model.basePrice).rate(
-                        showPriceSymbol: false,
-                        needFormat: false,
+                    children: [
+                      TextSpan(
+                        text: currencyModel.value?.symbol ?? '',
                       ),
-                      style: TextStyle(
-                        fontSize: 14.sp,
+                      TextSpan(
+                        text: num.parse(model.basePrice).rate(
+                          showPriceSymbol: false,
+                          needFormat: false,
+                        ),
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: '起'.ts,
-                    ),
-                  ]),
+                      TextSpan(
+                        text: '起'.ts,
+                      ),
+                    ]),
+              ),
             ),
           )),
           SizedBox(
@@ -247,14 +272,13 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
               borderRadis: 999,
               fontSize: 14,
               onPressed: () {
-                // Routers.push(
-                //     '/LineDetailPage', context, {'id': model.id, 'type': 1});
+                Routers.push(Routers.lineDetail, {'id': model.id, 'type': 1});
               },
             ),
           ),
           8.verticalSpace,
           SizedBox(
-            height: 28.h,
+            height: 35.h,
             child: ZHTextLine(
               str: '接受'.ts + '：' + model.propStr,
               fontSize: 12,

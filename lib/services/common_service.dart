@@ -37,6 +37,7 @@ class CommonService {
   static const String unReadNoticeApi = 'notification-records/no-read-count';
   // 汇率
   static const String exchangeRateApi = 'exchange/rates';
+  static const String goodsUrlApi = 'purchase/password/item';
 
   // 获取预报的同意条款
   static Future<Map<String, dynamic>?> getTerms(
@@ -205,5 +206,19 @@ class CommonService {
       }
     });
     return datas;
+  }
+
+  // 获取商品链接
+  static Future<String?> getGoodsUrl(Map<String, dynamic> params) async {
+    String? url;
+    await HttpClient()
+        .get(goodsUrlApi,
+            queryParameters: params, options: Options(extra: {'loading': true}))
+        .then((res) {
+      if (res.ok) {
+        url = res.data['item']['url'] + '&id=' + res.data['item']['num_iid'];
+      }
+    });
+    return url;
   }
 }
