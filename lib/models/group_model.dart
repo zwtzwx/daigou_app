@@ -84,7 +84,11 @@ class GroupModel {
     isExitable = json['is_exitable'];
     isGroupLeader = json['is_group_leader'];
     isJoined = json['is_joined'];
-    isSubmitted = json['is_submitted'] == 1;
+    if (json['is_submitted'] is bool) {
+      isSubmitted = json['is_submitted'];
+    } else {
+      isSubmitted = json['is_submitted'] == 1;
+    }
     orderSn = json['order_sn'];
     membersSubmittedCount = json['members_submitted_count'];
     code = json['code'];

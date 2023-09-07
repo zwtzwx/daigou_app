@@ -5,7 +5,7 @@ class AddressService {
   // 列表
   static const String listApi = 'address';
   //单个地址
-  static const String addressOneApi = 'address/:id/';
+  static const String addressOneApi = 'address/:id';
   static const String addressDefaultApi = 'address/default';
 
   // 地址列表
@@ -79,6 +79,21 @@ class AddressService {
     ReceiverAddressModel? address;
     await HttpClient.instance.get(addressDefaultApi).then((response) {
       if (response.ok && response.data != null) {
+        address = ReceiverAddressModel.fromJson(response.data);
+      }
+    });
+    return address;
+  }
+
+  /*
+    地址详情
+   */
+  static Future<ReceiverAddressModel?> getAddressDetail(int id) async {
+    ReceiverAddressModel? address;
+    await HttpClient.instance
+        .get(addressOneApi.replaceAll(':id', id.toString()))
+        .then((response) {
+      if (response.ok) {
         address = ReceiverAddressModel.fromJson(response.data);
       }
     });

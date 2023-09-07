@@ -192,7 +192,11 @@ class ShipLineModel {
     if (json['props'] != null) {
       props = List<ParcelPropsModel>.empty(growable: true);
       json['props'].forEach((v) {
-        props!.add(ParcelPropsModel.fromJson(v));
+        if (v is String) {
+          props!.add(ParcelPropsModel(id: 1, name: v));
+        } else {
+          props!.add(ParcelPropsModel.fromJson(v));
+        }
       });
     }
     defaultStation = json['default_station'];

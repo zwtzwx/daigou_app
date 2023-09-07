@@ -1,6 +1,7 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jiyun_app_client/models/self_pickup_station_order_model.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Util {
   static void showSnackBar(BuildContext context, String msg,
@@ -14,11 +15,28 @@ class Util {
     }
   }
 
+  // 拼团状态
+  static String getGroupStatusName(int status) {
+    String str = '';
+    switch (status) {
+      case 0:
+        str = '拼团中';
+        break;
+      case 1:
+        str = '拼团结束';
+        break;
+      case 2:
+        str = '拼团取消';
+        break;
+    }
+    return str;
+  }
+
   static void showToast(String msg) {
     Fluttertoast.showToast(
         msg: msg,
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
+        gravity: ToastGravity.CENTER,
         // timeInSecForIos: 2,
         backgroundColor: Colors.black,
         textColor: Colors.white,
@@ -49,8 +67,8 @@ class Util {
   }
 
   // 订单状态
-  static String getOrderStatusName(
-      int status, SelfPickupStationOrderModel? stationOrder) {
+  static String getOrderStatusName(int status,
+      [SelfPickupStationOrderModel? stationOrder]) {
     String statusStr = '';
     //1 待处理 2待付款 3待发货 4已发货5已签收11审核中12审核失败
     switch (status) {
@@ -120,6 +138,15 @@ class Util {
         break;
     }
     return modeStr;
+  }
+
+  // 客服
+  static void onCustomerContact() {
+    Uri uri = Uri(
+      scheme: 'mailto',
+      path: '786969739@qq.com',
+    );
+    launchUrl(uri);
   }
 
   // 语言占位符替换

@@ -223,21 +223,26 @@ class ReceiverAddressModel {
     return content.join(' ');
   }
 
-  String getContent() {
+  String getContent({bool showCountry = true}) {
     String contentStr = '';
+    if (showCountry) {
+      contentStr += countryName;
+    }
     if (area != null) {
       if (area != null) {
-        contentStr = countryName + ' ' + area!.name;
+        contentStr += ' ${area!.name}';
       }
       if (subArea != null) {
-        contentStr += ' ' + subArea!.name;
+        contentStr += ' ${subArea!.name}';
       }
-      contentStr += ' ' + street;
+      if (street.isNotEmpty) {
+        contentStr += ' $street';
+      }
     } else {
-      contentStr += street;
-      contentStr += ' ' + doorNo;
-      contentStr += ' ' + city;
-      contentStr += ' ' + countryName;
+      contentStr += ' $doorNo $street $city';
+    }
+    if (addressType == 2) {
+      contentStr += ' $address';
     }
     return contentStr;
   }

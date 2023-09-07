@@ -9,7 +9,7 @@ extension RateConvert on num {
     bool showInt = false,
   }) {
     var currency = Get.find<UserInfoModel>().currencyModel;
-    var localizationInfo = Get.find<LocalizationModel?>();
+    var localizationInfo = Get.find<UserInfoModel>().localModel;
     var rate = currency.value?.rate ?? 1;
     var currencySymbol =
         currency.value?.symbol ?? localizationInfo?.currencySymbol ?? '';

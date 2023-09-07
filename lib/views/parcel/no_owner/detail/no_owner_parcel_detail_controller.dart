@@ -33,8 +33,8 @@ class NoOwnerParcelDetailController extends BaseController {
     argusmentParcelModel.value = arguments!['order'] as ParcelModel;
 
     String s1 = argusmentParcelModel.value.expressNum!;
-    headerStr.value = s1.split('*')[0];
-    footerStr.value = s1.split('*')[1];
+    headerStr.value = s1.split('****')[0];
+    footerStr.value = s1.split('****')[1];
     getSyncsList();
   }
 
@@ -65,7 +65,7 @@ class NoOwnerParcelDetailController extends BaseController {
     hideLoading();
     if (result['ok']) {
       showSuccess('认领成功').then((value) {
-        Routers.pop();
+        Routers.pop('success');
       });
     } else {
       showError(result['msg']);

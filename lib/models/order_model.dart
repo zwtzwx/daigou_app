@@ -417,8 +417,8 @@ class OrderModel {
   OrderModel();
 
   OrderModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['user_id'];
+    id = json['id'] ?? 0;
+    userId = json['user_id'] ?? 0;
     orderSn = json['order_sn'];
     logisticsSn = json['logistics_sn'] ?? '';
     logisticsCompany = json['logistics_company'];
@@ -426,11 +426,11 @@ class OrderModel {
     status = json['status'];
     exceptWeight = json['except_weight'];
     exceptVolumeWeight = json['except_volume_weight'];
-    onDeliveryStatus = json['on_delivery_status'];
+    onDeliveryStatus = json['on_delivery_status'] ?? 0;
     evaluated = json['evaluated'] ?? 0;
     expressLineId = json['express_line_id'] ?? 0;
     regionId = json['region_id'];
-    boxType = json['box_type'];
+    boxType = json['box_type'] ?? 1;
     paymentFee = json['payment_fee'] ?? 0;
     firstFreightFee = json['first_freight_fee'] ?? 0;
     nextFreightFee = json['next_freight_fee'] ?? 0;
@@ -445,10 +445,10 @@ class OrderModel {
     lineServiceFee = json['line_service_fee'] ?? 0;
     lineRuleFee = json['line_rule_fee'] ?? 0;
     value = json['value'] ?? 0;
-    exceptional = json['exceptional'];
-    address = (json['address'] != null
-        ? ReceiverAddressModel.fromJson(json['address'])
-        : null)!;
+    exceptional = json['exceptional'] ?? 0;
+    if (json['address'] != null) {
+      address = ReceiverAddressModel.fromJson(json['address']);
+    }
 
     if (json['add_service'] != null) {
       addService = [];
@@ -482,19 +482,19 @@ class OrderModel {
     paidAt = json['paid_at'] ?? "";
     shippedAt = json['shipped_at'] ?? "";
     signedAt = json['signed_at'] ?? "";
-    companyId = json['company_id'];
+    companyId = json['company_id'] ?? 0;
     warehouseId = json['warehouse_id'];
-    refundAmount = json['refund_amount'];
+    refundAmount = json['refund_amount'] ?? 0;
     invalidAt = json['invalid_at'] ?? "";
     operateLogs = json['operate_logs'];
     idCard = json['id_card'] ?? "";
     stationId = json['station_id'] ?? 0;
-    paymentMode = json['payment_mode'];
+    paymentMode = json['payment_mode'] ?? 0;
     groupBuyingId = json['group_buying_id'];
     parentId = json['parent_id'] ?? 0;
     groupBuyingStatus = json['group_buying_status'];
     pickStatus = json['pick_status'];
-    vipRemark = json['vip_remark'];
+    vipRemark = json['vip_remark'] ?? '';
     thriftFreightFee = json['thrift_freight_fee'] ?? 0;
     volumeSum = json['volume_sum'];
     factor = json['factor'];
@@ -502,13 +502,13 @@ class OrderModel {
     groupEndUntil = json['group_end_until'];
     groupMode = json['group_mode'] ?? 0;
     isLeaderOrder = json['is_leader_order'] ?? false;
-    expressName = json['express_name'];
+    expressName = json['express_name'] ?? '';
     discountPaymentFee = json['discount_payment_fee'] ?? 0;
-    allFreightFee = json['all_freight_fee'];
-    point = json['point'];
+    allFreightFee = json['all_freight_fee'] ?? 0;
+    point = json['point'] ?? 0;
     isInvoice = json['is_invoice'] ?? 0;
-    isusepoint = json['is_use_point'];
-    pointamount = json['point_amount'];
+    isusepoint = json['is_use_point'] ?? 0;
+    pointamount = json['point_amount'] ?? 0;
     userPoint = json['user_point'] ?? 0;
     paymentStatus = json['payment_status'];
     if (json['value_added_service'] != null) {

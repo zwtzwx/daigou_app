@@ -69,7 +69,7 @@ class TransportCenterView extends GetView<TransportCenterController> {
   Widget mainModuleCell() {
     List<Map<String, String>> links = [
       {'img': 'zy', 'name': '我要直邮', 'route': Routers.forecast},
-      {'img': 'smqj', 'name': '我要拼邮', 'route': Routers.forecast},
+      {'img': 'smqj', 'name': '我要拼邮', 'route': Routers.groupCenter},
       {'img': 'py', 'name': '自提点', 'route': Routers.station},
     ];
     return Padding(
@@ -119,7 +119,7 @@ class TransportCenterView extends GetView<TransportCenterController> {
     List<Map<String, String>> list2 = [
       {'img': 'help', 'name': '帮助支持', 'route': Routers.help},
       {'img': 'comment', 'name': '集运评论', 'route': Routers.comment},
-      // {'img': 'chrome', 'name': 'chrome一健预报', 'route': ''},
+      {'img': 'chrome', 'name': 'chrome一健预报', 'route': Routers.chromeLogin},
     ];
     return Container(
       padding: EdgeInsets.fromLTRB(16.w, 20.w, 16.w, 10.w),
@@ -161,7 +161,7 @@ class TransportCenterView extends GetView<TransportCenterController> {
           ),
           15.verticalSpace,
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: list2
                 .map((e) => GestureDetector(
                       onTap: () {

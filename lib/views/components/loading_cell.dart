@@ -14,15 +14,17 @@ class LoadingCell extends StatelessWidget {
     required this.util,
     this.onRefresh,
     this.emptyHeight,
+    this.emptyText,
   }) : super(key: key);
   final LoadingUtil util;
   final Function? onRefresh;
   final double? emptyHeight;
+  final String? emptyText;
 
   @override
   Widget build(BuildContext context) {
     if (util.isEmpty) {
-      return emptyBox('没有找到商品');
+      return emptyBox(emptyText ?? '没有找到商品');
     } else if (util.isLoading) {
       return Padding(
         padding: EdgeInsets.symmetric(vertical: 12.h),

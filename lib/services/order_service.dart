@@ -52,7 +52,6 @@ class OrderService {
     await HttpClient.instance
         .get(ORDER, queryParameters: params)
         .then((response) {
-      print('哈哈哈');
       var list = response.data;
       list['data']?.forEach((good) {
         dataList.add(OrderModel.fromJson(good));

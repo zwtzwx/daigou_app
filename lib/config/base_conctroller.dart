@@ -4,10 +4,30 @@ import 'package:get/instance_manager.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
+import 'package:jiyun_app_client/services/localization_service.dart';
 
 class BaseController extends GetxController {
-  LocalizationModel? localModel = Get.find<LocalizationModel?>();
   final currencyModel = Get.find<UserInfoModel>().currencyModel;
+  final localModel = Get.find<UserInfoModel>().localModel;
+
+  // @override
+  // onInit() {
+  //   super.onInit();
+  //   bool localModelRegister = Get.isRegistered<LocalizationModel?>();
+  //   if (localModelRegister) {
+  //     localModel = Get.find<LocalizationModel?>();
+  //   } else {
+  //     _initLocalization();
+  //   }
+  // }
+
+  // void _initLocalization() async {
+  //   var data = await LocalizationService.getInfo();
+  //   if (data != null) {
+  //     Get.put(data);
+  //     localModel = data;
+  //   }
+  // }
 
   showToast(String msg) {
     EasyLoading.showToast(msg.ts);

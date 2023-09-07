@@ -16,6 +16,8 @@ class BaseDialog {
   // 确认弹窗
   static Future<bool?> confirmDialog(BuildContext context, String content,
       {String? title,
+      String? confirmText,
+      String? cancelText,
       bool showCancelButton = true,
       bool barrierDismissible = false}) {
     return showDialog<bool>(
@@ -35,7 +37,7 @@ class BaseDialog {
               showCancelButton
                   ? TextButton(
                       child: ZHTextLine(
-                        str: '取消'.ts,
+                        str: (cancelText ?? '取消').ts,
                         color: BaseStylesConfig.textNormal,
                       ),
                       onPressed: () {
@@ -45,7 +47,7 @@ class BaseDialog {
                   : Sized.empty,
               TextButton(
                 child: ZHTextLine(
-                  str: '确认'.ts,
+                  str: (confirmText ?? '确认').ts,
                   color: BaseStylesConfig.textBlack,
                 ),
                 onPressed: () {
@@ -94,54 +96,59 @@ class BaseDialog {
   }
 
   // 普通弹窗
-  static void normalDialog(
+  static Future<bool?> normalDialog(
     BuildContext context, {
     String? title,
     double? titleFontSize,
+    String? confirmText,
+    bool barrierDismissible = true,
     required Widget child,
   }) {
-    showDialog(
+    return showDialog(
       context: context,
-      barrierDismissible: true,
+      barrierDismissible: barrierDismissible,
       builder: (context) {
         return Dialog(
           child: Container(
             constraints: BoxConstraints(
               maxHeight: ScreenUtil().screenHeight - 200,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                title != null
-                    ? Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 15),
-                        decoration: const BoxDecoration(
-                            border: Border(
-                          bottom: BorderSide(color: BaseStylesConfig.line),
-                        )),
-                        alignment: Alignment.center,
-                        child: ZHTextLine(
-                          str: title,
-                          fontSize: titleFontSize ?? 15,
-                        ),
-                      )
-                    : Sized.empty,
-                child,
-                Sized.line,
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    height: 40,
-                    alignment: Alignment.center,
-                    child: ZHTextLine(
-                        str: '确认'.ts, color: BaseStylesConfig.primary),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  title != null
+                      ? Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          decoration: const BoxDecoration(
+                              border: Border(
+                            bottom: BorderSide(color: BaseStylesConfig.line),
+                          )),
+                          alignment: Alignment.center,
+                          child: ZHTextLine(
+                            str: title,
+                            fontSize: titleFontSize ?? 15,
+                          ),
+                        )
+                      : Sized.empty,
+                  child,
+                  Sized.line,
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    child: Container(
+                      height: 40,
+                      alignment: Alignment.center,
+                      child: ZHTextLine(
+                          str: (confirmText ?? '确认').ts,
+                          color: BaseStylesConfig.primary),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

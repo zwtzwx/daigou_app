@@ -38,7 +38,10 @@ class AddressListView extends GetView<AddressListController> {
             child: MainButton(
               text: '添加地址',
               onPressed: () {
-                Routers.push(Routers.addressAddEdit, {'isEdit': '0'});
+                Routers.push(Routers.addressAddEdit, {
+                  'isEdit': '0',
+                  'addressType': controller.addressType.value
+                });
               },
             ),
           ),
@@ -60,17 +63,49 @@ class AddressListView extends GetView<AddressListController> {
   }
 
   Widget searchCell() {
+    List<String> title = ['送货上门', '自提收货'];
     return Container(
-      color: Colors.white,
-      child: SearchBar(
-        onSearch: (value) {
-          controller.keyword.value = value;
-        },
-        onSearchClick: (value) {
-          controller.getList();
-        },
-        controller: controller.keywordController,
-        focusNode: controller.keywordNode,
+      margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
+      padding: EdgeInsets.all(5.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(5.r),
+      ),
+      child: Obx(
+        () => Row(
+          children: title
+              .asMap()
+              .keys
+              .map(
+                (index) => Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      if (index + 1 == controller.addressType.value) return;
+                      controller.addressType.value = index + 1;
+                      controller.getAddress();
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: controller.addressType.value == index + 1
+                            ? BaseStylesConfig.primary
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(5.r),
+                      ),
+                      child: ZHTextLine(
+                        str: title[index].ts,
+                        fontSize: 14,
+                        fontWeight: controller.addressType.value == index + 1
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
+        ),
       ),
     );
   }
@@ -91,82 +126,97 @@ class AddressListView extends GetView<AddressListController> {
     String timezoneN = model.timezone + '-';
     String phoneN = model.phone;
     String nameAll = timezoneN + phoneN;
-    // 地址拼接
-    String contentStr = '';
-
-    if (model.area != null) {
-      if (model.area != null) {
-        contentStr = model.countryName + ' ' + model.area!.name;
-      }
-      if (model.subArea != null) {
-        contentStr += ' ' + model.subArea!.name;
-      }
-    } else {
-      contentStr += model.street;
-      contentStr += ' ' + model.doorNo;
-      contentStr += ' ' + model.city;
-      contentStr += ' ' + model.countryName;
-    }
 
     return GestureDetector(
       onTap: () {
         controller.onSelectAddress(model);
       },
       child: Container(
-        decoration: const BoxDecoration(
+        margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 10.h),
+        decoration: BoxDecoration(
           color: BaseStylesConfig.white,
-          border: Border(
-            top: BorderSide(
-              color: BaseStylesConfig.line,
-            ),
-          ),
+          borderRadius: BorderRadius.circular(5.r),
         ),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             SizedBox(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Container(
-                        width: ScreenUtil().screenWidth - 60,
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              child: ZHTextLine(
-                                str: nameN,
-                                fontWeight: FontWeight.bold,
-                              ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              color: BaseStylesConfig.textDark,
                             ),
-                            ZHTextLine(
-                              str: nameAll,
-                            )
-                          ],
+                            children: [
+                              TextSpan(
+                                text: nameN,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              WidgetSpan(
+                                child: 5.horizontalSpace,
+                              ),
+                              TextSpan(
+                                text: nameAll,
+                              ),
+                              WidgetSpan(
+                                child: model.isDefault == 1
+                                    ? UnconstrainedBox(
+                                        child: Container(
+                                          margin:
+                                              const EdgeInsets.only(left: 5),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10.w),
+                                          decoration: BoxDecoration(
+                                            color: BaseStylesConfig.primary,
+                                            borderRadius:
+                                                BorderRadius.circular(999),
+                                          ),
+                                          alignment: Alignment.center,
+                                          height: 15.h,
+                                          child: ZHTextLine(
+                                            str: '默认'.ts,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      )
+                                    : Sized.empty,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(top: 5),
-                        width: ScreenUtil().screenWidth - 60,
-                        alignment: Alignment.topLeft,
-                        child: ZHTextLine(
-                          str: contentStr,
+                        model.addressType == 2
+                            ? Padding(
+                                padding: EdgeInsets.only(top: 5.h),
+                                child: ZHTextLine(
+                                  str: model.station?.name ?? '',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            : Sized.empty,
+                        5.verticalSpace,
+                        ZHTextLine(
+                          str: model.getContent(),
                           lines: 3,
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
+                  10.horizontalSpace,
                   GestureDetector(
                     onTap: () {
-                      Routers.push(Routers.addressAddEdit,
-                          {'address': model, 'isEdit': '1'});
+                      Routers.push(Routers.addressAddEdit, {
+                        'id': model.id,
+                        'isEdit': '1',
+                        'addressType': controller.addressType.value
+                      });
                     },
                     child: const ImageIcon(
                       AssetImage("assets/images/AboutMe/编辑@3x.png"),

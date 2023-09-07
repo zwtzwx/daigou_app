@@ -34,7 +34,12 @@ class NoOwnerParcelController extends BaseController {
     return data;
   }
 
-  void toDetail(ParcelModel model) {
-    Routers.push(Routers.noOwnerDetail, {'order': model});
+  void toDetail(ParcelModel model) async {
+    var s = await Routers.push(Routers.noOwnerDetail, {'order': model});
+    if (s == 'success') {
+      ApplicationEvent.getInstance()
+          .event
+          .fire(ListRefreshEvent(type: 'refresh'));
+    }
   }
 }

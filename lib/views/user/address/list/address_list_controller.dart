@@ -9,11 +9,13 @@ import 'package:jiyun_app_client/models/receiver_address_model.dart';
 import 'package:jiyun_app_client/services/address_service.dart';
 
 class AddressListController extends BaseController {
+  List<ReceiverAddressModel> allAddress = [];
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final addressList = <ReceiverAddressModel>[].obs;
   final TextEditingController keywordController = TextEditingController();
   final FocusNode keywordNode = FocusNode();
   final keyword = ''.obs;
+  final addressType = 1.obs;
 
   @override
   void onInit() {
@@ -32,7 +34,14 @@ class AddressListController extends BaseController {
     showLoading();
     var data = await AddressService.getReceiverList({'keyword': keyword});
     hideLoading();
-    addressList.value = data;
+    allAddress = data;
+    getAddress();
+  }
+
+  getAddress() {
+    addressList.value = allAddress
+        .where((ele) => ele.addressType == addressType.value)
+        .toList();
   }
 
   // 选择地址

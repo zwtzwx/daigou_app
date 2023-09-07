@@ -16,9 +16,6 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
   // 主视图
   @override
   Widget build(BuildContext context) {
-    // LocalizationModel? localizationInfo =
-    //     Provider.of<Model>(context, listen: false).localizationInfo;
-
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
@@ -158,7 +155,6 @@ class PrepaidListState extends State<PrepaidList> {
   int pageIndex = 0;
   List<int> selectList = [];
   List<WithdrawalModel> selectModelList = [];
-  LocalizationModel? localizationInfo;
 
   @override
   void initState() {
@@ -184,7 +180,6 @@ class PrepaidListState extends State<PrepaidList> {
 
   @override
   Widget build(BuildContext context) {
-    localizationInfo = Get.find<LocalizationModel?>();
     return Container(
       color: BaseStylesConfig.bgGray,
       child: ListRefresh(

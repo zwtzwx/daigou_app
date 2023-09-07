@@ -44,10 +44,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
                     children: <Widget>[
                       goodsCell(context),
                       Sized.vGap15,
-                      controller.packageModel.value.status == 1 ||
-                              controller.packageModel.value.notConfirmed == 1
-                          ? parcelCell(context)
-                          : Sized.empty,
+                      parcelCell(context),
                       Sized.vGap50,
                       Container(
                         height: 40,
@@ -183,6 +180,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
                   isCollapsed: true,
                   autoShowRemove: false,
                   maxLines: 5,
+                  minLines: 2,
                   textAlign: TextAlign.right,
                   maxLength: 200,
                 )),

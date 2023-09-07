@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jiyun_app_client/common/http_client.dart';
 import 'package:jiyun_app_client/common/util.dart';
+import 'package:jiyun_app_client/models/goods_category_model.dart';
 import 'package:jiyun_app_client/models/shop/cart_model.dart';
 import 'package:jiyun_app_client/models/shop/category_model.dart';
 import 'package:jiyun_app_client/models/shop/consult_model.dart';
@@ -21,7 +22,6 @@ class ShopService {
   static const String cartListApi = 'daigou-carts';
   static const String updateCartGoodsQtyApi = 'daigou-carts/:id/count';
   static const String delCartGoodsApi = 'daigou-carts/batch-delete';
-  static const String orderPreviewApi = 'daigou-orders/shop/create/info';
   static const String orderAmountPreivewApi = 'daigou-orders/shop/order-amount';
   static const String orderCreateApi = 'daigou-orders/shop/create';
   static const String orderListApi = 'daigou-orders';
@@ -43,6 +43,8 @@ class ShopService {
   static const String probleShopOrderApi = 'daigou-problem-order';
   static const String problemOrderPayApi = 'daigou-problem-order/pay/balance';
   static const String chatMessageApi = 'daigou-consult';
+  static const String chatMessageMarkApi = '/daigou-problem-order/mark/:id';
+  static const String platformGoodsCategoryApi = 'package-category/daigou';
 
   // 推荐商品列表
   static Future<Map<String, dynamic>> getRecommendGoods(
@@ -200,7 +202,7 @@ class ShopService {
       Map<String, dynamic> params) async {
     List<CartModel>? list;
     await HttpClient.instance
-        .get(orderPreviewApi,
+        .get(selfOrderCreateApi,
             queryParameters: params,
             options: Options(contentType: 'application/json'))
         .then((res) {
@@ -546,5 +548,33 @@ class ShopService {
             data: params, options: Options(extra: {'showSuccess': false}))
         .then((res) => value = res.ok);
     return value;
+  }
+
+  // 咨询消息设为已读
+  static Future<bool> markMessage(id) async {
+    bool value = false;
+    await HttpClient.instance
+        .put(chatMessageMarkApi.replaceAll(':id', id.toString()),
+            options: Options(extra: {'loading': false, 'showSuccess': false}))
+        .then((res) => value = res.ok);
+    return value;
+  }
+
+  // 获取代购分类列表
+  static Future<List<GoodsCategoryModel>> getCategoryList(
+      [Map<String, dynamic>? params]) async {
+    List<GoodsCategoryModel> result =
+        List<GoodsCategoryModel>.empty(growable: true);
+
+    await HttpClient.instance
+        .get(platformGoodsCategoryApi, queryParameters: params)
+        .then((response) {
+      if (response.data != null) {
+        response.data.forEach((good) {
+          result.add(GoodsCategoryModel.fromJson(good));
+        });
+      }
+    });
+    return result;
   }
 }

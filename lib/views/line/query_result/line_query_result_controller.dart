@@ -54,6 +54,12 @@ class LineQueryResultController extends BaseController {
     if (postDic.value?['height'] != null) {
       params['height'] = postDic.value?['height'] ?? '';
     }
+    // if (postDic.value?['is_delivery'] != null) {
+    //   params['is_delivery'] = postDic.value?['is_delivery'] ?? '';
+    // }
+    // if (postDic.value?['station_id'] != null) {
+    //   params['station_id'] = postDic.value?['station_id'] ?? '';
+    // }
     Map result = await ShipLineService.getList(params: params);
     lineData.value = result['list'];
     if (!result['ok']) {

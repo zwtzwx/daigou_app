@@ -4,6 +4,7 @@ import 'package:jiyun_app_client/models/currency_rate_model.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
+import 'package:jiyun_app_client/services/localization_service.dart';
 import 'package:jiyun_app_client/storage/language_storage.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 
@@ -13,6 +14,9 @@ class UserInfoModel {
   final accountInfo = Rxn<Map?>();
   final currencyModel = Rxn<CurrencyRateModel?>();
   final rateList = <CurrencyRateModel>[].obs;
+  final _localModel = Rxn<LocalizationModel?>();
+
+  LocalizationModel? get localModel => _localModel.value;
 
   UserInfoModel() {
     token.value = UserStorage.getToken();
@@ -60,7 +64,8 @@ class UserInfoModel {
   initCurrency() async {
     var currency = await LanguageStore.getCurrency();
     rateList.value = await CommonService.getRateList();
-    var data = Get.find<LocalizationModel?>();
+    var data = await LocalizationService.getInfo();
+    _localModel.value = data;
     if (currencyModel.value == null) {
       var _data = CurrencyRateModel(
         code: currency?['code'] ?? data?.currency ?? '',

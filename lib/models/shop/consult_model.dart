@@ -32,6 +32,9 @@ class ConsultModel {
       }
     }
   }
+
+  bool get hasNewMessage =>
+      contents.any((ele) => !ele.isRight && ele.status == 0);
 }
 
 class ConsultContentModel {

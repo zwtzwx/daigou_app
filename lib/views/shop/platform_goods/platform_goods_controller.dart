@@ -64,4 +64,10 @@ class PlatformGoodsController extends BaseController {
     orderBy.value = value;
     handleRefresh();
   }
+
+  @override
+  void dispose() {
+    loadingUtil.value.controllerDestroy();
+    super.dispose();
+  }
 }

@@ -70,32 +70,28 @@ class NoOwnerParcelDetailView extends GetView<NoOwnerParcelDetailController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Expanded(
-                      flex: 1,
-                      child: ZHTextLine(
-                        alignment: TextAlign.left,
-                        str: controller.headerStr.value,
-                      )),
-                  Expanded(
-                      flex: 5,
-                      child: NormalInput(
-                        hintText: '请输入中间单号'.ts,
-                        contentPadding: const EdgeInsets.only(top: 17),
-                        textAlign: TextAlign.left,
-                        controller: controller.projectNameController,
-                        focusNode: controller.projectName,
-                        autoFocus: false,
-                        keyboardType: TextInputType.text,
-                        onChanged: (res) {
-                          controller.courierNumber.value = res;
-                        },
-                      )),
-                  Expanded(
-                    flex: 1,
-                    child: ZHTextLine(
-                      str: controller.footerStr.value,
-                    ),
+                  ZHTextLine(
+                    alignment: TextAlign.left,
+                    str: controller.headerStr.value,
                   ),
+                  10.horizontalSpace,
+                  Expanded(
+                      child: NormalInput(
+                    hintText: '请输入中间单号'.ts,
+                    contentPadding: const EdgeInsets.only(top: 0),
+                    textAlign: TextAlign.left,
+                    controller: controller.projectNameController,
+                    focusNode: controller.projectName,
+                    autoFocus: false,
+                    keyboardType: TextInputType.text,
+                    onChanged: (res) {
+                      controller.courierNumber.value = res;
+                    },
+                  )),
+                  ZHTextLine(
+                    str: controller.footerStr.value,
+                  ),
+                  10.horizontalSpace,
                 ],
               ),
             ),

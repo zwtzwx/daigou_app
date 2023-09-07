@@ -229,29 +229,44 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                   () => Expanded(
                     child: GestureDetector(
                       onTap: controller.onAddress,
-                      child: controller.address.value == null
-                          ? ZHTextLine(
-                              str: '请选择地址'.ts,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ZHTextLine(
-                                  str: controller.address.value!.receiverName +
-                                      ' ' +
-                                      controller.address.value!.timezone +
-                                      '-' +
-                                      controller.address.value!.phone,
-                                  lines: 4,
-                                ),
-                                ZHTextLine(
-                                  str: controller.address.value!.getContent(),
-                                  lines: 10,
-                                ),
-                              ],
-                            ),
+                      child: Container(
+                        color: Colors.transparent,
+                        child: controller.address.value == null
+                            ? ZHTextLine(
+                                str: '请选择地址'.ts,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ZHTextLine(
+                                    str:
+                                        controller.address.value!.receiverName +
+                                            ' ' +
+                                            controller.address.value!.timezone +
+                                            '-' +
+                                            controller.address.value!.phone,
+                                    lines: 4,
+                                  ),
+                                  controller.address.value!.addressType == 2
+                                      ? Padding(
+                                          padding: EdgeInsets.only(top: 2.h),
+                                          child: ZHTextLine(
+                                            str: controller.address.value!
+                                                    .station?.name ??
+                                                '',
+                                          ),
+                                        )
+                                      : Sized.empty,
+                                  2.verticalSpace,
+                                  ZHTextLine(
+                                    str: controller.address.value!.getContent(),
+                                    lines: 10,
+                                  ),
+                                ],
+                              ),
+                      ),
                     ),
                   ),
                 ),
@@ -313,31 +328,6 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        5.horizontalSpace,
-                        RichText(
-                          text: TextSpan(
-                            style: TextStyle(
-                              color: BaseStylesConfig.textRed,
-                              fontSize: 12.sp,
-                            ),
-                            children: [
-                              TextSpan(
-                                  text:
-                                      (controller.localModel?.currencySymbol ??
-                                          '')),
-                              TextSpan(
-                                text: ((controller.lineModel.value!.expireFee ??
-                                            0) /
-                                        100)
-                                    .toStringAsFixed(2),
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                     15.verticalSpace,
@@ -349,41 +339,6 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                               controller.lineModel.value!.region!.referenceTime,
                           color: BaseStylesConfig.textGrayC9,
                           fontSize: 14,
-                        ),
-                        ZHTextLine(
-                          str: '预估运费'.ts,
-                          fontSize: 14,
-                          color: BaseStylesConfig.textNormal,
-                        ),
-                      ],
-                    ),
-                    15.verticalSpace,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: BaseStylesConfig.textDark,
-                            ),
-                            children: [
-                              TextSpan(text: '计费重'.ts + '：'),
-                              TextSpan(
-                                text:
-                                    ((controller.lineModel.value!.countWeight ??
-                                                0) /
-                                            1000)
-                                        .toStringAsFixed(2),
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(
-                                  text: controller.localModel?.weightSymbol ??
-                                      ''),
-                            ],
-                          ),
                         ),
                         ZHTextLine(
                           str: Util.getLineModelName(
@@ -398,7 +353,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                     GestureDetector(
                       onTap: () {
                         Routers.push(Routers.lineDetail,
-                            {'line': controller.lineModel.value});
+                            {'line': controller.lineModel.value, 'type': 2});
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,

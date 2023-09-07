@@ -66,4 +66,10 @@ class ShopCenterController extends BaseController {
   void onSearch(String value) {
     Routers.push(Routers.goodsList, {'keyword': value});
   }
+
+  @override
+  void dispose() {
+    loadingUtil.value.controllerDestroy();
+    super.dispose();
+  }
 }

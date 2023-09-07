@@ -157,13 +157,16 @@ class CartGoodsItem extends StatelessWidget {
                                         text: currencyModel.value?.symbol ?? '',
                                       ),
                                       TextSpan(
-                                        text: previewMode
-                                            ? (sku.amount).rate(
-                                                needFormat: false,
-                                                showPriceSymbol: false)
-                                            : (sku.quantity * sku.price).rate(
-                                                needFormat: false,
-                                                showPriceSymbol: false),
+                                        text: (sku.price).rate(
+                                            needFormat: false,
+                                            showPriceSymbol: false),
+                                        // text: previewMode
+                                        //     ? (sku.price).rate(
+                                        //         needFormat: false,
+                                        //         showPriceSymbol: false)
+                                        //     : (sku.price).rate(
+                                        //         needFormat: false,
+                                        //         showPriceSymbol: false),
                                         style: TextStyle(
                                           fontSize: 18.sp,
                                           fontWeight: FontWeight.bold,

@@ -224,61 +224,63 @@ class CreateOrderPage extends GetView<CreateOrderController> {
     var midView = Container(
       decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       margin: const EdgeInsets.only(right: 15, left: 15, bottom: 10),
       // padding: const EdgeInsets.only(left: 15, right: 15),
       child: Column(
         children: <Widget>[
-          GestureDetector(
-            onTap: () {
-              controller.onDeliveryType(context);
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 15,
-              ),
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    width: 80,
-                    child: ZHTextLine(str: '收货形式'.ts),
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        ZHTextLine(
-                          str: controller.tempDelivery.value == null
-                              ? '请选择'.ts
-                              : controller.tempDelivery.value == 0
-                                  ? '送货上门'.ts
-                                  : '自提点收货'.ts,
-                          color: controller.tempDelivery.value == null
-                              ? BaseStylesConfig.textGray
-                              : BaseStylesConfig.textDark,
-                        ),
-                        const Icon(
-                          Icons.keyboard_arrow_right,
-                          color: BaseStylesConfig.textGray,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Sized.line,
+          // GestureDetector(
+          //   onTap: () {
+          //     controller.onDeliveryType(context);
+          //   },
+          //   child: Container(
+          //     padding: const EdgeInsets.symmetric(
+          //       vertical: 10,
+          //       horizontal: 15,
+          //     ),
+          //     color: Colors.white,
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: <Widget>[
+          //         Container(
+          //           alignment: Alignment.centerLeft,
+          //           width: 80,
+          //           child: ZHTextLine(str: '收货形式'.ts),
+          //         ),
+          //         Expanded(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.end,
+          //             children: <Widget>[
+          //               ZHTextLine(
+          //                 str: controller.tempDelivery.value == null
+          //                     ? '请选择'.ts
+          //                     : controller.tempDelivery.value == 0
+          //                         ? '送货上门'.ts
+          //                         : '自提点收货'.ts,
+          //                 color: controller.tempDelivery.value == null
+          //                     ? BaseStylesConfig.textGray
+          //                     : BaseStylesConfig.textDark,
+          //               ),
+          //               !controller.isGroup.value
+          //                   ? const Icon(
+          //                       Icons.keyboard_arrow_right,
+          //                       color: BaseStylesConfig.textGray,
+          //                     )
+          //                   : Sized.empty,
+          //             ],
+          //           ),
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          // Sized.line,
           GestureDetector(
             onTap: controller.onAddress,
             child: Container(
-              color: Colors.white,
+              color: Colors.transparent,
               padding: const EdgeInsets.symmetric(
                 vertical: 10,
                 horizontal: 15,
@@ -312,7 +314,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                       Container(
                                         // height: 40,
                                         width: double.infinity,
-                                        alignment: Alignment.centerLeft,
+                                        alignment: Alignment.centerRight,
                                         child: Text(
                                           controller
                                                   .selectedAddressModel.value!.receiverName +
@@ -322,20 +324,39 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                               '-' +
                                               controller.selectedAddressModel
                                                   .value!.phone,
-                                          style: const TextStyle(
-                                              fontSize: 15,
+                                          style: TextStyle(
+                                              fontSize: 14.sp,
                                               color: BaseStylesConfig.textDark),
                                         ),
                                       ),
+                                      controller.selectedAddressModel.value!
+                                                  .addressType ==
+                                              2
+                                          ? Container(
+                                              alignment: Alignment.centerRight,
+                                              padding:
+                                                  EdgeInsets.only(top: 2.h),
+                                              child: ZHTextLine(
+                                                str: controller
+                                                        .selectedAddressModel
+                                                        .value!
+                                                        .station
+                                                        ?.name ??
+                                                    '',
+                                                fontSize: 14,
+                                              ),
+                                            )
+                                          : Sized.empty,
                                       Container(
                                         // height: 40,
                                         width: double.infinity,
-                                        alignment: Alignment.centerLeft,
+                                        alignment: Alignment.centerRight,
                                         child: Text(
                                           controller.selectedAddressModel.value!
                                               .getContent(),
-                                          style: const TextStyle(
-                                              fontSize: 15,
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              fontSize: 14.sp,
                                               height: 1.5,
                                               color: BaseStylesConfig.textDark),
                                         ),
@@ -361,7 +382,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
           GestureDetector(
             onTap: controller.onLine,
             child: Container(
-              color: Colors.white,
+              color: Colors.transparent,
               padding: const EdgeInsets.symmetric(
                 vertical: 10,
                 horizontal: 15,
@@ -379,10 +400,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                     child: Container(
                       alignment: Alignment.center,
                       child: Row(
-                        mainAxisAlignment:
-                            controller.shipLineModel.value == null
-                                ? MainAxisAlignment.end
-                                : MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           ZHTextLine(
                             str: controller.shipLineModel.value == null
@@ -404,6 +422,42 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                   ),
                 ],
               ),
+            ),
+          ),
+          Sized.line,
+          Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 15,
+            ),
+            color: Colors.transparent,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.centerLeft,
+                  width: 80,
+                  child: ZHTextLine(str: '收货形式'.ts),
+                ),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      ZHTextLine(
+                        str: controller.selectedAddressModel.value == null
+                            ? ''
+                            : controller.selectedAddressModel.value!
+                                        .addressType ==
+                                    1
+                                ? '送货上门'.ts
+                                : '自提收货'.ts,
+                        color: BaseStylesConfig.textDark,
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
         ],

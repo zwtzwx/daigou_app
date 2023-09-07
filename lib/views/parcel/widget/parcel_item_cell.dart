@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/common/hex_to_color.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
+import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/plain_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/parcel/parcel_list/parcel_list_controller.dart';
 
 class ParcelItemCell extends StatelessWidget {
   const ParcelItemCell({
@@ -21,15 +20,18 @@ class ParcelItemCell extends StatelessWidget {
     this.index,
     this.onChecked,
     this.checkedIds,
+    this.localModel,
+    this.onDeleteParcel,
   }) : super(key: key);
   final ParcelModel model;
   final int? index;
   final Function? onChecked;
   final List<int>? checkedIds;
+  final LocalizationModel? localModel;
+  final Function? onDeleteParcel;
 
   @override
   Widget build(BuildContext context) {
-    ParcelListController controller = Get.find<ParcelListController>();
     return GestureDetector(
         onTap: () {
           Routers.push(Routers.parcelDetail, {'id': model.id, 'edit': false});
@@ -239,7 +241,7 @@ class ParcelItemCell extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 3),
                             child: ZHTextLine(
                               str: '称重重量'.ts +
-                                  '：${((model.countWeight ?? 0) / 1000).toStringAsFixed(2)}${controller.localModel?.weightSymbol}',
+                                  '：${((model.countWeight ?? 0) / 1000).toStringAsFixed(2)}${localModel?.weightSymbol}',
                               fontSize: 13,
                               color: BaseStylesConfig.textGray,
                             ),
@@ -253,7 +255,7 @@ class ParcelItemCell extends StatelessWidget {
                                   '：'
                                       '${((model.length ?? 0) / 100).toStringAsFixed(2)}*'
                                       '${((model.width ?? 0) / 100).toStringAsFixed(2)}*'
-                                      '${((model.height ?? 0) / 100).toStringAsFixed(2)}${controller.localModel?.lengthSymbol}',
+                                      '${((model.height ?? 0) / 100).toStringAsFixed(2)}${localModel?.lengthSymbol}',
                               fontSize: 13,
                               color: BaseStylesConfig.textGray,
                             ),
@@ -359,8 +361,7 @@ class ParcelItemCell extends StatelessWidget {
                                   var data = await BaseDialog.confirmDialog(
                                       context, '确定要删除吗'.ts + '？');
                                   if (data != null) {
-                                    controller.onDeleteParcel(
-                                        model.id!, index!);
+                                    onDeleteParcel!();
                                   }
                                 },
                               )

@@ -454,12 +454,9 @@ class TransportPayPage extends GetView<TransportPayController> {
                                   fontSize: 14,
                                 ),
                                 ZHTextLine(
-                                  str: (controller.localModel?.currencySymbol ??
-                                          '') +
-                                      (controller.orderModel.value!
-                                                  .pointamount /
-                                              100)
-                                          .toStringAsFixed(2),
+                                  str:
+                                      (controller.orderModel.value!.pointamount)
+                                          .rate(),
                                   fontSize: 14,
                                   color: BaseStylesConfig.textRed,
                                 ),

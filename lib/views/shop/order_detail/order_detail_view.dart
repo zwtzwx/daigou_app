@@ -122,6 +122,16 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
+                    controller.orderModel.value!.address!.addressType == 2
+                        ? Padding(
+                            padding: EdgeInsets.only(top: 3.h),
+                            child: ZHTextLine(
+                              str: controller.orderModel.value!.address!.station
+                                      ?.name ??
+                                  '',
+                            ),
+                          )
+                        : Sized.empty,
                     4.verticalSpace,
                     ZHTextLine(
                       str: controller.orderModel.value!.address!.getContent(),

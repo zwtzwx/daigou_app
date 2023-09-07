@@ -4,7 +4,6 @@
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/route_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
@@ -144,6 +143,10 @@ class ParcelListView extends GetView<ParcelListController> {
       index: index,
       checkedIds: controller.checkedIds,
       onChecked: controller.onChecked,
+      localModel: controller.localModel,
+      onDeleteParcel: () {
+        controller.onDeleteParcel(model.id!, index);
+      },
     );
   }
 

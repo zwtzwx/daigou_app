@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 
 class ContactCell extends StatefulWidget {
@@ -28,8 +29,7 @@ class _ContactCellState extends State<ContactCell>
       top: topOffset,
       child: GestureDetector(
         onTap: () async {
-          // var showWechat = await isWeChatInstalled;
-          // BaseDialog.customerDialog(context, showWechat);
+          Util.onCustomerContact();
         },
         onPanUpdate: (detail) {
           _calcOffset(detail.delta);

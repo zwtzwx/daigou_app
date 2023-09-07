@@ -9,7 +9,10 @@ class ParcelPropsModel {
   String? propName;
   // GoodsPropPivotModel? pivot;
 
-  ParcelPropsModel();
+  ParcelPropsModel({
+    required this.id,
+    this.name,
+  });
 
   ParcelPropsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

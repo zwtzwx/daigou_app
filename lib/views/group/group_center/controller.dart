@@ -17,7 +17,7 @@ class GroupCenterController extends BaseController {
   final sortIndex = (-1).obs;
   final locationStr = Rxn<String?>();
   final banner = ''.obs;
-  CoordinateModel? coordinate;
+  final coordinate = Rxn<CoordinateModel?>();
   final loadingUtil = LoadingUtil<GroupModel>().obs;
 
   @override
@@ -44,19 +44,19 @@ class GroupCenterController extends BaseController {
         Map<String, dynamic> params = {
           'page': ++loadingUtil.value.pageIndex,
           'keyword': keywordController.text,
-          'sort': sortIndex.value == -1 ? '' : sortIndex + 1,
+          'sort': sortIndex.value == -1 ? '' : sortIndex.value + 1,
         };
-        if (sortIndex.value == 2 && coordinate != null) {
+        if (sortIndex.value == 2 && coordinate.value != null) {
           params.addAll({
-            'lat': coordinate!.latitude,
-            'lng': coordinate!.longitude,
+            'lat': coordinate.value!.latitude,
+            'lng': coordinate.value!.longitude,
           });
         }
         data = await GroupService.getPublicGroups(params);
       } else {
         data = await GroupService.getMyGroups({
           'page': ++loadingUtil.value.pageIndex,
-          'status': groupStatus.value == 0 ? '' : groupStatus - 1,
+          'status': groupStatus.value == 0 ? '' : groupStatus.value - 1,
         });
       }
       loadingUtil.value.isLoading = false;
@@ -93,7 +93,7 @@ class GroupCenterController extends BaseController {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
-    coordinate = CoordinateModel(
+    coordinate.value = CoordinateModel(
       latitude: position.latitude,
       longitude: position.longitude,
     );
@@ -111,6 +111,7 @@ class GroupCenterController extends BaseController {
 
   @override
   void dispose() {
+    loadingUtil.value.controllerDestroy();
     super.dispose();
   }
 }

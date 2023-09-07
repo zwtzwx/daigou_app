@@ -53,7 +53,7 @@ class _RecommendGroupCellState extends State<RecommendGroupCell>
   }
 
   void onDetail(int id) {
-    // Routers.push('/GroupDetailPage', context, {'id': id});
+    Routers.push(Routers.groupDetail, {'id': id});
   }
 
   @override
@@ -64,7 +64,9 @@ class _RecommendGroupCellState extends State<RecommendGroupCell>
       children: [
         TitleCell(
           title: '精选拼团活动',
-          onMore: () {},
+          onMore: () {
+            Routers.push(Routers.groupCenter);
+          },
         ),
         ...groupList.map(
           (group) => GestureDetector(

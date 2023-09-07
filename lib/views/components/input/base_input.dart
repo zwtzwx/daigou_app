@@ -104,7 +104,8 @@ class _BaseInputState extends State<BaseInput> {
     }
     bool isNumberKeybord = [
       const TextInputType.numberWithOptions(decimal: true),
-      TextInputType.number
+      TextInputType.number,
+      TextInputType.phone,
     ].contains(widget.keyboardType);
     if (Platform.isIOS &&
         widget.focusNode != null &&

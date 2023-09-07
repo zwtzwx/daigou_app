@@ -19,11 +19,36 @@ class UploadUtil {
 
   static void imagePicker(
       {required BuildContext context,
-      required Widget child,
+      Widget? child,
       required Function onSuccessCallback}) {
     showCupertinoModalPopup<String>(
       context: context,
-      builder: (BuildContext context) => child,
+      builder: (BuildContext context) =>
+          child ??
+          CupertinoActionSheet(
+            title: Text('请选择上传方式'.ts),
+            actions: <Widget>[
+              CupertinoActionSheetAction(
+                child: Text('相册'.ts),
+                onPressed: () {
+                  Navigator.pop(context, 'gallery');
+                },
+              ),
+              CupertinoActionSheetAction(
+                child: Text('照相机'.ts),
+                onPressed: () {
+                  Navigator.pop(context, 'camera');
+                },
+              ),
+            ],
+            cancelButton: CupertinoActionSheetAction(
+              child: Text('取消'.ts),
+              isDefaultAction: true,
+              onPressed: () {
+                Navigator.pop(context, 'Cancel');
+              },
+            ),
+          ),
     ).then((String? type) async {
       XFile? image;
 

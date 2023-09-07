@@ -10,6 +10,7 @@ class UserStorage {
   static String agentStatus = 'agentStatus';
   static String deviceToken = 'device-token';
   static String accountInfo = 'account-info';
+  static String versionTime = 'version-time';
 
   static void clearToken() {
     // SharedPreferences sp = await SharedPreferences.getInstance();
@@ -43,19 +44,16 @@ class UserStorage {
   }
 
   static void setUserInfo(UserModel v) {
-    // SharedPreferences sp = await SharedPreferences.getInstance();
     SharedPreferences sp = Get.find<SharedPreferences>();
     sp.setString(userInfo, jsonEncode(v.toJson()));
   }
 
   static void setDeviceToken(String data) {
-    // SharedPreferences sp = await SharedPreferences.getInstance();
     SharedPreferences sp = Get.find<SharedPreferences>();
     sp.setString(deviceToken, data);
   }
 
   static String? getDeviceToken() {
-    // SharedPreferences sp = await SharedPreferences.getInstance();
     SharedPreferences sp = Get.find<SharedPreferences>();
     return sp.getString(deviceToken);
   }
@@ -78,5 +76,16 @@ class UserStorage {
       return jsonDecode(json);
     }
     return null;
+  }
+
+  // 版本更新时间
+  static void setVersionTime(int data) {
+    SharedPreferences sp = Get.find<SharedPreferences>();
+    sp.setInt(versionTime, data);
+  }
+
+  static int? getVersionTime() {
+    SharedPreferences sp = Get.find<SharedPreferences>();
+    return sp.getInt(versionTime);
   }
 }

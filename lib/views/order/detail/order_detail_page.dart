@@ -5,6 +5,7 @@ import 'package:flick_video_player/flick_video_player.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/common/fade_route.dart';
 import 'package:jiyun_app_client/common/hex_to_color.dart';
+import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
@@ -632,7 +633,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
               child: PlainButton(
                 text: '联系客服',
                 onPressed: () async {
-                  Routers.push(Routers.contact);
+                  Util.onCustomerContact();
                 },
                 fontSize: 14,
                 borderRadis: 999,

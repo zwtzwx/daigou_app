@@ -1,6 +1,8 @@
 /*
   货物分类
  */
+import 'package:jiyun_app_client/config/app_config.dart';
+
 class GoodsCategoryModel {
   late int id;
   String? nameCn;
@@ -11,6 +13,7 @@ class GoodsCategoryModel {
   num? riskWarningEnabled;
   late String name;
   String? image;
+  int? daigouEnabled;
   // late PivotModel? pivot;
   List<GoodsCategoryModel>? children;
   bool select = false;
@@ -26,6 +29,7 @@ class GoodsCategoryModel {
     nameCn = json['name_cn'];
     nameEn = json['name_en'];
     detail = json['detail'];
+    daigouEnabled = json['daigou_enabled'];
     riskWarningTitle = json['risk_warning_title'];
     riskWarningContent = json['risk_warning_content'];
     riskWarningEnabled = json['risk_warning_enabled'];
@@ -36,6 +40,13 @@ class GoodsCategoryModel {
       json['categories'].forEach((v) {
         children!.add(GoodsCategoryModel.fromJson(v));
       });
+    }
+    if (json['img'] is String) {
+      if (json['img'].startsWith('/')) {
+        image = AppConfig.getImageApi() + json['img'];
+      } else {
+        image = json['img'];
+      }
     }
     // pivot =
     // (json['pivot'] != null ? PivotModel.fromJson(json['pivot']) : null)!;

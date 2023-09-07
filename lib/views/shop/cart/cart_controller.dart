@@ -184,4 +184,10 @@ class CartController extends BaseController {
         pre.addAll(cur.skus.map((e) => e.id));
         return pre;
       });
+
+  @override
+  dispose() {
+    loadingUtil.value.controllerDestroy();
+    super.dispose();
+  }
 }

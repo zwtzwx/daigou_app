@@ -40,6 +40,7 @@ class HomeView extends GetView<HomeController> {
           children: [
             RefreshIndicator(
               onRefresh: controller.handleRefresh,
+              color: BaseStylesConfig.primary,
               child: ListView(
                 shrinkWrap: true,
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -143,7 +144,7 @@ class HomeView extends GetView<HomeController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               LoadImage(
-                                e.image ?? '',
+                                e.image ?? 'Home/shop',
                                 holderImg: 'Shop/goods_cate_none',
                                 width: ScreenUtil().setWidth(40),
                                 height: ScreenUtil().setWidth(40),

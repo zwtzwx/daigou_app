@@ -3,8 +3,9 @@ import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
+import 'package:jiyun_app_client/events/application_event.dart';
+import 'package:jiyun_app_client/events/list_refresh_event.dart';
 import 'package:jiyun_app_client/models/shop/consult_model.dart';
-import 'package:jiyun_app_client/models/shop/problem_order_model.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
 
@@ -22,6 +23,15 @@ class ShopOrderChatDetailController extends BaseController {
     var arguments = Get.arguments;
     order.value = arguments['consult'];
     initMessageList();
+    onMarkMessage();
+  }
+
+  // 消息设为已读
+  void onMarkMessage() {
+    ShopService.markMessage(order.value!.id!);
+    ApplicationEvent.getInstance()
+        .event
+        .fire(ListRefreshEvent(type: 'refresh'));
   }
 
   // 发送消息

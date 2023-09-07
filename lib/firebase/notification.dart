@@ -24,7 +24,6 @@ class Notifications {
   // 获取 device token
   static void getToken() async {
     String? token = await messaging.getToken();
-    print('token $token');
     if (token != null) {
       UserStorage.setDeviceToken(token);
     }

@@ -4,7 +4,6 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/insurance_model.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/models/receiver_address_model.dart';
@@ -25,7 +24,7 @@ class CreateOrderController extends BaseController {
   // 收件地址
   final selectedAddressModel = Rxn<ReceiverAddressModel?>();
   // 收货形式
-  final tempDelivery = Rxn<int?>();
+  // final tempDelivery = Rxn<int?>();
   // 选择的自提点
   final selectStations = Rxn<SelfPickupStationModel?>();
 
@@ -111,9 +110,9 @@ class CreateOrderController extends BaseController {
       shipLineModel.value!.region = res.group!.region;
       if (res.group!.station != null) {
         selectStations.value = res.group!.station;
-        tempDelivery.value = 1;
+        // tempDelivery.value = 1;
       } else {
-        tempDelivery.value = 0;
+        // tempDelivery.value = 0;
       }
 
       created();
@@ -123,12 +122,11 @@ class CreateOrderController extends BaseController {
   // 选择收件地址
   onAddress() async {
     if (isGroup.value) return;
-    if (tempDelivery.value == null) {
-      showToast('请选择收货形式'.ts);
-      return;
-    }
-    var s = await Routers.push(Routers.addressList,
-        {'select': 1, 'addressType': tempDelivery.value! + 1});
+    // if (tempDelivery.value == null) {
+    //   showToast('请选择收货形式'.ts);
+    //   return;
+    // }
+    var s = await Routers.push(Routers.addressList, {'select': 1});
 
     if (s == null) {
       return;
@@ -173,10 +171,8 @@ class CreateOrderController extends BaseController {
       'prop_ids': propIdList, // 所有包裹的propId 数组
       // 'warehouse_id': packageList.first.warehouseId, // 包裹所在的仓库
       'package_ids': packageIdList, // 包裹的id 数组
-      'is_delivery': tempDelivery,
-      'station_id': tempDelivery.value == 1
-          ? selectedAddressModel.value!.station?.id
-          : '',
+      'is_delivery': selectedAddressModel.value!.station != null ? 1 : 0,
+      'station_id': selectedAddressModel.value!.station?.id ?? '',
     };
     var s = await Routers.push(Routers.lineQueryResult, {"data": dic});
     if (s == null) {
@@ -190,20 +186,20 @@ class CreateOrderController extends BaseController {
         .toList();
   }
 
-  // 选择收货形式
-  onDeliveryType(context) async {
-    if (isGroup.value) return;
-    List<Map<String, dynamic>> types = [
-      {"name": "送货上门", "id": 0},
-      {"name": "自提点提货", "id": 1},
-    ];
-    int? type = await BaseDialog.showBottomActionSheet<int>(
-        context: context, list: types);
-    if (type == null) return;
+  // // 选择收货形式
+  // onDeliveryType(context) async {
+  //   if (isGroup.value) return;
+  //   List<Map<String, dynamic>> types = [
+  //     {"name": "送货上门", "id": 0},
+  //     {"name": "自提点提货", "id": 1},
+  //   ];
+  //   int? type = await BaseDialog.showBottomActionSheet<int>(
+  //       context: context, list: types);
+  //   if (type == null) return;
 
-    tempDelivery.value = type;
-    selectedAddressModel.value = null;
-  }
+  //   tempDelivery.value = type;
+  //   selectedAddressModel.value = null;
+  // }
 
 // 提交包裹
   onSubmit() async {
@@ -245,14 +241,16 @@ class CreateOrderController extends BaseController {
     }
 
     Map<String, dynamic> upData = {
-      'address_type': tempDelivery.value! + 1,
+      'address_type': selectedAddressModel.value!.addressType,
       'address_id': selectedAddressModel.value!.id,
       'packages': packagesId,
-      'station_id': tempDelivery.value == 1
+      'station_id': selectedAddressModel.value!.addressType == 2
           ? selectedAddressModel.value!.station?.id
           : '',
-      'phone': tempDelivery.value == 1 ? selectedAddressModel.value!.phone : '',
-      'receiver_name': tempDelivery.value == 1
+      'phone': selectedAddressModel.value!.addressType == 2
+          ? selectedAddressModel.value!.phone
+          : '',
+      'receiver_name': selectedAddressModel.value!.addressType == 2
           ? selectedAddressModel.value!.receiverName
           : '',
       'express_line_id': shipLineModel.value!.id,

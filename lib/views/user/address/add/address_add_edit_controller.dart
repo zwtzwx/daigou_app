@@ -10,6 +10,7 @@ import 'package:jiyun_app_client/models/alphabetical_country_model.dart';
 import 'package:jiyun_app_client/models/area_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/receiver_address_model.dart';
+import 'package:jiyun_app_client/models/self_pickup_station_model.dart';
 import 'package:jiyun_app_client/services/address_service.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -41,14 +42,20 @@ class AddressAddEditController extends BaseController {
   final model = ReceiverAddressModel.empty().obs;
   final isEdit = false.obs;
 
-  final countryModel = CountryModel().obs;
+  final countryModel = Rxn<CountryModel?>();
   final areaModel = Rxn<AreaModel?>();
   final subAreaModel = Rxn<AreaModel?>();
+  final station = Rxn<SelfPickupStationModel?>();
   final timezone = ''.obs;
+  final addressType = 1.obs;
+  final isDefault = false.obs;
 
   @override
   onInit() {
     super.onInit();
+    if (Get.arguments['addressType'] != null) {
+      addressType.value = Get.arguments['addressType'];
+    }
     onInitData();
   }
 
@@ -57,20 +64,28 @@ class AddressAddEditController extends BaseController {
     //如果是编辑
     if (arguments?['isEdit'] == '1') {
       isEdit.value = true;
-      model.value = arguments?['address'] as ReceiverAddressModel;
-      recipientNameController.text = model.value.receiverName;
-      mobileNumberController.text = model.value.phone;
-      zipCodeController.text = model.value.postcode;
-      streetNameController.text = model.value.street;
-      cityController.text = model.value.city;
-      doorNoController.text = model.value.doorNo;
-      timezone.value = model.value.timezone;
-      if (model.value.area != null) {
-        areaModel.value = model.value.area;
-        if (model.value.subArea != null) {
-          subAreaModel.value = model.value.subArea;
-        }
-      }
+      getAddressDetail(arguments['id']);
+      // model.value = arguments?['address'] as ReceiverAddressModel;
+      // recipientNameController.text = model.value.receiverName;
+      // mobileNumberController.text = model.value.phone;
+      // zipCodeController.text = model.value.postcode;
+      // streetNameController.text = model.value.street;
+      // cityController.text = model.value.city;
+      // doorNoController.text = model.value.doorNo;
+      // timezone.value = model.value.timezone;
+      // isDefault.value = model.value.isDefault == 1;
+      // if (model.value.area != null) {
+      //   areaModel.value = model.value.area;
+      //   if (model.value.subArea != null) {
+      //     subAreaModel.value = model.value.subArea;
+      //   }
+      // }
+      // if (model.value.station != null) {
+      //   station.value = model.value.station;
+      //   station.value!.address = model.value.address;
+      //   station.value!.area = model.value.area;
+      //   station.value!.subArea = model.value.subArea;
+      // }
     } else {
       model.value.phone = '';
       model.value.receiverName = '';
@@ -86,19 +101,40 @@ class AddressAddEditController extends BaseController {
     }
   }
 
+  // 地址详情
+  getAddressDetail(int id) async {
+    showLoading();
+    var data = await AddressService.getAddressDetail(id);
+    hideLoading();
+    if (data != null) {
+      model.value = data;
+      isDefault.value = data.isDefault == 1;
+      recipientNameController.text = data.receiverName;
+      mobileNumberController.text = model.value.phone;
+      timezone.value = model.value.timezone;
+      countryModel.value = data.country;
+      if (model.value.area != null) {
+        areaModel.value = model.value.area;
+        if (model.value.subArea != null) {
+          subAreaModel.value = model.value.subArea;
+        }
+      }
+      if (data.station != null) {
+        station.value = data.station;
+        station.value!.address = data.address;
+        station.value!.area = data.area;
+        station.value!.subArea = data.subArea;
+      }
+    }
+  }
+
   /*
     得到国家数据
    */
   getCountryData() async {
-    List<AlphabeticalCountryModel> alphaListModel =
-        await CommonService.getCountryListByAlphabetical();
-
-    for (AlphabeticalCountryModel alphaModel in alphaListModel) {
-      for (CountryModel cmodel in alphaModel.items) {
-        if (cmodel.id == model.value.country!.id) {
-          countryModel.value = cmodel;
-        }
-      }
+    List<CountryModel> countryList = await CommonService.getCountryList();
+    if (countryList.isNotEmpty) {
+      countryModel.value = countryList.first;
     }
   }
 
@@ -133,40 +169,39 @@ class AddressAddEditController extends BaseController {
     return subList;
   }
 
+  // 选择国家
+  void onStationSelect() async {
+    var s = await Routers.push(
+        Routers.stationSelect, {'country_id': countryModel.value?.id ?? ''});
+    if (s == null) return;
+    station.value = s;
+  }
+
   // 提交
   onSubmit() async {
-    if (model.value.receiverName == '') {
-      showToast('请输入收件人名字');
-      return;
+    if (addressType.value == 2 && station.value == null) {
+      return showToast('请选择自提点');
     }
-
-    if (timezone.value == '') {
-      showToast('请选择电话区号');
-      return;
-    }
-
-    if (model.value.phone == '') {
-      showToast('请输入收件人电话');
-      return;
-    }
-
-    if (countryModel.value.id == null) {
-      showToast('请选择国家地区');
-      return;
-    }
-
     Map<String, dynamic> data = {
       'receiver_name': model.value.receiverName,
       'timezone': timezone.value,
       'phone': model.value.phone,
-      'street': model.value.street,
-      'door_no': model.value.doorNo,
-      'city': model.value.city,
-      'country_id': countryModel.value.id,
-      'postcode': model.value.postcode,
-      'area_id': areaModel.value?.id ?? '',
-      'sub_area_id': subAreaModel.value?.id ?? '',
+      'country_id': countryModel.value?.id,
+      'address_type': addressType.value,
+      'is_default': isDefault.value ? 1 : 0,
     };
+    if (addressType.value == 1) {
+      data.addAll({
+        'street': model.value.street,
+        'door_no': model.value.doorNo,
+        'city': model.value.city,
+        'postcode': model.value.postcode,
+        'area_id': areaModel.value?.id ?? '',
+        'sub_area_id': subAreaModel.value?.id ?? '',
+      });
+    } else {
+      data['station_id'] = station.value?.id;
+    }
     showLoading();
     Map result = {};
     if (isEdit.value) {

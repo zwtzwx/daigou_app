@@ -30,16 +30,16 @@ class HandleException {
           error.type == DioErrorType.response) {
         dynamic e = error.error;
         if (e is SocketException) {
-          return NetErrorException(socket_error, "网络异常，请检查你的网络！");
+          return NetErrorException(socket_error, "网络异常，请检查你的网络");
         }
         if (e is HttpException) {
-          return NetErrorException(http_error, "服务器异常！");
+          return NetErrorException(http_error, "服务器异常");
         }
-        return NetErrorException(net_error, "网络异常，请检查你的网络！");
+        return NetErrorException(net_error, "网络异常，请检查你的网络");
       } else if (error.type == DioErrorType.connectTimeout ||
           error.type == DioErrorType.sendTimeout ||
           error.type == DioErrorType.receiveTimeout) {
-        return NetErrorException(timeout_error, "连接超时！");
+        return NetErrorException(timeout_error, "连接超时");
       } else if (error.type == DioErrorType.cancel) {
         return NetErrorException(cancel_error, "取消请求");
       } else {

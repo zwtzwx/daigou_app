@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
@@ -78,6 +77,15 @@ class ShopOrderChatView extends GetView<ShopOrderChatController> {
                     fontSize: 14,
                   ),
                 ),
+                model.hasNewMessage
+                    ? ClipOval(
+                        child: Container(
+                          width: 8.w,
+                          height: 8.w,
+                          color: BaseStylesConfig.textRed,
+                        ),
+                      )
+                    : Sized.empty,
               ],
             )
           ],

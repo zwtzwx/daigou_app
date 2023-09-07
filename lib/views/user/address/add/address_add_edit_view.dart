@@ -2,6 +2,7 @@
   收件地址编辑
  */
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -42,9 +43,33 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
         child: Obx(
           () => Container(
             margin: const EdgeInsets.only(bottom: 30),
-            height: controller.isEdit.value ? 110 : 50,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                Row(
+                  children: [
+                    Obx(
+                      () => Container(
+                        margin: const EdgeInsets.only(left: 15, right: 5),
+                        width: 24,
+                        height: 24,
+                        child: Checkbox(
+                          activeColor: BaseStylesConfig.primary,
+                          checkColor: Colors.black,
+                          shape: const CircleBorder(),
+                          value: controller.isDefault.value,
+                          onChanged: (value) {
+                            controller.isDefault.value = value!;
+                          },
+                        ),
+                      ),
+                    ),
+                    ZHTextLine(
+                      str: '设为默认地址'.ts,
+                      fontSize: 14,
+                    )
+                  ],
+                ),
                 Container(
                   margin: const EdgeInsets.only(right: 15, left: 15, top: 10),
                   height: 40,
@@ -99,7 +124,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
           inputText: NormalInput(
             hintText: '请输入收件人名字'.ts,
             textAlign: TextAlign.right,
-            contentPadding: const EdgeInsets.only(top: 17, right: 15),
+            contentPadding: const EdgeInsets.only(right: 15),
             controller: controller.recipientNameController,
             focusNode: controller.recipientName,
             maxLength: 40,
@@ -117,6 +142,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
             if (s == null) return;
             CountryModel a = s as CountryModel;
             controller.timezone.value = a.timezone!;
+            controller.countryModel.value = a;
           },
           child: InputTextItem(
             title: '电话区号'.ts,
@@ -134,13 +160,13 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
                       color: controller.timezone.value.isEmpty
                           ? BaseStylesConfig.textGray
                           : BaseStylesConfig.textDark,
-                      fontSize: 14,
+                      fontSize: 13,
                     );
                   }),
                   const Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
-                    color: BaseStylesConfig.textGray,
+                    color: BaseStylesConfig.textDark,
                   ),
                 ],
               ),
@@ -152,13 +178,15 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
           inputText: NormalInput(
             hintText: '请输入联系电话'.ts,
             textAlign: TextAlign.right,
-            contentPadding: const EdgeInsets.only(top: 17, right: 15),
+            contentPadding: const EdgeInsets.only(right: 15),
             maxLength: 20,
             controller: controller.mobileNumberController,
             focusNode: controller.mobileNumber,
             keyboardType: TextInputType.phone,
             onSubmitted: (res) {
-              FocusScope.of(context).requestFocus(controller.zipCode);
+              if (controller.addressType.value == 1) {
+                FocusScope.of(context).requestFocus(controller.zipCode);
+              }
             },
             onChanged: (res) {
               controller.model.value.phone = res;
@@ -186,30 +214,42 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
                 children: <Widget>[
                   Obx(
                     () => ZHTextLine(
-                      str: controller.countryModel.value.name == null
+                      str: controller.countryModel.value == null
                           ? '请选择国家地区'.ts
-                          : controller.countryModel.value.name!,
-                      color: controller.countryModel.value.name == null
+                          : controller.countryModel.value!.name!,
+                      color: controller.countryModel.value == null
                           ? BaseStylesConfig.textGray
                           : BaseStylesConfig.textDark,
-                      fontSize: 14,
+                      fontSize: 13,
                     ),
                   ),
                   const Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
-                    color: BaseStylesConfig.textGray,
+                    color: BaseStylesConfig.textDark,
                   ),
                 ],
               ),
             ),
           ),
         ),
+        controller.addressType.value == 1
+            ? deliveryCell(context)
+            : stationCell(),
+      ],
+    );
+  }
+
+  // 送货上门
+  Widget deliveryCell(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         InputTextItem(
           title: '邮编'.ts,
           inputText: NormalInput(
             hintText: '请输入邮编'.ts,
-            contentPadding: const EdgeInsets.only(top: 17, right: 15),
+            contentPadding: const EdgeInsets.only(right: 15),
             textAlign: TextAlign.right,
             controller: controller.zipCodeController,
             focusNode: controller.zipCode,
@@ -226,7 +266,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
           title: '门牌号'.ts,
           inputText: NormalInput(
             hintText: '请输入门牌号'.ts,
-            contentPadding: const EdgeInsets.only(top: 17, right: 15),
+            contentPadding: const EdgeInsets.only(right: 15),
             textAlign: TextAlign.right,
             controller: controller.doorNoController,
             focusNode: controller.doorNoNode,
@@ -242,7 +282,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
           title: '街道'.ts,
           inputText: NormalInput(
             hintText: '请输入街道'.ts,
-            contentPadding: const EdgeInsets.only(top: 17, right: 15),
+            contentPadding: const EdgeInsets.only(right: 15),
             textAlign: TextAlign.right,
             controller: controller.streetNameController,
             focusNode: controller.streetName,
@@ -258,7 +298,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
           title: '城市'.ts,
           inputText: NormalInput(
             hintText: '请输入城市'.ts,
-            contentPadding: const EdgeInsets.only(top: 17, right: 15),
+            contentPadding: const EdgeInsets.only(right: 15),
             textAlign: TextAlign.right,
             controller: controller.cityController,
             focusNode: controller.cityNode,
@@ -268,6 +308,97 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
           ),
         ),
       ],
+    );
+  }
+
+  // 自提收货
+  Widget stationCell() {
+    return Container(
+      color: Colors.white,
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text.rich(
+            TextSpan(
+              children: [
+                const TextSpan(
+                  text: '*',
+                  style: TextStyle(
+                    color: BaseStylesConfig.textRed,
+                  ),
+                ),
+                TextSpan(
+                  text: '自提点'.ts,
+                ),
+              ],
+            ),
+            style: const TextStyle(fontSize: 15),
+          ),
+          8.verticalSpace,
+          Obx(
+            () => controller.station.value == null
+                ? GestureDetector(
+                    onTap: controller.onStationSelect,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          color: BaseStylesConfig.primary,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.add_circle_outline,
+                            color: BaseStylesConfig.primary,
+                          ),
+                          Sized.hGap5,
+                          ZHTextLine(
+                            str: '选择自提点'.ts,
+                            color: BaseStylesConfig.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : GestureDetector(
+                    onTap: controller.onStationSelect,
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: BaseStylesConfig.bgGray,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ZHTextLine(
+                            str: controller.station.value!.name,
+                            fontWeight: FontWeight.bold,
+                            lines: 3,
+                          ),
+                          Sized.vGap4,
+                          SizedBox(
+                            child: ZHTextLine(
+                              str:
+                                  '${controller.station.value!.area?.name ?? ''} ${controller.station.value!.subArea?.name ?? ''} ${(controller.station.value!.address ?? '')}',
+                              lines: 6,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+          )
+        ],
+      ),
     );
   }
 
@@ -283,16 +414,16 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
       },
       onConfirm: (Picker picker, List value) {
         controller.areaModel.value =
-            controller.countryModel.value.areas![value.first];
+            controller.countryModel.value!.areas![value.first];
         controller.subAreaModel.value = controller
-            .countryModel.value.areas![value.first].areas![value.last];
+            .countryModel.value!.areas![value.first].areas![value.last];
       },
     ).showModal(context);
   }
 
   getPickerSubView() {
     List<PickerItem> data = [];
-    for (var item in controller.countryModel.value.areas!) {
+    for (var item in controller.countryModel.value!.areas!) {
       var containe = PickerItem(
         text: ZHTextLine(
           fontSize: 24,

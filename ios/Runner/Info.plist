@@ -66,7 +66,9 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>APP需要您的同意，才能访问相机设置个人头像信息</string>
+	<string>APP需要您的同意，才能访问相机设置个人头像信息、扫描二维码</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>APP需要您的同意获取位置信息显示周边拼团</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>请允许APP保存图片到相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -95,5 +97,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
 </dict>
 </plist>

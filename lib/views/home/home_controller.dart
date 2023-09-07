@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyun_app_client/common/loading_util.dart';
+import 'package:jiyun_app_client/common/version_util.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
+import 'package:jiyun_app_client/events/language_change_event.dart';
 import 'package:jiyun_app_client/events/notice_refresh_event.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
+
 import 'package:jiyun_app_client/models/announcement_model.dart';
 import 'package:jiyun_app_client/models/goods_category_model.dart';
 import 'package:jiyun_app_client/models/language_model.dart';
@@ -17,11 +19,12 @@ import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
 import 'package:jiyun_app_client/state/i10n.dart';
 import 'package:jiyun_app_client/storage/annoucement_storage.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:jiyun_app_client/storage/user_storage.dart';
+import 'package:jiyun_app_client/views/components/update_dialog.dart';
+
 import 'package:jiyun_app_client/views/home/widget/annoucement_dialog.dart';
 
 class HomeController extends BaseController {
-  final ScrollController scrollerController = ScrollController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final I10n i10n = Get.find<I10n>();
   RxList<LanguageModel> langList = <LanguageModel>[].obs;
@@ -33,13 +36,11 @@ class HomeController extends BaseController {
   @override
   void onInit() {
     super.onInit();
-    categoryList.add(GoodsCategoryModel(
-      id: 0,
-      name: '自营商城',
-      image: 'Home/shop',
-    ));
+
     getIndexAnnoucement();
     onGetUnReadNotice();
+    getLatestApkInfo();
+    getPlatformCategory();
     loadingUtil.value.initListener(getRecommendGoods);
     ApplicationEvent.getInstance()
         .event
@@ -47,32 +48,31 @@ class HomeController extends BaseController {
         .listen((event) {
       onGetUnReadNotice();
     });
+    ApplicationEvent.getInstance()
+        .event
+        .on<LanguageChangeEvent>()
+        .listen((event) {
+      getPlatformCategory();
+    });
+  }
+
+  // 获取最新版本的安装包
+  getLatestApkInfo() async {
+    var res = await CommonService.getLatestApkInfo();
+    if (res != null) {
+      var needUpdate = await VersionUtils.isAppUpdatedRequired(res.version);
+      var lastTime = UserStorage.getVersionTime();
+      var nowTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+      if (needUpdate && (lastTime == null || lastTime + 48 * 3600 < nowTime)) {
+        Get.dialog(UpdateDialog(appModel: res), barrierDismissible: false);
+      }
+    }
   }
 
   @override
-  onReady() {
-    // Get.dialog(
-    //   Container(
-    //     decoration: BoxDecoration(
-    //       color: Colors.white,
-    //       borderRadius: BorderRadius.circular(8),
-    //     ),
-    //     child: Column(
-    //       mainAxisSize: MainAxisSize.min,
-    //       children: [
-    //         ZHTextLine(
-    //           str: '监测到一个商品链接，是否立即跳转到商品详情'.ts,
-    //           fontSize: 14,
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
-  }
-
-  @override
-  void onClose() {
-    scrollerController.dispose();
+  void dispose() {
+    loadingUtil.value.controllerDestroy();
+    super.dispose();
   }
 
   // 最新公告
@@ -101,6 +101,20 @@ class HomeController extends BaseController {
     }
   }
 
+  // 代购分类
+  getPlatformCategory() async {
+    var list = await ShopService.getCategoryList();
+    categoryList.value = list;
+    categoryList.insert(
+      0,
+      GoodsCategoryModel(
+        id: 0,
+        name: '自营商城',
+        image: 'Home/shop',
+      ),
+    );
+  }
+
   // 是否有未读消息
   onGetUnReadNotice() async {
     var token = Get.find<UserInfoModel>().token.value;
@@ -115,6 +129,7 @@ class HomeController extends BaseController {
     await getIndexAnnoucement();
     await getHotGoodsList();
     await getRecommendGoods();
+    await getPlatformCategory();
   }
 
   // 自营商城商品列表
@@ -157,6 +172,8 @@ class HomeController extends BaseController {
     if (model == null || model.id == 0) {
       // 自营商城
       Routers.push(Routers.shopCenter);
+    } else {
+      Routers.push(Routers.platformGoodsList, {'keyword': model.name});
     }
   }
 }

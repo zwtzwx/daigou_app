@@ -1,8 +1,6 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:get/instance_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/global_inject.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -15,7 +13,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/tabbar/tabbar_binding.dart';
@@ -219,7 +216,7 @@ class _MyAppState extends State<MyApp> {
         builder: EasyLoading.init(),
         onReady: () {
           initClipboadListener();
-          getClipboardData();
+          // getClipboardData();
         },
       ),
     );

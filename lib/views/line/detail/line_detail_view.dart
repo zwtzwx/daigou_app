@@ -459,8 +459,7 @@ class LineDetailView extends GetView<LineDetailController> {
           } else if (price != 0) {
             priceStr = price.rate() + '/$contentSymbol';
           }
-          newPirces[titleStr] =
-              (controller.localModel?.currencySymbol ?? '') + priceStr;
+          newPirces[titleStr] = priceStr;
         }
       }
       for (var key in newPirces.keys) {

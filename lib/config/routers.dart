@@ -1,16 +1,28 @@
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
+import 'package:jiyun_app_client/views/code_scan/bindings.dart';
+import 'package:jiyun_app_client/views/code_scan/view.dart';
 import 'package:jiyun_app_client/views/common/comment/bindings.dart';
 import 'package:jiyun_app_client/views/common/comment/view.dart';
 import 'package:jiyun_app_client/views/common/country/country_binding.dart';
 import 'package:jiyun_app_client/views/common/country/country_list_page.dart';
-import 'package:jiyun_app_client/views/contact/contact_binding.dart';
-import 'package:jiyun_app_client/views/contact/contact_page.dart';
 import 'package:jiyun_app_client/views/express/express_query_bind.dart';
 import 'package:jiyun_app_client/views/express/express_query_page.dart';
 import 'package:jiyun_app_client/views/group/group_center/bindings.dart';
 import 'package:jiyun_app_client/views/group/group_center/view.dart';
+import 'package:jiyun_app_client/views/group/group_choose_parcel/bindings.dart';
+import 'package:jiyun_app_client/views/group/group_choose_parcel/view.dart';
+import 'package:jiyun_app_client/views/group/group_create/bindings.dart';
+import 'package:jiyun_app_client/views/group/group_create/view.dart';
+import 'package:jiyun_app_client/views/group/group_detail/bindings.dart';
+import 'package:jiyun_app_client/views/group/group_detail/view.dart';
+import 'package:jiyun_app_client/views/group/group_member_detail/bindings.dart';
+import 'package:jiyun_app_client/views/group/group_member_detail/view.dart';
+import 'package:jiyun_app_client/views/group/group_order/bindings.dart';
+import 'package:jiyun_app_client/views/group/group_order/view.dart';
+import 'package:jiyun_app_client/views/group/group_order_process/bindings.dart';
+import 'package:jiyun_app_client/views/group/group_order_process/view.dart';
 import 'package:jiyun_app_client/views/help/help_center/bindings.dart';
 import 'package:jiyun_app_client/views/help/help_center/view.dart';
 import 'package:jiyun_app_client/views/help/question/bindings.dart';
@@ -160,7 +172,6 @@ class Routers {
   static const String vip = '/vip'; // 我的会员
   static const String growthValue = '/vip/growthValue'; // 我的成长值
   static const String forgetPassword = '/forgetPassword'; // 忘记密码
-  static const String contact = '/contact'; // 联系我们
   static const String forecast = '/forecast'; // 包裹预报
   static const String noOwnerList = '/noOwner/list'; // 异常件列表
   static const String noOwnerDetail = '/noOwner/detail'; // 异常件认领
@@ -187,8 +198,15 @@ class Routers {
   static const String stationSelect = '/stationSelect'; // 自提点
   static const String transportPay = '/transportPay'; // 集运订单支付
   static const String createOrder = '/createOrder'; // 合箱
+  static const String chromeLogin = '/chromeLogin'; // chorme 插件扫码登录
 
   static const String groupCenter = '/groupCenter'; // 拼团中心
+  static const String groupCreate = '/groupCreate'; // 创建拼团
+  static const String groupOrder = '/groupOrder'; // 拼团订单
+  static const String groupOrderPorcess = '/groupOrderProcess'; // 团单进度
+  static const String groupDetail = '/groupDetail'; // 拼团详情
+  static const String groupMemberDetail = '/groupMemberDetail'; // 参团人员详情
+  static const String groupParcelSelect = '/groupParcelSelect'; // 选择参团包裹
 
   static const String shopCenter = '/shopCenter'; //自营商城中心
   static const String goodsList = '/goodsList'; // 自营商品列表
@@ -209,7 +227,6 @@ class Routers {
     station,
     country,
     abountMe,
-    contact,
     home,
     login,
     register,
@@ -224,6 +241,7 @@ class Routers {
     help,
     question,
     comment,
+    chromeLogin,
   ];
 
   // 路由声明
@@ -247,11 +265,6 @@ class Routers {
       name: warehouse,
       page: () => const WarehouseView(),
       binding: WarehouseBinding(),
-    ),
-    GetPage(
-      name: contact,
-      page: () => ContactView(),
-      binding: ContactBinding(),
     ),
     GetPage(
       name: forecast,
@@ -409,6 +422,11 @@ class Routers {
       binding: LineDetailBinding(),
     ),
     GetPage(
+      name: chromeLogin,
+      page: () => const CodeScanPage(),
+      binding: CodeScanBinding(),
+    ),
+    GetPage(
       name: shopOrderPay,
       page: () => const ShopOrderPayView(),
       binding: ShopOrderPayBinding(),
@@ -547,6 +565,36 @@ class Routers {
       name: groupCenter,
       page: () => const GroupCenterPage(),
       binding: GroupCenterBinding(),
+    ),
+    GetPage(
+      name: groupCreate,
+      page: () => const GroupCreatePage(),
+      binding: GroupCreateBinding(),
+    ),
+    GetPage(
+      name: groupOrder,
+      page: () => const GroupOrderPage(),
+      binding: GroupOrderBinding(),
+    ),
+    GetPage(
+      name: groupOrderPorcess,
+      page: () => const GroupOrderProcessView(),
+      binding: GroupOrderProcessBinding(),
+    ),
+    GetPage(
+      name: groupDetail,
+      page: () => const GroupDetailPage(),
+      binding: GroupDetailBinding(),
+    ),
+    GetPage(
+      name: groupMemberDetail,
+      page: () => const GroupMemberDetailPage(),
+      binding: GroupMemberDetailBinding(),
+    ),
+    GetPage(
+      name: groupParcelSelect,
+      page: () => const GroupChooseParcelPage(),
+      binding: GroupChooseParcelBinding(),
     ),
   ];
 

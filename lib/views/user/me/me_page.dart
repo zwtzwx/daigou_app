@@ -96,11 +96,11 @@ class MeView extends GetView<MeController> {
         'icon': 'AboutMe/pay-record-icon',
         'route': Routers.transaction,
       },
-      // {
-      //   'name': '一键预报',
-      //   'icon': 'AboutMe/chorme',
-      //   'route': Routers.transaction,
-      // },
+      {
+        'name': '一键预报',
+        'icon': 'AboutMe/chorme',
+        'route': Routers.chromeLogin,
+      },
       // {
       //   'name': '取件列表',
       //   'icon': 'AboutMe/smqj',

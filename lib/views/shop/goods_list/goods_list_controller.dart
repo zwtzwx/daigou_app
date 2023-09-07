@@ -104,4 +104,10 @@ class GoodsListController extends BaseController {
     loadingUtil.value.clear();
     await loadMoreList();
   }
+
+  @override
+  void dispose() {
+    loadingUtil.value.controllerDestroy();
+    super.dispose();
+  }
 }

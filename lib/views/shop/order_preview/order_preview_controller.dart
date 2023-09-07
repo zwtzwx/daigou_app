@@ -145,6 +145,7 @@ class OrderPreviewController extends BaseController {
     var s = await Routers.push(Routers.addressList, {'select': 1});
     if (s == null) return;
     address.value = s as ReceiverAddressModel;
+    lineModel.value = null;
   }
 
   // 包裹增值服务
@@ -195,10 +196,10 @@ class OrderPreviewController extends BaseController {
     var s = await Routers.push(Routers.lineQueryResult, {"data": dic});
     if (s == null) return;
     lineModel.value = s;
-    lineServiceIds.value = (lineModel.value!.region?.services ?? [])
-        .where((ele) => ele.isForced == 1)
-        .map((e) => e.id)
-        .toList();
+    // lineServiceIds.value = (lineModel.value!.region?.services ?? [])
+    //     .where((ele) => ele.isForced == 1)
+    //     .map((e) => e.id)
+    //     .toList();
   }
 
   // 提交
@@ -217,24 +218,28 @@ class OrderPreviewController extends BaseController {
     }
   }
 
-  Map<String, dynamic> getBaseCommitParams() {
+  Map<String, dynamic> getBaseCommitParams(bool isPlatformGoods) {
     Map<String, dynamic> parcelServiceIds = {};
     Map<String, dynamic> remarks = {};
     for (var shop in goodsList) {
       if (shop.addServiceIds!.isNotEmpty) {
         parcelServiceIds[shop.shopId.toString()] = shop.addServiceIds;
       }
-      if (shop.remarkController!.text.isNotEmpty) {
+      if (isPlatformGoods && shop.remarkController!.text.isNotEmpty) {
         remarks[shop.shopId.toString()] = shop.remarkController!.text;
       }
     }
     Map<String, dynamic> params = {
       'package_service_ids': parcelServiceIds,
-      'remarks': remarks,
       'address_type': address.value?.addressType,
       'address_id': address.value?.id,
       'mode': shipModel.value + 1,
     };
+    if (isPlatformGoods) {
+      params['remarks'] = remarks;
+    } else {
+      params['remark'] = goodsList.first.remarkController!.text;
+    }
     if (shipModel.value == 1) {
       // 到件即发
       params['express_line_id'] = lineModel.value?.id ?? '';
@@ -254,7 +259,7 @@ class OrderPreviewController extends BaseController {
       'cart_ids': cartIds,
       'amount': shopOrderValue,
     };
-    params.addAll(getBaseCommitParams());
+    params.addAll(getBaseCommitParams(arguments['platformGoods'] == true));
     Map res = {};
     if (arguments['platformGoods'] == true) {
       // 代购商品
@@ -294,7 +299,7 @@ class OrderPreviewController extends BaseController {
       },
       'freight_fee': goodsModel.freightFee,
     };
-    params.addAll(getBaseCommitParams());
+    params.addAll(getBaseCommitParams(true));
     Map res = await ShopService.platformCustomOrderCreate(params);
     if (res['ok']) {
       Routers.redirect(Routers.shopOrderPay, {'order': res['order']});
@@ -310,7 +315,7 @@ class OrderPreviewController extends BaseController {
       'sku_list': skuList,
       'amount': shopOrderValue,
     };
-    params.addAll(getBaseCommitParams());
+    params.addAll(getBaseCommitParams(false));
     Map res = await ShopService.orderCreate(params);
     if (res['ok']) {
       Routers.redirect(Routers.shopOrderPay, {'order': res['order']});

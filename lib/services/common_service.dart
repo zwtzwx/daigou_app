@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:jiyun_app_client/common/http_client.dart';
 import 'package:jiyun_app_client/models/alphabetical_country_model.dart';
+import 'package:jiyun_app_client/models/app_version_model.dart';
 import 'package:jiyun_app_client/models/banners_model.dart';
 import 'package:dio/dio.dart';
 import 'package:jiyun_app_client/models/captcha_model.dart';
@@ -37,7 +38,13 @@ class CommonService {
   static const String unReadNoticeApi = 'notification-records/no-read-count';
   // 汇率
   static const String exchangeRateApi = 'exchange/rates';
+
   static const String goodsUrlApi = 'purchase/password/item';
+
+  // chorme 登录
+  static const String chromeLoginApi = 'user/scan-chrome-code';
+  // 最新版本 apk信息
+  static const String latestApkApi = 'apk';
 
   // 获取预报的同意条款
   static Future<Map<String, dynamic>?> getTerms(
@@ -220,5 +227,25 @@ class CommonService {
       }
     });
     return url;
+  }
+
+  // chorme 插件登录
+  static Future<bool> onChromeLogin(Map<String, dynamic> params) async {
+    bool result = false;
+    await HttpClient()
+        .post(chromeLoginApi, data: params)
+        .then((res) => result = res.ok);
+    return result;
+  }
+
+  // 获取最新版本 apk 信息
+  static Future<AppVersionModel?> getLatestApkInfo() async {
+    AppVersionModel? result;
+    await HttpClient().get(latestApkApi).then((res) {
+      if (res.ok && res.data != null) {
+        result = AppVersionModel.fromJson(res.data);
+      }
+    });
+    return result;
   }
 }

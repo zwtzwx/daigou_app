@@ -27,6 +27,7 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
         children: [
           RefreshIndicator(
             onRefresh: controller.handleRefresh,
+            color: BaseStylesConfig.primary,
             child: ListView(
               shrinkWrap: true,
               physics: const AlwaysScrollableScrollPhysics(),
@@ -145,39 +146,49 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
           scrollDirection: Axis.horizontal,
           itemCount: controller.categoryList.length,
           itemBuilder: (context, index) {
-            return Container(
-              margin: EdgeInsets.only(left: index == 0 ? 0 : 20.w),
-              decoration: BoxDecoration(
-                  border: Border(
-                bottom: controller.categoryIndex.value == index
-                    ? BorderSide(color: BaseStylesConfig.primary, width: 2.h)
-                    : BorderSide.none,
-              )),
-              child: controller.categoryList[index].id == 0
-                  ? Obx(
-                      () => ZHTextLine(
-                        str: controller.categoryList[index].name.ts,
-                        fontSize:
-                            controller.categoryIndex.value == index ? 16 : 14,
-                        color: controller.categoryIndex.value == index
-                            ? BaseStylesConfig.textDark
-                            : BaseStylesConfig.textNormal,
-                        fontWeight: controller.categoryIndex.value == index
-                            ? FontWeight.bold
-                            : FontWeight.normal,
-                      ),
-                    )
-                  : ZHTextLine(
-                      str: controller.categoryList[index].name,
-                      fontSize:
-                          controller.categoryIndex.value == index ? 16 : 14,
-                      color: controller.categoryIndex.value == index
-                          ? BaseStylesConfig.textDark
-                          : BaseStylesConfig.textNormal,
-                      fontWeight: controller.categoryIndex.value == index
-                          ? FontWeight.bold
-                          : FontWeight.normal,
+            return GestureDetector(
+              onTap: () {
+                controller.onCategory(index);
+              },
+              child: Obx(
+                () => Container(
+                  margin: EdgeInsets.only(left: index == 0 ? 0 : 20.w),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: controller.categoryIndex.value == index
+                          ? BorderSide(
+                              color: BaseStylesConfig.primary, width: 2.h)
+                          : BorderSide.none,
                     ),
+                  ),
+                  child: controller.categoryList[index].id == 0
+                      ? Obx(
+                          () => ZHTextLine(
+                            str: controller.categoryList[index].name.ts,
+                            fontSize: controller.categoryIndex.value == index
+                                ? 16
+                                : 14,
+                            color: controller.categoryIndex.value == index
+                                ? BaseStylesConfig.textDark
+                                : BaseStylesConfig.textNormal,
+                            fontWeight: controller.categoryIndex.value == index
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                          ),
+                        )
+                      : ZHTextLine(
+                          str: controller.categoryList[index].name,
+                          fontSize:
+                              controller.categoryIndex.value == index ? 16 : 14,
+                          color: controller.categoryIndex.value == index
+                              ? BaseStylesConfig.textDark
+                              : BaseStylesConfig.textNormal,
+                          fontWeight: controller.categoryIndex.value == index
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                        ),
+                ),
+              ),
             );
           },
         ),
