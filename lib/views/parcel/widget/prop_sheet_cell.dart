@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/goods_props.dart';
@@ -38,24 +39,23 @@ class _PropSheetCellState extends State<PropSheetCell> {
   Widget build(BuildContext context) {
     return StatefulBuilder(builder: (context1, setBottomSheetState) {
       return SizedBox(
-          height: 320,
+          height: 310.h,
           child: Column(children: <Widget>[
             Container(
-              height: 44,
+              height: 40.h,
               margin: const EdgeInsets.only(left: 15),
               alignment: Alignment.centerLeft,
-              child: ZHTextLine(
+              child: AppText(
                 str: '物品属性'.ts,
                 fontSize: 19,
               ),
             ),
-            Sized.line,
+            AppGaps.line,
             Container(
-              height: 190,
-              margin: const EdgeInsets.only(right: 20, left: 20, top: 20),
+              height: 190.h,
+              margin: EdgeInsets.only(right: 20, left: 20, top: 15.h),
               child: GridView.builder(
                   shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisSpacing: 20.0, //水平子Widget之间间距
                     mainAxisSpacing: 20.0, //垂直子Widget之间间距
@@ -86,23 +86,21 @@ class _PropSheetCellState extends State<PropSheetCell> {
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
                             color: selectProp.contains(propmodel.id)
-                                ? BaseStylesConfig.primary
-                                : BaseStylesConfig.white,
+                                ? AppColors.primary
+                                : AppColors.white,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(4.0)),
-                            border: Border.all(
-                                width: 1, color: BaseStylesConfig.line)),
+                            border:
+                                Border.all(width: 1, color: AppColors.line)),
                         alignment: Alignment.center,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            ZHTextLine(
+                            AppText(
                               fontSize: 14,
                               str: propmodel.name!,
                               lines: 2,
-                              color: selectProp.contains(propmodel.id)
-                                  ? Colors.white
-                                  : BaseStylesConfig.textDark,
+                              color: AppColors.textDark,
                             ),
                           ],
                         ),
@@ -125,16 +123,15 @@ class _PropSheetCellState extends State<PropSheetCell> {
                 child: Container(
                   margin: const EdgeInsets.only(right: 15, left: 15),
                   decoration: BoxDecoration(
-                      color: BaseStylesConfig.primary,
+                      color: AppColors.primary,
                       borderRadius:
                           const BorderRadius.all(Radius.circular(4.0)),
-                      border: Border.all(
-                          width: 1, color: BaseStylesConfig.primary)),
+                      border: Border.all(width: 1, color: AppColors.primary)),
                   alignment: Alignment.center,
-                  height: 40,
-                  child: ZHTextLine(
+                  height: 35.h,
+                  child: AppText(
                     str: '确认'.ts,
-                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 )),
           ]));

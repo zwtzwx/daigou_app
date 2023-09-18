@@ -49,10 +49,10 @@ class _InputTextItemState extends State<InputTextItem> {
             : const EdgeInsets.all(0),
         width: double.infinity,
         decoration: BoxDecoration(
-            color: widget.bgColor ?? BaseStylesConfig.white,
+            color: widget.bgColor ?? AppColors.white,
             border: Border(
               bottom: Divider.createBorderSide(context,
-                  color: BaseStylesConfig.line, width: widget.flag ? 1 : 0),
+                  color: AppColors.line, width: widget.flag ? 1 : 0),
             )),
         child: Row(
             crossAxisAlignment: widget.alignment,
@@ -67,11 +67,11 @@ class _InputTextItemState extends State<InputTextItem> {
                     child: Row(
                       children: [
                         widget.isRequired
-                            ? const ZHTextLine(
+                            ? const AppText(
                                 str: '*',
-                                color: BaseStylesConfig.textRed,
+                                color: AppColors.textRed,
                               )
-                            : Sized.empty,
+                            : AppGaps.empty,
                         Flexible(
                           child: Text(
                             (widget.title).ts,

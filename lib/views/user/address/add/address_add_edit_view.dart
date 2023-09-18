@@ -30,15 +30,15 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: !controller.isEdit.value ? '添加地址'.ts : '修改地址'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       bottomNavigationBar: SafeArea(
         child: Obx(
           () => Container(
@@ -54,7 +54,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
                         width: 24,
                         height: 24,
                         child: Checkbox(
-                          activeColor: BaseStylesConfig.primary,
+                          activeColor: AppColors.primary,
                           checkColor: Colors.black,
                           shape: const CircleBorder(),
                           value: controller.isDefault.value,
@@ -64,7 +64,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
                         ),
                       ),
                     ),
-                    ZHTextLine(
+                    AppText(
                       str: '设为默认地址'.ts,
                       fontSize: 14,
                     )
@@ -95,7 +95,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
                               controller.onDeleteAddress();
                             }
                           },
-                          textColor: BaseStylesConfig.textRed,
+                          textColor: AppColors.textRed,
                         ),
                       )
                     : Container(),
@@ -153,20 +153,20 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Obx(() {
-                    return ZHTextLine(
+                    return AppText(
                       str: controller.timezone.value.isEmpty
                           ? '请选择电话区号'.ts
                           : controller.timezone.value,
                       color: controller.timezone.value.isEmpty
-                          ? BaseStylesConfig.textGray
-                          : BaseStylesConfig.textDark,
+                          ? AppColors.textGray
+                          : AppColors.textDark,
                       fontSize: 13,
                     );
                   }),
                   const Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
-                    color: BaseStylesConfig.textDark,
+                    color: AppColors.textDark,
                   ),
                 ],
               ),
@@ -213,20 +213,20 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Obx(
-                    () => ZHTextLine(
+                    () => AppText(
                       str: controller.countryModel.value == null
                           ? '请选择国家地区'.ts
                           : controller.countryModel.value!.name!,
                       color: controller.countryModel.value == null
-                          ? BaseStylesConfig.textGray
-                          : BaseStylesConfig.textDark,
+                          ? AppColors.textGray
+                          : AppColors.textDark,
                       fontSize: 13,
                     ),
                   ),
                   const Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
-                    color: BaseStylesConfig.textDark,
+                    color: AppColors.textDark,
                   ),
                 ],
               ),
@@ -326,7 +326,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
                 const TextSpan(
                   text: '*',
                   style: TextStyle(
-                    color: BaseStylesConfig.textRed,
+                    color: AppColors.textRed,
                   ),
                 ),
                 TextSpan(
@@ -346,7 +346,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(
-                          color: BaseStylesConfig.primary,
+                          color: AppColors.primary,
                         ),
                       ),
                       child: Row(
@@ -354,12 +354,12 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
                         children: [
                           const Icon(
                             Icons.add_circle_outline,
-                            color: BaseStylesConfig.primary,
+                            color: AppColors.primary,
                           ),
-                          Sized.hGap5,
-                          ZHTextLine(
+                          AppGaps.hGap5,
+                          AppText(
                             str: '选择自提点'.ts,
-                            color: BaseStylesConfig.primary,
+                            color: AppColors.primary,
                             fontWeight: FontWeight.bold,
                           ),
                         ],
@@ -371,7 +371,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: BaseStylesConfig.bgGray,
+                        color: AppColors.bgGray,
                         borderRadius: BorderRadius.circular(5),
                       ),
                       padding: const EdgeInsets.symmetric(
@@ -379,14 +379,14 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ZHTextLine(
+                          AppText(
                             str: controller.station.value!.name,
                             fontWeight: FontWeight.bold,
                             lines: 3,
                           ),
-                          Sized.vGap4,
+                          AppGaps.vGap4,
                           SizedBox(
-                            child: ZHTextLine(
+                            child: AppText(
                               str:
                                   '${controller.station.value!.area?.name ?? ''} ${controller.station.value!.subArea?.name ?? ''} ${(controller.station.value!.address ?? '')}',
                               lines: 6,
@@ -425,7 +425,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
     List<PickerItem> data = [];
     for (var item in controller.countryModel.value!.areas!) {
       var containe = PickerItem(
-        text: ZHTextLine(
+        text: AppText(
           fontSize: 24,
           str: item.name,
         ),

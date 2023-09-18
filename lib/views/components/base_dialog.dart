@@ -36,19 +36,19 @@ class BaseDialog {
             actions: <Widget>[
               showCancelButton
                   ? TextButton(
-                      child: ZHTextLine(
+                      child: AppText(
                         str: (cancelText ?? '取消').ts,
-                        color: BaseStylesConfig.textNormal,
+                        color: AppColors.textNormal,
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     )
-                  : Sized.empty,
+                  : AppGaps.empty,
               TextButton(
-                child: ZHTextLine(
+                child: AppText(
                   str: (confirmText ?? '确认').ts,
-                  color: BaseStylesConfig.textBlack,
+                  color: AppColors.textBlack,
                 ),
                 onPressed: () {
                   Navigator.of(context).pop(true);
@@ -124,17 +124,17 @@ class BaseDialog {
                               vertical: 10, horizontal: 15),
                           decoration: const BoxDecoration(
                               border: Border(
-                            bottom: BorderSide(color: BaseStylesConfig.line),
+                            bottom: BorderSide(color: AppColors.line),
                           )),
                           alignment: Alignment.center,
-                          child: ZHTextLine(
+                          child: AppText(
                             str: title,
                             fontSize: titleFontSize ?? 15,
                           ),
                         )
-                      : Sized.empty,
+                      : AppGaps.empty,
                   child,
-                  Sized.line,
+                  AppGaps.line,
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context, true);
@@ -142,9 +142,9 @@ class BaseDialog {
                     child: Container(
                       height: 40,
                       alignment: Alignment.center,
-                      child: ZHTextLine(
+                      child: AppText(
                           str: (confirmText ?? '确认').ts,
-                          color: BaseStylesConfig.primary),
+                          color: AppColors.primary),
                     ),
                   ),
                 ],

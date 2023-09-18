@@ -106,20 +106,20 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
               cartModel: shop.sku!,
               previewMode: true,
               otherWiget: model.problemType == 2
-                  ? ZHTextLine(
+                  ? AppText(
                       str: (model.status == 1 ? '待补款'.ts : '补款成功'.ts) +
                           '：' +
                           num.parse(model.amount ?? '0')
                               .rate(needFormat: false),
                       color: model.status == 1
                           ? const Color(0xFFFFAF44)
-                          : BaseStylesConfig.textGrayC9,
+                          : AppColors.textGrayC9,
                     )
                   : (model.problemType == 3
-                      ? ZHTextLine(
+                      ? AppText(
                           color: model.status == 0
-                              ? BaseStylesConfig.textRed
-                              : BaseStylesConfig.textGrayC9,
+                              ? AppColors.textRed
+                              : AppColors.textGrayC9,
                           str: (model.status == 0 ? '待退款'.ts : '退款成功'.ts) +
                               '：' +
                               num.parse(model.amount ?? '0')
@@ -129,29 +129,29 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ZHTextLine(
+              AppText(
                 str: '国内运费'.ts,
                 fontSize: 14,
               ),
-              ZHTextLine(
+              AppText(
                 str: (model.order?.freightFee ?? 0).rate(needFormat: false),
                 fontSize: 14,
-                color: BaseStylesConfig.textGrayC9,
+                color: AppColors.textGrayC9,
               ),
             ],
           ),
           12.verticalSpace,
-          ZHTextLine(
+          AppText(
             str: '问题描述'.ts,
             fontSize: 14,
           ),
           5.verticalSpace,
-          ZHTextLine(
+          AppText(
             str: (model.problemSkus ?? []).isNotEmpty
                 ? (model.problemSkus!.first.remark ?? '')
                 : '',
             fontSize: 12,
-            color: BaseStylesConfig.textGrayC9,
+            color: AppColors.textGrayC9,
             lines: 5,
           ),
           [0, 1].contains(model.status)
@@ -166,8 +166,8 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
                         ),
                         child: PlainButton(
                           text: '咨询',
-                          textColor: BaseStylesConfig.textDark,
-                          borderColor: BaseStylesConfig.textGrayC,
+                          textColor: AppColors.textDark,
+                          borderColor: AppColors.textGrayC,
                           borderRadis: 999,
                           fontSize: 14,
                           onPressed: () {
@@ -184,8 +184,8 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
                                 ),
                                 child: PlainButton(
                                   text: '补款',
-                                  textColor: BaseStylesConfig.textDark,
-                                  borderColor: BaseStylesConfig.primary,
+                                  textColor: AppColors.textDark,
+                                  borderColor: AppColors.primary,
                                   borderRadis: 999,
                                   fontSize: 14,
                                   onPressed: () {
@@ -194,10 +194,10 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
                                 ),
                               ),
                             )
-                          : Sized.empty,
+                          : AppGaps.empty,
                     ],
                   ))
-              : Sized.empty
+              : AppGaps.empty
         ],
       ),
     );
@@ -236,16 +236,16 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: processType == index
-                              ? BaseStylesConfig.primary
+                              ? AppColors.primary
                               : Colors.white,
                           borderRadius: BorderRadius.circular(999),
                         ),
-                        child: ZHTextLine(
+                        child: AppText(
                           str: types[index].ts,
                           fontSize: 14,
                           color: processType == index
-                              ? BaseStylesConfig.textDark
-                              : BaseStylesConfig.textGrayC9,
+                              ? AppColors.textDark
+                              : AppColors.textGrayC9,
                         ),
                       ),
                     ))

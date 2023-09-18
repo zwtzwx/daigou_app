@@ -29,9 +29,9 @@ class ParcelListView extends GetView<ParcelListController> {
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: ZHTextLine(
+          title: AppText(
             str: (controller.type.value == 1 ? '未入库包裹' : '已入库包裹').ts,
-            color: BaseStylesConfig.textBlack,
+            color: AppColors.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
           ),
@@ -45,15 +45,15 @@ class ParcelListView extends GetView<ParcelListController> {
                   tabs: buildTabs(),
                   isScrollable: true,
                   controller: controller.tabController,
-                  labelColor: BaseStylesConfig.primary,
-                  unselectedLabelColor: BaseStylesConfig.textBlack,
-                  indicatorColor: BaseStylesConfig.primary,
+                  labelColor: AppColors.primary,
+                  unselectedLabelColor: AppColors.textBlack,
+                  indicatorColor: AppColors.primary,
                 )
               : null,
         ),
         bottomNavigationBar: controller.type.value == 2
             ? Container(
-                color: BaseStylesConfig.white,
+                color: AppColors.white,
                 padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
                 child: SafeArea(
                   child: Row(
@@ -73,8 +73,8 @@ class ParcelListView extends GetView<ParcelListController> {
                                 color: controller.checkedIds.isNotEmpty &&
                                         controller.checkedIds.length ==
                                             controller.allParcels.length
-                                    ? BaseStylesConfig.primary
-                                    : BaseStylesConfig.line,
+                                    ? AppColors.primary
+                                    : AppColors.line,
                               ),
                             ),
                             Container(
@@ -90,11 +90,11 @@ class ParcelListView extends GetView<ParcelListController> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Obx(
-                                () => ZHTextLine(
+                                () => AppText(
                                   str: '已选{count}件'.tsArgs(
                                       {'count': controller.checkedIds.length}),
                                   fontSize: 14,
-                                  color: BaseStylesConfig.textGrayC9,
+                                  color: AppColors.textGrayC9,
                                 ),
                               ),
                               Flexible(
@@ -115,7 +115,7 @@ class ParcelListView extends GetView<ParcelListController> {
                   ),
                 ),
               )
-            : Sized.empty,
+            : AppGaps.empty,
         body: PageView.builder(
           key: const Key('pageView'),
           itemCount: controller.warehouseList.length,
@@ -124,7 +124,7 @@ class ParcelListView extends GetView<ParcelListController> {
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
             return Container(
-              color: BaseStylesConfig.bgGray,
+              color: AppColors.bgGray,
               child: ListRefresh(
                 renderItem: renderItem,
                 refresh: controller.loadList,
@@ -205,7 +205,7 @@ class ParcelListView extends GetView<ParcelListController> {
 //   @override
 //   Widget build(BuildContext context) {
 //     return Container(
-//       color: BaseStylesConfig.bgGray,
+//       color: AppColors.bgGray,
 //       child: ListRefresh(
 //         renderItem: renderItem,
 //         refresh: loadList,

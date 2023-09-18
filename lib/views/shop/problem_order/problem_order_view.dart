@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
@@ -16,11 +15,11 @@ class ProblemOrderView extends GetView<ProblemOrderController> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '问题商品'.ts,
           fontSize: 17,
         ),
-        backgroundColor: BaseStylesConfig.bgGray,
+        backgroundColor: AppColors.bgGray,
         elevation: 0,
         leading: const BackButton(color: Colors.black),
         bottom: TabBar(
@@ -34,7 +33,7 @@ class ProblemOrderView extends GetView<ProblemOrderController> {
           },
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: PageView.builder(
         itemCount: 7,
         onPageChanged: (value) {
@@ -60,22 +59,22 @@ class ProblemOrderView extends GetView<ProblemOrderController> {
             child: Obx(
               () => Column(
                 children: [
-                  ZHTextLine(
+                  AppText(
                     str: tabs[index].ts,
                     fontWeight: controller.tabIndex.value == index
                         ? FontWeight.bold
                         : FontWeight.normal,
                     color: controller.tabIndex.value == index
-                        ? BaseStylesConfig.textDark
-                        : BaseStylesConfig.textNormal,
+                        ? AppColors.textDark
+                        : AppColors.textNormal,
                   ),
                   Container(
                     width: 20.w,
                     height: 4.h,
                     decoration: BoxDecoration(
                       color: controller.tabIndex.value == index
-                          ? BaseStylesConfig.primary
-                          : BaseStylesConfig.bgGray,
+                          ? AppColors.primary
+                          : AppColors.bgGray,
                       borderRadius: BorderRadius.circular(2.h),
                     ),
                   ),

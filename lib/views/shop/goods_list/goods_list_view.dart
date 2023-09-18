@@ -16,12 +16,12 @@ class GoodsListView extends GetView<GoodsListController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       appBar: AppBar(
         centerTitle: true,
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.white,
-        title: ZHTextLine(
+        title: AppText(
           str: '自营商城'.ts,
           fontSize: 18,
         ),
@@ -128,16 +128,16 @@ class GoodsListView extends GetView<GoodsListController> {
                                       left: index == 0 ? 0 : 25.w),
                                   decoration: BoxDecoration(
                                     border: Border(
-                                      bottom: controller.categoryId.value ==
-                                              e.id
-                                          ? BorderSide(
-                                              width: 3.h,
-                                              color: BaseStylesConfig.primary,
-                                            )
-                                          : BorderSide.none,
+                                      bottom:
+                                          controller.categoryId.value == e.id
+                                              ? BorderSide(
+                                                  width: 3.h,
+                                                  color: AppColors.primary,
+                                                )
+                                              : BorderSide.none,
                                     ),
                                   ),
-                                  child: ZHTextLine(
+                                  child: AppText(
                                     str: index == 0 ? e.name.ts : e.name,
                                     fontSize: 16,
                                     fontWeight:
@@ -145,8 +145,8 @@ class GoodsListView extends GetView<GoodsListController> {
                                             ? FontWeight.bold
                                             : FontWeight.normal,
                                     color: controller.categoryId.value == e.id
-                                        ? BaseStylesConfig.textDark
-                                        : BaseStylesConfig.textGrayC9,
+                                        ? AppColors.textDark
+                                        : AppColors.textGrayC9,
                                   ),
                                 ),
                               ),
@@ -155,7 +155,7 @@ class GoodsListView extends GetView<GoodsListController> {
                         ),
                       ),
                     )
-                  : Sized.empty,
+                  : AppGaps.empty,
             ],
           ),
         ],
@@ -176,11 +176,11 @@ class GoodsListView extends GetView<GoodsListController> {
             // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Obx(
-                () => ZHTextLine(
+                () => AppText(
                   str: label.ts,
                   color: controller.orderBy.value == value
-                      ? BaseStylesConfig.textDark
-                      : BaseStylesConfig.textGrayC9,
+                      ? AppColors.textDark
+                      : AppColors.textGrayC9,
                 ),
               ),
               Obx(
@@ -195,8 +195,8 @@ class GoodsListView extends GetView<GoodsListController> {
                       child: Icon(
                         Icons.arrow_drop_up_sharp,
                         color: controller.sortType.value == 'asc'
-                            ? BaseStylesConfig.textDark
-                            : BaseStylesConfig.textGrayC9,
+                            ? AppColors.textDark
+                            : AppColors.textGrayC9,
                         size: 25,
                       ),
                     ),
@@ -205,8 +205,8 @@ class GoodsListView extends GetView<GoodsListController> {
                       child: Icon(
                         Icons.arrow_drop_down_sharp,
                         color: controller.sortType.value == 'desc'
-                            ? BaseStylesConfig.textDark
-                            : BaseStylesConfig.textGrayC9,
+                            ? AppColors.textDark
+                            : AppColors.textGrayC9,
                         size: 25,
                       ),
                     ),
@@ -223,11 +223,11 @@ class GoodsListView extends GetView<GoodsListController> {
         controller.onSortBy(value);
       },
       child: Obx(
-        () => ZHTextLine(
+        () => AppText(
           str: label.ts,
           color: controller.orderBy.value == value
-              ? BaseStylesConfig.textDark
-              : BaseStylesConfig.textGrayC9,
+              ? AppColors.textDark
+              : AppColors.textGrayC9,
         ),
       ),
     );

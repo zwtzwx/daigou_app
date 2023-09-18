@@ -460,7 +460,8 @@ class ShopService {
       if (res.data['items'] != null) {
         List<PlatformGoodsModel> list = [];
         for (var item in res.data['items']['item']) {
-          item['platform'] = res.data['api_type'];
+          item['platform'] =
+              res.data['api_type'] ?? res.data['items']['api_type'];
           list.add(PlatformGoodsModel.fromJson(item));
         }
         result['dataList'] = list;

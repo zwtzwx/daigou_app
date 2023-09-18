@@ -19,6 +19,7 @@ class GroupDetailController extends BaseController {
   final coordinate = Rxn<CoordinateModel?>();
   final isAllSubmit = false.obs;
   late int id;
+  final canSubmit = false.obs;
 
   @override
   void onInit() {

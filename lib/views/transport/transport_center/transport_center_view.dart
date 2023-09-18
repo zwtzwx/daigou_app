@@ -22,7 +22,7 @@ class TransportCenterView extends GetView<TransportCenterController> {
     return Scaffold(
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: Stack(
         children: [
           RefreshIndicator(
@@ -34,7 +34,7 @@ class TransportCenterView extends GetView<TransportCenterController> {
                 Container(
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Colors.white, BaseStylesConfig.bgGray],
+                      colors: [Colors.white, AppColors.bgGray],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       stops: [0.7, 0.8],
@@ -97,7 +97,7 @@ class TransportCenterView extends GetView<TransportCenterController> {
               ),
             ),
             child: Obx(
-              () => ZHTextLine(
+              () => AppText(
                 str: links[index]['name']!.ts,
                 fontSize: 14,
                 lines: 3,
@@ -147,7 +147,7 @@ class TransportCenterView extends GetView<TransportCenterController> {
                             ),
                             2.verticalSpace,
                             Obx(
-                              () => ZHTextLine(
+                              () => AppText(
                                 str: e['name']!.ts,
                                 fontSize: 12,
                                 lines: 3,
@@ -177,10 +177,10 @@ class TransportCenterView extends GetView<TransportCenterController> {
                             ),
                             5.horizontalSpace,
                             Obx(
-                              () => ZHTextLine(
+                              () => AppText(
                                 str: e['name']!.ts,
                                 fontSize: 10,
-                                color: BaseStylesConfig.textGrayC9,
+                                color: AppColors.textGrayC9,
                                 lines: 2,
                               ),
                             ),

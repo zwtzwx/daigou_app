@@ -32,7 +32,7 @@ class ForgetPasswordController extends BaseController {
 
   final count = 60.obs;
 
-  final codeColor = BaseStylesConfig.textBlack.obs;
+  final codeColor = AppColors.textBlack.obs;
 
   // 新号码
   final TextEditingController mobileNumberController = TextEditingController();
@@ -99,7 +99,7 @@ class ForgetPasswordController extends BaseController {
       //当按钮可点击时
       isButtonEnable.value = false; //按钮状态标记
       _initTimer();
-      codeColor.value = BaseStylesConfig.textGray;
+      codeColor.value = AppColors.textGray;
     }
   }
 
@@ -110,7 +110,7 @@ class ForgetPasswordController extends BaseController {
         timer.cancel(); //倒计时结束取消定时器
         isButtonEnable.value = true; //按钮可点击
         count.value = 60; //重置时间
-        codeColor.value = BaseStylesConfig.textBlack;
+        codeColor.value = AppColors.textBlack;
         sent.value = '发送验证码'.ts; //重置按钮文本
       } else {
         sent.value = '重新发送'.ts + '($count)'; //更新文本内容
@@ -128,14 +128,10 @@ class ForgetPasswordController extends BaseController {
         'password': emailController.text,
         'confirm_password': emailController.text
       };
-      showLoading();
       TokenModel? tokenModel = await UserService.resetPaswordAndLogin(map);
-      hideLoading();
       if (tokenModel == null) {
-        showToast('操作失败');
         return;
       }
-      showSuccess('登录成功');
       // 清除记住的账号密码
       Get.find<UserInfoModel>().clearAccount();
       //发送登录事件

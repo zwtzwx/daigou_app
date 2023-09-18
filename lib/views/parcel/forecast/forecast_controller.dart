@@ -217,7 +217,7 @@ class ForecastController extends BaseController {
     List<PickerItem> data = [];
     for (var item in list) {
       var containe = PickerItem(
-        text: ZHTextLine(
+        text: AppText(
           fontSize: 24,
           str: item.name,
         ),
@@ -231,7 +231,7 @@ class ForecastController extends BaseController {
     List<PickerItem> data = [];
     for (var item in list) {
       var containe = PickerItem(
-        text: ZHTextLine(
+        text: AppText(
           fontSize: 24,
           str: item.warehouseName!,
         ),
@@ -248,7 +248,7 @@ class ForecastController extends BaseController {
           data: expressCompanyList
               .map(
                 (e) => PickerItem(
-                  text: ZHTextLine(
+                  text: AppText(
                     fontSize: 24,
                     str: e.name,
                   ),

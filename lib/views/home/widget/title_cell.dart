@@ -28,13 +28,13 @@ class TitleCell extends StatelessWidget {
             child: Row(
               children: [
                 Obx(
-                  () => ZHTextLine(
+                  () => AppText(
                     str: title.ts,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                other ?? Sized.empty
+                other ?? AppGaps.empty
               ],
             ),
           ),
@@ -46,22 +46,22 @@ class TitleCell extends StatelessWidget {
                   child: Row(
                     children: [
                       Obx(
-                        () => ZHTextLine(
+                        () => AppText(
                           str: '更多'.ts,
                           fontSize: 14,
-                          color: BaseStylesConfig.textNormal,
+                          color: AppColors.textNormal,
                         ),
                       ),
                       5.horizontalSpace,
                       const Icon(
                         Icons.arrow_forward_ios,
-                        color: BaseStylesConfig.textNormal,
+                        color: AppColors.textNormal,
                         size: 14,
                       ),
                     ],
                   ),
                 )
-              : Sized.empty,
+              : AppGaps.empty,
         ],
       ),
     );

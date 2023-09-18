@@ -31,13 +31,12 @@ class LoadingCell extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CupertinoActivityIndicator(
-                color: BaseStylesConfig.textNormal),
+            const CupertinoActivityIndicator(color: AppColors.textNormal),
             5.horizontalSpace,
             Obx(
-              () => ZHTextLine(
+              () => AppText(
                 str: '加载中'.ts + '...',
-                color: BaseStylesConfig.textNormal,
+                color: AppColors.textNormal,
               ),
             ),
           ],
@@ -48,10 +47,10 @@ class LoadingCell extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(0, 12.h, 0, 20.h),
         child: Center(
           child: Obx(
-            () => ZHTextLine(
+            () => AppText(
               str: '没有更多商品了'.ts,
               fontSize: 14,
-              color: BaseStylesConfig.textNormal,
+              color: AppColors.textNormal,
             ),
           ),
         ),
@@ -64,6 +63,6 @@ class LoadingCell extends StatelessWidget {
         ),
       );
     }
-    return Sized.empty;
+    return AppGaps.empty;
   }
 }

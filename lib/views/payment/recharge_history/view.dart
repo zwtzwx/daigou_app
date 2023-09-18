@@ -20,13 +20,13 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '充值记录'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 17,
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: ListRefresh(
         renderItem: renderItem,
         refresh: controller.loadList,
@@ -44,7 +44,7 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
         margin: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
         // height: 110,
         decoration: BoxDecoration(
-          color: BaseStylesConfig.white,
+          color: AppColors.white,
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           border: Border.all(width: 1, color: Colors.white),
         ),
@@ -84,19 +84,19 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
                         children: <Widget>[
                           Container(
                             alignment: Alignment.centerLeft,
-                            child: ZHTextLine(
+                            child: AppText(
                               alignment: TextAlign.left,
                               str: '充值金额'.ts,
-                              color: BaseStylesConfig.textDark,
+                              color: AppColors.textDark,
                               fontSize: 17,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                           Container(
                             alignment: Alignment.centerRight,
-                            child: ZHTextLine(
+                            child: AppText(
                               str: model.confirmAmount.rate(),
-                              color: BaseStylesConfig.textBlack,
+                              color: AppColors.textBlack,
                               fontSize: 17,
                             ),
                           )
@@ -110,17 +110,17 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
                         children: <Widget>[
                           Container(
                             alignment: Alignment.centerLeft,
-                            child: ZHTextLine(
+                            child: AppText(
                               alignment: TextAlign.left,
                               str: model.payType,
-                              color: BaseStylesConfig.textGray,
+                              color: AppColors.textGray,
                               fontSize: 14,
                             ),
                           ),
                           Container(
                             margin: const EdgeInsets.only(top: 0, right: 0),
                             alignment: Alignment.centerRight,
-                            child: ZHTextLine(
+                            child: AppText(
                               alignment: TextAlign.center,
                               str: model.status == 0
                                   ? '等待客服确认支付'.ts
@@ -140,10 +140,10 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
                         children: <Widget>[
                           Container(
                             alignment: Alignment.centerRight,
-                            child: ZHTextLine(
+                            child: AppText(
                               alignment: TextAlign.left,
                               str: model.createdAt,
-                              color: BaseStylesConfig.textGray,
+                              color: AppColors.textGray,
                               fontSize: 14,
                             ),
                           )
@@ -152,12 +152,12 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
                     ),
                     model.status == 2
                         ? SizedBox(
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '${'备注'.ts}：${model.customerRemark}',
                               lines: 20,
                             ),
                           )
-                        : Sized.empty,
+                        : AppGaps.empty,
                   ],
                 ))
           ],

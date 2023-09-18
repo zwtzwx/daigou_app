@@ -24,14 +24,14 @@ class RegisterView extends GetView<RegisterController> {
         elevation: 0.5,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: controller.pageTitle.value,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
       ),
-      backgroundColor: BaseStylesConfig.white,
+      backgroundColor: AppColors.white,
       // bottomNavigationBar: buildOtherSignIn(),
       body: SingleChildScrollView(
         child: SizedBox(
@@ -73,7 +73,7 @@ class RegisterView extends GetView<RegisterController> {
   */
   Widget loginCell(BuildContext context) {
     return Container(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         padding: const EdgeInsets.only(right: 40, left: 40),
         child: Column(
           children: <Widget>[
@@ -101,11 +101,11 @@ class RegisterView extends GetView<RegisterController> {
                         controller.loginType.value =
                             controller.loginType.value == 1 ? 2 : 1;
                       },
-                      child: ZHTextLine(
+                      child: AppText(
                         str: controller.loginType.value == 1
                             ? '邮箱注册'.ts
                             : '手机号注册'.ts,
-                        color: BaseStylesConfig.primary,
+                        color: AppColors.primary,
                       ),
                     )
                   : const SizedBox()),
@@ -117,12 +117,10 @@ class RegisterView extends GetView<RegisterController> {
   inPutEmailNumber(BuildContext context) {
     var inputAccountView = Container(
       decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         border: Border(
             bottom: BorderSide(
-                width: 0.5,
-                color: BaseStylesConfig.line,
-                style: BorderStyle.solid)),
+                width: 0.5, color: AppColors.line, style: BorderStyle.solid)),
       ),
       child: Row(
         children: <Widget>[
@@ -137,10 +135,10 @@ class RegisterView extends GetView<RegisterController> {
                   decoration: InputDecoration(
                     hintText: '请输入邮箱'.ts,
                     enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: BaseStylesConfig.line),
+                      borderSide: BorderSide(color: AppColors.line),
                     ),
                     focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: BaseStylesConfig.line),
+                      borderSide: BorderSide(color: AppColors.line),
                     ),
                   ),
                 ),
@@ -156,12 +154,10 @@ class RegisterView extends GetView<RegisterController> {
   inPutVeritfyNumber(BuildContext context) {
     var inputVerifyNumber = Container(
       decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         border: Border(
             bottom: BorderSide(
-                width: 0.5,
-                color: BaseStylesConfig.line,
-                style: BorderStyle.solid)),
+                width: 0.5, color: AppColors.line, style: BorderStyle.solid)),
       ),
       alignment: Alignment.center,
       child: Row(
@@ -179,10 +175,10 @@ class RegisterView extends GetView<RegisterController> {
                       ? '请输入密码'.ts
                       : '请输入验证码'.ts,
                   enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: BaseStylesConfig.line),
+                    borderSide: BorderSide(color: AppColors.line),
                   ),
                   focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: BaseStylesConfig.line),
+                    borderSide: BorderSide(color: AppColors.line),
                   ),
                 ),
               ),
@@ -195,7 +191,7 @@ class RegisterView extends GetView<RegisterController> {
                     (states) => Colors.transparent),
               ),
               child: Obx(
-                () => ZHTextLine(
+                () => AppText(
                   str: controller.sent.value,
                   color: controller.codeColor.value,
                 ),
@@ -212,12 +208,10 @@ class RegisterView extends GetView<RegisterController> {
   passwordCell(BuildContext context) {
     var passwordCell = Container(
       decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         border: Border(
             bottom: BorderSide(
-                width: 0.5,
-                color: BaseStylesConfig.line,
-                style: BorderStyle.solid)),
+                width: 0.5, color: AppColors.line, style: BorderStyle.solid)),
       ),
       alignment: Alignment.center,
       child: Obx(
@@ -228,10 +222,10 @@ class RegisterView extends GetView<RegisterController> {
           decoration: InputDecoration(
             hintText: '请输入密码'.ts,
             enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: BaseStylesConfig.line),
+              borderSide: BorderSide(color: AppColors.line),
             ),
             focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: BaseStylesConfig.line),
+              borderSide: BorderSide(color: AppColors.line),
             ),
           ),
         ),
@@ -243,12 +237,10 @@ class RegisterView extends GetView<RegisterController> {
   inputPhoneView(BuildContext context) {
     var inputAccountView = Container(
       decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         border: Border(
             bottom: BorderSide(
-                width: 1,
-                color: BaseStylesConfig.line,
-                style: BorderStyle.solid)),
+                width: 1, color: AppColors.line, style: BorderStyle.solid)),
       ),
       child: Row(
         children: <Widget>[
@@ -270,7 +262,7 @@ class RegisterView extends GetView<RegisterController> {
                               .formatTimezone(controller.areaNumber.value),
                       style: const TextStyle(
                         fontSize: 16.0, //textsize
-                        color: BaseStylesConfig.textNormal,
+                        color: AppColors.textNormal,
                       ),
                     ),
                   ),
@@ -278,12 +270,12 @@ class RegisterView extends GetView<RegisterController> {
                 const Icon(
                   Icons.arrow_forward_ios,
                   size: 14,
-                  color: BaseStylesConfig.textNormal,
+                  color: AppColors.textNormal,
                 ),
               ],
             ),
           ),
-          Sized.hGap10,
+          AppGaps.hGap10,
           Expanded(
               child: Container(
             height: 40,
@@ -294,11 +286,11 @@ class RegisterView extends GetView<RegisterController> {
               decoration: InputDecoration(
                 hintText: '请输入手机号'.ts,
                 enabledBorder: const UnderlineInputBorder(
-                  // borderSide: BorderSide(color: BaseStylesConfig.line),
+                  // borderSide: BorderSide(color: AppColors.line),
                   borderSide: BorderSide.none,
                 ),
                 focusedBorder: const UnderlineInputBorder(
-                  // borderSide: BorderSide(color: BaseStylesConfig.line),
+                  // borderSide: BorderSide(color: AppColors.line),
                   borderSide: BorderSide.none,
                 ),
               ),

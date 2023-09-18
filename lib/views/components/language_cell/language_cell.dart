@@ -35,7 +35,7 @@ class LanguageCell extends GetView<LanguageCellController> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Obx(
-                    () => ZHTextLine(
+                    () => AppText(
                       str: controller.i10n.language.split('_').last +
                           (controller.currency.value != null
                               ? '/${controller.currency.value!.symbol}'

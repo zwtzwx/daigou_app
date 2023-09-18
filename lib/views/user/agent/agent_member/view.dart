@@ -19,13 +19,13 @@ class AgentMemberPage extends GetView<AgentMemberController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '我的推广'.ts,
           fontSize: 17,
         ),
         bottom: TabBar(
-            labelColor: BaseStylesConfig.primary,
-            indicatorColor: BaseStylesConfig.primary,
+            labelColor: AppColors.primary,
+            indicatorColor: AppColors.primary,
             controller: controller.tabController,
             onTap: (int index) {
               controller.pageController.jumpToPage(index);
@@ -34,7 +34,7 @@ class AgentMemberPage extends GetView<AgentMemberController> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Obx(
-                  () => ZHTextLine(
+                  () => AppText(
                       str: '已注册好友'.ts +
                           '(${controller.countModel.value?.all ?? 0})'),
                 ),
@@ -42,14 +42,14 @@ class AgentMemberPage extends GetView<AgentMemberController> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Obx(
-                  () => ZHTextLine(
+                  () => AppText(
                       str: '已下单好友'.ts +
                           '(${controller.countModel.value?.hasOrder ?? 0})'),
                 ),
               ),
             ]),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: PageView.builder(
         controller: controller.pageController,
         itemCount: 2,
@@ -65,25 +65,25 @@ class AgentMemberPage extends GetView<AgentMemberController> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         border: Border(
-          bottom: BorderSide(color: BaseStylesConfig.line),
+          bottom: BorderSide(color: AppColors.line),
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           SizedBox(
-            child: ZHTextLine(
+            child: AppText(
               str: model.name,
             ),
           ),
-          Sized.vGap5,
+          AppGaps.vGap5,
           SizedBox(
-            child: ZHTextLine(
+            child: AppText(
               str: '注册时间'.ts + '：' + model.createdAt,
               fontSize: 13,
-              color: BaseStylesConfig.textGray,
+              color: AppColors.textGray,
             ),
           ),
         ],
@@ -130,25 +130,25 @@ class __AgentMemberListState extends State<_AgentMemberList> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         border: Border(
-          bottom: BorderSide(color: BaseStylesConfig.line),
+          bottom: BorderSide(color: AppColors.line),
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           SizedBox(
-            child: ZHTextLine(
+            child: AppText(
               str: model.name,
             ),
           ),
-          Sized.vGap5,
+          AppGaps.vGap5,
           SizedBox(
-            child: ZHTextLine(
+            child: AppText(
               str: '注册时间'.ts + '：' + model.createdAt,
               fontSize: 13,
-              color: BaseStylesConfig.textGray,
+              color: AppColors.textGray,
             ),
           ),
         ],

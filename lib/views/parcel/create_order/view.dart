@@ -26,13 +26,13 @@ class CreateOrderPage extends GetView<CreateOrderController> {
           elevation: 0.5,
           centerTitle: true,
           title: Obx(
-            () => ZHTextLine(
+            () => AppText(
               str: controller.pageTitle.value,
               fontSize: 17,
             ),
           ),
         ),
-        backgroundColor: BaseStylesConfig.bgGray,
+        backgroundColor: AppColors.bgGray,
         body: Obx(() => controller.isLoading.value
             ? GestureDetector(
                 onTap: () {
@@ -52,7 +52,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
         Container(
           alignment: Alignment.centerLeft,
           margin: const EdgeInsets.only(top: 20, bottom: 10, left: 15),
-          child: ZHTextLine(
+          child: AppText(
             str: '您本次选择{count}个包裹'
                 .tsArgs({'count': controller.packageList.length}),
           ),
@@ -63,10 +63,10 @@ class CreateOrderPage extends GetView<CreateOrderController> {
         Container(
           alignment: Alignment.centerLeft,
           margin: const EdgeInsets.only(top: 0, bottom: 10, left: 30),
-          child: ZHTextLine(
+          child: AppText(
             fontSize: 14,
             str: '提示合并打包后无法更改哦'.ts,
-            color: BaseStylesConfig.textGray,
+            color: AppColors.textGray,
           ),
         ),
         // Obx(
@@ -93,10 +93,10 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                   alignment: Alignment.centerLeft,
                   height: 40,
                   width: 80,
-                  child: ZHTextLine(
+                  child: AppText(
                     fontSize: 16,
                     str: '备注'.ts + '：',
-                    color: BaseStylesConfig.textDark,
+                    color: AppColors.textDark,
                   ),
                 ),
                 Expanded(
@@ -129,9 +129,9 @@ class CreateOrderPage extends GetView<CreateOrderController> {
         ),
         Container(
           alignment: Alignment.center,
-          child: ZHTextLine(
+          child: AppText(
             str: '在仓库打包完成之后才会需要进行支付'.ts,
-            color: BaseStylesConfig.textGray,
+            color: AppColors.textGray,
           ),
         ),
         const SizedBox(
@@ -165,13 +165,13 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       SizedBox(
-                        child: ZHTextLine(
+                        child: AppText(
                           fontSize: 14,
                           str: model.expressNum ?? '',
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      ZHTextLine(
+                      AppText(
                         fontSize: 14,
                         str: model.country?.name ?? '',
                       ),
@@ -183,19 +183,19 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      ZHTextLine(
+                      AppText(
                         str: model.prop?.map((e) => e.name).join(' ') ?? '',
                         fontSize: 14,
                       ),
                       Row(
                         children: <Widget>[
-                          ZHTextLine(
+                          AppText(
                             str: (model.packageValue ?? 0).rate(),
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
-                          Sized.hGap10,
-                          ZHTextLine(
+                          AppGaps.hGap10,
+                          AppText(
                             str: ((model.packageWeight ?? 0) / 1000)
                                     .toStringAsFixed(2) +
                                 controller.localModel!.weightSymbol,
@@ -247,28 +247,28 @@ class CreateOrderPage extends GetView<CreateOrderController> {
           //         Container(
           //           alignment: Alignment.centerLeft,
           //           width: 80,
-          //           child: ZHTextLine(str: '收货形式'.ts),
+          //           child: AppText(str: '收货形式'.ts),
           //         ),
           //         Expanded(
           //           child: Row(
           //             mainAxisAlignment: MainAxisAlignment.end,
           //             children: <Widget>[
-          //               ZHTextLine(
+          //               AppText(
           //                 str: controller.tempDelivery.value == null
           //                     ? '请选择'.ts
           //                     : controller.tempDelivery.value == 0
           //                         ? '送货上门'.ts
           //                         : '自提点收货'.ts,
           //                 color: controller.tempDelivery.value == null
-          //                     ? BaseStylesConfig.textGray
-          //                     : BaseStylesConfig.textDark,
+          //                     ? AppColors.textGray
+          //                     : AppColors.textDark,
           //               ),
           //               !controller.isGroup.value
           //                   ? const Icon(
           //                       Icons.keyboard_arrow_right,
-          //                       color: BaseStylesConfig.textGray,
+          //                       color: AppColors.textGray,
           //                     )
-          //                   : Sized.empty,
+          //                   : AppGaps.empty,
           //             ],
           //           ),
           //         )
@@ -276,7 +276,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
           //     ),
           //   ),
           // ),
-          // Sized.line,
+          // AppGaps.line,
           GestureDetector(
             onTap: controller.onAddress,
             child: Container(
@@ -292,7 +292,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                   Container(
                     alignment: Alignment.centerLeft,
                     width: 80,
-                    child: ZHTextLine(
+                    child: AppText(
                       str: '收货地址'.ts,
                     ),
                   ),
@@ -303,9 +303,9 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           controller.selectedAddressModel.value == null
-                              ? ZHTextLine(
+                              ? AppText(
                                   str: '请选择'.ts,
-                                  color: BaseStylesConfig.textGray,
+                                  color: AppColors.textGray,
                                 )
                               : Expanded(
                                   // height: 90,
@@ -326,7 +326,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                                   .value!.phone,
                                           style: TextStyle(
                                               fontSize: 14.sp,
-                                              color: BaseStylesConfig.textDark),
+                                              color: AppColors.textDark),
                                         ),
                                       ),
                                       controller.selectedAddressModel.value!
@@ -336,7 +336,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                               alignment: Alignment.centerRight,
                                               padding:
                                                   EdgeInsets.only(top: 2.h),
-                                              child: ZHTextLine(
+                                              child: AppText(
                                                 str: controller
                                                         .selectedAddressModel
                                                         .value!
@@ -346,7 +346,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                                 fontSize: 14,
                                               ),
                                             )
-                                          : Sized.empty,
+                                          : AppGaps.empty,
                                       Container(
                                         // height: 40,
                                         width: double.infinity,
@@ -358,7 +358,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                           style: TextStyle(
                                               fontSize: 14.sp,
                                               height: 1.5,
-                                              color: BaseStylesConfig.textDark),
+                                              color: AppColors.textDark),
                                         ),
                                       ),
                                     ],
@@ -371,14 +371,14 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                   !controller.isGroup.value
                       ? const Icon(
                           Icons.keyboard_arrow_right,
-                          color: BaseStylesConfig.textGray,
+                          color: AppColors.textGray,
                         )
-                      : Sized.empty,
+                      : AppGaps.empty,
                 ],
               ),
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           GestureDetector(
             onTap: controller.onLine,
             child: Container(
@@ -394,7 +394,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                   Container(
                     alignment: Alignment.centerLeft,
                     width: 80,
-                    child: ZHTextLine(str: '快递方式'.ts),
+                    child: AppText(str: '快递方式'.ts),
                   ),
                   Expanded(
                     child: Container(
@@ -402,20 +402,20 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          ZHTextLine(
+                          AppText(
                             str: controller.shipLineModel.value == null
                                 ? '请选择'.ts
                                 : controller.shipLineModel.value!.name,
                             color: controller.shipLineModel.value == null
-                                ? BaseStylesConfig.textGray
-                                : BaseStylesConfig.textDark,
+                                ? AppColors.textGray
+                                : AppColors.textDark,
                           ),
                           !controller.isGroup.value
                               ? const Icon(
                                   Icons.keyboard_arrow_right,
-                                  color: BaseStylesConfig.textGray,
+                                  color: AppColors.textGray,
                                 )
-                              : Sized.empty,
+                              : AppGaps.empty,
                         ],
                       ),
                     ),
@@ -424,7 +424,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
               ),
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Container(
             padding: const EdgeInsets.symmetric(
               vertical: 10,
@@ -438,13 +438,13 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                 Container(
                   alignment: Alignment.centerLeft,
                   width: 80,
-                  child: ZHTextLine(str: '收货形式'.ts),
+                  child: AppText(str: '收货形式'.ts),
                 ),
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      ZHTextLine(
+                      AppText(
                         str: controller.selectedAddressModel.value == null
                             ? ''
                             : controller.selectedAddressModel.value!
@@ -452,7 +452,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                     1
                                 ? '送货上门'.ts
                                 : '自提收货'.ts,
-                        color: BaseStylesConfig.textDark,
+                        color: AppColors.textDark,
                       ),
                     ],
                   ),
@@ -506,7 +506,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-        border: Border.all(width: 1, color: BaseStylesConfig.white),
+        border: Border.all(width: 1, color: AppColors.white),
       ),
       margin: const EdgeInsets.only(right: 15, left: 15, bottom: 10),
       padding: const EdgeInsets.only(left: 15, right: 15),
@@ -527,7 +527,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          ZHTextLine(str: '保险服务'.ts),
+                          AppText(str: '保险服务'.ts),
                           Padding(
                             padding: const EdgeInsets.only(left: 0),
                             child: IconButton(
@@ -544,11 +544,11 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                           .insuranceModel.value!.explanation);
                                 }),
                           ),
-                          Sized.hGap10,
-                          ZHTextLine(
+                          AppGaps.hGap10,
+                          AppText(
                             str: num.parse(controller.firstStr.value)
                                 .rate(needFormat: false),
-                            color: BaseStylesConfig.textRed,
+                            color: AppColors.textRed,
                           )
                         ],
                       ),
@@ -556,7 +556,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                         value: controller.firstMust.value
                             ? controller.firstMust.value
                             : controller.insuranceServices.value,
-                        activeColor: BaseStylesConfig.green,
+                        activeColor: AppColors.green,
                         onChanged: (value) {
                           controller.insuranceServices.value = value;
                         },
@@ -564,7 +564,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                     ],
                   ),
                 ),
-                Sized.line,
+                AppGaps.line,
               ],
             ),
           ),
@@ -583,7 +583,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          ZHTextLine(str: '关税服务'.ts),
+                          AppText(str: '关税服务'.ts),
                           Padding(
                             padding: const EdgeInsets.only(left: 0),
                             child: IconButton(
@@ -600,17 +600,17 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                           .tariffModel.value!.explanation);
                                 }),
                           ),
-                          ZHTextLine(
+                          AppText(
                               str: num.parse(controller.secondStr.value)
                                   .rate(needFormat: false),
-                              color: BaseStylesConfig.textRed),
+                              color: AppColors.textRed),
                         ],
                       ),
                       Switch.adaptive(
                         value: controller.secondMust.value
                             ? controller.secondMust.value
                             : controller.customsService.value,
-                        activeColor: BaseStylesConfig.green,
+                        activeColor: AppColors.green,
                         onChanged: (value) {
                           controller.customsService.value = value;
                         },
@@ -618,7 +618,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                     ],
                   ),
                 ),
-                Sized.line,
+                AppGaps.line,
               ],
             ),
           ),
@@ -652,7 +652,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        ZHTextLine(str: item.name!),
+                        AppText(str: item.name!),
                         Container(
                           height: 49,
                           alignment: Alignment.centerLeft,
@@ -664,28 +664,28 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                 TextSpan(
                                   text: first,
                                   style: const TextStyle(
-                                      color: BaseStylesConfig.textDark,
+                                      color: AppColors.textDark,
                                       fontSize: 15,
                                       fontWeight: FontWeight.w300),
                                 ),
                                 const TextSpan(
                                   text: ' ',
                                   style: TextStyle(
-                                    color: BaseStylesConfig.textBlack,
+                                    color: AppColors.textBlack,
                                     fontSize: 10.0,
                                   ),
                                 ),
                                 TextSpan(
                                   text: second,
                                   style: const TextStyle(
-                                    color: BaseStylesConfig.textRed,
+                                    color: AppColors.textRed,
                                     fontSize: 15.0,
                                   ),
                                 ),
                                 const TextSpan(
                                   text: ' ',
                                   style: TextStyle(
-                                    color: BaseStylesConfig.textBlack,
+                                    color: AppColors.textBlack,
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -693,7 +693,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                 TextSpan(
                                   text: third,
                                   style: const TextStyle(
-                                    color: BaseStylesConfig.textDark,
+                                    color: AppColors.textDark,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -708,7 +708,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                 child: IconButton(
                                   icon: const Icon(
                                     Icons.error_outline_outlined,
-                                    color: BaseStylesConfig.green,
+                                    color: AppColors.green,
                                     size: 25,
                                   ),
                                   onPressed: () {
@@ -723,7 +723,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                     Obx(
                       () => Switch.adaptive(
                         value: controller.orderServiceId.contains(item.id),
-                        activeColor: BaseStylesConfig.green,
+                        activeColor: AppColors.green,
                         onChanged: (value) {
                           print('434');
                           if (value) {
@@ -737,7 +737,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                   ],
                 ),
               ),
-              Sized.line,
+              AppGaps.line,
             ],
           ),
         );
@@ -793,7 +793,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        ZHTextLine(str: item.name),
+                        AppText(str: item.name),
                         Container(
                           height: 49,
                           alignment: Alignment.centerLeft,
@@ -805,28 +805,28 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                 TextSpan(
                                   text: first,
                                   style: const TextStyle(
-                                      color: BaseStylesConfig.textDark,
+                                      color: AppColors.textDark,
                                       fontSize: 15,
                                       fontWeight: FontWeight.w300),
                                 ),
                                 const TextSpan(
                                   text: ' ',
                                   style: TextStyle(
-                                    color: BaseStylesConfig.textBlack,
+                                    color: AppColors.textBlack,
                                     fontSize: 10.0,
                                   ),
                                 ),
                                 TextSpan(
                                   text: second,
                                   style: const TextStyle(
-                                    color: BaseStylesConfig.textRed,
+                                    color: AppColors.textRed,
                                     fontSize: 15.0,
                                   ),
                                 ),
                                 const TextSpan(
                                   text: ' ',
                                   style: TextStyle(
-                                    color: BaseStylesConfig.textBlack,
+                                    color: AppColors.textBlack,
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -834,7 +834,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                 TextSpan(
                                   text: third,
                                   style: const TextStyle(
-                                    color: BaseStylesConfig.textDark,
+                                    color: AppColors.textDark,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -849,7 +849,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                                 child: IconButton(
                                   icon: const Icon(
                                     Icons.error_outline_outlined,
-                                    color: BaseStylesConfig.green,
+                                    color: AppColors.green,
                                     size: 25,
                                   ),
                                   onPressed: () {
@@ -863,7 +863,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                     Obx(
                       () => Switch.adaptive(
                         value: controller.lineServiceId.contains(item.id),
-                        activeColor: BaseStylesConfig.green,
+                        activeColor: AppColors.green,
                         onChanged: (value) {
                           if (item.isForced == 1) return;
                           if (value) {
@@ -877,7 +877,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
                   ],
                 ),
               ),
-              Sized.line
+              AppGaps.line
             ],
           ),
         );

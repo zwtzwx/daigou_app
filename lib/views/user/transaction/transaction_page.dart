@@ -20,13 +20,13 @@ class TransactionView extends GetView<TransactionController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '财务流水'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 18,
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: ListRefresh(
         renderItem: renderItem,
         refresh: controller.loadList,
@@ -50,35 +50,35 @@ class TransactionView extends GetView<TransactionController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ZHTextLine(
+                AppText(
                   str: model.createdAt,
                 ),
-                Sized.vGap15,
+                AppGaps.vGap15,
                 Container(
                   alignment: Alignment.center,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '金额'.ts,
                     fontSize: 18,
                   ),
                 ),
                 Container(
                   alignment: Alignment.center,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: model.amount.rate(),
                     fontSize: 18,
-                    color: BaseStylesConfig.textRed,
+                    color: AppColors.textRed,
                   ),
                 ),
-                Sized.vGap15,
-                ZHTextLine(
+                AppGaps.vGap15,
+                AppText(
                   str: '类型'.ts + '：' + controller.getType(model.type).ts,
                 ),
-                Sized.vGap10,
+                AppGaps.vGap10,
                 ([1, 3].contains(model.type) && model.order != null)
-                    ? ZHTextLine(
+                    ? AppText(
                         str: '相关订单'.ts + '：' + (model.orderSn ?? ''),
                       )
-                    : ZHTextLine(
+                    : AppText(
                         str: '流水号'.ts + '：' + model.serialNo,
                       ),
               ],
@@ -92,7 +92,7 @@ class TransactionView extends GetView<TransactionController> {
                   child: Container(
                     decoration: const BoxDecoration(
                       border: Border(
-                        top: BorderSide(color: BaseStylesConfig.line),
+                        top: BorderSide(color: AppColors.line),
                       ),
                       color: Colors.white,
                     ),
@@ -101,7 +101,7 @@ class TransactionView extends GetView<TransactionController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ZHTextLine(
+                        AppText(
                           str: '查看详情'.ts,
                           fontSize: 14,
                         ),
@@ -113,7 +113,7 @@ class TransactionView extends GetView<TransactionController> {
                     ),
                   ),
                 )
-              : Sized.empty,
+              : AppGaps.empty,
         ],
       ),
     );

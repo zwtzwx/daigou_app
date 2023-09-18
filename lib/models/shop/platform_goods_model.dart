@@ -8,7 +8,7 @@ class PlatformGoodsModel {
   late String title;
   String? picUrl;
   num? price;
-  num? sales;
+  String? sales;
   late dynamic id;
   String? platform;
   String? detailUrl;
@@ -26,11 +26,16 @@ class PlatformGoodsModel {
       picUrl = 'https:$picUrl';
     }
     if (json['price'] is String) {
+      json['price'] = json['price'].replaceAll(RegExp(r','), '');
       price = num.parse(json['price']);
     } else {
       price = json['price'];
     }
-    sales = json['sales'];
+    if (json['sales'] is num) {
+      sales = json['sales'].toString();
+    } else {
+      sales = json['sales'];
+    }
     id = json['num_iid'];
     platform = json['platform'];
     detailUrl = json['detail_url'];

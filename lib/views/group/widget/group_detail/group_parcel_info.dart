@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart';
 import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/rate_convert.dart';
@@ -10,7 +8,6 @@ import 'package:jiyun_app_client/models/goods_props.dart';
 import 'package:jiyun_app_client/models/group_model.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/models/warehouse_model.dart';
 import 'package:jiyun_app_client/services/group_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
@@ -23,12 +20,14 @@ class MemberGroupParcelInfo extends StatefulWidget {
     required this.model,
     required this.onChooseParcel,
     required this.onHasParcel,
+    required this.onBack,
     this.localModel,
   }) : super(key: key);
   final GroupModel model;
   final Function onChooseParcel;
   final LocalizationModel? localModel;
   final Function onHasParcel;
+  final Function onBack;
 
   @override
   State<MemberGroupParcelInfo> createState() => _MemberGroupParcelInfoState();
@@ -51,9 +50,8 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
     if (data['dataList'] != null) {
       setState(() {
         parcelList = data['dataList'];
-        if (data['dataList'].isNotEmpty) {
-          widget.onHasParcel();
-        }
+
+        widget.onHasParcel(data['dataList'].isNotEmpty);
       });
     }
   }
@@ -68,28 +66,15 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
     }
   }
 
-  void onCopyWarehouse() {
-    var userInfo = Get.find<UserInfoModel>().userInfo.value;
-    var name = '收件人：(${userInfo!.id})${warehouse?.warehouseName ?? ''}\n';
-    var phone = '手机号码：${warehouse?.phone}\n';
-    var postcode = '邮编：${warehouse?.postcode}\n';
-    var address = '收货地址：${warehouse?.address}';
-    Clipboard.setData(ClipboardData(text: '$name$phone$postcode$address'))
-        .then((value) => EasyLoading.showSuccess('复制成功'.ts));
-  }
-
   // 退回拼团包裹
   void onParcelBack(int id) async {
     EasyLoading.show();
     var res = await GroupService.onGroupParcelReturn(widget.model.id!, {
       'package_ids': [id]
     });
-    EasyLoading.dismiss();
     if (res['ok']) {
-      await EasyLoading.showSuccess(res['msg']);
       getPackages();
-    } else {
-      EasyLoading.showError(res['msg']);
+      widget.onBack();
     }
   }
 
@@ -111,19 +96,19 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ZHTextLine(
+                        AppText(
                           str: '我的参团信息'.ts,
                           fontWeight: FontWeight.bold,
                         ),
-                        ZHTextLine(
+                        AppText(
                           str: Util.getOrderStatusName(
                               widget.model.order!.status),
                           fontWeight: FontWeight.bold,
-                          color: BaseStylesConfig.green,
+                          color: AppColors.green,
                         ),
                       ],
                     ),
-                    Sized.vGap20,
+                    AppGaps.vGap20,
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -131,35 +116,35 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
                           'Group/group',
                           width: 20,
                         ),
-                        Sized.hGap10,
+                        AppGaps.hGap10,
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ZHTextLine(
+                            AppText(
                               str: widget.model.order!.orderSn,
                               fontWeight: FontWeight.bold,
                             ),
-                            Sized.vGap4,
-                            ZHTextLine(
+                            AppGaps.vGap4,
+                            AppText(
                               str: widget.model.order!.createdAt,
-                              color: BaseStylesConfig.textGrayC9,
+                              color: AppColors.textGrayC9,
                               fontSize: 14,
                             ),
                           ],
                         ),
                       ],
                     ),
-                    Sized.vGap20,
+                    AppGaps.vGap20,
                   ],
                 )
-              : Sized.empty,
+              : AppGaps.empty,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Expanded(
-                    child: ZHTextLine(
+                    child: AppText(
                       str: '我要参团包裹'.ts + ' (${parcelList.length})',
                       fontWeight: FontWeight.bold,
                       lines: 4,
@@ -172,21 +157,21 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
                           },
                           child: Row(
                             children: [
-                              ZHTextLine(
+                              AppText(
                                 str: '选择拼团包裹'.ts,
                                 fontWeight: FontWeight.bold,
-                                color: BaseStylesConfig.groupText,
+                                color: AppColors.groupText,
                               ),
-                              Sized.hGap10,
+                              AppGaps.hGap10,
                               const Icon(
                                 Icons.arrow_forward_ios,
                                 size: 15,
-                                color: BaseStylesConfig.groupText,
+                                color: AppColors.groupText,
                               ),
                             ],
                           ),
                         )
-                      : Sized.empty,
+                      : AppGaps.empty,
                 ],
               ),
               ...parcelList.map((e) => parcelItemCell(e)).toList(),
@@ -218,7 +203,7 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ZHTextLine(
+                AppText(
                   str: parcel.expressNum ?? '',
                   fontWeight: FontWeight.bold,
                 ),
@@ -227,17 +212,17 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
                         onTap: () {
                           onParcelBack(parcel.id!);
                         },
-                        child: ZHTextLine(
+                        child: AppText(
                           str: '退回'.ts,
                           fontSize: 13,
-                          color: BaseStylesConfig.green,
+                          color: AppColors.green,
                         ),
                       )
-                    : Sized.empty,
+                    : AppGaps.empty,
               ],
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
@@ -248,17 +233,17 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     ...parcel.prop!.map((e) => propItemCell(e)).toList(),
-                    ZHTextLine(
+                    AppText(
                       str: parcel.packageName!,
                       fontSize: 12,
                     ),
-                    ZHTextLine(
+                    AppText(
                       str: parcel.packageValue!.rate(),
                       fontSize: 12,
                     ),
                   ],
                 ),
-                Sized.vGap15,
+                AppGaps.vGap15,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -294,9 +279,9 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
         borderRadius: BorderRadius.circular(8),
       ),
       padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-      child: ZHTextLine(
+      child: AppText(
         str: prop.name!,
-        color: BaseStylesConfig.groupText,
+        color: AppColors.groupText,
         fontSize: 10,
       ),
     );
@@ -305,14 +290,14 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
   Widget infoItem(String title, String content) {
     return Row(
       children: [
-        ZHTextLine(
+        AppText(
           str: title.ts + '：',
           fontSize: 11,
         ),
-        ZHTextLine(
+        AppText(
           str: content,
           fontSize: 11,
-          color: BaseStylesConfig.groupText,
+          color: AppColors.groupText,
         ),
       ],
     );

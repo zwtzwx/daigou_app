@@ -5,8 +5,6 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/home/home_page.dart';
-import 'package:jiyun_app_client/views/notice/notice_page.dart';
-import 'package:jiyun_app_client/views/order/center/order_center_page.dart';
 import 'package:jiyun_app_client/views/shop/cart/cart_view.dart';
 import 'package:jiyun_app_client/views/shop/platform_center/platform_shop_center_view.dart';
 import 'package:jiyun_app_client/views/tabbar/tabbar_controller.dart';
@@ -38,8 +36,8 @@ class TabbarView extends GetView<TabbarController> {
               elevation: 0,
               type: BottomNavigationBarType.fixed,
               onTap: controller.onTap,
-              selectedItemColor: BaseStylesConfig.textDark,
-              unselectedItemColor: BaseStylesConfig.textGrayC9,
+              selectedItemColor: AppColors.textDark,
+              unselectedItemColor: AppColors.textGrayC9,
               currentIndex: controller.selectIndex.value,
               backgroundColor: Colors.white,
               selectedFontSize: 12,
@@ -99,10 +97,10 @@ class TabbarView extends GetView<TabbarController> {
                                 child: ClipOval(
                                   child: Container(
                                     alignment: Alignment.center,
-                                    color: BaseStylesConfig.textRed,
+                                    color: AppColors.textRed,
                                     height: ScreenUtil().setWidth(15),
                                     width: ScreenUtil().setWidth(15),
-                                    child: ZHTextLine(
+                                    child: AppText(
                                       alignment: TextAlign.center,
                                       str: '${controller.cartCount.value}',
                                       fontSize: controller.cartCount.value > 9
@@ -113,7 +111,7 @@ class TabbarView extends GetView<TabbarController> {
                                   ),
                                 ),
                               )
-                            : Sized.empty),
+                            : AppGaps.empty),
                       ],
                     ),
                     label: '购物车'.ts,
@@ -132,10 +130,10 @@ class TabbarView extends GetView<TabbarController> {
                                 child: ClipOval(
                                   child: Container(
                                     alignment: Alignment.center,
-                                    color: BaseStylesConfig.textRed,
+                                    color: AppColors.textRed,
                                     height: ScreenUtil().setWidth(15),
                                     width: ScreenUtil().setWidth(15),
-                                    child: ZHTextLine(
+                                    child: AppText(
                                       alignment: TextAlign.center,
                                       str: '${controller.cartCount.value}',
                                       fontSize: controller.cartCount.value > 9
@@ -146,7 +144,7 @@ class TabbarView extends GetView<TabbarController> {
                                   ),
                                 ),
                               )
-                            : Sized.empty),
+                            : AppGaps.empty),
                       ],
                     )),
                 BottomNavigationBarItem(

@@ -22,14 +22,14 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: ZHTextLine(
+          title: AppText(
             str: '线路列表'.ts,
-            color: BaseStylesConfig.textBlack,
+            color: AppColors.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
           ),
         ),
-        backgroundColor: BaseStylesConfig.bgGray,
+        backgroundColor: AppColors.bgGray,
         body: Obx(
           () => !controller.isEmpty.value
               ? lineListCell()
@@ -46,9 +46,9 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                         holderImg: "Home/empty",
                       ),
                     ),
-                    ZHTextLine(
+                    AppText(
                       str: controller.emptyMsg.value,
-                      color: BaseStylesConfig.textGrayC,
+                      color: AppColors.textGrayC,
                     )
                   ],
                 )),
@@ -84,15 +84,15 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
               children: [
                 Column(
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str: controller.postDic.value?['warehouseName'] ?? '',
                       fontSize: 18,
                     ),
-                    Sized.vGap4,
-                    ZHTextLine(
+                    AppGaps.vGap4,
+                    AppText(
                       str: '出发地'.ts,
                       fontSize: 12,
-                      color: BaseStylesConfig.textGrayC,
+                      color: AppColors.textGrayC,
                     ),
                   ],
                 ),
@@ -102,24 +102,24 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                 ),
                 Column(
                   children: [
-                    ZHTextLine(
+                    AppText(
                       alignment: TextAlign.center,
                       str: controller.postDic.value?['countryName'],
                       fontSize: 18,
                       lines: 3,
                     ),
-                    Sized.vGap4,
-                    ZHTextLine(
+                    AppGaps.vGap4,
+                    AppText(
                       str: '目的地'.ts,
                       fontSize: 12,
-                      color: BaseStylesConfig.textGrayC,
+                      color: AppColors.textGrayC,
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: Row(
@@ -127,50 +127,50 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
               children: [
                 Column(
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str: (controller.postDic.value?['weight'] / 1000)
                               .toStringAsFixed(2) +
                           (controller.localModel?.weightSymbol ?? ''),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
-                    Sized.vGap4,
-                    ZHTextLine(
+                    AppGaps.vGap4,
+                    AppText(
                       str: '预估重量'.ts,
                       fontSize: 12,
-                      color: BaseStylesConfig.textGrayC,
+                      color: AppColors.textGrayC,
                     ),
                   ],
                 ),
                 Column(
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str: (controller.volumnWeight.value ?? '') + ' m³',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
-                    Sized.vGap4,
-                    ZHTextLine(
+                    AppGaps.vGap4,
+                    AppText(
                       str: '体积'.ts,
                       fontSize: 12,
-                      color: BaseStylesConfig.textGrayC,
+                      color: AppColors.textGrayC,
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ZHTextLine(
+                AppText(
                   str: '物品属性'.ts,
                   fontSize: 14,
                 ),
-                Sized.hGap10,
+                AppGaps.hGap10,
                 Flexible(
                   child: Wrap(
                     children: ((controller.postDic.value?['propList'] ?? [])
@@ -180,13 +180,12 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                                   vertical: 5, horizontal: 15),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(999),
-                                border:
-                                    Border.all(color: BaseStylesConfig.primary),
+                                border: Border.all(color: AppColors.primary),
                               ),
                               child: Text(
                                 prop.name ?? '',
                                 style: const TextStyle(
-                                  color: BaseStylesConfig.primary,
+                                  color: AppColors.primary,
                                 ),
                               ),
                             ))
@@ -218,9 +217,9 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
       },
       child: Container(
         decoration: BoxDecoration(
-            color: BaseStylesConfig.white,
+            color: AppColors.white,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
-            border: Border.all(width: 1, color: BaseStylesConfig.white)),
+            border: Border.all(width: 1, color: AppColors.white)),
         margin: const EdgeInsets.only(top: 15, right: 15, left: 15),
         padding: const EdgeInsets.only(bottom: 15, left: 15, right: 20),
         child: Column(
@@ -233,7 +232,7 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                     BorderRadius.only(bottomRight: Radius.circular(10)),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              child: ZHTextLine(
+              child: AppText(
                 str: model.isDelivery == 0
                     ? '派送'.ts
                     : (model.isDelivery == 1 ? '自提'.ts : '派送/自提'.ts),
@@ -241,17 +240,17 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                 fontSize: 12,
               ),
             ),
-            Sized.vGap10,
+            AppGaps.vGap10,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ZHTextLine(
+                AppText(
                   str: model.name,
                   fontSize: 18,
                 ),
                 RichText(
                   text: TextSpan(
-                    style: const TextStyle(color: BaseStylesConfig.textRed),
+                    style: const TextStyle(color: AppColors.textRed),
                     children: [
                       TextSpan(
                           text: (controller.currencyModel.value?.symbol ?? '')),
@@ -265,42 +264,42 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                 ),
               ],
             ),
-            Sized.vGap4,
+            AppGaps.vGap4,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ZHTextLine(
+                AppText(
                   str: '运送时效'.ts + '：' + model.region!.referenceTime,
-                  color: BaseStylesConfig.textNormal,
+                  color: AppColors.textNormal,
                   fontSize: 14,
                 ),
-                ZHTextLine(
+                AppText(
                   str: '预估运费'.ts,
-                  color: BaseStylesConfig.textRed,
+                  color: AppColors.textRed,
                   fontSize: 12,
                 ),
               ],
             ),
-            Sized.vGap4,
+            AppGaps.vGap4,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ZHTextLine(
+                AppText(
                   str: '计费重'.ts +
                       '：' +
                       ((model.countWeight ?? 0) / 1000).toStringAsFixed(2) +
                       (controller.localModel?.weightSymbol ?? ''),
-                  color: BaseStylesConfig.textNormal,
+                  color: AppColors.textNormal,
                   fontSize: 14,
                 ),
-                Sized.hGap10,
-                ZHTextLine(
+                AppGaps.hGap10,
+                AppText(
                   str: modelName.ts,
                   fontSize: 12,
                 ),
               ],
             ),
-            Sized.vGap10,
+            AppGaps.vGap10,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -310,11 +309,11 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                           children: model.labels!
                               .map(
                                 (e) => Container(
-                                  color: BaseStylesConfig.primary,
+                                  color: AppColors.primary,
                                   margin: const EdgeInsets.only(right: 5),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10, vertical: 2),
-                                  child: ZHTextLine(
+                                  child: AppText(
                                     str: e.name,
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
@@ -324,15 +323,15 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                               .toList(),
                         ),
                       )
-                    : Sized.empty,
+                    : AppGaps.empty,
                 GestureDetector(
                     onTap: () {
                       Routers.push(
                           Routers.lineDetail, {'line': model, 'type': 2});
                     },
-                    child: ZHTextLine(
+                    child: AppText(
                       str: '查看详情'.ts,
-                      color: BaseStylesConfig.textGray,
+                      color: AppColors.textGray,
                       fontSize: 12,
                     )),
               ],

@@ -6,7 +6,6 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/receiver_address_refresh_event.dart';
-import 'package:jiyun_app_client/models/alphabetical_country_model.dart';
 import 'package:jiyun_app_client/models/area_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/receiver_address_model.dart';
@@ -96,9 +95,9 @@ class AddressAddEditController extends BaseController {
       model.value.postcode = '';
       model.value.doorNo = '';
     }
-    if (isEdit.value) {
-      getCountryData();
-    }
+    // if (isEdit.value) {
+    //   // getCountryData();
+    // }
   }
 
   // 地址详情
@@ -111,6 +110,10 @@ class AddressAddEditController extends BaseController {
       isDefault.value = data.isDefault == 1;
       recipientNameController.text = data.receiverName;
       mobileNumberController.text = model.value.phone;
+      zipCodeController.text = model.value.postcode;
+      streetNameController.text = model.value.street;
+      cityController.text = model.value.city;
+      doorNoController.text = model.value.doorNo;
       timezone.value = model.value.timezone;
       countryModel.value = data.country;
       if (model.value.area != null) {
@@ -159,7 +162,7 @@ class AddressAddEditController extends BaseController {
     List<PickerItem> subList = [];
     for (var item in areasitem.areas!) {
       var subArea = PickerItem(
-        text: ZHTextLine(
+        text: AppText(
           fontSize: 24,
           str: item.name,
         ),

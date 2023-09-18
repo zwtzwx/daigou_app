@@ -19,9 +19,9 @@ class AgentApplyPage extends GetView<AgentApplyController> {
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: ZHTextLine(
+          title: AppText(
             str: '申请代理'.ts,
-            color: BaseStylesConfig.textBlack,
+            color: AppColors.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
           ),
@@ -35,7 +35,7 @@ class AgentApplyPage extends GetView<AgentApplyController> {
                 onPressed: controller.onSubmit,
               )),
         ),
-        backgroundColor: BaseStylesConfig.bgGray,
+        backgroundColor: AppColors.bgGray,
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
@@ -115,10 +115,10 @@ class AgentApplyPage extends GetView<AgentApplyController> {
                             ],
                           ),
                         )),
-                    Sized.line,
+                    AppGaps.line,
                   ],
                 )),
-                Sized.vGap15,
+                AppGaps.vGap15,
               ],
             ),
           ),

@@ -59,11 +59,11 @@ class ShopOrderItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ZHTextLine(
+                      AppText(
                         str: '国内运费'.ts,
                         fontSize: 14,
                       ),
-                      ZHTextLine(
+                      AppText(
                         str: (model.freightFee ?? 0).rate(needFormat: false),
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -74,11 +74,11 @@ class ShopOrderItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ZHTextLine(
+                      AppText(
                         str: '服务费'.ts,
                         fontSize: 14,
                       ),
-                      ZHTextLine(
+                      AppText(
                         str: (model.serviceFee ?? 0).rate(needFormat: false),
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -89,15 +89,15 @@ class ShopOrderItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ZHTextLine(
+                      AppText(
                         str: '总金额'.ts,
                         fontSize: 14,
                       ),
-                      ZHTextLine(
+                      AppText(
                         str: (model.amount ?? 0).rate(needFormat: false),
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: BaseStylesConfig.textRed,
+                        color: AppColors.textRed,
                       ),
                     ],
                   ),
@@ -114,8 +114,8 @@ class ShopOrderItem extends StatelessWidget {
                                 text: '取消订单',
                                 borderRadis: 999,
                                 fontSize: 14,
-                                borderColor: BaseStylesConfig.textGrayC,
-                                textColor: BaseStylesConfig.textNormal,
+                                borderColor: AppColors.textGrayC,
+                                textColor: AppColors.textNormal,
                                 onPressed: () {
                                   onCancel!();
                                   // orderCancel(
@@ -130,7 +130,7 @@ class ShopOrderItem extends StatelessWidget {
                                 },
                               ),
                             )
-                          : Sized.empty,
+                          : AppGaps.empty,
                       10.horizontalSpace,
                       model.status == 0
                           ? ConstrainedBox(
@@ -156,7 +156,7 @@ class ShopOrderItem extends StatelessWidget {
                                 },
                               ),
                             )
-                          : Sized.empty,
+                          : AppGaps.empty,
                     ],
                   ),
                 ],

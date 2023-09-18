@@ -31,12 +31,12 @@ class GroupDetailPage extends GetView<GroupDetailController> {
         elevation: 0.5,
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '拼团详情'.ts,
           fontSize: 18,
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       bottomNavigationBar: Obx(
         () => controller.model.value?.status == 0
             ? Container(
@@ -59,7 +59,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                                 ),
                               ),
                             )
-                          : Sized.empty,
+                          : AppGaps.empty,
                       controller.model.value!.isDismissible == true
                           ? Expanded(
                               child: Padding(
@@ -68,7 +68,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                                   height: 50,
                                   child: MainButton(
                                     text: '取消拼团',
-                                    backgroundColor: BaseStylesConfig.primary,
+                                    backgroundColor: AppColors.primary,
                                     onPressed: () {
                                       controller.onCancelGroup(context);
                                     },
@@ -76,7 +76,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                                 ),
                               ),
                             )
-                          : Sized.empty,
+                          : AppGaps.empty,
                       controller.model.value!.isGroupLeader == true
                           ? Expanded(
                               child: SizedBox(
@@ -89,27 +89,29 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                                 ),
                               ),
                             )
-                          : Sized.empty,
-                      controller.model.value!.canSubmit &&
-                              !controller.model.value!.isSubmitted!
-                          ? Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 15),
-                                child: SizedBox(
-                                  height: 50,
-                                  child: MainButton(
-                                    text: '提交拼团货物',
-                                    onPressed: controller.onSubmitParcel,
+                          : AppGaps.empty,
+                      Obx(
+                        () => controller.canSubmit.value &&
+                                !controller.model.value!.isSubmitted!
+                            ? Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: SizedBox(
+                                    height: 50,
+                                    child: MainButton(
+                                      text: '提交拼团货物',
+                                      onPressed: controller.onSubmitParcel,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            )
-                          : Sized.empty,
+                              )
+                            : AppGaps.empty,
+                      ),
                     ],
                   ),
                 ),
               )
-            : Sized.empty,
+            : AppGaps.empty,
       ),
       body: SingleChildScrollView(
         child: Obx(() => controller.model.value != null
@@ -120,28 +122,28 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     leaderInfoCell(context),
-                    Sized.vGap10,
+                    AppGaps.vGap10,
                     detailInfoCell(context),
-                    Sized.vGap10,
+                    AppGaps.vGap10,
                     groupLineCell(),
-                    Sized.vGap10,
+                    AppGaps.vGap10,
                     membersCell(context),
                     controller.model.value!.isJoined!
                         ? MemberGroupParcelInfo(
                             model: controller.model.value!,
                             onChooseParcel: controller.onChooseParcel,
                             localModel: controller.localModel,
-                            onHasParcel: () {
-                              controller.model.value!.canSubmit = true;
-                              controller.model.refresh();
+                            onBack: controller.getDetail,
+                            onHasParcel: (bool value) {
+                              controller.canSubmit.value = value;
                             },
                           )
-                        : Sized.vGap10,
+                        : AppGaps.vGap10,
                     Html(data: controller.tipsContent.value ?? ''),
                   ],
                 ),
               )
-            : Sized.empty),
+            : AppGaps.empty),
       ),
     );
   }
@@ -151,12 +153,12 @@ class GroupDetailPage extends GetView<GroupDetailController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ZHTextLine(
+        AppText(
           str: controller.model.value!.name!,
           fontSize: 17,
           fontWeight: FontWeight.bold,
         ),
-        Sized.vGap15,
+        AppGaps.vGap15,
         Row(
           children: [
             Stack(
@@ -177,10 +179,10 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                     padding:
                         const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
                     decoration: BoxDecoration(
-                      color: BaseStylesConfig.groupText,
+                      color: AppColors.groupText,
                       borderRadius: BorderRadius.circular(999),
                     ),
-                    child: ZHTextLine(
+                    child: AppText(
                       str: '团长'.ts,
                       color: Colors.white,
                       fontSize: 9,
@@ -189,16 +191,16 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                 ),
               ],
             ),
-            Sized.hGap10,
+            AppGaps.hGap10,
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ZHTextLine(
+                  AppText(
                     str: controller.model.value!.leader?.name ?? '',
                     fontSize: 14,
                   ),
-                  Sized.vGap5,
+                  AppGaps.vGap5,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -216,9 +218,9 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(4),
                             ),
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '认证团长'.ts,
-                              color: BaseStylesConfig.groupText,
+                              color: AppColors.groupText,
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
                             ),
@@ -239,7 +241,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                                 ),
                               ),
                             )
-                          : Sized.empty,
+                          : AppGaps.empty,
                     ],
                   )
                 ],
@@ -254,14 +256,14 @@ class GroupDetailPage extends GetView<GroupDetailController> {
               margin: const EdgeInsets.only(top: 8),
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
               decoration: BoxDecoration(
-                color: BaseStylesConfig.groupText,
+                color: AppColors.groupText,
                 borderRadius: BorderRadius.circular(18),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: ZHTextLine(
+                    child: AppText(
                       str: controller.model.value!.remark!.isNotEmpty
                           ? controller.model.value!.remark!
                           : '团长什么都没说'.ts,
@@ -269,7 +271,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                       lines: 20,
                     ),
                   ),
-                  Sized.hGap15,
+                  AppGaps.hGap15,
                   controller.model.value!.images != null &&
                           controller.model.value!.images!.isNotEmpty
                       ? GestureDetector(
@@ -288,7 +290,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                             height: 100,
                           ),
                         )
-                      : Sized.empty,
+                      : AppGaps.empty,
                 ],
               ),
             ),
@@ -297,7 +299,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
               left: 20,
               child: CustomPaint(
                 painter: TrianglePainer(
-                  strokeColor: BaseStylesConfig.groupText,
+                  strokeColor: AppColors.groupText,
                   strokeWidth: 10,
                   paintingStyle: PaintingStyle.fill,
                 ),
@@ -325,7 +327,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ZHTextLine(
+              AppText(
                 str: '拼团发货渠道'.ts,
                 fontWeight: FontWeight.bold,
               ),
@@ -336,14 +338,14 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                     'type': 1
                   });
                 },
-                child: ZHTextLine(
+                child: AppText(
                   str: '查看渠道规则'.ts,
                   fontSize: 13,
                 ),
               ),
             ],
           ),
-          Sized.vGap10,
+          AppGaps.vGap10,
           Container(
             margin: const EdgeInsets.only(bottom: 20),
             padding: const EdgeInsets.all(10),
@@ -354,15 +356,15 @@ class GroupDetailPage extends GetView<GroupDetailController> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ZHTextLine(
+                AppText(
                   str: controller.model.value!.warehouseName ?? '',
                 ),
                 Column(
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str: controller.model.value!.expressLine?.referenceTime ??
                           '',
-                      color: BaseStylesConfig.green,
+                      color: AppColors.green,
                       fontSize: 12,
                     ),
                     const Padding(
@@ -373,14 +375,14 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                         width: 100,
                       ),
                     ),
-                    ZHTextLine(
+                    AppText(
                       str: controller.model.value!.expressLine?.name ?? '',
-                      color: BaseStylesConfig.groupText,
+                      color: AppColors.groupText,
                       fontSize: 12,
                     )
                   ],
                 ),
-                ZHTextLine(
+                AppText(
                   str: controller.model.value!.country ?? '',
                 ),
               ],
@@ -406,11 +408,11 @@ class GroupDetailPage extends GetView<GroupDetailController> {
             children: [
               Row(
                 children: [
-                  ZHTextLine(
+                  AppText(
                     str: controller.model.value!.code ?? '',
                     fontWeight: FontWeight.bold,
                   ),
-                  Sized.hGap5,
+                  AppGaps.hGap5,
                   GestureDetector(
                     onTap: () async {
                       await Clipboard.setData(
@@ -419,16 +421,16 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                     },
                     child: const Icon(
                       Icons.copy_rounded,
-                      color: BaseStylesConfig.green,
+                      color: AppColors.green,
                       size: 16,
                     ),
                   ),
                 ],
               ),
-              ZHTextLine(
+              AppText(
                 str: Util.getGroupStatusName(controller.model.value!.status!),
                 color: controller.model.value!.status == 0
-                    ? BaseStylesConfig.groupText
+                    ? AppColors.groupText
                     : Colors.black,
                 fontWeight: FontWeight.bold,
               ),
@@ -440,7 +442,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                ZHTextLine(
+                AppText(
                   str: controller.model.value!.address!.getContent(),
                   fontSize: 13,
                   lines: 3,
@@ -452,10 +454,10 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            ZHTextLine(
+                            AppText(
                               str: '距离你约'.ts,
                               fontSize: 12,
-                              color: BaseStylesConfig.green,
+                              color: AppColors.green,
                             ),
                             DistanceWidget(
                               startPosition: controller.coordinate.value!,
@@ -464,7 +466,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                           ],
                         ),
                       )
-                    : Sized.empty
+                    : AppGaps.empty
               ],
             ),
           ),
@@ -474,7 +476,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                ZHTextLine(
+                AppText(
                   str: controller.model.value!.endTime ?? '',
                   fontSize: 13,
                 ),
@@ -487,7 +489,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                             CountdownWidget(
                               total: controller.model.value!.endUntil ?? 0,
                               showSeconds: false,
-                              color: BaseStylesConfig.green,
+                              color: AppColors.green,
                             ),
                             controller.model.value!.isGroupLeader!
                                 ? GestureDetector(
@@ -502,11 +504,11 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                                       ),
                                     ),
                                   )
-                                : Sized.empty,
+                                : AppGaps.empty,
                           ],
                         ),
                       )
-                    : Sized.empty,
+                    : AppGaps.empty,
               ],
             ),
           ),
@@ -515,11 +517,11 @@ class GroupDetailPage extends GetView<GroupDetailController> {
             content: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                ZHTextLine(
+                AppText(
                   str: controller.model.value!.address!.phone,
                   fontSize: 13,
                 ),
-                Sized.hGap10,
+                AppGaps.hGap10,
                 GestureDetector(
                   onTap: () {
                     controller
@@ -527,7 +529,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                   },
                   child: const Icon(
                     Icons.phone_forwarded_rounded,
-                    color: BaseStylesConfig.green,
+                    color: AppColors.green,
                     size: 18,
                   ),
                 ),
@@ -553,7 +555,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
       decoration: BoxDecoration(
         border: Border(
           bottom: showBorder
-              ? const BorderSide(color: BaseStylesConfig.line)
+              ? const BorderSide(color: AppColors.line)
               : BorderSide.none,
         ),
       ),
@@ -561,15 +563,15 @@ class GroupDetailPage extends GetView<GroupDetailController> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: crossAxisAlignment,
         children: [
-          ZHTextLine(
+          AppText(
             str: label.ts,
-            color: BaseStylesConfig.textGrayC,
+            color: AppColors.textGrayC,
             fontSize: 13,
           ),
-          Sized.hGap15,
+          AppGaps.hGap15,
           Flexible(
             child: content ??
-                ZHTextLine(
+                AppText(
                   str: str!,
                   fontSize: 13,
                   lines: 5,
@@ -595,7 +597,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str: '成员'.ts +
                           ' (${controller.model.value!.membersCount})',
                       fontSize: 17,
@@ -607,17 +609,17 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                               Routers.push(Routers.groupMemberDetail,
                                   {'id': controller.model.value!.id});
                             },
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '查看参团详情'.ts,
                               fontSize: 13,
                             ),
                           )
-                        : Sized.empty,
+                        : AppGaps.empty,
                   ],
                 ),
-                Sized.vGap15,
-                Sized.line,
-                Sized.vGap15,
+                AppGaps.vGap15,
+                AppGaps.line,
+                AppGaps.vGap15,
                 GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -637,23 +639,23 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                     );
                   }),
                 ),
-                Sized.line,
+                AppGaps.line,
                 Padding(
                   padding: const EdgeInsets.only(top: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ZHTextLine(
+                      AppText(
                         str: '全团已入库'.ts,
                         fontWeight: FontWeight.bold,
-                        color: BaseStylesConfig.green,
+                        color: AppColors.green,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           weightItemCell(
                               '总入库重量', controller.model.value!.packageWeight!),
-                          Sized.vGap5,
+                          AppGaps.vGap5,
                           weightItemCell('总入库体积量',
                               controller.model.value!.packageVolumeWeight!),
                         ],
@@ -670,7 +672,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   decoration: const BoxDecoration(
                     border: Border(
-                      top: BorderSide(color: BaseStylesConfig.line),
+                      top: BorderSide(color: AppColors.line),
                     ),
                   ),
                   child: Row(
@@ -687,8 +689,8 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                       //             'Group/group-4',
                       //             width: 20,
                       //           ),
-                      //           Sized.hGap10,
-                      //           ZHTextLine(
+                      //           AppGaps.hGap10,
+                      //           AppText(
                       //             str: XLI10n.t(context, '邀请好友参团'),
                       //           ),
                       //         ],
@@ -706,23 +708,22 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                                   decoration: const BoxDecoration(
                                     color: Colors.transparent,
                                     border: Border(
-                                      left: BorderSide(
-                                          color: BaseStylesConfig.line),
+                                      left: BorderSide(color: AppColors.line),
                                     ),
                                   ),
                                   alignment: Alignment.center,
-                                  child: ZHTextLine(
+                                  child: AppText(
                                     str: '退出拼团'.ts,
-                                    color: BaseStylesConfig.primary,
+                                    color: AppColors.primary,
                                   ),
                                 ),
                               ),
                             )
-                          : Sized.empty,
+                          : AppGaps.empty,
                     ],
                   ),
                 )
-              : Sized.empty,
+              : AppGaps.empty,
         ],
       ),
     );
@@ -731,13 +732,13 @@ class GroupDetailPage extends GetView<GroupDetailController> {
   Widget weightItemCell(String label, num weight) {
     return Row(
       children: [
-        ZHTextLine(
+        AppText(
           str: label.ts + '：',
         ),
-        ZHTextLine(
+        AppText(
           str: (weight / 1000).toStringAsFixed(2) +
               (controller.localModel?.weightSymbol ?? ''),
-          color: BaseStylesConfig.textRed,
+          color: AppColors.textRed,
           fontWeight: FontWeight.bold,
         ),
       ],

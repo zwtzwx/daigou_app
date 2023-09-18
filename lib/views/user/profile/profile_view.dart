@@ -30,15 +30,15 @@ class ProfileView extends GetView<ProfileController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '个人信息'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -50,13 +50,13 @@ class ProfileView extends GetView<ProfileController> {
                 avatarCell(context),
                 Container(
                   height: 50,
-                  color: BaseStylesConfig.white,
+                  color: AppColors.white,
                 ),
-                Sized.line,
+                AppGaps.line,
                 GestureDetector(
                   onTap: () {},
                   child: Container(
-                    color: BaseStylesConfig.white,
+                    color: AppColors.white,
                     height: 55,
                     padding: const EdgeInsets.only(left: 10, right: 15),
                     child: Row(
@@ -65,16 +65,16 @@ class ProfileView extends GetView<ProfileController> {
                         Row(
                           children: <Widget>[
                             Container(
-                              color: BaseStylesConfig.white,
+                              color: AppColors.white,
                               height: 55,
                               width: 90,
                               alignment: Alignment.centerLeft,
-                              child: ZHTextLine(
+                              child: AppText(
                                 str: '用户昵称'.ts,
                               ),
                             ),
                             Container(
-                              color: BaseStylesConfig.white,
+                              color: AppColors.white,
                               height: 55,
                               width: ScreenUtil().screenWidth - 25 - 100,
                               alignment: Alignment.centerLeft,
@@ -82,7 +82,7 @@ class ProfileView extends GetView<ProfileController> {
                                 hintText: '请输入昵称'.ts,
                                 textAlign: TextAlign.left,
                                 contentPadding:
-                                    const EdgeInsets.only(top: 17, bottom: 0),
+                                    const EdgeInsets.only(bottom: 0),
                                 controller: controller.nameController,
                                 focusNode: controller.nameNode,
                                 autoFocus: false,
@@ -95,9 +95,9 @@ class ProfileView extends GetView<ProfileController> {
                     ),
                   ),
                 ),
-                Sized.line,
+                AppGaps.line,
                 Container(
-                  color: BaseStylesConfig.white,
+                  color: AppColors.white,
                   height: 55,
                   padding: const EdgeInsets.only(left: 10, right: 15),
                   child: Row(
@@ -106,15 +106,15 @@ class ProfileView extends GetView<ProfileController> {
                       Row(
                         children: <Widget>[
                           Container(
-                            color: BaseStylesConfig.white,
+                            color: AppColors.white,
                             height: 55,
                             width: 90,
                             alignment: Alignment.centerLeft,
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '用户ID'.ts,
                             ),
                           ),
-                          ZHTextLine(
+                          AppText(
                             str:
                                 controller.userModel.value?.id.toString() ?? '',
                           )
@@ -123,13 +123,13 @@ class ProfileView extends GetView<ProfileController> {
                     ],
                   ),
                 ),
-                Sized.line,
+                AppGaps.line,
                 GestureDetector(
                   onTap: () {
                     Routers.push(Routers.changeMobileAndEmail, {'type': 1});
                   },
                   child: Container(
-                    color: BaseStylesConfig.white,
+                    color: AppColors.white,
                     height: 55,
                     padding: const EdgeInsets.only(left: 10, right: 15),
                     child: Row(
@@ -138,15 +138,15 @@ class ProfileView extends GetView<ProfileController> {
                         Row(
                           children: <Widget>[
                             Container(
-                              color: BaseStylesConfig.white,
+                              color: AppColors.white,
                               height: 55,
                               width: 90,
                               alignment: Alignment.centerLeft,
-                              child: ZHTextLine(
+                              child: AppText(
                                 str: '手机号码'.ts,
                               ),
                             ),
-                            ZHTextLine(
+                            AppText(
                               str: controller.userModel.value?.phone == null ||
                                       controller.userModel.value!.phone!.isEmpty
                                   ? '绑定手机号'.ts
@@ -154,8 +154,8 @@ class ProfileView extends GetView<ProfileController> {
                               color: controller.userModel.value?.phone ==
                                           null ||
                                       controller.userModel.value!.phone!.isEmpty
-                                  ? BaseStylesConfig.textGray
-                                  : BaseStylesConfig.textDark,
+                                  ? AppColors.textGray
+                                  : AppColors.textDark,
                             ),
                           ],
                         ),
@@ -163,24 +163,24 @@ class ProfileView extends GetView<ProfileController> {
                                 controller.userModel.value!.phone!.isEmpty
                             ? const Icon(
                                 Icons.arrow_forward_ios,
-                                color: BaseStylesConfig.textGrayC,
+                                color: AppColors.textGrayC,
                                 size: 18,
                               )
-                            : ZHTextLine(
+                            : AppText(
                                 str: '更改手机号'.ts,
-                                color: BaseStylesConfig.primary,
+                                color: AppColors.primary,
                               )
                       ],
                     ),
                   ),
                 ),
-                Sized.line,
+                AppGaps.line,
                 GestureDetector(
                   onTap: () {
                     Routers.push(Routers.changeMobileAndEmail, {'type': 2});
                   },
                   child: Container(
-                    color: BaseStylesConfig.white,
+                    color: AppColors.white,
                     height: 55,
                     padding: const EdgeInsets.only(left: 10, right: 15),
                     child: Row(
@@ -189,18 +189,18 @@ class ProfileView extends GetView<ProfileController> {
                         Row(
                           children: <Widget>[
                             Container(
-                              color: BaseStylesConfig.white,
+                              color: AppColors.white,
                               height: 55,
                               width: 90,
                               alignment: Alignment.centerLeft,
-                              child: ZHTextLine(
+                              child: AppText(
                                 str: '电子邮箱'.ts,
                               ),
                             ),
                             Container(
                               alignment: Alignment.centerLeft,
                               height: 55,
-                              child: ZHTextLine(
+                              child: AppText(
                                 // fontSize: 14,
                                 lines: 2,
                                 str:
@@ -213,8 +213,8 @@ class ProfileView extends GetView<ProfileController> {
                                     controller.userModel.value?.email == null ||
                                             controller
                                                 .userModel.value!.email!.isEmpty
-                                        ? BaseStylesConfig.textGray
-                                        : BaseStylesConfig.textDark,
+                                        ? AppColors.textGray
+                                        : AppColors.textDark,
                               ),
                             )
                           ],
@@ -223,22 +223,22 @@ class ProfileView extends GetView<ProfileController> {
                                 controller.userModel.value!.email!.isEmpty
                             ? const Icon(
                                 Icons.arrow_forward_ios,
-                                color: BaseStylesConfig.textGrayC,
+                                color: AppColors.textGrayC,
                                 size: 18,
                               )
-                            : ZHTextLine(
+                            : AppText(
                                 str: '更改邮箱'.ts,
-                                color: BaseStylesConfig.primary,
+                                color: AppColors.primary,
                               )
                       ],
                     ),
                   ),
                 ),
-                Sized.line,
+                AppGaps.line,
                 GestureDetector(
                   onTap: () {},
                   child: Container(
-                    color: BaseStylesConfig.white,
+                    color: AppColors.white,
                     height: 55,
                     padding: const EdgeInsets.only(left: 10, right: 15),
                     child: Row(
@@ -247,16 +247,16 @@ class ProfileView extends GetView<ProfileController> {
                         Row(
                           children: <Widget>[
                             Container(
-                              color: BaseStylesConfig.white,
+                              color: AppColors.white,
                               height: 55,
                               width: 90,
                               alignment: Alignment.centerLeft,
-                              child: ZHTextLine(
+                              child: AppText(
                                 str: '现居城市'.ts,
                               ),
                             ),
                             Container(
-                              color: BaseStylesConfig.white,
+                              color: AppColors.white,
                               height: 55,
                               width: 200,
                               alignment: Alignment.centerLeft,
@@ -264,7 +264,7 @@ class ProfileView extends GetView<ProfileController> {
                                 hintText: '请输入现居城市'.ts,
                                 textAlign: TextAlign.left,
                                 contentPadding:
-                                    const EdgeInsets.only(top: 19, bottom: 0),
+                                    const EdgeInsets.only(bottom: 0),
                                 controller: controller.cityNameController,
                                 focusNode: controller.cityName,
                                 autoFocus: false,
@@ -277,8 +277,8 @@ class ProfileView extends GetView<ProfileController> {
                     ),
                   ),
                 ),
-                Sized.line,
-                Sized.vGap20,
+                AppGaps.line,
+                AppGaps.vGap20,
                 SizedBox(
                   width: ScreenUtil().screenWidth - 30,
                   height: 40,
@@ -287,7 +287,7 @@ class ProfileView extends GetView<ProfileController> {
                     onPressed: controller.onSubmit,
                   ),
                 ),
-                Sized.vGap20,
+                AppGaps.vGap20,
                 Offstage(
                   offstage: controller.deleteShow.value,
                   child: SizedBox(
@@ -295,7 +295,7 @@ class ProfileView extends GetView<ProfileController> {
                     height: 40,
                     child: MainButton(
                       text: '注销',
-                      backgroundColor: BaseStylesConfig.textRed,
+                      backgroundColor: AppColors.textRed,
                       onPressed: () async {
                         var confirmed = await BaseDialog.cupertinoConfirmDialog(
                             context, '您确定要注销吗？可能会造成无法挽回的损失！');
@@ -315,7 +315,7 @@ class ProfileView extends GetView<ProfileController> {
   Widget avatarCell(BuildContext context) {
     var headerView = Container(
         padding: const EdgeInsets.only(left: 15, top: 50, right: 15),
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         constraints: const BoxConstraints.expand(
           height: 150.0,
         ),
@@ -361,7 +361,7 @@ class ProfileView extends GetView<ProfileController> {
                   },
                   child: Container(
                     decoration: const BoxDecoration(
-                      color: BaseStylesConfig.white,
+                      color: AppColors.white,
                       borderRadius: BorderRadius.all(Radius.circular(50)),
                     ),
                     height: 100,

@@ -27,16 +27,16 @@ class OrderListView extends GetView<OrderListController> {
         elevation: 0.5,
         centerTitle: true,
         title: Obx(
-          () => ZHTextLine(
+          () => AppText(
             str: controller.pageTitle.value.ts,
-            color: BaseStylesConfig.textBlack,
+            color: AppColors.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
           ),
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: SafeArea(
         child: ListRefresh(
           renderItem: renderItem,

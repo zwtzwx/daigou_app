@@ -31,15 +31,15 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '包裹详情'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: SingleChildScrollView(
         child: Obx(() => controller.isLoadingLocal.value
             ? Column(
@@ -48,7 +48,7 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
                   parcelInfoCell(),
                 ],
               )
-            : Sized.empty),
+            : AppGaps.empty),
       ),
     );
   }
@@ -57,7 +57,7 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
   Widget goodsInfoCell() {
     return Container(
       decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
       ),
       margin: const EdgeInsets.symmetric(vertical: 15),
       width: double.infinity,
@@ -67,16 +67,16 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
             height: 42,
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: ZHTextLine(
+            child: AppText(
               fontWeight: FontWeight.bold,
               str: '商品信息'.ts,
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           controller.parcelModel.value!.details == null
               ? singleGoodsCell()
               : goodsDetailsCell(),
-          Sized.line,
+          AppGaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             height: 42,
@@ -85,12 +85,12 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '物品属性'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ),
-                ZHTextLine(
+                AppText(
                   str: controller.parcelModel.value!.prop != null
                       ? controller.parcelModel.value!.prop!
                           .map((e) => e.name)
@@ -100,7 +100,7 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
               ],
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             height: 42,
@@ -109,9 +109,9 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '商品备注'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ),
                 Expanded(
@@ -145,18 +145,18 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
             children: <Widget>[
               Container(
                 alignment: Alignment.centerLeft,
-                child: ZHTextLine(
+                child: AppText(
                   str: '物品名称'.ts,
-                  color: BaseStylesConfig.textNormal,
+                  color: AppColors.textNormal,
                 ),
               ),
-              ZHTextLine(
+              AppText(
                 str: controller.parcelModel.value?.packageName ?? '',
               ),
             ],
           ),
         ),
-        Sized.line,
+        AppGaps.line,
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           height: 42,
@@ -165,18 +165,18 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
             children: <Widget>[
               Container(
                 alignment: Alignment.centerLeft,
-                child: ZHTextLine(
+                child: AppText(
                   str: '物品总价'.ts,
-                  color: BaseStylesConfig.textNormal,
+                  color: AppColors.textNormal,
                 ),
               ),
-              ZHTextLine(
+              AppText(
                   str: controller.parcelModel.value!.packageValue!
                       .rate(showPriceSymbol: false, showInt: true))
             ],
           ),
         ),
-        Sized.line,
+        AppGaps.line,
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           height: 42,
@@ -185,12 +185,12 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
             children: <Widget>[
               Container(
                 alignment: Alignment.centerLeft,
-                child: ZHTextLine(
+                child: AppText(
                   str: '物品数量'.ts,
-                  color: BaseStylesConfig.textNormal,
+                  color: AppColors.textNormal,
                 ),
               ),
-              ZHTextLine(
+              AppText(
                 str: controller.parcelModel.value!.qty.toString(),
               )
             ],
@@ -212,22 +212,22 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
             child: Row(
               children: [
                 Expanded(
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '物品名称'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                   flex: 2,
                 ),
                 Expanded(
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '物品价值'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ),
                 Expanded(
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '数量'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ),
               ],
@@ -251,24 +251,24 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: BaseStylesConfig.line)),
+        border: Border(top: BorderSide(color: AppColors.line)),
       ),
       child: Row(
         children: [
           Expanded(
-            child: ZHTextLine(
+            child: AppText(
               str: model.name ?? '',
               lines: 3,
             ),
             flex: 2,
           ),
           Expanded(
-            child: ZHTextLine(
+            child: AppText(
               str: model.price.toString(),
             ),
           ),
           Expanded(
-            child: ZHTextLine(
+            child: AppText(
               str: model.qty.toString(),
             ),
           ),
@@ -287,12 +287,12 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
             height: 42,
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: ZHTextLine(
+            child: AppText(
               fontWeight: FontWeight.bold,
               str: '包裹信息'.ts,
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             height: 42,
@@ -301,18 +301,18 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '快递名称'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ),
-                ZHTextLine(
+                AppText(
                   str: controller.parcelModel.value?.expressName ?? '',
                 ),
               ],
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             height: 42,
@@ -321,17 +321,17 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '快递单号'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ),
                 Row(
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str: controller.parcelModel.value?.expressNum ?? '',
                     ),
-                    Sized.hGap15,
+                    AppGaps.hGap15,
                     GestureDetector(
                       onTap: () {
                         Clipboard.setData(
@@ -341,9 +341,9 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
                           EasyLoading.showSuccess('复制成功'.ts);
                         });
                       },
-                      child: ZHTextLine(
+                      child: AppText(
                         str: '复制'.ts,
-                        color: BaseStylesConfig.primary,
+                        color: AppColors.primary,
                       ),
                     ),
                   ],
@@ -351,7 +351,7 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
               ],
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             height: 42,
@@ -360,12 +360,12 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
               children: <Widget>[
                 SizedBox(
                   width: 80,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '发往国家'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ),
-                ZHTextLine(
+                AppText(
                   str: controller.parcelModel.value?.country != null
                       ? controller.parcelModel.value!.country!.name!
                       : '',
@@ -373,7 +373,7 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
               ],
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             height: 42,
@@ -382,12 +382,12 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
               children: <Widget>[
                 SizedBox(
                   width: 80,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '转运仓库'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ),
-                ZHTextLine(
+                AppText(
                   str: controller.parcelModel.value?.warehouse != null
                       ? controller.parcelModel.value!.warehouse!.warehouseName!
                       : '',
@@ -395,7 +395,7 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
               ],
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Container(
             constraints: BoxConstraints(
               maxHeight: (controller.parcelModel.value?.packagePictures !=
@@ -409,9 +409,9 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                ZHTextLine(
+                AppText(
                   str: '物品照片'.ts,
-                  color: BaseStylesConfig.textNormal,
+                  color: AppColors.textNormal,
                 ),
                 controller.parcelModel.value?.packagePictures != null
                     ? Expanded(
@@ -453,7 +453,7 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
           )));
         },
         child: Container(
-          color: BaseStylesConfig.white,
+          color: AppColors.white,
           alignment: Alignment.topCenter,
           child: LoadImage(
             imgList[index],

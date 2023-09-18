@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/events/un_authenticate_event.dart';
-import 'package:jiyun_app_client/exceptions/network_exception.dart';
 import 'package:jiyun_app_client/views/components/button/plain_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 
@@ -10,7 +9,7 @@ class BasePage extends StatelessWidget {
     Key? key,
     this.appBar,
     this.primary = true,
-    this.backgroundColor = BaseStylesConfig.bgGray,
+    this.backgroundColor = AppColors.bgGray,
     required this.body,
     this.bottomNavigationBar,
     required this.getPageData,
@@ -32,7 +31,7 @@ class BasePage extends StatelessWidget {
       key: key,
       primary: primary,
       appBar: appBar,
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       bottomNavigationBar: bottomNavigationBar,
       body: FutureBuilder(
         future: onPageLoad(),
@@ -43,7 +42,7 @@ class BasePage extends StatelessWidget {
               return Center(
                 child: Column(
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str: '网络出现问题',
                     ),
                     PlainButton(text: '重新请求'),

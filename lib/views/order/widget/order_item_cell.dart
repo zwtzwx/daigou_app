@@ -50,8 +50,8 @@ class OrderItemCell extends StatelessWidget {
                       width: 25,
                       height: 25,
                     ),
-                    Sized.hGap5,
-                    ZHTextLine(
+                    AppGaps.hGap5,
+                    AppText(
                       str: orderModel.orderSn,
                     ),
                   ],
@@ -67,14 +67,14 @@ class OrderItemCell extends StatelessWidget {
                               color: Colors.red[700],
                               padding: const EdgeInsets.symmetric(
                                   vertical: 2, horizontal: 5),
-                              child: ZHTextLine(
+                              child: AppText(
                                 str: '订单异常'.ts,
                                 color: Colors.white,
                                 fontSize: 12,
                               ),
                             ),
                           )
-                        : Sized.empty,
+                        : AppGaps.empty,
                     const Icon(
                       Icons.arrow_forward_ios,
                       size: 14,
@@ -100,8 +100,8 @@ class OrderItemCell extends StatelessWidget {
                           height: 8,
                         ),
                       ),
-                      Sized.vGap20,
-                      ZHTextLine(
+                      AppGaps.vGap20,
+                      AppText(
                         str: orderModel.warehouse.warehouseName!,
                       )
                     ],
@@ -117,11 +117,11 @@ class OrderItemCell extends StatelessWidget {
                           width: 24,
                           height: 24,
                         ),
-                        Sized.vGap4,
-                        ZHTextLine(
+                        AppGaps.vGap4,
+                        AppText(
                           str: Util.getOrderStatusName(
                               orderModel.status, orderModel.stationOrder),
-                          color: BaseStylesConfig.primary,
+                          color: AppColors.primary,
                           fontSize: 14,
                         )
                       ],
@@ -136,8 +136,8 @@ class OrderItemCell extends StatelessWidget {
                           height: 8,
                         ),
                       ),
-                      Sized.vGap20,
-                      ZHTextLine(
+                      AppGaps.vGap20,
+                      AppText(
                         str: orderModel.address.countryName,
                       )
                     ],
@@ -145,46 +145,46 @@ class OrderItemCell extends StatelessWidget {
                 ],
               ),
             ),
-            Sized.line,
-            Sized.vGap15,
+            AppGaps.line,
+            AppGaps.vGap15,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: ZHTextLine(
+                  child: AppText(
                     str:
                         '${orderModel.address.receiverName} ${orderModel.address.timezone} ${orderModel.address.phone}',
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                 ),
-                Sized.vGap4,
-                ZHTextLine(
+                AppGaps.vGap4,
+                AppText(
                   str: (orderModel.address.address != null &&
                           orderModel.address.address!.isNotEmpty)
                       ? orderModel.address.address!
                       : '${orderModel.address.area != null ? '${orderModel.address.area!.name} ' : ''}${orderModel.address.subArea != null ? '${orderModel.address.subArea!.name} ' : ''}${orderModel.address.street} ${orderModel.address.doorNo} ${orderModel.address.city}',
                   lines: 4,
                 ),
-                Sized.vGap4,
-                ZHTextLine(
+                AppGaps.vGap4,
+                AppText(
                   str: orderModel.station != null
                       ? '${'自提收货'.ts}-${orderModel.station!.name}'
                       : '送货上门'.ts,
                   fontSize: 14,
                 ),
-                Sized.vGap4,
+                AppGaps.vGap4,
                 [3, 4, 5].contains(orderModel.status)
                     ? Container(
                         margin: const EdgeInsets.only(bottom: 4),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            ZHTextLine(
+                            AppText(
                               str: '${'物流单号'.ts}：${orderModel.logisticsSn}',
                             ),
-                            Sized.hGap10,
+                            AppGaps.hGap10,
                             orderModel.logisticsSn.isNotEmpty
                                 ? GestureDetector(
                                     onTap: () {
@@ -194,36 +194,36 @@ class OrderItemCell extends StatelessWidget {
                                               EasyLoading.showSuccess(
                                                   '复制成功'.ts));
                                     },
-                                    child: ZHTextLine(
+                                    child: AppText(
                                       str: '复制'.ts,
-                                      color: BaseStylesConfig.primary,
+                                      color: AppColors.primary,
                                     ),
                                   )
-                                : Sized.empty
+                                : AppGaps.empty
                           ],
                         ),
                       )
-                    : Sized.empty,
+                    : AppGaps.empty,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str: '${'提交时间'.ts}：${orderModel.createdAt}',
                       fontSize: 13,
-                      color: BaseStylesConfig.textGray,
+                      color: AppColors.textGray,
                     ),
-                    ZHTextLine(
+                    AppText(
                       str: orderModel.paymentTypeName,
                       fontSize: 13,
                       color: orderModel.onDeliveryStatus != 0
-                          ? BaseStylesConfig.textRed
-                          : BaseStylesConfig.textBlack,
+                          ? AppColors.textRed
+                          : AppColors.textBlack,
                     )
                   ],
                 )
               ],
             ),
-            Sized.vGap10,
+            AppGaps.vGap10,
             _buildOrderBtns(context),
           ],
         ),
@@ -236,12 +236,12 @@ class OrderItemCell extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         orderModel.status == OrderStatus.checking.id
-            ? ZHTextLine(
+            ? AppText(
                 str: '等待客服确认支付'.ts,
                 fontSize: 14,
-                color: BaseStylesConfig.textRed,
+                color: AppColors.textRed,
               )
-            : Sized.empty,
+            : AppGaps.empty,
         [OrderStatus.waitPay.id, OrderStatus.checkFailure.id]
                     .contains(orderModel.status) &&
                 orderModel.onDeliveryStatus != 11 &&
@@ -268,7 +268,7 @@ class OrderItemCell extends StatelessWidget {
                   },
                 ),
               )
-            : Sized.empty,
+            : AppGaps.empty,
         [OrderStatus.waitPay.id, OrderStatus.checkFailure.id]
                     .contains(orderModel.status) &&
                 orderModel.groupMode != 0 &&
@@ -277,30 +277,36 @@ class OrderItemCell extends StatelessWidget {
                 child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const ZHTextLine(
-                    str: '该团购单为团长代款,请您及时付款',
-                    fontSize: 14,
-                    color: BaseStylesConfig.textRed,
+                  Expanded(
+                    child: AppText(
+                      str: '该团购单为团长代款,请您及时付款'.ts,
+                      fontSize: 14,
+                      color: AppColors.textRed,
+                      lines: 3,
+                    ),
                   ),
+                  10.horizontalSpace,
                   MainButton(
-                    text: '去付款',
+                    text: '前往支付',
                     onPressed: () {
-                      Routers.push('/OrderPayPage', {'id': orderModel.id});
+                      Routers.push(Routers.groupOrderPorcess,
+                          {'id': orderModel.parentId});
                     },
                   ),
                 ],
               ))
-            : Sized.empty,
+            : AppGaps.empty,
         [OrderStatus.waitPay.id, OrderStatus.checkFailure.id]
                     .contains(orderModel.status) &&
                 orderModel.groupMode != 0 &&
                 !orderModel.isLeaderOrder
-            ? ZHTextLine(
+            ? AppText(
                 str: '该团购单为团长代款,您无需支付'.ts,
                 fontSize: 14,
-                color: BaseStylesConfig.textRed,
+                color: AppColors.textRed,
+                lines: 2,
               )
-            : Sized.empty,
+            : AppGaps.empty,
         [4, 5].contains(orderModel.status)
             ? PlainButton(
                 text: '查看物流',
@@ -313,7 +319,7 @@ class OrderItemCell extends StatelessWidget {
                   }
                 },
               )
-            : Sized.empty,
+            : AppGaps.empty,
         orderModel.status == 4
             ? Flexible(
                 child: Container(
@@ -326,7 +332,7 @@ class OrderItemCell extends StatelessWidget {
                   ),
                 ),
               )
-            : Sized.empty,
+            : AppGaps.empty,
       ],
     );
   }
@@ -355,7 +361,7 @@ class OrderItemCell extends StatelessWidget {
                         width: 100,
                       ),
                     )
-                  : Sized.empty,
+                  : AppGaps.empty,
             ],
           ),
         ),

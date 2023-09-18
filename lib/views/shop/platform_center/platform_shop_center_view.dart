@@ -22,12 +22,12 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
     return Scaffold(
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: Stack(
         children: [
           RefreshIndicator(
             onRefresh: controller.handleRefresh,
-            color: BaseStylesConfig.primary,
+            color: AppColors.primary,
             child: ListView(
               shrinkWrap: true,
               physics: const AlwaysScrollableScrollPhysics(),
@@ -36,7 +36,7 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
                 Container(
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Colors.white, BaseStylesConfig.bgGray],
+                      colors: [Colors.white, AppColors.bgGray],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       stops: [0.9, 1],
@@ -83,7 +83,7 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Obx(
-            () => ZHTextLine(
+            () => AppText(
               str: '代购流程'.ts,
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -108,7 +108,7 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
                             ),
                             3.verticalSpace,
                             Obx(
-                              () => ZHTextLine(
+                              () => AppText(
                                 str: e['name']!.ts,
                                 fontSize: 12,
                                 lines: 4,
@@ -156,33 +156,32 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: controller.categoryIndex.value == index
-                          ? BorderSide(
-                              color: BaseStylesConfig.primary, width: 2.h)
+                          ? BorderSide(color: AppColors.primary, width: 2.h)
                           : BorderSide.none,
                     ),
                   ),
                   child: controller.categoryList[index].id == 0
                       ? Obx(
-                          () => ZHTextLine(
+                          () => AppText(
                             str: controller.categoryList[index].name.ts,
                             fontSize: controller.categoryIndex.value == index
                                 ? 16
                                 : 14,
                             color: controller.categoryIndex.value == index
-                                ? BaseStylesConfig.textDark
-                                : BaseStylesConfig.textNormal,
+                                ? AppColors.textDark
+                                : AppColors.textNormal,
                             fontWeight: controller.categoryIndex.value == index
                                 ? FontWeight.bold
                                 : FontWeight.normal,
                           ),
                         )
-                      : ZHTextLine(
+                      : AppText(
                           str: controller.categoryList[index].name,
                           fontSize:
                               controller.categoryIndex.value == index ? 16 : 14,
                           color: controller.categoryIndex.value == index
-                              ? BaseStylesConfig.textDark
-                              : BaseStylesConfig.textNormal,
+                              ? AppColors.textDark
+                              : AppColors.textNormal,
                           fontWeight: controller.categoryIndex.value == index
                               ? FontWeight.bold
                               : FontWeight.normal,

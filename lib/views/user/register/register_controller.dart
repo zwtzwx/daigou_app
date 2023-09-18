@@ -3,20 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:get/get_instance/get_instance.dart';
 import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/logined_event.dart';
-import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
-import 'package:jiyun_app_client/models/token_model.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
-import 'package:jiyun_app_client/storage/user_storage.dart';
 
 class RegisterController extends BaseController {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -36,7 +28,7 @@ class RegisterController extends BaseController {
   RxBool isButtonEnable = true.obs;
   final timer = Rxn<Timer?>();
   RxInt count = 60.obs;
-  Rx<Color> codeColor = BaseStylesConfig.textBlack.obs;
+  Rx<Color> codeColor = AppColors.textBlack.obs;
   // 电话区号
   RxString areaNumber = '0007'.obs;
   // 电话号码
@@ -47,7 +39,6 @@ class RegisterController extends BaseController {
   // 登录
   onRegister() async {
     try {
-      showLoading();
       Map<String, dynamic> map = {
         'verify_code': validationController.text,
         'password': passwordController.text,
@@ -60,14 +51,11 @@ class RegisterController extends BaseController {
         map['phone'] = areaNumber.value + mobileNumberController.text;
       }
       var res = await UserService.register(map);
-      hideLoading();
       if (res['ok']) {
         await EasyLoading.showSuccess(res['msg']);
         Routers.pop(loginType.value == 1
             ? mobileNumberController.text
             : emailController.text);
-      } else {
-        showToast(res['msg']);
       }
     } catch (e) {
       hideLoading();
@@ -116,7 +104,7 @@ class RegisterController extends BaseController {
     if (isButtonEnable.value) {
       //当按钮可点击时
       isButtonEnable.value = false; //按钮状态标记
-      codeColor.value = BaseStylesConfig.textGray;
+      codeColor.value = AppColors.textGray;
       initTimer();
     }
   }
@@ -128,7 +116,7 @@ class RegisterController extends BaseController {
         timer.cancel(); //倒计时结束取消定时器
         isButtonEnable.value = true; //按钮可点击
         count.value = 60; //重置时间
-        codeColor.value = BaseStylesConfig.textBlack;
+        codeColor.value = AppColors.textBlack;
         sent.value = '发送验证码'.ts; //重置按钮文本
       } else {
         sent.value = '重新发送'.ts + ' ($count)'; //更新文本内容

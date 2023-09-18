@@ -28,10 +28,12 @@ class ShopOrderChatDetailController extends BaseController {
 
   // 消息设为已读
   void onMarkMessage() {
-    ShopService.markMessage(order.value!.id!);
-    ApplicationEvent.getInstance()
-        .event
-        .fire(ListRefreshEvent(type: 'refresh'));
+    if (order.value?.id != null) {
+      ShopService.markMessage(order.value!.id!);
+      ApplicationEvent.getInstance()
+          .event
+          .fire(ListRefreshEvent(type: 'refresh'));
+    }
   }
 
   // 发送消息

@@ -101,14 +101,14 @@ class _RecommendGroupCellState extends State<RecommendGroupCell>
                     child: Row(
                       children: [
                         Expanded(
-                          child: ZHTextLine(
+                          child: AppText(
                             str: group.name ?? '',
                           ),
                         ),
                         5.horizontalSpace,
-                        ZHTextLine(
+                        AppText(
                           str: group.code ?? '',
-                          color: BaseStylesConfig.textNormal,
+                          color: AppColors.textNormal,
                           fontSize: 14,
                         ),
                       ],
@@ -128,7 +128,7 @@ class _RecommendGroupCellState extends State<RecommendGroupCell>
                               ),
                             ),
                             5.verticalSpace,
-                            ZHTextLine(
+                            AppText(
                               str: group.leader?.name ?? '',
                               fontSize: 11,
                             )
@@ -160,7 +160,7 @@ class _RecommendGroupCellState extends State<RecommendGroupCell>
                                     Row(
                                       children: [
                                         Expanded(
-                                          child: ZHTextLine(
+                                          child: AppText(
                                             str: group.expressLine
                                                     ?.referenceTime ??
                                                 '',
@@ -173,31 +173,31 @@ class _RecommendGroupCellState extends State<RecommendGroupCell>
                                           color: Color(0xFFA3A3A3),
                                         ),
                                         3.horizontalSpace,
-                                        ZHTextLine(
+                                        AppText(
                                           str: group.address
                                                   ?.getShortContent() ??
                                               '',
                                           fontSize: 10,
-                                          color: BaseStylesConfig.textNormal,
+                                          color: AppColors.textNormal,
                                         ),
                                       ],
                                     ),
                                     5.verticalSpace,
-                                    ZHTextLine(
+                                    AppText(
                                       str: group.expressLine?.name ?? '',
-                                      color: BaseStylesConfig.textNormal,
+                                      color: AppColors.textNormal,
                                       fontSize: 12,
                                     ),
                                   ],
                                 ),
                               ),
                               5.verticalSpace,
-                              ZHTextLine(
+                              AppText(
                                 str: '拼邮可运'.ts +
                                     '：' +
                                     (group.expressLine?.propStr ?? ''),
                                 lines: 5,
-                                color: BaseStylesConfig.textGrayC9,
+                                color: AppColors.textGrayC9,
                                 fontSize: 10,
                               )
                             ],
@@ -244,11 +244,11 @@ class _RecommendGroupCellState extends State<RecommendGroupCell>
                         ),
                         3.horizontalSpace,
                         Expanded(
-                          child: ZHTextLine(
+                          child: AppText(
                             str: '已有{count}人加入此团'.tsArgs(
                               {'count': group.membersCount.toString()},
                             ),
-                            color: BaseStylesConfig.textNormal,
+                            color: AppColors.textNormal,
                             fontSize: 10,
                           ),
                         ),
@@ -267,10 +267,10 @@ class _RecommendGroupCellState extends State<RecommendGroupCell>
                     padding: EdgeInsets.symmetric(horizontal: 12.w),
                     child: Row(
                       children: [
-                        ZHTextLine(
+                        AppText(
                           str: '截止时间'.ts + '：',
                           fontSize: 10,
-                          color: BaseStylesConfig.textNormal,
+                          color: AppColors.textNormal,
                         ),
                         CountdownWidget(
                           total: group.endUntil ?? 0,

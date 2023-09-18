@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/extension/rate_convert.dart';
@@ -22,15 +23,6 @@ class PlatformGoodsCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final textPainter = TextPainter(
-    //   text: TextSpan(text: goods.title, style: TextStyle(fontSize: 13.sp)),
-    //   maxLines: 1,
-    //   textDirection: TextDirection.ltr,
-    // )..layout(maxWidth: (1.sw - 34.w) / 2 - 41.w);
-    // final maxChars = textPainter
-    //     .getPositionForOffset(Offset((1.sw - 34.w) / 2 - 41.w, 0))
-    //     .offset
-    //     .toInt();
     return GestureDetector(
       onTap: () {
         Routers.push(Routers.goodsDetail, {'url': goods.detailUrl});
@@ -77,7 +69,7 @@ class PlatformGoodsCell extends StatelessWidget {
                                 child: Padding(
                                   padding: EdgeInsets.only(right: 5.w),
                                   child: LoadImage(
-                                    'Home/tao',
+                                    Util.getPlatformIcon(goods.platform),
                                     width: 16.w,
                                     height: 16.w,
                                   ),
@@ -90,32 +82,6 @@ class PlatformGoodsCell extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        // Row(
-                        //   children: [
-                        //     LoadImage(
-                        //       'Home/tao',
-                        //       width: 16.w,
-                        //       height: 16.w,
-                        //     ),
-                        //     5.horizontalSpace,
-                        //     ZHTextLine(
-                        //       str: goods.title.length > maxChars
-                        //           ? goods.title.substring(0, maxChars)
-                        //           : goods.title,
-                        //       fontSize: 13,
-                        //       color: BaseStylesConfig.textDark,
-                        //     ),
-                        //   ],
-                        // ),
-                        // Container(
-                        //   child: goods.title.length > maxChars
-                        //       ? ZHTextLine(
-                        //           str: goods.title.substring(maxChars),
-                        //           fontSize: 13,
-                        //           color: BaseStylesConfig.textDark,
-                        //         )
-                        //       : Sized.empty,
-                        // ),
                       ],
                     ),
                   ),
@@ -124,18 +90,18 @@ class PlatformGoodsCell extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Obx(
-                        () => ZHTextLine(
+                        () => AppText(
                           str: (goods.price ?? 0).rate(needFormat: false),
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
                       ),
                       Obx(
-                        () => ZHTextLine(
+                        () => AppText(
                           str: '{count}人付款'.tsArgs(
-                            {'count': (goods.sales ?? 0).toString()},
+                            {'count': goods.sales},
                           ),
-                          color: BaseStylesConfig.textGrayC9,
+                          color: AppColors.textGrayC9,
                           fontSize: 10,
                         ),
                       ),

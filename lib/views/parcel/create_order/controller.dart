@@ -14,7 +14,6 @@ import 'package:jiyun_app_client/models/value_added_service_model.dart';
 import 'package:jiyun_app_client/services/group_service.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
 import 'package:jiyun_app_client/services/ship_line_service.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
 
 class CreateOrderController extends BaseController {
   final packageList = <ParcelModel>[].obs;
@@ -214,27 +213,15 @@ class CreateOrderController extends BaseController {
       return;
     }
 
-    List<String> addServiceList = [];
-    for (var item in serviceList) {
-      if (item.isOpen) {
-        addServiceList.add(item.id.toString());
-      }
-    }
-    List<String> lineServiceList = [];
-    for (var item in shipLineModel.value!.region!.services!) {
-      if (item.isOpen || item.isForced == 1) {
-        lineServiceList.add(item.id.toString());
-      }
-    }
     if (isGroup.value) {
-      onSubmitGroupOrder(addServiceList, lineServiceList);
+      onSubmitGroupOrder();
     } else {
-      updataOrder(addServiceList, lineServiceList);
+      updataOrder();
     }
   }
 
   // 提交普通包裹
-  updataOrder(orderService, lineService) async {
+  updataOrder() async {
     List<String> packagesId = [];
     for (var item in packageList) {
       packagesId.add(item.id.toString());
@@ -254,7 +241,7 @@ class CreateOrderController extends BaseController {
           ? selectedAddressModel.value!.receiverName
           : '',
       'express_line_id': shipLineModel.value!.id,
-      'add_service': orderService,
+      'add_service': orderServiceId,
       'is_insurance': firstMust.value
           ? 1
           : insuranceServices.value
@@ -266,7 +253,7 @@ class CreateOrderController extends BaseController {
               ? 1
               : 0,
       'region_id': shipLineModel.value!.region!.id,
-      'line_service_ids': lineService,
+      'line_service_ids': lineServiceId,
       'vip_remark': evaluateController.text,
     };
     Map data = await OrderService.store(upData);
@@ -277,10 +264,10 @@ class CreateOrderController extends BaseController {
   }
 
   // 提交拼团订单
-  onSubmitGroupOrder(orderService, lineService) async {
+  onSubmitGroupOrder() async {
     Map<String, dynamic> params = {
-      'add_service': orderService,
-      'line_service_ids': lineService,
+      'add_service': orderServiceId,
+      'line_service_ids': lineServiceId,
       'is_insurance': firstMust.value
           ? 1
           : insuranceServices.value

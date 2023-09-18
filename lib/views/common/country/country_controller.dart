@@ -27,12 +27,16 @@ class CountryController extends BaseController {
       showLoading('搜索中');
     }
     var routeParams = Get.arguments;
+    dataList.clear();
     var tmp = await CommonService.getCountryListByAlphabetical({
       'keyword': str,
       'warehouse_id': routeParams?['warehouseId'] ?? '',
     });
     hideLoading();
     dataList.value = tmp;
+    if (str.isNotEmpty) {
+      isSearch.value = false;
+    }
   }
 
   created() async {
@@ -42,9 +46,9 @@ class CountryController extends BaseController {
 
   onSearch() {
     isSearch.value = !isSearch.value;
-    if (isSearch.value) {
-      created();
-    }
+    // if (isSearch.value) {
+    //   created();
+    // }
   }
 
   onCountrySelect(CountryModel model) {

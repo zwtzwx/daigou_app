@@ -16,15 +16,15 @@ class ShopOrderChatView extends GetView<ShopOrderChatController> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '我的咨询'.ts,
           fontSize: 17,
         ),
         elevation: 0,
-        backgroundColor: BaseStylesConfig.bgGray,
+        backgroundColor: AppColors.bgGray,
         leading: const BackButton(color: Colors.black),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: SafeArea(
         child: ListRefresh(
           renderItem: consultCell,
@@ -54,16 +54,16 @@ class ShopOrderChatView extends GetView<ShopOrderChatController> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '订单'.ts + (model.orderSn ?? ''),
-                    color: BaseStylesConfig.textGrayC9,
+                    color: AppColors.textGrayC9,
                     fontSize: 12,
                   ),
                 ),
                 5.horizontalSpace,
-                ZHTextLine(
+                AppText(
                   str: (model.createdAt ?? '').split(' ').first,
-                  color: BaseStylesConfig.textGrayC9,
+                  color: AppColors.textGrayC9,
                   fontSize: 12,
                 )
               ],
@@ -72,7 +72,7 @@ class ShopOrderChatView extends GetView<ShopOrderChatController> {
             Row(
               children: [
                 Expanded(
-                  child: ZHTextLine(
+                  child: AppText(
                     str: model.content ?? '',
                     fontSize: 14,
                   ),
@@ -82,10 +82,10 @@ class ShopOrderChatView extends GetView<ShopOrderChatController> {
                         child: Container(
                           width: 8.w,
                           height: 8.w,
-                          color: BaseStylesConfig.textRed,
+                          color: AppColors.textRed,
                         ),
                       )
-                    : Sized.empty,
+                    : AppGaps.empty,
               ],
             )
           ],

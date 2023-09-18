@@ -61,7 +61,7 @@ class _SearchCellState extends State<SearchCell> {
       clipBehavior: Clip.none,
       padding: EdgeInsets.only(left: 10.w, right: 5.w),
       decoration: BoxDecoration(
-        color: BaseStylesConfig.bgGray,
+        color: AppColors.bgGray,
         borderRadius: BorderRadius.circular(999),
       ),
       child: Row(
@@ -74,9 +74,10 @@ class _SearchCellState extends State<SearchCell> {
                 focusNode: focusNode,
                 isCollapsed: true,
                 isSearchInput: true,
+                maxLength: 50,
                 textInputAction: TextInputAction.search,
-                hintStyle: TextStyle(
-                    fontSize: 12.sp, color: BaseStylesConfig.textGrayC9),
+                hintStyle:
+                    TextStyle(fontSize: 12.sp, color: AppColors.textGrayC9),
                 contentPadding:
                     EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(7)),
                 hintText: widget.hintText.ts,
@@ -86,7 +87,7 @@ class _SearchCellState extends State<SearchCell> {
               ),
             ),
           ),
-          Sized.hGap10,
+          AppGaps.hGap10,
           MainButton(
             text: widget.searchText,
             borderRadis: 999,

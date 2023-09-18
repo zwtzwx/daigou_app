@@ -47,26 +47,26 @@ class AgentCommissionApplyController extends BaseController {
               onPressed: () {
                 Navigator.pop(context, 1);
               },
-              child: ZHTextLine(str: '余额提现'.ts),
+              child: AppText(str: '余额提现'.ts),
             ),
             CupertinoActionSheetAction(
               onPressed: () {
                 Navigator.pop(context, 2);
               },
-              child: ZHTextLine(str: '微信提现'.ts),
+              child: AppText(str: '微信提现'.ts),
             ),
             CupertinoActionSheetAction(
               onPressed: () {
                 Navigator.pop(context, 3);
               },
-              child: ZHTextLine(str: '支付宝提现'.ts),
+              child: AppText(str: '支付宝提现'.ts),
             ),
           ],
           cancelButton: CupertinoActionSheetAction(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: ZHTextLine(str: '取消'.ts),
+            child: AppText(str: '取消'.ts),
           ),
         );
       },

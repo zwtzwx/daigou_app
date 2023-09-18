@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //颜色配置
-class BaseStylesConfig {
+class AppColors {
   static const Color primary = Color(0xFFFFE300);
   static const Color themeRed = Color(0xffe4382d);
   static const Color white = Color(0xFFFFFFFF);
@@ -43,7 +43,7 @@ class WidgetColor {
 }
 
 /// 间隔
-class Sized {
+class AppGaps {
   /// 水平间隔
   static const Widget hGap1 = SizedBox(width: 1.0);
   static const Widget hGap4 = SizedBox(width: 4.0);
@@ -68,43 +68,37 @@ class Sized {
   static Widget line = const SizedBox(
     height: 1,
     width: double.infinity,
-    child:
-        DecoratedBox(decoration: BoxDecoration(color: BaseStylesConfig.line)),
+    child: DecoratedBox(decoration: BoxDecoration(color: AppColors.line)),
   );
 
   static Widget verticalBar = const SizedBox(
     height: 44,
     width: 12.5,
-    child:
-        DecoratedBox(decoration: BoxDecoration(color: BaseStylesConfig.green)),
+    child: DecoratedBox(decoration: BoxDecoration(color: AppColors.green)),
   );
 
   static Widget br = const SizedBox(
     height: 20,
     width: double.infinity,
-    child:
-        DecoratedBox(decoration: BoxDecoration(color: BaseStylesConfig.line)),
+    child: DecoratedBox(decoration: BoxDecoration(color: AppColors.line)),
   );
 
   static Widget lowBr = const SizedBox(
     height: 10,
     width: double.infinity,
-    child:
-        DecoratedBox(decoration: BoxDecoration(color: BaseStylesConfig.line)),
+    child: DecoratedBox(decoration: BoxDecoration(color: AppColors.line)),
   );
 
   static Widget lowBr5 = const SizedBox(
     height: 5,
     width: double.infinity,
-    child:
-        DecoratedBox(decoration: BoxDecoration(color: BaseStylesConfig.line)),
+    child: DecoratedBox(decoration: BoxDecoration(color: AppColors.line)),
   );
 
   static Widget columnsLine = const SizedBox(
     height: double.infinity,
     width: 1,
-    child:
-        DecoratedBox(decoration: BoxDecoration(color: BaseStylesConfig.line)),
+    child: DecoratedBox(decoration: BoxDecoration(color: AppColors.line)),
   );
 
   static const Widget empty = SizedBox();

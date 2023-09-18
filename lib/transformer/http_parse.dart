@@ -1,5 +1,4 @@
 // 成功回调
-import 'dart:io';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jiyun_app_client/events/application_event.dart';

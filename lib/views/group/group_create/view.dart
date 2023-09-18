@@ -21,7 +21,7 @@ class GroupCreatePage extends GetView<GroupCreateController> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '发起拼团'.ts,
           fontSize: 17,
         ),
@@ -29,7 +29,7 @@ class GroupCreatePage extends GetView<GroupCreateController> {
         leading: const BackButton(color: Colors.black),
         elevation: 0.5,
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15),
@@ -72,20 +72,20 @@ class GroupCreatePage extends GetView<GroupCreateController> {
                   radius: const Radius.circular(5),
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   borderType: BorderType.RRect,
-                  color: BaseStylesConfig.groupText,
+                  color: AppColors.groupText,
                   dashPattern: const [5, 2],
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Icon(
                         Icons.add_circle_outline,
-                        color: BaseStylesConfig.groupText,
+                        color: AppColors.groupText,
                       ),
-                      Sized.hGap5,
-                      ZHTextLine(
+                      AppGaps.hGap5,
+                      AppText(
                         str: '选择收件地址'.ts,
                         fontWeight: FontWeight.bold,
-                        color: BaseStylesConfig.groupText,
+                        color: AppColors.groupText,
                       ),
                     ],
                   ),
@@ -117,13 +117,13 @@ class GroupCreatePage extends GetView<GroupCreateController> {
                           left: 10,
                           right: 14,
                         ),
-                        child: ZHTextLine(
+                        child: AppText(
                           str: (controller.addressModel.value!.addressType == 1
                                   ? '送货上门'
                                   : '自提点')
                               .ts,
                           fontSize: 12,
-                          color: BaseStylesConfig.green,
+                          color: AppColors.green,
                         ),
                       ),
                       GestureDetector(
@@ -135,7 +135,7 @@ class GroupCreatePage extends GetView<GroupCreateController> {
                       ),
                     ],
                   ),
-                  Sized.vGap10,
+                  AppGaps.vGap10,
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Column(
@@ -149,14 +149,14 @@ class GroupCreatePage extends GetView<GroupCreateController> {
                             children: <Widget>[
                               Container(
                                 margin: const EdgeInsets.only(right: 10),
-                                child: ZHTextLine(
+                                child: AppText(
                                   str: controller
                                       .addressModel.value!.receiverName,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                 ),
                               ),
-                              ZHTextLine(
+                              AppText(
                                 str: controller.addressModel.value!.timezone +
                                     controller.addressModel.value!.phone,
                               ),
@@ -166,18 +166,18 @@ class GroupCreatePage extends GetView<GroupCreateController> {
                         controller.addressModel.value!.addressType == 2
                             ? Padding(
                                 padding: const EdgeInsets.only(top: 5),
-                                child: ZHTextLine(
+                                child: AppText(
                                   str: controller
                                           .addressModel.value!.station?.name ??
                                       '',
                                   fontWeight: FontWeight.bold,
                                 ),
                               )
-                            : Sized.empty,
+                            : AppGaps.empty,
                         Container(
                           padding: const EdgeInsets.only(top: 5),
                           alignment: Alignment.topLeft,
-                          child: ZHTextLine(
+                          child: AppText(
                             lines: 4,
                             str: (controller.addressModel.value!.area != null
                                     ? '${controller.addressModel.value!.area!.name} '
@@ -231,13 +231,13 @@ class GroupCreatePage extends GetView<GroupCreateController> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Obx(
-                    () => ZHTextLine(
+                    () => AppText(
                       str: controller.lineModel.value == null
                           ? '请选择'.ts
                           : controller.lineModel.value!.name,
                       color: controller.lineModel.value == null
-                          ? BaseStylesConfig.textGray
-                          : BaseStylesConfig.textBlack,
+                          ? AppColors.textGray
+                          : AppColors.textBlack,
                       lines: 2,
                     ),
                   ),
@@ -263,14 +263,14 @@ class GroupCreatePage extends GetView<GroupCreateController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          ZHTextLine(
+                          AppText(
                             str: controller.warehoueModel.value == null
                                 ? '请选择'.ts
                                 : controller
                                     .warehoueModel.value!.warehouseName!,
                             color: controller.warehoueModel.value == null
-                                ? BaseStylesConfig.textGray
-                                : BaseStylesConfig.textBlack,
+                                ? AppColors.textGray
+                                : AppColors.textBlack,
                             lines: 2,
                           ),
                           const Padding(
@@ -284,7 +284,7 @@ class GroupCreatePage extends GetView<GroupCreateController> {
                       ),
                     ),
                   )
-                : Sized.empty,
+                : AppGaps.empty,
           ),
           InputTextItem(
             title: '拼团天数',
@@ -361,7 +361,7 @@ class GroupCreatePage extends GetView<GroupCreateController> {
                   child: Obx(
                     () => Switch.adaptive(
                       value: controller.isPublicGroup.value,
-                      activeColor: BaseStylesConfig.green,
+                      activeColor: AppColors.green,
                       onChanged: (value) {
                         if (!controller.createPublic.value) {
                           controller.showToast('暂无权限');
@@ -408,19 +408,19 @@ class GroupCreatePage extends GetView<GroupCreateController> {
                 ? Icons.check_circle
                 : Icons.circle_outlined,
             color: controller.protocolAgree.value
-                ? BaseStylesConfig.green
-                : BaseStylesConfig.textGray,
+                ? AppColors.green
+                : AppColors.textGray,
           ),
           label: Text.rich(
             TextSpan(
-              style: const TextStyle(color: BaseStylesConfig.textBlack),
+              style: const TextStyle(color: AppColors.textBlack),
               children: [
                 TextSpan(
                   text: '已查看并同意'.ts,
                 ),
                 TextSpan(
                   text: '《${'拼团规则'.ts}》',
-                  style: const TextStyle(color: BaseStylesConfig.groupText),
+                  style: const TextStyle(color: AppColors.groupText),
                 ),
               ],
             ),
@@ -440,7 +440,7 @@ class GroupCreatePage extends GetView<GroupCreateController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ZHTextLine(
+          AppText(
             str: '团长有话说'.ts,
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -454,12 +454,12 @@ class GroupCreatePage extends GetView<GroupCreateController> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 chooseImgCell(context),
-                Sized.hGap15,
+                AppGaps.hGap15,
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: BaseStylesConfig.bgGray,
+                      color: AppColors.bgGray,
                     ),
                     child: BaseInput(
                       board: true,
@@ -494,7 +494,7 @@ class GroupCreatePage extends GetView<GroupCreateController> {
           width: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: BaseStylesConfig.bgGray,
+            color: AppColors.bgGray,
           ),
           child: controller.image.value == null
               ? Column(
@@ -504,9 +504,9 @@ class GroupCreatePage extends GetView<GroupCreateController> {
                       'Group/group-5',
                       width: 28,
                     ),
-                    ZHTextLine(
+                    AppText(
                       str: '上传图片'.ts,
-                      color: BaseStylesConfig.textGrayC,
+                      color: AppColors.textGrayC,
                     ),
                   ],
                 )

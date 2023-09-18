@@ -28,8 +28,7 @@ class LineQueryResultController extends BaseController {
       double height = arguments?['data']['height'].isNotEmpty
           ? double.parse(arguments?['data']['height'])
           : 0;
-      volumnWeight.value =
-          ((length * width * height) / 6000).toStringAsFixed(2);
+      volumnWeight.value = ((length * width * height) / 1000000).toString();
     }
     getLines();
   }

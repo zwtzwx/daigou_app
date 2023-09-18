@@ -11,7 +11,6 @@ import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/views/components/search_bar.dart';
 import 'package:jiyun_app_client/views/user/address/list/address_list_controller.dart';
 
 class AddressListView extends GetView<AddressListController> {
@@ -26,7 +25,7 @@ class AddressListView extends GetView<AddressListController> {
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
-          title: ZHTextLine(
+          title: AppText(
             str: '地址管理'.ts,
             fontSize: 18,
           ),
@@ -46,7 +45,7 @@ class AddressListView extends GetView<AddressListController> {
             ),
           ),
         ),
-        backgroundColor: BaseStylesConfig.bgGray,
+        backgroundColor: AppColors.bgGray,
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
@@ -89,11 +88,11 @@ class AddressListView extends GetView<AddressListController> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: controller.addressType.value == index + 1
-                            ? BaseStylesConfig.primary
+                            ? AppColors.primary
                             : Colors.white,
                         borderRadius: BorderRadius.circular(5.r),
                       ),
-                      child: ZHTextLine(
+                      child: AppText(
                         str: title[index].ts,
                         fontSize: 14,
                         fontWeight: controller.addressType.value == index + 1
@@ -134,7 +133,7 @@ class AddressListView extends GetView<AddressListController> {
       child: Container(
         margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 10.h),
         decoration: BoxDecoration(
-          color: BaseStylesConfig.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(5.r),
         ),
         padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
@@ -152,7 +151,7 @@ class AddressListView extends GetView<AddressListController> {
                           text: TextSpan(
                             style: TextStyle(
                               fontSize: 15.sp,
-                              color: BaseStylesConfig.textDark,
+                              color: AppColors.textDark,
                             ),
                             children: [
                               TextSpan(
@@ -175,19 +174,19 @@ class AddressListView extends GetView<AddressListController> {
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 10.w),
                                           decoration: BoxDecoration(
-                                            color: BaseStylesConfig.primary,
+                                            color: AppColors.primary,
                                             borderRadius:
                                                 BorderRadius.circular(999),
                                           ),
                                           alignment: Alignment.center,
                                           height: 15.h,
-                                          child: ZHTextLine(
+                                          child: AppText(
                                             str: '默认'.ts,
                                             fontSize: 10,
                                           ),
                                         ),
                                       )
-                                    : Sized.empty,
+                                    : AppGaps.empty,
                               ),
                             ],
                           ),
@@ -195,14 +194,14 @@ class AddressListView extends GetView<AddressListController> {
                         model.addressType == 2
                             ? Padding(
                                 padding: EdgeInsets.only(top: 5.h),
-                                child: ZHTextLine(
+                                child: AppText(
                                   str: model.station?.name ?? '',
                                   fontWeight: FontWeight.bold,
                                 ),
                               )
-                            : Sized.empty,
+                            : AppGaps.empty,
                         5.verticalSpace,
-                        ZHTextLine(
+                        AppText(
                           str: model.getContent(),
                           lines: 3,
                         ),
@@ -220,7 +219,7 @@ class AddressListView extends GetView<AddressListController> {
                     },
                     child: const ImageIcon(
                       AssetImage("assets/images/AboutMe/编辑@3x.png"),
-                      color: BaseStylesConfig.textDark,
+                      color: AppColors.textDark,
                       size: 15,
                     ),
                   )

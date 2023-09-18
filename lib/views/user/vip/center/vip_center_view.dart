@@ -31,16 +31,16 @@ class VipCenterView extends GetView<VipCenterController> {
     return Scaffold(
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       // bottomNavigationBar: Obx(
       //   () => Offstage(
       //     offstage: !controller.isloading.value,
       //     child: Container(
       //       decoration: const BoxDecoration(
-      //         color: BaseStylesConfig.white,
+      //         color: AppColors.white,
       //         border: Border(
       //           top: BorderSide(
-      //             color: BaseStylesConfig.line,
+      //             color: AppColors.line,
       //           ),
       //         ),
       //       ),
@@ -56,12 +56,12 @@ class VipCenterView extends GetView<VipCenterController> {
       //               children: <Widget>[
       //                 Row(
       //                   children: <Widget>[
-      //                     ZHTextLine(
+      //                     AppText(
       //                       str: '合计'.ts + '：',
       //                       fontWeight: FontWeight.bold,
       //                     ),
-      //                     ZHTextLine(
-      //                       color: BaseStylesConfig.textRed,
+      //                     AppText(
+      //                       color: AppColors.textRed,
       //                       str: controller.selectButton.value == 999
       //                           ? '0.00'
       //                           : (controller
@@ -76,7 +76,7 @@ class VipCenterView extends GetView<VipCenterController> {
       //                     ),
       //                   ],
       //                 ),
-      //                 ZHTextLine(
+      //                 AppText(
       //                   str: controller.selectButton.value == 999
       //                       ? '+ 0 ' + '成长值'.ts
       //                       : '+' +
@@ -88,7 +88,7 @@ class VipCenterView extends GetView<VipCenterController> {
       //                               .toString() +
       //                           '成长值'.ts,
       //                   fontSize: 14,
-      //                   color: BaseStylesConfig.textGray,
+      //                   color: AppColors.textGray,
       //                 ),
       //               ],
       //             ),
@@ -109,14 +109,14 @@ class VipCenterView extends GetView<VipCenterController> {
             ? Column(
                 children: <Widget>[
                   headerCardView(context),
-                  Sized.vGap15,
+                  AppGaps.vGap15,
                   buildGrowthValueView(),
-                  Sized.vGap15,
+                  AppGaps.vGap15,
                   buyVipPriceView(context),
-                  Sized.vGap15,
+                  AppGaps.vGap15,
                 ],
               )
-            : Sized.empty),
+            : AppGaps.empty),
       ),
     );
   }
@@ -127,23 +127,23 @@ class VipCenterView extends GetView<VipCenterController> {
       margin: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: ZHTextLine(
+            child: AppText(
               str: '成长值说明'.ts,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            child: ZHTextLine(
+            child: AppText(
               lines: 99,
               str: controller.userVipModel.value!.levelRemark!,
               fontSize: 14,
@@ -186,9 +186,9 @@ class VipCenterView extends GetView<VipCenterController> {
               alignment: Alignment.center,
               color:
                   isTitle ? const Color(0xFFf2edde) : const Color(0xFFf9f8f4),
-              child: ZHTextLine(
+              child: AppText(
                 str: label,
-                color: BaseStylesConfig.vipNormal,
+                color: AppColors.vipNormal,
               ),
             ),
           ),
@@ -202,9 +202,9 @@ class VipCenterView extends GetView<VipCenterController> {
               alignment: Alignment.center,
               color:
                   isTitle ? const Color(0xFFf2edde) : const Color(0xFFf9f8f4),
-              child: ZHTextLine(
+              child: AppText(
                 str: content,
-                color: BaseStylesConfig.vipNormal,
+                color: AppColors.vipNormal,
               ),
             ),
           ),
@@ -221,20 +221,20 @@ class VipCenterView extends GetView<VipCenterController> {
       margin: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: ZHTextLine(
+            child: AppText(
               str: '购买会员'.ts,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Padding(
             padding: const EdgeInsets.all(30),
             child: GridView.builder(
@@ -267,11 +267,11 @@ class VipCenterView extends GetView<VipCenterController> {
             decoration: BoxDecoration(
                 color: controller.selectButton.value == index
                     ? const Color(0xFFf9f8f4)
-                    : BaseStylesConfig.white,
+                    : AppColors.white,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                   color: controller.selectButton.value == index
-                      ? BaseStylesConfig.vipNormal
+                      ? AppColors.vipNormal
                       : const Color(0xFFd9c58d),
                 ),
                 boxShadow: controller.selectButton.value == index
@@ -301,7 +301,7 @@ class VipCenterView extends GetView<VipCenterController> {
                               topRight: Radius.circular(10),
                             ),
                           ),
-                          child: ZHTextLine(
+                          child: AppText(
                             str: model.name,
                             color: Colors.white,
                           ),
@@ -322,36 +322,36 @@ class VipCenterView extends GetView<VipCenterController> {
                         //           width:
                         //               (ScreenUtil().screenWidth - 70) / 3 / 3,
                         //           decoration: const BoxDecoration(
-                        //             color: BaseStylesConfig.textRed,
+                        //             color: AppColors.textRed,
                         //             borderRadius: BorderRadius.only(
                         //                 topRight: Radius.circular((15)),
                         //                 bottomLeft:
                         //                     const Radius.circular((15))),
                         //           ),
-                        //           child:  ZHTextLine(
+                        //           child:  AppText(
                         //             str: Translation.t(context, '活动'),
                         //             fontSize: 9,
                         //             fontWeight: FontWeight.w400,
-                        //             color: BaseStylesConfig.white,
+                        //             color: AppColors.white,
                         //           ),
                         //         )
                         //       : Container(),
                         // ),
-                        ZHTextLine(
+                        AppText(
                           // 会员价格
                           str: model.price.rate(),
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
-                          color: BaseStylesConfig.textRed,
+                          color: AppColors.textRed,
                         ),
                         Stack(
                           children: [
-                            ZHTextLine(
+                            AppText(
                               str:
                                   model.type != 1 ? model.basePrice.rate() : '',
                               fontSize: 12,
                               fontWeight: FontWeight.w300,
-                              color: BaseStylesConfig.textGray,
+                              color: AppColors.textGray,
                             ),
                             Positioned(
                                 top: 7,
@@ -360,7 +360,7 @@ class VipCenterView extends GetView<VipCenterController> {
                                 left: 0,
                                 child: Container(
                                   height: 1,
-                                  color: BaseStylesConfig.textGray,
+                                  color: AppColors.textGray,
                                 ))
                           ],
                         ),
@@ -371,7 +371,7 @@ class VipCenterView extends GetView<VipCenterController> {
                   child: Container(
                     alignment: Alignment.center,
                     width: (ScreenUtil().screenWidth - 70) / 3,
-                    child: ZHTextLine(
+                    child: AppText(
                       str: model.illustrate,
                       fontSize: 14,
                     ),
@@ -433,37 +433,37 @@ class VipCenterView extends GetView<VipCenterController> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ZHTextLine(
+                      AppText(
                         str: '成长值'.ts,
                         fontSize: 13,
-                        color: BaseStylesConfig.vipNormal,
+                        color: AppColors.vipNormal,
                       ),
-                      Sized.hGap10,
+                      AppGaps.hGap10,
                       Flexible(
                         child: GestureDetector(
                           onTap: () {
                             Routers.push(Routers.growthValue);
                           },
-                          child: ZHTextLine(
+                          child: AppText(
                             str: '距离下一等级还差{count}成长值'.tsArgs(
                                     {'count': firstNum < 0 ? 0 : firstNum}) +
                                 ' >',
-                            color: BaseStylesConfig.vipNormal,
+                            color: AppColors.vipNormal,
                             lines: 2,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  Sized.vGap15,
+                  AppGaps.vGap15,
                   Row(
                     children: [
-                      ZHTextLine(
+                      AppText(
                         str: growthValue.toString(),
-                        color: BaseStylesConfig.vipNormal,
+                        color: AppColors.vipNormal,
                         fontWeight: FontWeight.bold,
                       ),
-                      Sized.hGap10,
+                      AppGaps.hGap10,
                       Expanded(
                         child: SizedBox(
                           height: 8,
@@ -477,7 +477,7 @@ class VipCenterView extends GetView<VipCenterController> {
                                   height: 8,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4),
-                                    color: BaseStylesConfig.orderLine,
+                                    color: AppColors.orderLine,
                                   ),
                                 ),
                               ),
@@ -497,10 +497,10 @@ class VipCenterView extends GetView<VipCenterController> {
                           ),
                         ),
                       ),
-                      Sized.hGap10,
-                      ZHTextLine(
+                      AppGaps.hGap10,
+                      AppText(
                         str: nextLevelGrowthValue.toString(),
-                        color: BaseStylesConfig.vipNormal,
+                        color: AppColors.vipNormal,
                         fontSize: 13,
                       ),
                     ],
@@ -529,35 +529,35 @@ class VipCenterView extends GetView<VipCenterController> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str: controller.userInfo!.name,
                       fontSize: 16,
-                      color: BaseStylesConfig.vipNormal,
+                      color: AppColors.vipNormal,
                       fontWeight: FontWeight.bold,
                     ),
-                    Sized.vGap4,
-                    ZHTextLine(
+                    AppGaps.vGap4,
+                    AppText(
                       str: 'ID：${controller.userInfo!.id}',
-                      color: BaseStylesConfig.vipNormal,
+                      color: AppColors.vipNormal,
                     ),
-                    Sized.vGap4,
+                    AppGaps.vGap4,
                     GestureDetector(
                       onTap: () {
                         Routers.push(Routers.point);
                       },
                       child: Row(
                         children: [
-                          ZHTextLine(
+                          AppText(
                             str: '积分'.ts,
-                            color: BaseStylesConfig.vipNormal,
+                            color: AppColors.vipNormal,
                           ),
-                          Sized.hGap10,
-                          ZHTextLine(
+                          AppGaps.hGap10,
+                          AppText(
                             str:
                                 (controller.userVipModel.value?.profile.point ??
                                         0)
                                     .toString(),
-                            color: BaseStylesConfig.vipNormal,
+                            color: AppColors.vipNormal,
                             fontWeight: FontWeight.bold,
                           ),
                         ],

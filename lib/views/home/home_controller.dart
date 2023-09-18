@@ -63,7 +63,7 @@ class HomeController extends BaseController {
       var needUpdate = await VersionUtils.isAppUpdatedRequired(res.version);
       var lastTime = UserStorage.getVersionTime();
       var nowTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-      if (needUpdate && (lastTime == null || lastTime + 48 * 3600 < nowTime)) {
+      if (needUpdate && (lastTime == null || lastTime + 24 * 3600 < nowTime)) {
         Get.dialog(UpdateDialog(appModel: res), barrierDismissible: false);
       }
     }
@@ -146,8 +146,12 @@ class HomeController extends BaseController {
     loadingUtil.value.isLoading = true;
     loadingUtil.refresh();
     try {
-      var data = await ShopService.getDaigouGoods(
-          {'keyword': '推荐', 'page': ++loadingUtil.value.pageIndex});
+      var data = await ShopService.getDaigouGoods({
+        'keyword': '推荐',
+        'page': ++loadingUtil.value.pageIndex,
+        'platform': 'pinduoduo',
+        'page_size': 10,
+      });
       loadingUtil.value.isLoading = false;
       if (data['dataList'] != null) {
         if (data.isNotEmpty) {

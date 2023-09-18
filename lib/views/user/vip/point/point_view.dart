@@ -25,7 +25,7 @@ class PointView extends GetView<PointController> {
     return Scaffold(
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: ListRefresh(
         renderItem: buildCellForFirstListView,
         refresh: controller.loadList,
@@ -39,7 +39,7 @@ class PointView extends GetView<PointController> {
       height: 55,
       margin: const EdgeInsets.only(right: 15, left: 15),
       width: ScreenUtil().screenWidth - 30,
-      color: BaseStylesConfig.white,
+      color: AppColors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
@@ -47,7 +47,7 @@ class PointView extends GetView<PointController> {
             flex: 2,
             child: Container(
               alignment: Alignment.center,
-              child: ZHTextLine(
+              child: AppText(
                 str: model.ruleName,
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
@@ -58,7 +58,7 @@ class PointView extends GetView<PointController> {
             flex: 2,
             child: Container(
               alignment: Alignment.center,
-              child: ZHTextLine(
+              child: AppText(
                 alignment: TextAlign.center,
                 str: model.createdAt,
                 fontSize: 12,
@@ -70,14 +70,12 @@ class PointView extends GetView<PointController> {
             flex: 2,
             child: Container(
               alignment: Alignment.center,
-              child: ZHTextLine(
+              child: AppText(
                 str: model.type == 1
                     ? '+' + model.value.toString()
                     : '-' + model.value.toString(),
                 fontSize: 15,
-                color: model.type == 1
-                    ? BaseStylesConfig.textDark
-                    : BaseStylesConfig.textRed,
+                color: model.type == 1 ? AppColors.textDark : AppColors.textRed,
               ),
             ),
           ),
@@ -121,20 +119,22 @@ class PointView extends GetView<PointController> {
               width: ScreenUtil().screenWidth,
               child: Column(
                 children: <Widget>[
-                  ZHTextLine(
-                    str: (controller.userPointModel.value?.point ?? 0)
-                        .toString(),
-                    fontSize: 30,
-                    color: BaseStylesConfig.vipNormal,
-                    fontWeight: FontWeight.bold,
+                  Obx(
+                    () => AppText(
+                      str: (controller.userPointModel.value?.point ?? 0)
+                          .toString(),
+                      fontSize: 30,
+                      color: AppColors.vipNormal,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  Sized.vGap5,
-                  ZHTextLine(
+                  AppGaps.vGap5,
+                  AppText(
                     str: '可用积分'.ts,
-                    color: BaseStylesConfig.vipNormal,
+                    color: AppColors.vipNormal,
                   ),
-                  Sized.vGap15,
-                  ZHTextLine(
+                  AppGaps.vGap15,
+                  AppText(
                     str: '使用规则'.ts +
                         '：' +
                         (controller.userPointModel.value?.configPoint ?? 0)
@@ -146,7 +146,7 @@ class PointView extends GetView<PointController> {
                             .rate(needFormat: false)
                             .toString(),
                     fontSize: 14,
-                    color: BaseStylesConfig.vipNormal,
+                    color: AppColors.vipNormal,
                   ),
                 ],
               ),
@@ -159,7 +159,7 @@ class PointView extends GetView<PointController> {
               child: Container(
                   height: 55,
                   width: ScreenUtil().screenWidth - 30,
-                  color: BaseStylesConfig.white,
+                  color: AppColors.white,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
@@ -167,7 +167,7 @@ class PointView extends GetView<PointController> {
                         flex: 2,
                         child: Container(
                           alignment: Alignment.center,
-                          child: ZHTextLine(
+                          child: AppText(
                             str: '类型'.ts,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -178,7 +178,7 @@ class PointView extends GetView<PointController> {
                         flex: 2,
                         child: Container(
                           alignment: Alignment.center,
-                          child: ZHTextLine(
+                          child: AppText(
                             str: '时间'.ts,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -189,7 +189,7 @@ class PointView extends GetView<PointController> {
                         flex: 2,
                         child: Container(
                             alignment: Alignment.center,
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '明细'.ts,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

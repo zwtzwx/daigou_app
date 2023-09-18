@@ -16,7 +16,7 @@ class NoticePage extends GetView<NoticeController> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '通知'.ts,
           fontSize: 18,
         ),
@@ -24,7 +24,7 @@ class NoticePage extends GetView<NoticeController> {
         backgroundColor: Colors.white,
         leading: const BackButton(color: Colors.black),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: ListRefresh(
         renderItem: noticeItemCell,
         refresh: controller.loadList,
@@ -44,7 +44,7 @@ class NoticePage extends GetView<NoticeController> {
           border: Border(
             top: index == 0
                 ? BorderSide.none
-                : const BorderSide(color: BaseStylesConfig.line),
+                : const BorderSide(color: AppColors.line),
           ),
         ),
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
@@ -69,23 +69,23 @@ class NoticePage extends GetView<NoticeController> {
                                 child: Container(
                                   width: 8,
                                   height: 8,
-                                  color: BaseStylesConfig.textRed,
+                                  color: AppColors.textRed,
                                 ),
                               ),
                             )
-                          : Sized.empty,
+                          : AppGaps.empty,
                     ],
                   ),
                 ),
-                Sized.hGap5,
-                ZHTextLine(
+                AppGaps.hGap5,
+                AppText(
                   str: model.createdAt ?? '',
-                  color: BaseStylesConfig.textGray,
+                  color: AppColors.textGray,
                   fontSize: 12,
                 )
               ],
             ),
-            Sized.vGap10,
+            AppGaps.vGap10,
             Text(
               model.content ?? '',
             ),

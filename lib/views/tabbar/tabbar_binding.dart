@@ -1,9 +1,6 @@
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/views/components/language_cell/language_cell.dart';
 import 'package:jiyun_app_client/views/components/language_cell/language_cell_controller.dart';
 import 'package:jiyun_app_client/views/home/home_controller.dart';
-import 'package:jiyun_app_client/views/notice/notice_controller.dart';
-import 'package:jiyun_app_client/views/order/center/order_center_controller.dart';
 import 'package:jiyun_app_client/views/shop/cart/cart_controller.dart';
 import 'package:jiyun_app_client/views/shop/platform_center/platform_shop_center_controller.dart';
 import 'package:jiyun_app_client/views/tabbar/tabbar_controller.dart';

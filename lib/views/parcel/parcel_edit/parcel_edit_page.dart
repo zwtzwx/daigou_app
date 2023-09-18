@@ -28,24 +28,24 @@ class ParcelEditView extends GetView<ParcelEditController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '修改包裹'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: SingleChildScrollView(
         child: SafeArea(
             child: Obx(() => controller.isLoadingLocal.value
                 ? Column(
                     children: <Widget>[
                       goodsCell(context),
-                      Sized.vGap15,
+                      AppGaps.vGap15,
                       parcelCell(context),
-                      Sized.vGap50,
+                      AppGaps.vGap50,
                       Container(
                         height: 40,
                         width: ScreenUtil().screenWidth - 30,
@@ -57,7 +57,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
                       ),
                     ],
                   )
-                : Sized.empty)),
+                : AppGaps.empty)),
       ),
     );
   }
@@ -81,7 +81,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
   // 快递单号、快递公司
   Widget goodsCell(BuildContext context) {
     return Container(
-      color: BaseStylesConfig.white,
+      color: AppColors.white,
       margin: const EdgeInsets.only(top: 15),
       child: Column(
         children: <Widget>[
@@ -89,14 +89,14 @@ class ParcelEditView extends GetView<ParcelEditController> {
             height: 42,
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: ZHTextLine(
+            child: AppText(
               fontWeight: FontWeight.bold,
               str: '商品信息'.ts,
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           goodsOtherCell(),
-          Sized.line,
+          AppGaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             height: 42,
@@ -106,12 +106,12 @@ class ParcelEditView extends GetView<ParcelEditController> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '物品属性'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ),
-                Sized.hGap10,
+                AppGaps.hGap10,
                 Expanded(
                     child: GestureDetector(
                         onTap: () {
@@ -132,13 +132,13 @@ class ParcelEditView extends GetView<ParcelEditController> {
                               });
                         },
                         child: Container(
-                          color: BaseStylesConfig.white,
+                          color: AppColors.white,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Expanded(
                                 child: Obx(
-                                  () => ZHTextLine(
+                                  () => AppText(
                                     str: controller.selectedProps
                                         .map((e) => e.name)
                                         .join(' '),
@@ -149,7 +149,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
                               ),
                               const Icon(
                                 Icons.keyboard_arrow_right,
-                                color: BaseStylesConfig.textGray,
+                                color: AppColors.textGray,
                               ),
                             ],
                           ),
@@ -157,7 +157,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
               ],
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Container(
             padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
             child: Row(
@@ -166,9 +166,9 @@ class ParcelEditView extends GetView<ParcelEditController> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '商品备注'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ),
                 Expanded(
@@ -205,9 +205,9 @@ class ParcelEditView extends GetView<ParcelEditController> {
             children: <Widget>[
               Container(
                 alignment: Alignment.centerLeft,
-                child: ZHTextLine(
+                child: AppText(
                   str: '物品名称'.ts,
-                  color: BaseStylesConfig.textNormal,
+                  color: AppColors.textNormal,
                 ),
               ),
               Expanded(
@@ -224,7 +224,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
             ],
           ),
         ),
-        Sized.line,
+        AppGaps.line,
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           height: 42,
@@ -234,9 +234,9 @@ class ParcelEditView extends GetView<ParcelEditController> {
             children: <Widget>[
               Container(
                 alignment: Alignment.centerLeft,
-                child: ZHTextLine(
+                child: AppText(
                   str: '物品总价'.ts,
-                  color: BaseStylesConfig.textNormal,
+                  color: AppColors.textNormal,
                 ),
               ),
               Expanded(
@@ -252,12 +252,12 @@ class ParcelEditView extends GetView<ParcelEditController> {
                 autoShowRemove: false,
                 maxLines: 1,
               )),
-              // ZHTextLine(
+              // AppText(
               //     str: (packageModel.packageValue! / 100).toStringAsFixed(2))
             ],
           ),
         ),
-        Sized.line,
+        AppGaps.line,
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           height: 42,
@@ -267,9 +267,9 @@ class ParcelEditView extends GetView<ParcelEditController> {
             children: <Widget>[
               Container(
                 alignment: Alignment.centerLeft,
-                child: ZHTextLine(
+                child: AppText(
                   str: '物品数量'.ts,
-                  color: BaseStylesConfig.textNormal,
+                  color: AppColors.textNormal,
                 ),
               ),
               Expanded(
@@ -284,7 +284,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
                 textAlign: TextAlign.right,
                 maxLines: 1,
               )),
-              // ZHTextLine(
+              // AppText(
               //   str: packageModel.qty.toString(),
               // )
             ],
@@ -304,12 +304,12 @@ class ParcelEditView extends GetView<ParcelEditController> {
             height: 42,
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: ZHTextLine(
+            child: AppText(
               fontWeight: FontWeight.bold,
               str: '包裹信息'.ts,
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             height: 42,
@@ -319,9 +319,9 @@ class ParcelEditView extends GetView<ParcelEditController> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '快递名称'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ),
                 Expanded(
@@ -330,18 +330,18 @@ class ParcelEditView extends GetView<ParcelEditController> {
                           onPickerExpressName(context);
                         },
                         child: Container(
-                          color: BaseStylesConfig.white,
+                          color: AppColors.white,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              ZHTextLine(
+                              AppText(
                                 str: controller.expressCompany.value == null
                                     ? controller.packageModel.value.expressName!
                                     : controller.expressCompany.value!.name,
                               ),
                               const Icon(
                                 Icons.keyboard_arrow_right,
-                                color: BaseStylesConfig.textGray,
+                                color: AppColors.textGray,
                               ),
                             ],
                           ),
@@ -349,7 +349,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
               ],
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             height: 42,
@@ -358,18 +358,18 @@ class ParcelEditView extends GetView<ParcelEditController> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '快递单号'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ),
-                ZHTextLine(
+                AppText(
                   str: controller.packageModel.value.expressNum!,
                 )
               ],
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             height: 42,
@@ -378,9 +378,9 @@ class ParcelEditView extends GetView<ParcelEditController> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '发往国家'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ),
                 Expanded(
@@ -390,11 +390,11 @@ class ParcelEditView extends GetView<ParcelEditController> {
                           controller.goCountry();
                         },
                         child: Container(
-                          color: BaseStylesConfig.white,
+                          color: AppColors.white,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              ZHTextLine(
+                              AppText(
                                   str: controller.countryModel.value == null
                                       ? (controller
                                                   .packageModel.value.country !=
@@ -405,7 +405,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
                                       : controller.countryModel.value!.name!),
                               const Icon(
                                 Icons.keyboard_arrow_right,
-                                color: BaseStylesConfig.textGray,
+                                color: AppColors.textGray,
                               ),
                             ],
                           ),
@@ -413,7 +413,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
               ],
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             height: 42,
@@ -423,9 +423,9 @@ class ParcelEditView extends GetView<ParcelEditController> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '发往仓库'.ts,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ),
                 Expanded(
@@ -452,11 +452,11 @@ class ParcelEditView extends GetView<ParcelEditController> {
                           ).showModal(context);
                         },
                         child: Container(
-                          color: BaseStylesConfig.white,
+                          color: AppColors.white,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              ZHTextLine(
+                              AppText(
                                   str: controller.packageModel.value.warehouse
                                           ?.warehouseName ??
                                       ''),
@@ -468,7 +468,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
                                               null))
                                   ? const Icon(
                                       Icons.keyboard_arrow_right,
-                                      color: BaseStylesConfig.textGray,
+                                      color: AppColors.textGray,
                                     )
                                   : Container()
                             ],
@@ -486,7 +486,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
     List<PickerItem> data = [];
     for (var item in list) {
       var containe = PickerItem(
-        text: ZHTextLine(
+        text: AppText(
           fontSize: 24,
           str: item.name,
         ),
@@ -500,7 +500,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
     List<PickerItem> data = [];
     for (var item in list) {
       var containe = PickerItem(
-        text: ZHTextLine(
+        text: AppText(
           fontSize: 24,
           str: item.warehouseName!,
         ),

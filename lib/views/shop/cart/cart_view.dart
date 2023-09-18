@@ -25,7 +25,7 @@ class CartView extends GetView<CartController> {
     return Scaffold(
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       bottomSheet: Obx(() => controller.showCartList.isNotEmpty
           ? Container(
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 5.h),
@@ -50,7 +50,7 @@ class CartView extends GetView<CartController> {
                     child: Checkbox(
                       value: controller.allChecked.value,
                       shape: const CircleBorder(),
-                      activeColor: BaseStylesConfig.primary,
+                      activeColor: AppColors.primary,
                       checkColor: Colors.black,
                       onChanged: (value) {
                         controller.onAllCheck(value!);
@@ -60,7 +60,7 @@ class CartView extends GetView<CartController> {
                   2.horizontalSpace,
                   Expanded(
                     child: Obx(
-                      () => ZHTextLine(
+                      () => AppText(
                         str: '全选'.ts,
                         fontSize: 14,
                       ),
@@ -93,7 +93,7 @@ class CartView extends GetView<CartController> {
                                       text: '总计'.ts + '：',
                                       style: TextStyle(
                                         fontSize: 12.sp,
-                                        color: BaseStylesConfig.textDark,
+                                        color: AppColors.textDark,
                                         fontWeight: FontWeight.normal,
                                       ),
                                     ),
@@ -127,11 +127,11 @@ class CartView extends GetView<CartController> {
                 ],
               ),
             )
-          : Sized.empty),
+          : AppGaps.empty),
       body: Stack(
         children: [
           RefreshIndicator(
-            color: BaseStylesConfig.primary,
+            color: AppColors.primary,
             onRefresh: controller.handleRefresh,
             child: ListView(
               shrinkWrap: true,
@@ -172,7 +172,7 @@ class CartView extends GetView<CartController> {
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: const [Colors.white, BaseStylesConfig.bgGray],
+                colors: const [Colors.white, AppColors.bgGray],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 stops: [controller.showCartList.isNotEmpty ? 0.1 : 1, 0.3],
@@ -195,14 +195,14 @@ class CartView extends GetView<CartController> {
                           controller.configState.value =
                               !controller.configState.value;
                         },
-                        child: ZHTextLine(
+                        child: AppText(
                           str: controller.configState.value
                               ? '退出管理'.ts
                               : '管理'.ts,
                           fontSize: 14,
                           color: controller.configState.value
                               ? const Color(0xFFFFA441)
-                              : BaseStylesConfig.textDark,
+                              : AppColors.textDark,
                         ),
                       ),
                     ],
@@ -238,13 +238,13 @@ class CartView extends GetView<CartController> {
         controller.allChecked.value = false;
         controller.getShowCartList();
       },
-      child: ZHTextLine(
+      child: AppText(
         str: label.ts +
             '（${type == 1 ? controller.platformCartSkuNum : controller.cartSkuNum}）',
         fontSize: controller.cartType.value == type ? 16 : 14,
         color: controller.cartType.value == type
-            ? BaseStylesConfig.textDark
-            : BaseStylesConfig.textGrayC9,
+            ? AppColors.textDark
+            : AppColors.textGrayC9,
       ),
     );
   }
@@ -262,10 +262,10 @@ class CartView extends GetView<CartController> {
           ),
           10.verticalSpace,
           Obx(
-            () => ZHTextLine(
+            () => AppText(
               str: '购物车空空如也'.ts + '~',
               fontSize: 12,
-              color: BaseStylesConfig.textGrayC,
+              color: AppColors.textGrayC,
             ),
           ),
         ],
@@ -281,7 +281,7 @@ class CartView extends GetView<CartController> {
           margin: EdgeInsets.symmetric(vertical: 10.h),
           alignment: Alignment.center,
           child: Obx(
-            () => ZHTextLine(
+            () => AppText(
               str: '推荐商品'.ts,
               fontWeight: FontWeight.bold,
             ),

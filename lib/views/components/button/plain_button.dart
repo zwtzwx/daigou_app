@@ -12,8 +12,8 @@ class PlainButton extends StatefulWidget {
     this.borderRadis = 5,
     this.padding,
     this.visualDensity,
-    this.borderColor = BaseStylesConfig.primary,
-    this.textColor = BaseStylesConfig.primary,
+    this.borderColor = AppColors.primary,
+    this.textColor = AppColors.primary,
     this.onPressed,
   }) : super(key: key);
   final String text;
@@ -50,7 +50,7 @@ class _PlainButtonState extends State<PlainButton> {
           BorderSide(color: widget.borderColor),
         ),
       ),
-      child: ZHTextLine(
+      child: AppText(
         str: widget.text.ts,
         fontSize: widget.fontSize,
         color: widget.textColor,

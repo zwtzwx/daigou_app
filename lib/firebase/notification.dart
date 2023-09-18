@@ -4,7 +4,6 @@
 import 'dart:convert' as convert;
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';

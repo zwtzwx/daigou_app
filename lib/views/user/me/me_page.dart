@@ -24,14 +24,15 @@ class MeView extends GetView<MeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: controller.scaffoldKey,
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       appBar: const EmptyAppBar(),
       primary: false,
       body: RefreshIndicator(
         onRefresh: controller.created,
-        color: BaseStylesConfig.textRed,
+        color: AppColors.textRed,
         child: ListView.builder(
-          itemBuilder: buildCellForFirstListView,
+          itemBuilder: (context, index) =>
+              Obx(() => buildCellForFirstListView(context, index)),
           controller: controller.scrollController,
           itemCount: 5,
         ),
@@ -56,12 +57,14 @@ class MeView extends GetView<MeController> {
         'icon': 'AboutMe/center-yj',
         'route': Routers.agentCommission,
       },
-      {
+    ];
+    if (controller.userVipModel.value?.pointStatus == 1) {
+      amountList.add({
         'name': '我的积分',
         'icon': 'AboutMe/center-point',
         'route': Routers.point,
-      },
-    ];
+      });
+    }
     List<Map<String, dynamic>> orderList = [
       {
         'name': '代购/商城订单',
@@ -179,7 +182,7 @@ class MeView extends GetView<MeController> {
       margin: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 0),
       padding: EdgeInsets.symmetric(horizontal: 12.w),
       decoration: BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.all(Radius.circular(8.r)),
       ),
       child: Column(
@@ -188,7 +191,7 @@ class MeView extends GetView<MeController> {
           Padding(
             padding: EdgeInsets.only(top: 15.h, bottom: 9.h),
             child: Obx(
-              () => ZHTextLine(
+              () => AppText(
                 str: title.ts,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -206,7 +209,7 @@ class MeView extends GetView<MeController> {
             ),
             itemBuilder: (context, index) {
               return GestureDetector(
-                onTap: () {
+                onTap: () async {
                   if (list[index]['route'] == Routers.agentApply) {
                     if (controller.agentStatus.value?.id == 1) {
                       // 代理
@@ -214,8 +217,14 @@ class MeView extends GetView<MeController> {
                     } else {
                       Routers.push(list[index]['route'], list[index]['params']);
                     }
-                  } else {
+                  } else if (list[index]['route'] != null) {
                     Routers.push(list[index]['route'], list[index]['params']);
+                  } else {
+                    var res = await BaseDialog.cupertinoConfirmDialog(
+                        context, '确认退出登录吗'.ts + '？');
+                    if (res == true) {
+                      controller.onLogout();
+                    }
                   }
                 },
                 child: Container(
@@ -229,10 +238,10 @@ class MeView extends GetView<MeController> {
                       ),
                       2.verticalSpace,
                       Obx(
-                        () => ZHTextLine(
+                        () => AppText(
                           str: (list[index]['name']! as String).ts,
                           fontSize: 12,
-                          color: BaseStylesConfig.textNormal,
+                          color: AppColors.textNormal,
                         ),
                       ),
                     ],
@@ -247,56 +256,11 @@ class MeView extends GetView<MeController> {
     return listView;
   }
 
-  Widget buildBottomListCell(BuildContext context, Map item) {
-    return GestureDetector(
-      onTap: () async {
-        if (item['route'] != null) {
-          Routers.push(item['route'], item['params']);
-        } else {
-          var res = await BaseDialog.cupertinoConfirmDialog(
-              context, '确认退出登录吗'.ts + '？');
-          if (res == true) {
-            controller.onLogout();
-          }
-        }
-      },
-      child: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Row(
-          children: [
-            LoadImage(
-              item['icon'],
-              width: 24,
-              height: 24,
-            ),
-            Sized.hGap10,
-            ZHTextLine(
-              str: (item['name'] as String).ts,
-              lines: 2,
-              alignment: TextAlign.center,
-            ),
-            Expanded(
-              child: Container(
-                alignment: Alignment.centerRight,
-                child: const Icon(
-                  Icons.arrow_forward_ios,
-                  color: BaseStylesConfig.textGray,
-                  size: 18,
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget buildCustomViews(BuildContext context) {
     var headerView = Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-            colors: [Color(0xFFFFF8E3), Colors.white, BaseStylesConfig.bgGray],
+            colors: [Color(0xFFFFF8E3), Colors.white, AppColors.bgGray],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             stops: [0.1, 0.8, 1]),
@@ -326,7 +290,7 @@ class MeView extends GetView<MeController> {
                         Row(
                           children: [
                             Expanded(
-                              child: ZHTextLine(
+                              child: AppText(
                                 str: userModel?.name ?? '',
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -350,17 +314,17 @@ class MeView extends GetView<MeController> {
                                           child: Container(
                                             width: 6.w,
                                             height: 6.w,
-                                            color: BaseStylesConfig.textRed,
+                                            color: AppColors.textRed,
                                           ),
                                         )
-                                      : Sized.empty)
+                                      : AppGaps.empty)
                                 ],
                               ),
                             ),
                           ],
                         ),
                         5.verticalSpace,
-                        ZHTextLine(
+                        AppText(
                           alignment: TextAlign.center,
                           str: 'ID: ${userModel?.id ?? ''}',
                           fontSize: 12,
@@ -404,25 +368,25 @@ class MeView extends GetView<MeController> {
                                             width: 28,
                                             height: 28,
                                           ),
-                                          Sized.hGap15,
-                                          ZHTextLine(
+                                          AppGaps.hGap15,
+                                          AppText(
                                             str: '等级'.ts,
-                                            color: BaseStylesConfig.vipNormal,
+                                            color: AppColors.vipNormal,
                                           ),
-                                          Sized.hGap15,
-                                          ZHTextLine(
+                                          AppGaps.hGap15,
+                                          AppText(
                                             str: controller.userVipModel.value
                                                     ?.profile.levelName ??
                                                 '',
                                             fontWeight: FontWeight.bold,
-                                            color: BaseStylesConfig.vipNormal,
+                                            color: AppColors.vipNormal,
                                           )
                                         ],
                                       ),
                                     ),
                                   ),
                                 )
-                              : Sized.empty,
+                              : AppGaps.empty,
                           controller.userVipModel.value?.growthValueStatus == 1
                               ? Expanded(
                                   child: GestureDetector(
@@ -449,28 +413,28 @@ class MeView extends GetView<MeController> {
                                             width: 28,
                                             height: 28,
                                           ),
-                                          Sized.hGap15,
-                                          ZHTextLine(
+                                          AppGaps.hGap15,
+                                          AppText(
                                             str: '积分'.ts,
-                                            color: BaseStylesConfig.vipNormal,
+                                            color: AppColors.vipNormal,
                                           ),
-                                          Sized.hGap15,
-                                          ZHTextLine(
+                                          AppGaps.hGap15,
+                                          AppText(
                                             str:
                                                 '${controller.userVipModel.value?.profile.point ?? ''}',
                                             fontWeight: FontWeight.bold,
-                                            color: BaseStylesConfig.vipNormal,
+                                            color: AppColors.vipNormal,
                                           )
                                         ],
                                       ),
                                     ),
                                   ),
                                 )
-                              : Sized.empty,
+                              : AppGaps.empty,
                         ],
                       ),
                     ))
-                : Sized.empty,
+                : AppGaps.empty,
           ),
         ],
       ),

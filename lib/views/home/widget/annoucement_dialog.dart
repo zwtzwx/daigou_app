@@ -45,7 +45,7 @@ class AnnoucementDialog extends StatelessWidget {
                         vertical: 15, horizontal: 20),
                     width: double.infinity,
                     alignment: Alignment.center,
-                    child: ZHTextLine(
+                    child: AppText(
                       str: model.title,
                       fontWeight: FontWeight.bold,
                     ),
@@ -66,18 +66,18 @@ class AnnoucementDialog extends StatelessWidget {
                       text: '查看更多'.ts,
                       fontSize: 14,
                       borderRadis: 20.0,
-                      backgroundColor: BaseStylesConfig.primary,
+                      backgroundColor: AppColors.primary,
                       onPressed: () {
                         Navigator.pop(context, true);
                       },
                     ),
                   ),
-                  Sized.vGap20,
+                  AppGaps.vGap20,
                 ],
               ),
             ),
           ),
-          Sized.vGap15,
+          AppGaps.vGap15,
           GestureDetector(
               onTap: () {
                 Navigator.pop(context, false);

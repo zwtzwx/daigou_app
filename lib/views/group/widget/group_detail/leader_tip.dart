@@ -82,24 +82,24 @@ class _LeaderTipState extends State<LeaderTip> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ZHTextLine(
+            AppText(
               str: '延长拼团天数'.ts,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
-            Sized.vGap15,
+            AppGaps.vGap15,
             SizedBox(
               height: 100,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   chooseImgCell(),
-                  Sized.hGap15,
+                  AppGaps.hGap15,
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: BaseStylesConfig.bgGray,
+                        color: AppColors.bgGray,
                       ),
                       child: BaseInput(
                         board: true,
@@ -119,7 +119,7 @@ class _LeaderTipState extends State<LeaderTip> {
                 ],
               ),
             ),
-            Sized.vGap20,
+            AppGaps.vGap20,
             SizedBox(
               height: 45,
               child: MainButton(
@@ -140,7 +140,7 @@ class _LeaderTipState extends State<LeaderTip> {
         width: 100,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: BaseStylesConfig.bgGray,
+          color: AppColors.bgGray,
         ),
         child: image == null
             ? Column(
@@ -150,9 +150,9 @@ class _LeaderTipState extends State<LeaderTip> {
                     'Group/group-5',
                     width: 28,
                   ),
-                  ZHTextLine(
+                  AppText(
                     str: '上传图片'.ts,
-                    color: BaseStylesConfig.textGrayC,
+                    color: AppColors.textGrayC,
                   ),
                 ],
               )

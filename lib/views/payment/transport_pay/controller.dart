@@ -23,6 +23,7 @@ class TransportPayController extends BaseController {
   final pointShow = false.obs;
   final isUsePoint = false.obs;
   final payModel = 0.obs; // 0 冲会员 1 订单付款
+  bool isGroupOrder = false; // 是否是拼团订单
 
   @override
   void onInit() {
@@ -34,6 +35,12 @@ class TransportPayController extends BaseController {
       vipPriceModel.value = arguments['model'] as UserVipPriceModel;
     } else if (payModel.value == 1) {
       orderId.value = arguments['id'];
+      if (Get.arguments['isLeader'] != null) {
+        isGroupOrder = true;
+        previewGroupOrder();
+      } else {
+        previewOrder();
+      }
       previewOrder();
     }
     created();
@@ -51,7 +58,6 @@ class TransportPayController extends BaseController {
         vipInfo.pointStatus == 1 &&
         vipInfo.ruleStatus.pointDecrease) {
       pointShow.value = true;
-      print(pointShow.value);
     }
   }
 
@@ -84,6 +90,20 @@ class TransportPayController extends BaseController {
         selectCoupon.value = orderModel.value!.coupon;
       }
     }, (message) => null);
+  }
+
+  // 预览拼团订单
+  void previewGroupOrder() async {
+    var data = await OrderService.onPreviewGroupOrder(orderId.value!, {
+      'coupon_id': selectCoupon.value?.id ?? '',
+      'is_use_point': isUsePoint.value ? 1 : 0,
+    });
+    if (data != null) {
+      orderModel.value = data;
+      if (orderModel.value!.coupon != null) {
+        selectCoupon.value = orderModel.value!.coupon;
+      }
+    }
   }
 
   // 支付

@@ -20,7 +20,7 @@ class BindInfoView extends GetView<BindInfoController> {
         elevation: 0.5,
         centerTitle: true,
         title: Obx(
-          () => ZHTextLine(
+          () => AppText(
             str: controller.flagBool.value == 1
                 ? controller.phoneFlag.value
                     ? '更改手机号'.ts
@@ -28,11 +28,11 @@ class BindInfoView extends GetView<BindInfoController> {
                 : controller.emailFlag.value
                     ? '更换邮箱'.ts
                     : '绑定邮箱'.ts,
-            color: BaseStylesConfig.textBlack,
+            color: AppColors.textBlack,
           ),
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       bottomNavigationBar: SafeArea(
         child: Container(
           height: 40,
@@ -56,7 +56,7 @@ class BindInfoView extends GetView<BindInfoController> {
                   inputText: Container(
                     height: 55,
                     alignment: Alignment.centerLeft,
-                    child: ZHTextLine(
+                    child: AppText(
                       str: controller.flagBool.value == 1
                           ? controller.userInfo?.phone ?? '无'.ts
                           : controller.userInfo?.email ?? '无'.ts,
@@ -76,22 +76,22 @@ class BindInfoView extends GetView<BindInfoController> {
                                 onTap: controller.onTimezone,
                                 child: Row(
                                   children: [
-                                    ZHTextLine(
+                                    AppText(
                                       str: '+' +
                                           controller.formatTimezone(
                                               controller.timezone.value),
                                     ),
-                                    Sized.hGap4,
+                                    AppGaps.hGap4,
                                     const Icon(
                                       Icons.arrow_forward_ios,
                                       size: 14,
-                                      color: BaseStylesConfig.textNormal,
+                                      color: AppColors.textNormal,
                                     ),
-                                    Sized.hGap5,
+                                    AppGaps.hGap5,
                                   ],
                                 ),
                               )
-                            : Sized.empty,
+                            : AppGaps.empty,
                         Expanded(
                             child: NormalInput(
                           hintText: controller.flagBool.value == 2
@@ -142,8 +142,8 @@ class BindInfoView extends GetView<BindInfoController> {
                           child: MainButton(
                             text: controller.sent.value,
                             backgroundColor: controller.isButtonEnable.value
-                                ? BaseStylesConfig.primary
-                                : BaseStylesConfig.bgGray,
+                                ? AppColors.primary
+                                : AppColors.bgGray,
                             textColor: controller.isButtonEnable.value
                                 ? Colors.white
                                 : Colors.grey,

@@ -18,7 +18,7 @@ class SettingPasswordView extends GetView<SettingPasswordController> {
         leading: const BackButton(color: Colors.black),
         centerTitle: true,
         elevation: 0.5,
-        title: ZHTextLine(
+        title: AppText(
           str: '修改密码'.ts,
           fontSize: 18,
         ),

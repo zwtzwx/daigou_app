@@ -236,7 +236,7 @@ class OrderPreviewController extends BaseController {
       'mode': shipModel.value + 1,
     };
     if (isPlatformGoods) {
-      params['remarks'] = remarks;
+      params['remark'] = remarks;
     } else {
       params['remark'] = goodsList.first.remarkController!.text;
     }
@@ -299,7 +299,7 @@ class OrderPreviewController extends BaseController {
       },
       'freight_fee': goodsModel.freightFee,
     };
-    params.addAll(getBaseCommitParams(true));
+    params.addAll(getBaseCommitParams(false));
     Map res = await ShopService.platformCustomOrderCreate(params);
     if (res['ok']) {
       Routers.redirect(Routers.shopOrderPay, {'order': res['order']});

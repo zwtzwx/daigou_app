@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/global_inject.dart';
@@ -11,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:jiyun_app_client/events/change_goods_info_event.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -27,7 +27,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
   await GlobalInject.init();
   // 初始化 Firebase
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
 
   runApp(const MyApp());
 
@@ -62,7 +62,6 @@ class _MyAppState extends State<MyApp> {
 
   initClipboadListener() {
     SystemChannels.lifecycle.setMessageHandler((message) async {
-      debugPrint('SystemChannels $message');
       if (message == 'AppLifecycleState.resumed') {
         // 从后台切换到前台
         getClipboardData();
@@ -74,20 +73,22 @@ class _MyAppState extends State<MyApp> {
 
   void getClipboardData() async {
     var data = await Clipboard.getData(Clipboard.kTextPlain);
+
     if ((data?.text ?? '').isNotEmpty) {
       // 解析剪贴板
       var text = data!.text!;
+      var currentRoute = Get.currentRoute;
       if (text.contains('yangkeduo') ||
           text.contains('m.tb.cn') ||
           text.contains('m.jd.com') ||
           text.contains('qr.1688.com')) {
-        showDialog(text);
+        showDialog(text, currentRoute);
       }
     }
   }
 
   // 检测商品详情
-  getGoodsDetail(String data) async {
+  getGoodsDetail(String data, String currentRoute) async {
     if (data.contains('m.tb.cn') || data.contains('qr.1688.com')) {
       var params = {'word': data};
       if (data.contains('qr.1688.com')) {
@@ -101,14 +102,26 @@ class _MyAppState extends State<MyApp> {
       var url = await CommonService.getGoodsUrl(params);
 
       if (url != null) {
-        Routers.push(Routers.goodsDetail, {'url': url});
+        if (currentRoute == Routers.goodsDetail) {
+          ApplicationEvent.getInstance()
+              .event
+              .fire(ChangeGoodsInfoEvent(url: url));
+        } else {
+          Routers.push(Routers.goodsDetail, {'url': url});
+        }
       }
     } else {
-      Routers.push(Routers.goodsDetail, {'url': data});
+      if (currentRoute == Routers.goodsDetail) {
+        ApplicationEvent.getInstance()
+            .event
+            .fire(ChangeGoodsInfoEvent(url: data));
+      } else {
+        Routers.push(Routers.goodsDetail, {'url': data});
+      }
     }
   }
 
-  showDialog(String data) async {
+  showDialog(String data, String currentRoute) async {
     var res = await Get.dialog<bool?>(
       Dialog(
         child: Column(
@@ -132,7 +145,7 @@ class _MyAppState extends State<MyApp> {
               height: 40.h,
               decoration: const BoxDecoration(
                 border: Border(
-                  top: BorderSide(color: BaseStylesConfig.line),
+                  top: BorderSide(color: AppColors.line),
                 ),
               ),
               child: Row(
@@ -147,15 +160,15 @@ class _MyAppState extends State<MyApp> {
                             // height: 30.h,
                             alignment: Alignment.center,
                             color: Colors.transparent,
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '取消'.ts,
                               alignment: TextAlign.center,
-                              color: BaseStylesConfig.textGrayC9,
+                              color: AppColors.textGrayC9,
                             ),
                           ),
                         )),
                   ),
-                  Sized.columnsLine,
+                  AppGaps.columnsLine,
                   Expanded(
                     child: Obx(
                       () => GestureDetector(
@@ -165,10 +178,10 @@ class _MyAppState extends State<MyApp> {
                         child: Container(
                           alignment: Alignment.center,
                           color: Colors.transparent,
-                          child: ZHTextLine(
+                          child: AppText(
                             str: '确定'.ts,
                             alignment: TextAlign.center,
-                            color: BaseStylesConfig.primary,
+                            color: AppColors.primary,
                           ),
                         ),
                       ),
@@ -181,9 +194,9 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
-    Clipboard.setData((const ClipboardData(text: '')));
+    await Clipboard.setData((const ClipboardData(text: '')));
     if (res == true) {
-      getGoodsDetail(data);
+      getGoodsDetail(data, currentRoute);
     }
   }
 
@@ -204,8 +217,8 @@ class _MyAppState extends State<MyApp> {
               TargetPlatform.android: createTransition(),
             },
           ),
-          primaryColor: BaseStylesConfig.primary,
-          backgroundColor: BaseStylesConfig.bgGray,
+          primaryColor: AppColors.primary,
+          backgroundColor: AppColors.bgGray,
           canvasColor: Colors.white,
         ),
         showSemanticsDebugger: false,

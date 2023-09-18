@@ -18,9 +18,9 @@ class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '结算账号信息'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 17,
         ),
       ),
@@ -36,7 +36,7 @@ class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
           ),
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -55,10 +55,10 @@ class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
                     children: <Widget>[
                       Expanded(
                         child: Obx(
-                          () => ZHTextLine(
+                          () => AppText(
                             str: controller.getWithdrawTypeName().ts,
                             color: controller.withdrawType.value == null
-                                ? BaseStylesConfig.textGray
+                                ? AppColors.textGray
                                 : Colors.black,
                           ),
                         ),

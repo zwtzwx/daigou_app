@@ -23,13 +23,13 @@ class ShopCenterView extends GetView<ShopCenterController> {
         centerTitle: true,
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.white,
-        title: ZHTextLine(
+        title: AppText(
           str: '自营商城'.ts,
           fontSize: 18,
         ),
         elevation: 0,
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: RefreshIndicator(
         onRefresh: controller.handleRefresh,
         child: ListView(
@@ -40,7 +40,7 @@ class ShopCenterView extends GetView<ShopCenterController> {
             Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.white, BaseStylesConfig.bgGray],
+                  colors: [Colors.white, AppColors.bgGray],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   stops: [0.2, 0.4],
@@ -111,7 +111,7 @@ class ShopCenterView extends GetView<ShopCenterController> {
                                     width: ScreenUtil().setWidth(40),
                                     height: ScreenUtil().setWidth(40),
                                   ),
-                                  ZHTextLine(
+                                  AppText(
                                     str: e.name,
                                     fontSize: 12,
                                   ),

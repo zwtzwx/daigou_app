@@ -36,6 +36,8 @@ class OrderService {
   static const String ipayApi = 'order/payment/:id/iPay88/web';
   // 预览订单信息
   static const String previewPay = 'order/h5-pay';
+  // 预览拼团订单信息
+  static const String previewGroupOrderPayApi = 'group-buying/order/:id/prepay';
 
   /*
     获取订单列表
@@ -176,6 +178,25 @@ class OrderService {
         'msg': res.msg ?? res.error?.message,
         'data': res.data['data']
       };
+    });
+    return result;
+  }
+
+  // 预览拼团订单信息
+  static Future<OrderModel?> onPreviewGroupOrder(int id, Map params) async {
+    OrderModel? result;
+    await HttpClient()
+        .post(
+            previewGroupOrderPayApi.replaceAll(
+              ':id',
+              id.toString(),
+            ),
+            data: params,
+            options: Options(extra: {'showSuccess': false}))
+        .then((res) {
+      if (res.ok) {
+        result = OrderModel.fromJson(res.data);
+      }
     });
     return result;
   }

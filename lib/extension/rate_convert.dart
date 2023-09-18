@@ -1,5 +1,4 @@
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
 
 extension RateConvert on num {

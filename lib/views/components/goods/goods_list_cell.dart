@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -6,7 +5,6 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/shop/goods_model.dart';
 import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/goods/goods_item.dart';
 import 'package:jiyun_app_client/views/components/goods/platform_goods_item.dart';
@@ -96,7 +94,7 @@ class GoodsListCell extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Obx(
-                    () => ZHTextLine(
+                    () => AppText(
                       str: '更多商品'.ts,
                       fontSize: 14,
                       fontWeight: FontWeight.bold,

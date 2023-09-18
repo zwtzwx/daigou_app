@@ -25,10 +25,10 @@ class DistanceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ZHTextLine(
+    return AppText(
       str: calcDistance() + ' miles',
       fontSize: 12,
-      color: BaseStylesConfig.green,
+      color: AppColors.green,
     );
   }
 }

@@ -31,7 +31,7 @@ class HomeView extends GetView<HomeController> {
       key: controller.scaffoldKey,
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -40,7 +40,7 @@ class HomeView extends GetView<HomeController> {
           children: [
             RefreshIndicator(
               onRefresh: controller.handleRefresh,
-              color: BaseStylesConfig.primary,
+              color: AppColors.primary,
               child: ListView(
                 shrinkWrap: true,
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -49,7 +49,7 @@ class HomeView extends GetView<HomeController> {
                   Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Colors.white, BaseStylesConfig.bgGray],
+                        colors: [Colors.white, AppColors.bgGray],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         stops: [0.6, 0.7],
@@ -83,10 +83,10 @@ class HomeView extends GetView<HomeController> {
                                             child: Container(
                                               width: 6.w,
                                               height: 6.w,
-                                              color: BaseStylesConfig.textRed,
+                                              color: AppColors.textRed,
                                             ),
                                           )
-                                        : Sized.empty)
+                                        : AppGaps.empty)
                                   ],
                                 ),
                               ),
@@ -151,12 +151,12 @@ class HomeView extends GetView<HomeController> {
                               ),
                               e.id == 0
                                   ? Obx(
-                                      () => ZHTextLine(
+                                      () => AppText(
                                         str: e.name.ts,
                                         fontSize: 12,
                                       ),
                                     )
-                                  : ZHTextLine(
+                                  : AppText(
                                       str: e.name,
                                       fontSize: 12,
                                     ),
@@ -185,26 +185,33 @@ class HomeView extends GetView<HomeController> {
           },
         ),
         Container(
-          height: (1.sw - 34.w) / 2.5 * (12 / 7.5),
           margin: EdgeInsets.only(left: 12.w),
           child: FutureBuilder(
               future: controller.getHotGoodsList(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return ListView.builder(
-                    itemCount: controller.hotGoodsList.length,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => GoodsItem(
-                      width: (1.sw - 34.w) / 2.5,
-                      goods: controller.hotGoodsList[index],
-                      margin: EdgeInsets.only(right: 10.w),
-                    ),
-                  );
+                  return controller.hotGoodsList.isNotEmpty
+                      ? SizedBox(
+                          height: (1.sw - 34.w) / 2.5 * (12 / 7.5),
+                          child: ListView.builder(
+                            itemCount: controller.hotGoodsList.length,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) => GoodsItem(
+                              width: (1.sw - 34.w) / 2.5,
+                              goods: controller.hotGoodsList[index],
+                              margin: EdgeInsets.only(right: 10.w),
+                            ),
+                          ),
+                        )
+                      : AppGaps.empty;
                 } else {
-                  return const Skeleton(
-                    type: SkeletonType.goodsSkeleton,
-                    scrollDirection: Axis.horizontal,
+                  return SizedBox(
+                    height: (1.sw - 34.w) / 2.5 * (12 / 7.5),
+                    child: const Skeleton(
+                      type: SkeletonType.goodsSkeleton,
+                      scrollDirection: Axis.horizontal,
+                    ),
                   );
                 }
               }),

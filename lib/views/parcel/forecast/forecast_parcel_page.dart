@@ -1,5 +1,4 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/common/hex_to_color.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -8,7 +7,6 @@ import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/ship_line_service_model.dart';
-import 'package:jiyun_app_client/models/value_added_service_model.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/input/base_input.dart';
@@ -38,12 +36,12 @@ class ForecastParcelView extends GetView<ForecastController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '包裹预报'.ts,
           fontSize: 18,
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -73,13 +71,13 @@ class ForecastParcelView extends GetView<ForecastController> {
                         icon: controller.agreementBool.value
                             ? const Icon(
                                 Icons.check_circle_outline,
-                                color: BaseStylesConfig.green,
+                                color: AppColors.green,
                               )
                             : const Icon(
                                 Icons.circle_outlined,
-                                color: BaseStylesConfig.textGray,
+                                color: AppColors.textGray,
                               ),
-                        label: ZHTextLine(
+                        label: AppText(
                           str: '我已阅读并同意'.ts,
                         ),
                       ),
@@ -88,7 +86,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                       onTap: () {
                         showProtocol(context);
                       },
-                      child: ZHTextLine(
+                      child: AppText(
                         str: '《${'转运协议'.ts}》',
                         color: HexToColor('#fe8b25'),
                       ),
@@ -106,7 +104,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                 ),
               ),
               30.verticalSpace,
-              // Sized.vGap15,
+              // AppGaps.vGap15,
             ],
           ),
         ),
@@ -127,7 +125,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                 onTap: () {
                   Routers.push(Routers.help);
                 },
-                child: ZHTextLine(
+                child: AppText(
                   str: '初次使用包裹转运'.ts,
                   fontSize: 14,
                 ),
@@ -136,7 +134,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                 onTap: () {
                   Routers.push(Routers.warehouse);
                 },
-                child: ZHTextLine(
+                child: AppText(
                   str: '查看仓库地址'.ts,
                   fontSize: 14,
                 ),
@@ -192,7 +190,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                           right: 13.w, top: 8.w, bottom: 8.w, left: 8.w),
                       child: const Icon(
                         Icons.arrow_forward_ios,
-                        color: BaseStylesConfig.textBlack,
+                        color: AppColors.textBlack,
                         size: 15,
                       ),
                     ),
@@ -245,7 +243,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                           right: 13.w, top: 8.w, bottom: 8.w, left: 8.w),
                       child: const Icon(
                         Icons.arrow_forward_ios,
-                        color: BaseStylesConfig.textBlack,
+                        color: AppColors.textBlack,
                         size: 15,
                       ),
                     ),
@@ -305,7 +303,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                           right: 13.w, top: 8.w, bottom: 8.w, left: 8.w),
                       child: const Icon(
                         Icons.arrow_forward_ios,
-                        color: BaseStylesConfig.textBlack,
+                        color: AppColors.textBlack,
                         size: 15,
                       ),
                     ),
@@ -336,14 +334,14 @@ class ForecastParcelView extends GetView<ForecastController> {
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: BaseStylesConfig.primary)),
+                border: Border.all(color: AppColors.primary)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Sized.hGap10,
-                ZHTextLine(
+                AppGaps.hGap10,
+                AppText(
                   str: '再添加一个包裹'.ts,
-                  color: BaseStylesConfig.primary,
+                  color: AppColors.primary,
                   fontWeight: FontWeight.bold,
                 )
               ],
@@ -376,7 +374,7 @@ class ForecastParcelView extends GetView<ForecastController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ZHTextLine(
+          AppText(
             str: '到件即发'.ts,
             fontWeight: FontWeight.bold,
             fontSize: 13,
@@ -385,8 +383,7 @@ class ForecastParcelView extends GetView<ForecastController> {
             onTap: controller.onAddress,
             child: Container(
               decoration: const BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(color: BaseStylesConfig.line)),
+                border: Border(bottom: BorderSide(color: AppColors.line)),
               ),
               padding: EdgeInsets.symmetric(vertical: 13.w),
               child: Row(
@@ -402,15 +399,15 @@ class ForecastParcelView extends GetView<ForecastController> {
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ZHTextLine(
+                                AppText(
                                   str: '收件人信息'.ts,
                                   fontSize: 13,
                                 ),
                                 2.verticalSpace,
-                                ZHTextLine(
+                                AppText(
                                   str: '点击选择收件人信息'.ts,
                                   fontSize: 11,
-                                  color: BaseStylesConfig.textGrayC,
+                                  color: AppColors.textGrayC,
                                 ),
                               ],
                             )
@@ -419,14 +416,14 @@ class ForecastParcelView extends GetView<ForecastController> {
                               children: [
                                 Row(
                                   children: [
-                                    ZHTextLine(
+                                    AppText(
                                       str: controller
                                           .addressModel.value!.receiverName,
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
                                     ),
                                     5.horizontalSpace,
-                                    ZHTextLine(
+                                    AppText(
                                       str: controller
                                               .addressModel.value!.timezone +
                                           '-' +
@@ -436,7 +433,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                                     5.verticalSpace,
                                   ],
                                 ),
-                                ZHTextLine(
+                                AppText(
                                   str: controller.addressModel.value!
                                       .getContent(),
                                   fontSize: 13,
@@ -447,9 +444,9 @@ class ForecastParcelView extends GetView<ForecastController> {
                     ),
                   ),
                   10.horizontalSpace,
-                  ZHTextLine(
+                  AppText(
                     str: '地址簿'.ts,
-                    color: BaseStylesConfig.textGrayC,
+                    color: AppColors.textGrayC,
                     fontSize: 10,
                   ),
                 ],
@@ -460,8 +457,7 @@ class ForecastParcelView extends GetView<ForecastController> {
             onTap: controller.onLine,
             child: Container(
               decoration: const BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(color: BaseStylesConfig.line)),
+                border: Border(bottom: BorderSide(color: AppColors.line)),
               ),
               padding: EdgeInsets.symmetric(vertical: 13.w),
               child: Row(
@@ -477,27 +473,27 @@ class ForecastParcelView extends GetView<ForecastController> {
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ZHTextLine(
+                                AppText(
                                   str: '运送方式'.ts,
                                   fontSize: 13,
                                 ),
                                 2.verticalSpace,
-                                ZHTextLine(
+                                AppText(
                                   str: '点击选择运送方式'.ts,
                                   fontSize: 11,
-                                  color: BaseStylesConfig.textGrayC,
+                                  color: AppColors.textGrayC,
                                 ),
                               ],
                             )
                           : Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ZHTextLine(
+                                AppText(
                                   str: controller.lineModel.value!.name,
                                   fontSize: 13,
                                 ),
                                 2.verticalSpace,
-                                ZHTextLine(
+                                AppText(
                                   str: '时效'.ts +
                                       '：' +
                                       (controller.lineModel.value!.region
@@ -510,9 +506,9 @@ class ForecastParcelView extends GetView<ForecastController> {
                     ),
                   ),
                   10.horizontalSpace,
-                  ZHTextLine(
+                  AppText(
                     str: '请选择'.ts,
-                    color: BaseStylesConfig.textGrayC,
+                    color: AppColors.textGrayC,
                     fontSize: 10,
                   ),
                 ],
@@ -525,9 +521,9 @@ class ForecastParcelView extends GetView<ForecastController> {
                     (controller.lineModel.value!.region?.services ?? [])
                         .isNotEmpty
                 ? buildLineServiceView(context)
-                : Sized.empty,
+                : AppGaps.empty,
           ),
-          ZHTextLine(
+          AppText(
             str: '下单备注'.ts,
             fontWeight: FontWeight.bold,
             fontSize: 13,
@@ -599,7 +595,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      ZHTextLine(str: item.name),
+                      AppText(str: item.name),
                       Container(
                         height: 49,
                         alignment: Alignment.centerLeft,
@@ -611,21 +607,21 @@ class ForecastParcelView extends GetView<ForecastController> {
                               const TextSpan(
                                 text: ' ',
                                 style: TextStyle(
-                                  color: BaseStylesConfig.textBlack,
+                                  color: AppColors.textBlack,
                                   fontSize: 10.0,
                                 ),
                               ),
                               TextSpan(
                                 text: second,
                                 style: const TextStyle(
-                                  color: BaseStylesConfig.textRed,
+                                  color: AppColors.textRed,
                                   fontSize: 15.0,
                                 ),
                               ),
                               const TextSpan(
                                 text: ' ',
                                 style: TextStyle(
-                                  color: BaseStylesConfig.textBlack,
+                                  color: AppColors.textBlack,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -633,7 +629,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                               TextSpan(
                                 text: third,
                                 style: const TextStyle(
-                                  color: BaseStylesConfig.textDark,
+                                  color: AppColors.textDark,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w300,
                                 ),
@@ -648,7 +644,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                               child: IconButton(
                                 icon: const Icon(
                                   Icons.error_outline_outlined,
-                                  color: BaseStylesConfig.green,
+                                  color: AppColors.green,
                                   size: 25,
                                 ),
                                 onPressed: () {
@@ -663,7 +659,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                   Obx(
                     () => Switch.adaptive(
                       value: controller.LineServiceId.contains(item.id),
-                      activeColor: BaseStylesConfig.green,
+                      activeColor: AppColors.green,
                       onChanged: (value) {
                         if (item.isForced == 1) return;
                         if (controller.LineServiceId.contains(item.id)) {
@@ -677,7 +673,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                 ],
               ),
             ),
-            Sized.line
+            AppGaps.line
           ],
         ),
       );
@@ -686,7 +682,7 @@ class ForecastParcelView extends GetView<ForecastController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ZHTextLine(
+        AppText(
           str: '渠道增值服务'.ts,
           fontWeight: FontWeight.bold,
           fontSize: 13,
@@ -704,22 +700,22 @@ class ForecastParcelView extends GetView<ForecastController> {
       var listTitle = ListTile(
         title: SizedBox(
           height: 20,
-          child: ZHTextLine(
+          child: AppText(
             str: item.value.content,
             fontSize: 16,
           ),
         ),
         subtitle: SizedBox(
           height: 18,
-          child: ZHTextLine(
+          child: AppText(
             str: item.value.remark,
             fontSize: 14,
-            color: BaseStylesConfig.textGray,
+            color: AppColors.textGray,
           ),
         ),
         trailing: Switch.adaptive(
           value: item.value.isOpen,
-          activeColor: BaseStylesConfig.green,
+          activeColor: AppColors.green,
           onChanged: (value) {
             item.value.isOpen = value;
             item.refresh();
@@ -841,7 +837,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                               EdgeInsets.only(right: 15, top: 10, bottom: 10),
                           child: Icon(
                             Icons.arrow_forward_ios,
-                            color: BaseStylesConfig.textBlack,
+                            color: AppColors.textBlack,
                             size: 18,
                           ),
                         ),
@@ -954,7 +950,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                             right: 13.w, top: 8.w, bottom: 8.w, left: 10.w),
                         child: const Icon(
                           Icons.arrow_forward_ios,
-                          color: BaseStylesConfig.textBlack,
+                          color: AppColors.textBlack,
                           size: 15,
                         ),
                       ),
@@ -981,8 +977,8 @@ class ForecastParcelView extends GetView<ForecastController> {
                                   ? Icons.remove_circle
                                   : Icons.remove_circle,
                               color: model.value.qty == 1
-                                  ? BaseStylesConfig.textGray
-                                  : BaseStylesConfig.primary,
+                                  ? AppColors.textGray
+                                  : AppColors.primary,
                               size: 35,
                             ),
                           ),
@@ -1011,7 +1007,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                       child: IconButton(
                           icon: const Icon(
                             Icons.add_circle,
-                            color: BaseStylesConfig.primary,
+                            color: AppColors.primary,
                             size: 35,
                           ),
                           onPressed: () {
@@ -1062,14 +1058,14 @@ class ForecastParcelView extends GetView<ForecastController> {
                         }
                       },
                       icon: const Icon(Icons.delete_outline,
-                          color: BaseStylesConfig.textGrayC),
-                      label: ZHTextLine(
+                          color: AppColors.textGrayC),
+                      label: AppText(
                         str: '删除'.ts,
-                        color: BaseStylesConfig.textGrayC,
+                        color: AppColors.textGrayC,
                       ),
                     ),
                   )
-                : Sized.empty
+                : AppGaps.empty
           ],
         ),
       ),
@@ -1080,7 +1076,7 @@ class ForecastParcelView extends GetView<ForecastController> {
     List<PickerItem> data = [];
     for (var item in list) {
       var containe = PickerItem(
-        text: ZHTextLine(
+        text: AppText(
           fontSize: 24,
           str: item.name,
         ),

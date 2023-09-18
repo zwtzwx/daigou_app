@@ -1,9 +1,5 @@
-import 'dart:async';
 import 'dart:core';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/services/announcement_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,7 +53,7 @@ class H5View extends GetView<WebviewController> {
                     margin: const EdgeInsets.only(right: 15),
                     alignment: Alignment.centerRight,
                     height: 60,
-                    child: ZHTextLine(
+                    child: AppText(
                       str: controller.time.value ?? '',
                     ),
                   )
@@ -72,7 +68,7 @@ class H5View extends GetView<WebviewController> {
           iconTheme: const IconThemeData(
             color: Colors.black, //修改颜色
           ),
-          title: ZHTextLine(
+          title: AppText(
             str: controller.title.value ?? '',
             fontSize: 18,
             fontWeight: FontWeight.w400,

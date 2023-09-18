@@ -8,6 +8,7 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/cart_count_refresh_event.dart';
+import 'package:jiyun_app_client/events/change_goods_info_event.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/shop/goods_sku_model.dart';
 import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
@@ -44,6 +45,14 @@ class GoodsDetailController extends BaseController {
     }
     getGoodsDetail();
     getWarehouse();
+    ApplicationEvent.getInstance()
+        .event
+        .on<ChangeGoodsInfoEvent>()
+        .listen((event) {
+      isPlatformGoods.value = true;
+      platformGoodsUrl = event.url;
+      getGoodsDetail();
+    });
   }
 
   @override
@@ -257,7 +266,7 @@ class GoodsDetailController extends BaseController {
       adapter: PickerDataAdapter(
           data: warehouseList
               .map((ele) => PickerItem(
-                    text: ZHTextLine(
+                    text: AppText(
                       fontSize: 16,
                       str: ele.warehouseName!,
                     ),

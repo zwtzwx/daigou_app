@@ -24,14 +24,14 @@ class CouponPage extends GetView<CouponController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '优惠券'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 18,
         ),
         bottom: TabBar(
-            labelColor: BaseStylesConfig.primary,
-            indicatorColor: BaseStylesConfig.primary,
+            labelColor: AppColors.primary,
+            indicatorColor: AppColors.primary,
             controller: controller.tabController,
             onTap: (int index) {
               controller.pageController.jumpToPage(index);
@@ -39,13 +39,13 @@ class CouponPage extends GetView<CouponController> {
             tabs: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: ZHTextLine(
+                child: AppText(
                   str: '可用'.ts,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: ZHTextLine(
+                child: AppText(
                   str: '不可用'.ts,
                 ),
               ),
@@ -54,15 +54,15 @@ class CouponPage extends GetView<CouponController> {
       bottomNavigationBar: Obx(
         () => controller.canSelect.value
             ? Container(
-                color: BaseStylesConfig.white,
+                color: AppColors.white,
                 padding: const EdgeInsets.only(right: 20, top: 10, bottom: 10),
                 child: SafeArea(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      ZHTextLine(str: '可抵扣'.ts + '：'),
-                      ZHTextLine(
-                          color: BaseStylesConfig.textRed,
+                      AppText(str: '可抵扣'.ts + '：'),
+                      AppText(
+                          color: AppColors.textRed,
                           str: controller.selectCoupon.value?.coupon
                                       ?.discountType ==
                                   2
@@ -97,9 +97,9 @@ class CouponPage extends GetView<CouponController> {
                   ),
                 ),
               )
-            : Sized.empty,
+            : AppGaps.empty,
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: PageView.builder(
           itemCount: 2,
           controller: controller.pageController,
@@ -158,9 +158,14 @@ class CouponsListState extends State<CouponsList> {
     Map<String, dynamic> params1 = {
       "page": (++pageIndex),
       "available": widget.params['selectType'] == 0 ? '1' : '0', // 1可用 0不可用
-      "express_line_id": widget.params['lineId'], // 线路ID
-      "amount": widget.params['amount'], // 现金
     };
+
+    if ((widget.params['lineId'] ?? '').isNotEmpty) {
+      params1.addAll({
+        "express_line_id": widget.params['lineId'], // 线路ID
+        "amount": widget.params['amount'], // 现金
+      });
+    }
 
     var data = await CouponService.getList(params1);
 
@@ -216,13 +221,13 @@ class CouponsListState extends State<CouponsList> {
                           child: Container(
                             alignment: Alignment.center,
                             height: 45,
-                            child: ZHTextLine(
+                            child: AppText(
                               str: model.coupon?.discountType == 2
                                   ? ((model.coupon?.weight ?? 0) / 1000)
                                           .toStringAsFixed(2) +
                                       (localizationInfo?.weightSymbol ?? '')
                                   : (model.coupon?.amount ?? 0).rate(),
-                              color: BaseStylesConfig.white,
+                              color: AppColors.white,
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                             ),
@@ -235,7 +240,7 @@ class CouponsListState extends State<CouponsList> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  ZHTextLine(
+                                  AppText(
                                     alignment: TextAlign.left,
                                     str: '满{price}可用'.tsArgs({
                                       'price': model.coupon?.discountType == 2
@@ -247,11 +252,11 @@ class CouponsListState extends State<CouponsList> {
                                           : (model.coupon?.threshold ?? 0)
                                               .rate()
                                     }),
-                                    color: BaseStylesConfig.white,
+                                    color: AppColors.white,
                                     fontSize: 17,
                                     // fontWeight: FontWeight.bold,
                                   ),
-                                  ZHTextLine(
+                                  AppText(
                                     alignment: TextAlign.left,
                                     str: model.coupon != null
                                         ? model.coupon!.effectedAt
@@ -260,7 +265,7 @@ class CouponsListState extends State<CouponsList> {
                                             model.coupon!.expiredAt
                                                 .substring(0, 10)
                                         : '',
-                                    color: BaseStylesConfig.white,
+                                    color: AppColors.white,
                                     fontSize: 15,
                                     // fontWeight: FontWeight.bold,
                                   ),
@@ -273,7 +278,7 @@ class CouponsListState extends State<CouponsList> {
                   Container(
                     width: ScreenUtil().screenWidth - 60.w,
                     alignment: Alignment.center,
-                    child: ZHTextLine(
+                    child: AppText(
                       alignment: TextAlign.left,
                       str: '适用范围'.ts +
                           '：' +
@@ -283,7 +288,7 @@ class CouponsListState extends State<CouponsList> {
                                       .join(',') ??
                                   ''
                               : '全部范围'.ts),
-                      color: BaseStylesConfig.white,
+                      color: AppColors.white,
                       fontSize: 15,
                       // fontWeight: FontWeight.bold,
                     ),
@@ -299,7 +304,7 @@ class CouponsListState extends State<CouponsList> {
                         decoration: BoxDecoration(
                           color: widget.params['selectType'] == 0
                               ? const Color(0xFFffcc7e)
-                              : BaseStylesConfig.textGray,
+                              : AppColors.textGray,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(17.5)),
                           // border: new Border.all(width: 1, color: Colors.white),
@@ -310,15 +315,15 @@ class CouponsListState extends State<CouponsList> {
                                   (states) => Colors.transparent),
                             ),
                             onPressed: () {},
-                            child: ZHTextLine(
+                            child: AppText(
                               str: (widget.params['selectCoupon'] != null &&
                                       widget.params['selectCoupon'].id ==
                                           model.id)
                                   ? '取消使用'.ts
                                   : model.coupon?.name ?? '',
                               color: widget.params['selectType'] == 0
-                                  ? BaseStylesConfig.textRed
-                                  : BaseStylesConfig.white,
+                                  ? AppColors.textRed
+                                  : AppColors.white,
                             )),
                       )
                     ],

@@ -12,7 +12,11 @@ class GoodsSkuModel {
 
   GoodsSkuModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    skuId = json['sku_id'];
+    if (json['sku_id'] is num) {
+      skuId = json['sku_id'].toString();
+    } else {
+      skuId = json['sku_id'];
+    }
     if (json['quantity'] is String) {
       quantity = int.parse(json['quantity']);
     } else {

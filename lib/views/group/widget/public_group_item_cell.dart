@@ -19,7 +19,7 @@ class PublicGroupItemCell extends StatelessWidget {
   final CoordinateModel? coordinate;
 
   void _toGroupDetail(BuildContext context) {
-    Routers.push(Routers.goodsDetail, {'id': model.id});
+    Routers.push(Routers.groupDetail, {'id': model.id});
   }
 
   @override
@@ -45,15 +45,15 @@ class PublicGroupItemCell extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ZHTextLine(
+            AppText(
               str: model.code ?? model.orderSn ?? '',
               fontWeight: FontWeight.bold,
             ),
-            Sized.vGap10,
+            AppGaps.vGap10,
             Row(
               children: [
                 Expanded(
-                  child: ZHTextLine(
+                  child: AppText(
                     str: model.leader?.name ?? '',
                   ),
                 ),
@@ -62,14 +62,14 @@ class PublicGroupItemCell extends StatelessWidget {
                         startPosition: coordinate!,
                         endPosition: model.coordinate!,
                       )
-                    : Sized.empty,
+                    : AppGaps.empty,
               ],
             ),
-            Sized.vGap10,
-            Sized.line,
+            AppGaps.vGap10,
+            AppGaps.line,
             Padding(
               padding: const EdgeInsets.only(top: 15, bottom: 10),
-              child: ZHTextLine(
+              child: AppText(
                 str: model.name!,
                 fontWeight: FontWeight.bold,
                 lines: 2,
@@ -84,14 +84,14 @@ class PublicGroupItemCell extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ZHTextLine(
+                  AppText(
                     str: model.warehouseName ?? '',
                   ),
                   Column(
                     children: [
-                      ZHTextLine(
+                      AppText(
                         str: model.expressLine?.referenceTime ?? '',
-                        color: BaseStylesConfig.green,
+                        color: AppColors.green,
                         fontSize: 12,
                       ),
                       const Padding(
@@ -102,14 +102,14 @@ class PublicGroupItemCell extends StatelessWidget {
                           width: 100,
                         ),
                       ),
-                      ZHTextLine(
+                      AppText(
                         str: model.expressLine?.name ?? '',
-                        color: BaseStylesConfig.groupText,
+                        color: AppColors.groupText,
                         fontSize: 10,
                       )
                     ],
                   ),
-                  ZHTextLine(
+                  AppText(
                     str: model.country ?? '',
                   ),
                 ],
@@ -119,16 +119,16 @@ class PublicGroupItemCell extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
               child: Row(
                 children: [
-                  ZHTextLine(
+                  AppText(
                     str: '地址'.ts,
-                    color: BaseStylesConfig.textGrayC,
+                    color: AppColors.textGrayC,
                     fontSize: 13,
                   ),
-                  Sized.hGap10,
+                  AppGaps.hGap10,
                   Expanded(
                     child: Container(
                       alignment: Alignment.centerRight,
-                      child: ZHTextLine(
+                      child: AppText(
                         str: (model.address!.area != null
                                 ? '${model.address!.area!.name} '
                                 : '') +
@@ -144,25 +144,25 @@ class PublicGroupItemCell extends StatelessWidget {
                 ],
               ),
             ),
-            Sized.line,
+            AppGaps.line,
             Container(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ZHTextLine(
+                  AppText(
                     str: '截团时间'.ts,
-                    color: BaseStylesConfig.textGrayC,
+                    color: AppColors.textGrayC,
                     fontSize: 13,
                   ),
-                  ZHTextLine(
+                  AppText(
                     str: model.endTime ?? '',
                     fontSize: 13,
                   ),
                 ],
               ),
             ),
-            Sized.line,
+            AppGaps.line,
             Row(
               children: [
                 Expanded(
@@ -189,8 +189,8 @@ class PublicGroupItemCell extends StatelessWidget {
                           }).toList(),
                         ),
                       ),
-                      Sized.hGap5,
-                      ZHTextLine(
+                      AppGaps.hGap5,
+                      AppText(
                         str: '已有{count}人加入此团'
                             .tsArgs({'count': model.membersCount.toString()}),
                         fontSize: 13,
@@ -203,7 +203,7 @@ class PublicGroupItemCell extends StatelessWidget {
                   fontSize: 14,
                   borderRadis: 999,
                   fontWeight: FontWeight.bold,
-                  backgroundColor: BaseStylesConfig.primary,
+                  backgroundColor: AppColors.primary,
                   onPressed: () {
                     _toGroupDetail(context);
                   },

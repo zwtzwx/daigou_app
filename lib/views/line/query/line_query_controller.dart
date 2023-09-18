@@ -88,7 +88,7 @@ class LineQueryController extends BaseController {
     return list
         .map(
           (e) => PickerItem(
-            text: ZHTextLine(
+            text: AppText(
               fontSize: 24,
               str: e.warehouseName ?? '',
             ),

@@ -2,9 +2,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/services/localization_service.dart';
 
 class BaseController extends GetxController {
   final currencyModel = Get.find<UserInfoModel>().currencyModel;

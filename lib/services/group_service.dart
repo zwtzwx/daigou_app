@@ -1,5 +1,4 @@
 import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/coordinate_model.dart';
 import 'package:jiyun_app_client/models/group_model.dart';
 import 'package:jiyun_app_client/models/group_order_model.dart';

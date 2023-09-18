@@ -11,7 +11,6 @@ import 'package:jiyun_app_client/models/payment_setting_model.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/input/base_input.dart';
-import 'package:jiyun_app_client/views/components/input/normal_input.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/payment/transfer_payment/controller.dart';
 
@@ -26,14 +25,14 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '转账支付'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(controller.blankNode);
@@ -47,7 +46,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
               padding: const EdgeInsets.only(
                   top: 10, left: 15, right: 15, bottom: 10),
               decoration: const BoxDecoration(
-                color: BaseStylesConfig.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               child: Column(
@@ -69,7 +68,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                 margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
                 padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
                 decoration: const BoxDecoration(
-                  color: BaseStylesConfig.white,
+                  color: AppColors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 child: Column(
@@ -98,13 +97,13 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                             alignment: Alignment.centerLeft,
                             height: 50,
                             width: 100,
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '转账账号'.ts,
                               fontSize: 14,
                             ),
                           ),
                           Container(
-                            color: BaseStylesConfig.bgGray,
+                            color: AppColors.bgGray,
                             alignment: Alignment.centerLeft,
                             height: 50,
                             width: ScreenUtil().screenWidth - 60 - 100,
@@ -126,7 +125,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                         ],
                       ),
                     ),
-                    Sized.line,
+                    AppGaps.line,
                     uploadPhoto(),
                   ],
                 ),
@@ -190,7 +189,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
       child: Stack(children: <Widget>[
         url.isNotEmpty
             ? Container(
-                color: BaseStylesConfig.bgGray,
+                color: AppColors.bgGray,
                 height: (ScreenUtil().screenWidth - 60 - 15) / 4,
                 width: (ScreenUtil().screenWidth - 60 - 15) / 4,
                 child: LoadImage(
@@ -200,16 +199,16 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
               )
             : Container(
                 alignment: Alignment.center,
-                color: BaseStylesConfig.bgGray,
+                color: AppColors.bgGray,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const Icon(
                       Icons.add,
                       size: 30,
-                      color: BaseStylesConfig.textGray,
+                      color: AppColors.textGray,
                     ),
-                    ZHTextLine(
+                    AppText(
                       str: '添加图片'.ts,
                       fontSize: 10,
                     )
@@ -229,11 +228,11 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                     },
                     child: Container(
                       decoration: const BoxDecoration(
-                          color: BaseStylesConfig.textGrayC,
+                          color: AppColors.textGrayC,
                           borderRadius: BorderRadius.all(Radius.circular(7))),
                       child: const Icon(
                         Icons.close,
-                        color: BaseStylesConfig.white,
+                        color: AppColors.white,
                         size: 18,
                       ),
                     ))
@@ -310,7 +309,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                     alignment: Alignment.centerLeft,
                     height: 50,
                     width: 100,
-                    child: ZHTextLine(
+                    child: AppText(
                       str: model.name,
                       fontSize: 14,
                     ),
@@ -319,7 +318,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                     alignment: Alignment.centerLeft,
                     height: 50,
                     width: 160,
-                    child: ZHTextLine(
+                    child: AppText(
                       str: model.content,
                       fontSize: 14,
                     ),
@@ -336,9 +335,9 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                 padding: const EdgeInsets.only(
                     top: 5, bottom: 5, right: 10, left: 10),
                 decoration: const BoxDecoration(
-                    color: BaseStylesConfig.primary,
+                    color: AppColors.primary,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
-                child: ZHTextLine(
+                child: AppText(
                   str: '复制'.ts,
                   fontSize: 13,
                 ),
@@ -382,7 +381,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                     alignment: Alignment.centerLeft,
                     height: 50,
                     width: 100,
-                    child: ZHTextLine(
+                    child: AppText(
                       str: listTitle[i].ts,
                       fontSize: 14,
                     ),
@@ -391,11 +390,9 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                     alignment: Alignment.centerLeft,
                     height: 50,
                     width: 160,
-                    child: ZHTextLine(
+                    child: AppText(
                       str: listContent[i],
-                      color: i == 1
-                          ? BaseStylesConfig.textRed
-                          : BaseStylesConfig.textBlack,
+                      color: i == 1 ? AppColors.textRed : AppColors.textBlack,
                       fontSize: 14,
                     ),
                   ),
@@ -412,9 +409,9 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                       padding: const EdgeInsets.only(
                           top: 5, bottom: 5, right: 10, left: 10),
                       decoration: const BoxDecoration(
-                          color: BaseStylesConfig.primary,
+                          color: AppColors.primary,
                           borderRadius: BorderRadius.all(Radius.circular(5))),
-                      child: ZHTextLine(
+                      child: AppText(
                         str: '复制'.ts,
                         fontSize: 13,
                       ),
@@ -436,7 +433,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
           Container(
             alignment: Alignment.centerLeft,
             width: 100,
-            child: ZHTextLine(
+            child: AppText(
               str: '温馨提示'.ts,
               fontSize: 14,
               lines: 2,
@@ -444,7 +441,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
           ),
           Container(
             alignment: Alignment.centerLeft,
-            child: ZHTextLine(
+            child: AppText(
               lines: 99,
               str: controller.payModel.value!.remark,
               fontSize: 14,

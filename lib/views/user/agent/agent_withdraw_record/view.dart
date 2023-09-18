@@ -20,14 +20,14 @@ class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
           color: Colors.black,
         ),
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '成交记录'.ts,
           fontSize: 18,
         ),
         elevation: 0.5,
         backgroundColor: Colors.white,
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: ListRefresh(
         renderItem: renderItem,
         refresh: controller.loadData,
@@ -42,7 +42,7 @@ class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
       child: Obx(
         () => ExpansionPanelList(
           elevation: 0,
-          dividerColor: BaseStylesConfig.line,
+          dividerColor: AppColors.line,
           expansionCallback: (index, open) {
             if (open) {
               controller.dataList.remove(model.createdAt);
@@ -58,27 +58,27 @@ class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ZHTextLine(
+                      AppText(
                         str: model.createdAt.split(' ')[0],
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          ZHTextLine(
+                          AppText(
                             str: '{count}元'.tsArgs({
                               'count':
                                   model.orderAmount.rate(showPriceSymbol: false)
                             }),
-                            color: BaseStylesConfig.textGray,
+                            color: AppColors.textGray,
                           ),
-                          ZHTextLine(
+                          AppText(
                             str: '佣金'.ts +
                                 '：+' +
                                 '{count}元'.tsArgs({
                                   'count': model.commissionAmount
                                       .rate(showPriceSymbol: false)
                                 }),
-                            color: BaseStylesConfig.textGray,
+                            color: AppColors.textGray,
                           ),
                         ],
                       ),
@@ -111,36 +111,36 @@ class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
   Widget buildCommissionList(AgentCommissionsModel model) {
     return Column(
       children: [
-        Sized.vGap5,
+        AppGaps.vGap5,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ZHTextLine(
+            AppText(
               str: model.createdAt.split(' ')[1],
               fontSize: 13,
             ),
-            ZHTextLine(
+            AppText(
               str: model.orderAmount.rate(showPriceSymbol: false) + '元',
               fontSize: 13,
-              color: BaseStylesConfig.textGray,
+              color: AppColors.textGray,
             ),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ZHTextLine(
+            AppText(
               str: '转运单号'.ts + '：' + model.orderNumber,
               fontSize: 13,
             ),
-            ZHTextLine(
+            AppText(
               str: '佣金'.ts +
                   '：+' +
                   '{count}元'.tsArgs({
                     'count': model.commissionAmount.rate(showPriceSymbol: false)
                   }),
               fontSize: 13,
-              color: BaseStylesConfig.textGray,
+              color: AppColors.textGray,
             ),
           ],
         ),

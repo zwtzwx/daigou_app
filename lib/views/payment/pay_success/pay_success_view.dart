@@ -17,7 +17,7 @@ class PaySuccessView extends GetView<PaySuccessController> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '支付成功'.ts,
           fontSize: 17,
         ),
@@ -36,7 +36,7 @@ class PaySuccessView extends GetView<PaySuccessController> {
                 width: 150.w,
               ),
               10.verticalSpace,
-              ZHTextLine(
+              AppText(
                 str: '支付成功'.ts,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -48,7 +48,7 @@ class PaySuccessView extends GetView<PaySuccessController> {
                   height: 32.h,
                   child: PlainButton(
                     borderRadis: 999,
-                    textColor: BaseStylesConfig.textDark,
+                    textColor: AppColors.textDark,
                     text: controller.isShopOrder.value ? '继续逛逛' : '返回',
                     onPressed: controller.onShopCenter,
                   ),

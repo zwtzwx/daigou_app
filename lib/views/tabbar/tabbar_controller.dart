@@ -5,11 +5,8 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/cart_count_refresh_event.dart';
 import 'package:jiyun_app_client/events/change_page_index_event.dart';
-import 'package:jiyun_app_client/events/notice_refresh_event.dart';
 import 'package:jiyun_app_client/events/un_authenticate_event.dart';
-import 'package:jiyun_app_client/firebase/notification.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 
@@ -24,7 +21,7 @@ class TabbarController extends BaseController {
   void onInit() {
     super.onInit();
     // 初始化 notification
-    Notifications.initialized();
+    // Notifications.initialized();
     if (Get.arguments is Map && Get.arguments['index'] != null) {
       selectIndex.value = Get.arguments['index'];
       // pageController.jumpToPage(Get.arguments['index']);

@@ -27,15 +27,15 @@ class NoOwnerParcelDetailView extends GetView<NoOwnerParcelDetailController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '异常件认领'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       bottomNavigationBar: SafeArea(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -70,7 +70,7 @@ class NoOwnerParcelDetailView extends GetView<NoOwnerParcelDetailController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  ZHTextLine(
+                  AppText(
                     alignment: TextAlign.left,
                     str: controller.headerStr.value,
                   ),
@@ -88,7 +88,7 @@ class NoOwnerParcelDetailView extends GetView<NoOwnerParcelDetailController> {
                       controller.courierNumber.value = res;
                     },
                   )),
-                  ZHTextLine(
+                  AppText(
                     str: controller.footerStr.value,
                   ),
                   10.horizontalSpace,
@@ -111,7 +111,7 @@ class NoOwnerParcelDetailView extends GetView<NoOwnerParcelDetailController> {
                     width: 100,
                     child: Switch.adaptive(
                       value: controller.flag.value,
-                      activeColor: BaseStylesConfig.primary,
+                      activeColor: AppColors.primary,
                       onChanged: (value) {
                         controller.flag.value = value;
                       },
@@ -153,8 +153,7 @@ class NoOwnerParcelDetailView extends GetView<NoOwnerParcelDetailController> {
                                             controller
                                                 .syncsList[index].expressNum!,
                                             style: const TextStyle(
-                                                color:
-                                                    BaseStylesConfig.textDark)),
+                                                color: AppColors.textDark)),
                                       ],
                                     ),
                                   ),

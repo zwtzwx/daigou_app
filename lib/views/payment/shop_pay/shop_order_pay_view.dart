@@ -24,7 +24,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '订单支付'.ts,
           fontSize: 17,
         ),
@@ -50,7 +50,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                       text: TextSpan(
                         style: TextStyle(
                           fontSize: 12.sp,
-                          color: BaseStylesConfig.textDark,
+                          color: AppColors.textDark,
                         ),
                         children: [
                           TextSpan(text: '总计'.ts + '：'),
@@ -59,7 +59,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                                 controller.totalAmount.rate(needFormat: false),
                             style: TextStyle(
                               fontSize: 16.sp,
-                              color: BaseStylesConfig.textRed,
+                              color: AppColors.textRed,
                             ),
                           ),
                         ],
@@ -70,13 +70,13 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                       children: [
                         Icon(
                           Icons.info_outline,
-                          color: BaseStylesConfig.textGrayC9,
+                          color: AppColors.textGrayC9,
                           size: 18.sp,
                         ),
                         2.horizontalSpace,
-                        ZHTextLine(
+                        AppText(
                           str: '不含国际运费'.ts,
-                          color: BaseStylesConfig.textGrayC9,
+                          color: AppColors.textGrayC9,
                           fontSize: 10,
                         ),
                       ],
@@ -97,7 +97,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
           ],
         )),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -127,7 +127,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20.sp,
-                              color: BaseStylesConfig.textDark,
+                              color: AppColors.textDark,
                             ),
                           ),
                           TextSpan(
@@ -143,7 +143,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 36.sp,
-                              color: BaseStylesConfig.textDark,
+                              color: AppColors.textDark,
                             ),
                           ),
                         ]),
@@ -154,13 +154,13 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                               total: controller.endUtil.value,
                               orderPay: true,
                             )
-                          : Sized.empty,
+                          : AppGaps.empty,
                       10.verticalSpace,
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          ZHTextLine(
+                          AppText(
                             str: '${'余额'.ts}：' +
                                 controller.myBalance.value
                                     .rate(needFormat: false),
@@ -171,7 +171,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                             },
                             child: Row(
                               children: <Widget>[
-                                ZHTextLine(
+                                AppText(
                                   str: '充值'.ts,
                                 ),
                                 const Icon(
@@ -240,7 +240,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                     width: 30.w,
                     child: Image.asset(controller.getPayTypeIcon(typeMap.name)),
                   ),
-                  ZHTextLine(
+                  AppText(
                     str: Util.getPayTypeName(typeMap.name),
                   ),
                 ],
@@ -248,10 +248,10 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
               Obx(() => controller.selectedPayType.value == typeMap
                   ? const Icon(
                       Icons.check_circle,
-                      color: BaseStylesConfig.green,
+                      color: AppColors.green,
                     )
                   : const Icon(Icons.radio_button_unchecked,
-                      color: BaseStylesConfig.textGray)),
+                      color: AppColors.textGray)),
             ],
           ),
         ));

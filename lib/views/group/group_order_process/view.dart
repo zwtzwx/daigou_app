@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
@@ -21,12 +22,12 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
         elevation: 0.5,
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '团单进度'.ts,
           fontSize: 17,
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       bottomNavigationBar: Obx(
         () => ((controller.orderModel.value?.status == 2 ||
                     controller.orderModel.value?.status == 12) &&
@@ -43,12 +44,19 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
                       text: controller.orderModel.value?.status == 2
                           ? '立即支付'
                           : '重新支付',
-                      onPressed: () {},
+                      onPressed: () {
+                        Routers.push(Routers.transportPay, {
+                          'id': controller.orderModel.value!.id,
+                          'payModel': 1,
+                          'deliveryStatus': 1,
+                          'isLeader': 1
+                        });
+                      },
                     ),
                   ],
                 )),
               )
-            : Sized.empty,
+            : AppGaps.empty,
       ),
       body: Obx(() => controller.orderModel.value != null
           ? SingleChildScrollView(
@@ -66,13 +74,13 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ZHTextLine(
+                        AppText(
                           str: controller.orderModel.value!.orderSn,
                         ),
                         Text.rich(
                           TextSpan(
                             style: const TextStyle(
-                              color: BaseStylesConfig.textBlack,
+                              color: AppColors.textBlack,
                             ),
                             children: [
                               TextSpan(
@@ -110,12 +118,12 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
                         ),
                       ],
                     ),
-                    Sized.vGap15,
-                    Sized.line,
+                    AppGaps.vGap15,
+                    AppGaps.line,
                     ...controller.orderModel.value!.subOrders!
                         .map((e) => orderItemCell(e))
                         .toList(),
-                    Sized.vGap10,
+                    AppGaps.vGap10,
                     controller.orderModel.value!.status == 1
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,10 +157,12 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
                                 isWeight: false,
                               ),
                               infoItemCell(
-                                  '全团合计出库箱数',
-                                  (controller.orderModel.value!.packagesCount ??
-                                          0)
-                                      .toString()),
+                                '全团合计出库箱数',
+                                (controller.orderModel.value!.packagesCount ??
+                                        0)
+                                    .toString(),
+                                isWeight: false,
+                              ),
                               infoItemCell(
                                   '全团计费重量',
                                   (controller.orderModel.value!
@@ -173,7 +183,7 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
                                               0)
                                           .rate(),
                                       style: const TextStyle(
-                                        color: BaseStylesConfig.textRed,
+                                        color: AppColors.textRed,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -186,7 +196,7 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
                 ),
               ),
             )
-          : Sized.empty),
+          : AppGaps.empty),
     );
   }
 
@@ -198,14 +208,14 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
           TextSpan(
             text: label.ts + '*：',
             style: const TextStyle(
-              color: BaseStylesConfig.textGray,
+              color: AppColors.textGray,
             ),
           ),
           TextSpan(
             text: content +
                 (isWeight ? (controller.localModel?.weightSymbol ?? '') : ''),
             style: const TextStyle(
-              color: BaseStylesConfig.textDark,
+              color: AppColors.textDark,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -219,7 +229,7 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
       padding: const EdgeInsets.only(top: 10, bottom: 20),
       decoration: const BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: BaseStylesConfig.line),
+          bottom: BorderSide(color: AppColors.line),
         ),
       ),
       child: Row(
@@ -238,7 +248,7 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str: model.user?.name ?? '',
                     ),
                     controller.orderModel.value!.status == 1 ||
@@ -247,15 +257,15 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
                             controller.orderModel.value!.status == 4
                         ? getSubOrderStatusName(
                             model.status, model.groupBuyingStatus)
-                        : Sized.empty,
+                        : AppGaps.empty,
                   ],
                 ),
-                Sized.vGap10,
+                AppGaps.vGap10,
                 ...model.packages
                     .map(
                       (e) => Padding(
                         padding: const EdgeInsets.only(bottom: 3),
-                        child: ZHTextLine(
+                        child: AppText(
                           str: e.expressNum ?? '',
                         ),
                       ),
@@ -263,10 +273,10 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
                     .toList(),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5),
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '拼团订单号'.ts + '：' + model.orderSn,
                     lines: 2,
-                    color: BaseStylesConfig.textGray,
+                    color: AppColors.textGray,
                   ),
                 ),
                 controller.orderModel.value!.status == 1
@@ -275,31 +285,31 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '入库重量'.ts +
                                   '：' +
                                   ((model.exceptWeight ?? 0) / 1000)
                                       .toStringAsFixed(2) +
                                   (controller.localModel?.weightSymbol ?? ''),
                               lines: 2,
-                              color: BaseStylesConfig.textGray,
+                              color: AppColors.textGray,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '入库体积重量'.ts +
                                   '：' +
                                   ((model.exceptVolumeWeight ?? 0) / 1000)
                                       .toStringAsFixed(2) +
                                   (controller.localModel?.weightSymbol ?? ''),
                               lines: 2,
-                              color: BaseStylesConfig.textGray,
+                              color: AppColors.textGray,
                             ),
                           ),
                         ],
                       )
-                    : Sized.empty,
+                    : AppGaps.empty,
                 controller.orderModel.value!.status! > 1 &&
                         model.groupBuyingStatus == 1
                     ? Column(
@@ -307,51 +317,51 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '出库箱数'.ts +
                                   '：' +
                                   (model.boxesCount ?? 0).toString(),
                               lines: 2,
-                              color: BaseStylesConfig.textGray,
+                              color: AppColors.textGray,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '计费重量'.ts +
                                   '：' +
                                   (model.paymentWeight / 1000)
                                       .toStringAsFixed(2) +
                                   (controller.localModel?.weightSymbol ?? ''),
                               lines: 2,
-                              color: BaseStylesConfig.textGray,
+                              color: AppColors.textGray,
                             ),
                           ),
                         ],
                       )
-                    : Sized.empty,
+                    : AppGaps.empty,
                 controller.orderModel.value!.status! > 1
                     ? Row(
                         children: [
-                          ZHTextLine(
+                          AppText(
                             str: '应付'.ts + '：',
                           ),
-                          ZHTextLine(
+                          AppText(
                             str: model.actualPaymentFee.rate(),
-                            color: BaseStylesConfig.textRed,
+                            color: AppColors.textRed,
                             fontWeight: FontWeight.bold,
                           ),
-                          // Sized.hGap5,
+                          // AppGaps.hGap5,
                           // GestureDetector(
                           //   child: const Icon(
                           //     Icons.info_outline,
-                          //     color: BaseStylesConfig.green,
+                          //     color: AppColors.green,
                           //     size: 20,
                           //   ),
                           // ),
                         ],
                       )
-                    : Sized.empty,
+                    : AppGaps.empty,
               ],
             ),
           ),
@@ -364,21 +374,19 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
     Widget widget;
     if (controller.orderModel.value!.status == 1) {
       widget = groupBuyingStatus == 1
-          ? ZHTextLine(
+          ? AppText(
               str: '已打包'.ts,
             )
-          : ZHTextLine(
+          : AppText(
               str: '未打包'.ts,
-              color: BaseStylesConfig.textRed,
+              color: AppColors.textRed,
             );
     } else if (controller.orderModel.value!.status == 2) {
       widget = Text.rich(TextSpan(children: [
         TextSpan(
           text: (status == 2 ? '待支付' : '已支付').ts,
           style: TextStyle(
-            color: status == 2
-                ? BaseStylesConfig.textRed
-                : BaseStylesConfig.textGray,
+            color: status == 2 ? AppColors.textRed : AppColors.textGray,
           ),
         ),
         TextSpan(
@@ -391,9 +399,9 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
         ),
       ]));
     } else {
-      widget = ZHTextLine(
+      widget = AppText(
         str: (status == 4 ? '未签收' : '已签收').ts,
-        color: status == 4 ? BaseStylesConfig.textGray : Colors.black,
+        color: status == 4 ? AppColors.textGray : Colors.black,
       );
     }
     return widget;

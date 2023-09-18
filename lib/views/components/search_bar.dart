@@ -50,7 +50,7 @@ class SearchBarWidgetState extends State<SearchBar> {
       height: 30,
       child: TextField(
         textAlign: TextAlign.start,
-        cursorColor: BaseStylesConfig.textGray,
+        cursorColor: AppColors.textGray,
         focusNode: widget.focusNode,
         controller: widget.controller,
         autofocus: false,
@@ -84,7 +84,7 @@ class SearchBarWidgetState extends State<SearchBar> {
           filled: false,
           hintText: '输入关键字查询'.ts,
           hintStyle: TextConfig.textGray14,
-          fillColor: BaseStylesConfig.bgGray,
+          fillColor: AppColors.bgGray,
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.circular(6),
@@ -100,8 +100,8 @@ class SearchBarWidgetState extends State<SearchBar> {
       width: 70,
       margin: const EdgeInsets.only(right: 10),
       child: RawMaterialButton(
-        fillColor: BaseStylesConfig.primary,
-        child: ZHTextLine(
+        fillColor: AppColors.primary,
+        child: AppText(
           str: '搜索'.ts,
           color: Colors.white,
         ),
@@ -118,7 +118,7 @@ class SearchBarWidgetState extends State<SearchBar> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-      color: BaseStylesConfig.white,
+      color: AppColors.white,
       alignment: Alignment.center,
       child: _searchPanel(),
     );

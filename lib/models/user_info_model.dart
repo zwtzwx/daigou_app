@@ -1,4 +1,3 @@
-import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/models/currency_rate_model.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';

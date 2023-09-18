@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/shop/consult_model.dart';
-import 'package:jiyun_app_client/models/shop/problem_order_model.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/input/base_input.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
@@ -20,7 +18,7 @@ class ShopChatDetailView extends GetView<ShopOrderChatDetailController> {
       appBar: AppBar(
         centerTitle: true,
         title: Obx(
-          () => ZHTextLine(
+          () => AppText(
             str: '订单'.ts + (controller.order.value?.orderSn ?? ''),
             fontSize: 17,
           ),
@@ -63,7 +61,7 @@ class ShopChatDetailView extends GetView<ShopOrderChatDetailController> {
                 onTap: controller.onSendMessage,
                 child: Icon(
                   Icons.send_rounded,
-                  color: BaseStylesConfig.textDark,
+                  color: AppColors.textDark,
                   size: 30.sp,
                 ),
               ),
@@ -89,10 +87,10 @@ class ShopChatDetailView extends GetView<ShopOrderChatDetailController> {
       children: [
         Container(
           padding: EdgeInsets.symmetric(vertical: 10.h),
-          child: ZHTextLine(
+          child: AppText(
             str: time,
             fontSize: 10,
-            color: BaseStylesConfig.textGrayC9,
+            color: AppColors.textGrayC9,
           ),
         ),
         ...message.map(
@@ -107,7 +105,7 @@ class ShopChatDetailView extends GetView<ShopOrderChatDetailController> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          ZHTextLine(
+                          AppText(
                             str: e.nickName ?? '',
                             fontSize: 14,
                           ),
@@ -154,7 +152,7 @@ class ShopChatDetailView extends GetView<ShopOrderChatDetailController> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ZHTextLine(
+                          AppText(
                             str: e.nickName ?? '',
                             fontSize: 14,
                           ),
@@ -168,7 +166,7 @@ class ShopChatDetailView extends GetView<ShopOrderChatDetailController> {
                                   horizontal: 8.w, vertical: 9.h),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.r),
-                                color: BaseStylesConfig.bgGray,
+                                color: AppColors.bgGray,
                               ),
                               child: Text(
                                 e.content ?? '',

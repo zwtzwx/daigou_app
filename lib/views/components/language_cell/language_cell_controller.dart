@@ -56,7 +56,7 @@ class LanguageCellController extends GetxController {
         context: context,
         builder: (context) {
           return CupertinoActionSheet(
-            title: ZHTextLine(
+            title: AppText(
               str: '设置'.ts,
               fontSize: 16,
               fontWeight: FontWeight.bold,

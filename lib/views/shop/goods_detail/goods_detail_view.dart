@@ -3,6 +3,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
@@ -21,7 +22,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
     return Scaffold(
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       bottomNavigationBar: Obx(() => controller.goodsModel.value != null
           ? Container(
               color: Colors.white,
@@ -30,10 +31,15 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    LoadImage(
-                      'Shop/custom',
-                      width: 30.w,
-                      height: 30.w,
+                    GestureDetector(
+                      onTap: () {
+                        Util.onCustomerContact();
+                      },
+                      child: LoadImage(
+                        'Shop/custom',
+                        width: 30.w,
+                        height: 30.w,
+                      ),
                     ),
                     Flexible(
                         flex: 0,
@@ -50,7 +56,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                                   child: Container(
                                     alignment: Alignment.center,
                                     decoration: const BoxDecoration(
-                                        color: BaseStylesConfig.textDark,
+                                        color: AppColors.textDark,
                                         borderRadius: BorderRadius.horizontal(
                                             left: Radius.circular(999))),
                                     child: LoadImage(
@@ -69,11 +75,11 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                                   constraints: BoxConstraints(minWidth: 110.w),
                                   child: Container(
                                     decoration: const BoxDecoration(
-                                        color: BaseStylesConfig.primary,
+                                        color: AppColors.primary,
                                         borderRadius: BorderRadius.horizontal(
                                             right: Radius.circular(999))),
                                     alignment: Alignment.center,
-                                    child: ZHTextLine(
+                                    child: AppText(
                                       str: '购买'.ts,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -87,13 +93,14 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                 ),
               ),
             )
-          : Sized.empty),
+          : AppGaps.empty),
       body: Obx(() {
         if (controller.isLoading.value) {
           return Container(
             alignment: Alignment.center,
             child: const CircularProgressIndicator(
-              color: BaseStylesConfig.primary,
+              color: AppColors.primary,
+              strokeWidth: 5,
             ),
           );
         } else if (controller.goodsModel.value != null) {
@@ -205,12 +212,13 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                               ? Padding(
                                   padding: EdgeInsets.only(right: 5.w),
                                   child: LoadImage(
-                                    'Home/tao',
+                                    Util.getPlatformIcon(
+                                        controller.goodsModel.value?.platform),
                                     width: 20.w,
                                     height: 20.w,
                                   ),
                                 )
-                              : Sized.empty,
+                              : AppGaps.empty,
                           alignment: PlaceholderAlignment.middle,
                         ),
                         TextSpan(text: controller.goodsModel.value!.title),
@@ -240,10 +248,10 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ZHTextLine(
+                        AppText(
                           str: '国内运费'.ts,
                           fontSize: 12,
-                          color: BaseStylesConfig.textGrayC9,
+                          color: AppColors.textGrayC9,
                         ),
                         10.verticalSpaceFromWidth,
                         Row(
@@ -260,7 +268,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  ZHTextLine(
+                                  AppText(
                                     str: controller
                                             .currencyModel.value?.symbol ??
                                         '',
@@ -286,17 +294,17 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                               ),
                             ),
                             20.horizontalSpace,
-                            ZHTextLine(
+                            AppText(
                               str: '将寄往'.ts,
                               fontSize: 14,
-                              color: BaseStylesConfig.textGrayC9,
+                              color: AppColors.textGrayC9,
                             ),
                             10.horizontalSpace,
                             GestureDetector(
                               onTap: () {
                                 controller.showWarehousePicker(context);
                               },
-                              child: ZHTextLine(
+                              child: AppText(
                                 str: controller.selectedWarehouse.value
                                         ?.warehouseName ??
                                     '选择仓库'.ts,
@@ -306,7 +314,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                             5.horizontalSpace,
                             Icon(
                               Icons.arrow_forward_ios,
-                              color: BaseStylesConfig.textNormal,
+                              color: AppColors.textNormal,
                               size: 14.sp,
                             ),
                           ],
@@ -314,10 +322,10 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                       ],
                     ),
                   )
-                : Sized.empty,
+                : AppGaps.empty,
             // controller.isPlatformGoods.value
             //     ? optionItem(type: 'country')
-            //     : Sized.empty,
+            //     : AppGaps.empty,
           ],
         ),
       ),
@@ -342,21 +350,21 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
             Row(
               children: [
                 Expanded(
-                  child: ZHTextLine(
+                  child: AppText(
                     str: type == 'sku' ? '选择'.ts : '目的地'.ts,
                     fontSize: 12,
-                    color: BaseStylesConfig.textGrayC9,
+                    color: AppColors.textGrayC9,
                   ),
                 ),
                 Icon(
                   Icons.arrow_forward_ios,
-                  color: BaseStylesConfig.textNormal,
+                  color: AppColors.textNormal,
                   size: 15.sp,
                 ),
               ],
             ),
             10.verticalSpaceFromWidth,
-            ZHTextLine(
+            AppText(
               str: value ??
                   (type == 'sku'
                       ? (controller.sku.value == null
@@ -385,7 +393,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
             ),
             10.horizontalSpace,
             Expanded(
-              child: ZHTextLine(
+              child: AppText(
                 str: controller.isPlatformGoods.value
                     ? controller.goodsModel.value!.nick ?? ''
                     : '自营商城'.ts,
@@ -406,7 +414,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
         children: [
           Container(
             padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 10.h),
-            child: ZHTextLine(
+            child: AppText(
               str: '商品详情'.ts,
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -414,7 +422,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
           ),
           Obx(() => controller.goodsModel.value!.desc!.isNotEmpty
               ? Html(data: controller.goodsModel.value!.desc)
-              : Sized.empty),
+              : AppGaps.empty),
         ],
       ),
     );

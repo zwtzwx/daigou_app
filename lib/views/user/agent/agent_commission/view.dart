@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/withdrawal_model.dart';
 import 'package:jiyun_app_client/services/agent_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
@@ -22,9 +21,9 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '我要结算'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 17,
         ),
       ),
@@ -33,7 +32,7 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
               child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Sized.line,
+          AppGaps.line,
           Container(
             height: 60,
             alignment: Alignment.center,
@@ -50,23 +49,23 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            ZHTextLine(
+                            AppText(
                               str: '共计'.ts + '：',
                             ),
                             Obx(
-                              () => ZHTextLine(
+                              () => AppText(
                                 str: controller.selectNum.value.rate(),
-                                color: BaseStylesConfig.textRed,
+                                color: AppColors.textRed,
                               ),
                             )
                           ],
                         ),
                         Obx(
-                          () => ZHTextLine(
+                          () => AppText(
                             str: '( ${'{count}条记录'.tsArgs({
                                   'count': controller.selModelList.length
                                 })} )',
-                            color: BaseStylesConfig.textGray,
+                            color: AppColors.textGray,
                           ),
                         ),
                       ],
@@ -77,9 +76,9 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
                   child: GestureDetector(
                     onTap: controller.onApply,
                     child: Container(
-                      color: BaseStylesConfig.primary,
+                      color: AppColors.primary,
                       alignment: Alignment.center,
-                      child: ZHTextLine(
+                      child: AppText(
                         str: '提交'.ts,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -181,7 +180,7 @@ class PrepaidListState extends State<PrepaidList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: BaseStylesConfig.bgGray,
+      color: AppColors.bgGray,
       child: ListRefresh(
         renderItem: bottomListCell,
         refresh: loadList,
@@ -198,10 +197,10 @@ class PrepaidListState extends State<PrepaidList> {
         child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             decoration: BoxDecoration(
-              color: BaseStylesConfig.white,
+              color: AppColors.white,
               border: Border(
                 bottom: Divider.createBorderSide(context,
-                    color: BaseStylesConfig.line, width: 1),
+                    color: AppColors.line, width: 1),
               ),
             ),
             child: Row(
@@ -212,16 +211,16 @@ class PrepaidListState extends State<PrepaidList> {
                   child: model.settled == 0
                       ? const Icon(
                           Icons.circle,
-                          color: BaseStylesConfig.textGrayC,
+                          color: AppColors.textGrayC,
                         )
                       : widget.params['selList'].contains(model)
                           ? const Icon(
                               Icons.check_circle,
-                              color: BaseStylesConfig.green,
+                              color: AppColors.green,
                             )
                           : const Icon(
                               Icons.radio_button_off,
-                              color: BaseStylesConfig.bgGray,
+                              color: AppColors.bgGray,
                             ),
                 ),
                 Expanded(
@@ -233,50 +232,50 @@ class PrepaidListState extends State<PrepaidList> {
                         children: <Widget>[
                           Row(
                             children: [
-                              ZHTextLine(
+                              AppText(
                                 str: model.createdAt,
                                 fontSize: 13,
                                 color: model.settled == 0
-                                    ? BaseStylesConfig.textGray
+                                    ? AppColors.textGray
                                     : Colors.black,
                               ),
-                              Sized.hGap5,
+                              AppGaps.hGap5,
                               model.settled == 0
-                                  ? ZHTextLine(
+                                  ? AppText(
                                       str: '等待确认'.ts,
                                       fontSize: 13,
-                                      color: BaseStylesConfig.textRed,
+                                      color: AppColors.textRed,
                                     )
-                                  : Sized.empty,
+                                  : AppGaps.empty,
                             ],
                           ),
-                          ZHTextLine(
+                          AppText(
                             str: model.orderAmount.rate(),
                             fontSize: 13,
                           ),
                         ],
                       ),
-                      Sized.vGap4,
+                      AppGaps.vGap4,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          ZHTextLine(
+                          AppText(
                             str: '转运单号'.ts + '：' + model.orderNumber,
                             fontSize: 13,
                             color: model.settled == 0
-                                ? BaseStylesConfig.textGray
+                                ? AppColors.textGray
                                 : Colors.black,
                           ),
                           Row(
                             children: [
-                              ZHTextLine(
+                              AppText(
                                 str: '佣金'.ts + '：',
                                 fontSize: 13,
                               ),
-                              ZHTextLine(
+                              AppText(
                                 str: '+' + model.commissionAmount.rate(),
                                 fontSize: 13,
-                                color: BaseStylesConfig.textRed,
+                                color: AppColors.textRed,
                               ),
                             ],
                           ),

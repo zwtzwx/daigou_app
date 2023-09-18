@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/common/util.dart';
@@ -22,15 +21,15 @@ class RechargeView extends GetView<RechargeController> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
-        backgroundColor: BaseStylesConfig.bgGray,
+        backgroundColor: AppColors.bgGray,
         elevation: 0,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '余额'.ts,
           fontSize: 17,
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(
           vertical: 10,
@@ -43,14 +42,14 @@ class RechargeView extends GetView<RechargeController> {
             children: [
               Row(
                 children: [
-                  ZHTextLine(
+                  AppText(
                     str: '充值'.ts + '：',
                     fontSize: 14,
                   ),
                   Obx(
-                    () => ZHTextLine(
+                    () => AppText(
                       str: controller.amount.value.rate(needFormat: false),
-                      color: BaseStylesConfig.textRed,
+                      color: AppColors.textRed,
                     ),
                   )
                 ],
@@ -75,7 +74,7 @@ class RechargeView extends GetView<RechargeController> {
                     buildCustomViews(context),
                     Container(
                       decoration: const BoxDecoration(
-                          color: BaseStylesConfig.white,
+                          color: AppColors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       margin: const EdgeInsets.only(
                           top: 20, left: 15, right: 15, bottom: 10),
@@ -86,7 +85,7 @@ class RechargeView extends GetView<RechargeController> {
                         children: <Widget>[
                           SizedBox(
                             height: 40,
-                            child: ZHTextLine(str: '余额充值'.ts),
+                            child: AppText(str: '余额充值'.ts),
                           ),
                           buildMoreSupportType(context),
                           Obx(
@@ -101,7 +100,7 @@ class RechargeView extends GetView<RechargeController> {
                     ),
                     Container(
                       decoration: const BoxDecoration(
-                          color: BaseStylesConfig.white,
+                          color: AppColors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       margin: const EdgeInsets.only(
                           top: 20, left: 15, right: 15, bottom: 10),
@@ -126,7 +125,7 @@ class RechargeView extends GetView<RechargeController> {
           padding: const EdgeInsets.symmetric(
             vertical: 15,
           ),
-          child: ZHTextLine(str: '其它任意金额'.ts),
+          child: AppText(str: '其它任意金额'.ts),
         ),
         Container(
           alignment: Alignment.center,
@@ -135,7 +134,7 @@ class RechargeView extends GetView<RechargeController> {
           ),
           decoration: BoxDecoration(
             border: Border.all(
-              color: BaseStylesConfig.primary,
+              color: AppColors.primary,
             ),
             borderRadius: BorderRadius.circular(10),
           ),
@@ -199,7 +198,7 @@ class RechargeView extends GetView<RechargeController> {
           () => Container(
             decoration: BoxDecoration(
               color: controller.selectButton.value == index
-                  ? BaseStylesConfig.primary
+                  ? AppColors.primary
                   : const Color(0xFFFFF9DB),
               // color: ,
               borderRadius: BorderRadius.circular(5),
@@ -209,7 +208,7 @@ class RechargeView extends GetView<RechargeController> {
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      ZHTextLine(
+                      AppText(
                         str: '{count}元'.tsArgs({
                           'count': model.amount.rate(
                             showPriceSymbol: false,
@@ -219,10 +218,10 @@ class RechargeView extends GetView<RechargeController> {
                         }),
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: BaseStylesConfig.textBlack,
+                        color: AppColors.textBlack,
                       ),
                       model.complimentaryAmount != 0
-                          ? ZHTextLine(
+                          ? AppText(
                               str: '送{count}元'.tsArgs({
                                 'count': model.complimentaryAmount.rate(
                                   showPriceSymbol: false,
@@ -232,12 +231,12 @@ class RechargeView extends GetView<RechargeController> {
                               }),
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
-                              color: BaseStylesConfig.textBlack,
+                              color: AppColors.textBlack,
                             )
                           : Container(),
                     ],
                   )
-                : ZHTextLine(
+                : AppText(
                     str: '其它金额'.ts,
                     fontWeight: FontWeight.w500,
                   ),
@@ -269,7 +268,7 @@ class RechargeView extends GetView<RechargeController> {
           }
         },
         child: Container(
-          color: BaseStylesConfig.white,
+          color: AppColors.white,
           padding: const EdgeInsets.only(right: 15, left: 15),
           height: 50,
           width: ScreenUtil().screenWidth,
@@ -300,7 +299,7 @@ class RechargeView extends GetView<RechargeController> {
                                     ),
                     ),
                     Expanded(
-                      child: ZHTextLine(
+                      child: AppText(
                         str: Util.getPayTypeName(typeMap.name),
                         lines: 2,
                       ),
@@ -313,10 +312,10 @@ class RechargeView extends GetView<RechargeController> {
                 () => controller.selectType.contains(typeMap)
                     ? const Icon(
                         Icons.check_circle,
-                        color: BaseStylesConfig.green,
+                        color: AppColors.green,
                       )
                     : const Icon(Icons.radio_button_unchecked,
-                        color: BaseStylesConfig.textGray),
+                        color: AppColors.textGray),
               ),
             ],
           ),
@@ -345,7 +344,7 @@ class RechargeView extends GetView<RechargeController> {
                   padding: const EdgeInsets.only(right: 15, top: 15, left: 15),
                   width: ScreenUtil().screenWidth - 30,
                   decoration: BoxDecoration(
-                      color: BaseStylesConfig.white,
+                      color: AppColors.white,
                       borderRadius: BorderRadius.circular(8.r)),
                   child: Column(
                     children: <Widget>[
@@ -355,14 +354,14 @@ class RechargeView extends GetView<RechargeController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            ZHTextLine(
+                            AppText(
                               str: '账户余额'.ts,
                             ),
                             GestureDetector(
                               onTap: () {
                                 Routers.push(Routers.rechargeHistory);
                               },
-                              child: ZHTextLine(
+                              child: AppText(
                                 str: '充值记录'.ts,
                               ),
                             )
@@ -385,7 +384,7 @@ class RechargeView extends GetView<RechargeController> {
                                             .currencyModel.value?.symbol ??
                                         '',
                                     style: const TextStyle(
-                                      color: BaseStylesConfig.textRed,
+                                      color: AppColors.textRed,
                                       fontSize: 15.0,
                                     ),
                                   ),
@@ -397,14 +396,14 @@ class RechargeView extends GetView<RechargeController> {
                                         .split('.')
                                         .first,
                                     style: const TextStyle(
-                                        color: BaseStylesConfig.textRed,
+                                        color: AppColors.textRed,
                                         fontSize: 35.0,
                                         fontWeight: FontWeight.w500),
                                   ),
                                   const TextSpan(
                                     text: '.',
                                     style: TextStyle(
-                                      color: BaseStylesConfig.textRed,
+                                      color: AppColors.textRed,
                                       fontSize: 15.0,
                                     ),
                                   ),
@@ -416,7 +415,7 @@ class RechargeView extends GetView<RechargeController> {
                                         .split('.')
                                         .last,
                                     style: const TextStyle(
-                                      color: BaseStylesConfig.textRed,
+                                      color: AppColors.textRed,
                                       fontSize: 15.0,
                                     ),
                                   ),

@@ -21,7 +21,7 @@ class GroupOrderPage extends GetView<GroupOrderController> {
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '我的团单'.ts,
           fontSize: 17,
         ),
@@ -32,19 +32,19 @@ class GroupOrderPage extends GetView<GroupOrderController> {
           tabs: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
-              child: ZHTextLine(
+              child: AppText(
                 str: '未签收'.ts,
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
-              child: ZHTextLine(
+              child: AppText(
                 str: '已签收'.ts,
               ),
             ),
           ],
-          labelColor: BaseStylesConfig.primary,
-          indicatorColor: BaseStylesConfig.primary,
+          labelColor: AppColors.primary,
+          indicatorColor: AppColors.primary,
           onTap: (value) {
             controller.tabController.animateTo(value);
 
@@ -52,7 +52,7 @@ class GroupOrderPage extends GetView<GroupOrderController> {
           },
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: PageView.builder(
         physics: const NeverScrollableScrollPhysics(),
         itemCount: 2,
@@ -98,14 +98,14 @@ class GroupOrderPage extends GetView<GroupOrderController> {
                   width: 25,
                   height: 25,
                 ),
-                Sized.hGap5,
-                ZHTextLine(
+                AppGaps.hGap5,
+                AppText(
                   str: model.orderSn,
                 ),
-                Sized.hGap10,
-                ZHTextLine(
+                AppGaps.hGap10,
+                AppText(
                   str: '${'子订单'.ts}：${model.subOrdersCount}',
-                  color: BaseStylesConfig.textGray,
+                  color: AppColors.textGray,
                   fontSize: 13,
                 ),
               ],
@@ -127,8 +127,8 @@ class GroupOrderPage extends GetView<GroupOrderController> {
                           height: 8,
                         ),
                       ),
-                      Sized.vGap20,
-                      ZHTextLine(
+                      AppGaps.vGap20,
+                      AppText(
                         str: model.warehouse!.warehouseName!,
                       )
                     ],
@@ -144,11 +144,11 @@ class GroupOrderPage extends GetView<GroupOrderController> {
                           width: 24,
                           height: 24,
                         ),
-                        Sized.vGap4,
-                        ZHTextLine(
+                        AppGaps.vGap4,
+                        AppText(
                           str: Util.getOrderStatusName(
                               model.status!, model.stationOrder),
-                          color: BaseStylesConfig.primary,
+                          color: AppColors.primary,
                           fontSize: 14,
                         )
                       ],
@@ -163,8 +163,8 @@ class GroupOrderPage extends GetView<GroupOrderController> {
                           height: 8,
                         ),
                       ),
-                      Sized.vGap20,
-                      ZHTextLine(
+                      AppGaps.vGap20,
+                      AppText(
                         str: model.address?.countryName ?? '',
                       )
                     ],
@@ -172,80 +172,80 @@ class GroupOrderPage extends GetView<GroupOrderController> {
                 ],
               ),
             ),
-            Sized.line,
-            Sized.vGap15,
-            ZHTextLine(
+            AppGaps.line,
+            AppGaps.vGap15,
+            AppText(
               str:
                   '${model.address?.receiverName} ${model.address?.timezone} ${model.address?.phone}',
               fontWeight: FontWeight.bold,
               fontSize: 16,
               lines: 2,
             ),
-            Sized.vGap5,
+            AppGaps.vGap5,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str:
                           '${model.address?.area != null ? '${model.address?.area?.name} ' : ''}${model.address?.subArea != null ? '${model.address?.subArea!.name} ' : ''}${model.address?.street} ${model.address?.doorNo} ${model.address?.city}',
                       lines: 2,
                     ),
-                    ZHTextLine(
+                    AppText(
                       str: model.station == null
                           ? '送货上门'.ts
                           : '${'自提收货'.ts}-${model.station!.name}',
                     ),
                   ],
                 ),
-                Sized.hGap10,
+                AppGaps.hGap10,
                 model.status == 1
                     ? Column(
                         children: [
-                          ZHTextLine(
+                          AppText(
                             str: '打包进度'.ts,
                           ),
-                          ZHTextLine(
+                          AppText(
                             str: '${model.finished}/${model.all}',
                           ),
                         ],
                       )
-                    : Sized.empty,
+                    : AppGaps.empty,
                 model.status == 2 && model.mode != 1
                     ? Column(
                         children: [
-                          ZHTextLine(
+                          AppText(
                             str: '支付进度'.ts,
                           ),
-                          ZHTextLine(
+                          AppText(
                             str: '${model.finished}/${model.all}',
                           ),
                         ],
                       )
-                    : Sized.empty,
+                    : AppGaps.empty,
                 model.status == 4
                     ? Column(
                         children: [
-                          ZHTextLine(
+                          AppText(
                             str: '签收进度'.ts,
                           ),
-                          ZHTextLine(
+                          AppText(
                             str: '${model.finished}/${model.all}',
                           ),
                         ],
                       )
-                    : Sized.empty,
+                    : AppGaps.empty,
               ],
             ),
-            Sized.vGap5,
+            AppGaps.vGap5,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ZHTextLine(
+                AppText(
                   str: '${'提交时间'.ts}：${model.createdAt}',
-                  color: BaseStylesConfig.textGray,
+                  color: AppColors.textGray,
                 ),
               ],
             ),
@@ -255,10 +255,17 @@ class GroupOrderPage extends GetView<GroupOrderController> {
                     alignment: Alignment.centerRight,
                     child: MainButton(
                       text: '团长代付',
-                      onPressed: () {},
+                      onPressed: () {
+                        Routers.push(Routers.transportPay, {
+                          'id': model.id,
+                          'payModel': 1,
+                          'deliveryStatus': 1,
+                          'isLeader': 1
+                        });
+                      },
                     ),
                   )
-                : Sized.empty,
+                : AppGaps.empty,
           ],
         ),
       ),

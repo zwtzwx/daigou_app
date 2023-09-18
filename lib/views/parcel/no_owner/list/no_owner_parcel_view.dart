@@ -27,15 +27,15 @@ class NoOwnerParcelView extends GetView<NoOwnerParcelController> {
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: ZHTextLine(
+          title: AppText(
             str: '异常件认领'.ts,
-            color: BaseStylesConfig.textBlack,
+            color: AppColors.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
           ),
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
-        backgroundColor: BaseStylesConfig.bgGray,
+        backgroundColor: AppColors.bgGray,
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
@@ -83,7 +83,7 @@ class NoOwnerParcelView extends GetView<NoOwnerParcelController> {
     return Container(
       margin: const EdgeInsets.only(left: 15, top: 10, right: 15),
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-      color: BaseStylesConfig.white,
+      color: AppColors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -94,31 +94,31 @@ class NoOwnerParcelView extends GetView<NoOwnerParcelController> {
                 alignment: Alignment.center,
                 child: const ImageIcon(
                   const AssetImage("assets/images/PackageAndOrder/tag.png"),
-                  color: BaseStylesConfig.primary,
+                  color: AppColors.primary,
                   size: 20,
                 ),
               ),
-              Sized.hGap5,
+              AppGaps.hGap5,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      ZHTextLine(
+                      AppText(
                         str: '快递单号'.ts + '：',
                         fontSize: 14,
                       ),
-                      ZHTextLine(
+                      AppText(
                         str: model.expressNum ?? "",
                         fontSize: 14,
                       ),
                     ],
                   ),
-                  Sized.vGap4,
-                  ZHTextLine(
+                  AppGaps.vGap4,
+                  AppText(
                     str: '${'入库时间'.ts}：' + (model.inStorageAt ?? ""),
                     fontSize: 13,
-                    color: BaseStylesConfig.textGray,
+                    color: AppColors.textGray,
                   ),
                 ],
               ),

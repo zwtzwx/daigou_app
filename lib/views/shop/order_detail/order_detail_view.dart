@@ -17,15 +17,15 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '订单详情'.ts,
           fontSize: 17,
         ),
-        backgroundColor: BaseStylesConfig.bgGray,
+        backgroundColor: AppColors.bgGray,
         leading: const BackButton(color: Colors.black),
         elevation: 0,
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: Obx(
         () => controller.isLoading.value
             ? Column(
@@ -57,7 +57,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
               )
             : RefreshIndicator(
                 onRefresh: controller.getDetail,
-                color: BaseStylesConfig.primary,
+                color: AppColors.primary,
                 child: ListView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: [
@@ -80,21 +80,21 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 10.w),
             decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: BaseStylesConfig.line)),
+              border: Border(bottom: BorderSide(color: AppColors.line)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ZHTextLine(
+                AppText(
                   str: '收货地址'.ts,
                   fontSize: 14,
                 ),
-                ZHTextLine(
+                AppText(
                   str: controller.orderModel.value!.address?.addressType == 1
                       ? '送货上门'.ts
                       : '自提点提货'.ts,
                   fontSize: 12,
-                  color: BaseStylesConfig.textNormal,
+                  color: AppColors.textNormal,
                 ),
               ],
             ),
@@ -112,7 +112,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str: controller.orderModel.value!.address!.receiverName +
                           ' ' +
                           controller.orderModel.value!.address!.timezone +
@@ -122,22 +122,22 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
-                    controller.orderModel.value!.address!.addressType == 2
-                        ? Padding(
-                            padding: EdgeInsets.only(top: 3.h),
-                            child: ZHTextLine(
-                              str: controller.orderModel.value!.address!.station
-                                      ?.name ??
-                                  '',
-                            ),
-                          )
-                        : Sized.empty,
+                    // controller.orderModel.value!.address!.addressType == 2
+                    //     ? Padding(
+                    //         padding: EdgeInsets.only(top: 3.h),
+                    //         child: AppText(
+                    //           str: controller.orderModel.value!.address!.station
+                    //                   ?.name ??
+                    //               '',
+                    //         ),
+                    //       )
+                    //     : AppGaps.empty,
                     4.verticalSpace,
-                    ZHTextLine(
+                    AppText(
                       str: controller.orderModel.value!.address!.getContent(),
                       lines: 10,
                       fontSize: 12,
-                      color: BaseStylesConfig.textGrayC9,
+                      color: AppColors.textGrayC9,
                     ),
                   ],
                 ),
@@ -167,14 +167,14 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: ZHTextLine(
+              child: AppText(
                 str: '国内运费'.ts,
                 fontSize: 14,
                 lines: 2,
               ),
             ),
             5.horizontalSpace,
-            ZHTextLine(
+            AppText(
               str: (controller.orderModel.value!.freightFee ?? 0)
                   .rate(needFormat: false),
               fontSize: 14,
@@ -186,13 +186,13 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ZHTextLine(
+            AppText(
               str: '订单备注'.ts,
               fontSize: 14,
             ),
             10.horizontalSpace,
             Expanded(
-              child: ZHTextLine(
+              child: AppText(
                 str: (controller.orderModel.value!.remark ?? ''),
                 fontSize: 14,
                 alignment: TextAlign.right,
@@ -203,20 +203,20 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           ],
         ),
         10.verticalSpace,
-        Sized.line,
+        AppGaps.line,
         10.verticalSpace,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: ZHTextLine(
+              child: AppText(
                 str: '商品总价'.ts,
                 fontSize: 14,
                 lines: 2,
               ),
             ),
             5.horizontalSpace,
-            ZHTextLine(
+            AppText(
               str: (controller.orderModel.value!.goodsAmount ?? 0)
                   .rate(needFormat: false),
               fontSize: 14,
@@ -229,14 +229,14 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: ZHTextLine(
+              child: AppText(
                 str: '国内运费'.ts,
                 fontSize: 14,
                 lines: 2,
               ),
             ),
             5.horizontalSpace,
-            ZHTextLine(
+            AppText(
               str: (controller.orderModel.value!.freightFee ?? 0)
                   .rate(needFormat: false),
               fontSize: 14,
@@ -249,14 +249,14 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: ZHTextLine(
+              child: AppText(
                 str: '增值服务费'.ts,
                 fontSize: 14,
                 lines: 2,
               ),
             ),
             5.horizontalSpace,
-            ZHTextLine(
+            AppText(
               str: (controller.orderModel.value!.packageServiceFee ?? 0)
                   .rate(needFormat: false),
               fontSize: 14,
@@ -271,14 +271,14 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: ZHTextLine(
+                      child: AppText(
                         str: '支付金额'.ts,
                         fontSize: 14,
                         lines: 2,
                       ),
                     ),
                     5.horizontalSpace,
-                    ZHTextLine(
+                    AppText(
                       str: (controller.orderModel.value!.amount ?? 0)
                           .rate(needFormat: false),
                       fontSize: 14,
@@ -287,25 +287,25 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
                   ],
                 ),
               )
-            : Sized.empty,
+            : AppGaps.empty,
         12.verticalSpace,
-        Sized.line,
+        AppGaps.line,
         12.verticalSpace,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: ZHTextLine(
+              child: AppText(
                 str: '订单编号'.ts,
                 fontSize: 14,
                 lines: 2,
               ),
             ),
             5.horizontalSpace,
-            ZHTextLine(
+            AppText(
               str: controller.orderModel.value!.orderSn,
               fontSize: 14,
-              color: BaseStylesConfig.textGrayC9,
+              color: AppColors.textGrayC9,
             ),
           ],
         ),
@@ -314,17 +314,17 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: ZHTextLine(
+              child: AppText(
                 str: '提交时间'.ts,
                 fontSize: 14,
                 lines: 2,
               ),
             ),
             5.horizontalSpace,
-            ZHTextLine(
+            AppText(
               str: controller.orderModel.value!.createdAt ?? '',
               fontSize: 14,
-              color: BaseStylesConfig.textGrayC9,
+              color: AppColors.textGrayC9,
             ),
           ],
         ),
@@ -340,19 +340,19 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
         child: Row(
           children: [
             Expanded(
-              child: ZHTextLine(
+              child: AppText(
                 str: '打包方式'.ts,
                 fontSize: 14,
                 lines: 2,
               ),
             ),
             5.horizontalSpace,
-            ZHTextLine(
+            AppText(
               str: controller.orderModel.value!.expressLine != null
                   ? '到件即发'.ts
                   : '集齐再发'.ts,
               fontSize: 14,
-              color: BaseStylesConfig.textGrayC9,
+              color: AppColors.textGrayC9,
             ),
           ],
         ),

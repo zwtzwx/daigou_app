@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
@@ -19,12 +20,12 @@ class LineQueryView extends GetView<LineQueryController> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-        backgroundColor: BaseStylesConfig.bgGray,
+        backgroundColor: AppColors.bgGray,
         appBar: AppBar(
           centerTitle: true,
           elevation: 0.5,
           backgroundColor: Colors.white,
-          title: ZHTextLine(
+          title: AppText(
             str: '运费试算'.ts,
             fontSize: 18,
           ),
@@ -36,7 +37,7 @@ class LineQueryView extends GetView<LineQueryController> {
             child: Column(
               children: <Widget>[
                 queryItemCell(context),
-                Sized.vGap10,
+                AppGaps.vGap10,
                 Container(
                   margin: const EdgeInsets.only(top: 20, bottom: 30),
                   width: double.infinity,
@@ -60,7 +61,7 @@ class LineQueryView extends GetView<LineQueryController> {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: BaseStylesConfig.line)),
+        border: Border(bottom: BorderSide(color: AppColors.line)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -86,7 +87,7 @@ class LineQueryView extends GetView<LineQueryController> {
               child: Column(
                 children: [
                   Obx(
-                    () => ZHTextLine(
+                    () => AppText(
                       str: controller.selectWareHouse.value != null
                           ? controller.selectWareHouse.value!.warehouseName!
                           : '请选择'.ts,
@@ -95,11 +96,11 @@ class LineQueryView extends GetView<LineQueryController> {
                       alignment: TextAlign.center,
                     ),
                   ),
-                  Sized.vGap5,
-                  ZHTextLine(
+                  AppGaps.vGap5,
+                  AppText(
                     str: '出发地'.ts,
                     fontSize: 13,
-                    color: BaseStylesConfig.textGrayC,
+                    color: AppColors.textGrayC,
                   ),
                 ],
               ),
@@ -118,7 +119,7 @@ class LineQueryView extends GetView<LineQueryController> {
               child: Column(
                 children: [
                   Obx(
-                    () => ZHTextLine(
+                    () => AppText(
                       alignment: TextAlign.center,
                       str: controller.selectCountry.value != null
                           ? controller.selectCountry.value!.name!
@@ -127,11 +128,11 @@ class LineQueryView extends GetView<LineQueryController> {
                       lines: 4,
                     ),
                   ),
-                  Sized.vGap5,
-                  ZHTextLine(
+                  AppGaps.vGap5,
+                  AppText(
                     str: '目的地'.ts,
                     fontSize: 13,
-                    color: BaseStylesConfig.textGrayC,
+                    color: AppColors.textGrayC,
                   ),
                 ],
               ),
@@ -155,78 +156,76 @@ class LineQueryView extends GetView<LineQueryController> {
           destinationCell(context),
           selectItem(
             '预估重量',
-            rightItem: Expanded(
-              child: Container(
-                // width: ScreenUtil().screenWidth - 200,
-                margin: const EdgeInsets.only(left: 10),
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xFFDFDFDF)),
-                  borderRadius: BorderRadius.circular(999),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        controller.onWeight(-1);
-                      },
-                      child: Container(
-                        alignment: Alignment.topCenter,
-                        height: 40,
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: const Icon(
-                          Icons.minimize_outlined,
-                        ),
+            rightItem: Container(
+              width: 170.w,
+              margin: EdgeInsets.only(left: 10.w),
+              height: 40,
+              decoration: BoxDecoration(
+                border: Border.all(color: const Color(0xFFDFDFDF)),
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      controller.onWeight(-1);
+                    },
+                    child: Container(
+                      alignment: Alignment.topCenter,
+                      height: 40,
+                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                      child: const Icon(
+                        Icons.minimize_outlined,
                       ),
                     ),
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.only(left: 10, right: 15),
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            left: BorderSide(color: BaseStylesConfig.line),
-                            right: BorderSide(color: BaseStylesConfig.line),
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 10, right: 15),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          left: BorderSide(color: AppColors.line),
+                          right: BorderSide(color: AppColors.line),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: BaseInput(
+                              isCollapsed: true,
+                              autoShowRemove: false,
+                              controller: controller.weightController,
+                              focusNode: controller.weightNode,
+                              style: const TextStyle(fontSize: 18),
+                              contentPadding:
+                                  const EdgeInsets.symmetric(vertical: 12),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      decimal: true),
+                            ),
                           ),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: BaseInput(
-                                isCollapsed: true,
-                                autoShowRemove: false,
-                                controller: controller.weightController,
-                                focusNode: controller.weightNode,
-                                style: const TextStyle(fontSize: 18),
-                                contentPadding:
-                                    const EdgeInsets.symmetric(vertical: 12),
-                                keyboardType:
-                                    const TextInputType.numberWithOptions(
-                                        decimal: true),
-                              ),
-                            ),
-                            ZHTextLine(
-                              str: controller.localModel?.weightSymbol ?? '',
-                              color: BaseStylesConfig.textGrayC9,
-                              fontSize: 14,
-                            ),
-                          ],
-                        ),
+                          AppText(
+                            str: controller.localModel?.weightSymbol ?? '',
+                            color: AppColors.textGrayC9,
+                            fontSize: 14,
+                          ),
+                        ],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        controller.onWeight(1);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: const Icon(
-                          Icons.add,
-                        ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      controller.onWeight(1);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: const Icon(
+                        Icons.add,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -235,35 +234,34 @@ class LineQueryView extends GetView<LineQueryController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ZHTextLine(
+                AppText(
                   str: '预估体积重'.ts,
                 ),
-                Sized.vGap5,
-                ZHTextLine(
+                AppGaps.vGap5,
+                AppText(
                   str: '包裹尺寸为商品打包，实际包裹箱的长宽高用于某些体积重线路的运费计算'.ts,
-                  color: BaseStylesConfig.textGray,
+                  color: AppColors.textGray,
                   fontSize: 14,
                   lines: 4,
                 ),
-                Sized.vGap20,
+                AppGaps.vGap20,
                 Row(
                   children: [
                     Expanded(
                       child: Container(
-                        height: 45,
+                        height: 30.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(999),
-                          border: Border.all(color: BaseStylesConfig.line),
+                          border: Border.all(color: AppColors.line),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 14),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 2.h, horizontal: 14.w),
                         child: BaseInput(
                           textAlign: TextAlign.center,
                           controller: controller.longController,
                           focusNode: controller.longNode,
                           autoShowRemove: false,
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 11),
+                          contentPadding: EdgeInsets.symmetric(vertical: 8.h),
                           keyboardType: const TextInputType.numberWithOptions(
                               decimal: true),
                           hintText: '长'.ts +
@@ -272,23 +270,22 @@ class LineQueryView extends GetView<LineQueryController> {
                         ),
                       ),
                     ),
-                    Sized.hGap15,
+                    AppGaps.hGap15,
                     Expanded(
                       child: Container(
-                        height: 45,
+                        height: 30.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(999),
-                          border: Border.all(color: BaseStylesConfig.line),
+                          border: Border.all(color: AppColors.line),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 14),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 2.h, horizontal: 14.w),
                         child: BaseInput(
                           textAlign: TextAlign.center,
                           controller: controller.wideController,
                           focusNode: controller.wideNode,
                           autoShowRemove: false,
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 11),
+                          contentPadding: EdgeInsets.symmetric(vertical: 8.h),
                           keyboardType: const TextInputType.numberWithOptions(
                               decimal: true),
                           hintText: '${'宽'.ts}:' +
@@ -296,23 +293,22 @@ class LineQueryView extends GetView<LineQueryController> {
                         ),
                       ),
                     ),
-                    Sized.hGap15,
+                    15.horizontalSpace,
                     Expanded(
                       child: Container(
-                        height: 45,
+                        height: 30.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(999),
-                          border: Border.all(color: BaseStylesConfig.line),
+                          border: Border.all(color: AppColors.line),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 14),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 2.h, horizontal: 14.w),
                         child: BaseInput(
                           textAlign: TextAlign.center,
                           controller: controller.highController,
                           focusNode: controller.highNode,
                           autoShowRemove: false,
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 11),
+                          contentPadding: EdgeInsets.symmetric(vertical: 8.h),
                           keyboardType: const TextInputType.numberWithOptions(
                               decimal: true),
                           hintText: '${'高'.ts}:' +
@@ -330,14 +326,14 @@ class LineQueryView extends GetView<LineQueryController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ZHTextLine(
+                AppText(
                   str: '物品属性'.ts,
                 ),
-                Sized.vGap10,
+                8.verticalSpace,
                 Obx(
                   () => Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
+                    spacing: 10.w,
+                    runSpacing: 10.w,
                     children: controller.propList
                         .map(
                           (prop) => GestureDetector(
@@ -345,8 +341,8 @@ class LineQueryView extends GetView<LineQueryController> {
                               controller.onProps(prop);
                             },
                             child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 5),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15.w, vertical: 3.h),
                               decoration: BoxDecoration(
                                   color: controller.selectPropList
                                           .map((e) => e.id)
@@ -358,16 +354,17 @@ class LineQueryView extends GetView<LineQueryController> {
                                     color: controller.selectPropList
                                             .map((e) => e.id)
                                             .contains(prop.id)
-                                        ? BaseStylesConfig.primary
+                                        ? AppColors.primary
                                         : const Color(0xffFAF8FB),
                                   )),
-                              child: ZHTextLine(
+                              child: AppText(
                                 str: prop.name!,
                                 color: controller.selectPropList
                                         .map((e) => e.id)
                                         .contains(prop.id)
-                                    ? BaseStylesConfig.primary
+                                    ? AppColors.primary
                                     : const Color(0xff918E91),
+                                fontSize: 14,
                               ),
                             ),
                           ),
@@ -393,7 +390,7 @@ class LineQueryView extends GetView<LineQueryController> {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: BaseStylesConfig.line)),
+        border: Border(bottom: BorderSide(color: AppColors.line)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -402,14 +399,14 @@ class LineQueryView extends GetView<LineQueryController> {
             child: Row(
               children: [
                 Flexible(
-                  child: ZHTextLine(
+                  child: AppText(
                     str: label.ts,
                     lines: 3,
                   ),
                 ),
-                Sized.hGap5,
+                AppGaps.hGap5,
                 Flexible(
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '必填'.ts,
                     color: const Color(0xFFF68456),
                     fontSize: 14,
@@ -426,15 +423,15 @@ class LineQueryView extends GetView<LineQueryController> {
                 },
                 child: Row(
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str: value ?? '请选择'.ts,
                       color: (value != null && value.isNotEmpty)
-                          ? BaseStylesConfig.textDark
-                          : BaseStylesConfig.textGray,
+                          ? AppColors.textDark
+                          : AppColors.textGray,
                     ),
-                    const Icon(
+                    Icon(
                       Icons.arrow_forward_ios,
-                      size: 14,
+                      size: 14.sp,
                     ),
                   ],
                 ),
@@ -448,12 +445,12 @@ class LineQueryView extends GetView<LineQueryController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ZHTextLine(
+        AppText(
           str: '运费规则说明'.ts,
           fontWeight: FontWeight.bold,
         ),
-        Sized.vGap10,
-        ZHTextLine(
+        AppGaps.vGap10,
+        AppText(
           str:
               '${'体积重计算方法'.ts}：\n${'计算公式'.ts}：\n${'按照国际惯例，低密度的包裹，比较其实重，占用的空间通常较大，计算出的体积重量。体积重量和实际重量两者取大者计算。体积重量(KG) = (长 (cm) x 宽 (cm) x 高 (cm)) ÷ 6000'.ts}\n${'具体规则会在详细的试算结果中注明'.ts}',
           lines: 10,

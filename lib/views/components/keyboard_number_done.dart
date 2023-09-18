@@ -45,14 +45,14 @@ class KeyboardDone {
   Widget doneWidget() {
     return Container(
       width: double.infinity,
-      color: BaseStylesConfig.bgGray,
+      color: AppColors.bgGray,
       alignment: Alignment.centerRight,
       child: CupertinoButton(
         padding: const EdgeInsets.only(right: 24, top: 8, bottom: 8),
         onPressed: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        child: const ZHTextLine(
+        child: const AppText(
           str: 'Done',
           color: Colors.blueAccent,
           fontWeight: FontWeight.bold,

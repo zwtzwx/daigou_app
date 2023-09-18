@@ -41,7 +41,9 @@ class PlatformShopCenterController extends BaseController {
         'keyword': categoryIndex.value == 0
             ? '推荐'
             : categoryList[categoryIndex.value].name,
-        'page': ++loadingUtil.value.pageIndex
+        'page': ++loadingUtil.value.pageIndex,
+        'page_size': 10,
+        'platform': 'pinduoduo',
       });
       loadingUtil.value.isLoading = false;
       if (data['dataList'] != null) {

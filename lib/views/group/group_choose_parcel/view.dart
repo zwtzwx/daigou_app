@@ -21,17 +21,17 @@ class GroupChooseParcelPage extends GetView<GroupChooseParcelController> {
           backgroundColor: Colors.white,
           elevation: 0.5,
           leading: const BackButton(color: Colors.black),
-          title: ZHTextLine(
+          title: AppText(
             str: '选择包裹'.ts,
             fontSize: 18,
           ),
         ),
-        backgroundColor: BaseStylesConfig.bgGray,
+        backgroundColor: AppColors.bgGray,
         bottomNavigationBar: Container(
           padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
           decoration: const BoxDecoration(
               color: Colors.white,
-              border: Border(top: BorderSide(color: BaseStylesConfig.line))),
+              border: Border(top: BorderSide(color: AppColors.line))),
           child: SafeArea(
             child: Obx(
               () => Row(
@@ -49,7 +49,7 @@ class GroupChooseParcelPage extends GetView<GroupChooseParcelController> {
                             child: Checkbox(
                               value: controller.selectAll.value,
                               shape: const CircleBorder(),
-                              activeColor: BaseStylesConfig.primary,
+                              activeColor: AppColors.primary,
                               checkColor: Colors.black,
                               onChanged: (value) {
                                 controller.onAllChecked();
@@ -57,18 +57,18 @@ class GroupChooseParcelPage extends GetView<GroupChooseParcelController> {
                             ),
                           ),
                           2.horizontalSpace,
-                          ZHTextLine(
+                          AppText(
                             str: '全选'.ts,
                           ),
                         ],
                       ),
                       2.verticalSpace,
-                      ZHTextLine(
+                      AppText(
                         str: '已选{count}件'.tsArgs({
                               'count': controller.selectedParcelList.length,
                             }) +
                             '，${'预估'.ts} ${(controller.selectedWeight / 1000).toStringAsFixed(2)}${controller.localModel?.weightSymbol}',
-                        color: BaseStylesConfig.textGray,
+                        color: AppColors.textGray,
                         fontSize: 14,
                       ),
                     ],

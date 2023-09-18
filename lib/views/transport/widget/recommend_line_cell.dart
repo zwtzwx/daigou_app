@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
@@ -93,7 +92,7 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
         data: countryList
             .map(
               (e) => PickerItem(
-                text: ZHTextLine(
+                text: AppText(
                   str: e.id == 0 ? e.name!.ts : (e.name ?? ''),
                 ),
                 value: e.id!,
@@ -134,13 +133,13 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
                 children: [
                   countryModel?.id == 0
                       ? Obx(
-                          () => ZHTextLine(
+                          () => AppText(
                             str: countryModel!.name!.ts,
                             color: const Color(0xff555555),
                             fontSize: 12,
                           ),
                         )
-                      : ZHTextLine(
+                      : AppText(
                           str: countryModel?.name ?? '',
                           color: const Color(0xff555555),
                           fontSize: 12,
@@ -225,12 +224,12 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
             width: 65.w,
           ),
           3.verticalSpace,
-          ZHTextLine(
+          AppText(
             str: model.name,
             fontWeight: FontWeight.bold,
           ),
           3.verticalSpace,
-          ZHTextLine(
+          AppText(
             str: model.region?.referenceTime ?? '',
             fontSize: 12,
             color: const Color(0xff555555),
@@ -279,10 +278,10 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
           8.verticalSpace,
           SizedBox(
             height: 35.h,
-            child: ZHTextLine(
+            child: AppText(
               str: '接受'.ts + '：' + model.propStr,
               fontSize: 12,
-              color: BaseStylesConfig.textGrayC9,
+              color: AppColors.textGrayC9,
               lines: 2,
             ),
           ),

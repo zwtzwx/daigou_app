@@ -14,7 +14,7 @@ class StationView extends GetView<StationController> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '自提点'.ts,
           fontSize: 18,
         ),
@@ -22,7 +22,7 @@ class StationView extends GetView<StationController> {
         backgroundColor: Colors.white,
         leading: const BackButton(color: Colors.black),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: SafeArea(
         child: ListRefresh(
           renderItem: renderItem,
@@ -45,7 +45,7 @@ class StationView extends GetView<StationController> {
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(15, 15, 10, 15),
-          child: ZHTextLine(
+          child: AppText(
             str: model.name,
             fontWeight: FontWeight.bold,
           ),
@@ -68,19 +68,19 @@ class StationView extends GetView<StationController> {
                       decoration: BoxDecoration(
                         border: Border(
                             bottom: e['label'] != '国家/地区'
-                                ? const BorderSide(color: BaseStylesConfig.line)
+                                ? const BorderSide(color: AppColors.line)
                                 : BorderSide.none),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          ZHTextLine(
+                          AppText(
                             str: (e['label'] as String).ts,
-                            color: BaseStylesConfig.textGrayC,
+                            color: AppColors.textGrayC,
                             fontSize: 13,
                           ),
-                          Sized.vGap4,
-                          ZHTextLine(
+                          AppGaps.vGap4,
+                          AppText(
                             str: e['value'],
                             lines: 4,
                             fontSize: 16,

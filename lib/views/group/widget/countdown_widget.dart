@@ -11,7 +11,7 @@ class CountdownWidget extends StatefulWidget {
     Key? key,
     required this.total,
     this.fontSize = 13,
-    this.color = BaseStylesConfig.groupText,
+    this.color = AppColors.groupText,
     this.showSeconds = true,
     this.fontWeight = FontWeight.normal,
     this.orderPay = false,
@@ -86,7 +86,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
           text: TextSpan(
               style: TextStyle(
                 fontSize: 12.sp,
-                color: BaseStylesConfig.textGrayC9,
+                color: AppColors.textGrayC9,
               ),
               children: [
             TextSpan(
@@ -95,7 +95,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
             TextSpan(
               text: day > 0 ? '$day' : '',
               style: const TextStyle(
-                color: BaseStylesConfig.textRed,
+                color: AppColors.textRed,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -105,7 +105,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
             TextSpan(
               text: hour > 0 ? '$hour' : '',
               style: const TextStyle(
-                color: BaseStylesConfig.textRed,
+                color: AppColors.textRed,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -115,7 +115,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
             TextSpan(
               text: '$minutes',
               style: const TextStyle(
-                color: BaseStylesConfig.textRed,
+                color: AppColors.textRed,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -125,7 +125,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
             TextSpan(
               text: '$seconds',
               style: const TextStyle(
-                color: BaseStylesConfig.textRed,
+                color: AppColors.textRed,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -135,14 +135,14 @@ class _CountdownWidgetState extends State<CountdownWidget> {
           ]));
     }
     return widget.showSeconds
-        ? ZHTextLine(
+        ? AppText(
             str: (day > 0 ? '$day ${'天'.ts} ' : '') +
                 '${padTime(hour)}:${padTime(minutes)}:${padTime(seconds)}',
             fontSize: widget.fontSize,
             color: widget.color,
             fontWeight: widget.fontWeight,
           )
-        : ZHTextLine(
+        : AppText(
             str: '剩余'.ts +
                 (day > 0
                     ? '$day${'天'.ts}$hour${'小时'.ts}'

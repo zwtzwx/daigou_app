@@ -17,12 +17,12 @@ class StationSelectView extends GetView<StationSelectController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '选择自提点'.ts,
           fontSize: 18,
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: Obx(
         () => ListView.builder(
           itemCount: controller.stationList.length,
@@ -41,34 +41,34 @@ class StationSelectView extends GetView<StationSelectController> {
       },
       child: Container(
         decoration: BoxDecoration(
-            color: BaseStylesConfig.white,
+            color: AppColors.white,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
-            border: Border.all(width: 1, color: BaseStylesConfig.white)),
+            border: Border.all(width: 1, color: AppColors.white)),
         margin: const EdgeInsets.only(top: 15, right: 15, left: 15),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            ZHTextLine(
+            AppText(
               str: model.name,
               fontWeight: FontWeight.bold,
               lines: 3,
             ),
-            Sized.vGap4,
-            ZHTextLine(
+            AppGaps.vGap4,
+            AppText(
               str: model.contactor! + ' ${model.contactInfo ?? ''}',
               lines: 3,
             ),
-            Sized.vGap4,
+            AppGaps.vGap4,
             SizedBox(
-              child: ZHTextLine(
+              child: AppText(
                 str: '详细地址'.ts +
                     '：${model.area?.name ?? ''}${model.subArea?.name ?? ''}${model.address!}',
                 lines: 6,
               ),
             ),
             // Spaces.vGap4,
-            // ZHTextLine(
+            // AppText(
             //   str: '支持貨到付款：${model.isDelivery == 1 ? '是' : '否'}',
             // ),
             // Spaces.vGap4,
@@ -96,12 +96,12 @@ class StationSelectView extends GetView<StationSelectController> {
             //   ],
             // ),
             // Spaces.vGap4,
-            // ZHTextLine(
+            // AppText(
             //   str: '${'营业时间'.ts}：${model.openingHours ?? ''}',
             //   lines: 4,
             // ),
             // Spaces.vGap4,
-            // ZHTextLine(
+            // AppText(
             //   str: '${'公告'.ts}：${model.announcement ?? ''}',
             //   lines: 5,
             // ),

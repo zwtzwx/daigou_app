@@ -22,7 +22,7 @@ class GroupItemCell extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (onConfirm != null) {
-          onConfirm!(groupModel.id);
+          onConfirm!();
         }
       },
       child: Container(
@@ -41,27 +41,27 @@ class GroupItemCell extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ZHTextLine(
+            AppText(
               str: groupModel.code ?? '',
               fontWeight: FontWeight.bold,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ZHTextLine(
+                AppText(
                   str: groupModel.name!,
                 ),
-                ZHTextLine(
+                AppText(
                   str: Util.getGroupStatusName(groupModel.status!).ts,
                   color: groupModel.status == 0
-                      ? BaseStylesConfig.primary
-                      : BaseStylesConfig.textBlack,
+                      ? AppColors.primary
+                      : AppColors.textBlack,
                 ),
               ],
             ),
-            Sized.vGap15,
-            Sized.line,
-            Sized.vGap15,
+            AppGaps.vGap15,
+            AppGaps.line,
+            AppGaps.vGap15,
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -71,14 +71,14 @@ class GroupItemCell extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ZHTextLine(
+                  AppText(
                     str: groupModel.warehouseName ?? '',
                   ),
                   Column(
                     children: [
-                      ZHTextLine(
+                      AppText(
                         str: groupModel.expressLine?.referenceTime ?? '',
-                        color: BaseStylesConfig.green,
+                        color: AppColors.green,
                         fontSize: 12,
                       ),
                       const Padding(
@@ -89,26 +89,26 @@ class GroupItemCell extends StatelessWidget {
                           width: 100,
                         ),
                       ),
-                      ZHTextLine(
+                      AppText(
                         str: groupModel.expressLine?.name ?? '',
-                        color: BaseStylesConfig.groupText,
+                        color: AppColors.groupText,
                         fontSize: 12,
                       )
                     ],
                   ),
-                  ZHTextLine(
+                  AppText(
                     str: groupModel.country ?? '',
                   ),
                 ],
               ),
             ),
-            Sized.vGap10,
-            ZHTextLine(
+            AppGaps.vGap10,
+            AppText(
               str: groupModel.address!.receiverName +
                   ' ${groupModel.address!.timezone}${groupModel.address!.phone}',
               fontSize: 14,
             ),
-            ZHTextLine(
+            AppText(
               str: (groupModel.address!.area != null
                       ? '${groupModel.address!.area!.name} '
                       : '') +
@@ -119,17 +119,17 @@ class GroupItemCell extends StatelessWidget {
               fontSize: 14,
               lines: 4,
             ),
-            Sized.vGap5,
+            AppGaps.vGap5,
             Text.rich(
               TextSpan(
                 style: const TextStyle(
                   fontSize: 14,
-                  color: BaseStylesConfig.textBlack,
+                  color: AppColors.textBlack,
                 ),
                 children: [
                   TextSpan(
                     text: '已入库包裹重量'.ts + '：',
-                    style: const TextStyle(color: BaseStylesConfig.textGray),
+                    style: const TextStyle(color: AppColors.textGray),
                   ),
                   TextSpan(
                     text: ((groupModel.packageWeight ?? 0) / 1000)

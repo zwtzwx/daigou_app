@@ -23,10 +23,10 @@ class GroupCenterPage extends GetView<GroupCenterController> {
     return Scaffold(
       appBar: const EmptyAppBar(),
       primary: false,
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: RefreshIndicator(
         onRefresh: controller.onRefresh,
-        color: BaseStylesConfig.primary,
+        color: AppColors.primary,
         child: ListView(
           controller: controller.loadingUtil.value.scrollController,
           children: [
@@ -118,10 +118,10 @@ class GroupCenterPage extends GetView<GroupCenterController> {
                       Icons.location_on_outlined,
                       color: Colors.white,
                     ),
-                    Sized.hGap5,
+                    AppGaps.hGap5,
                     Expanded(
                       child: Obx(
-                        () => ZHTextLine(
+                        () => AppText(
                           str: controller.locationStr.value ?? '',
                           color: Colors.white,
                           fontSize: 12,
@@ -132,7 +132,7 @@ class GroupCenterPage extends GetView<GroupCenterController> {
                   ],
                 ),
               ),
-              Sized.hGap10,
+              AppGaps.hGap10,
               PlainButton(
                 text: '发起拼团',
                 borderColor: Colors.white,
@@ -201,21 +201,21 @@ class GroupCenterPage extends GetView<GroupCenterController> {
                             decoration: BoxDecoration(
                               color: controller.groupStatus.value == e['value']
                                   ? Colors.white
-                                  : BaseStylesConfig.bgGray,
+                                  : AppColors.bgGray,
                               borderRadius: BorderRadius.circular(999),
                               border: Border.all(
                                   width: 1,
                                   color:
                                       controller.groupStatus.value == e['value']
-                                          ? BaseStylesConfig.groupText
-                                          : BaseStylesConfig.bgGray),
+                                          ? AppColors.groupText
+                                          : AppColors.bgGray),
                             ),
-                            child: ZHTextLine(
+                            child: AppText(
                               str: e['name'],
                               fontSize: 13,
                               color: controller.groupStatus.value == e['value']
-                                  ? BaseStylesConfig.groupText
-                                  : BaseStylesConfig.textBlack,
+                                  ? AppColors.groupText
+                                  : AppColors.textBlack,
                             ),
                           ),
                         ),
@@ -250,11 +250,11 @@ class GroupCenterPage extends GetView<GroupCenterController> {
             color: Colors.transparent,
             border: Border(
               bottom: controller.groupType.value == type
-                  ? const BorderSide(color: BaseStylesConfig.primary, width: 3)
+                  ? const BorderSide(color: AppColors.primary, width: 3)
                   : BorderSide.none,
             ),
           ),
-          child: ZHTextLine(
+          child: AppText(
             str: title.ts,
             fontWeight: controller.groupType.value == type
                 ? FontWeight.bold
@@ -274,7 +274,7 @@ class GroupCenterPage extends GetView<GroupCenterController> {
         Container(
           margin: const EdgeInsets.only(bottom: 20),
           decoration: BoxDecoration(
-            border: Border.all(color: BaseStylesConfig.line),
+            border: Border.all(color: AppColors.line),
             borderRadius: BorderRadius.circular(5),
           ),
           child: Row(
@@ -300,7 +300,7 @@ class GroupCenterPage extends GetView<GroupCenterController> {
                 child: Container(
                   color: Colors.white,
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '搜索'.ts,
                   ),
                 ),
@@ -312,7 +312,7 @@ class GroupCenterPage extends GetView<GroupCenterController> {
           spacing: 10,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            ZHTextLine(
+            AppText(
               str: '排序'.ts,
               fontSize: 12,
             ),
@@ -329,21 +329,21 @@ class GroupCenterPage extends GetView<GroupCenterController> {
                         decoration: BoxDecoration(
                           color: controller.sortIndex.value == e
                               ? Colors.white
-                              : BaseStylesConfig.bgGray,
+                              : AppColors.bgGray,
                           borderRadius: BorderRadius.circular(999),
                           border: Border.all(
                               width: 1,
                               color: controller.sortIndex.value == e
-                                  ? BaseStylesConfig.groupText
-                                  : BaseStylesConfig.bgGray),
+                                  ? AppColors.groupText
+                                  : AppColors.bgGray),
                         ),
                         child: Obx(
-                          () => ZHTextLine(
+                          () => AppText(
                             str: sortList[e],
                             fontSize: 11,
                             color: controller.sortIndex.value == e
-                                ? BaseStylesConfig.groupText
-                                : BaseStylesConfig.textBlack,
+                                ? AppColors.groupText
+                                : AppColors.textBlack,
                           ),
                         ),
                       ),

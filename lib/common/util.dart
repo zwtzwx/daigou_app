@@ -149,6 +149,23 @@ class Util {
     launchUrl(uri);
   }
 
+  // 第三方平台商品图标
+  static String getPlatformIcon(String? platform) {
+    String icon = 'Home/tao';
+    switch (platform) {
+      case 'jd':
+        icon = 'Shop/jd';
+        break;
+      case 'pinduoduo':
+        icon = 'Shop/pdd';
+        break;
+      case '1688':
+        icon = 'Shop/1688';
+        break;
+    }
+    return icon;
+  }
+
   // 语言占位符替换
   static List<String> parsePlaceholder(String str) {
     List<String> list = [];

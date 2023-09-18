@@ -10,8 +10,8 @@ import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/views/common/country/country_controller.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:jiyun_app_client/views/components/goods/search_input.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/components/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,7 +26,7 @@ class CountryListView extends GetView<CountryController> {
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: ZHTextLine(
+          title: AppText(
             str: '选择国家或地区'.ts,
             fontSize: 18,
           ),
@@ -34,25 +34,26 @@ class CountryListView extends GetView<CountryController> {
             TextButton(
               onPressed: controller.onSearch,
               child: Obx(
-                () => ZHTextLine(
+                () => AppText(
                   str: !controller.isSearch.value ? '搜索'.ts : '取消'.ts,
                 ),
               ),
             ),
           ],
         ),
-        backgroundColor: BaseStylesConfig.bgGray,
+        backgroundColor: AppColors.bgGray,
         body: Obx(() {
           return controller.isSearch.value
               ? Column(
                   children: <Widget>[
                     Container(
-                      padding: const EdgeInsets.only(right: 5, left: 5),
-                      child: SearchBar(
-                        controller: controller.controller,
-                        focusNode: controller.focusNode,
-                        onSearch: (str) {},
-                        onSearchClick: (str) {
+                      color: Colors.white,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
+                      child: SearchCell(
+                        hintText: '输入关键字查询',
+                        searchText: '搜索',
+                        onSearch: (str) {
                           controller.loadList(str);
                         },
                       ),
@@ -61,90 +62,95 @@ class CountryListView extends GetView<CountryController> {
                 )
               : Stack(
                   children: <Widget>[
-                    controller.dataList.isEmpty
-                        ? Center(
-                            child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              const SizedBox(
-                                height: 140,
-                                width: 140,
-                                child: LoadImage(
-                                  '',
-                                  fit: BoxFit.contain,
-                                  holderImg: "Home/empty",
-                                  format: "png",
+                    Obx(
+                      () => controller.dataList.isEmpty
+                          ? Center(
+                              child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                const SizedBox(
+                                  height: 140,
+                                  width: 140,
+                                  child: LoadImage(
+                                    '',
+                                    fit: BoxFit.contain,
+                                    holderImg: "Home/empty",
+                                    format: "png",
+                                  ),
                                 ),
-                              ),
-                              ZHTextLine(
-                                str: '没有匹配的国家'.ts,
-                                color: BaseStylesConfig.textGrayC,
-                              )
-                            ],
-                          ))
-                        : Padding(
-                            padding: const EdgeInsets.only(left: 0, right: 0),
-                            child: ListView.builder(
-                                controller: controller.scrollController,
-                                itemCount: controller.dataList.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  List<CountryModel> cellList =
-                                      controller.dataList[index].items;
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      phoneCodeIndexName(
-                                          context,
-                                          index,
-                                          controller.dataList[index].letter
-                                              .toUpperCase()),
-                                      ListView.builder(
-                                          itemBuilder: (BuildContext context,
-                                              int index2) {
-                                            return GestureDetector(
-                                              child: Container(
-                                                color: BaseStylesConfig.white,
-                                                padding: const EdgeInsets.only(
-                                                    left: 15),
-                                                height: 46,
-                                                width:
-                                                    ScreenUtil().screenWidth -
-                                                        50,
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 10),
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      ZHTextLine(
-                                                        str: cellList[index2]
-                                                            .timezone!,
-                                                      ),
-                                                      Sized.hGap10,
-                                                      ZHTextLine(
-                                                        str: cellList[index2]
-                                                            .name!,
-                                                      ),
-                                                    ],
+                                AppText(
+                                  str: '没有匹配的国家'.ts,
+                                  color: AppColors.textGrayC,
+                                )
+                              ],
+                            ))
+                          : Padding(
+                              padding: const EdgeInsets.only(left: 0, right: 0),
+                              child: ListView.builder(
+                                  controller: controller.scrollController,
+                                  itemCount: controller.dataList.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    List<CountryModel> cellList =
+                                        controller.dataList[index].items;
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        phoneCodeIndexName(
+                                            context,
+                                            index,
+                                            controller.dataList[index].letter
+                                                .toUpperCase()),
+                                        ListView.builder(
+                                            itemBuilder: (BuildContext context,
+                                                int index2) {
+                                              return GestureDetector(
+                                                child: Container(
+                                                  color: AppColors.white,
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 15),
+                                                  height: 46,
+                                                  width:
+                                                      ScreenUtil().screenWidth -
+                                                          50,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 10),
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        AppText(
+                                                          str: cellList[index2]
+                                                              .timezone!,
+                                                        ),
+                                                        AppGaps.hGap10,
+                                                        AppText(
+                                                          str: cellList[index2]
+                                                              .name!,
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              onTap: () {
-                                                CountryModel model =
-                                                    cellList[index2];
-                                                controller
-                                                    .onCountrySelect(model);
-                                              },
-                                            );
-                                          },
-                                          itemCount: cellList.length,
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics()) //禁用滑动事件),
-                                    ],
-                                  );
-                                }),
-                          ),
+                                                onTap: () {
+                                                  CountryModel model =
+                                                      cellList[index2];
+                                                  controller
+                                                      .onCountrySelect(model);
+                                                },
+                                              );
+                                            },
+                                            itemCount: cellList.length,
+                                            shrinkWrap: true,
+                                            physics:
+                                                const NeverScrollableScrollPhysics()) //禁用滑动事件),
+                                      ],
+                                    );
+                                  }),
+                            ),
+                    ),
                     Positioned(
                         top: 0,
                         bottom: 0,
@@ -169,9 +175,9 @@ class CountryListView extends GetView<CountryController> {
                                       color: Colors.transparent,
                                       height: 35,
                                       width: 50,
-                                      child: ZHTextLine(
+                                      child: AppText(
                                         str: controller.dataList[index].letter,
-                                        color: BaseStylesConfig.main,
+                                        color: AppColors.main,
                                       )),
                                   onTap: () {
                                     var height = index * 25.0;
@@ -199,7 +205,7 @@ class CountryListView extends GetView<CountryController> {
       width: MediaQuery.of(context).size.width,
       height: 25,
       color: HexToColor('#F5F5F5'),
-      child: ZHTextLine(
+      child: AppText(
         str: indexName,
       ),
     );

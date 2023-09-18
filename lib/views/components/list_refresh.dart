@@ -267,9 +267,9 @@ class _ListRefreshState extends State<ListRefresh> {
             format: "png",
           ),
         ),
-        ZHTextLine(
+        AppText(
           str: widget.noMessageTip.ts,
-          color: BaseStylesConfig.textGrayC,
+          color: AppColors.textGrayC,
         )
       ],
     ));

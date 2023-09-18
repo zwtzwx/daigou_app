@@ -25,17 +25,17 @@ class OrderCenterView extends GetView<OrderCenterController> {
         elevation: 0.5,
         centerTitle: true,
         title: Obx(
-          () => ZHTextLine(
+          () => AppText(
             str: '我的包裹'.ts,
-            color: BaseStylesConfig.textBlack,
+            color: AppColors.textBlack,
             fontSize: 18,
           ),
         ),
         leading: const BackButton(color: Colors.black),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: RefreshIndicator(
-        color: BaseStylesConfig.themeRed,
+        color: AppColors.themeRed,
         child: btnCell(),
         onRefresh: controller.getDatas,
       ),
@@ -48,7 +48,7 @@ class OrderCenterView extends GetView<OrderCenterController> {
   Widget btnCell() {
     return Container(
       decoration: BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(5),
       ),
       padding: EdgeInsets.only(top: 10.h),
@@ -146,25 +146,25 @@ class OrderCenterView extends GetView<OrderCenterController> {
                         right: 0,
                         child: Container(
                           alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                              color: BaseStylesConfig.textRed,
+                          decoration: BoxDecoration(
+                              color: AppColors.textRed,
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0))),
-                          height: 20,
-                          width: 20,
-                          child: ZHTextLine(
+                                  BorderRadius.all(Radius.circular(9.r))),
+                          height: 18.w,
+                          width: 18.w,
+                          child: AppText(
                             alignment: TextAlign.center,
                             str: list[index]['qty'],
-                            fontSize: list[index]['qty'].length == 1 ? 14 : 12,
+                            fontSize: list[index]['qty'].length == 1 ? 14 : 10,
                             fontWeight: FontWeight.bold,
-                            color: BaseStylesConfig.white,
+                            color: AppColors.white,
                           ),
                         ),
                       )
-                    : Sized.empty,
+                    : AppGaps.empty,
               ],
             ),
-            ZHTextLine(
+            AppText(
               str: (list[index]['title'] as String).ts,
               lines: 5,
               alignment: TextAlign.center,

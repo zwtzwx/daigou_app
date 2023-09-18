@@ -40,7 +40,6 @@ class GroupModel {
   GroupMemberModel? leader;
   CoordinateModel? coordinate;
   OrderModel? order;
-  bool canSubmit = false;
 
   GroupModel(
       {this.country,

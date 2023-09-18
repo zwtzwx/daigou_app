@@ -22,11 +22,11 @@ class WarehouseView extends GetView<WarehouseController> {
         elevation: 0.5,
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '仓库地址'.ts,
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: ListView.builder(
         itemCount: 2,
         itemBuilder: buildListItem,
@@ -45,16 +45,16 @@ class WarehouseView extends GetView<WarehouseController> {
   Widget bannerCell() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-      color: BaseStylesConfig.warningText,
+      color: AppColors.warningText,
       child: Row(
         children: [
           const Icon(
             Icons.info,
             color: Colors.white,
           ),
-          Sized.hGap5,
+          AppGaps.hGap5,
           Expanded(
-            child: ZHTextLine(
+            child: AppText(
               str: '收件人后面的字母和数字是您的唯一标识快递单务必填写'.ts,
               color: Colors.white,
               fontSize: 13,
@@ -119,22 +119,22 @@ class WarehouseView extends GetView<WarehouseController> {
         decoration: const BoxDecoration(
           color: Colors.white,
           border: Border(
-            bottom: BorderSide(color: BaseStylesConfig.line),
+            bottom: BorderSide(color: AppColors.line),
           ),
         ),
         child: Row(
           children: [
             SizedBox(
               width: 100,
-              child: ZHTextLine(
+              child: AppText(
                 str: labels[i].ts,
-                color: BaseStylesConfig.textGray,
+                color: AppColors.textGray,
                 fontSize: 16,
                 lines: 3,
               ),
             ),
             Expanded(
-              child: ZHTextLine(
+              child: AppText(
                 str: contents[i],
                 lines: 4,
                 fontSize: 16,
@@ -146,20 +146,20 @@ class WarehouseView extends GetView<WarehouseController> {
                     margin: const EdgeInsets.only(left: 10),
                     decoration: const BoxDecoration(
                       border: Border(
-                        left: BorderSide(color: BaseStylesConfig.line),
+                        left: BorderSide(color: AppColors.line),
                       ),
                     ),
                     child: GestureDetector(
                       onTap: () {
                         controller.onCopy(contents[i]);
                       },
-                      child: ZHTextLine(
+                      child: AppText(
                         str: '复制'.ts,
                         fontSize: 14,
                       ),
                     ),
                   )
-                : Sized.empty,
+                : AppGaps.empty,
           ],
         ),
       ));
@@ -172,7 +172,7 @@ class WarehouseView extends GetView<WarehouseController> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ZHTextLine(
+              AppText(
                 str: model.warehouseName!,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -187,12 +187,12 @@ class WarehouseView extends GetView<WarehouseController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ZHTextLine(
+              AppText(
                 str: '温馨提示'.ts + '：',
                 fontSize: 12,
               ),
-              Sized.vGap5,
-              ZHTextLine(
+              AppGaps.vGap5,
+              AppText(
                 str: model.tips ?? '',
                 fontSize: 12,
                 lines: 4,
@@ -203,7 +203,7 @@ class WarehouseView extends GetView<WarehouseController> {
         Container(
           margin: const EdgeInsets.all(15),
           height: 50,
-          color: BaseStylesConfig.bgGray,
+          color: AppColors.bgGray,
           child: MainButton(
             text: '一键复制仓库地址',
             onPressed: () {

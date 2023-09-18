@@ -103,8 +103,8 @@ class RechargeController extends BaseController {
       showToast('请选择充值金额');
       return;
     } else if (selectButton.value == defaultAmountList.length &&
-        (amount.value * 100).toInt() == 0) {
-      showToast('请输入充值金额');
+        (amount.value * 100).toInt() <= 0) {
+      showToast('请输入正确的充值金额');
       return;
     } else if (selectType.isEmpty) {
       showToast('请选择充值方式');

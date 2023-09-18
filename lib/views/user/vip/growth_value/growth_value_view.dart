@@ -18,7 +18,7 @@ class GrowthValueView extends GetView<GrowthValueController> {
     return Scaffold(
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: ListRefresh(
         renderItem: buildCellForFirstListView,
         refresh: controller.loadList,
@@ -32,7 +32,7 @@ class GrowthValueView extends GetView<GrowthValueController> {
       height: 55,
       margin: const EdgeInsets.only(right: 15, left: 15),
       width: ScreenUtil().screenWidth - 30,
-      color: BaseStylesConfig.white,
+      color: AppColors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
@@ -40,13 +40,13 @@ class GrowthValueView extends GetView<GrowthValueController> {
             flex: 2,
             child: Container(
               alignment: Alignment.center,
-              child: ZHTextLine(
+              child: AppText(
                 str: model.ruleName,
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
                 color: model.isValid == 0
-                    ? BaseStylesConfig.textGrayC
-                    : BaseStylesConfig.textBlack,
+                    ? AppColors.textGrayC
+                    : AppColors.textBlack,
               ),
             ),
           ),
@@ -54,14 +54,14 @@ class GrowthValueView extends GetView<GrowthValueController> {
             flex: 2,
             child: Container(
               alignment: Alignment.center,
-              child: ZHTextLine(
+              child: AppText(
                 alignment: TextAlign.center,
                 str: model.createdAt,
                 fontSize: 11,
                 fontWeight: FontWeight.w400,
                 color: model.isValid == 0
-                    ? BaseStylesConfig.textGrayC
-                    : BaseStylesConfig.textBlack,
+                    ? AppColors.textGrayC
+                    : AppColors.textBlack,
               ),
             ),
           ),
@@ -69,16 +69,16 @@ class GrowthValueView extends GetView<GrowthValueController> {
             flex: 2,
             child: Container(
               alignment: Alignment.center,
-              child: ZHTextLine(
+              child: AppText(
                 str: model.type == 1
                     ? '+' + model.value.toString()
                     : '-' + model.value.toString(),
                 fontSize: 13,
                 color: model.isValid == 0
-                    ? BaseStylesConfig.textGrayC
+                    ? AppColors.textGrayC
                     : model.type == 1
-                        ? BaseStylesConfig.textDark
-                        : BaseStylesConfig.textRed,
+                        ? AppColors.textDark
+                        : AppColors.textRed,
               ),
             ),
           ),
@@ -124,42 +124,42 @@ class GrowthValueView extends GetView<GrowthValueController> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Obx(
-                    () => ZHTextLine(
+                    () => AppText(
                       str: controller
                               .vipDataModel.value?.profile.currentGrowthValue
                               .toString() ??
                           '',
-                      color: BaseStylesConfig.vipNormal,
+                      color: AppColors.vipNormal,
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
                     ),
                   ),
-                  Sized.vGap5,
-                  ZHTextLine(
+                  AppGaps.vGap5,
+                  AppText(
                     str: '成长值'.ts,
-                    color: BaseStylesConfig.vipNormal,
+                    color: AppColors.vipNormal,
                   ),
-                  Sized.vGap15,
+                  AppGaps.vGap15,
                   Obx(
                     () => Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ZHTextLine(
+                        AppText(
                           str: '当前等级'.ts +
                               '：' +
                               (controller
                                       .vipDataModel.value?.profile.levelName ??
                                   ''),
-                          color: BaseStylesConfig.vipNormal,
+                          color: AppColors.vipNormal,
                         ),
-                        ZHTextLine(
+                        AppText(
                           str: '下一等级成长值'.ts +
                               '：' +
                               (controller.vipDataModel.value?.profile
                                       .nextGrowthValue
                                       .toString() ??
                                   ''),
-                          color: BaseStylesConfig.vipNormal,
+                          color: AppColors.vipNormal,
                         ),
                       ],
                     ),
@@ -175,7 +175,7 @@ class GrowthValueView extends GetView<GrowthValueController> {
             child: Container(
               alignment: Alignment.center,
               decoration: const BoxDecoration(
-                color: BaseStylesConfig.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10)),
@@ -185,7 +185,7 @@ class GrowthValueView extends GetView<GrowthValueController> {
                   Container(
                       height: 54,
                       decoration: const BoxDecoration(
-                        color: BaseStylesConfig.white,
+                        color: AppColors.white,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10)),
@@ -198,7 +198,7 @@ class GrowthValueView extends GetView<GrowthValueController> {
                             flex: 2,
                             child: Container(
                               alignment: Alignment.center,
-                              child: ZHTextLine(
+                              child: AppText(
                                 str: '类型'.ts,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -209,7 +209,7 @@ class GrowthValueView extends GetView<GrowthValueController> {
                             flex: 2,
                             child: Container(
                               alignment: Alignment.center,
-                              child: ZHTextLine(
+                              child: AppText(
                                 str: '时间'.ts,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -220,7 +220,7 @@ class GrowthValueView extends GetView<GrowthValueController> {
                             flex: 2,
                             child: Container(
                                 alignment: Alignment.center,
-                                child: ZHTextLine(
+                                child: AppText(
                                   str: '明细'.ts,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
@@ -228,8 +228,8 @@ class GrowthValueView extends GetView<GrowthValueController> {
                           ),
                         ],
                       )),
-                  Sized.line,
-                  Sized.line
+                  AppGaps.line,
+                  AppGaps.line
                 ],
               ),
             ),

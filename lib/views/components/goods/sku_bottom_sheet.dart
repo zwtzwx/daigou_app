@@ -174,7 +174,7 @@ class _SKUBottomSheetState extends State<SKUBottomSheet> {
                     height: ScreenUtil().setWidth(80),
                   ),
                 ),
-                Sized.hGap15,
+                AppGaps.hGap15,
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,7 +233,7 @@ class _SKUBottomSheetState extends State<SKUBottomSheet> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  ZHTextLine(
+                                  AppText(
                                     str: e.name ?? '',
                                     fontSize: 14,
                                   ),
@@ -253,14 +253,14 @@ class _SKUBottomSheetState extends State<SKUBottomSheet> {
                                                 color: tempSelectProps[e.id] ==
                                                         prop.id
                                                     ? const Color(0xFFFFEFEF)
-                                                    : BaseStylesConfig.bgGray,
+                                                    : AppColors.bgGray,
                                                 borderRadius:
                                                     BorderRadius.circular(999),
                                               ),
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 20.w,
                                                   vertical: 3.w),
-                                              child: ZHTextLine(
+                                              child: AppText(
                                                 str: (prop.name ?? '') +
                                                     (prop.noStock
                                                         ? '(${'缺货'.ts})'
@@ -270,8 +270,7 @@ class _SKUBottomSheetState extends State<SKUBottomSheet> {
                                                 color: tempSelectProps[e.id] ==
                                                         prop.id
                                                     ? const Color(0xFFFF6868)
-                                                    : BaseStylesConfig
-                                                        .textGrayC9,
+                                                    : AppColors.textGrayC9,
                                               ),
                                             ),
                                           ),
@@ -286,7 +285,7 @@ class _SKUBottomSheetState extends State<SKUBottomSheet> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ZHTextLine(
+                        AppText(
                           str: '数量'.ts,
                           fontSize: 14,
                         ),
@@ -300,7 +299,7 @@ class _SKUBottomSheetState extends State<SKUBottomSheet> {
                                 Icons.remove,
                                 size: 24,
                                 color: qty == 1
-                                    ? BaseStylesConfig.textGray
+                                    ? AppColors.textGray
                                     : Colors.black,
                               ),
                             ),
@@ -313,7 +312,7 @@ class _SKUBottomSheetState extends State<SKUBottomSheet> {
                                 borderRadius: BorderRadius.circular(2),
                               ),
                               width: ScreenUtil().setWidth(50),
-                              child: ZHTextLine(
+                              child: AppText(
                                 str: qty.toString(),
                                 fontWeight: FontWeight.bold,
                               ),
@@ -326,7 +325,7 @@ class _SKUBottomSheetState extends State<SKUBottomSheet> {
                                 Icons.add,
                                 size: 24,
                                 color: qty == sku?.quantity
-                                    ? BaseStylesConfig.textGray
+                                    ? AppColors.textGray
                                     : Colors.black,
                               ),
                             ),

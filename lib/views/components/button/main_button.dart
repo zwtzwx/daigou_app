@@ -13,8 +13,8 @@ class MainButton extends StatelessWidget {
     this.elevation = 0,
     this.borderRadis = 5,
     this.fontWeight = FontWeight.w400,
-    this.backgroundColor = BaseStylesConfig.primary,
-    this.textColor = BaseStylesConfig.textDark,
+    this.backgroundColor = AppColors.primary,
+    this.textColor = AppColors.textDark,
     this.onPressed,
   }) : super(key: key);
 
@@ -52,7 +52,7 @@ class MainButton extends StatelessWidget {
           ),
         ),
         child: Obx(
-          () => ZHTextLine(
+          () => AppText(
             str: text.ts,
             color: textColor,
             fontSize: fontSize,

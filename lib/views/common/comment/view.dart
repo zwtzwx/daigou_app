@@ -21,9 +21,9 @@ class CommentPage extends GetView<CommentController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '用户评价'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 17,
         ),
       ),
@@ -33,7 +33,7 @@ class CommentPage extends GetView<CommentController> {
 
   Widget buildListView() {
     var listView = Container(
-      color: BaseStylesConfig.bgGray,
+      color: AppColors.bgGray,
       child: ListRefresh(
         renderItem: buildBottomListCell,
         refresh: controller.loadList,
@@ -49,7 +49,7 @@ class CommentPage extends GetView<CommentController> {
     double imgHeight = model.images.isEmpty ? 0 : (1.sw - 60) / 4;
     return Container(
         decoration: BoxDecoration(
-          color: BaseStylesConfig.white,
+          color: AppColors.white,
           borderRadius: const BorderRadius.all(Radius.circular(15)),
           border: Border.all(width: 1, color: Colors.white),
         ),
@@ -66,7 +66,7 @@ class CommentPage extends GetView<CommentController> {
                   Container(
                       margin: const EdgeInsets.only(top: 0, left: 15),
                       decoration: const BoxDecoration(
-                        color: BaseStylesConfig.white,
+                        color: AppColors.white,
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
                       height: 40,
@@ -94,10 +94,10 @@ class CommentPage extends GetView<CommentController> {
                                       margin: const EdgeInsets.only(
                                           top: 10, left: 15),
                                       alignment: Alignment.centerLeft,
-                                      child: ZHTextLine(
+                                      child: AppText(
                                         str: model.user!.name,
                                         fontSize: 16,
-                                        color: BaseStylesConfig.textBlack,
+                                        color: AppColors.textBlack,
                                       )),
                                   // Container(
                                   //     height: 15,
@@ -107,13 +107,13 @@ class CommentPage extends GetView<CommentController> {
                                   //     decoration: BoxDecoration(
                                   //       borderRadius: BorderRadius.all(
                                   //           Radius.circular(3)),
-                                  //       color: BaseStylesConfig.vipBG,
+                                  //       color: AppColors.vipBG,
                                   //     ),
                                   //     alignment: Alignment.center,
-                                  //     child: ZHTextLine(
+                                  //     child: AppText(
                                   //       str: 'V6',
                                   //       fontSize: 10,
-                                  //       color: BaseStylesConfig.white,
+                                  //       color: AppColors.white,
                                   //     )),
                                 ],
                               ),
@@ -121,10 +121,10 @@ class CommentPage extends GetView<CommentController> {
                                   height: 20,
                                   margin: const EdgeInsets.only(top: 10),
                                   alignment: Alignment.bottomRight,
-                                  child: ZHTextLine(
+                                  child: AppText(
                                     str: model.createdAt.split(' ').first,
                                     fontSize: 14,
-                                    color: BaseStylesConfig.textGrayC,
+                                    color: AppColors.textGrayC,
                                   )),
                             ],
                           ),
@@ -146,11 +146,11 @@ class CommentPage extends GetView<CommentController> {
                   margin: const EdgeInsets.only(bottom: 10, top: 5),
                   width: ScreenUtil().screenWidth - 42,
                   alignment: Alignment.topLeft,
-                  child: ZHTextLine(
+                  child: AppText(
                     lines: 99,
                     str: model.content,
                     fontSize: 17,
-                    color: BaseStylesConfig.textBlack,
+                    color: AppColors.textBlack,
                   )),
             ]),
             Container(
@@ -165,10 +165,10 @@ class CommentPage extends GetView<CommentController> {
                   children: <Widget>[
                     const Icon(
                       Icons.location_on,
-                      color: BaseStylesConfig.textGray,
+                      color: AppColors.textGray,
                       size: 15,
                     ),
-                    ZHTextLine(
+                    AppText(
                       fontSize: 13,
                       str: model.order!.address.countryName,
                     )
@@ -230,7 +230,7 @@ class CommentPage extends GetView<CommentController> {
   Widget buildMoreSupportType(int index, CommentModel model) {
     return model.images.isNotEmpty
         ? Container(
-            color: BaseStylesConfig.white,
+            color: AppColors.white,
             padding: const EdgeInsets.only(top: 0),
             child: GridView.builder(
                 shrinkWrap: true,
@@ -260,7 +260,7 @@ class CommentPage extends GetView<CommentController> {
           // NinePictureAllScreenShow(model.images, index);
         },
         child: Container(
-          color: BaseStylesConfig.white,
+          color: AppColors.white,
           child: LoadImage(
             model.images[index],
             fit: BoxFit.fitWidth,

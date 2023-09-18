@@ -53,22 +53,22 @@ class _CountdownDelayState extends State<CountdownDelay> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ZHTextLine(
+            AppText(
               str: '延长拼团天数'.ts,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
-            Sized.vGap15,
+            AppGaps.vGap15,
             Row(
               children: [
                 Expanded(
                   flex: 1,
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '延长'.ts,
                     fontSize: 14,
                   ),
                 ),
-                Sized.hGap15,
+                AppGaps.hGap15,
                 Expanded(
                   flex: 2,
                   child: Container(
@@ -76,7 +76,7 @@ class _CountdownDelayState extends State<CountdownDelay> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(999),
                       border: Border.all(
-                        color: BaseStylesConfig.line,
+                        color: AppColors.line,
                       ),
                     ),
                     child: Row(
@@ -97,12 +97,12 @@ class _CountdownDelayState extends State<CountdownDelay> {
                             decoration: const BoxDecoration(
                               border: Border.symmetric(
                                 vertical: BorderSide(
-                                  color: BaseStylesConfig.line,
+                                  color: AppColors.line,
                                 ),
                               ),
                             ),
                             alignment: Alignment.center,
-                            child: ZHTextLine(
+                            child: AppText(
                               str: days.toString(),
                               fontSize: 18,
                             ),
@@ -124,7 +124,7 @@ class _CountdownDelayState extends State<CountdownDelay> {
                 ),
               ],
             ),
-            Sized.vGap20,
+            AppGaps.vGap20,
             SizedBox(
               height: 45,
               child: MainButton(

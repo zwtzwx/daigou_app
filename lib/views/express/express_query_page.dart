@@ -25,7 +25,7 @@ class ExpressQueryView extends GetView<ExpressQueryController> {
     return Scaffold(
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -51,8 +51,12 @@ class ExpressQueryView extends GetView<ExpressQueryController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildSearchView(),
-                  Sized.vGap10,
-                  controller.isSearch.value ? buildResultView() : Sized.empty,
+                  AppGaps.vGap10,
+                  Obx(
+                    () => controller.isSearch.value
+                        ? buildResultView()
+                        : AppGaps.empty,
+                  ),
                 ],
               ),
             ),
@@ -79,19 +83,19 @@ class ExpressQueryView extends GetView<ExpressQueryController> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
             child: Obx(
-              () => ZHTextLine(
+              () => AppText(
                 str: '物流跟踪'.ts,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
             ),
           ),
-          Sized.line,
+          AppGaps.line,
           Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               height: 45,
               decoration: BoxDecoration(
-                color: BaseStylesConfig.line,
+                color: AppColors.bgGray,
                 borderRadius: BorderRadius.circular(5),
               ),
               child: ClipRRect(
@@ -107,6 +111,7 @@ class ExpressQueryView extends GetView<ExpressQueryController> {
                           focusNode: controller.expressNumNode,
                           autoShowRemove: false,
                           isCollapsed: true,
+                          maxLength: 50,
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 15),
                           hintText: '请输入快递单号'.ts,
@@ -155,9 +160,7 @@ class ExpressQueryView extends GetView<ExpressQueryController> {
                       indicator: Icon(
                         index == 0 ? Icons.check_circle : Icons.circle,
                         size: 17,
-                        color: index == 0
-                            ? BaseStylesConfig.green
-                            : Colors.grey[300],
+                        color: index == 0 ? AppColors.green : Colors.grey[300],
                       ),
                       iconStyle: index == 0
                           ? IconStyle(
@@ -170,23 +173,23 @@ class ExpressQueryView extends GetView<ExpressQueryController> {
                     endChild: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ZHTextLine(
+                        AppText(
                           str: model.ftime,
                           fontSize: 14,
-                          color: BaseStylesConfig.textGray,
+                          color: AppColors.textGray,
                         ),
-                        Sized.vGap10,
-                        ZHTextLine(
+                        AppGaps.vGap10,
+                        AppText(
                           str: model.context,
                           lines: 10,
                         ),
-                        Sized.vGap15,
+                        AppGaps.vGap15,
                       ],
                     ),
                     beforeLineStyle: LineStyle(
                       thickness: 2,
                       color: (index == 0 || index == 1)
-                          ? BaseStylesConfig.green
+                          ? AppColors.green
                           : Colors.grey[300]!,
                     ),
                     afterLineStyle: index > 0

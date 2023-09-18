@@ -20,7 +20,7 @@ class OrderTrackingView extends GetView<TrackController> {
     return Scaffold(
       appBar: const EmptyAppBar(),
       primary: false,
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -46,7 +46,7 @@ class OrderTrackingView extends GetView<TrackController> {
 
   Widget bannerCell() {
     var headerView = Container(
-        color: BaseStylesConfig.bgGray,
+        color: AppColors.bgGray,
         child: Stack(
           children: <Widget>[
             SizedBox(
@@ -82,7 +82,7 @@ class OrderTrackingView extends GetView<TrackController> {
           indicator: Icon(
             i == 0 ? Icons.check_circle : Icons.circle,
             size: 17,
-            color: i == 0 ? BaseStylesConfig.green : Colors.grey[300],
+            color: i == 0 ? AppColors.green : Colors.grey[300],
           ),
           iconStyle: i == 0
               ? IconStyle(
@@ -95,23 +95,22 @@ class OrderTrackingView extends GetView<TrackController> {
         endChild: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ZHTextLine(
+            AppText(
               str: model.ftime,
               fontSize: 14,
-              color: BaseStylesConfig.textGray,
+              color: AppColors.textGray,
             ),
-            Sized.vGap10,
-            ZHTextLine(
+            AppGaps.vGap10,
+            AppText(
               str: model.context,
               lines: 10,
             ),
-            Sized.vGap15,
+            AppGaps.vGap15,
           ],
         ),
         beforeLineStyle: LineStyle(
           thickness: 2,
-          color:
-              (i == 0 || i == 1) ? BaseStylesConfig.green : Colors.grey[300]!,
+          color: (i == 0 || i == 1) ? AppColors.green : Colors.grey[300]!,
         ),
         afterLineStyle: i > 0
             ? LineStyle(

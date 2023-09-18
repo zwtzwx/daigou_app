@@ -18,9 +18,9 @@ Widget emptyBox([String? content]) {
               fit: BoxFit.fitWidth,
             ),
             Obx(
-              () => ZHTextLine(
+              () => AppText(
                 str: (content ?? '暂无内容').ts,
-                color: BaseStylesConfig.textGray,
+                color: AppColors.textGray,
               ),
             ),
           ],

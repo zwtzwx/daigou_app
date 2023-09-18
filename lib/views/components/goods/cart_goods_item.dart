@@ -57,7 +57,7 @@ class CartGoodsItem extends StatelessWidget {
                             value: cartModel.skus
                                 .every((e) => checkedIds!.contains(e.id)),
                             shape: const CircleBorder(),
-                            activeColor: BaseStylesConfig.primary,
+                            activeColor: AppColors.primary,
                             checkColor: Colors.black,
                             onChanged: (value) {
                               if (onChecked != null) {
@@ -67,27 +67,27 @@ class CartGoodsItem extends StatelessWidget {
                             }),
                       ),
                     )
-                  : Sized.empty,
+                  : AppGaps.empty,
               LoadImage(
                 'Shop/cart_shop',
                 width: 20.w,
               ),
               5.horizontalSpace,
               Expanded(
-                child: ZHTextLine(
+                child: AppText(
                   str: cartModel.shopName ?? '',
                   fontSize: 14,
                 ),
               ),
               (orderStatusName ?? '').isNotEmpty
-                  ? ZHTextLine(
+                  ? AppText(
                       str: orderStatusName!,
                       fontSize: 14,
-                      color: BaseStylesConfig.textGrayC9,
+                      color: AppColors.textGrayC9,
                       alignment: TextAlign.right,
                     )
-                  : Sized.empty,
-              otherWiget ?? Sized.empty,
+                  : AppGaps.empty,
+              otherWiget ?? AppGaps.empty,
             ],
           ),
           ...cartModel.skus.map(
@@ -104,7 +104,7 @@ class CartGoodsItem extends StatelessWidget {
                             () => Checkbox(
                                 value: checkedIds!.contains(sku.id),
                                 shape: const CircleBorder(),
-                                activeColor: BaseStylesConfig.primary,
+                                activeColor: AppColors.primary,
                                 checkColor: Colors.black,
                                 onChanged: (value) {
                                   if (onChecked != null) {
@@ -113,7 +113,7 @@ class CartGoodsItem extends StatelessWidget {
                                 }),
                           ),
                         )
-                      : Sized.empty,
+                      : AppGaps.empty,
                   ClipRRect(
                     borderRadius: BorderRadius.circular(5),
                     child: LoadImage(
@@ -128,17 +128,17 @@ class CartGoodsItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ZHTextLine(
+                        AppText(
                           str: sku.name,
                           fontSize: 14,
                         ),
                         ...(sku.skuInfo?.attributes ?? []).map(
                           (info) => Container(
                             margin: EdgeInsets.only(top: 3.h),
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '${info['label']}：${info['value']}',
                               fontSize: 12,
-                              color: BaseStylesConfig.textGrayC9,
+                              color: AppColors.textGrayC9,
                             ),
                           ),
                         ),
@@ -176,7 +176,7 @@ class CartGoodsItem extends StatelessWidget {
                               ),
                             ),
                             previewMode
-                                ? ZHTextLine(
+                                ? AppText(
                                     str: '×${sku.quantity}',
                                     fontSize: 12,
                                   )
@@ -204,8 +204,7 @@ class CartGoodsItem extends StatelessWidget {
                                                   Icons.remove,
                                                   size: 14.sp,
                                                   color: sku.quantity == 1
-                                                      ? BaseStylesConfig
-                                                          .textGray
+                                                      ? AppColors.textGray
                                                       : Colors.black,
                                                 ),
                                               ),
@@ -221,7 +220,7 @@ class CartGoodsItem extends StatelessWidget {
                                                 ),
                                               ),
                                               width: 40.w,
-                                              child: ZHTextLine(
+                                              child: AppText(
                                                 str: sku.quantity.toString(),
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 12,

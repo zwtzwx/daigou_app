@@ -38,13 +38,13 @@ class MemberAvatarWidget extends StatelessWidget {
                     border: Border.all(width: 3, color: Colors.white),
                     color: (member.isGroupLeader! == 1 &&
                             (member.isSubmitted == 0 || leaderFirst))
-                        ? BaseStylesConfig.primary
-                        : BaseStylesConfig.green,
+                        ? AppColors.primary
+                        : AppColors.green,
                     borderRadius: BorderRadius.circular(999),
                   ),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                  child: ZHTextLine(
+                  child: AppText(
                     str: (member.isGroupLeader! == 1 &&
                             (member.isSubmitted == 0 || leaderFirst))
                         ? '团长'.ts
@@ -57,7 +57,7 @@ class MemberAvatarWidget extends StatelessWidget {
                   ),
                 ),
               )
-            : Sized.empty,
+            : AppGaps.empty,
       ],
     );
   }

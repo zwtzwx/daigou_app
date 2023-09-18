@@ -20,7 +20,7 @@ class HelpCenterPage extends GetView<HelpCenterController> {
     return Scaffold(
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: SafeArea(
         child: Column(
           children: [
@@ -112,8 +112,8 @@ class HelpCenterPage extends GetView<HelpCenterController> {
               width: 46,
               height: 46,
             ),
-            Sized.vGap5,
-            ZHTextLine(
+            AppGaps.vGap5,
+            AppText(
               str: label,
               fontSize: 14,
               lines: 2,
@@ -177,11 +177,11 @@ class AnnouncementListState extends State<AnnouncementList> {
         },
         child: Container(
             decoration: const BoxDecoration(
-              color: BaseStylesConfig.white,
+              color: AppColors.white,
               border: Border(
                   bottom: BorderSide(
                       width: 1,
-                      color: BaseStylesConfig.line,
+                      color: AppColors.line,
                       style: BorderStyle.solid)),
             ),
             padding: const EdgeInsets.only(left: 15),
@@ -198,10 +198,10 @@ class AnnouncementListState extends State<AnnouncementList> {
                             width: ScreenUtil().screenWidth - 80,
                             padding: const EdgeInsets.only(top: 15),
                             alignment: Alignment.topLeft,
-                            child: ZHTextLine(
+                            child: AppText(
                               str: model.title,
                               fontSize: 16,
-                              color: BaseStylesConfig.textBlack,
+                              color: AppColors.textBlack,
                             ))),
                     Expanded(
                         child: Container(
@@ -209,9 +209,9 @@ class AnnouncementListState extends State<AnnouncementList> {
                             width: ScreenUtil().screenWidth - 80,
                             padding: const EdgeInsets.only(top: 5),
                             alignment: Alignment.topLeft,
-                            child: ZHTextLine(
+                            child: AppText(
                               str: model.createdAt,
-                              color: BaseStylesConfig.textGrayC,
+                              color: AppColors.textGrayC,
                             ))),
                   ],
                 ),

@@ -21,12 +21,12 @@ class QuestionPage extends GetView<QuestionController> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Obx(
-          () => ZHTextLine(
+          () => AppText(
             str: controller.pageTitle.value.ts,
           ),
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: SafeArea(
         child: Obx(
           () => ListView.builder(
@@ -55,24 +55,24 @@ class QuestionPage extends GetView<QuestionController> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 13, horizontal: 15),
                 decoration: const BoxDecoration(
-                  color: BaseStylesConfig.white,
+                  color: AppColors.white,
                   border: Border(
                       bottom: BorderSide(
                           width: 1,
-                          color: BaseStylesConfig.line,
+                          color: AppColors.line,
                           style: BorderStyle.solid)),
                 ),
-                child: ZHTextLine(
+                child: AppText(
                   str: model.title,
                 ),
               )
             : Container(
                 decoration: const BoxDecoration(
-                  color: BaseStylesConfig.white,
+                  color: AppColors.white,
                   border: Border(
                       bottom: BorderSide(
                           width: 1,
-                          color: BaseStylesConfig.line,
+                          color: AppColors.line,
                           style: BorderStyle.solid)),
                 ),
                 // height: 100,
@@ -84,21 +84,21 @@ class QuestionPage extends GetView<QuestionController> {
                       width: 80,
                       height: 40,
                     ),
-                    Sized.hGap10,
+                    AppGaps.hGap10,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         SizedBox(
-                          child: ZHTextLine(
+                          child: AppText(
                             str: model.title,
                             fontSize: 18,
-                            color: BaseStylesConfig.textBlack,
+                            color: AppColors.textBlack,
                           ),
                         ),
                         SizedBox(
-                          child: ZHTextLine(
+                          child: AppText(
                             str: model.updatedAt!,
-                            color: BaseStylesConfig.textGrayC,
+                            color: AppColors.textGrayC,
                           ),
                         ),
                       ],

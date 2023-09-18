@@ -34,7 +34,7 @@ class LoginController extends BaseController {
   RxBool isButtonEnable = true.obs;
   final timer = Rxn<Timer?>();
   RxInt count = 60.obs;
-  Rx<Color> codeColor = BaseStylesConfig.textBlack.obs;
+  Rx<Color> codeColor = AppColors.textBlack.obs;
   // 电话区号
   RxString areaNumber = '0007'.obs;
   // 电话号码
@@ -218,7 +218,7 @@ class LoginController extends BaseController {
     if (isButtonEnable.value) {
       //当按钮可点击时
       isButtonEnable.value = false; //按钮状态标记
-      codeColor.value = BaseStylesConfig.textGray;
+      codeColor.value = AppColors.textGray;
       initTimer();
     }
   }
@@ -230,7 +230,7 @@ class LoginController extends BaseController {
         timer.cancel(); //倒计时结束取消定时器
         isButtonEnable.value = true; //按钮可点击
         count.value = 60; //重置时间
-        codeColor.value = BaseStylesConfig.textBlack;
+        codeColor.value = AppColors.textBlack;
         sent.value = '发送验证码'.ts; //重置按钮文本
       } else {
         sent.value = '重新发送'.ts + ' ($count)'; //更新文本内容

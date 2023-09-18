@@ -59,7 +59,7 @@ class ProfileController extends BaseController {
   onSubmit() async {
     Map<String, dynamic> upData = {
       'name': nameController.text,
-      'avatar': userImg.isEmpty ? userModel.value!.avatar : userImg,
+      'avatar': userImg.isEmpty ? userModel.value!.avatar : userImg.value,
       'gender': userModel.value!.gender, // 性别
       'live_city': cityNameController.text, // 当前城市
     };

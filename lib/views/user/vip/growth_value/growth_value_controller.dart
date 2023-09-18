@@ -1,6 +1,5 @@
 import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/models/user_point_item_model.dart';
 import 'package:jiyun_app_client/models/user_vip_model.dart';
 import 'package:jiyun_app_client/services/point_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';

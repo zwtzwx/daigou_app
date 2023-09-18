@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 

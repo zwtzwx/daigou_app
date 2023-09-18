@@ -25,14 +25,14 @@ class LoginView extends GetView<LoginController> {
         elevation: 0.5,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: controller.pageTitle.value,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
       ),
-      backgroundColor: BaseStylesConfig.white,
+      backgroundColor: AppColors.white,
       // bottomNavigationBar: buildOtherSignIn(),
       body: SingleChildScrollView(
         child: SizedBox(
@@ -66,25 +66,25 @@ class LoginView extends GetView<LoginController> {
   //                 Expanded(
   //                   child: Container(
   //                     height: 1,
-  //                     color: BaseStylesConfig.textGray,
+  //                     color: AppColors.textGray,
   //                   ),
   //                 ),
-  //                 Sized.hGap5,
-  //                 ZHTextLine(
+  //                 AppGaps.hGap5,
+  //                 AppText(
   //                   str: Translation.t(context, '其它登录方式'),
-  //                   color: BaseStylesConfig.textGray,
+  //                   color: AppColors.textGray,
   //                 ),
-  //                 Sized.hGap5,
+  //                 AppGaps.hGap5,
   //                 Expanded(
   //                   child: Container(
   //                     height: 1,
-  //                     color: BaseStylesConfig.textGray,
+  //                     color: AppColors.textGray,
   //                   ),
   //                 ),
   //               ],
   //             ),
   //           ),
-  //           Sized.vGap15,
+  //           AppGaps.vGap15,
   //           Row(
   //             mainAxisAlignment: Platform.isIOS
   //                 ? MainAxisAlignment.spaceEvenly
@@ -103,7 +103,7 @@ class LoginView extends GetView<LoginController> {
   //                     children: [
   //                       Container(
   //                         decoration: BoxDecoration(
-  //                           border: Border.all(color: BaseStylesConfig.textGray),
+  //                           border: Border.all(color: AppColors.textGray),
   //                           shape: BoxShape.circle,
   //                         ),
   //                         padding: const EdgeInsets.all(7),
@@ -140,7 +140,7 @@ class LoginView extends GetView<LoginController> {
   //                         ),
   //                       ),
   //                     )
-  //                   : Sized.empty,
+  //                   : AppGaps.empty,
   //             ],
   //           )
   //         ],
@@ -171,7 +171,7 @@ class LoginView extends GetView<LoginController> {
   */
   Widget loginCell(BuildContext context) {
     return Container(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         padding: const EdgeInsets.only(right: 40, left: 40),
         child: Column(
           children: <Widget>[
@@ -189,13 +189,13 @@ class LoginView extends GetView<LoginController> {
                           bottom: BorderSide(
                             width: 2,
                             color: controller.loginType.value == 1
-                                ? BaseStylesConfig.primary
+                                ? AppColors.primary
                                 : Colors.white,
                           ),
                         ),
                       ),
                       height: 40,
-                      child: ZHTextLine(
+                      child: AppText(
                         str: '手机号登录'.ts,
                         fontSize: 17,
                         fontWeight: controller.loginType.value == 1
@@ -204,7 +204,7 @@ class LoginView extends GetView<LoginController> {
                       ),
                     ),
                   ),
-                  Sized.hGap15,
+                  AppGaps.hGap15,
                   GestureDetector(
                     onTap: () {
                       controller.onLoginType(2);
@@ -216,13 +216,13 @@ class LoginView extends GetView<LoginController> {
                           bottom: BorderSide(
                             width: 2,
                             color: controller.loginType.value == 2
-                                ? BaseStylesConfig.primary
+                                ? AppColors.primary
                                 : Colors.white,
                           ),
                         ),
                       ),
                       height: 40,
-                      child: ZHTextLine(
+                      child: AppText(
                         str: '邮箱登录'.ts,
                         fontSize: 17,
                         fontWeight: controller.loginType.value == 2
@@ -234,7 +234,7 @@ class LoginView extends GetView<LoginController> {
                 ],
               ),
             ),
-            Sized.vGap50,
+            AppGaps.vGap50,
             Obx(() => controller.loginType.value == 1
                 ? inputPhoneView(context)
                 : inPutEmailNumber(context)),
@@ -253,11 +253,11 @@ class LoginView extends GetView<LoginController> {
                           child: Checkbox(
                             value: controller.saveAccount.value,
                             onChanged: controller.onSaveAccount,
-                            activeColor: BaseStylesConfig.primary,
+                            activeColor: AppColors.primary,
                           ),
                         ),
-                        Sized.hGap10,
-                        ZHTextLine(
+                        AppGaps.hGap10,
+                        AppText(
                           str: '记住密码'.ts,
                         ),
                       ],
@@ -265,15 +265,15 @@ class LoginView extends GetView<LoginController> {
                   ),
                   GestureDetector(
                     onTap: controller.toForgetPassword,
-                    child: ZHTextLine(
+                    child: AppText(
                       str: '忘记密码'.ts + '？',
-                      color: BaseStylesConfig.primary,
+                      color: AppColors.primary,
                     ),
                   )
                 ],
               ),
             ),
-            Sized.vGap10,
+            AppGaps.vGap10,
             SizedBox(
               height: 40,
               width: double.infinity,
@@ -288,11 +288,11 @@ class LoginView extends GetView<LoginController> {
               alignment: Alignment.center,
               child: GestureDetector(
                 onTap: controller.onRegister,
-                child: ZHTextLine(
+                child: AppText(
                   str: '注册'.ts,
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
-                  color: BaseStylesConfig.primary,
+                  color: AppColors.primary,
                 ),
               ),
             ),
@@ -306,11 +306,11 @@ class LoginView extends GetView<LoginController> {
             //         controller.emailController.text = '';
             //         controller.mobileNumberController.text = '';
             //       },
-            //       child: ZHTextLine(
+            //       child: AppText(
             //         str: controller.loginType.value == 1
             //             ? '邮箱登录'.ts
             //             : '手机号登录'.ts,
-            //         color: BaseStylesConfig.primary,
+            //         color: AppColors.primary,
             //       ),
             //     ),
             //   ),
@@ -322,12 +322,10 @@ class LoginView extends GetView<LoginController> {
   inPutEmailNumber(BuildContext context) {
     var inputAccountView = Container(
       decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         border: Border(
             bottom: BorderSide(
-                width: 0.5,
-                color: BaseStylesConfig.line,
-                style: BorderStyle.solid)),
+                width: 0.5, color: AppColors.line, style: BorderStyle.solid)),
       ),
       child: Row(
         children: <Widget>[
@@ -344,10 +342,10 @@ class LoginView extends GetView<LoginController> {
                           ? '请输入手机号或邮箱'.ts
                           : '请输入邮箱'.ts,
                       enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: BaseStylesConfig.line),
+                        borderSide: BorderSide(color: AppColors.line),
                       ),
                       focusedBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: BaseStylesConfig.line),
+                        borderSide: BorderSide(color: AppColors.line),
                       )),
                   onSubmitted: (res) {
                     FocusScope.of(context).requestFocus(controller.validation);
@@ -365,12 +363,10 @@ class LoginView extends GetView<LoginController> {
   inPutVeritfyNumber(BuildContext context) {
     var inputVerifyNumber = Container(
       decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         border: Border(
             bottom: BorderSide(
-                width: 0.5,
-                color: BaseStylesConfig.line,
-                style: BorderStyle.solid)),
+                width: 0.5, color: AppColors.line, style: BorderStyle.solid)),
       ),
       alignment: Alignment.center,
       child: Row(
@@ -386,10 +382,10 @@ class LoginView extends GetView<LoginController> {
                 decoration: InputDecoration(
                     hintText: '请输入密码'.ts,
                     enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: BaseStylesConfig.line),
+                      borderSide: BorderSide(color: AppColors.line),
                     ),
                     focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: BaseStylesConfig.line),
+                      borderSide: BorderSide(color: AppColors.line),
                     )),
                 onSubmitted: (res) {
                   FocusScope.of(context).requestFocus(controller.validation);
@@ -406,13 +402,13 @@ class LoginView extends GetView<LoginController> {
           //               overlayColor: MaterialStateColor.resolveWith(
           //                   (states) => Colors.transparent),
           //             ),
-          //             child: ZHTextLine(
+          //             child: AppText(
           //                 str: controller.sent.value,
           //                 color: controller.codeColor.value),
           //             onPressed: controller.onGetCode,
           //           ),
           //         )
-          //       : Sized.empty;
+          //       : AppGaps.empty;
           // })
         ],
       ),
@@ -424,11 +420,11 @@ class LoginView extends GetView<LoginController> {
   // captchaVerify(BuildContext context) {
   //   var captchaVerify = Container(
   //     decoration: const BoxDecoration(
-  //       color: BaseStylesConfig.white,
+  //       color: AppColors.white,
   //       border: Border(
   //           bottom: BorderSide(
   //               width: 0.5,
-  //               color: BaseStylesConfig.line,
+  //               color: AppColors.line,
   //               style: BorderStyle.solid)),
   //     ),
   //     alignment: Alignment.center,
@@ -444,10 +440,10 @@ class LoginView extends GetView<LoginController> {
   //               decoration: InputDecoration(
   //                   hintText: '请输入图形验证码'.ts,
   //                   enabledBorder: const UnderlineInputBorder(
-  //                     borderSide: BorderSide(color: BaseStylesConfig.line),
+  //                     borderSide: BorderSide(color: AppColors.line),
   //                   ),
   //                   focusedBorder: const UnderlineInputBorder(
-  //                     borderSide: BorderSide(color: BaseStylesConfig.line),
+  //                     borderSide: BorderSide(color: AppColors.line),
   //                   )),
   //               onSubmitted: (res) {
   //                 FocusScope.of(context).requestFocus(controller.validation);
@@ -460,7 +456,7 @@ class LoginView extends GetView<LoginController> {
   //               ? GestureDetector(
   //                   onTap: controller.getCaptcha,
   //                   child: Image.memory(controller.captcha.value!.img))
-  //               : Sized.empty;
+  //               : AppGaps.empty;
   //         })
   //       ],
   //     ),
@@ -471,12 +467,10 @@ class LoginView extends GetView<LoginController> {
   inputPhoneView(BuildContext context) {
     var inputAccountView = Container(
       decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         border: Border(
             bottom: BorderSide(
-                width: 1,
-                color: BaseStylesConfig.line,
-                style: BorderStyle.solid)),
+                width: 1, color: AppColors.line, style: BorderStyle.solid)),
       ),
       child: Row(
         children: <Widget>[
@@ -498,7 +492,7 @@ class LoginView extends GetView<LoginController> {
                               .formatTimezone(controller.areaNumber.value),
                       style: const TextStyle(
                         fontSize: 16.0, //textsize
-                        color: BaseStylesConfig.textNormal,
+                        color: AppColors.textNormal,
                       ),
                     ),
                   ),
@@ -506,12 +500,12 @@ class LoginView extends GetView<LoginController> {
                 const Icon(
                   Icons.arrow_forward_ios,
                   size: 14,
-                  color: BaseStylesConfig.textNormal,
+                  color: AppColors.textNormal,
                 ),
               ],
             ),
           ),
-          Sized.hGap10,
+          AppGaps.hGap10,
           Expanded(
               child: Container(
             height: 40,
@@ -522,11 +516,11 @@ class LoginView extends GetView<LoginController> {
               decoration: InputDecoration(
                 hintText: '请输入手机号'.ts,
                 enabledBorder: const UnderlineInputBorder(
-                  // borderSide: BorderSide(color: BaseStylesConfig.line),
+                  // borderSide: BorderSide(color: AppColors.line),
                   borderSide: BorderSide.none,
                 ),
                 focusedBorder: const UnderlineInputBorder(
-                  // borderSide: BorderSide(color: BaseStylesConfig.line),
+                  // borderSide: BorderSide(color: AppColors.line),
                   borderSide: BorderSide.none,
                 ),
               ),

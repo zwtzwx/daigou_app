@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 
-class ZHTextLine extends StatefulWidget {
+class AppText extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
-  const ZHTextLine(
+  const AppText(
       {this.str = "",
-      this.color = BaseStylesConfig.textBlack,
+      this.color = AppColors.textBlack,
       this.fontSize = 15,
       this.fontWeight = FontWeight.w400,
       this.lines = 1,
@@ -25,7 +25,7 @@ class ZHTextLine extends StatefulWidget {
   ZHTextLineState createState() => ZHTextLineState();
 }
 
-class ZHTextLineState extends State<ZHTextLine> {
+class ZHTextLineState extends State<AppText> {
   @override
   Widget build(BuildContext context) {
     return Text(

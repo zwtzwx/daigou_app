@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,8 +30,12 @@ class VersionUtils {
     return false;
   }
 
-  // 跳转 appstore
-  static void jumpToAppStore() {
-    // launchUrl(Uri.parse('https://apps.apple.com/cn/app/item/id1670291989'));
+  static void jumpToApp() {
+    if (Platform.isIOS) {
+      launchUrl(Uri.parse('https://apps.apple.com/cn/app/item/id1670291989'));
+    } else {
+      launchUrl(Uri.parse(
+          'https://play.google.com/store/apps/details?id=com.zhongha.shop_app_client'));
+    }
   }
 }

@@ -17,19 +17,19 @@ class AgentWithdrawDetailPage extends GetView<AgentWithdrawDetailController> {
           color: Colors.black,
         ),
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '结算详情'.ts,
           fontSize: 17,
         ),
         elevation: 0.5,
         backgroundColor: Colors.white,
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: SingleChildScrollView(
         child: Column(
           children: [
             buildDetailTitle(),
-            Sized.vGap15,
+            AppGaps.vGap15,
             buildCommissionList(),
           ],
         ),
@@ -48,29 +48,29 @@ class AgentWithdrawDetailPage extends GetView<AgentWithdrawDetailController> {
             Container(
               height: 50,
               alignment: Alignment.center,
-              child: ZHTextLine(
+              child: AppText(
                 fontSize: 22,
                 str: (controller.detailModel.value?.amount ?? 0).rate(),
-                color: BaseStylesConfig.textRed,
+                color: AppColors.textRed,
               ),
             ),
-            Sized.vGap20,
-            ZHTextLine(
+            AppGaps.vGap20,
+            AppText(
               str:
                   '流水号'.ts + '：${controller.detailModel.value?.serialNo ?? ''}',
             ),
-            Sized.vGap5,
-            ZHTextLine(
+            AppGaps.vGap5,
+            AppText(
               str: '收款方式'.ts +
                   '：${controller.detailModel.value?.withdrawTypeName ?? ''}',
             ),
-            Sized.vGap5,
-            ZHTextLine(
+            AppGaps.vGap5,
+            AppText(
               str: '收款账户'.ts +
                   '：${controller.detailModel.value?.user?.name ?? ''}',
             ),
-            Sized.vGap5,
-            ZHTextLine(
+            AppGaps.vGap5,
+            AppText(
               str: '结算状态'.ts +
                   '：' +
                   (controller.detailModel.value?.status == 0
@@ -94,7 +94,7 @@ class AgentWithdrawDetailPage extends GetView<AgentWithdrawDetailController> {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: ZHTextLine(
+            child: AppText(
               str: '结算明细'.ts,
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -118,7 +118,7 @@ class AgentWithdrawDetailPage extends GetView<AgentWithdrawDetailController> {
     return Container(
       decoration: const BoxDecoration(
         border: Border(
-          top: BorderSide(color: BaseStylesConfig.line),
+          top: BorderSide(color: AppColors.line),
         ),
       ),
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
@@ -128,25 +128,25 @@ class AgentWithdrawDetailPage extends GetView<AgentWithdrawDetailController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ZHTextLine(
+              AppText(
                 str: model.createdAt,
                 fontSize: 14,
               ),
-              ZHTextLine(
+              AppText(
                 str: model.orderAmount.rate(showPriceSymbol: false) + '元',
                 fontSize: 14,
               ),
             ],
           ),
-          Sized.vGap5,
+          AppGaps.vGap5,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ZHTextLine(
+              AppText(
                 str: '转运单号'.ts + '：' + model.orderNumber,
                 fontSize: 14,
               ),
-              ZHTextLine(
+              AppText(
                 str: '佣金'.ts +
                     '：+' +
                     '{count}元'.tsArgs({

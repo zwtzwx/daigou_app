@@ -10,6 +10,8 @@ class PlatformGoodsController extends BaseController {
   final Rx<LoadingUtil<PlatformGoodsModel>> loadingUtil =
       LoadingUtil<PlatformGoodsModel>().obs;
   final orderBy = ''.obs;
+  final platform = 'pinduoduo'.obs; // 默认拼多多平台商品
+  final filterShow = false.obs;
 
   @override
   onInit() {
@@ -18,7 +20,7 @@ class PlatformGoodsController extends BaseController {
     if (arguments?['keyword'] != null) {
       keyword = arguments!['keyword'];
     }
-    loadingUtil.value.initListener(loadMoreList);
+    loadingUtil.value.initListener(loadMoreList, recordPosition: true);
   }
 
   loadMoreList() async {
@@ -30,6 +32,8 @@ class PlatformGoodsController extends BaseController {
         'page': ++loadingUtil.value.pageIndex,
         'keyword': keyword,
         'sort': orderBy.value,
+        'page_size': 10,
+        'platform': platform.value,
       });
       loadingUtil.value.isLoading = false;
       if (data['dataList'] != null) {
@@ -63,6 +67,10 @@ class PlatformGoodsController extends BaseController {
   void onSortBy(String value) async {
     orderBy.value = value;
     handleRefresh();
+  }
+
+  void onHideFilter() {
+    filterShow.value = false;
   }
 
   @override

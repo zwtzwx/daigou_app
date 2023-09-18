@@ -23,12 +23,12 @@ class LineDetailView extends GetView<LineDetailController> {
         leading: const BackButton(color: Colors.black),
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '详情'.ts,
           fontSize: 18,
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: ListView(
         shrinkWrap: true,
         physics: const AlwaysScrollableScrollPhysics(), //禁用滑动事件
@@ -37,10 +37,10 @@ class LineDetailView extends GetView<LineDetailController> {
               ? (Get.arguments!['type'] == 1
                   ? multipleRegion(context)
                   : singleCell(context))
-              : Sized.empty),
+              : AppGaps.empty),
           Container(
             decoration: const BoxDecoration(
-              color: BaseStylesConfig.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
             margin: const EdgeInsets.only(left: 15, top: 0, right: 15),
@@ -48,7 +48,7 @@ class LineDetailView extends GetView<LineDetailController> {
             // height: reMarkheight + 40,
             alignment: Alignment.centerLeft,
             child: Obx(
-              () => ZHTextLine(
+              () => AppText(
                 fontSize: 14,
                 lines: 99,
                 str: controller.lineModel.value?.remark ?? '',
@@ -64,7 +64,7 @@ class LineDetailView extends GetView<LineDetailController> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
       decoration: const BoxDecoration(
-          color: BaseStylesConfig.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.all(Radius.circular(8))),
       child: Column(
         children: [
@@ -81,7 +81,7 @@ class LineDetailView extends GetView<LineDetailController> {
   lineServiceCell(BuildContext context, RegionModel model) {
     return model.services!.isNotEmpty
         ? Container(
-            color: BaseStylesConfig.white,
+            color: AppColors.white,
             padding:
                 const EdgeInsets.only(top: 10, right: 15, left: 15, bottom: 5),
             child: Column(children: listWidgetForLineServices(context, model)))
@@ -92,7 +92,7 @@ class LineDetailView extends GetView<LineDetailController> {
     List<Widget> viewList = [];
     viewList.add(Container(
       alignment: Alignment.centerLeft,
-      child: ZHTextLine(
+      child: AppText(
         str: '渠道增值服务'.ts,
         fontSize: 20,
         fontWeight: FontWeight.bold,
@@ -140,10 +140,10 @@ class LineDetailView extends GetView<LineDetailController> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      ZHTextLine(
+                      AppText(
                         str: item.name,
                       ),
-                      ZHTextLine(
+                      AppText(
                           str: item.isForced == 0
                               ? '（${'可选'.ts}）'
                               : '（${'必选'.ts}）'),
@@ -151,7 +151,7 @@ class LineDetailView extends GetView<LineDetailController> {
                           ? InkResponse(
                               child: const Icon(
                                 Icons.error_outline_outlined,
-                                color: BaseStylesConfig.green,
+                                color: AppColors.green,
                                 size: 25,
                               ),
                               onTap: () {
@@ -173,28 +173,28 @@ class LineDetailView extends GetView<LineDetailController> {
                             TextSpan(
                               text: first,
                               style: const TextStyle(
-                                  color: BaseStylesConfig.textDark,
+                                  color: AppColors.textDark,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400),
                             ),
                             const TextSpan(
                               text: ' ',
                               style: TextStyle(
-                                color: BaseStylesConfig.textBlack,
+                                color: AppColors.textBlack,
                                 fontSize: 10.0,
                               ),
                             ),
                             TextSpan(
                               text: second,
                               style: const TextStyle(
-                                color: BaseStylesConfig.textBlack,
+                                color: AppColors.textBlack,
                                 fontSize: 15.0,
                               ),
                             ),
                             const TextSpan(
                               text: ' ',
                               style: TextStyle(
-                                color: BaseStylesConfig.textBlack,
+                                color: AppColors.textBlack,
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -202,7 +202,7 @@ class LineDetailView extends GetView<LineDetailController> {
                             TextSpan(
                               text: third,
                               style: const TextStyle(
-                                color: BaseStylesConfig.textDark,
+                                color: AppColors.textDark,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -215,7 +215,7 @@ class LineDetailView extends GetView<LineDetailController> {
                 ],
               ),
             ),
-            Sized.vGap10,
+            AppGaps.vGap10,
           ],
         ),
       );
@@ -253,7 +253,7 @@ class LineDetailView extends GetView<LineDetailController> {
     var scrollVIew = Container(
         height: ScreenUtil().screenHeight * 3 / 5,
         decoration: const BoxDecoration(
-            color: BaseStylesConfig.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.all(Radius.circular(8))),
         child: SingleChildScrollView(
           child: Column(
@@ -281,8 +281,8 @@ class LineDetailView extends GetView<LineDetailController> {
               dotWidth: 10,
               dotHeight: 10,
               spacing: 5,
-              dotColor: BaseStylesConfig.textGray,
-              activeDotColor: BaseStylesConfig.textBlack),
+              dotColor: AppColors.textGray,
+              activeDotColor: AppColors.textBlack),
         ),
       ),
     );
@@ -317,9 +317,9 @@ class LineDetailView extends GetView<LineDetailController> {
                   : (controller.localModel?.weightSymbol ?? ''));
       String expireFee = controller.lineModel.value!.expireFee!.rate();
       list.add(buildTitleAndContentCell('计费重量', countWeight,
-          textColor: BaseStylesConfig.textRed));
+          textColor: AppColors.textRed));
       list.add(buildTitleAndContentCell('预估运费', expireFee,
-          textColor: BaseStylesConfig.textRed));
+          textColor: AppColors.textRed));
     }
     return Container(
         // height: 100,
@@ -327,7 +327,7 @@ class LineDetailView extends GetView<LineDetailController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            ZHTextLine(
+            AppText(
               str: controller.lineModel.value?.name ?? '',
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -358,7 +358,7 @@ class LineDetailView extends GetView<LineDetailController> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                ZHTextLine(
+                AppText(
                   str: title.ts,
                   fontSize: 14,
                 ),
@@ -371,10 +371,10 @@ class LineDetailView extends GetView<LineDetailController> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                ZHTextLine(
+                AppText(
                   str: content,
                   fontSize: 14,
-                  color: textColor ?? BaseStylesConfig.textBlack,
+                  color: textColor ?? AppColors.textBlack,
                 )
               ],
             ),
@@ -398,7 +398,7 @@ class LineDetailView extends GetView<LineDetailController> {
     listWidget.add(Container(
       alignment: Alignment.centerLeft,
       height: 30,
-      child: ZHTextLine(
+      child: AppText(
         str: '计费标准'.ts,
         fontSize: 20,
         fontWeight: FontWeight.bold,
@@ -542,7 +542,7 @@ class LineDetailView extends GetView<LineDetailController> {
         listWidget.add(Container(
           alignment: Alignment.centerLeft,
           height: 40,
-          child: ZHTextLine(
+          child: AppText(
             str: title,
             fontSize: 17,
             fontWeight: FontWeight.bold,
@@ -576,7 +576,7 @@ class LineDetailView extends GetView<LineDetailController> {
         // height: 60,
         alignment: Alignment.topLeft,
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-        child: ZHTextLine(
+        child: AppText(
           str: item.remark,
           lines: 10,
         ),

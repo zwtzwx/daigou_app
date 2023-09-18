@@ -21,15 +21,15 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '订单确认'.ts,
           fontSize: 17,
         ),
         leading: const BackButton(color: Colors.black),
         elevation: 0,
-        backgroundColor: BaseStylesConfig.bgGray,
+        backgroundColor: AppColors.bgGray,
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       bottomNavigationBar: Container(
         padding: EdgeInsets.all(14.w),
         decoration: BoxDecoration(
@@ -46,7 +46,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                   () => Text.rich(
                     TextSpan(
                       style: TextStyle(
-                        color: BaseStylesConfig.textDark,
+                        color: AppColors.textDark,
                         fontSize: 12.sp,
                       ),
                       children: [
@@ -54,7 +54,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                         TextSpan(
                           text: controller.currencyModel.value?.symbol ?? '',
                           style: const TextStyle(
-                            color: BaseStylesConfig.textRed,
+                            color: AppColors.textRed,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -63,7 +63,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                               .rate(needFormat: false, showPriceSymbol: false),
                           style: const TextStyle(
                             fontSize: 16,
-                            color: BaseStylesConfig.textRed,
+                            color: AppColors.textRed,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -116,10 +116,10 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                           //         .isNotEmpty),
                           child: serviceCell(context),
                         ),
-                        ZHTextLine(
+                        AppText(
                           str: '注：以上预估集运费用，会在仓库打包后支付'.ts + '。',
                           fontSize: 12,
-                          color: BaseStylesConfig.textRed,
+                          color: AppColors.textRed,
                           lines: 2,
                         ),
                         15.verticalSpace,
@@ -163,16 +163,16 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: controller.shipModel.value == index
-                                ? BaseStylesConfig.primary
+                                ? AppColors.primary
                                 : Colors.white,
                             borderRadius: BorderRadius.circular(999),
                           ),
-                          child: ZHTextLine(
+                          child: AppText(
                             str: types[index].ts,
                             fontSize: 14,
                             color: controller.shipModel.value == index
-                                ? BaseStylesConfig.textDark
-                                : BaseStylesConfig.textGrayC9,
+                                ? AppColors.textDark
+                                : AppColors.textGrayC9,
                           ),
                         ),
                       ),
@@ -196,27 +196,26 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                     margin: EdgeInsets.only(bottom: 10.h),
                     padding: EdgeInsets.only(bottom: 10.w),
                     decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: BaseStylesConfig.line)),
+                      border: Border(bottom: BorderSide(color: AppColors.line)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ZHTextLine(
+                        AppText(
                           str: '收货地址'.ts,
                           fontSize: 14,
                         ),
-                        ZHTextLine(
+                        AppText(
                           str: controller.address.value!.addressType == 1
                               ? '送货上门'.ts
                               : '自提点提货'.ts,
                           fontSize: 12,
-                          color: BaseStylesConfig.textNormal,
+                          color: AppColors.textNormal,
                         ),
                       ],
                     ),
                   )
-                : Sized.empty),
+                : AppGaps.empty),
             Row(
               children: [
                 const Icon(
@@ -232,7 +231,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                       child: Container(
                         color: Colors.transparent,
                         child: controller.address.value == null
-                            ? ZHTextLine(
+                            ? AppText(
                                 str: '请选择地址'.ts,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
@@ -240,7 +239,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  ZHTextLine(
+                                  AppText(
                                     str:
                                         controller.address.value!.receiverName +
                                             ' ' +
@@ -252,15 +251,15 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                   controller.address.value!.addressType == 2
                                       ? Padding(
                                           padding: EdgeInsets.only(top: 2.h),
-                                          child: ZHTextLine(
+                                          child: AppText(
                                             str: controller.address.value!
                                                     .station?.name ??
                                                 '',
                                           ),
                                         )
-                                      : Sized.empty,
+                                      : AppGaps.empty,
                                   2.verticalSpace,
-                                  ZHTextLine(
+                                  AppText(
                                     str: controller.address.value!.getContent(),
                                     lines: 10,
                                   ),
@@ -274,7 +273,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                 const Icon(
                   Icons.arrow_forward_ios,
                   size: 16,
-                  color: BaseStylesConfig.textNormal,
+                  color: AppColors.textNormal,
                 ),
               ],
             ),
@@ -299,7 +298,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ZHTextLine(
+                  AppText(
                     str: '物流方案'.ts,
                     fontSize: 14,
                   ),
@@ -307,7 +306,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                   const Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
-                    color: BaseStylesConfig.textNormal,
+                    color: AppColors.textNormal,
                   ),
                 ],
               ),
@@ -318,12 +317,12 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     5.verticalSpace,
-                    Sized.line,
+                    AppGaps.line,
                     10.verticalSpace,
                     Row(
                       children: [
                         Expanded(
-                          child: ZHTextLine(
+                          child: AppText(
                             str: controller.lineModel.value!.name,
                             fontWeight: FontWeight.bold,
                           ),
@@ -334,18 +333,18 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ZHTextLine(
+                        AppText(
                           str:
                               controller.lineModel.value!.region!.referenceTime,
-                          color: BaseStylesConfig.textGrayC9,
+                          color: AppColors.textGrayC9,
                           fontSize: 14,
                         ),
-                        ZHTextLine(
+                        AppText(
                           str: Util.getLineModelName(
                                   controller.lineModel.value!.mode)
                               .ts,
                           fontSize: 14,
-                          color: BaseStylesConfig.textGrayC9,
+                          color: AppColors.textGrayC9,
                         ),
                       ],
                     ),
@@ -358,14 +357,14 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          ZHTextLine(
+                          AppText(
                             str: '查看详情'.ts,
-                            color: BaseStylesConfig.textGrayC9,
+                            color: AppColors.textGrayC9,
                             fontSize: 14,
                           ),
                           Icon(
                             Icons.arrow_forward_ios,
-                            color: BaseStylesConfig.textGrayC9,
+                            color: AppColors.textGrayC9,
                             size: 15.sp,
                           ),
                         ],
@@ -373,7 +372,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                     ),
                   ],
                 )
-              : Sized.empty,
+              : AppGaps.empty,
         ],
       ),
     ));
@@ -387,12 +386,12 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ZHTextLine(
+            AppText(
               str: '增值服务'.ts,
               fontSize: 14,
             ),
             5.verticalSpace,
-            Sized.line,
+            AppGaps.line,
             // (controller.insurance.value?.enabled == 1 &&
             //         (controller.insurance.value?.enabledLineIds ?? [])
             //             .contains(controller.lineModel.value?.id))
@@ -403,12 +402,12 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //           Row(
             //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //             children: [
-            //               ZHTextLine(
+            //               AppText(
             //                 str: '保险服务'.ts,
             //                 fontSize: 14,
             //               ),
             //               Switch.adaptive(
-            //                 activeColor: BaseStylesConfig.primary,
+            //                 activeColor: AppColors.primary,
             //                 value: controller.insuranceChecked.value,
             //                 onChanged: (value) {
             //                   controller.insuranceChecked.value = value;
@@ -423,7 +422,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //               clipBehavior: Clip.none,
             //               padding: EdgeInsets.symmetric(horizontal: 10.w),
             //               decoration: BoxDecoration(
-            //                 color: BaseStylesConfig.bgGray,
+            //                 color: AppColors.bgGray,
             //                 borderRadius: BorderRadius.circular(999),
             //               ),
             //               child: BaseInput(
@@ -446,7 +445,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //                   text: TextSpan(
             //                       style: TextStyle(
             //                         fontSize: 12.sp,
-            //                         color: BaseStylesConfig.textGrayC9,
+            //                         color: AppColors.textGrayC9,
             //                       ),
             //                       children: [
             //                       TextSpan(text: '保险费用'.ts + '：'),
@@ -455,20 +454,20 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //                             .toStringAsFixed(2),
             //                         style: const TextStyle(
             //                           fontWeight: FontWeight.bold,
-            //                           color: BaseStylesConfig.textRed,
+            //                           color: AppColors.textRed,
             //                         ),
             //                       ),
             //                     ]))
-            //               : ZHTextLine(
+            //               : AppText(
             //                   str: '未选择保险'.ts,
             //                   fontSize: 12,
-            //                   color: BaseStylesConfig.textGrayC9,
+            //                   color: AppColors.textGrayC9,
             //                 ),
             //           8.verticalSpace,
-            //           Sized.line,
+            //           AppGaps.line,
             //         ],
             //       )
-            //     : Sized.empty,
+            //     : AppGaps.empty,
             // (controller.tariff.value?.enabled == 1 &&
             //         (controller.tariff.value?.enabledLineIds ?? [])
             //             .contains(controller.lineModel.value?.id))
@@ -479,12 +478,12 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //           Row(
             //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //             children: [
-            //               ZHTextLine(
+            //               AppText(
             //                 str: '关税服务'.ts,
             //                 fontSize: 14,
             //               ),
             //               Switch.adaptive(
-            //                 activeColor: BaseStylesConfig.primary,
+            //                 activeColor: AppColors.primary,
             //                 value: controller.tariffChecked.value,
             //                 onChanged: (value) {
             //                   controller.tariffChecked.value = value;
@@ -497,7 +496,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //                   text: TextSpan(
             //                       style: TextStyle(
             //                         fontSize: 12.sp,
-            //                         color: BaseStylesConfig.textGrayC9,
+            //                         color: AppColors.textGrayC9,
             //                       ),
             //                       children: [
             //                       TextSpan(text: '关税费用'.ts + '：'),
@@ -505,26 +504,26 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //                         text: controller.tariffValue,
             //                         style: const TextStyle(
             //                           fontWeight: FontWeight.bold,
-            //                           color: BaseStylesConfig.textRed,
+            //                           color: AppColors.textRed,
             //                         ),
             //                       ),
             //                     ]))
-            //               : ZHTextLine(
+            //               : AppText(
             //                   str: '未选择关税'.ts,
             //                   fontSize: 12,
-            //                   color: BaseStylesConfig.textGrayC9,
+            //                   color: AppColors.textGrayC9,
             //                 ),
             //           8.verticalSpace,
-            //           Sized.line,
+            //           AppGaps.line,
             //         ],
             //       )
-            //     : Sized.empty,
+            //     : AppGaps.empty,
             ...controller.orderAddService.map(
               (service) => Padding(
                 padding: EdgeInsets.only(top: 10.h),
                 child: Row(
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str: service.name ?? '',
                       fontSize: 14,
                     ),
@@ -542,12 +541,12 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                             child: Icon(
                               Icons.info_outline,
                               size: 18.sp,
-                              color: BaseStylesConfig.textGrayC9,
+                              color: AppColors.textGrayC9,
                             ),
                           )
-                        : Sized.empty,
+                        : AppGaps.empty,
                     Expanded(
-                      child: ZHTextLine(
+                      child: AppText(
                         str: (service.price ?? 0).rate(),
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -561,7 +560,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                       child: Checkbox(
                         value: controller.orderServiceIds.contains(service.id),
                         shape: const CircleBorder(),
-                        activeColor: BaseStylesConfig.primary,
+                        activeColor: AppColors.primary,
                         checkColor: Colors.black,
                         onChanged: (value) {
                           if (value!) {
@@ -581,13 +580,13 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //     padding: EdgeInsets.only(top: 10.h),
             //     child: Row(
             //       children: [
-            //         ZHTextLine(
+            //         AppText(
             //           str: service.name,
             //           fontSize: 14,
             //         ),
             //         5.horizontalSpace,
             //         Expanded(
-            //           child: ZHTextLine(
+            //           child: AppText(
             //             str: controller.getLineServiceValue(
             //                 service.type, service.value),
             //             fontSize: 14,
@@ -602,7 +601,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //           child: Checkbox(
             //             value: controller.lineServiceIds.contains(service.id),
             //             shape: const CircleBorder(),
-            //             activeColor: BaseStylesConfig.primary,
+            //             activeColor: AppColors.primary,
             //             checkColor: Colors.black,
             //             onChanged: (value) {
             //               if (service.isForced == 1) return;
@@ -642,11 +641,11 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ZHTextLine(
+                        AppText(
                           str: '国内运费'.ts,
                           fontSize: 14,
                         ),
-                        ZHTextLine(
+                        AppText(
                           str: (shop.freightFee ?? 0).rate(needFormat: false),
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -662,11 +661,11 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  ZHTextLine(
+                                  AppText(
                                     str: '代购服务费'.ts,
                                     fontSize: 14,
                                   ),
-                                  ZHTextLine(
+                                  AppText(
                                     str: (shop.service?.serviceFee ?? 0)
                                         .rate(needFormat: false),
                                     fontSize: 14,
@@ -680,12 +679,12 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                 children: [
                                   Icon(
                                     Icons.info_outline,
-                                    color: BaseStylesConfig.textGrayC9,
+                                    color: AppColors.textGrayC9,
                                     size: 16.sp,
                                   ),
                                   5.horizontalSpace,
                                   Expanded(
-                                    child: ZHTextLine(
+                                    child: AppText(
                                       str: '代购服务费'.ts +
                                           '：' +
                                           (shop.service?.remark ?? '') +
@@ -694,7 +693,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                               shop.service!.feeType!,
                                               shop.service!.fee!),
                                       fontSize: 10,
-                                      color: BaseStylesConfig.textGrayC9,
+                                      color: AppColors.textGrayC9,
                                       lines: 4,
                                     ),
                                   ),
@@ -702,12 +701,12 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                               ),
                             ],
                           )
-                        : Sized.empty,
+                        : AppGaps.empty,
                     10.verticalSpace,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ZHTextLine(
+                        AppText(
                           str: '订单备注'.ts,
                           fontSize: 14,
                         ),
@@ -730,9 +729,9 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Sized.line,
+                              AppGaps.line,
                               10.verticalSpace,
-                              ZHTextLine(
+                              AppText(
                                 str: '增值服务'.ts,
                                 fontSize: 14,
                               ),
@@ -742,12 +741,12 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                   child: Row(
                                     children: [
                                       Expanded(
-                                        child: ZHTextLine(
+                                        child: AppText(
                                           str: service.content,
                                           fontSize: 12,
                                         ),
                                       ),
-                                      ZHTextLine(
+                                      AppText(
                                         str: (service.charge ?? 0).rate(),
                                         fontSize: 14,
                                       ),
@@ -759,7 +758,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                           value: shop.addServiceIds!
                                               .contains(service.id),
                                           shape: const CircleBorder(),
-                                          activeColor: BaseStylesConfig.primary,
+                                          activeColor: AppColors.primary,
                                           checkColor: Colors.black,
                                           onChanged: (value) {
                                             controller.onParcelServiceChecked(
@@ -773,7 +772,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                               )
                             ],
                           )
-                        : Sized.empty,
+                        : AppGaps.empty,
                   ],
                 ),
               ),
@@ -785,13 +784,13 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                 const Icon(
                   Icons.info_outline,
                   size: 16,
-                  color: BaseStylesConfig.textGrayC9,
+                  color: AppColors.textGrayC9,
                 ),
                 2.horizontalSpace,
-                ZHTextLine(
+                AppText(
                   str: '不含国际运费'.ts,
                   fontSize: 10,
-                  color: BaseStylesConfig.textGrayC9,
+                  color: AppColors.textGrayC9,
                 ),
               ],
             ),

@@ -18,12 +18,12 @@ class GroupMemberDetailPage extends GetView<GroupMemberDetailController> {
         elevation: 0.5,
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '参团详情'.ts,
           fontSize: 17,
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: Obx(() => controller.groupModel.value != null
           ? SingleChildScrollView(
               child: Container(
@@ -40,13 +40,13 @@ class GroupMemberDetailPage extends GetView<GroupMemberDetailController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ZHTextLine(
+                        AppText(
                           str: controller.groupModel.value!.orderSn!,
                         ),
                         Text.rich(
                           TextSpan(
                             style: const TextStyle(
-                              color: BaseStylesConfig.textBlack,
+                              color: AppColors.textBlack,
                             ),
                             children: [
                               TextSpan(
@@ -68,12 +68,12 @@ class GroupMemberDetailPage extends GetView<GroupMemberDetailController> {
                         ),
                       ],
                     ),
-                    Sized.vGap15,
-                    Sized.line,
+                    AppGaps.vGap15,
+                    AppGaps.line,
                     ...controller.groupModel.value!.members!
                         .map((e) => memberItemCell(e))
                         .toList(),
-                    Sized.vGap10,
+                    AppGaps.vGap10,
                     infoItemCell(
                       '全团已入库包裹数量',
                       '${controller.groupModel.value!.packagesCount!}${'个'.ts}',
@@ -92,7 +92,7 @@ class GroupMemberDetailPage extends GetView<GroupMemberDetailController> {
                 ),
               ),
             )
-          : Sized.empty),
+          : AppGaps.empty),
     );
   }
 
@@ -104,14 +104,14 @@ class GroupMemberDetailPage extends GetView<GroupMemberDetailController> {
           TextSpan(
             text: label.ts + '*：',
             style: const TextStyle(
-              color: BaseStylesConfig.textGray,
+              color: AppColors.textGray,
             ),
           ),
           TextSpan(
             text: content +
                 (isWeight ? (controller.localModel?.weightSymbol ?? '') : ''),
             style: const TextStyle(
-              color: BaseStylesConfig.textDark,
+              color: AppColors.textDark,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -125,7 +125,7 @@ class GroupMemberDetailPage extends GetView<GroupMemberDetailController> {
       padding: const EdgeInsets.only(top: 10, bottom: 20),
       decoration: const BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: BaseStylesConfig.line),
+          bottom: BorderSide(color: AppColors.line),
         ),
       ),
       child: Row(
@@ -141,10 +141,10 @@ class GroupMemberDetailPage extends GetView<GroupMemberDetailController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ZHTextLine(
+                AppText(
                   str: model.name ?? '',
                 ),
-                Sized.vGap10,
+                AppGaps.vGap10,
                 model.isSubmitted == 1
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,7 +153,7 @@ class GroupMemberDetailPage extends GetView<GroupMemberDetailController> {
                               .map(
                                 (e) => Padding(
                                   padding: const EdgeInsets.only(bottom: 3),
-                                  child: ZHTextLine(
+                                  child: AppText(
                                     str: e,
                                   ),
                                 ),
@@ -161,41 +161,41 @@ class GroupMemberDetailPage extends GetView<GroupMemberDetailController> {
                               .toList(),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '拼团订单号'.ts + '：' + (model.ordern ?? ''),
                               lines: 2,
-                              color: BaseStylesConfig.textGray,
+                              color: AppColors.textGray,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '入库重量'.ts +
                                   '：' +
                                   ((model.weight ?? 0) / 1000)
                                       .toStringAsFixed(2) +
                                   (controller.localModel?.weightSymbol ?? ''),
                               lines: 2,
-                              color: BaseStylesConfig.textGray,
+                              color: AppColors.textGray,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
-                            child: ZHTextLine(
+                            child: AppText(
                               str: '入库体积重量'.ts +
                                   '：' +
                                   ((model.volumeWeight ?? 0) / 1000)
                                       .toStringAsFixed(2) +
                                   (controller.localModel?.weightSymbol ?? ''),
                               lines: 2,
-                              color: BaseStylesConfig.textGray,
+                              color: AppColors.textGray,
                             ),
                           ),
                         ],
                       )
-                    : ZHTextLine(
+                    : AppText(
                         str: '还未提交包裹'.ts,
-                        color: BaseStylesConfig.textGray,
+                        color: AppColors.textGray,
                       ),
               ],
             ),

@@ -1,7 +1,6 @@
 /*
   增值服务
  */
-import 'package:flutter/material.dart';
 
 class ValueAddedServiceModel {
   late int id;

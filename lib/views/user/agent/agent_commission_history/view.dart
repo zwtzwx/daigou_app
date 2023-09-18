@@ -21,13 +21,13 @@ class AgentCommissionHistoryPage
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '佣金报表'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 17,
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       bottomNavigationBar: bottomListBtn(),
       body: ListRefresh(
         renderItem: renderItem,
@@ -52,8 +52,8 @@ class AgentCommissionHistoryPage
               padding: const EdgeInsets.symmetric(
                 horizontal: 10,
               ),
-              color: BaseStylesConfig.primary,
-              child: ZHTextLine(
+              color: AppColors.primary,
+              child: AppText(
                 str: '我要提现'.ts,
                 fontSize: 17,
               ),
@@ -72,7 +72,7 @@ class AgentCommissionHistoryPage
                 horizontal: 10,
               ),
               color: Colors.white,
-              child: ZHTextLine(
+              child: AppText(
                 str: '成交记录'.ts,
                 fontSize: 17,
               ),
@@ -88,7 +88,7 @@ class AgentCommissionHistoryPage
       margin: const EdgeInsets.only(right: 15, left: 15, top: 10),
       padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(5),
       ),
       child: Column(
@@ -97,75 +97,73 @@ class AgentCommissionHistoryPage
           Container(
             height: 30,
             alignment: Alignment.center,
-            child: ZHTextLine(
+            child: AppText(
               str: model.serialNo,
               fontSize: 14,
-              color: BaseStylesConfig.textGray,
+              color: AppColors.textGray,
             ),
           ),
           Container(
             height: 30,
             alignment: Alignment.center,
-            child: ZHTextLine(
+            child: AppText(
               str: model.amount.rate(),
               fontSize: 22,
-              color: BaseStylesConfig.textRed,
+              color: AppColors.textRed,
             ),
           ),
-          Sized.vGap15,
+          AppGaps.vGap15,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               children: [
-                ZHTextLine(
+                AppText(
                   str: '收款账号'.ts + '：',
-                  color: BaseStylesConfig.textGray,
+                  color: AppColors.textGray,
                 ),
-                ZHTextLine(
+                AppText(
                   str: model.user?.name ?? '',
                 ),
               ],
             ),
           ),
-          Sized.vGap4,
+          AppGaps.vGap4,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               children: [
-                ZHTextLine(
+                AppText(
                   str: '收款方式'.ts + '：',
-                  color: BaseStylesConfig.textGray,
+                  color: AppColors.textGray,
                 ),
-                ZHTextLine(
+                AppText(
                   str: model.withdrawTypeName,
                 ),
               ],
             ),
           ),
-          Sized.vGap4,
+          AppGaps.vGap4,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               children: [
-                ZHTextLine(
+                AppText(
                   str: '结算状态'.ts + '：',
-                  color: BaseStylesConfig.textGray,
+                  color: AppColors.textGray,
                 ),
-                ZHTextLine(
+                AppText(
                   str: model.status == 0
                       ? '审核中'.ts
                       : (model.status == 1 ? '审核通过' : '审核拒绝').ts,
                   color: model.status == 0
-                      ? BaseStylesConfig.primary
-                      : (model.status == 2
-                          ? BaseStylesConfig.textRed
-                          : Colors.black),
+                      ? AppColors.primary
+                      : (model.status == 2 ? AppColors.textRed : Colors.black),
                 ),
               ],
             ),
           ),
-          Sized.vGap5,
-          Sized.line,
+          AppGaps.vGap5,
+          AppGaps.line,
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: GestureDetector(
@@ -177,13 +175,13 @@ class AgentCommissionHistoryPage
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ZHTextLine(
+                    AppText(
                       str: '查看详情'.ts,
                     ),
                     const Icon(
                       Icons.arrow_forward_ios,
                       size: 16,
-                      color: BaseStylesConfig.textGray,
+                      color: AppColors.textGray,
                     )
                   ],
                 ),

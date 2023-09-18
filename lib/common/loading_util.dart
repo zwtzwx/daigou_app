@@ -8,17 +8,24 @@ class LoadingUtil<T> {
   bool isLoading = false;
   bool isEmpty = false;
   bool hasError = false;
+  double position = 0;
   List<T> list = [];
 
   LoadingUtil();
 
-  void initListener(Function callback) {
+  void initListener(
+    Function callback, {
+    bool recordPosition = false,
+  }) {
     callback();
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
               scrollController.position.maxScrollExtent &&
           hasMoreData) {
         callback();
+      }
+      if (recordPosition) {
+        position = scrollController.position.pixels;
       }
     });
   }
@@ -29,6 +36,7 @@ class LoadingUtil<T> {
 
   void clear() {
     list.clear();
+    position = 0;
     hasMoreData = true;
     pageIndex = 0;
     isLoading = false;

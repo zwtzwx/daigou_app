@@ -63,7 +63,7 @@ class HttpClient {
           options.extra?['showSuccess'] != false) {
         EasyLoading.showSuccess(res.msg ?? '');
       }
-      if (!res.ok && options.method != Methods.get.name) {
+      if (!res.ok) {
         EasyLoading.showError(res.msg ?? res.error?.message ?? '');
       }
       return res;

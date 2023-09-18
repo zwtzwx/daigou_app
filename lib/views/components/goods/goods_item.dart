@@ -56,10 +56,10 @@ class GoodsItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ZHTextLine(
+                  AppText(
                     str: goods.name,
                     fontSize: 13,
-                    color: BaseStylesConfig.textDark,
+                    color: AppColors.textDark,
                     lines: 2,
                   ),
                   5.verticalSpace,
@@ -67,7 +67,7 @@ class GoodsItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Obx(
-                        () => ZHTextLine(
+                        () => AppText(
                           str: num.parse(goods.goodsLowestPrice ?? '0.00')
                               .rate(needFormat: false),
                           fontWeight: FontWeight.bold,
@@ -75,10 +75,10 @@ class GoodsItem extends StatelessWidget {
                         ),
                       ),
                       Obx(
-                        () => ZHTextLine(
+                        () => AppText(
                           str: '已卖{count}件'.tsArgs({'count': goods.saleCount}),
                           fontSize: 10,
-                          color: BaseStylesConfig.textGrayC9,
+                          color: AppColors.textGrayC9,
                         ),
                       ),
                     ],

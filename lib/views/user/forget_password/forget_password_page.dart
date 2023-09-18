@@ -23,15 +23,15 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '忘记密码'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
-      backgroundColor: BaseStylesConfig.white,
+      backgroundColor: AppColors.white,
       body: SafeArea(
         child: ListView(
           shrinkWrap: true,
@@ -63,7 +63,7 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
   */
   Widget loginSubmitCell(BuildContext context) {
     return Container(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         padding: const EdgeInsets.only(right: 40, left: 40),
         child: Column(
           children: <Widget>[
@@ -90,11 +90,11 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                       controller.loginType.value =
                           controller.loginType.value == 1 ? 2 : 1;
                     },
-                    child: ZHTextLine(
+                    child: AppText(
                       str: controller.loginType.value == 1
                           ? '邮箱验证'.ts
                           : '手机号验证'.ts,
-                      color: BaseStylesConfig.primary,
+                      color: AppColors.primary,
                     ),
                   )),
             ),
@@ -106,12 +106,10 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
     var inputAccountView = Container(
       margin: const EdgeInsets.only(right: 10, left: 10),
       decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         border: Border(
             bottom: BorderSide(
-                width: 1,
-                color: BaseStylesConfig.line,
-                style: BorderStyle.solid)),
+                width: 1, color: AppColors.line, style: BorderStyle.solid)),
       ),
       child: Row(
         children: <Widget>[
@@ -146,12 +144,10 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
     var inputVerifyNumber = Container(
       margin: const EdgeInsets.only(left: 10, right: 10),
       decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         border: Border(
             bottom: BorderSide(
-                width: 1,
-                color: BaseStylesConfig.line,
-                style: BorderStyle.solid)),
+                width: 1, color: AppColors.line, style: BorderStyle.solid)),
       ),
       alignment: Alignment.center,
       child: Row(
@@ -183,7 +179,7 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                     (states) => Colors.transparent),
               ),
               child: Obx(
-                () => ZHTextLine(
+                () => AppText(
                   str: controller.sent.value,
                   color: controller.codeColor.value,
                 ),
@@ -201,12 +197,10 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
     var inputAccountView = Container(
       margin: const EdgeInsets.only(left: 10, right: 10),
       decoration: const BoxDecoration(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         border: Border(
             bottom: BorderSide(
-                width: 1,
-                color: BaseStylesConfig.line,
-                style: BorderStyle.solid)),
+                width: 1, color: AppColors.line, style: BorderStyle.solid)),
       ),
       child: Obx(
         () => Row(
@@ -229,19 +223,19 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                                     controller.areaNumber.value),
                             style: const TextStyle(
                               fontSize: 16.0, //textsize
-                              color: BaseStylesConfig.textNormal,
+                              color: AppColors.textNormal,
                             ),
                           ),
                         ),
                         const Icon(
                           Icons.arrow_forward_ios,
                           size: 14,
-                          color: BaseStylesConfig.textNormal,
+                          color: AppColors.textNormal,
                         ),
                       ],
                     ),
                   )
-                : Sized.empty,
+                : AppGaps.empty,
             Expanded(
               child: Container(
                 height: 40,

@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/state/i10n.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/language_cell/language_cell.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
@@ -59,7 +57,7 @@ class BannerCell extends GetView<HomeController> {
                         height: 80,
                       ),
                     ),
-                    Sized.hGap15,
+                    AppGaps.hGap15,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -67,7 +65,7 @@ class BannerCell extends GetView<HomeController> {
                           constraints: BoxConstraints(
                             maxWidth: ScreenUtil().screenWidth - 120,
                           ),
-                          child: ZHTextLine(
+                          child: AppText(
                             str: userInfo.name,
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -75,8 +73,8 @@ class BannerCell extends GetView<HomeController> {
                             lines: 2,
                           ),
                         ),
-                        Sized.vGap4,
-                        ZHTextLine(
+                        AppGaps.vGap4,
+                        AppText(
                           str: userInfo.phone ?? userInfo.email ?? '',
                           color: Colors.white,
                         ),
@@ -84,7 +82,7 @@ class BannerCell extends GetView<HomeController> {
                     ),
                   ],
                 )
-              : Sized.empty;
+              : AppGaps.empty;
         }));
   }
 }

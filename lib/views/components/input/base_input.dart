@@ -129,7 +129,7 @@ class _BaseInputState extends State<BaseInput> {
   @override
   Widget build(BuildContext context) {
     var inputDecoration = InputDecoration(
-        fillColor: widget.board ? BaseStylesConfig.bgGray : Colors.white,
+        fillColor: widget.board ? AppColors.bgGray : Colors.white,
         filled: true,
         contentPadding: widget.contentPadding,
         hintText: widget.hintText,
@@ -143,7 +143,7 @@ class _BaseInputState extends State<BaseInput> {
                 child: const Icon(
                   Icons.cancel,
                   size: 20,
-                  color: BaseStylesConfig.textGray,
+                  color: AppColors.textGray,
                 ),
                 onTap: () {
                   setState(() {

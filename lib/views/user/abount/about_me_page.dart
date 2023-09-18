@@ -24,14 +24,14 @@ class AboutMeView extends GetView<AboutMeController> {
         elevation: 0.5,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
-        title: ZHTextLine(
+        title: AppText(
           str: '关于我们'.ts,
-          color: BaseStylesConfig.textBlack,
+          color: AppColors.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
       ),
-      backgroundColor: BaseStylesConfig.bgGray,
+      backgroundColor: AppColors.bgGray,
       body: Obx(
         () => ListView.builder(
           shrinkWrap: true,
@@ -47,9 +47,9 @@ class AboutMeView extends GetView<AboutMeController> {
     ArticleModel model = controller.aboutList[index];
 
     return Container(
-        color: BaseStylesConfig.white,
+        color: AppColors.white,
         child: ListTile(
-          title: ZHTextLine(
+          title: AppText(
             str: model.title,
           ),
           trailing: const Icon(Icons.keyboard_arrow_right),

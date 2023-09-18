@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:jiyun_app_client/views/components/load_image.dart';
 
 class ErrorBox extends StatelessWidget {
   const ErrorBox({
@@ -17,20 +15,18 @@ class ErrorBox extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(
-          Icons.wifi_tethering_error_outlined,
-          size: 60.sp,
-          color: BaseStylesConfig.textGray,
+        LoadImage(
+          'Home/network_err',
+          width: 300.w,
         ),
-        ZHTextLine(
-          str: '出现错误了'.ts,
-        ),
-        5.verticalSpace,
-        MainButton(
-          text: '重新请求',
-          borderRadis: 999,
-          onPressed: onRefresh,
-        ),
+        SizedBox(
+          width: 120.w,
+          child: MainButton(
+            text: '重新请求',
+            borderRadis: 999,
+            onPressed: onRefresh,
+          ),
+        )
       ],
     );
   }

@@ -185,7 +185,10 @@ class CommonService {
   // 消息设为已读
   static Future<bool> onNoticeRead(Map<String, dynamic> params) async {
     bool res = false;
-    await HttpClient.instance.put(noticeReadApi, data: params).then((response) {
+    await HttpClient.instance
+        .put(noticeReadApi,
+            data: params, options: Options(extra: {'showSuccess': false}))
+        .then((response) {
       res = response.ok;
     });
     return res;

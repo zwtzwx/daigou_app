@@ -32,15 +32,15 @@ class OrderDetailView extends GetView<OrderDetailController> {
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
-          title: ZHTextLine(
+          title: AppText(
             str: '订单详情'.ts,
-            color: BaseStylesConfig.textBlack,
+            color: AppColors.textBlack,
             fontSize: 18,
             fontWeight: FontWeight.w400,
           ),
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
-        backgroundColor: BaseStylesConfig.bgGray,
+        backgroundColor: AppColors.bgGray,
         bottomNavigationBar: bottomButton(context),
         body: SingleChildScrollView(
           child: Obx(
@@ -48,23 +48,23 @@ class OrderDetailView extends GetView<OrderDetailController> {
                 ? Column(
                     children: [
                       firstView(),
-                      Sized.vGap10,
+                      AppGaps.vGap10,
                       addressView(),
-                      Sized.vGap10,
+                      AppGaps.vGap10,
                       controller.model.value!.remark.isNotEmpty
                           ? remarkView()
-                          : Sized.empty,
+                          : AppGaps.empty,
                       baseInfoView(),
-                      Sized.vGap10,
+                      AppGaps.vGap10,
                       valueInfoView(context),
-                      Sized.vGap10,
+                      AppGaps.vGap10,
                       // controller.model.value!.status > 2
                       //     ? payInfoView()
-                      //     : Sized.empty,
+                      //     : AppGaps.empty,
                     ],
                     // children: returnSubView(),
                   )
-                : Sized.empty,
+                : AppGaps.empty,
           ),
         ));
   }
@@ -95,7 +95,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
                 width: 24,
                 height: 24,
               ),
-              Sized.hGap10,
+              AppGaps.hGap10,
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
@@ -103,7 +103,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   color: HexToColor('#eceeff'),
-                  child: ZHTextLine(
+                  child: AppText(
                     str: address.countryName,
                     fontSize: 12,
                   ),
@@ -111,27 +111,27 @@ class OrderDetailView extends GetView<OrderDetailController> {
               ),
             ],
           ),
-          Sized.vGap15,
-          Sized.line,
-          Sized.vGap15,
-          ZHTextLine(
+          AppGaps.vGap15,
+          AppGaps.line,
+          AppGaps.vGap15,
+          AppText(
             str: '收货地址'.ts,
             fontSize: 13,
-            color: BaseStylesConfig.textGray,
+            color: AppColors.textGray,
           ),
-          Sized.vGap5,
-          ZHTextLine(
+          AppGaps.vGap5,
+          AppText(
             str: reciverStr,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
-          Sized.vGap5,
-          ZHTextLine(
+          AppGaps.vGap5,
+          AppText(
             str: addressStr,
             lines: 4,
           ),
-          Sized.vGap5,
-          ZHTextLine(
+          AppGaps.vGap5,
+          AppText(
             str: controller.model.value!.station != null
                 ? '${'自提收货'.ts}-${controller.model.value!.station!.name}'
                 : '送货上门'.ts,
@@ -150,13 +150,13 @@ class OrderDetailView extends GetView<OrderDetailController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ZHTextLine(
+          AppText(
             str: '客服备注'.ts,
-            color: BaseStylesConfig.textGray,
+            color: AppColors.textGray,
           ),
           Container(
             margin: const EdgeInsets.only(top: 5),
-            child: ZHTextLine(
+            child: AppText(
               str: controller.model.value!.remark,
               lines: 10,
             ),
@@ -179,8 +179,8 @@ class OrderDetailView extends GetView<OrderDetailController> {
           baseInfoItem('快递类型', text: controller.model.value!.expressName),
           controller.model.value!.status > 2
               ? baseInfoItem('物流单号', text: controller.model.value!.logisticsSn)
-              : Sized.empty,
-          controller.model.value!.status > 1 ? packInfoView() : Sized.empty,
+              : AppGaps.empty,
+          controller.model.value!.status > 1 ? packInfoView() : AppGaps.empty,
         ],
       ),
     );
@@ -207,7 +207,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
                   itemCount: controller.model.value!.boxes.length,
                   itemBuilder: boxItem,
                 ))
-            : Sized.empty,
+            : AppGaps.empty,
         baseInfoItem('称重重量', text: actualWeight),
         baseInfoItem('计费重量', text: paymentWeight),
         baseInfoItem('留仓物品', text: controller.model.value!.inWarehouseItem),
@@ -215,11 +215,11 @@ class OrderDetailView extends GetView<OrderDetailController> {
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ZHTextLine(
+                  AppText(
                     str: '打包视频'.ts,
-                    color: BaseStylesConfig.textGray,
+                    color: AppColors.textGray,
                   ),
-                  Sized.vGap10,
+                  AppGaps.vGap10,
                   ...controller.packVideoManager.map((e) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10),
@@ -230,9 +230,9 @@ class OrderDetailView extends GetView<OrderDetailController> {
                   }).toList(),
                 ],
               )
-            : Sized.empty,
-        Sized.line,
-        Sized.vGap10,
+            : AppGaps.empty,
+        AppGaps.line,
+        AppGaps.vGap10,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,11 +240,11 @@ class OrderDetailView extends GetView<OrderDetailController> {
             Expanded(
               child: Column(
                 children: [
-                  ZHTextLine(
+                  AppText(
                     str: '打包照片'.ts,
-                    color: BaseStylesConfig.textGray,
+                    color: AppColors.textGray,
                   ),
-                  Sized.vGap10,
+                  AppGaps.vGap10,
                   controller.model.value!.packPictures.isNotEmpty
                       ? GridView.builder(
                           shrinkWrap: true,
@@ -263,19 +263,19 @@ class OrderDetailView extends GetView<OrderDetailController> {
                                 controller.model.value!.packPictures[index],
                                 index);
                           })
-                      : Sized.empty,
+                      : AppGaps.empty,
                 ],
               ),
             ),
-            Sized.hGap15,
+            AppGaps.hGap15,
             Expanded(
               child: Column(
                 children: [
-                  ZHTextLine(
+                  AppText(
                     str: '物品照片'.ts,
-                    color: BaseStylesConfig.textGray,
+                    color: AppColors.textGray,
                   ),
-                  Sized.vGap10,
+                  AppGaps.vGap10,
                   controller.model.value!.inWarehousePictures.isNotEmpty
                       ? GridView.builder(
                           shrinkWrap: true,
@@ -295,7 +295,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
                                     .model.value!.inWarehousePictures[index],
                                 index);
                           })
-                      : Sized.empty,
+                      : AppGaps.empty,
                 ],
               ),
             ),
@@ -331,27 +331,27 @@ class OrderDetailView extends GetView<OrderDetailController> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 15),
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '实重'.ts,
                   ),
                 ),
-                ZHTextLine(
+                AppText(
                   str: ((boxModel.weight ?? 0) / 1000).toStringAsFixed(2) +
                       controller.localModel!.weightSymbol,
                 ),
               ],
             ),
-            Sized.vGap10,
+            AppGaps.vGap10,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 15),
-                  child: ZHTextLine(
+                  child: AppText(
                     str: '体积重'.ts,
                   ),
                 ),
-                ZHTextLine(
+                AppText(
                   str: volumnSum,
                 ),
               ],
@@ -382,51 +382,51 @@ class OrderDetailView extends GetView<OrderDetailController> {
                               num.parse(controller
                                       .model.value!.price!.discount) !=
                                   1
-                          ? ZHTextLine(
+                          ? AppText(
                               str: controller.getPriceStr(
                                   controller.model.value!.price!.originPrice),
-                              color: BaseStylesConfig.textGray,
+                              color: AppColors.textGray,
                               fontSize: 13,
                               decoration: TextDecoration.lineThrough,
                             )
-                          : Sized.empty,
-                      Sized.hGap10,
-                      ZHTextLine(
+                          : AppGaps.empty,
+                      AppGaps.hGap10,
+                      AppText(
                         str: controller
                             .getPriceStr(controller.model.value!.allFreightFee),
                       ),
                     ],
                   ),
                 )
-              : Sized.empty,
+              : AppGaps.empty,
           controller.model.value!.status != 1
               ? baseInfoItem('帮您运费节省',
                   text: controller
                       .getPriceStr(controller.model.value!.thriftFreightFee))
-              : Sized.empty,
+              : AppGaps.empty,
           controller.model.value!.insuranceFee > 0
               ? baseInfoItem('保险费',
                   text:
                       '+${controller.getPriceStr(controller.model.value!.insuranceFee)}')
-              : Sized.empty,
+              : AppGaps.empty,
           controller.model.value!.tariffFee > 0
               ? baseInfoItem('关税',
                   text:
                       '+${controller.getPriceStr(controller.model.value!.tariffFee)}')
-              : Sized.empty,
+              : AppGaps.empty,
           baseInfoItem(
             '订单增值服务',
             crossAxisAlignment: CrossAxisAlignment.start,
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                ZHTextLine(
+                AppText(
                   str: controller.model.value!.valueAddedService.isNotEmpty
                       ? '+${controller.getPriceStr(valueAddAmount)}'
                       : '无'.ts,
                 ),
                 ...controller.model.value!.valueAddedService.map((e) {
-                  return ZHTextLine(
+                  return AppText(
                     str: e.name! + '(${controller.getPriceStr(e.price)})',
                   );
                 }).toList(),
@@ -437,7 +437,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
               ? baseInfoItem('渠道规则费',
                   text:
                       '+${controller.getPriceStr(controller.model.value!.lineRuleFee)}')
-              : Sized.empty,
+              : AppGaps.empty,
           controller.model.value!.lineServices.isNotEmpty
               ? baseInfoItem(
                   '渠道增值服务',
@@ -446,11 +446,11 @@ class OrderDetailView extends GetView<OrderDetailController> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       controller.model.value!.status != 1
-                          ? ZHTextLine(
+                          ? AppText(
                               str:
                                   '+${controller.getPriceStr(controller.model.value!.lineServiceFee)}',
                             )
-                          : Sized.empty,
+                          : AppGaps.empty,
                       ...controller.model.value!.lineServices.map((e) {
                         return Row(
                           children: [
@@ -469,13 +469,13 @@ class OrderDetailView extends GetView<OrderDetailController> {
                                     },
                                     child: const Icon(
                                       Icons.info_outline,
-                                      color: BaseStylesConfig.green,
+                                      color: AppColors.green,
                                       size: 18,
                                     ),
                                   )
-                                : Sized.empty,
-                            Sized.hGap10,
-                            ZHTextLine(
+                                : AppGaps.empty,
+                            AppGaps.hGap10,
+                            AppText(
                               str: e.name +
                                   (controller.model.value!.status != 1
                                       ? '(${controller.getPriceStr(e.price)})'
@@ -487,7 +487,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
                     ],
                   ),
                 )
-              : Sized.empty,
+              : AppGaps.empty,
           controller.model.value!.status > 2 &&
                   controller.model.value!.couponDiscountFee > 0
               ? baseInfoItem(
@@ -496,7 +496,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
                       controller.getPriceStr(
                           controller.model.value!.couponDiscountFee),
                 )
-              : Sized.empty,
+              : AppGaps.empty,
           (controller.model.value!.status > 2 &&
                   controller.model.value!.transaction.isNotEmpty &&
                   controller.model.value!.transaction[0].isUsePoint == 1)
@@ -506,14 +506,14 @@ class OrderDetailView extends GetView<OrderDetailController> {
                       controller.getPriceStr(
                           controller.model.value!.transaction[0].pointAmount),
                 )
-              : Sized.empty,
+              : AppGaps.empty,
           // controller.model.value!.status != 1
           //     ? baseInfoItem(
           //         '订单总价',
           //         text: controller
           //             .getPriceStr(controller.model.value!.actualPaymentFee),
           //       )
-          //     : Sized.empty,
+          //     : AppGaps.empty,
         ],
       ),
     );
@@ -573,7 +573,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
                   '签收时间',
                   text: controller.model.value!.updatedAt,
                 )
-              : Sized.empty,
+              : AppGaps.empty,
         ],
       ),
     );
@@ -597,18 +597,16 @@ class OrderDetailView extends GetView<OrderDetailController> {
         children: [
           Flexible(
             flex: leftFlex ?? 1,
-            child: ZHTextLine(
+            child: AppText(
               str: label.ts,
-              color: labelColor ?? BaseStylesConfig.textGray,
+              color: labelColor ?? AppColors.textGray,
               lines: 2,
             ),
           ),
           content ??
-              ZHTextLine(
+              AppText(
                 str: text ?? '无'.ts,
-                color: redText
-                    ? BaseStylesConfig.textRed
-                    : BaseStylesConfig.textBlack,
+                color: redText ? AppColors.textRed : AppColors.textBlack,
               ),
         ],
       ),
@@ -622,7 +620,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
       decoration: const BoxDecoration(
         color: Colors.white,
         border: Border(
-          top: BorderSide(color: BaseStylesConfig.line),
+          top: BorderSide(color: AppColors.line),
         ),
       ),
       child: SafeArea(
@@ -640,7 +638,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
                 textColor: Colors.black,
               ),
             ),
-            Sized.hGap10,
+            AppGaps.hGap10,
             [2, 12].contains(controller.model.value?.status) ||
                     controller.model.value?.paymentStatus == 1
                 ? MainButton(
@@ -661,7 +659,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
                       }
                     },
                   )
-                : Sized.empty,
+                : AppGaps.empty,
             [4, 5].contains(controller.model.value?.status)
                 ? PlainButton(
                     text: '查看物流',
@@ -678,8 +676,8 @@ class OrderDetailView extends GetView<OrderDetailController> {
                       }
                     },
                   )
-                : Sized.empty,
-            Sized.hGap10,
+                : AppGaps.empty,
+            AppGaps.hGap10,
             controller.model.value?.status == 4
                 ? Flexible(
                     child: MainButton(
@@ -695,7 +693,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
                       },
                     ),
                   )
-                : Sized.empty,
+                : AppGaps.empty,
           ],
         ),
       ),
@@ -738,18 +736,18 @@ class OrderDetailView extends GetView<OrderDetailController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ZHTextLine(
+          AppText(
             str: '转运订单号'.ts,
             fontSize: 13,
-            color: BaseStylesConfig.textGray,
+            color: AppColors.textGray,
           ),
-          Sized.vGap10,
+          AppGaps.vGap10,
           Row(
             children: [
-              ZHTextLine(
+              AppText(
                 str: controller.model.value?.orderSn ?? '',
               ),
-              Sized.hGap15,
+              AppGaps.hGap15,
               GestureDetector(
                 onTap: () {
                   Clipboard.setData(
@@ -764,13 +762,13 @@ class OrderDetailView extends GetView<OrderDetailController> {
               ),
             ],
           ),
-          Sized.vGap10,
-          ZHTextLine(
+          AppGaps.vGap10,
+          AppText(
             str: '包含的包裹'.ts,
             fontSize: 13,
-            color: BaseStylesConfig.textGray,
+            color: AppColors.textGray,
           ),
-          Sized.vGap10,
+          AppGaps.vGap10,
           Wrap(
             spacing: 15,
             runSpacing: 10,
@@ -790,8 +788,8 @@ class OrderDetailView extends GetView<OrderDetailController> {
                       width: 24,
                       height: 24,
                     ),
-                    Sized.hGap10,
-                    ZHTextLine(
+                    AppGaps.hGap10,
+                    AppText(
                       str: e.expressNum ?? '',
                     )
                   ],
@@ -806,14 +804,14 @@ class OrderDetailView extends GetView<OrderDetailController> {
 
   Widget firstView() {
     return Container(
-        color: BaseStylesConfig.primary,
+        color: AppColors.primary,
         child: Column(
           children: <Widget>[
             Container(
               height: 80,
               padding: const EdgeInsets.only(top: 30, left: 15),
               width: ScreenUtil().screenWidth,
-              child: ZHTextLine(
+              child: AppText(
                 str: controller.statusStr.value.ts,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
