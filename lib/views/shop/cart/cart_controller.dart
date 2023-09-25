@@ -70,8 +70,12 @@ class CartController extends BaseController {
     loadingUtil.value.isLoading = true;
     loadingUtil.refresh();
     try {
-      var data = await ShopService.getDaigouGoods(
-          {'keyword': '推荐', 'page': ++loadingUtil.value.pageIndex});
+      var data = await ShopService.getDaigouGoods({
+        'keyword': '推荐',
+        'page': ++loadingUtil.value.pageIndex,
+        'page_size': 10,
+        'platform': 'pinduoduo'
+      });
       loadingUtil.value.isLoading = false;
       if (data['dataList'] != null) {
         if (data.isNotEmpty) {

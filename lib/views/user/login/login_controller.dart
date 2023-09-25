@@ -28,7 +28,7 @@ class LoginController extends BaseController {
   final TextEditingController validationController = TextEditingController();
   final FocusNode validation = FocusNode();
   RxString pageTitle = '登录'.ts.obs;
-  RxInt loginType = 1.obs; // 1、手机号密码 2: 邮箱密码
+  RxInt loginType = 2.obs; // 1、手机号密码 2: 邮箱密码
   RxString sent = '获取验证码'.ts.obs;
   RxString code = ''.obs;
   RxBool isButtonEnable = true.obs;

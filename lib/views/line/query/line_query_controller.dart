@@ -40,7 +40,9 @@ class LineQueryController extends BaseController {
     list.value = data;
     if (list.isNotEmpty) {
       selectWareHouse.value = list.first;
-      selectCountry.value = selectWareHouse.value!.countries!.first;
+      if (selectWareHouse.value!.countries!.isNotEmpty) {
+        selectCountry.value = selectWareHouse.value!.countries!.first;
+      }
     }
     getProps();
   }

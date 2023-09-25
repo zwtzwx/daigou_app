@@ -86,7 +86,7 @@ class BindInfoController extends BaseController {
   onSubmit() async {
     if (flagBool.value == 1) {
       Map<String, dynamic> params = {
-        'phone': newNumberController.text,
+        'phone': timezone.value + newNumberController.text,
         'code': verifyCode.value,
       };
       await UserService.changePhone(params, (msg) {

@@ -180,33 +180,6 @@ class LoginView extends GetView<LoginController> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      controller.onLoginType(1);
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 2,
-                            color: controller.loginType.value == 1
-                                ? AppColors.primary
-                                : Colors.white,
-                          ),
-                        ),
-                      ),
-                      height: 40,
-                      child: AppText(
-                        str: '手机号登录'.ts,
-                        fontSize: 17,
-                        fontWeight: controller.loginType.value == 1
-                            ? FontWeight.bold
-                            : FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                  AppGaps.hGap15,
-                  GestureDetector(
-                    onTap: () {
                       controller.onLoginType(2);
                     },
                     child: Container(
@@ -228,6 +201,35 @@ class LoginView extends GetView<LoginController> {
                         fontWeight: controller.loginType.value == 2
                             ? FontWeight.bold
                             : FontWeight.normal,
+                        lines: 2,
+                      ),
+                    ),
+                  ),
+                  15.horizontalSpace,
+                  GestureDetector(
+                    onTap: () {
+                      controller.onLoginType(1);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            width: 2,
+                            color: controller.loginType.value == 1
+                                ? AppColors.primary
+                                : Colors.white,
+                          ),
+                        ),
+                      ),
+                      height: 40,
+                      child: AppText(
+                        str: '手机号登录'.ts,
+                        fontSize: 17,
+                        fontWeight: controller.loginType.value == 1
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                        lines: 2,
                       ),
                     ),
                   ),
