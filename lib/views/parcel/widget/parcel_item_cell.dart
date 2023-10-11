@@ -13,8 +13,8 @@ import 'package:jiyun_app_client/views/components/button/plain_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 
-class ParcelItemCell extends StatelessWidget {
-  const ParcelItemCell({
+class BeePackageItem extends StatelessWidget {
+  const BeePackageItem({
     Key? key,
     required this.model,
     this.index,
@@ -34,7 +34,7 @@ class ParcelItemCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Routers.push(Routers.parcelDetail, {'id': model.id, 'edit': false});
+          BeeNav.push(BeeNav.parcelDetail, {'id': model.id, 'edit': false});
         },
         child: Container(
           decoration: BoxDecoration(
@@ -87,7 +87,7 @@ class ParcelItemCell extends StatelessWidget {
                             model.status == 2
                                 ? 5.horizontalSpace
                                 : AppGaps.empty,
-                            const LoadImage(
+                            const ImgItem(
                               'PackageAndOrder/package',
                               width: 23,
                               height: 23,
@@ -180,7 +180,7 @@ class ParcelItemCell extends StatelessWidget {
                         ),
                         Column(
                           children: [
-                            const LoadImage(
+                            const ImgItem(
                               'PackageAndOrder/fly',
                               width: 24,
                               height: 24,
@@ -352,7 +352,7 @@ class ParcelItemCell extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         model.status == 1
-                            ? PlainButton(
+                            ? HollowButton(
                                 text: '删除',
                                 textColor: AppColors.textRed,
                                 borderRadis: 999,
@@ -368,13 +368,13 @@ class ParcelItemCell extends StatelessWidget {
                               )
                             : AppGaps.empty,
                         AppGaps.hGap10,
-                        PlainButton(
+                        HollowButton(
                           textColor: Colors.black,
                           borderRadis: 999,
                           fontSize: 14,
                           text: model.notConfirmed == 1 ? '补全信息' : '修改',
                           onPressed: () {
-                            Routers.push(Routers.editParcel,
+                            BeeNav.push(BeeNav.editParcel,
                                 {'id': model.id, 'edit': true});
                           },
                         )

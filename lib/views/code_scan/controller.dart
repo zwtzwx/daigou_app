@@ -25,7 +25,7 @@ class CodeScanController extends GetxController {
       'key': data,
     });
     if (res) {
-      Routers.pop();
+      BeeNav.pop();
     } else {
       isRequest = false;
     }

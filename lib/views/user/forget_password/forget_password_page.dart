@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jiyun_app_client/views/user/forget_password/forget_password_controller.dart';
 
-class ForgetPasswordView extends GetView<ForgetPasswordController> {
-  const ForgetPasswordView({Key? key}) : super(key: key);
+class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
+  const BeeResetPwdPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
             SizedBox(
               height: 40,
               width: double.infinity,
-              child: MainButton(
+              child: BeeButton(
                 text: '确认并登录',
                 borderRadis: 4.0,
                 onPressed: controller.onSubmit,

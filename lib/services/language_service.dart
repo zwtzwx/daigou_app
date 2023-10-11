@@ -13,7 +13,7 @@ class LanguageService {
    */
   static Future<List<LanguageModel>> getLanguage() async {
     List<LanguageModel> dataList = [];
-    await HttpClient.instance.get(languageApi).then((res) {
+    await BeeRequest.instance.get(languageApi).then((res) {
       if (res.ok) {
         for (var item in res.data) {
           dataList.add(LanguageModel.fromJson(item));
@@ -29,7 +29,7 @@ class LanguageService {
   static Future<Map<String, dynamic>?> getTransform(Map<String, dynamic> params,
       [Options? option]) async {
     Map<String, dynamic>? result;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(
       transformApi,
       queryParameters: params,

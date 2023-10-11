@@ -29,14 +29,14 @@ class _ContactCellState extends State<ContactCell>
       top: topOffset,
       child: GestureDetector(
         onTap: () async {
-          Util.onCustomerContact();
+          CommonMethods.onCustomerContact();
         },
         onPanUpdate: (detail) {
           _calcOffset(detail.delta);
         },
         onPanEnd: (detail) {},
         child: SizedBox(
-            child: LoadImage(
+            child: ImgItem(
           'Home/contact',
           width: 45.w,
           height: 45.w,

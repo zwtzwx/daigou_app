@@ -12,8 +12,8 @@ import 'package:jiyun_app_client/views/user/abount/about_me_controller.dart';
   关于我们
 */
 
-class AboutMeView extends GetView<AboutMeController> {
-  const AboutMeView({Key? key}) : super(key: key);
+class BeePage extends GetView<BeeLogic> {
+  const BeePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class AboutMeView extends GetView<AboutMeController> {
           ),
           trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () {
-            Routers.push(Routers.webview, {
+            BeeNav.push(BeeNav.webview, {
               'url': model.content,
               'title': model.title,
               'time': model.createdAt

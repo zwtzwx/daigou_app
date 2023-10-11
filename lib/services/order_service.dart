@@ -51,7 +51,7 @@ class OrderService {
     var page = (params is Map) ? params!['page'] : 1;
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<OrderModel> dataList = List<OrderModel>.empty(growable: true);
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(ORDER, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -74,7 +74,7 @@ class OrderService {
   static Future<Map> signed(int id) async {
     Map result = {'ok': false, 'msg': ''};
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(CHECKORDER.replaceAll(':id', id.toString()))
         .then((response) => {
               result = {
@@ -89,7 +89,7 @@ class OrderService {
   // 获取订单详情
   static Future<OrderModel?> getDetail(int id) async {
     OrderModel? result;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(
           ORDERDETAIL.replaceAll(':id', id.toString()),
         )
@@ -106,7 +106,7 @@ class OrderService {
    */
   static Future updateReadyPay(
       Map params, OnSuccess onSuccess, OnFail onFail) async {
-    return await HttpClient.instance
+    return await BeeRequest.instance
         .post(previewPay,
             data: params, options: Options(extra: {'showSuccess': false}))
         .then((response) {
@@ -124,7 +124,7 @@ class OrderService {
   static Future<Map> store(Map<String, dynamic> params) async {
     Map result = {'ok': false, 'msg': ''};
 
-    await HttpClient.instance.post(ORDER, data: params).then((response) {
+    await BeeRequest.instance.post(ORDER, data: params).then((response) {
       result = {
         'ok': response.ok,
         'msg': response.msg ?? response.error!.message
@@ -139,7 +139,7 @@ class OrderService {
    */
   static Future<List<String>> getOrderPackVideo(int id) async {
     List<String> result = [];
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(orderVideoApi.replaceAll(':id', id.toString()))
         .then((res) {
       if (res.ok) {
@@ -154,7 +154,7 @@ class OrderService {
    */
   static Future<OrderExceptionalModel?> getOrderExceptional(int id) async {
     OrderExceptionalModel? result;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(orderExceptionalApi.replaceAll(':id', id.toString()))
         .then((res) {
       if (res.ok) {
@@ -170,7 +170,7 @@ class OrderService {
   static Future<Map<String, dynamic>> orderIpay(int id,
       [Map<String, dynamic>? params]) async {
     Map<String, dynamic> result = {'ok': false, 'msg': ''};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(ipayApi.replaceAll(':id', id.toString()), data: params)
         .then((res) {
       result = {
@@ -185,7 +185,7 @@ class OrderService {
   // 预览拼团订单信息
   static Future<OrderModel?> onPreviewGroupOrder(int id, Map params) async {
     OrderModel? result;
-    await HttpClient()
+    await BeeRequest()
         .post(
             previewGroupOrderPayApi.replaceAll(
               ':id',

@@ -9,7 +9,7 @@ import 'package:jiyun_app_client/views/components/language_cell/language_cell.da
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/home/home_controller.dart';
 
-class BannerCell extends GetView<HomeController> {
+class BannerCell extends GetView<IndexLogic> {
   const BannerCell({Key? key}) : super(key: key);
 
   @override
@@ -17,7 +17,7 @@ class BannerCell extends GetView<HomeController> {
     return Stack(
       children: [
         const SizedBox(
-          child: LoadImage(
+          child: ImgItem(
             'Home/bg',
             fit: BoxFit.fitWidth,
           ),
@@ -49,7 +49,7 @@ class BannerCell extends GetView<HomeController> {
               ? Row(
                   children: [
                     ClipOval(
-                      child: LoadImage(
+                      child: ImgItem(
                         userInfo.avatar.isNotEmpty
                             ? userInfo.avatar
                             : 'AboutMe/u',

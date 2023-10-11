@@ -11,7 +11,7 @@ import 'package:jiyun_app_client/models/warehouse_model.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
 
-class ParcelListController extends BaseController
+class BeePackagesLogic extends GlobalLogic
     with GetSingleTickerProviderStateMixin {
   final isLoading = false.obs;
   List<WareHouseModel> warehouseList = [];
@@ -65,7 +65,7 @@ class ParcelListController extends BaseController
     }
     List<ParcelModel> checkedList =
         allParcels.where((e) => checkedIds.contains(e.id!)).toList();
-    var s = await Routers.push(Routers.createOrder, {
+    var s = await BeeNav.push(BeeNav.createOrder, {
       'modelList': checkedList,
     });
     if (s == 'succeed') {

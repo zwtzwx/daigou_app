@@ -56,7 +56,7 @@ class AgentService {
   static Future<AgentDataCountModel?> getDataCount() async {
     AgentDataCountModel? result;
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(agentSubCountApi, queryParameters: null)
         .then((response) =>
             {result = AgentDataCountModel.fromJson(response.data)})
@@ -72,7 +72,7 @@ class AgentService {
   static Future<AgentModel?> getProfile() async {
     AgentModel? result;
 
-    await HttpClient.instance.get(agentProfileApi).then((response) {
+    await BeeRequest.instance.get(agentProfileApi).then((response) {
       if (kDebugMode) {
         print(response);
       }
@@ -87,7 +87,7 @@ class AgentService {
   static Future<Map> applyWithDraw(Map params) async {
     Map result = {'ok': false, 'msg': ''};
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(agentCommissionWithdrawApi, data: params)
         .then((response) => {
               result = {
@@ -109,7 +109,7 @@ class AgentService {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<WithdrawalModel> dataList = <WithdrawalModel>[];
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(availableWithDrawApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -133,7 +133,7 @@ class AgentService {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<WithdrawalModel> dataList = <WithdrawalModel>[];
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(withdrawedApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -154,7 +154,7 @@ class AgentService {
    */
   static Future<WithdrawalItemModel?> getWithdrawDetail(int id) async {
     WithdrawalItemModel? result;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(withdrawDetailApi.replaceAll(':id', id.toString()))
         .then((res) => result = WithdrawalItemModel.fromJson(res.data));
     return result;
@@ -170,7 +170,7 @@ class AgentService {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<WithdrawalItemModel> dataList = <WithdrawalItemModel>[];
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(allWithDrawApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -194,7 +194,7 @@ class AgentService {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<AgentCommissionRecordModel> dataList = <AgentCommissionRecordModel>[];
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(commissionListApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -215,7 +215,7 @@ class AgentService {
    */
   static Future<Map> applyAgent([Map<String, dynamic>? params]) async {
     Map result = {"ok": false, "msg": ''};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(applyAgentApi, data: params)
         .then((response) => {
               result = {
@@ -235,7 +235,7 @@ class AgentService {
     var page = (params is Map) ? params!['page'] : 1;
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<UserModel> dataList = [];
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(agentSubApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -261,7 +261,7 @@ class AgentService {
 
     List<BankModel> dataList = <BankModel>[];
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(bankListApi, queryParameters: params)
         .then((response) {
       response.data?.forEach((item) {
@@ -282,7 +282,7 @@ class AgentService {
   */
   static Future<void> agentBind(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    await HttpClient.instance.put(agentBindApi, data: params).then((response) {
+    await BeeRequest.instance.put(agentBindApi, data: params).then((response) {
       if (response.ok) {
         onSuccess(response.msg);
       } else {

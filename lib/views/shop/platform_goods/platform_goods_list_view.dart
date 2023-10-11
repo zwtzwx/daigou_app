@@ -204,7 +204,7 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
                     ? AppColors.textDark
                     : AppColors.textGrayC9,
               ),
-              LoadImage(
+              ImgItem(
                 controller.platform.value != 'pinduoduo'
                     ? 'Shop/filter_s'
                     : 'Shop/filter',

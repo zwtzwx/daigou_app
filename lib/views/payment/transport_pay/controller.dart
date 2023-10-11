@@ -12,7 +12,7 @@ import 'package:jiyun_app_client/services/order_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
 
-class TransportPayController extends BaseController {
+class TransportPayController extends GlobalLogic {
   final payTypeList = <PayTypeModel>[].obs;
   final selectedPayType = Rxn<PayTypeModel?>();
   final RxNum myBalance = RxNum(0);
@@ -144,14 +144,14 @@ class TransportPayController extends BaseController {
     } else {
       if (payModel.value == 0) {
         // 充值会员转账
-        Routers.push(Routers.paymentTransfer, {
+        BeeNav.push(BeeNav.paymentTransfer, {
           'transferType': 0,
           'contentModel': vipPriceModel.value!,
           'payModel': model,
         });
       } else if (payModel.value == 1) {
         // 订单付款转账
-        Routers.push(Routers.paymentTransfer, {
+        BeeNav.push(BeeNav.paymentTransfer, {
           'transferType': 2,
           'contentModel': orderModel.value,
           'payModel': model,
@@ -187,7 +187,7 @@ class TransportPayController extends BaseController {
   // 支付结果
   onPayResult(Map result) {
     if (result['ok']) {
-      Routers.pop('succeed');
+      BeeNav.pop('succeed');
     }
   }
 

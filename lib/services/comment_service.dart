@@ -24,7 +24,7 @@ class CommentService {
 
     List<CommentModel> dataList = <CommentModel>[];
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(dataListApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -46,7 +46,7 @@ class CommentService {
   */
   static Future<String> getInfo() async {
     String tips = '';
-    await HttpClient.instance.get(commentInfoApi).then((res) {
+    await BeeRequest.instance.get(commentInfoApi).then((res) {
       tips = res.data['illustrate'] ?? '';
     });
     return tips;
@@ -57,7 +57,7 @@ class CommentService {
    */
   static Future<Map> onComment(Map<String, dynamic> params) async {
     Map result = {'ok': false, 'msg': null};
-    await HttpClient.instance.post(commentApi, data: params).then((res) => {
+    await BeeRequest.instance.post(commentApi, data: params).then((res) => {
           result = {'ok': res.ok, 'msg': res.msg ?? res.error!.message}
         });
     return result;
@@ -68,7 +68,7 @@ class CommentService {
    */
   static Future<CommentModel?> getDetail(int id) async {
     CommentModel? result;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(dataOneApi.replaceAll(':id', id.toString()))
         .then((res) {
       if (res.ok) {

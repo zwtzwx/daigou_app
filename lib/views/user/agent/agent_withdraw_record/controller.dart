@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/services/agent_service.dart';
 
-class AgentWithdrawRecordController extends BaseController {
+class AgentWithdrawRecordController extends GlobalLogic {
   AgentWithdrawRecordController();
 
   int pageIndex = 0;

@@ -10,8 +10,8 @@ import 'package:jiyun_app_client/views/components/button/plain_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/goods/cart_goods_item.dart';
 
-class ShopOrderItem extends StatelessWidget {
-  const ShopOrderItem({
+class BeeShopOrder extends StatelessWidget {
+  const BeeShopOrder({
     Key? key,
     required this.model,
     this.onCancel,
@@ -25,7 +25,7 @@ class ShopOrderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Routers.push(Routers.shopOrderDetail, {'id': model.id});
+        BeeNav.push(BeeNav.shopOrderDetail, {'id': model.id});
       },
       child: Container(
         decoration: BoxDecoration(
@@ -41,7 +41,7 @@ class ShopOrderItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: model.skus!
                     .map(
-                      (e) => CartGoodsItem(
+                      (e) => BeeShopOrderGoodsItem(
                         previewMode: true,
                         cartModel: e,
                         orderStatusName: model.statusName,
@@ -110,7 +110,7 @@ class ShopOrderItem extends StatelessWidget {
                               constraints: BoxConstraints(
                                 minWidth: ScreenUtil().setWidth(85),
                               ),
-                              child: PlainButton(
+                              child: HollowButton(
                                 text: '取消订单',
                                 borderRadis: 999,
                                 fontSize: 14,
@@ -137,7 +137,7 @@ class ShopOrderItem extends StatelessWidget {
                               constraints: BoxConstraints(
                                 minWidth: ScreenUtil().setWidth(85),
                               ),
-                              child: MainButton(
+                              child: BeeButton(
                                 text: '立即支付',
                                 borderRadis: 999,
                                 fontSize: 14,

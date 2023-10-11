@@ -22,8 +22,8 @@ import 'package:jiyun_app_client/views/home/widget/title_cell.dart';
   首页
 */
 
-class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+class IndexPage extends GetView<IndexLogic> {
+  const IndexPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,12 +68,12 @@ class HomeView extends GetView<HomeController> {
                               14.horizontalSpace,
                               GestureDetector(
                                 onTap: () {
-                                  Routers.push(Routers.notice);
+                                  BeeNav.push(BeeNav.notice);
                                 },
                                 child: Stack(
                                   alignment: Alignment.topRight,
                                   children: [
-                                    LoadImage(
+                                    ImgItem(
                                       'Home/bell',
                                       width: 28.w,
                                       height: 28.w,
@@ -143,7 +143,7 @@ class HomeView extends GetView<HomeController> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              LoadImage(
+                              ImgItem(
                                 e.image ?? 'Home/shop',
                                 holderImg: 'Shop/goods_cate_none',
                                 width: ScreenUtil().setWidth(40),
@@ -154,11 +154,15 @@ class HomeView extends GetView<HomeController> {
                                       () => AppText(
                                         str: e.name.ts,
                                         fontSize: 12,
+                                        lines: 2,
+                                        alignment: TextAlign.center,
                                       ),
                                     )
                                   : AppText(
                                       str: e.name,
                                       fontSize: 12,
+                                      lines: 2,
+                                      alignment: TextAlign.center,
                                     ),
                             ],
                           ),
@@ -197,7 +201,7 @@ class HomeView extends GetView<HomeController> {
                             itemCount: controller.hotGoodsList.length,
                             physics: const AlwaysScrollableScrollPhysics(),
                             scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) => GoodsItem(
+                            itemBuilder: (context, index) => BeeShopGoods(
                               width: (1.sw - 34.w) / 2.5,
                               goods: controller.hotGoodsList[index],
                               margin: EdgeInsets.only(right: 10.w),
@@ -232,7 +236,7 @@ class HomeView extends GetView<HomeController> {
             visible: controller.loadingUtil.value.list.isNotEmpty,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.w),
-              child: GoodsListCell(
+              child: BeeShopGoodsList(
                 isPlatformGoods: true,
                 platformGoodsList: controller.loadingUtil.value.list,
               ),

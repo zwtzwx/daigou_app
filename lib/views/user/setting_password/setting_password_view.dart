@@ -7,8 +7,8 @@ import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
 import 'package:jiyun_app_client/views/components/input/normal_input.dart';
 import 'package:jiyun_app_client/views/user/setting_password/setting_password_controller.dart';
 
-class SettingPasswordView extends GetView<SettingPasswordController> {
-  const SettingPasswordView({Key? key}) : super(key: key);
+class BeeNewPwdPage extends GetView<BeeNewPwdLogic> {
+  const BeeNewPwdPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class SettingPasswordView extends GetView<SettingPasswordController> {
       bottomNavigationBar: Container(
         margin: const EdgeInsets.symmetric(horizontal: 15),
         child: SafeArea(
-            child: MainButton(
+            child: BeeButton(
           text: '提交',
           onPressed: controller.onSubmit,
         )),

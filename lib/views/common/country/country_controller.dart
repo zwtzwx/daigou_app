@@ -7,7 +7,7 @@ import 'package:jiyun_app_client/models/alphabetical_country_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 
-class CountryController extends BaseController {
+class CountryController extends GlobalLogic {
   final ScrollController scrollController = ScrollController();
   final TextEditingController controller = TextEditingController();
   final FocusNode focusNode = FocusNode();
@@ -52,6 +52,6 @@ class CountryController extends BaseController {
   }
 
   onCountrySelect(CountryModel model) {
-    Routers.pop(model);
+    BeeNav.pop(model);
   }
 }

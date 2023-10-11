@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/global_inject.dart';
@@ -25,9 +26,9 @@ void main() async {
 
   //传入可能的登录用户
   await dotenv.load(fileName: ".env");
-  await GlobalInject.init();
+  await InstanceInit.init();
   // 初始化 Firebase
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
 
   runApp(const MyApp());
 
@@ -102,21 +103,21 @@ class _MyAppState extends State<MyApp> {
       var url = await CommonService.getGoodsUrl(params);
 
       if (url != null) {
-        if (currentRoute == Routers.goodsDetail) {
+        if (currentRoute == BeeNav.goodsDetail) {
           ApplicationEvent.getInstance()
               .event
               .fire(ChangeGoodsInfoEvent(url: url));
         } else {
-          Routers.push(Routers.goodsDetail, {'url': url});
+          BeeNav.push(BeeNav.goodsDetail, {'url': url});
         }
       }
     } else {
-      if (currentRoute == Routers.goodsDetail) {
+      if (currentRoute == BeeNav.goodsDetail) {
         ApplicationEvent.getInstance()
             .event
             .fire(ChangeGoodsInfoEvent(url: data));
       } else {
-        Routers.push(Routers.goodsDetail, {'url': data});
+        BeeNav.push(BeeNav.goodsDetail, {'url': data});
       }
     }
   }
@@ -128,7 +129,7 @@ class _MyAppState extends State<MyApp> {
           mainAxisSize: MainAxisSize.min,
           children: [
             10.verticalSpace,
-            LoadImage(
+            ImgItem(
               'Shop/result',
               width: 100.w,
             ),
@@ -223,9 +224,9 @@ class _MyAppState extends State<MyApp> {
         ),
         showSemanticsDebugger: false,
         debugShowCheckedModeBanner: false,
-        getPages: Routers.routes,
-        initialRoute: Routers.home,
-        initialBinding: TabbarBinding(),
+        getPages: BeeNav.routes,
+        initialRoute: BeeNav.home,
+        initialBinding: BeeBottomNavBinding(),
         builder: EasyLoading.init(),
         onReady: () {
           initClipboadListener();

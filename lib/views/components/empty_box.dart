@@ -12,7 +12,7 @@ Widget emptyBox([String? content]) {
       Center(
         child: Column(
           children: [
-            const LoadImage(
+            const ImgItem(
               'Home/empty',
               width: 140,
               fit: BoxFit.fitWidth,

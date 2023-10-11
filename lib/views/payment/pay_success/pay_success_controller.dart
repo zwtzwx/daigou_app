@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 
-class PaySuccessController extends BaseController {
+class PaySuccessController extends GlobalLogic {
   final isShopOrder = false.obs;
   final orderId = 0.obs;
 
@@ -19,14 +19,14 @@ class PaySuccessController extends BaseController {
   }
 
   void onShopCenter() {
-    Get.offAllNamed(Routers.home, arguments: {'index': 2});
+    Get.offAllNamed(BeeNav.home, arguments: {'index': 2});
   }
 
   void onOrderDetail() {
     if (isShopOrder.value) {
-      Routers.redirect(Routers.shopOrderDetail, {'id': orderId.value});
+      BeeNav.redirect(BeeNav.shopOrderDetail, {'id': orderId.value});
     } else {
-      Routers.redirect(Routers.orderDetail, {'id': orderId.value});
+      BeeNav.redirect(BeeNav.orderDetail, {'id': orderId.value});
     }
   }
 }

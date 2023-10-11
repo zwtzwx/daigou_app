@@ -8,7 +8,7 @@ import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/models/user_vip_price_model.dart';
 import 'package:jiyun_app_client/services/balance_service.dart';
 
-class TransferPaymentController extends BaseController {
+class TransferPaymentController extends GlobalLogic {
   final selectImg = [''].obs;
 
   UserModel? userModel = Get.find<UserInfoModel>().userInfo.value;

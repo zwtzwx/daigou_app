@@ -2,8 +2,8 @@ import 'package:jiyun_app_client/common/image_util.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class LoadImage extends StatelessWidget {
-  const LoadImage(this.image,
+class ImgItem extends StatelessWidget {
+  const ImgItem(this.image,
       {Key? key,
       this.width,
       this.height,

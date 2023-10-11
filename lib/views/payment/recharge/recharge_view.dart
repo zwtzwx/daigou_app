@@ -55,7 +55,7 @@ class RechargeView extends GetView<RechargeController> {
                 ],
               ),
               10.horizontalSpace,
-              MainButton(
+              BeeButton(
                 text: '确认支付',
                 onPressed: controller.onPay,
               ),
@@ -300,7 +300,7 @@ class RechargeView extends GetView<RechargeController> {
                     ),
                     Expanded(
                       child: AppText(
-                        str: Util.getPayTypeName(typeMap.name),
+                        str: CommonMethods.getPayTypeName(typeMap.name),
                         lines: 2,
                       ),
                     ),
@@ -359,7 +359,7 @@ class RechargeView extends GetView<RechargeController> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Routers.push(Routers.rechargeHistory);
+                                BeeNav.push(BeeNav.rechargeHistory);
                               },
                               child: AppText(
                                 str: '充值记录'.ts,

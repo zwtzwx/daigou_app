@@ -1,7 +1,7 @@
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/services/balance_service.dart';
 
-class RechargeHistoryController extends BaseController {
+class RechargeHistoryController extends GlobalLogic {
   RechargeHistoryController();
 
   int pageIndex = 0;

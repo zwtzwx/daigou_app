@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
@@ -8,8 +9,8 @@ import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
 import 'package:jiyun_app_client/views/components/input/normal_input.dart';
 import 'package:jiyun_app_client/views/user/bind_info/bind_info_controller.dart';
 
-class BindInfoView extends GetView<BindInfoController> {
-  const BindInfoView({Key? key}) : super(key: key);
+class BeePhonePage extends GetView<BeePhoneLogic> {
+  const BeePhonePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class BindInfoView extends GetView<BindInfoController> {
         child: Container(
           height: 40,
           margin: const EdgeInsets.symmetric(horizontal: 15),
-          child: MainButton(
+          child: BeeButton(
             text: '确定',
             onPressed: controller.onSubmit,
           ),
@@ -136,18 +137,23 @@ class BindInfoView extends GetView<BindInfoController> {
                             controller.verifyCode.value = res;
                           },
                         )),
-                        Container(
-                          margin: const EdgeInsets.only(
-                              right: 15, top: 8, bottom: 8),
-                          child: MainButton(
-                            text: controller.sent.value,
-                            backgroundColor: controller.isButtonEnable.value
-                                ? AppColors.primary
-                                : AppColors.bgGray,
-                            textColor: controller.isButtonEnable.value
-                                ? Colors.white
-                                : Colors.grey,
-                            onPressed: controller.onGetCode,
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: 150.w,
+                          ),
+                          child: Container(
+                            margin:
+                                EdgeInsets.only(right: 15.w, top: 8, bottom: 8),
+                            child: BeeButton(
+                              text: controller.sent.value,
+                              backgroundColor: controller.isButtonEnable.value
+                                  ? AppColors.primary
+                                  : AppColors.bgGray,
+                              textColor: controller.isButtonEnable.value
+                                  ? Colors.white
+                                  : Colors.grey,
+                              onPressed: controller.onGetCode,
+                            ),
                           ),
                         ),
                       ],

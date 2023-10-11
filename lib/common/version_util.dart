@@ -32,7 +32,7 @@ class VersionUtils {
 
   static void jumpToApp() {
     if (Platform.isIOS) {
-      launchUrl(Uri.parse('https://apps.apple.com/cn/app/item/id1670291989'));
+      launchUrl(Uri.parse('https://apps.apple.com/ru/app/item/id6468028783'));
     } else {
       launchUrl(Uri.parse(
           'https://play.google.com/store/apps/details?id=com.zhongha.shop_app_client'));

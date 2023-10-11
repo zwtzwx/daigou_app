@@ -112,12 +112,12 @@ class Notifications {
   static void onMessage(Map<String, dynamic>? data) {
     if (data == null) return;
     if (data['type'] == '1') {
-      Routers.push(Routers.parcelList, 2);
+      BeeNav.push(BeeNav.parcelList, 2);
     } else if (data['type'] == '7') {
-      Routers.push(
-          Routers.webview, {'type': 'notice', 'id': int.parse(data['value'])});
+      BeeNav.push(
+          BeeNav.webview, {'type': 'notice', 'id': int.parse(data['value'])});
     } else if (data['type'] == '8') {
-      Routers.push(Routers.orderDetail, {'id': num.parse(data['value'])});
+      BeeNav.push(BeeNav.orderDetail, {'id': num.parse(data['value'])});
     }
   }
 }

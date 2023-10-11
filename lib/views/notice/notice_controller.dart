@@ -8,7 +8,7 @@ import 'package:jiyun_app_client/events/notice_refresh_event.dart';
 import 'package:jiyun_app_client/models/notice_model.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 
-class NoticeController extends BaseController {
+class InformationLogic extends GlobalLogic {
   final name = ''.obs;
   int pageIndex = 0;
 
@@ -34,12 +34,12 @@ class NoticeController extends BaseController {
   onDetail(NoticeModel model, int index) async {
     if (model.value == null) return;
     if (model.type == 1) {
-      await Routers.push(Routers.parcelList, 2);
+      await BeeNav.push(BeeNav.parcelList, 2);
     } else if ([2, 3, 5, 6, 8].contains(model.type)) {
-      await Routers.push(Routers.orderDetail, {'id': num.parse(model.value!)});
+      await BeeNav.push(BeeNav.orderDetail, {'id': num.parse(model.value!)});
     } else if (model.type == 7) {
-      await Routers.push(
-          Routers.webview, {'type': 'notice', 'id': num.parse(model.value!)});
+      await BeeNav.push(
+          BeeNav.webview, {'type': 'notice', 'id': num.parse(model.value!)});
     }
     await onReadInfo(model.id, index);
   }

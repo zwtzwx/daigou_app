@@ -13,8 +13,8 @@ import 'package:jiyun_app_client/views/order/center/order_center_controller.dart
   订单中心
 */
 
-class OrderCenterView extends GetView<OrderCenterController> {
-  const OrderCenterView({Key? key}) : super(key: key);
+class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
+  const BeeOrderIndexPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -118,23 +118,23 @@ class OrderCenterView extends GetView<OrderCenterController> {
     return GestureDetector(
       onTap: () {
         if (index == 0) {
-          Routers.push(Routers.parcelList, 1);
+          BeeNav.push(BeeNav.parcelList, 1);
         } else if (index == 1) {
-          Routers.push(Routers.parcelList, 2);
+          BeeNav.push(BeeNav.parcelList, 2);
         } else if (index < 7) {
-          Routers.push(Routers.orderList, {'index': index - 1});
+          BeeNav.push(BeeNav.orderList, {'index': index - 1});
         } else if (index == 7) {
-          Routers.push(Routers.noOwnerList);
+          BeeNav.push(BeeNav.noOwnerList);
         }
       },
       child: Container(
         color: Colors.transparent,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Stack(
               children: <Widget>[
-                LoadImage(
+                ImgItem(
                   list[index]['icon'],
                   fit: BoxFit.fitWidth,
                   width: 50,

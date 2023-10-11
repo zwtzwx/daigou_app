@@ -81,7 +81,7 @@ class GoodsListView extends GetView<GoodsListController> {
         ),
         delegate: SliverChildBuilderDelegate(
           (context, index) {
-            return GoodsItem(
+            return BeeShopGoods(
               goods: controller.loadingUtil.value.list[index],
             );
           },

@@ -9,8 +9,8 @@ import 'package:jiyun_app_client/models/shop/goods_model.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 
-class GoodsItem extends StatelessWidget {
-  const GoodsItem({
+class BeeShopGoods extends StatelessWidget {
+  const BeeShopGoods({
     Key? key,
     this.bgColor = Colors.white,
     required this.goods,
@@ -26,7 +26,7 @@ class GoodsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Routers.push(Routers.goodsDetail, {'id': goods.id});
+        BeeNav.push(BeeNav.goodsDetail, {'id': goods.id});
       },
       child: Container(
         width: width,
@@ -42,7 +42,7 @@ class GoodsItem extends StatelessWidget {
             Expanded(
               child: Container(
                 color: Colors.white,
-                child: LoadImage(
+                child: ImgItem(
                   goods.images.isNotEmpty ? goods.images[0] : '',
                   holderImg: 'Shop/goods_none',
                   width: double.infinity,

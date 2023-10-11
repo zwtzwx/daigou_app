@@ -4,8 +4,8 @@ import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 
-class PlainButton extends StatefulWidget {
-  const PlainButton({
+class HollowButton extends StatefulWidget {
+  const HollowButton({
     Key? key,
     required this.text,
     this.fontSize = 15,
@@ -25,10 +25,10 @@ class PlainButton extends StatefulWidget {
   final VisualDensity? visualDensity;
   final EdgeInsetsGeometry? padding;
   @override
-  State<PlainButton> createState() => _PlainButtonState();
+  State<HollowButton> createState() => _PlainButtonState();
 }
 
-class _PlainButtonState extends State<PlainButton> {
+class _PlainButtonState extends State<HollowButton> {
   @override
   Widget build(BuildContext context) {
     return TextButton(

@@ -98,24 +98,29 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: list
                       .map(
-                        (e) => Column(
-                          // crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            LoadImage(
-                              'Shop/${e['img']}',
-                              width: 40.w,
-                              height: 40.w,
-                            ),
-                            3.verticalSpace,
-                            Obx(
-                              () => AppText(
-                                str: e['name']!.ts,
-                                fontSize: 12,
-                                lines: 4,
-                                alignment: TextAlign.center,
+                        (e) => ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: (1.sw - 60.w) / 4,
+                          ),
+                          child: Column(
+                            // crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ImgItem(
+                                'Shop/${e['img']}',
+                                width: 40.w,
+                                height: 40.w,
                               ),
-                            ),
-                          ],
+                              3.verticalSpace,
+                              Obx(
+                                () => AppText(
+                                  str: e['name']!.ts,
+                                  fontSize: 12,
+                                  lines: 4,
+                                  alignment: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       )
                       .toList(),
@@ -124,7 +129,7 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
                   left: 0,
                   right: 0,
                   top: 19.w,
-                  child: const LoadImage(
+                  child: const ImgItem(
                     'Shop/line',
                   ),
                 ),
@@ -203,7 +208,7 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
             visible: controller.loadingUtil.value.list.isNotEmpty,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.w),
-              child: GoodsListCell(
+              child: BeeShopGoodsList(
                 isPlatformGoods: true,
                 platformGoodsList: controller.loadingUtil.value.list,
                 firstPlaceholder: true,

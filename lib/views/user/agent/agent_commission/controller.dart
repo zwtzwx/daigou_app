@@ -3,7 +3,7 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/withdrawal_model.dart';
 
-class AgentCommissionController extends BaseController {
+class AgentCommissionController extends GlobalLogic {
   final selModelList = <WithdrawalModel>[].obs;
   final allModelList = <WithdrawalModel>[].obs;
 
@@ -24,7 +24,7 @@ class AgentCommissionController extends BaseController {
       showToast('请选择要提现的订单');
       return;
     }
-    Routers.push(Routers.agentCommissionApply, {'ids': ids});
+    BeeNav.push(BeeNav.agentCommissionApply, {'ids': ids});
   }
 
   /// dispose 释放内存

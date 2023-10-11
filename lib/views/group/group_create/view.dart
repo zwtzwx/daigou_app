@@ -13,8 +13,8 @@ import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/group/group_create/controller.dart';
 
-class GroupCreatePage extends GetView<GroupCreateController> {
-  const GroupCreatePage({Key? key}) : super(key: key);
+class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
+  const BeeGroupCreateView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class GroupCreatePage extends GetView<GroupCreateController> {
                 height: 45.h,
                 width: double.infinity,
                 margin: const EdgeInsets.only(bottom: 40),
-                child: MainButton(
+                child: BeeButton(
                   text: '发起拼团',
                   onPressed: controller.onSubmit,
                 ),
@@ -128,7 +128,7 @@ class GroupCreatePage extends GetView<GroupCreateController> {
                       ),
                       GestureDetector(
                         onTap: controller.onAddress,
-                        child: const LoadImage(
+                        child: const ImgItem(
                           'Group/edit',
                           width: 20,
                         ),
@@ -500,7 +500,7 @@ class GroupCreatePage extends GetView<GroupCreateController> {
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const LoadImage(
+                    const ImgItem(
                       'Group/group-5',
                       width: 28,
                     ),
@@ -510,7 +510,7 @@ class GroupCreatePage extends GetView<GroupCreateController> {
                     ),
                   ],
                 )
-              : LoadImage(
+              : ImgItem(
                   controller.image.value!,
                   width: 100,
                 ),

@@ -1,7 +1,7 @@
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/services/balance_service.dart';
 
-class TransactionController extends BaseController {
+class BeeTradeLogic extends GlobalLogic {
   int pageIndex = 0;
   loadList({type}) async {
     pageIndex = 0;

@@ -13,8 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/views/user/address/list/address_list_controller.dart';
 
-class AddressListView extends GetView<AddressListController> {
-  const AddressListView({Key? key}) : super(key: key);
+class BeeShippingPage extends GetView<BeeShippingLogic> {
+  const BeeShippingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +34,10 @@ class AddressListView extends GetView<AddressListController> {
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 15),
             height: 40,
-            child: MainButton(
+            child: BeeButton(
               text: '添加地址',
               onPressed: () {
-                Routers.push(Routers.addressAddEdit, {
+                BeeNav.push(BeeNav.addressAddEdit, {
                   'isEdit': '0',
                   'addressType': controller.addressType.value
                 });
@@ -211,7 +211,7 @@ class AddressListView extends GetView<AddressListController> {
                   10.horizontalSpace,
                   GestureDetector(
                     onTap: () {
-                      Routers.push(Routers.addressAddEdit, {
+                      BeeNav.push(BeeNav.addressAddEdit, {
                         'id': model.id,
                         'isEdit': '1',
                         'addressType': controller.addressType.value

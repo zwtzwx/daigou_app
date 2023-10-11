@@ -9,8 +9,8 @@ import 'package:flutter_html/flutter_html.dart';
 
 //浏览器
 
-class H5View extends GetView<WebviewController> {
-  const H5View({Key? key}) : super(key: key);
+class BeeWebView extends GetView<BeeWebviewLogic> {
+  const BeeWebView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

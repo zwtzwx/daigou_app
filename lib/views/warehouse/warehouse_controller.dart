@@ -7,7 +7,7 @@ import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/models/warehouse_model.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
 
-class WarehouseController extends BaseController {
+class BeeCangKuLogic extends GlobalLogic {
   final warehouseList = <WareHouseModel>[].obs;
   final isLoading = false.obs;
   UserModel? userModel = Get.find<UserInfoModel>().userInfo.value;

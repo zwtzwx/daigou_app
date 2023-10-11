@@ -12,8 +12,8 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/user/register/register_controller.dart';
 
-class RegisterView extends GetView<RegisterController> {
-  const RegisterView({Key? key}) : super(key: key);
+class BeeSignUpPage extends GetView<BeeSignUpLogic> {
+  const BeeSignUpPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +86,7 @@ class RegisterView extends GetView<RegisterController> {
               margin: const EdgeInsets.only(top: 40),
               height: 40,
               width: double.infinity,
-              child: MainButton(
+              child: BeeButton(
                 text: '注册',
                 borderRadis: 4,
                 onPressed: controller.onRegister,

@@ -24,7 +24,7 @@ import 'package:jiyun_app_client/views/components/update_dialog.dart';
 
 import 'package:jiyun_app_client/views/home/widget/annoucement_dialog.dart';
 
-class HomeController extends BaseController {
+class IndexLogic extends GlobalLogic {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final I10n i10n = Get.find<I10n>();
   RxList<LanguageModel> langList = <LanguageModel>[].obs;
@@ -92,7 +92,7 @@ class HomeController extends BaseController {
       barrierDismissible: false,
     );
     if (detail) {
-      Routers.push(Routers.webview, {
+      BeeNav.push(BeeNav.webview, {
         'id': data.id,
         'title': data.title,
         'time': data.createdAt,
@@ -175,9 +175,9 @@ class HomeController extends BaseController {
   void onCategory([GoodsCategoryModel? model]) {
     if (model == null || model.id == 0) {
       // 自营商城
-      Routers.push(Routers.shopCenter);
+      BeeNav.push(BeeNav.shopCenter);
     } else {
-      Routers.push(Routers.platformGoodsList, {'keyword': model.name});
+      BeeNav.push(BeeNav.platformGoodsList, {'keyword': model.name});
     }
   }
 }

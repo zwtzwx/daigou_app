@@ -3,7 +3,7 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/shop/consult_model.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
 
-class ShopOrderChatController extends BaseController {
+class ShopOrderChatController extends GlobalLogic {
   int page = 0;
 
   loadData({type}) async {
@@ -19,6 +19,6 @@ class ShopOrderChatController extends BaseController {
   }
 
   void onDetail(ConsultModel model) {
-    Routers.push(Routers.shopOrderChatDetail, {'consult': model});
+    BeeNav.push(BeeNav.shopOrderChatDetail, {'consult': model});
   }
 }

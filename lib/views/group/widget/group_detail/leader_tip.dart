@@ -63,7 +63,7 @@ class _LeaderTipState extends State<LeaderTip> {
   }
 
   onUploadImg() async {
-    UploadUtil.imagePicker(
+    ImageUpload.imagePicker(
       context: context,
       onSuccessCallback: (img) async {
         setState(() {
@@ -122,7 +122,7 @@ class _LeaderTipState extends State<LeaderTip> {
             AppGaps.vGap20,
             SizedBox(
               height: 45,
-              child: MainButton(
+              child: BeeButton(
                 text: '确认',
                 onPressed: onSubmit,
               ),
@@ -146,7 +146,7 @@ class _LeaderTipState extends State<LeaderTip> {
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const LoadImage(
+                  const ImgItem(
                     'Group/group-5',
                     width: 28,
                   ),
@@ -156,7 +156,7 @@ class _LeaderTipState extends State<LeaderTip> {
                   ),
                 ],
               )
-            : LoadImage(
+            : ImgItem(
                 image!,
                 width: 100,
               ),

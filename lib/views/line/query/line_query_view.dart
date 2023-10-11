@@ -42,7 +42,7 @@ class LineQueryView extends GetView<LineQueryController> {
                   margin: const EdgeInsets.only(top: 20, bottom: 30),
                   width: double.infinity,
                   height: 50,
-                  child: MainButton(
+                  child: BeeButton(
                     text: '立即试算',
                     borderRadis: 999,
                     onPressed: controller.onSubmit,
@@ -108,7 +108,7 @@ class LineQueryView extends GetView<LineQueryController> {
           ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
-            child: LoadImage(
+            child: ImgItem(
               'Home/arrow',
               width: 60,
             ),

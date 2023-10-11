@@ -11,7 +11,7 @@ class ExpressCompanyService {
       [Map<String, dynamic>? params]) async {
     List<ExpressCompanyModel> result =
         List<ExpressCompanyModel>.empty(growable: true);
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(LISTAPI, queryParameters: params)
         .then((response) => {
               response.data?.forEach((good) {

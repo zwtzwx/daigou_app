@@ -6,7 +6,7 @@ import 'package:jiyun_app_client/models/shop/category_model.dart';
 import 'package:jiyun_app_client/models/shop/goods_model.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
 
-class GoodsListController extends BaseController {
+class GoodsListController extends GlobalLogic {
   Map<String, dynamic>? arguments;
   final RxInt categoryId = 0.obs;
   final RxList<CategoryModel> categories = <CategoryModel>[].obs;

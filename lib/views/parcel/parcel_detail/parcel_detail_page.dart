@@ -20,8 +20,8 @@ import 'package:jiyun_app_client/views/parcel/parcel_detail/parcel_detail_contro
   包裹详情
 */
 
-class ParcelDetailView extends GetView<ParcelDetailController> {
-  const ParcelDetailView({Key? key}) : super(key: key);
+class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
+  const BeePackageDetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -455,7 +455,7 @@ class ParcelDetailView extends GetView<ParcelDetailController> {
         child: Container(
           color: AppColors.white,
           alignment: Alignment.topCenter,
-          child: LoadImage(
+          child: ImgItem(
             imgList[index],
             fit: BoxFit.contain,
             width: 120,

@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 
 import 'controller.dart';
 
-class CreateOrderBinding implements Bindings {
+class BeePackingBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<CreateOrderController>(() => CreateOrderController());
+    Get.lazyPut<BeePackingLogic>(() => BeePackingLogic());
   }
 }

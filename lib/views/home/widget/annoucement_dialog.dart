@@ -14,7 +14,7 @@ class AnnoucementDialog extends StatelessWidget {
     required this.model,
   }) : super(key: key);
   final AnnouncementModel model;
-  final HomeController controller = Get.find<HomeController>();
+  final IndexLogic controller = Get.find<IndexLogic>();
 
   // 获取日期
   String getDate(String dateTime) {
@@ -62,7 +62,7 @@ class AnnoucementDialog extends StatelessWidget {
                   ),
                   SizedBox(
                     width: 100,
-                    child: MainButton(
+                    child: BeeButton(
                       text: '查看更多'.ts,
                       fontSize: 14,
                       borderRadis: 20.0,

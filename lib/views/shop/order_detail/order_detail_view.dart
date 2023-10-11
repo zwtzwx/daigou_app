@@ -156,7 +156,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
       children: [
         10.verticalSpace,
         ...controller.orderModel.value!.skus!.map(
-          (e) => CartGoodsItem(
+          (e) => BeeShopOrderGoodsItem(
             previewMode: true,
             cartModel: e,
             orderStatusName: controller.orderModel.value?.statusName ?? '',

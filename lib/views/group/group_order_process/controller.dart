@@ -4,7 +4,7 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/group_order_model.dart';
 import 'package:jiyun_app_client/services/group_service.dart';
 
-class GroupOrderProcessController extends BaseController {
+class BeeGroupOrderDetailController extends GlobalLogic {
   final orderModel = Rxn<GroupOrderModel?>();
 
   @override
@@ -24,7 +24,7 @@ class GroupOrderProcessController extends BaseController {
 
   // 支付
   void onPay() async {
-    Routers.push(Routers.transportPay, {
+    BeeNav.push(BeeNav.transportPay, {
       'id': orderModel.value!.id,
       'payModel': 1,
       'deliveryStatus': 1,

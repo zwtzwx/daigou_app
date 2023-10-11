@@ -1,7 +1,7 @@
 /*
-  又是广告图
+  广告图
  */
-class AdsPicModel {
+class BannerModel {
   late int id;
   late int linkType;
   late String fullPath;
@@ -13,7 +13,7 @@ class AdsPicModel {
   late int type;
   late int companyId;
 
-  AdsPicModel(
+  BannerModel(
       {required this.id,
       required this.linkType,
       required this.fullPath,
@@ -25,7 +25,7 @@ class AdsPicModel {
       required this.type,
       required this.companyId});
 
-  AdsPicModel.fromJson(Map<String, dynamic> json) {
+  BannerModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? '';
     linkType = json['link_type'] ?? 0;
     fullPath = json['full_path'] ?? '';

@@ -6,7 +6,7 @@ import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
 import 'package:jiyun_app_client/models/user_order_count_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 
-class OrderCenterController extends BaseController {
+class BeeOrderIndexLogic extends GlobalLogic {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   //各类包裹统计
   final userOrderCountModel = Rxn<UserOrderCountModel?>();

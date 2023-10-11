@@ -61,7 +61,7 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
 
   // 补款
   void onOrderAddtionalFee(ProblemOrderModel order) async {
-    var s = await Routers.push(Routers.shopOrderPay, {'problemOrder': order});
+    var s = await BeeNav.push(BeeNav.shopOrderPay, {'problemOrder': order});
     if (s != null) {
       ApplicationEvent.getInstance()
           .event
@@ -71,7 +71,7 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
 
   // 咨询
   void onChat(ProblemOrderModel order) async {
-    Routers.push(Routers.shopOrderChatDetail, {'consult': order.consult});
+    BeeNav.push(BeeNav.shopOrderChatDetail, {'consult': order.consult});
   }
 
   @override
@@ -80,7 +80,7 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
       children: [
         processModelCell(),
         Expanded(
-          child: ListRefresh(
+          child: RefreshView(
             shrinkWrap: true,
             renderItem: renderItem,
             refresh: loadData,
@@ -102,7 +102,7 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ...(model.problemSkus ?? []).map((shop) => CartGoodsItem(
+          ...(model.problemSkus ?? []).map((shop) => BeeShopOrderGoodsItem(
               cartModel: shop.sku!,
               previewMode: true,
               otherWiget: model.problemType == 2
@@ -164,7 +164,7 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
                         constraints: BoxConstraints(
                           minWidth: 90.w,
                         ),
-                        child: PlainButton(
+                        child: HollowButton(
                           text: '咨询',
                           textColor: AppColors.textDark,
                           borderColor: AppColors.textGrayC,
@@ -182,7 +182,7 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
                                 constraints: BoxConstraints(
                                   minWidth: 90.w,
                                 ),
-                                child: PlainButton(
+                                child: HollowButton(
                                   text: '补款',
                                   textColor: AppColors.textDark,
                                   borderColor: AppColors.primary,

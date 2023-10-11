@@ -105,7 +105,7 @@ class _DropdownMenuState extends State<DropdownMenu> {
                               : AppColors.bgGray,
                           borderRadius: BorderRadius.circular(999)),
                       child: AppText(
-                        str: e['name']!,
+                        str: e['name']!.ts,
                         fontSize: 14,
                         color: platform == e['value']
                             ? Colors.black
@@ -123,7 +123,7 @@ class _DropdownMenuState extends State<DropdownMenu> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Expanded(
-                    child: PlainButton(
+                    child: HollowButton(
                   text: '取消',
                   borderRadis: 999,
                   textColor: AppColors.textGray,
@@ -134,7 +134,7 @@ class _DropdownMenuState extends State<DropdownMenu> {
                 )),
                 20.horizontalSpace,
                 Expanded(
-                    child: MainButton(
+                    child: BeeButton(
                   text: '确认',
                   borderRadis: 999,
                   fontWeight: FontWeight.bold,

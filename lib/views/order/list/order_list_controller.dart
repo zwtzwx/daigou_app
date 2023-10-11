@@ -3,7 +3,7 @@ import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
 
-class OrderListController extends BaseController {
+class BeeOrdersLogic extends GlobalLogic {
   final pageIndex = 0.obs;
   final pageTitle = ''.obs;
 

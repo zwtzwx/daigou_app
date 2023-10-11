@@ -13,7 +13,7 @@ import 'package:jiyun_app_client/services/shop_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
 
-class ShopOrderPayController extends BaseController {
+class ShopOrderPayController extends GlobalLogic {
   final orderList = <ShopOrderModel>[].obs;
   final payTypeList = <PayTypeModel>[].obs;
   final selectedPayType = Rxn<PayTypeModel?>();
@@ -139,9 +139,9 @@ class ShopOrderPayController extends BaseController {
 
   void onPaySuccess() {
     if (problemOrder.value != null || Get.arguments['fromOrderList'] == true) {
-      Routers.pop('success');
+      BeeNav.pop('success');
     } else {
-      Routers.redirect(Routers.paySuccess, {
+      BeeNav.redirect(BeeNav.paySuccess, {
         'fromShop': true,
         'id': orderList.first.id,
       });

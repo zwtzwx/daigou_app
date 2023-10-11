@@ -29,7 +29,7 @@ class AgentCommissionHistoryPage
       ),
       backgroundColor: AppColors.bgGray,
       bottomNavigationBar: bottomListBtn(),
-      body: ListRefresh(
+      body: RefreshView(
         renderItem: renderItem,
         refresh: controller.loadList,
         more: controller.loadMoreList,
@@ -44,7 +44,7 @@ class AgentCommissionHistoryPage
         Expanded(
           child: GestureDetector(
             onTap: () {
-              Routers.push(Routers.agentCommissionList);
+              BeeNav.push(BeeNav.agentCommissionList);
             },
             child: Container(
               height: 65,
@@ -63,7 +63,7 @@ class AgentCommissionHistoryPage
         Expanded(
           child: GestureDetector(
             onTap: () {
-              Routers.push(Routers.agentWithdrawRecord);
+              BeeNav.push(BeeNav.agentWithdrawRecord);
             },
             child: Container(
               height: 65,
@@ -168,7 +168,7 @@ class AgentCommissionHistoryPage
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: GestureDetector(
               onTap: () {
-                Routers.push(Routers.agentWithdrawDetail, {"id": model.id});
+                BeeNav.push(BeeNav.agentWithdrawDetail, {"id": model.id});
               },
               child: Container(
                 color: Colors.white,

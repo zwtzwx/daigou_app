@@ -4,7 +4,7 @@ import 'package:get/instance_manager.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
 
-class BaseController extends GetxController {
+class GlobalLogic extends GetxController {
   final currencyModel = Get.find<UserInfoModel>().currencyModel;
   final localModel = Get.find<UserInfoModel>().localModel;
 

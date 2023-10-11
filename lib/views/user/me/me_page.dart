@@ -17,8 +17,8 @@ import 'package:jiyun_app_client/views/user/me/me_controller.dart';
   我的
 */
 
-class MeView extends GetView<MeController> {
-  const MeView({Key? key}) : super(key: key);
+class BeeCenterPage extends GetView<BeeCenterLogic> {
+  const BeeCenterPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,101 +45,101 @@ class MeView extends GetView<MeController> {
       {
         'name': '我的余额',
         'icon': 'AboutMe/center-yue',
-        'route': Routers.recharge,
+        'route': BeeNav.recharge,
       },
       {
         'name': '优惠券',
         'icon': 'AboutMe/center-coupon',
-        'route': Routers.coupon,
+        'route': BeeNav.coupon,
       },
       {
         'name': '佣金收入',
         'icon': 'AboutMe/center-yj',
-        'route': Routers.agentCommission,
+        'route': BeeNav.agentCommission,
       },
     ];
     if (controller.userVipModel.value?.pointStatus == 1) {
       amountList.add({
         'name': '我的积分',
         'icon': 'AboutMe/center-point',
-        'route': Routers.point,
+        'route': BeeNav.point,
       });
     }
     List<Map<String, dynamic>> orderList = [
       {
         'name': '代购/商城订单',
         'icon': 'AboutMe/order',
-        'route': Routers.shopOrderList,
+        'route': BeeNav.shopOrderList,
       },
       {
         'name': '代购问题商品',
         'icon': 'AboutMe/wtsp',
-        'route': Routers.probleShopOrder,
+        'route': BeeNav.probleShopOrder,
       },
       {
         'name': '集运/转运包裹',
         'icon': 'AboutMe/parcel',
-        'route': Routers.orderCenter,
+        'route': BeeNav.orderCenter,
       },
     ];
     List<Map<String, dynamic>> list1 = [
       {
         'name': '地址簿',
         'icon': 'AboutMe/address-icon',
-        'route': Routers.addressList,
+        'route': BeeNav.addressList,
         'params': {'select': 0},
       },
       {
         'name': '个人资料',
         'icon': 'AboutMe/info-icon',
-        'route': Routers.profile,
+        'route': BeeNav.profile,
       },
       {
         'name': '交易记录',
         'icon': 'AboutMe/pay-record-icon',
-        'route': Routers.transaction,
+        'route': BeeNav.transaction,
       },
       {
         'name': '一键预报',
         'icon': 'AboutMe/chorme',
-        'route': Routers.chromeLogin,
+        'route': BeeNav.chromeLogin,
       },
       // {
       //   'name': '取件列表',
       //   'icon': 'AboutMe/smqj',
-      //   'route': Routers.transaction,
+      //   'route': BeeNav.transaction,
       // },
       {
         'name': '我的咨询',
         'icon': 'AboutMe/kefu',
-        'route': Routers.shopOrderChat,
+        'route': BeeNav.shopOrderChat,
       },
       {
         'name': '代理',
         'icon': 'AboutMe/proxy-icon',
-        'route': Routers.agentApply,
+        'route': BeeNav.agentApply,
       },
       {
         'name': '更改手机号',
         'icon': 'AboutMe/phone-icon',
-        'route': Routers.changeMobileAndEmail,
+        'route': BeeNav.changeMobileAndEmail,
         'params': {'type': 1},
       },
       {
         'name': '更改邮箱',
         'icon': 'AboutMe/emai-icon',
-        'route': Routers.changeMobileAndEmail,
+        'route': BeeNav.changeMobileAndEmail,
         'params': {'type': 2},
       },
       {
         'name': '关于我们',
         'icon': 'AboutMe/about-me-icon',
-        'route': Routers.abountMe,
+        'route': BeeNav.abountMe,
       },
       {
         'name': '修改密码',
         'icon': 'AboutMe/password',
-        'route': Routers.password,
+        'route': BeeNav.password,
       },
       {
         'name': '退出登录',
@@ -210,15 +210,15 @@ class MeView extends GetView<MeController> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () async {
-                  if (list[index]['route'] == Routers.agentApply) {
+                  if (list[index]['route'] == BeeNav.agentApply) {
                     if (controller.agentStatus.value?.id == 1) {
                       // 代理
-                      Routers.push(Routers.agentMember);
+                      BeeNav.push(BeeNav.agentMember);
                     } else {
-                      Routers.push(list[index]['route'], list[index]['params']);
+                      BeeNav.push(list[index]['route'], list[index]['params']);
                     }
                   } else if (list[index]['route'] != null) {
-                    Routers.push(list[index]['route'], list[index]['params']);
+                    BeeNav.push(list[index]['route'], list[index]['params']);
                   } else {
                     var res = await BaseDialog.cupertinoConfirmDialog(
                         context, '确认退出登录吗'.ts + '？');
@@ -231,7 +231,7 @@ class MeView extends GetView<MeController> {
                   color: Colors.transparent,
                   child: Column(
                     children: [
-                      LoadImage(
+                      ImgItem(
                         list[index]['icon'],
                         width: iconWidth ?? 38.w,
                         height: iconWidth ?? 38.w,
@@ -242,6 +242,8 @@ class MeView extends GetView<MeController> {
                           str: (list[index]['name']! as String).ts,
                           fontSize: 12,
                           color: AppColors.textNormal,
+                          lines: 3,
+                          alignment: TextAlign.center,
                         ),
                       ),
                     ],
@@ -275,7 +277,7 @@ class MeView extends GetView<MeController> {
               child: Row(
                 children: [
                   ClipOval(
-                    child: LoadImage(
+                    child: ImgItem(
                       userModel?.avatar ?? '',
                       fit: BoxFit.fitWidth,
                       width: 70.w,
@@ -299,12 +301,12 @@ class MeView extends GetView<MeController> {
                             5.horizontalSpace,
                             GestureDetector(
                               onTap: () {
-                                Routers.push(Routers.notice);
+                                BeeNav.push(BeeNav.notice);
                               },
                               child: Stack(
                                 alignment: Alignment.topRight,
                                 children: [
-                                  LoadImage(
+                                  ImgItem(
                                     'Home/bell',
                                     width: 28.w,
                                     height: 28.w,
@@ -357,13 +359,13 @@ class MeView extends GetView<MeController> {
                               ? Expanded(
                                   child: GestureDetector(
                                     onTap: () {
-                                      Routers.push(Routers.vip);
+                                      BeeNav.push(BeeNav.vip);
                                     },
                                     child: Container(
                                       color: Colors.transparent,
                                       child: Row(
                                         children: [
-                                          const LoadImage(
+                                          const ImgItem(
                                             'AboutMe/V',
                                             width: 28,
                                             height: 28,
@@ -391,7 +393,7 @@ class MeView extends GetView<MeController> {
                               ? Expanded(
                                   child: GestureDetector(
                                     onTap: () {
-                                      Routers.push(Routers.point);
+                                      BeeNav.push(BeeNav.point);
                                     },
                                     child: Container(
                                       color: Colors.transparent,
@@ -408,7 +410,7 @@ class MeView extends GetView<MeController> {
                                               ),
                                             ),
                                           ),
-                                          const LoadImage(
+                                          const ImgItem(
                                             'AboutMe/jf',
                                             width: 28,
                                             height: 28,

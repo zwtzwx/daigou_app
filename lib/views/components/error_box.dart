@@ -15,13 +15,13 @@ class ErrorBox extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        LoadImage(
+        ImgItem(
           'Home/network_err',
           width: 300.w,
         ),
         SizedBox(
           width: 120.w,
-          child: MainButton(
+          child: BeeButton(
             text: '重新请求',
             borderRadis: 999,
             onPressed: onRefresh,

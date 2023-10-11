@@ -12,8 +12,8 @@ import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/group/group_order/controller.dart';
 
-class GroupOrderPage extends GetView<GroupOrderController> {
-  const GroupOrderPage({Key? key}) : super(key: key);
+class BeeGroupOrderView extends GetView<GroupOrderController> {
+  const BeeGroupOrderView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class GroupOrderPage extends GetView<GroupOrderController> {
           controller.tabController.animateTo(value);
         },
         itemBuilder: (context, index) {
-          return ListRefresh(
+          return RefreshView(
             renderItem: groupOrderItemCell,
             refresh: controller.loadList,
             more: controller.loadMoreList,
@@ -74,7 +74,7 @@ class GroupOrderPage extends GetView<GroupOrderController> {
   Widget groupOrderItemCell(int index, GroupOrderModel model) {
     return GestureDetector(
       onTap: () {
-        Routers.push(Routers.groupOrderPorcess, {'id': model.id});
+        BeeNav.push(BeeNav.groupOrderPorcess, {'id': model.id});
       },
       child: Container(
         decoration: const BoxDecoration(
@@ -93,7 +93,7 @@ class GroupOrderPage extends GetView<GroupOrderController> {
           children: [
             Row(
               children: [
-                const LoadImage(
+                const ImgItem(
                   'PackageAndOrder/group-buy',
                   width: 25,
                   height: 25,
@@ -139,14 +139,14 @@ class GroupOrderPage extends GetView<GroupOrderController> {
                     ),
                     child: Column(
                       children: [
-                        const LoadImage(
+                        const ImgItem(
                           'PackageAndOrder/fly',
                           width: 24,
                           height: 24,
                         ),
                         AppGaps.vGap4,
                         AppText(
-                          str: Util.getOrderStatusName(
+                          str: CommonMethods.getOrderStatusName(
                               model.status!, model.stationOrder),
                           color: AppColors.primary,
                           fontSize: 14,
@@ -253,10 +253,10 @@ class GroupOrderPage extends GetView<GroupOrderController> {
                 ? Container(
                     margin: const EdgeInsets.only(top: 10),
                     alignment: Alignment.centerRight,
-                    child: MainButton(
+                    child: BeeButton(
                       text: '团长代付',
                       onPressed: () {
-                        Routers.push(Routers.transportPay, {
+                        BeeNav.push(BeeNav.transportPay, {
                           'id': model.id,
                           'payModel': 1,
                           'deliveryStatus': 1,

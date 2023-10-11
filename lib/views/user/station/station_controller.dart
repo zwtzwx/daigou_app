@@ -2,7 +2,7 @@ import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/services/station_service.dart';
 
-class StationController extends BaseController {
+class StationController extends GlobalLogic {
   final pageIndex = 0.obs;
 
   loadList({type}) async {

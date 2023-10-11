@@ -29,7 +29,7 @@ class ShipLineService {
       {Map<String, dynamic>? params, Options? option}) async {
     List<ShipLineModel> list = [];
     Map result = {'ok': false, 'msg': '', 'list': list};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(LISTAPI, data: params, options: option)
         .then((response) {
       response.data?.forEach((item) {
@@ -47,7 +47,7 @@ class ShipLineService {
   // 渠道详情
   static Future<ShipLineModel?> getDetail(int id) async {
     ShipLineModel? result;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(DETAILAPI.replaceAll(':id', id.toString()))
         .then((res) => {result = ShipLineModel.fromJson(res.data)});
     return result;
@@ -58,7 +58,7 @@ class ShipLineService {
    */
   static Future<InsuranceModel?> getInsurance() async {
     InsuranceModel? result;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(hasInsuranceApi)
         .then((response) => {result = InsuranceModel.fromJson(response.data)});
 
@@ -71,7 +71,7 @@ class ShipLineService {
   static Future<TariffModel?> getTariff() async {
     TariffModel? result;
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(tariffConfigApi)
         .then((res) => {result = TariffModel.fromJson(res.data)});
 
@@ -84,7 +84,7 @@ class ShipLineService {
   static Future<List<ValueAddedServiceModel>> getValueAddedServiceList(
       [Map<String, dynamic>? params]) async {
     List<ValueAddedServiceModel> result = [];
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(addValueServiceApi, queryParameters: params)
         .then((response) => {
               response.data.forEach((item) {

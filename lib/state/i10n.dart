@@ -14,12 +14,19 @@ class I10n {
 
   I10n() {
     _language.value = LanguageStore.getLanguage();
+    var translateValue = LanguageStore.geTranslate();
+    if (translateValue != null) {
+      _translations.value = translateValue;
+    }
     loadTranslations();
   }
 
   Future<void> loadTranslations([Options? option]) async {
-    _translations.value =
-        await LanguageService.getTransform({'source': 3}, option) ?? {};
+    var value = await LanguageService.getTransform({'source': 3}, option);
+    if (value != null) {
+      _translations.value = value;
+      LanguageStore.setTranslate(value);
+    }
   }
 
   setLanguage(String data) {

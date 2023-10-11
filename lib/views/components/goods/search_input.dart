@@ -50,7 +50,7 @@ class _SearchCellState extends State<SearchCell> {
     if (widget.onSearch != null) {
       widget.onSearch!(value);
     } else if (widget.goPlatformGoods) {
-      Routers.push(Routers.platformGoodsList, {'keyword': value});
+      BeeNav.push(BeeNav.platformGoodsList, {'keyword': value});
     }
   }
 
@@ -88,7 +88,7 @@ class _SearchCellState extends State<SearchCell> {
             ),
           ),
           AppGaps.hGap10,
-          MainButton(
+          BeeButton(
             text: widget.searchText,
             borderRadis: 999,
             fontSize: 12,

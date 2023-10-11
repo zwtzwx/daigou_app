@@ -13,7 +13,7 @@ class TrackingService {
   static Future<List<TrackingModel>> getList(
       [Map<String, dynamic>? params]) async {
     List<TrackingModel> result = [];
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(listApi, queryParameters: params)
         .then((response) {
       var list = response.data;

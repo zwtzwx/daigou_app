@@ -7,7 +7,7 @@ import 'package:jiyun_app_client/models/pay_type_model.dart';
 import 'package:jiyun_app_client/services/balance_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 
-class RechargeController extends BaseController {
+class RechargeController extends GlobalLogic {
   final TextEditingController otherPriceController = TextEditingController();
   final FocusNode otherPriceNode = FocusNode();
 
@@ -91,7 +91,7 @@ class RechargeController extends BaseController {
         //       }
         //     });
         //   } else {
-        //     Util.showToast("请先安装微信");
+        //     CommonMethods.showToast("请先安装微信");
         //   }
         // });
       }
@@ -113,7 +113,7 @@ class RechargeController extends BaseController {
     if (selectType.first.name == 'wechat') {
       weChatPayMethod();
     } else {
-      Routers.push(Routers.paymentTransfer, {
+      BeeNav.push(BeeNav.paymentTransfer, {
         'transferType': 1,
         'amount': amount.value,
         'payModel': selectType.first,

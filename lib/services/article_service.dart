@@ -14,7 +14,7 @@ class ArticleService {
       [Map<String, dynamic>? params]) async {
     List<ArticleModel> dataList = <ArticleModel>[];
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(listApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -29,7 +29,7 @@ class ArticleService {
   // 投诉建议
   static void onSuggestion(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    await HttpClient.instance.post(suggestionApi, data: params).then((res) {
+    await BeeRequest.instance.post(suggestionApi, data: params).then((res) {
       if (res.ok) {
         onSuccess(res.msg);
       } else {

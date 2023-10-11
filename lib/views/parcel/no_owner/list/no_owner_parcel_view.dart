@@ -16,8 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jiyun_app_client/views/parcel/no_owner/list/no_owner_parcel_controller.dart';
 
-class NoOwnerParcelView extends GetView<NoOwnerParcelController> {
-  const NoOwnerParcelView({Key? key}) : super(key: key);
+class AbnomalParcelPage extends GetView<AbnomalParcelLogic> {
+  const AbnomalParcelPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class NoOwnerParcelView extends GetView<NoOwnerParcelController> {
   }
 
   Widget buildListView(context) {
-    return ListRefresh(
+    return RefreshView(
       renderItem: buildCellList,
       refresh: controller.loadList,
       more: controller.loadMoreList,
@@ -125,7 +125,7 @@ class NoOwnerParcelView extends GetView<NoOwnerParcelController> {
             ],
           ),
           Flexible(
-            child: MainButton(
+            child: BeeButton(
               text: '认领',
               onPressed: () {
                 controller.toDetail(model);

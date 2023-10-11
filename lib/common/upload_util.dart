@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 /*
   上传图片
  */
-class UploadUtil {
+class ImageUpload {
   /*
     图片选择
     不带编辑

@@ -40,7 +40,7 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                     const SizedBox(
                       height: 140,
                       width: 140,
-                      child: LoadImage(
+                      child: ImgItem(
                         '',
                         fit: BoxFit.contain,
                         holderImg: "Home/empty",
@@ -96,7 +96,7 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                     ),
                   ],
                 ),
-                const LoadImage(
+                const ImgItem(
                   'Home/arrow',
                   width: 60,
                 ),
@@ -206,13 +206,13 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
     }
     ShipLineModel model =
         controller.lineData[controller.fromQuery.value ? index - 1 : index];
-    String modelName = Util.getLineModelName(model.mode);
+    String modelName = CommonMethods.getLineModelName(model.mode);
     return GestureDetector(
       onTap: () async {
         if (controller.fromQuery.value) {
-          Routers.push(Routers.lineDetail, {'line': model, 'type': 2});
+          BeeNav.push(BeeNav.lineDetail, {'line': model, 'type': 2});
         } else {
-          Routers.pop(model);
+          BeeNav.pop(model);
         }
       },
       child: Container(
@@ -326,8 +326,8 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                     : AppGaps.empty,
                 GestureDetector(
                     onTap: () {
-                      Routers.push(
-                          Routers.lineDetail, {'line': model, 'type': 2});
+                      BeeNav.push(
+                          BeeNav.lineDetail, {'line': model, 'type': 2});
                     },
                     child: AppText(
                       str: '查看详情'.ts,

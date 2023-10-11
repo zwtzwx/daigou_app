@@ -3,7 +3,7 @@ import 'package:jiyun_app_client/models/self_pickup_station_order_model.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Util {
+class CommonMethods {
   static void showSnackBar(BuildContext context, String msg,
       [GlobalKey<ScaffoldState>? _scaffoldKey]) {
     if (_scaffoldKey != null) {

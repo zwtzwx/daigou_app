@@ -16,8 +16,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/views/parcel/no_owner/detail/no_owner_parcel_detail_controller.dart';
 
-class NoOwnerParcelDetailView extends GetView<NoOwnerParcelDetailController> {
-  const NoOwnerParcelDetailView({Key? key}) : super(key: key);
+class BeeParcelClaimPage extends GetView<BeeParcelClaimLogic> {
+  const BeeParcelClaimPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class NoOwnerParcelDetailView extends GetView<NoOwnerParcelDetailController> {
       bottomNavigationBar: SafeArea(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 15),
-          child: MainButton(
+          child: BeeButton(
             text: '提交',
             onPressed: controller.onSubmit,
           ),
@@ -160,7 +160,7 @@ class NoOwnerParcelDetailView extends GetView<NoOwnerParcelDetailController> {
                                   onTap: () {
                                     controller.syncsListFirstParcel.value =
                                         controller.syncsList[index];
-                                    Routers.pop();
+                                    BeeNav.pop();
                                   },
                                 );
                               },

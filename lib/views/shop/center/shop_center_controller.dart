@@ -9,7 +9,7 @@ import 'package:jiyun_app_client/services/shop_service.dart';
 /*
   自营商城中心
  */
-class ShopCenterController extends BaseController {
+class ShopCenterController extends GlobalLogic {
   final RxList<CategoryModel> categories = <CategoryModel>[].obs;
   final Rx<LoadingUtil<GoodsModel>> loadingUtil = LoadingUtil<GoodsModel>().obs;
 
@@ -59,12 +59,12 @@ class ShopCenterController extends BaseController {
 
   // 商品列表
   void onCategory(int id) {
-    Routers.push(Routers.goodsList, {'id': id});
+    BeeNav.push(BeeNav.goodsList, {'id': id});
   }
 
   // 搜索商品
   void onSearch(String value) {
-    Routers.push(Routers.goodsList, {'keyword': value});
+    BeeNav.push(BeeNav.goodsList, {'keyword': value});
   }
 
   @override

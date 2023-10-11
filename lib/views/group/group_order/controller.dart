@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/services/group_service.dart';
 
-class GroupOrderController extends BaseController
+class GroupOrderController extends GlobalLogic
     with GetSingleTickerProviderStateMixin {
   late TabController tabController;
   final PageController pageController = PageController();

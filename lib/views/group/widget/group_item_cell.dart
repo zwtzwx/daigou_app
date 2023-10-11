@@ -52,7 +52,7 @@ class GroupItemCell extends StatelessWidget {
                   str: groupModel.name!,
                 ),
                 AppText(
-                  str: Util.getGroupStatusName(groupModel.status!).ts,
+                  str: CommonMethods.getGroupStatusName(groupModel.status!).ts,
                   color: groupModel.status == 0
                       ? AppColors.primary
                       : AppColors.textBlack,
@@ -83,7 +83,7 @@ class GroupItemCell extends StatelessWidget {
                       ),
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
-                        child: LoadImage(
+                        child: ImgItem(
                           'Group/arrow',
                           format: 'jpg',
                           width: 100,

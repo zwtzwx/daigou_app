@@ -10,8 +10,8 @@ import 'package:jiyun_app_client/views/components/goods/goods_item.dart';
 import 'package:jiyun_app_client/views/components/goods/platform_goods_item.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 
-class GoodsListCell extends StatelessWidget {
-  const GoodsListCell({
+class BeeShopGoodsList extends StatelessWidget {
+  const BeeShopGoodsList({
     Key? key,
     this.color = Colors.white,
     this.goodsList,
@@ -55,7 +55,7 @@ class GoodsListCell extends StatelessWidget {
             );
           }
         } else {
-          return GoodsItem(
+          return BeeShopGoods(
             bgColor: color,
             goods: goodsList![index],
           );
@@ -68,7 +68,7 @@ class GoodsListCell extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        const LoadImage(
+        const ImgItem(
           'https://api-jiyun-v3.haiouoms.com/storage/admin/20230817-q1npSlv5DECuAVcq.png',
           fit: BoxFit.fill,
         ),
@@ -78,7 +78,7 @@ class GoodsListCell extends StatelessWidget {
           right: 30.w,
           child: GestureDetector(
             onTap: () {
-              Routers.push(Routers.shopCenter);
+              BeeNav.push(BeeNav.shopCenter);
             },
             child: Container(
               height: 25.h,

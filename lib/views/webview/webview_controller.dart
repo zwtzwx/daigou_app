@@ -6,7 +6,7 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/services/announcement_service.dart';
 import 'package:webview_flutter/webview_flutter.dart' as webview;
 
-class WebviewController extends BaseController {
+class BeeWebviewLogic extends GlobalLogic {
   final Completer<webview.WebViewController> webController =
       Completer<webview.WebViewController>();
 

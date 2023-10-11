@@ -42,7 +42,7 @@ class _BannerBoxState extends State<BannerBox>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return LoadImage(
+    return ImgItem(
       allimagesModel.toJson()[widget.imgType] ?? '',
       fit: BoxFit.fitWidth,
     );

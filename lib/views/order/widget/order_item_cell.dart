@@ -16,15 +16,15 @@ import 'package:jiyun_app_client/views/components/button/plain_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 
-class OrderItemCell extends StatelessWidget {
-  const OrderItemCell({Key? key, required this.orderModel}) : super(key: key);
+class BeeOrderItem extends StatelessWidget {
+  const BeeOrderItem({Key? key, required this.orderModel}) : super(key: key);
   final OrderModel orderModel;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Routers.push(Routers.orderDetail, {'id': orderModel.id});
+        BeeNav.push(BeeNav.orderDetail, {'id': orderModel.id});
       },
       child: Container(
         decoration: const BoxDecoration(
@@ -45,7 +45,7 @@ class OrderItemCell extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const LoadImage(
+                    const ImgItem(
                       'PackageAndOrder/process',
                       width: 25,
                       height: 25,
@@ -112,14 +112,14 @@ class OrderItemCell extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        const LoadImage(
+                        const ImgItem(
                           'PackageAndOrder/fly',
                           width: 24,
                           height: 24,
                         ),
                         AppGaps.vGap4,
                         AppText(
-                          str: Util.getOrderStatusName(
+                          str: CommonMethods.getOrderStatusName(
                               orderModel.status, orderModel.stationOrder),
                           color: AppColors.primary,
                           fontSize: 14,
@@ -248,14 +248,14 @@ class OrderItemCell extends StatelessWidget {
                 orderModel.groupMode == 0
             ? Container(
                 margin: const EdgeInsets.only(left: 10),
-                child: MainButton(
+                child: BeeButton(
                   text: (orderModel.status == OrderStatus.waitPay.id ||
                           orderModel.onDeliveryStatus == 1 ||
                           orderModel.paymentStatus == 1)
                       ? '去付款'
                       : '重新支付',
                   onPressed: () async {
-                    var s = await Routers.push(Routers.transportPay, {
+                    var s = await BeeNav.push(BeeNav.transportPay, {
                       'id': orderModel.id,
                       'payModel': 1,
                       'deliveryStatus': orderModel.onDeliveryStatus,
@@ -286,10 +286,10 @@ class OrderItemCell extends StatelessWidget {
                     ),
                   ),
                   10.horizontalSpace,
-                  MainButton(
+                  BeeButton(
                     text: '前往支付',
                     onPressed: () {
-                      Routers.push(Routers.groupOrderPorcess,
+                      BeeNav.push(BeeNav.groupOrderPorcess,
                           {'id': orderModel.parentId});
                     },
                   ),
@@ -308,14 +308,14 @@ class OrderItemCell extends StatelessWidget {
               )
             : AppGaps.empty,
         [4, 5].contains(orderModel.status)
-            ? PlainButton(
+            ? HollowButton(
                 text: '查看物流',
                 onPressed: () {
                   if (orderModel.boxes.isNotEmpty) {
                     BaseDialog.showBoxsTracking(context, orderModel);
                   } else {
-                    Routers.push(Routers.orderTracking,
-                        {"order_sn": orderModel.orderSn});
+                    BeeNav.push(
+                        BeeNav.orderTracking, {"order_sn": orderModel.orderSn});
                   }
                 },
               )
@@ -324,7 +324,7 @@ class OrderItemCell extends StatelessWidget {
             ? Flexible(
                 child: Container(
                   padding: const EdgeInsets.only(left: 10),
-                  child: MainButton(
+                  child: BeeButton(
                     text: '确认收货',
                     onPressed: () {
                       onSign(context);
@@ -355,7 +355,7 @@ class OrderItemCell extends StatelessWidget {
               result.images.isNotEmpty
                   ? Container(
                       padding: const EdgeInsets.only(top: 15),
-                      child: LoadImage(
+                      child: ImgItem(
                         result.images[0],
                         fit: BoxFit.fitWidth,
                         width: 100,
@@ -378,12 +378,12 @@ class OrderItemCell extends StatelessWidget {
       var result = await OrderService.signed(id);
       EasyLoading.dismiss();
       if (result['ok']) {
-        Util.showToast('签收成功'.ts);
+        CommonMethods.showToast('签收成功'.ts);
         ApplicationEvent.getInstance()
             .event
             .fire(ListRefreshEvent(type: 'refresh'));
       } else {
-        Util.showToast(result['msg']);
+        CommonMethods.showToast(result['msg']);
       }
     }
   }

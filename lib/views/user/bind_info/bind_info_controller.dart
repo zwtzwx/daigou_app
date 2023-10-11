@@ -12,7 +12,7 @@ import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 
-class BindInfoController extends BaseController {
+class BeePhoneLogic extends GlobalLogic {
   final textEditingController = TextEditingController();
   final timezone = '0007'.obs;
   final sent = '获取验证码'.obs;
@@ -111,13 +111,13 @@ class BindInfoController extends BaseController {
 
   onResult(bool ok, String msg) {
     if (ok) {
-      Routers.pop();
+      BeeNav.pop();
     }
   }
 
   // 选择手机区号
   void onTimezone() async {
-    var s = await Routers.push(Routers.country);
+    var s = await BeeNav.push(BeeNav.country);
     if (s != null) {
       CountryModel a = s as CountryModel;
       timezone.value = a.timezone!;

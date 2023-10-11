@@ -68,7 +68,7 @@ class _ShopOrderListState extends State<ShopOrderList> {
   void orderPay({
     required String orderSn,
   }) async {
-    var s = await Routers.push(Routers.shopOrderPay, {
+    var s = await BeeNav.push(BeeNav.shopOrderPay, {
       'order': [orderSn],
       'fromOrderList': true,
     });
@@ -102,9 +102,9 @@ class _ShopOrderListState extends State<ShopOrderList> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(bottom: 30),
-      child: ListRefresh(
+      child: RefreshView(
         renderItem: (int index, ShopOrderModel model) {
-          return ShopOrderItem(
+          return BeeShopOrder(
             model: model,
             onPay: () {
               orderPay(orderSn: model.orderSn);

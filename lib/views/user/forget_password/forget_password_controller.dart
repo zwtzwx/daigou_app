@@ -19,7 +19,7 @@ import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 
-class ForgetPasswordController extends BaseController {
+class BeeResetPwdLogic extends GlobalLogic {
   final loginType = 2.obs; //  1 手机号 2 邮箱
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -52,7 +52,7 @@ class ForgetPasswordController extends BaseController {
 
   // 选择手机区号
   void onTimezone() async {
-    var s = await Routers.push(Routers.country);
+    var s = await BeeNav.push(BeeNav.country);
     if (s != null) {
       CountryModel a = s as CountryModel;
       areaNumber.value = a.timezone!;
@@ -149,10 +149,10 @@ class ForgetPasswordController extends BaseController {
           'token': dt,
         });
       }
-      Routers.redirect(Routers.home);
+      BeeNav.redirect(BeeNav.home);
     } catch (err) {
       EasyLoading.dismiss();
-      Util.showToast(err.toString());
+      CommonMethods.showToast(err.toString());
     }
   }
 

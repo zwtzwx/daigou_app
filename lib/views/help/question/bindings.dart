@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 
 import 'controller.dart';
 
-class QuestionBinding implements Bindings {
+class BeeQusBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<QuestionController>(() => QuestionController());
+    Get.lazyPut<BeeQusLogic>(() => BeeQusLogic());
   }
 }

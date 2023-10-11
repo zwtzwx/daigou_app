@@ -14,7 +14,7 @@ import 'package:jiyun_app_client/services/address_service.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 
-class AddressAddEditController extends BaseController {
+class BeeAddressInfoLogic extends GlobalLogic {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final textEditingController = TextEditingController();
 
@@ -150,7 +150,7 @@ class AddressAddEditController extends BaseController {
         ApplicationEvent.getInstance()
             .event
             .fire(ReceiverAddressRefreshEvent());
-        Routers.pop();
+        BeeNav.pop();
       });
     } else {
       showError('删除失败');
@@ -174,8 +174,8 @@ class AddressAddEditController extends BaseController {
 
   // 选择国家
   void onStationSelect() async {
-    var s = await Routers.push(
-        Routers.stationSelect, {'country_id': countryModel.value?.id ?? ''});
+    var s = await BeeNav.push(
+        BeeNav.stationSelect, {'country_id': countryModel.value?.id ?? ''});
     if (s == null) return;
     station.value = s;
   }
@@ -218,7 +218,7 @@ class AddressAddEditController extends BaseController {
         ApplicationEvent.getInstance()
             .event
             .fire(ReceiverAddressRefreshEvent());
-        Routers.pop();
+        BeeNav.pop();
       });
     } else {
       showError(result['msg']);

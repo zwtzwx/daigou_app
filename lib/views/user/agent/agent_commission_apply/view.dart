@@ -30,7 +30,7 @@ class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
               const EdgeInsets.only(right: 15, left: 15, top: 10, bottom: 10),
           height: 40,
           width: double.infinity,
-          child: MainButton(
+          child: BeeButton(
             text: '确认',
             onPressed: controller.onSubmit,
           ),

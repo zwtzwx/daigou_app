@@ -7,8 +7,8 @@ import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/group/group_member_detail/controller.dart';
 import 'package:jiyun_app_client/views/group/widget/member_avatar_widget.dart';
 
-class GroupMemberDetailPage extends GetView<GroupMemberDetailController> {
-  const GroupMemberDetailPage({Key? key}) : super(key: key);
+class BeeGroupUsersView extends GetView<BeeGroupUsersController> {
+  const BeeGroupUsersView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

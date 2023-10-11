@@ -7,7 +7,7 @@ import 'package:jiyun_app_client/models/goods_category_model.dart';
 import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
 
-class PlatformShopCenterController extends BaseController {
+class PlatformShopCenterController extends GlobalLogic {
   final RxList<GoodsCategoryModel> categoryList = <GoodsCategoryModel>[].obs;
   final categoryIndex = 0.obs;
   final loadingUtil = LoadingUtil<PlatformGoodsModel>().obs;

@@ -10,7 +10,7 @@ import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 
-class ProfileController extends BaseController {
+class BeeUserInfoLogic extends GlobalLogic {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   final textEditingController = TextEditingController();
@@ -70,7 +70,7 @@ class ProfileController extends BaseController {
       userInfoModel.setUserInfo(result['data']);
       UserStorage.setUserInfo(result['data']);
       showSuccess(result['msg']);
-      Routers.pop();
+      BeeNav.pop();
     } else {
       showToast(result['msg']);
     }
@@ -84,7 +84,7 @@ class ProfileController extends BaseController {
     if (res['ok']) {
       showSuccess('注销成功');
       userInfoModel.clear();
-      Routers.redirect(Routers.home);
+      BeeNav.redirect(BeeNav.home);
     } else {
       showError(res['msg']);
     }

@@ -142,8 +142,8 @@ import 'package:jiyun_app_client/views/user/login/login_page.dart';
 import 'package:jiyun_app_client/views/webview/webview_binding.dart';
 import 'package:jiyun_app_client/views/webview/webview_page.dart';
 
-class Routers {
-  Routers._();
+class BeeNav {
+  BeeNav._();
 
   static const String home = '/';
   static const String parcelList = '/parcel/forcast/list'; // 未入库包裹列表
@@ -248,13 +248,13 @@ class Routers {
   static final routes = [
     GetPage(
       name: home,
-      page: () => const TabbarView(),
-      binding: TabbarBinding(),
+      page: () => const BeeBottomNavPage(),
+      binding: BeeBottomNavBinding(),
     ),
     GetPage(
       name: login,
-      page: () => const LoginView(),
-      binding: LoginBinding(),
+      page: () => const BeeSignInPage(),
+      binding: BeeSignInBinding(),
     ),
     GetPage(
       name: country,
@@ -263,123 +263,123 @@ class Routers {
     ),
     GetPage(
       name: warehouse,
-      page: () => const WarehouseView(),
-      binding: WarehouseBinding(),
+      page: () => const BeeCangKuPage(),
+      binding: BeeCangKuBinding(),
     ),
     GetPage(
       name: forecast,
-      page: () => const ForecastParcelView(),
-      binding: ForecastBinding(),
+      page: () => const BeeParcelCreatePage(),
+      binding: BeeParcelCreateBinding(),
     ),
     GetPage(
       name: parcelList,
-      page: () => const ParcelListView(),
-      binding: ParcelListBinding(),
+      page: () => const BeePackagesPage(),
+      binding: BeePackagesBinding(),
     ),
     GetPage(
       name: parcelDetail,
-      page: () => const ParcelDetailView(),
-      binding: ParcelDetailBinding(),
+      page: () => const BeePackageDetailPage(),
+      binding: BeePackageDetailBinding(),
     ),
     GetPage(
       name: editParcel,
-      page: () => const ParcelEditView(),
-      binding: ParcelEditBinding(),
+      page: () => const BeePackageUpdatePage(),
+      binding: BeePackageUpdateBinding(),
     ),
     GetPage(
       name: orderTracking,
-      page: () => const OrderTrackingView(),
-      binding: TrackingBinding(),
+      page: () => const BeeOrderTrackPage(),
+      binding: BeeOrderTrackBinding(),
     ),
     GetPage(
       name: abountMe,
-      page: () => const AboutMeView(),
-      binding: AbountMeBinding(),
+      page: () => const BeePage(),
+      binding: BeeBinding(),
     ),
     GetPage(
       name: webview,
-      page: () => const H5View(),
-      binding: WebviewBinding(),
+      page: () => const BeeWebView(),
+      binding: BeeWebviewBinding(),
     ),
     GetPage(
       name: password,
-      page: () => const SettingPasswordView(),
-      binding: SettingPasswordBinding(),
+      page: () => const BeeNewPwdPage(),
+      binding: BeeNewPwdBinding(),
     ),
     GetPage(
       name: transaction,
-      page: () => const TransactionView(),
-      binding: TransactionBinding(),
+      page: () => const BeeTradePage(),
+      binding: BeeTradeBinding(),
     ),
     GetPage(
       name: profile,
-      page: () => const ProfileView(),
-      binding: ProfileBinding(),
+      page: () => const BeeUserInfoPage(),
+      binding: BeeUserInfoBinding(),
     ),
     GetPage(
       name: changeMobileAndEmail,
-      page: () => const BindInfoView(),
-      binding: BindInfoBinding(),
+      page: () => const BeePhonePage(),
+      binding: BeePhoneBinding(),
     ),
     GetPage(
       name: addressList,
-      page: () => const AddressListView(),
-      binding: AddressListBinding(),
+      page: () => const BeeShippingPage(),
+      binding: BeeShippingBinding(),
     ),
     GetPage(
       name: addressAddEdit,
-      page: () => const AddressAddEditView(),
-      binding: AddressAddEditBinding(),
+      page: () => const BeeAddressInfoPage(),
+      binding: BeeAddressInfoBinding(),
     ),
     GetPage(
       name: forgetPassword,
-      page: () => const ForgetPasswordView(),
-      binding: ForgetPasswordBinding(),
+      page: () => const BeeResetPwdPage(),
+      binding: BeeResetPwdBinding(),
     ),
     GetPage(
       name: orderList,
-      page: () => const OrderListView(),
-      binding: OrderListBinding(),
+      page: () => const BeeOrdersPage(),
+      binding: BeeOrdersBinding(),
     ),
     GetPage(
       name: orderDetail,
-      page: () => const OrderDetailView(),
-      binding: OrderDetailBinding(),
+      page: () => const BeeOrderPage(),
+      binding: BeeOrderBinding(),
     ),
     GetPage(
       name: noOwnerList,
-      page: () => const NoOwnerParcelView(),
-      binding: NoOwnerParcelBinding(),
+      page: () => const AbnomalParcelPage(),
+      binding: AbnomalParcelBinding(),
     ),
     GetPage(
       name: noOwnerDetail,
-      page: () => const NoOwnerParcelDetailView(),
-      binding: NoOwnerParcelDetailBinding(),
+      page: () => const BeeParcelClaimPage(),
+      binding: BeeParcelClaimBinding(),
     ),
     GetPage(
       name: vip,
-      page: () => const VipCenterView(),
-      binding: VipCenterBinding(),
+      page: () => const BeeSuperUserView(),
+      binding: BeeSuperUserBinding(),
     ),
     GetPage(
       name: point,
-      page: () => const PointView(),
-      binding: PointBinding(),
+      page: () => const IntergralPage(),
+      binding: IntergralBinding(),
     ),
     GetPage(
       name: growthValue,
-      page: () => const GrowthValueView(),
-      binding: GrowthValueBinding(),
+      page: () => const BeeValuesPage(),
+      binding: BeeValuesBinding(),
     ),
     GetPage(
       name: register,
-      page: () => const RegisterView(),
-      binding: RegisterBingding(),
+      page: () => const BeeSignUpPage(),
+      binding: BeeSignUpBinding(),
     ),
     GetPage(
       name: track,
-      page: () => const ExpressQueryView(),
-      binding: ExpressQueryBind(),
+      page: () => const BeeTrackingView(),
+      binding: BeeTrackingBinding(),
     ),
     GetPage(
       name: shopCenter,
@@ -463,8 +463,8 @@ class Routers {
     ),
     GetPage(
       name: notice,
-      page: () => const NoticePage(),
-      binding: NoticeBinding(),
+      page: () => const InformationView(),
+      binding: InformationBinding(),
     ),
     GetPage(
       name: recharge,
@@ -528,18 +528,18 @@ class Routers {
     ),
     GetPage(
       name: help,
-      page: () => const HelpCenterPage(),
-      binding: HelpCenterBinding(),
+      page: () => const BeeSupportView(),
+      binding: BeeSupportBinding(),
     ),
     GetPage(
       name: question,
-      page: () => const QuestionPage(),
-      binding: QuestionBinding(),
+      page: () => const BeeQusView(),
+      binding: BeeQusBinding(),
     ),
     GetPage(
       name: orderCenter,
-      page: () => const OrderCenterView(),
-      binding: OrderCenterBinding(),
+      page: () => const BeeOrderIndexPage(),
+      binding: BeeOrderIndexBinding(),
     ),
     GetPage(
       name: station,
@@ -558,43 +558,43 @@ class Routers {
     ),
     GetPage(
       name: createOrder,
-      page: () => const CreateOrderPage(),
-      binding: CreateOrderBinding(),
+      page: () => const BeePackingView(),
+      binding: BeePackingBinding(),
     ),
     GetPage(
       name: groupCenter,
-      page: () => const GroupCenterPage(),
-      binding: GroupCenterBinding(),
+      page: () => const BeeGroupView(),
+      binding: BeeGroupBinding(),
     ),
     GetPage(
       name: groupCreate,
-      page: () => const GroupCreatePage(),
-      binding: GroupCreateBinding(),
+      page: () => const BeeGroupCreateView(),
+      binding: BeeGroupCreateBinding(),
     ),
     GetPage(
       name: groupOrder,
-      page: () => const GroupOrderPage(),
+      page: () => const BeeGroupOrderView(),
       binding: GroupOrderBinding(),
     ),
     GetPage(
       name: groupOrderPorcess,
-      page: () => const GroupOrderProcessView(),
-      binding: GroupOrderProcessBinding(),
+      page: () => const BeeGroupOrderDetailView(),
+      binding: BeeGroupOrderDetailBinding(),
     ),
     GetPage(
       name: groupDetail,
-      page: () => const GroupDetailPage(),
-      binding: GroupDetailBinding(),
+      page: () => const BeeGroupDetailView(),
+      binding: BeeGroupDetailBinding(),
     ),
     GetPage(
       name: groupMemberDetail,
-      page: () => const GroupMemberDetailPage(),
-      binding: GroupMemberDetailBinding(),
+      page: () => const BeeGroupUsersView(),
+      binding: BeeGroupUsersBinding(),
     ),
     GetPage(
       name: groupParcelSelect,
-      page: () => const GroupChooseParcelPage(),
-      binding: GroupChooseParcelBinding(),
+      page: () => const BeeGroupParcelSelectView(),
+      binding: BeeGroupParcelSelectBinding(),
     ),
   ];
 
@@ -621,7 +621,7 @@ class Routers {
   // // // 路由初始化
   // static run(RouteSettings settings) {
   //   final Function? pageContentBuilder =
-  //       Routers.excludeGetPageRoute[settings.name];
+  //       BeeNav.excludeGetPageRoute[settings.name];
 
   //   if (pageContentBuilder != null) {
   //     currentRouteName = settings.name!;
@@ -671,7 +671,7 @@ class Routers {
   //   // 如果状态管理器中的Token是空的
   //   var token = Get.find<UserInfoModel>().token;
   //   if (token.value.isEmpty) {
-  //     Routers.push(Routers.login);
+  //     BeeNav.push(BeeNav.login);
   //     return;
   //   }
 
@@ -707,7 +707,7 @@ class Routers {
   //   return Navigator.of(context).push(MaterialPageRoute(
   //       fullscreenDialog: true,
   //       builder: (context) {
-  //         return Routers.routes[routeName]!.call();
+  //         return BeeNav.routes[routeName]!.call();
   //       }));
   // }
 

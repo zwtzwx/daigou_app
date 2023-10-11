@@ -5,7 +5,7 @@ import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/services/agent_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 
-class AgentCommissionApplyController extends BaseController {
+class AgentCommissionApplyController extends GlobalLogic {
 // 收款方式
   final withdrawType = Rxn<int?>();
   // 账号

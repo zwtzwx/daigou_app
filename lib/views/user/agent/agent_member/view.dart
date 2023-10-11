@@ -119,7 +119,7 @@ class __AgentMemberListState extends State<_AgentMemberList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListRefresh(
+    return RefreshView(
       renderItem: buildAgentUserView,
       refresh: loadList,
       more: loadMoreList,

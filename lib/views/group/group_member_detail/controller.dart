@@ -3,7 +3,7 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/models/group_model.dart';
 import 'package:jiyun_app_client/services/group_service.dart';
 
-class GroupMemberDetailController extends BaseController {
+class BeeGroupUsersController extends GlobalLogic {
   final groupModel = Rxn<GroupModel?>();
 
   @override

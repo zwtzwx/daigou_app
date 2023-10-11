@@ -18,7 +18,7 @@ import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 
-class LoginController extends BaseController {
+class BeeSignInLogic extends GlobalLogic {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   // 新号码
   final TextEditingController mobileNumberController = TextEditingController();
@@ -96,7 +96,7 @@ class LoginController extends BaseController {
           'timezone': areaNumber.value
         });
       } else {
-        Util.showToast('请输入账号密码'.ts);
+        CommonMethods.showToast('请输入账号密码'.ts);
       }
     } else {
       saveAccount.value = value;
@@ -106,7 +106,7 @@ class LoginController extends BaseController {
 
   // 忘记密码
   toForgetPassword() async {
-    Routers.push(Routers.forgetPassword, {'type': loginType.value});
+    BeeNav.push(BeeNav.forgetPassword, {'type': loginType.value});
   }
 
   // 登录
@@ -171,7 +171,7 @@ class LoginController extends BaseController {
           'token': dt,
         });
       }
-      Routers.pop();
+      BeeNav.pop();
     } catch (e) {
       showToast(e.toString());
     }
@@ -206,7 +206,7 @@ class LoginController extends BaseController {
 
   // 选择手机区号
   void onTimezone() async {
-    var s = await Routers.push(Routers.country);
+    var s = await BeeNav.push(BeeNav.country);
     if (s != null) {
       CountryModel a = s as CountryModel;
       areaNumber.value = a.timezone!;
@@ -245,7 +245,7 @@ class LoginController extends BaseController {
 
   // 注册
   void onRegister() async {
-    var s = await Routers.push(Routers.register);
+    var s = await BeeNav.push(BeeNav.register);
     if (s != null) {
       emailController.text = s;
     }

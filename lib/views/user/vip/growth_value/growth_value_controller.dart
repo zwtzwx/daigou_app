@@ -4,7 +4,7 @@ import 'package:jiyun_app_client/models/user_vip_model.dart';
 import 'package:jiyun_app_client/services/point_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 
-class GrowthValueController extends BaseController {
+class BeeValuesLogic extends GlobalLogic {
   final isloading = false.obs;
   int pageIndex = 0;
   final vipDataModel = Rxn<UserVipModel?>();

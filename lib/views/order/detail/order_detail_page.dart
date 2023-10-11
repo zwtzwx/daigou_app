@@ -21,8 +21,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/views/order/detail/order_detail_controller.dart';
 
-class OrderDetailView extends GetView<OrderDetailController> {
-  const OrderDetailView({Key? key}) : super(key: key);
+class BeeOrderPage extends GetView<BeeOrderLogic> {
+  const BeeOrderPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +90,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
         children: [
           Row(
             children: [
-              const LoadImage(
+              const ImgItem(
                 'PackageAndOrder/address-icon',
                 width: 24,
                 height: 24,
@@ -628,10 +628,10 @@ class OrderDetailView extends GetView<OrderDetailController> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Flexible(
-              child: PlainButton(
+              child: HollowButton(
                 text: '联系客服',
                 onPressed: () async {
-                  Util.onCustomerContact();
+                  CommonMethods.onCustomerContact();
                 },
                 fontSize: 14,
                 borderRadis: 999,
@@ -641,7 +641,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
             AppGaps.hGap10,
             [2, 12].contains(controller.model.value?.status) ||
                     controller.model.value?.paymentStatus == 1
-                ? MainButton(
+                ? BeeButton(
                     fontSize: 14,
                     borderRadis: 999,
                     text: controller.model.value?.status == 12 ? '重新支付' : '去付款',
@@ -661,7 +661,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
                   )
                 : AppGaps.empty,
             [4, 5].contains(controller.model.value?.status)
-                ? PlainButton(
+                ? HollowButton(
                     text: '查看物流',
                     fontSize: 14,
                     borderRadis: 999,
@@ -671,7 +671,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
                         BaseDialog.showBoxsTracking(
                             context, controller.model.value!);
                       } else {
-                        Routers.push(Routers.orderTracking,
+                        BeeNav.push(BeeNav.orderTracking,
                             {"order_sn": controller.model.value!.orderSn});
                       }
                     },
@@ -680,7 +680,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
             AppGaps.hGap10,
             controller.model.value?.status == 4
                 ? Flexible(
-                    child: MainButton(
+                    child: BeeButton(
                       text: '确认收货',
                       fontSize: 14,
                       borderRadis: 999,
@@ -713,7 +713,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
         },
         child: Container(
           alignment: Alignment.center,
-          child: LoadImage(
+          child: ImgItem(
             picMap['full_path'],
             fit: BoxFit.fitWidth,
           ),
@@ -754,7 +754,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
                           ClipboardData(text: controller.model.value?.orderSn))
                       .then((value) => {controller.showSuccess('复制成功')});
                 },
-                child: const LoadImage(
+                child: const ImgItem(
                   'PackageAndOrder/copy-icon',
                   width: 20,
                   height: 20,
@@ -775,7 +775,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
             children: controller.model.value!.packages.map((e) {
               return GestureDetector(
                 onTap: () {
-                  Routers.push(Routers.parcelDetail, {
+                  BeeNav.push(BeeNav.parcelDetail, {
                     "edit": false,
                     'id': e.id,
                   });
@@ -783,7 +783,7 @@ class OrderDetailView extends GetView<OrderDetailController> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const LoadImage(
+                    const ImgItem(
                       'PackageAndOrder/package',
                       width: 24,
                       height: 24,

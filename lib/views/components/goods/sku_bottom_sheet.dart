@@ -11,8 +11,8 @@ import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 
-class SKUBottomSheet extends StatefulWidget {
-  const SKUBottomSheet({
+class BeeShopGoodsSku extends StatefulWidget {
+  const BeeShopGoodsSku({
     Key? key,
     required this.model,
     required this.sku,
@@ -35,10 +35,10 @@ class SKUBottomSheet extends StatefulWidget {
   final String? currencySymbol;
 
   @override
-  State<SKUBottomSheet> createState() => _SKUBottomSheetState();
+  State<BeeShopGoodsSku> createState() => _SKUBottomSheetState();
 }
 
-class _SKUBottomSheetState extends State<SKUBottomSheet> {
+class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
   late int qty;
   GoodsSkuModel? sku;
   Map<String, String> tempSelectProps = {};
@@ -166,7 +166,7 @@ class _SKUBottomSheetState extends State<SKUBottomSheet> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(5),
-                  child: LoadImage(
+                  child: ImgItem(
                     sku != null && sku!.images.isNotEmpty
                         ? sku!.images.first
                         : (widget.model.picUrl ?? ''),
@@ -341,7 +341,7 @@ class _SKUBottomSheetState extends State<SKUBottomSheet> {
             SizedBox(
               height: 35.h,
               width: double.infinity,
-              child: MainButton(
+              child: BeeButton(
                 text: getTypeName().ts,
                 borderRadis: 999,
                 fontWeight: FontWeight.bold,

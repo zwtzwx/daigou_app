@@ -11,8 +11,8 @@ import 'package:jiyun_app_client/views/warehouse/warehouse_controller.dart';
   仓库地址、
 */
 
-class WarehouseView extends GetView<WarehouseController> {
-  const WarehouseView({Key? key}) : super(key: key);
+class BeeCangKuPage extends GetView<BeeCangKuLogic> {
+  const BeeCangKuPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +204,7 @@ class WarehouseView extends GetView<WarehouseController> {
           margin: const EdgeInsets.all(15),
           height: 50,
           color: AppColors.bgGray,
-          child: MainButton(
+          child: BeeButton(
             text: '一键复制仓库地址',
             onPressed: () {
               String copyStr =

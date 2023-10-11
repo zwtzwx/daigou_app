@@ -14,7 +14,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class ListRefresh extends StatefulWidget {
+class RefreshView extends StatefulWidget {
   final dynamic renderItem;
   final Widget? headerView;
   final Function refresh;
@@ -33,7 +33,7 @@ class ListRefresh extends StatefulWidget {
   final double gridViewMainSpace;
   final String? emptyImg;
 
-  const ListRefresh(
+  const RefreshView(
       {Key? key,
       required this.renderItem,
       this.headerView,
@@ -58,7 +58,7 @@ class ListRefresh extends StatefulWidget {
   State<StatefulWidget> createState() => _ListRefreshState();
 }
 
-class _ListRefreshState extends State<ListRefresh> {
+class _ListRefreshState extends State<RefreshView> {
   bool _isLoading = true; // 是否正在请求数据中
   bool _hasMore = true; // 是否还有更多数据可加载
   int _deleteIndex = -1; // 待删除item索引
@@ -165,7 +165,7 @@ class _ListRefreshState extends State<ListRefresh> {
                     padding: const EdgeInsets.only(top: 5),
                     child: Text(
                       '加载中'.ts + '...',
-                      style: TextConfig.textGray14,
+                      style: AppTextStyles.textGray14,
                     ),
                   )
                 ]))),
@@ -187,12 +187,12 @@ class _ListRefreshState extends State<ListRefresh> {
                   // AgentMsgList msgList = _items[index];
                   // ApiMe.deleteMessage(msgList.id, (data) {
                   //   if (data['ret'].toString() == '1') {
-                  //     Util.showToast('删除信息成功');
+                  //     CommonMethods.showToast('删除信息成功');
                   //     ApplicationEvent.event
                   //         .fire(ListRefreshEvent('refresh', index));
                   //   }
                   // }, (message) {
-                  //   Util.showToast(message);
+                  //   CommonMethods.showToast(message);
                   // });
                 },
                 background: Container(
@@ -260,7 +260,7 @@ class _ListRefreshState extends State<ListRefresh> {
         const SizedBox(
           height: 140,
           width: 140,
-          child: LoadImage(
+          child: ImgItem(
             '',
             fit: BoxFit.contain,
             holderImg: "Home/empty",
@@ -301,24 +301,24 @@ class _ListRefreshState extends State<ListRefresh> {
                 if (mode == LoadStatus.idle) {
                   body = Text(
                     '上拉加载'.ts,
-                    style: TextConfig.textGray14,
+                    style: AppTextStyles.textGray14,
                   );
                 } else if (mode == LoadStatus.loading) {
                   body = _buildProgressIndicator();
                 } else if (mode == LoadStatus.failed) {
                   body = Text(
                     '加载失败点击重试'.ts,
-                    style: TextConfig.textGray14,
+                    style: AppTextStyles.textGray14,
                   );
                 } else if (mode == LoadStatus.canLoading) {
                   body = Text(
                     '松手加载更多'.ts,
-                    style: TextConfig.textGray14,
+                    style: AppTextStyles.textGray14,
                   );
                 } else {
                   body = Text(
                     '没有更多数据了'.ts,
-                    style: TextConfig.textGray14,
+                    style: AppTextStyles.textGray14,
                   );
                 }
 

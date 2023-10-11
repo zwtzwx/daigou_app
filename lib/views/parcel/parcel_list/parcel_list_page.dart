@@ -17,8 +17,8 @@ import 'package:jiyun_app_client/views/parcel/widget/parcel_item_cell.dart';
 /*
   包裹列表
  */
-class ParcelListView extends GetView<ParcelListController> {
-  const ParcelListView({Key? key}) : super(key: key);
+class BeePackagesPage extends GetView<BeePackagesLogic> {
+  const BeePackagesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +101,7 @@ class ParcelListView extends GetView<ParcelListController> {
                                 child: Container(
                                   margin: const EdgeInsets.only(left: 10),
                                   height: 40,
-                                  child: MainButton(
+                                  child: BeeButton(
                                     text: '申请打包合箱',
                                     onPressed: controller.onSubmit,
                                   ),
@@ -125,7 +125,7 @@ class ParcelListView extends GetView<ParcelListController> {
           itemBuilder: (BuildContext context, int index) {
             return Container(
               color: AppColors.bgGray,
-              child: ListRefresh(
+              child: RefreshView(
                 renderItem: renderItem,
                 refresh: controller.loadList,
                 more: controller.loadMoreList,
@@ -138,7 +138,7 @@ class ParcelListView extends GetView<ParcelListController> {
   }
 
   Widget renderItem(index, ParcelModel model) {
-    return ParcelItemCell(
+    return BeePackageItem(
       model: model,
       index: index,
       checkedIds: controller.checkedIds,
@@ -206,7 +206,7 @@ class ParcelListView extends GetView<ParcelListController> {
 //   Widget build(BuildContext context) {
 //     return Container(
 //       color: AppColors.bgGray,
-//       child: ListRefresh(
+//       child: RefreshView(
 //         renderItem: renderItem,
 //         refresh: loadList,
 //         more: loadMoreList,
@@ -215,7 +215,7 @@ class ParcelListView extends GetView<ParcelListController> {
 //   }
 
 //   Widget renderItem(index, ParcelModel model) {
-//     return ParcelItemCell(
+//     return BeePackageItem(
 //       model: model,
 //       index: index,
 //       localizationInfo: localizationInfo,

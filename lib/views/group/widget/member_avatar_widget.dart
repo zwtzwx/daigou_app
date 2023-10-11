@@ -23,7 +23,7 @@ class MemberAvatarWidget extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         ClipOval(
-          child: LoadImage(
+          child: ImgItem(
             member.avatar!,
             width: 55,
             height: 55,

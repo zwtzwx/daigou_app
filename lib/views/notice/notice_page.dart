@@ -8,8 +8,8 @@ import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:jiyun_app_client/views/notice/notice_controller.dart';
 
-class NoticePage extends GetView<NoticeController> {
-  const NoticePage({Key? key}) : super(key: key);
+class InformationView extends GetView<InformationLogic> {
+  const InformationView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class NoticePage extends GetView<NoticeController> {
         leading: const BackButton(color: Colors.black),
       ),
       backgroundColor: AppColors.bgGray,
-      body: ListRefresh(
+      body: RefreshView(
         renderItem: noticeItemCell,
         refresh: controller.loadList,
         more: controller.loadMoreList,
@@ -60,7 +60,7 @@ class NoticePage extends GetView<NoticeController> {
                     children: [
                       Text(
                         model.title ?? '',
-                        style: TextConfig.textBoldDark14,
+                        style: AppTextStyles.textBoldDark14,
                       ),
                       model.read == 0
                           ? Positioned(

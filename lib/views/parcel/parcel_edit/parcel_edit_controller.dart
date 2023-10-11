@@ -17,7 +17,7 @@ import 'package:jiyun_app_client/services/goods_service.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
 
-class ParcelEditController extends BaseController {
+class BeePackageUpdateLogic extends GlobalLogic {
   final TextEditingController packgeNameController = TextEditingController();
   final FocusNode packageNameNode = FocusNode();
   final TextEditingController packgeValueController = TextEditingController();
@@ -150,7 +150,7 @@ class ParcelEditController extends BaseController {
           .event
           .fire(ListRefreshEvent(type: 'reset'));
       showSuccess('修改成功').then((value) {
-        Routers.pop();
+        BeeNav.pop();
       });
     } else {
       showError('修改失败');
@@ -159,7 +159,7 @@ class ParcelEditController extends BaseController {
 
   // 选择国家
   goCountry() async {
-    var s = await Routers.push(Routers.country, {
+    var s = await BeeNav.push(BeeNav.country, {
       'warehouseId': packageModel.value.warehouse?.id,
     });
     if (s == null) {

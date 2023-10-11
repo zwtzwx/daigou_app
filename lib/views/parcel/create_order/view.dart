@@ -14,8 +14,8 @@ import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/parcel/create_order/controller.dart';
 
-class CreateOrderPage extends GetView<CreateOrderController> {
-  const CreateOrderPage({Key? key}) : super(key: key);
+class BeePackingView extends GetView<BeePackingLogic> {
+  const BeePackingView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +122,7 @@ class CreateOrderPage extends GetView<CreateOrderController> {
               const EdgeInsets.only(right: 15, left: 15, top: 30, bottom: 10),
           height: 40,
           width: double.infinity,
-          child: MainButton(
+          child: BeeButton(
             text: '提交',
             onPressed: controller.onSubmit,
           ),

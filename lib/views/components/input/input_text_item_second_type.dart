@@ -53,7 +53,7 @@ class _InputTextItemSecondTypeState extends State<InputTextItemSecondType> {
                   flex: 2,
                   child: Text(
                     widget.title,
-                    style: TextConfig.textDark14,
+                    style: AppTextStyles.textDark14,
                     textAlign: TextAlign.justify,
                   )),
               Expanded(

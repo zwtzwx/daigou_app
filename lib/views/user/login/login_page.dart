@@ -12,8 +12,8 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/user/login/login_controller.dart';
 
-class LoginView extends GetView<LoginController> {
-  const LoginView({Key? key}) : super(key: key);
+class BeeSignInPage extends GetView<BeeSignInLogic> {
+  const BeeSignInPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -178,58 +178,64 @@ class LoginView extends GetView<LoginController> {
             Obx(
               () => Row(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      controller.onLoginType(2);
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 2,
-                            color: controller.loginType.value == 2
-                                ? AppColors.primary
-                                : Colors.white,
+                  Flexible(
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.onLoginType(2);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              width: 2,
+                              color: controller.loginType.value == 2
+                                  ? AppColors.primary
+                                  : Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      height: 40,
-                      child: AppText(
-                        str: '邮箱登录'.ts,
-                        fontSize: 17,
-                        fontWeight: controller.loginType.value == 2
-                            ? FontWeight.bold
-                            : FontWeight.normal,
-                        lines: 2,
+                        height: 40.h,
+                        child: AppText(
+                          str: '邮箱登录'.ts,
+                          fontSize: 17,
+                          fontWeight: controller.loginType.value == 2
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                          lines: 2,
+                          alignment: TextAlign.center,
+                        ),
                       ),
                     ),
                   ),
                   15.horizontalSpace,
-                  GestureDetector(
-                    onTap: () {
-                      controller.onLoginType(1);
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 2,
-                            color: controller.loginType.value == 1
-                                ? AppColors.primary
-                                : Colors.white,
+                  Flexible(
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.onLoginType(1);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              width: 2,
+                              color: controller.loginType.value == 1
+                                  ? AppColors.primary
+                                  : Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      height: 40,
-                      child: AppText(
-                        str: '手机号登录'.ts,
-                        fontSize: 17,
-                        fontWeight: controller.loginType.value == 1
-                            ? FontWeight.bold
-                            : FontWeight.normal,
-                        lines: 2,
+                        height: 40.h,
+                        child: AppText(
+                          str: '手机号登录'.ts,
+                          fontSize: 17,
+                          fontWeight: controller.loginType.value == 1
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                          lines: 2,
+                          alignment: TextAlign.center,
+                        ),
                       ),
                     ),
                   ),
@@ -279,7 +285,7 @@ class LoginView extends GetView<LoginController> {
             SizedBox(
               height: 40,
               width: double.infinity,
-              child: MainButton(
+              child: BeeButton(
                 text: '登录',
                 borderRadis: 4,
                 onPressed: controller.onLogin,

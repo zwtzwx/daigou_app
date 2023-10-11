@@ -15,7 +15,7 @@ import 'package:jiyun_app_client/services/group_service.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
 import 'package:jiyun_app_client/services/ship_line_service.dart';
 
-class CreateOrderController extends BaseController {
+class BeePackingLogic extends GlobalLogic {
   final packageList = <ParcelModel>[].obs;
   final TextEditingController evaluateController = TextEditingController();
   FocusNode blankNode = FocusNode();
@@ -125,7 +125,7 @@ class CreateOrderController extends BaseController {
     //   showToast('请选择收货形式'.ts);
     //   return;
     // }
-    var s = await Routers.push(Routers.addressList, {'select': 1});
+    var s = await BeeNav.push(BeeNav.addressList, {'select': 1});
 
     if (s == null) {
       return;
@@ -173,7 +173,7 @@ class CreateOrderController extends BaseController {
       'is_delivery': selectedAddressModel.value!.station != null ? 1 : 0,
       'station_id': selectedAddressModel.value!.station?.id ?? '',
     };
-    var s = await Routers.push(Routers.lineQueryResult, {"data": dic});
+    var s = await BeeNav.push(BeeNav.lineQueryResult, {"data": dic});
     if (s == null) {
       return;
     }
@@ -259,7 +259,7 @@ class CreateOrderController extends BaseController {
     Map data = await OrderService.store(upData);
     if (data['ok']) {
       ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
-      Routers.pop('succeed');
+      BeeNav.pop('succeed');
     }
   }
 
@@ -282,7 +282,7 @@ class CreateOrderController extends BaseController {
     };
     var data = await GroupService.onCreatedOrder(Get.arguments['id'], params);
     if (data['ok']) {
-      Routers.pop('success');
+      BeeNav.pop('success');
     }
   }
 

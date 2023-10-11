@@ -23,12 +23,11 @@ import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/express_company_service.dart';
 import 'package:jiyun_app_client/services/goods_service.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
-import 'package:jiyun_app_client/services/station_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 
-class ForecastController extends BaseController {
+class BeeParcelCreateLogic extends GlobalLogic {
   ScrollController scrollController = ScrollController();
   FocusNode blankNode = FocusNode();
   final selectedCountryModel = Rxn<CountryModel?>();
@@ -72,7 +71,7 @@ class ForecastController extends BaseController {
         .on<UnAuthenticateEvent>()
         .listen((event) {
       showToast('登录凭证已失效');
-      Routers.push(Routers.login);
+      BeeNav.push(BeeNav.login);
     });
     created();
     loadInitData();
@@ -133,7 +132,7 @@ class ForecastController extends BaseController {
 
   // 到件即发选择收件地址
   onAddress() async {
-    var s = await Routers.push(Routers.addressList, {'select': 1});
+    var s = await BeeNav.push(BeeNav.addressList, {'select': 1});
     if (s == null) return;
 
     addressModel.value = s as ReceiverAddressModel;
@@ -159,7 +158,7 @@ class ForecastController extends BaseController {
       'props': propIds.toList(),
       'postcode': addressModel.value?.postcode,
     };
-    var s = await Routers.push(Routers.lineQueryResult, {"data": params});
+    var s = await BeeNav.push(BeeNav.lineQueryResult, {"data": params});
     if (s == null) return;
 
     lineModel.value = s as ShipLineModel;
@@ -207,7 +206,7 @@ class ForecastController extends BaseController {
       if (data.ok) {
         ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
 
-        Routers.pop();
+        BeeNav.pop();
       }
     }, (message) {});
   }

@@ -30,13 +30,13 @@ class _UpdateDialogState extends State<UpdateDialog> {
           Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(vertical: 30),
-            child: Text('新版本更新'.ts, style: TextConfig.textBoldDark18),
+            child: Text('新版本更新'.ts, style: AppTextStyles.textBoldDark18),
           ),
           Center(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
               child: Text(widget.appModel.content ?? '',
-                  style: TextConfig.textDark14),
+                  style: AppTextStyles.textDark14),
             ),
           ),
           Padding(
@@ -50,7 +50,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   child: TextButton(
                     onPressed: () {
                       VersionUtils.jumpToApp();
-                      Routers.pop();
+                      BeeNav.pop();
                     },
                     style: TextButton.styleFrom(
                         foregroundColor: Colors.black,
@@ -61,7 +61,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
                         )),
                     child: Text(
                       '立即更新'.ts,
-                      style: const TextStyle(fontSize: TextConfig.defaultSize),
+                      style:
+                          const TextStyle(fontSize: AppTextStyles.defaultSize),
                     ),
                   ),
                 ),
@@ -70,13 +71,13 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   onTap: () {
                     var time = DateTime.now().millisecondsSinceEpoch ~/ 1000;
                     UserStorage.setVersionTime(time);
-                    Routers.pop();
+                    BeeNav.pop();
                   },
                   child: Text(
                     '稍后更新'.ts,
                     style: const TextStyle(
                         color: AppColors.textGrayC9,
-                        fontSize: TextConfig.middleSize),
+                        fontSize: AppTextStyles.middleSize),
                   ),
                 ),
                 5.verticalSpace,

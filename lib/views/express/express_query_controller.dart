@@ -7,7 +7,7 @@ import 'package:jiyun_app_client/models/tracking_model.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/services/tracking_service.dart';
 
-class ExpressQueryController extends BaseController {
+class BeeTrackingController extends GlobalLogic {
   final TextEditingController expressNumController = TextEditingController();
   final FocusNode expressNumNode = FocusNode();
   // 物流信息列表
@@ -21,7 +21,7 @@ class ExpressQueryController extends BaseController {
       showToast('请输入快递单号');
       return;
     } else if (token.isEmpty) {
-      Routers.push(Routers.login);
+      BeeNav.push(BeeNav.login);
       return;
     }
     showLoading();

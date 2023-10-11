@@ -25,7 +25,7 @@ class PlatformGoodsCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Routers.push(Routers.goodsDetail, {'url': goods.detailUrl});
+        BeeNav.push(BeeNav.goodsDetail, {'url': goods.detailUrl});
       },
       child: Container(
         width: width,
@@ -41,7 +41,7 @@ class PlatformGoodsCell extends StatelessWidget {
             Expanded(
               child: Container(
                 color: Colors.white,
-                child: LoadImage(
+                child: ImgItem(
                   goods.picUrl ?? '',
                   holderImg: 'Shop/goods_none',
                   width: double.infinity,
@@ -68,8 +68,9 @@ class PlatformGoodsCell extends StatelessWidget {
                               WidgetSpan(
                                 child: Padding(
                                   padding: EdgeInsets.only(right: 5.w),
-                                  child: LoadImage(
-                                    Util.getPlatformIcon(goods.platform),
+                                  child: ImgItem(
+                                    CommonMethods.getPlatformIcon(
+                                        goods.platform),
                                     width: 16.w,
                                     height: 16.w,
                                   ),

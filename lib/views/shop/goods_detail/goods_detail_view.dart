@@ -33,9 +33,9 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Util.onCustomerContact();
+                        CommonMethods.onCustomerContact();
                       },
-                      child: LoadImage(
+                      child: ImgItem(
                         'Shop/custom',
                         width: 30.w,
                         height: 30.w,
@@ -59,7 +59,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                                         color: AppColors.textDark,
                                         borderRadius: BorderRadius.horizontal(
                                             left: Radius.circular(999))),
-                                    child: LoadImage(
+                                    child: ImgItem(
                                       'Shop/cart',
                                       width: 26.w,
                                       height: 26.w,
@@ -150,7 +150,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                   autoplay:
                       (controller.goodsModel.value?.images ?? []).length > 1,
                   itemBuilder: (context, index) {
-                    return LoadImage(
+                    return ImgItem(
                       controller.goodsModel.value!.images![index],
                       holderImg: 'Shop/goods_none',
                       fit: BoxFit.fitWidth,
@@ -211,8 +211,8 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                           child: controller.isPlatformGoods.value
                               ? Padding(
                                   padding: EdgeInsets.only(right: 5.w),
-                                  child: LoadImage(
-                                    Util.getPlatformIcon(
+                                  child: ImgItem(
+                                    CommonMethods.getPlatformIcon(
                                         controller.goodsModel.value?.platform),
                                     width: 20.w,
                                     height: 20.w,
@@ -386,7 +386,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
       child: defaultBoxItem(
         child: Row(
           children: [
-            LoadImage(
+            ImgItem(
               'Shop/shop',
               width: 30.w,
               height: 30.w,

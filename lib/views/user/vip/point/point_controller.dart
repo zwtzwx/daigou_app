@@ -5,7 +5,7 @@ import 'package:jiyun_app_client/models/user_point_item_model.dart';
 import 'package:jiyun_app_client/models/user_point_model.dart';
 import 'package:jiyun_app_client/services/point_service.dart';
 
-class PointController extends BaseController {
+class IntergralLogic extends GlobalLogic {
   UserModel? userInfo;
 
   final userPointModel = Rxn<UserPointModel?>();

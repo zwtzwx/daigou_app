@@ -30,7 +30,7 @@ class AgentApplyPage extends GetView<AgentApplyController> {
           child: Container(
               height: 40,
               margin: const EdgeInsets.only(right: 15, left: 15),
-              child: MainButton(
+              child: BeeButton(
                 text: '申请成为代理',
                 onPressed: controller.onSubmit,
               )),

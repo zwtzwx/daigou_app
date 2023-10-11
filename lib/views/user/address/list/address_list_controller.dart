@@ -8,7 +8,7 @@ import 'package:jiyun_app_client/events/receiver_address_refresh_event.dart';
 import 'package:jiyun_app_client/models/receiver_address_model.dart';
 import 'package:jiyun_app_client/services/address_service.dart';
 
-class AddressListController extends BaseController {
+class BeeShippingLogic extends GlobalLogic {
   List<ReceiverAddressModel> allAddress = [];
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final addressList = <ReceiverAddressModel>[].obs;
@@ -48,7 +48,7 @@ class AddressListController extends BaseController {
   onSelectAddress(ReceiverAddressModel model) {
     var arguments = Get.arguments;
     if (arguments?['select'] == 1) {
-      Routers.pop(model);
+      BeeNav.pop(model);
     }
   }
 

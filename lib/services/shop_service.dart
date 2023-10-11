@@ -54,7 +54,7 @@ class ShopService {
       'dataList': null,
       'totalPage': 1
     };
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(recommendGoodsApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -71,7 +71,7 @@ class ShopService {
   static Future<List<CategoryModel>?> getCategories(
       [Map<String, dynamic>? params]) async {
     List<CategoryModel>? list;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(categoryListApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -85,7 +85,7 @@ class ShopService {
   // 商品详情
   static Future<PlatformGoodsModel?> getGoodsDetail(int id) async {
     PlatformGoodsModel? goods;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(goodsDetailApi.replaceAll(':id', id.toString()))
         .then((res) {
       if (res.ok) {
@@ -99,7 +99,7 @@ class ShopService {
   static Future<PlatformGoodsModel?> getDaigouGoodsDetail(
       Map<String, dynamic> params) async {
     PlatformGoodsModel? goods;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(daigouGoodsDetailApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -120,7 +120,7 @@ class ShopService {
       'dataList': []
     };
     List<GoodsModel>? list;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(goodsListApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -139,7 +139,7 @@ class ShopService {
   // 自营商品 添加商品进购物车
   static Future<bool> onAddCart(Map<String, dynamic> params) async {
     bool res = false;
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(
           addCartApi,
           data: params,
@@ -151,7 +151,7 @@ class ShopService {
   // 代购商品 添加购物车
   static Future<bool> onPlatformAddCart(Map<String, dynamic> params) async {
     bool res = false;
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(
           addPlatformCartApi,
           data: params,
@@ -164,7 +164,7 @@ class ShopService {
   static Future<List<CartModel>?> getCarts(
       [Map<String, dynamic>? params]) async {
     List<CartModel>? list;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(cartListApi, queryParameters: params)
         .then((res) {
       if (res.ok && res.data.isNotEmpty) {
@@ -181,7 +181,7 @@ class ShopService {
   static Future<bool> updateGoodsQty(
       int id, Map<String, dynamic> params) async {
     bool res = false;
-    await HttpClient.instance
+    await BeeRequest.instance
         .put(updateCartGoodsQtyApi.replaceAll(':id', id.toString()),
             data: params)
         .then((response) => res = response.ok);
@@ -191,7 +191,7 @@ class ShopService {
   // 删除购物车商品
   static Future<bool> deleteCartGoods(Map<String, dynamic> params) async {
     bool res = false;
-    await HttpClient.instance
+    await BeeRequest.instance
         .put(delCartGoodsApi, data: params)
         .then((response) => res = response.ok);
     return res;
@@ -201,7 +201,7 @@ class ShopService {
   static Future<List<CartModel>?> orderPreview(
       Map<String, dynamic> params) async {
     List<CartModel>? list;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(selfOrderCreateApi,
             queryParameters: params,
             options: Options(contentType: 'application/json'))
@@ -212,7 +212,7 @@ class ShopService {
           list!.add(CartModel.fromJson(item));
         }
       } else {
-        Util.showToast(res.msg ?? res.error?.message ?? '');
+        CommonMethods.showToast(res.msg ?? res.error?.message ?? '');
       }
     });
     return list;
@@ -221,7 +221,7 @@ class ShopService {
   // 预览订单金额
   static Future<Map?> orderAmountPreview(Map<String, dynamic> params) async {
     Map? res;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(
       orderAmountPreivewApi,
       queryParameters: params,
@@ -237,7 +237,7 @@ class ShopService {
   // 提交自营商店订单
   static Future<Map> orderCreate(Map<String, dynamic> params) async {
     Map res = {'ok': false};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(
           orderCreateApi,
           data: params,
@@ -252,7 +252,7 @@ class ShopService {
   // 提交代购商品订单
   static Future<Map> platformOrderCreate(Map<String, dynamic> params) async {
     Map res = {'ok': false};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(
       orderListApi,
       data: params,
@@ -271,7 +271,7 @@ class ShopService {
   // 提交自营商品订单
   static Future<CartModel?> selfOrderCreate(Map<String, dynamic> params) async {
     CartModel? model;
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(selfOrderCreateApi,
             data: params, options: Options(extra: {'showSuccess': false}))
         .then((res) {
@@ -296,7 +296,7 @@ class ShopService {
   static Future<Map> platformCustomOrderCreate(
       Map<String, dynamic> params) async {
     Map res = {'ok': false};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(
           platformCustomOrderCreateApi,
           data: params,
@@ -318,7 +318,7 @@ class ShopService {
       'dataList': []
     };
     List<ShopOrderModel>? list;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(orderListApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -342,7 +342,7 @@ class ShopService {
       'dataList': []
     };
     List<ProblemOrderModel>? list;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(probleShopOrderApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -362,7 +362,7 @@ class ShopService {
   // 订单详情
   static Future<ShopOrderModel?> getOrderDetail(int id) async {
     ShopOrderModel? order;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(orderDetailApi.replaceAll(':id', id.toString()))
         .then((res) {
       if (res.ok) {
@@ -375,7 +375,7 @@ class ShopService {
   // 取消订单
   static Future<Map> orderCancel(int id) async {
     Map res = {'ok': false, 'msg': ''};
-    await HttpClient.instance
+    await BeeRequest.instance
         .put(
           orderCancelApi.replaceAll(':id', id.toString()),
         )
@@ -389,7 +389,7 @@ class ShopService {
   // 余额支付
   static Future<Map> payByBalance(Map<String, dynamic> params) async {
     Map res = {'ok': false, 'msg': ''};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(orderPayByBalanceApi, data: params)
         .then((response) => res = {
               'ok': response.ok,
@@ -401,7 +401,7 @@ class ShopService {
   // 余额支付（订单补款）
   static Future<Map> problemPayByBalance(Map<String, dynamic> params) async {
     Map res = {'ok': false, 'msg': ''};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(problemOrderPayApi, data: params)
         .then((response) => res = {
               'ok': response.ok,
@@ -413,13 +413,13 @@ class ShopService {
   // 微信支付
   static Future<Map?> payByWechat(Map<String, dynamic> params) async {
     Map? res;
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(orderPayByWechatApi, data: params)
         .then((response) {
       if (response.ok) {
         res = response.data;
       } else {
-        Util.showToast(response.msg ?? response.error?.message ?? '');
+        CommonMethods.showToast(response.msg ?? response.error?.message ?? '');
       }
     });
     return res;
@@ -428,7 +428,7 @@ class ShopService {
   // 订单状态数量统计
   static Future<Map?> getOrderStatusCount() async {
     Map? res;
-    await HttpClient.instance.get(orderStatusCountApi).then((response) {
+    await BeeRequest.instance.get(orderStatusCountApi).then((response) {
       if (response.ok) {
         res = response.data;
       }
@@ -439,7 +439,7 @@ class ShopService {
   // 购物车商品数量
   static Future<int?> getCartCount() async {
     int? res;
-    await HttpClient.instance.get(cartCountApi).then((response) {
+    await BeeRequest.instance.get(cartCountApi).then((response) {
       if (response.ok) {
         res = response.data['sku_num'];
       }
@@ -454,7 +454,7 @@ class ShopService {
       'total': (params['page'] ?? 1) + 1,
       'pageIndex': params['page'] ?? 1
     };
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(daigouGoodsApi, queryParameters: params)
         .then((res) {
       if (res.data['items'] != null) {
@@ -477,7 +477,7 @@ class ShopService {
   static Future<PlatformGoodsServiceModel?> getPlatformGoodsService(
       Map<String, dynamic> params) async {
     PlatformGoodsServiceModel? model;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(platformGoodsOrderServiceApi, queryParameters: params)
         .then((res) {
       if (res.ok && res.data != null) {
@@ -491,7 +491,7 @@ class ShopService {
   static Future<PlatformGoodsServiceModel?> getCartGoodsService(
       Map<String, dynamic> params) async {
     PlatformGoodsServiceModel? model;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(platformOrderServiceApi, queryParameters: params)
         .then((res) {
       if (res.ok && res.data != null) {
@@ -505,7 +505,7 @@ class ShopService {
   static Future<List<ShopOrderModel>?> getOrderConfirm(
       Map<String, dynamic> params) async {
     List<ShopOrderModel>? list;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(orderConfirmApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -525,7 +525,7 @@ class ShopService {
       'total': (params['page'] ?? 1) + 1,
       'pageIndex': params['page'] ?? 1
     };
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(chatMessageApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -544,7 +544,7 @@ class ShopService {
   // 发送咨询消息
   static Future<bool> sendMessage(Map<String, dynamic> params) async {
     bool value = false;
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(chatMessageApi,
             data: params, options: Options(extra: {'showSuccess': false}))
         .then((res) => value = res.ok);
@@ -554,7 +554,7 @@ class ShopService {
   // 咨询消息设为已读
   static Future<bool> markMessage(id) async {
     bool value = false;
-    await HttpClient.instance
+    await BeeRequest.instance
         .put(chatMessageMarkApi.replaceAll(':id', id.toString()),
             options: Options(extra: {'loading': false, 'showSuccess': false}))
         .then((res) => value = res.ok);
@@ -567,7 +567,7 @@ class ShopService {
     List<GoodsCategoryModel> result =
         List<GoodsCategoryModel>.empty(growable: true);
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(platformGoodsCategoryApi, queryParameters: params)
         .then((response) {
       if (response.data != null) {

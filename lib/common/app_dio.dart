@@ -78,8 +78,8 @@ class AppDio with DioMixin implements Dio {
         return "PROXY $proxy";
       };
       return null;
-      // you can also create a HttpClient to dio
-      // return HttpClient();
+      // you can also create a BeeRequest to dio
+      // return BeeRequest();
     };
   }
 }

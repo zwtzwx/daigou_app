@@ -28,7 +28,7 @@ class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
         backgroundColor: Colors.white,
       ),
       backgroundColor: AppColors.bgGray,
-      body: ListRefresh(
+      body: RefreshView(
         renderItem: renderItem,
         refresh: controller.loadData,
         more: controller.loadMoreData,

@@ -17,8 +17,8 @@ import 'package:timeline_tile/timeline_tile.dart';
   物流跟踪
  */
 
-class ExpressQueryView extends GetView<ExpressQueryController> {
-  const ExpressQueryView({Key? key}) : super(key: key);
+class BeeTrackingView extends GetView<BeeTrackingController> {
+  const BeeTrackingView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +121,7 @@ class ExpressQueryView extends GetView<ExpressQueryController> {
                         ),
                       ),
                     ),
-                    MainButton(
+                    BeeButton(
                       text: '查询',
                       borderRadis: 0,
                       onPressed: controller.onQuery,

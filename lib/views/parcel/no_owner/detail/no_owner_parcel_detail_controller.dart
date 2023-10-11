@@ -6,7 +6,7 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
 
-class NoOwnerParcelDetailController extends BaseController {
+class BeeParcelClaimLogic extends GlobalLogic {
   final headerStr = ''.obs;
   final footerStr = ''.obs;
 
@@ -65,7 +65,7 @@ class NoOwnerParcelDetailController extends BaseController {
     hideLoading();
     if (result['ok']) {
       showSuccess('认领成功').then((value) {
-        Routers.pop('success');
+        BeeNav.pop('success');
       });
     } else {
       showError(result['msg']);

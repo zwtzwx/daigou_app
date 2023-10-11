@@ -5,7 +5,7 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/models/tracking_model.dart';
 import 'package:jiyun_app_client/services/tracking_service.dart';
 
-class TrackController extends BaseController {
+class BeeOrderTrackLogic extends GlobalLogic {
   final isLoading = false.obs;
   final dataList = <TrackingModel>[].obs;
 

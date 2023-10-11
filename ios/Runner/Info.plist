@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Bee&#x2007;shop</string>
+	<string>Bereke&#x2007;shop</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Bee&#x2007;shop</string>
+	<string>Bereke&#x2007;shop</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -29,7 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>BeeShop</string>
+				<string>BerekeShop</string>
 			</array>
 		</dict>
 		<dict>
@@ -37,7 +37,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.521370548270-9i9f4jn0grjubmo75epl9ulb14q80vbb</string>
+				<string>com.googleusercontent.apps.682441097900-dod90pj7o994re6hf59grohvdqlfnqos</string>
 			</array>
 		</dict>
 		<dict>
@@ -45,7 +45,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.zhongha.shopAppClient</string>
+				<string>com.beeshop.shopAppClient</string>
 			</array>
 		</dict>
 	</array>
@@ -68,6 +68,8 @@
 	<key>NSCameraUsageDescription</key>
 	<string>APP需要您的同意，才能访问相机设置个人头像信息、扫描二维码</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>APP需要您的同意获取位置信息显示周边拼团</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>APP需要您的同意获取位置信息显示周边拼团</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>请允许APP保存图片到相册</string>

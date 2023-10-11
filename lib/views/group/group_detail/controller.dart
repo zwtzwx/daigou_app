@@ -12,7 +12,7 @@ import 'package:jiyun_app_client/views/group/widget/group_detail/group_delay.dar
 import 'package:jiyun_app_client/views/group/widget/group_detail/leader_tip.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class GroupDetailController extends BaseController {
+class BeeGroupDetailController extends GlobalLogic {
   final model = Rxn<GroupModel?>();
   final tipsContent = Rxn<String?>();
   final protocolContent = Rxn<String?>();
@@ -63,7 +63,7 @@ class GroupDetailController extends BaseController {
   }
 
   void onChooseParcel([Function? callback]) async {
-    var s = await Routers.push(Routers.groupParcelSelect,
+    var s = await BeeNav.push(BeeNav.groupParcelSelect,
         {'id': model.value!.id, 'warehouseId': model.value!.warehouseId});
     if (s != null) {
       getDetail();
@@ -163,7 +163,7 @@ class GroupDetailController extends BaseController {
 
   // 提交拼团货物
   void onSubmitParcel() async {
-    var s = await Routers.push(Routers.createOrder, {'id': model.value!.id});
+    var s = await BeeNav.push(BeeNav.createOrder, {'id': model.value!.id});
     if (s != null) {
       getDetail();
     }

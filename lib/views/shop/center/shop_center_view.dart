@@ -105,7 +105,7 @@ class ShopCenterView extends GetView<ShopCenterController> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  LoadImage(
+                                  ImgItem(
                                     e.image ?? '',
                                     holderImg: 'Shop/goods_cate_none',
                                     width: ScreenUtil().setWidth(40),
@@ -149,7 +149,7 @@ class ShopCenterView extends GetView<ShopCenterController> {
             visible: controller.loadingUtil.value.list.isNotEmpty,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.w),
-              child: GoodsListCell(
+              child: BeeShopGoodsList(
                 goodsList: controller.loadingUtil.value.list,
               ),
             ),

@@ -101,7 +101,7 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
                           fontWeight: FontWeight.bold,
                         ),
                         AppText(
-                          str: Util.getOrderStatusName(
+                          str: CommonMethods.getOrderStatusName(
                               widget.model.order!.status),
                           fontWeight: FontWeight.bold,
                           color: AppColors.green,
@@ -112,7 +112,7 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const LoadImage(
+                        const ImgItem(
                           'Group/group',
                           width: 20,
                         ),

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/models/user_coupon_model.dart';
 
-class CouponController extends BaseController
+class CouponController extends GlobalLogic
     with GetSingleTickerProviderStateMixin {
   final isLoading = false.obs;
   int pageIndex = 0;

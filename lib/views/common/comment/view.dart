@@ -34,7 +34,7 @@ class CommentPage extends GetView<CommentController> {
   Widget buildListView() {
     var listView = Container(
       color: AppColors.bgGray,
-      child: ListRefresh(
+      child: RefreshView(
         renderItem: buildBottomListCell,
         refresh: controller.loadList,
         more: controller.loadMoreList,
@@ -73,7 +73,7 @@ class CommentPage extends GetView<CommentController> {
                       width: 40,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30),
-                        child: LoadImage(
+                        child: ImgItem(
                           model.user!.avatar,
                           fit: BoxFit.fitWidth,
                         ),
@@ -261,7 +261,7 @@ class CommentPage extends GetView<CommentController> {
         },
         child: Container(
           color: AppColors.white,
-          child: LoadImage(
+          child: ImgItem(
             model.images[index],
             fit: BoxFit.fitWidth,
             format: "png",

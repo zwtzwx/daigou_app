@@ -26,7 +26,7 @@ class ShopOrderChatView extends GetView<ShopOrderChatController> {
       ),
       backgroundColor: AppColors.bgGray,
       body: SafeArea(
-        child: ListRefresh(
+        child: RefreshView(
           renderItem: consultCell,
           refresh: controller.loadData,
           more: controller.loadMoreData,

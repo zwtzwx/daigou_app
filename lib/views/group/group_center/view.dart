@@ -15,15 +15,15 @@ import 'package:jiyun_app_client/views/group/group_center/controller.dart';
 import 'package:jiyun_app_client/views/group/widget/group_item_cell.dart';
 import 'package:jiyun_app_client/views/group/widget/public_group_item_cell.dart';
 
-class GroupCenterPage extends GetView<GroupCenterController> {
-  const GroupCenterPage({Key? key}) : super(key: key);
+class BeeGroupView extends GetView<BeeGroupController> {
+  const BeeGroupView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const EmptyAppBar(),
       primary: false,
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: Colors.white,
       body: RefreshIndicator(
         onRefresh: controller.onRefresh,
         color: AppColors.primary,
@@ -76,7 +76,7 @@ class GroupCenterPage extends GetView<GroupCenterController> {
         groupModel: groupModel,
         localizationModel: controller.localModel,
         onConfirm: () {
-          Routers.push(Routers.groupDetail, {'id': groupModel.id});
+          BeeNav.push(BeeNav.groupDetail, {'id': groupModel.id});
         },
       );
     }
@@ -91,7 +91,7 @@ class GroupCenterPage extends GetView<GroupCenterController> {
             maxHeight: 260,
           ),
           child: Obx(
-            () => LoadImage(
+            () => ImgItem(
               controller.banner.value,
               width: 1.sw,
               // height: 300,
@@ -133,12 +133,12 @@ class GroupCenterPage extends GetView<GroupCenterController> {
                 ),
               ),
               AppGaps.hGap10,
-              PlainButton(
+              HollowButton(
                 text: '发起拼团',
                 borderColor: Colors.white,
                 textColor: Colors.white,
                 onPressed: () async {
-                  var s = await Routers.push(Routers.groupCreate);
+                  var s = await BeeNav.push(BeeNav.groupCreate);
                   if (s != null) {
                     controller.onRefresh();
                   }
@@ -234,7 +234,7 @@ class GroupCenterPage extends GetView<GroupCenterController> {
     return GestureDetector(
       onTap: () {
         if (type == 3) {
-          Routers.push(Routers.groupOrder);
+          BeeNav.push(BeeNav.groupOrder);
         } else {
           controller.groupType.value = type;
 

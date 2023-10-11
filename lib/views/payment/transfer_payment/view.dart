@@ -79,7 +79,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                         ? SizedBox(
                             height: ScreenUtil().screenWidth - 60,
                             width: ScreenUtil().screenWidth - 60,
-                            child: LoadImage(
+                            child: ImgItem(
                               controller.payModel.value!.fullPath,
                               fit: BoxFit.cover,
                             ),
@@ -135,7 +135,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
               child: Container(
                 margin: const EdgeInsets.only(top: 50, right: 15, left: 15),
                 width: double.infinity,
-                child: MainButton(
+                child: BeeButton(
                   text: '确认提交',
                   onPressed: controller.onSubmit,
                 ),
@@ -192,7 +192,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                 color: AppColors.bgGray,
                 height: (ScreenUtil().screenWidth - 60 - 15) / 4,
                 width: (ScreenUtil().screenWidth - 60 - 15) / 4,
-                child: LoadImage(
+                child: ImgItem(
                   url,
                   fit: BoxFit.cover,
                 ),
@@ -239,7 +239,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                 : Container()),
       ]),
       onTap: () {
-        UploadUtil.imagePicker(
+        ImageUpload.imagePicker(
           onSuccessCallback: (image) async {
             String imageUrl = image;
             if (controller.selectImg.length == 3) {

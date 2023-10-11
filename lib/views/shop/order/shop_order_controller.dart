@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 
-class ShopOrderController extends BaseController
+class ShopOrderController extends GlobalLogic
     with GetSingleTickerProviderStateMixin {
   final PageController pageController = PageController(initialPage: 0);
   late final TabController tabController;

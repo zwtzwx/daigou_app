@@ -27,7 +27,7 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
         ),
       ),
       backgroundColor: AppColors.bgGray,
-      body: ListRefresh(
+      body: RefreshView(
         renderItem: renderItem,
         refresh: controller.loadList,
         more: controller.loadMoreList,

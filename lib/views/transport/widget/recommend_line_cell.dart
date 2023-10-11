@@ -73,10 +73,16 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
   }
 
   Future<void> loadData() async {
-    Map result = await ShipLineService.getList(params: {
-      'is_great_value': 1,
-      'country_id': (countryModel?.id ?? 0) != 0 ? countryModel?.id : ''
-    }, option: Options(extra: {'loading': false, 'showSuccess': false}));
+    Map result = await ShipLineService.getList(
+        params: {
+          'is_great_value': 1,
+          'country_id': (countryModel?.id ?? 0) != 0 ? countryModel?.id : ''
+        },
+        option: Options(extra: {
+          'loading': false,
+          'showSuccess': false,
+          'showError': false
+        }));
     setState(() {
       lineList = result['list'];
       isLoading = false;
@@ -219,7 +225,7 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
       ),
       child: Column(
         children: [
-          LoadImage(
+          ImgItem(
             model.icon?.icon ?? '',
             width: 65.w,
           ),
@@ -266,12 +272,12 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
           )),
           SizedBox(
             width: 90.w,
-            child: MainButton(
+            child: BeeButton(
               text: '更多',
               borderRadis: 999,
               fontSize: 14,
               onPressed: () {
-                Routers.push(Routers.lineDetail, {'id': model.id, 'type': 1});
+                BeeNav.push(BeeNav.lineDetail, {'id': model.id, 'type': 1});
               },
             ),
           ),

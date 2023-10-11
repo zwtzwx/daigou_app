@@ -20,8 +20,8 @@ import 'package:jiyun_app_client/views/group/widget/triangle_painter.dart';
 
 import '../../components/photo_view_gallery_screen.dart';
 
-class GroupDetailPage extends GetView<GroupDetailController> {
-  const GroupDetailPage({Key? key}) : super(key: key);
+class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
+  const BeeGroupDetailView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                           ? Expanded(
                               child: SizedBox(
                                 height: 50,
-                                child: MainButton(
+                                child: BeeButton(
                                   text: '申请加入',
                                   onPressed: () {
                                     controller.onAddGroup(context);
@@ -66,7 +66,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                                 padding: const EdgeInsets.only(right: 15),
                                 child: SizedBox(
                                   height: 50,
-                                  child: MainButton(
+                                  child: BeeButton(
                                     text: '取消拼团',
                                     backgroundColor: AppColors.primary,
                                     onPressed: () {
@@ -81,7 +81,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                           ? Expanded(
                               child: SizedBox(
                                 height: 50,
-                                child: MainButton(
+                                child: BeeButton(
                                   text: '完成并提交拼团',
                                   onPressed: () {
                                     controller.onEndGroup(context);
@@ -98,7 +98,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                                   padding: const EdgeInsets.only(left: 15),
                                   child: SizedBox(
                                     height: 50,
-                                    child: MainButton(
+                                    child: BeeButton(
                                       text: '提交拼团货物',
                                       onPressed: controller.onSubmitParcel,
                                     ),
@@ -164,7 +164,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
             Stack(
               children: [
                 ClipOval(
-                  child: LoadImage(
+                  child: ImgItem(
                     controller.model.value!.members![0].avatar!,
                     width: 50,
                     height: 50,
@@ -206,7 +206,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                     children: [
                       Row(
                         children: [
-                          const LoadImage(
+                          const ImgItem(
                             'Group/group-1',
                             width: 20,
                             height: 20,
@@ -235,7 +235,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                               },
                               child: const Padding(
                                 padding: EdgeInsets.only(right: 10),
-                                child: LoadImage(
+                                child: ImgItem(
                                   'Group/edit',
                                   width: 20,
                                 ),
@@ -284,7 +284,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                               heroTag: '', //传入当前点击的图片的hero tag （可选）
                             )));
                           },
-                          child: LoadImage(
+                          child: ImgItem(
                             controller.model.value!.images!.first,
                             width: 100,
                             height: 100,
@@ -333,7 +333,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
               ),
               GestureDetector(
                 onTap: () {
-                  Routers.push(Routers.lineDetail, {
+                  BeeNav.push(BeeNav.lineDetail, {
                     'id': controller.model.value!.expressLine?.id,
                     'type': 1
                   });
@@ -369,7 +369,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
-                      child: LoadImage(
+                      child: ImgItem(
                         'Group/arrow',
                         format: 'jpg',
                         width: 100,
@@ -428,7 +428,8 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                 ],
               ),
               AppText(
-                str: Util.getGroupStatusName(controller.model.value!.status!),
+                str: CommonMethods.getGroupStatusName(
+                    controller.model.value!.status!),
                 color: controller.model.value!.status == 0
                     ? AppColors.groupText
                     : Colors.black,
@@ -498,7 +499,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                                     },
                                     child: Container(
                                       margin: const EdgeInsets.only(left: 10),
-                                      child: const LoadImage(
+                                      child: const ImgItem(
                                         'Group/edit',
                                         width: 20,
                                       ),
@@ -606,7 +607,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                     controller.model.value!.isGroupLeader!
                         ? GestureDetector(
                             onTap: () {
-                              Routers.push(Routers.groupMemberDetail,
+                              BeeNav.push(BeeNav.groupMemberDetail,
                                   {'id': controller.model.value!.id});
                             },
                             child: AppText(
@@ -685,7 +686,7 @@ class GroupDetailPage extends GetView<GroupDetailController> {
                       //       child: Row(
                       //         mainAxisAlignment: MainAxisAlignment.center,
                       //         children: [
-                      //           const LoadImage(
+                      //           const ImgItem(
                       //             'Group/group-4',
                       //             width: 20,
                       //           ),

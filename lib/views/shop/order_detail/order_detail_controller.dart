@@ -4,7 +4,7 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/models/shop/shop_order_model.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
 
-class ShopOrderDetailController extends BaseController {
+class ShopOrderDetailController extends GlobalLogic {
   final orderModel = Rxn<ShopOrderModel?>();
   final isLoading = false.obs;
   @override

@@ -11,7 +11,7 @@ import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
 
-class CartController extends BaseController {
+class CartController extends GlobalLogic {
   final Rx<LoadingUtil<PlatformGoodsModel>> loadingUtil =
       LoadingUtil<PlatformGoodsModel>().obs;
   final cartLoading = false.obs;
@@ -140,7 +140,7 @@ class CartController extends BaseController {
       return;
     }
 
-    Routers.push(Routers.orderPreview, {
+    BeeNav.push(BeeNav.orderPreview, {
       'ids': checkedList,
       'from': 'cart',
       'platformGoods': cartType.value == 1,

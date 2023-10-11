@@ -71,7 +71,7 @@ class CountryListView extends GetView<CountryController> {
                                 const SizedBox(
                                   height: 140,
                                   width: 140,
-                                  child: LoadImage(
+                                  child: ImgItem(
                                     '',
                                     fit: BoxFit.contain,
                                     holderImg: "Home/empty",

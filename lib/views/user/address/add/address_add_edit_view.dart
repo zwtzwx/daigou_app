@@ -18,8 +18,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:jiyun_app_client/views/user/address/add/address_add_edit_controller.dart';
 
-class AddressAddEditView extends GetView<AddressAddEditController> {
-  const AddressAddEditView({Key? key}) : super(key: key);
+class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
+  const BeeAddressInfoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
                   margin: const EdgeInsets.only(right: 15, left: 15, top: 10),
                   height: 40,
                   width: double.infinity,
-                  child: MainButton(
+                  child: BeeButton(
                     text: '确认提交',
                     onPressed: controller.onSubmit,
                   ),
@@ -85,7 +85,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
                             const EdgeInsets.only(right: 15, left: 15, top: 10),
                         width: double.infinity,
                         height: 40,
-                        child: MainButton(
+                        child: BeeButton(
                           text: '删除',
                           backgroundColor: Colors.white,
                           onPressed: () async {
@@ -138,7 +138,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
         ),
         GestureDetector(
           onTap: () async {
-            var s = await Routers.push(Routers.country);
+            var s = await BeeNav.push(BeeNav.country);
             if (s == null) return;
             CountryModel a = s as CountryModel;
             controller.timezone.value = a.timezone!;
@@ -152,17 +152,20 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Obx(() {
-                    return AppText(
-                      str: controller.timezone.value.isEmpty
-                          ? '请选择电话区号'.ts
-                          : controller.timezone.value,
-                      color: controller.timezone.value.isEmpty
-                          ? AppColors.textGray
-                          : AppColors.textDark,
-                      fontSize: 13,
-                    );
-                  }),
+                  Expanded(
+                    child: Obx(() {
+                      return AppText(
+                        str: controller.timezone.value.isEmpty
+                            ? '请选择电话区号'.ts
+                            : controller.timezone.value,
+                        color: controller.timezone.value.isEmpty
+                            ? AppColors.textGray
+                            : AppColors.textDark,
+                        fontSize: 13,
+                        alignment: TextAlign.end,
+                      );
+                    }),
+                  ),
                   const Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
@@ -195,7 +198,7 @@ class AddressAddEditView extends GetView<AddressAddEditController> {
         ),
         GestureDetector(
           onTap: () async {
-            var s = await Routers.push(Routers.country);
+            var s = await BeeNav.push(BeeNav.country);
             if (s == null) {
               return;
             }

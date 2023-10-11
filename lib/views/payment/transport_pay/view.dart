@@ -150,7 +150,7 @@ class TransportPayPage extends GetView<TransportPayController> {
                             ),
                             GestureDetector(
                                 onTap: () {
-                                  Routers.push(Routers.recharge, context);
+                                  BeeNav.push(BeeNav.recharge, context);
                                 },
                                 child: Row(
                                   children: <Widget>[
@@ -222,7 +222,7 @@ class TransportPayPage extends GetView<TransportPayController> {
                                     GestureDetector(
                                       onTap: () async {
                                         var s =
-                                            await Routers.push(Routers.coupon, {
+                                            await BeeNav.push(BeeNav.coupon, {
                                           'select': true,
                                           'lineid': controller
                                               .orderModel.value!.expressLineId,
@@ -300,7 +300,7 @@ class TransportPayPage extends GetView<TransportPayController> {
                     bottom: 40,
                   ),
                   width: double.infinity,
-                  child: MainButton(
+                  child: BeeButton(
                     text: '确认支付',
                     onPressed: () {
                       controller.onPay(context);
@@ -368,10 +368,10 @@ class TransportPayPage extends GetView<TransportPayController> {
                       margin: const EdgeInsets.only(right: 15),
                       height: 30.w,
                       width: 30.w,
-                      child: LoadImage(controller.getPayTypeIcon(typeMap.name)),
+                      child: ImgItem(controller.getPayTypeIcon(typeMap.name)),
                     ),
                     AppText(
-                      str: Util.getPayTypeName(typeMap.name),
+                      str: CommonMethods.getPayTypeName(typeMap.name),
                     ),
                     // show
                     //     ? AppText(
@@ -514,7 +514,7 @@ class TransportPayPage extends GetView<TransportPayController> {
                       child: SizedBox(
                         height: 40,
                         width: double.infinity,
-                        child: MainButton(
+                        child: BeeButton(
                           text: '确认',
                           borderRadis: 20.0,
                           onPressed: () {

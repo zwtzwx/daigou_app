@@ -45,7 +45,7 @@ class BasePage extends StatelessWidget {
                     AppText(
                       str: '网络出现问题',
                     ),
-                    PlainButton(text: '重新请求'),
+                    HollowButton(text: '重新请求'),
                   ],
                 ),
               );

@@ -72,7 +72,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                   ),
                 ),
               ),
-              MainButton(
+              BeeButton(
                 text: '提交',
                 borderRadis: 999,
                 fontSize: 14,
@@ -298,9 +298,12 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppText(
-                    str: '物流方案'.ts,
-                    fontSize: 14,
+                  Expanded(
+                    child: AppText(
+                      str: '物流方案'.ts,
+                      fontSize: 14,
+                      lines: 3,
+                    ),
                   ),
                   10.horizontalSpace,
                   const Icon(
@@ -340,7 +343,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                           fontSize: 14,
                         ),
                         AppText(
-                          str: Util.getLineModelName(
+                          str: CommonMethods.getLineModelName(
                                   controller.lineModel.value!.mode)
                               .ts,
                           fontSize: 14,
@@ -351,7 +354,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                     15.verticalSpace,
                     GestureDetector(
                       onTap: () {
-                        Routers.push(Routers.lineDetail,
+                        BeeNav.push(BeeNav.lineDetail,
                             {'line': controller.lineModel.value, 'type': 2});
                       },
                       child: Row(
@@ -633,7 +636,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                 padding: EdgeInsets.symmetric(vertical: 10.h),
                 child: Column(
                   children: [
-                    CartGoodsItem(
+                    BeeShopOrderGoodsItem(
                       cartModel: shop,
                       previewMode: true,
                     ),

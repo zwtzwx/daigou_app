@@ -18,8 +18,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/views/user/profile/profile_controller.dart';
 
-class ProfileView extends GetView<ProfileController> {
-  const ProfileView({Key? key}) : super(key: key);
+class BeeUserInfoPage extends GetView<BeeUserInfoLogic> {
+  const BeeUserInfoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +126,7 @@ class ProfileView extends GetView<ProfileController> {
                 AppGaps.line,
                 GestureDetector(
                   onTap: () {
-                    Routers.push(Routers.changeMobileAndEmail, {'type': 1});
+                    BeeNav.push(BeeNav.changeMobileAndEmail, {'type': 1});
                   },
                   child: Container(
                     color: AppColors.white,
@@ -166,9 +166,15 @@ class ProfileView extends GetView<ProfileController> {
                                 color: AppColors.textGrayC,
                                 size: 18,
                               )
-                            : AppText(
-                                str: '更改手机号'.ts,
-                                color: AppColors.primary,
+                            : ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxWidth: 130.w,
+                                ),
+                                child: AppText(
+                                  str: '更改手机号'.ts,
+                                  color: AppColors.primary,
+                                  lines: 2,
+                                ),
                               )
                       ],
                     ),
@@ -177,7 +183,7 @@ class ProfileView extends GetView<ProfileController> {
                 AppGaps.line,
                 GestureDetector(
                   onTap: () {
-                    Routers.push(Routers.changeMobileAndEmail, {'type': 2});
+                    BeeNav.push(BeeNav.changeMobileAndEmail, {'type': 2});
                   },
                   child: Container(
                     color: AppColors.white,
@@ -226,10 +232,16 @@ class ProfileView extends GetView<ProfileController> {
                                 color: AppColors.textGrayC,
                                 size: 18,
                               )
-                            : AppText(
-                                str: '更改邮箱'.ts,
-                                color: AppColors.primary,
-                              )
+                            : ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxWidth: 130.w,
+                                ),
+                                child: AppText(
+                                  str: '更改邮箱'.ts,
+                                  color: AppColors.primary,
+                                  lines: 2,
+                                ),
+                              ),
                       ],
                     ),
                   ),
@@ -282,7 +294,7 @@ class ProfileView extends GetView<ProfileController> {
                 SizedBox(
                   width: ScreenUtil().screenWidth - 30,
                   height: 40,
-                  child: MainButton(
+                  child: BeeButton(
                     text: '确认',
                     onPressed: controller.onSubmit,
                   ),
@@ -293,7 +305,7 @@ class ProfileView extends GetView<ProfileController> {
                   child: SizedBox(
                     width: ScreenUtil().screenWidth - 30,
                     height: 40,
-                    child: MainButton(
+                    child: BeeButton(
                       text: '注销',
                       backgroundColor: AppColors.textRed,
                       onPressed: () async {
@@ -328,7 +340,7 @@ class ProfileView extends GetView<ProfileController> {
               children: <Widget>[
                 GestureDetector(
                   onTap: () async {
-                    UploadUtil.imagePicker(
+                    ImageUpload.imagePicker(
                       onSuccessCallback: (imageUrl) async {
                         controller.userImg.value = imageUrl;
                       },
@@ -369,7 +381,7 @@ class ProfileView extends GetView<ProfileController> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
                       child: Obx(
-                        () => LoadImage(
+                        () => ImgItem(
                           controller.userImg.value.isEmpty
                               ? (controller.userModel.value?.avatar ?? '')
                               : controller.userImg.value,

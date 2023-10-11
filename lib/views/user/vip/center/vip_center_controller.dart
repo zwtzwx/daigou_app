@@ -8,7 +8,7 @@ import 'package:jiyun_app_client/models/user_order_count_model.dart';
 import 'package:jiyun_app_client/models/user_vip_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 
-class VipCenterController extends BaseController {
+class BeeSuperUserLogic extends GlobalLogic {
   final isloading = false.obs;
 
   //各种统计，包括余额
@@ -38,7 +38,7 @@ class VipCenterController extends BaseController {
   }
 
   onPay() async {
-    var a = await Routers.push('/OrderPayPage', {
+    var a = await BeeNav.push('/OrderPayPage', {
       'model': userVipModel.value!.priceList[selectButton.value],
       'payModel': 0
     });

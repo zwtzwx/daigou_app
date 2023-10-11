@@ -11,8 +11,8 @@ import 'package:jiyun_app_client/views/tabbar/tabbar_controller.dart';
 import 'package:jiyun_app_client/views/transport/transport_center/transport_center_view.dart';
 import 'package:jiyun_app_client/views/user/me/me_page.dart';
 
-class TabbarView extends GetView<TabbarController> {
-  const TabbarView({Key? key}) : super(key: key);
+class BeeBottomNavPage extends GetView<BeeBottomNavLogic> {
+  const BeeBottomNavPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +23,11 @@ class TabbarView extends GetView<TabbarController> {
           controller: controller.pageController,
           onPageChanged: controller.onPageSelect,
           children: const <Widget>[
-            HomeView(),
+            IndexPage(),
             TransportCenterView(),
             PlatformShopCenterView(),
             CartView(),
-            MeView(),
+            BeeCenterPage(),
           ],
         ),
         bottomNavigationBar: SafeArea(

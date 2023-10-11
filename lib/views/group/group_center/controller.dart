@@ -8,7 +8,7 @@ import 'package:jiyun_app_client/models/group_model.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/group_service.dart';
 
-class GroupCenterController extends BaseController {
+class BeeGroupController extends GlobalLogic {
   final TextEditingController keywordController = TextEditingController();
   final FocusNode keywordNode = FocusNode();
 

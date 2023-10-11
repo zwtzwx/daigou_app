@@ -53,7 +53,7 @@ class _RecommendGroupCellState extends State<RecommendGroupCell>
   }
 
   void onDetail(int id) {
-    Routers.push(Routers.groupDetail, {'id': id});
+    BeeNav.push(BeeNav.groupDetail, {'id': id});
   }
 
   @override
@@ -65,7 +65,7 @@ class _RecommendGroupCellState extends State<RecommendGroupCell>
         TitleCell(
           title: '精选拼团活动',
           onMore: () {
-            Routers.push(Routers.groupCenter);
+            BeeNav.push(BeeNav.groupCenter);
           },
         ),
         ...groupList.map(
@@ -121,7 +121,7 @@ class _RecommendGroupCellState extends State<RecommendGroupCell>
                         Column(
                           children: [
                             ClipOval(
-                              child: LoadImage(
+                              child: ImgItem(
                                 group.leader?.avatar ?? '',
                                 width: 44.w,
                                 height: 44.w,
@@ -231,7 +231,7 @@ class _RecommendGroupCellState extends State<RecommendGroupCell>
                                   (index) => Positioned(
                                     left: index * 10.w,
                                     child: ClipOval(
-                                      child: LoadImage(
+                                      child: ImgItem(
                                         group.membersAvatar![index],
                                         width: 20.w,
                                         height: 20.w,
@@ -252,7 +252,7 @@ class _RecommendGroupCellState extends State<RecommendGroupCell>
                             fontSize: 10,
                           ),
                         ),
-                        MainButton(
+                        BeeButton(
                           text: '参团',
                           fontSize: 14,
                           borderRadis: 999,

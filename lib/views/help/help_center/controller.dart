@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 
-class HelpCenterController extends BaseController {
+class BeeSupportLogic extends GlobalLogic {
   final banner = Rxn<String?>();
 
   @override

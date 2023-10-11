@@ -17,7 +17,7 @@ class GoodsService {
       [Map<String, dynamic>? params]) async {
     List<ParcelPropsModel> result =
         List<ParcelPropsModel>.empty(growable: true);
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(PROPLIST, queryParameters: params)
         .then((response) => {
               response.data?.forEach((good) {
@@ -30,7 +30,7 @@ class GoodsService {
   // 获取属性配置
   static Future<bool> getPropConfig() async {
     bool result = false;
-    await HttpClient.instance.get(propConfigApi).then((res) {
+    await BeeRequest.instance.get(propConfigApi).then((res) {
       if (res.ok) {
         result = res.data['package_prop'] == 1;
       }
@@ -44,7 +44,7 @@ class GoodsService {
     List<GoodsCategoryModel> result =
         List<GoodsCategoryModel>.empty(growable: true);
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(CATEGORIES, queryParameters: params)
         .then((response) {
       if (response.data != null) {

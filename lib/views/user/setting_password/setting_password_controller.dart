@@ -5,7 +5,7 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 
-class SettingPasswordController extends BaseController {
+class BeeNewPwdLogic extends GlobalLogic {
   final TextEditingController newPasswordController = TextEditingController();
   final FocusNode newPaddwordNode = FocusNode();
   final TextEditingController confirmPasswordController =
@@ -23,7 +23,7 @@ class SettingPasswordController extends BaseController {
     if (res['ok']) {
       showSuccess(res['msg']).then((value) async {
         userInfoModel.clear();
-        Routers.redirect(Routers.login);
+        BeeNav.redirect(BeeNav.login);
       });
     } else {
       showError(res['msg']);

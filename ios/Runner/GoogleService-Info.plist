@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>521370548270-9i9f4jn0grjubmo75epl9ulb14q80vbb.apps.googleusercontent.com</string>
+	<string>682441097900-dod90pj7o994re6hf59grohvdqlfnqos.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.521370548270-9i9f4jn0grjubmo75epl9ulb14q80vbb</string>
+	<string>com.googleusercontent.apps.682441097900-dod90pj7o994re6hf59grohvdqlfnqos</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>682441097900-o0bkt8qba1eab16jbsqpcg0od7q4gh2i.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyD4c_mfGDiagF4T2jrRqOYUL9B9RO91rmY</string>
+	<string>AIzaSyAcfTayWo8Ge7HVJy2_CVdLir7FkWKQGPU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>521370548270</string>
+	<string>682441097900</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.zhongha.shopAppClient</string>
+	<string>com.beeshop.shopAppClient</string>
 	<key>PROJECT_ID</key>
-	<string>jiyun-app-1df62</string>
+	<string>shop-app-c3017</string>
 	<key>STORAGE_BUCKET</key>
-	<string>jiyun-app-1df62.appspot.com</string>
+	<string>shop-app-c3017.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:521370548270:ios:f6c4734b8d314f96b047bf</string>
+	<string>1:682441097900:ios:dbda02d884971787be1509</string>
 </dict>
 </plist>

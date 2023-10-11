@@ -10,7 +10,7 @@ import 'package:jiyun_app_client/services/goods_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 
-class LineQueryController extends BaseController {
+class LineQueryController extends GlobalLogic {
   final TextEditingController weightController = TextEditingController();
   final FocusNode weightNode = FocusNode();
   final TextEditingController longController = TextEditingController();
@@ -56,7 +56,7 @@ class LineQueryController extends BaseController {
 
   // 选择国家
   onCountry() async {
-    var s = await Routers.push(Routers.country,
+    var s = await BeeNav.push(BeeNav.country,
         {'warehouseId': selectWareHouse.value!.id, 'showArea': 1});
     if (s == null) return;
     if (s is Map) {
@@ -117,6 +117,6 @@ class LineQueryController extends BaseController {
       'warehouse_id': selectWareHouse.value?.id ?? '',
       'warehouseName': selectWareHouse.value?.warehouseName ?? '',
     };
-    Routers.push(Routers.lineQueryResult, {"data": dic, "query": true});
+    BeeNav.push(BeeNav.lineQueryResult, {"data": dic, "query": true});
   }
 }

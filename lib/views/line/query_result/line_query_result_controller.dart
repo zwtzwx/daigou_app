@@ -4,7 +4,7 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/models/ship_line_model.dart';
 import 'package:jiyun_app_client/services/ship_line_service.dart';
 
-class LineQueryResultController extends BaseController {
+class LineQueryResultController extends GlobalLogic {
   final lineData = RxList<ShipLineModel>();
   final postDic = Rxn<Map<String, dynamic>?>();
   final isEmpty = false.obs;

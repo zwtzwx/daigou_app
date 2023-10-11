@@ -20,7 +20,7 @@ import 'package:jiyun_app_client/services/parcel_service.dart';
 import 'package:jiyun_app_client/services/ship_line_service.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
 
-class OrderPreviewController extends BaseController {
+class OrderPreviewController extends GlobalLogic {
   late Map<String, dynamic> arguments;
   final goodsList = <CartModel>[].obs;
   final shipModel = 0.obs;
@@ -142,7 +142,7 @@ class OrderPreviewController extends BaseController {
 
   // 选择收货地址
   void onAddress() async {
-    var s = await Routers.push(Routers.addressList, {'select': 1});
+    var s = await BeeNav.push(BeeNav.addressList, {'select': 1});
     if (s == null) return;
     address.value = s as ReceiverAddressModel;
     lineModel.value = null;
@@ -193,7 +193,7 @@ class OrderPreviewController extends BaseController {
       'area_id': address.value!.area?.id ?? '',
       'sub_area_id': address.value!.subArea?.id ?? '',
     };
-    var s = await Routers.push(Routers.lineQueryResult, {"data": dic});
+    var s = await BeeNav.push(BeeNav.lineQueryResult, {"data": dic});
     if (s == null) return;
     lineModel.value = s;
     // lineServiceIds.value = (lineModel.value!.region?.services ?? [])
@@ -277,7 +277,7 @@ class OrderPreviewController extends BaseController {
     }
     if (res['ok']) {
       ApplicationEvent.getInstance().event.fire(CartCountRefreshEvent());
-      Routers.redirect(Routers.shopOrderPay, {'order': res['order']});
+      BeeNav.redirect(BeeNav.shopOrderPay, {'order': res['order']});
     }
   }
 
@@ -302,7 +302,7 @@ class OrderPreviewController extends BaseController {
     params.addAll(getBaseCommitParams(false));
     Map res = await ShopService.platformCustomOrderCreate(params);
     if (res['ok']) {
-      Routers.redirect(Routers.shopOrderPay, {'order': res['order']});
+      BeeNav.redirect(BeeNav.shopOrderPay, {'order': res['order']});
     }
   }
 
@@ -318,7 +318,7 @@ class OrderPreviewController extends BaseController {
     params.addAll(getBaseCommitParams(false));
     Map res = await ShopService.orderCreate(params);
     if (res['ok']) {
-      Routers.redirect(Routers.shopOrderPay, {'order': res['order']});
+      BeeNav.redirect(BeeNav.shopOrderPay, {'order': res['order']});
     }
   }
 

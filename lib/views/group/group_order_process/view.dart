@@ -11,8 +11,8 @@ import 'package:jiyun_app_client/views/group/widget/member_avatar_widget.dart';
 
 import '../../../models/order_model.dart';
 
-class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
-  const GroupOrderProcessView({Key? key}) : super(key: key);
+class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
+  const BeeGroupOrderDetailView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +40,12 @@ class GroupOrderProcessView extends GetView<GroupOrderProcessController> {
                     child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    MainButton(
+                    BeeButton(
                       text: controller.orderModel.value?.status == 2
                           ? '立即支付'
                           : '重新支付',
                       onPressed: () {
-                        Routers.push(Routers.transportPay, {
+                        BeeNav.push(BeeNav.transportPay, {
                           'id': controller.orderModel.value!.id,
                           'payModel': 1,
                           'deliveryStatus': 1,

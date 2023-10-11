@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "521370548270",
-    "firebase_url": "https://jiyun-app-1df62-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "jiyun-app-1df62",
-    "storage_bucket": "jiyun-app-1df62.appspot.com"
+    "project_number": "682441097900",
+    "firebase_url": "https://shop-app-c3017-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "shop-app-c3017",
+    "storage_bucket": "shop-app-c3017.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:521370548270:android:dfaaf4a63687120eb047bf",
+        "mobilesdk_app_id": "1:682441097900:android:6f9815fd07cfcc9fbe1509",
         "android_client_info": {
           "package_name": "com.zhongha.shop_app_client"
         }
       },
       "oauth_client": [
         {
-          "client_id": "521370548270-f0tdas0lllp048vci57h6q2fvohgipaq.apps.googleusercontent.com",
+          "client_id": "682441097900-o0bkt8qba1eab16jbsqpcg0od7q4gh2i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.zhongha.shop_app_client",
@@ -23,27 +23,27 @@
           }
         },
         {
-          "client_id": "521370548270-fruai3hgmpg4k4gmabcd83tfiov8sr1a.apps.googleusercontent.com",
+          "client_id": "682441097900-kj2ntnl7d37mad1p1lj32pl4a8262mot.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAVCeaIbNaXro_c3dCXbQmQXGdiMrBaypA"
+          "current_key": "AIzaSyDPOZJQO46FMDDEUuqdvkOFuZsNGeaF1kE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "521370548270-fruai3hgmpg4k4gmabcd83tfiov8sr1a.apps.googleusercontent.com",
+              "client_id": "682441097900-kj2ntnl7d37mad1p1lj32pl4a8262mot.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "521370548270-9i9f4jn0grjubmo75epl9ulb14q80vbb.apps.googleusercontent.com",
+              "client_id": "682441097900-dod90pj7o994re6hf59grohvdqlfnqos.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.zhongha.shopAppClient"
+                "bundle_id": "com.beeshop.shopAppClient"
               }
             }
           ]

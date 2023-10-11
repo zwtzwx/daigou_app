@@ -11,7 +11,7 @@ import 'package:jiyun_app_client/models/warehouse_model.dart';
 import 'package:jiyun_app_client/services/group_service.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
 
-class GroupCreateController extends BaseController {
+class BeeGroupCreateController extends GlobalLogic {
   final TextEditingController nameController = TextEditingController();
   final FocusNode nameNode = FocusNode();
   final TextEditingController remarkController = TextEditingController();
@@ -54,7 +54,7 @@ class GroupCreateController extends BaseController {
 
   // 地址
   void onAddress() async {
-    var s = await Routers.push(Routers.addressList, {'select': 1});
+    var s = await BeeNav.push(BeeNav.addressList, {'select': 1});
     if (s == null) return;
 
     addressModel.value = s as ReceiverAddressModel;
@@ -82,7 +82,7 @@ class GroupCreateController extends BaseController {
       'sub_area_id': addressModel.value!.subArea?.id ?? '',
       'is_group': 1,
     };
-    var s = await Routers.push(Routers.lineQueryResult, {"data": dic});
+    var s = await BeeNav.push(BeeNav.lineQueryResult, {"data": dic});
     if (s == null) return;
 
     lineModel.value = s as ShipLineModel;
@@ -114,7 +114,7 @@ class GroupCreateController extends BaseController {
 
   // 上传图片
   void onUploadImg(BuildContext context) async {
-    UploadUtil.imagePicker(
+    ImageUpload.imagePicker(
       context: context,
       onSuccessCallback: (img) async {
         image.value = img;
@@ -150,7 +150,7 @@ class GroupCreateController extends BaseController {
       'lng': coordinate.value?.longitude ?? '',
     });
     if (res['ok']) {
-      Routers.pop('successed');
+      BeeNav.pop('successed');
     }
   }
 

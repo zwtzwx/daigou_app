@@ -5,7 +5,7 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
 
-class PlatformGoodsController extends BaseController {
+class PlatformGoodsController extends GlobalLogic {
   String keyword = '';
   final Rx<LoadingUtil<PlatformGoodsModel>> loadingUtil =
       LoadingUtil<PlatformGoodsModel>().obs;

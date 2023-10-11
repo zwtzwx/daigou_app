@@ -133,7 +133,7 @@ class ShopChatDetailView extends GetView<ShopOrderChatDetailController> {
                       ),
                       10.horizontalSpace,
                       ClipOval(
-                        child: LoadImage(
+                        child: ImgItem(
                           controller.userInfoModel.userInfo.value?.avatar ?? '',
                           width: 40.w,
                           height: 40.w,
@@ -142,7 +142,7 @@ class ShopChatDetailView extends GetView<ShopOrderChatDetailController> {
                     ]
                   : [
                       ClipOval(
-                        child: LoadImage(
+                        child: ImgItem(
                           'Home/contact',
                           width: 40.w,
                           height: 40.w,

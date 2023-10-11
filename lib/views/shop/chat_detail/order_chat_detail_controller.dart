@@ -9,7 +9,7 @@ import 'package:jiyun_app_client/models/shop/consult_model.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
 
-class ShopOrderChatDetailController extends BaseController {
+class ShopOrderChatDetailController extends GlobalLogic {
   late final order = Rxn<ConsultModel>();
   final TextEditingController messageController = TextEditingController();
   final FocusNode messageNode = FocusNode();

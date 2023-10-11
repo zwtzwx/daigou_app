@@ -6,7 +6,7 @@ import 'package:jiyun_app_client/events/list_refresh_event.dart';
 import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
 
-class NoOwnerParcelController extends BaseController {
+class AbnomalParcelLogic extends GlobalLogic {
   final TextEditingController keywordController = TextEditingController();
 
   final FocusNode focusNode = FocusNode();
@@ -35,7 +35,7 @@ class NoOwnerParcelController extends BaseController {
   }
 
   void toDetail(ParcelModel model) async {
-    var s = await Routers.push(Routers.noOwnerDetail, {'order': model});
+    var s = await BeeNav.push(BeeNav.noOwnerDetail, {'order': model});
     if (s == 'success') {
       ApplicationEvent.getInstance()
           .event

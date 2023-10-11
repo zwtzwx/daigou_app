@@ -17,8 +17,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/user/vip/point/point_controller.dart';
 
-class PointView extends GetView<PointController> {
-  const PointView({Key? key}) : super(key: key);
+class IntergralPage extends GetView<IntergralLogic> {
+  const IntergralPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class PointView extends GetView<PointController> {
       primary: false,
       appBar: const EmptyAppBar(),
       backgroundColor: AppColors.bgGray,
-      body: ListRefresh(
+      body: RefreshView(
         renderItem: buildCellForFirstListView,
         refresh: controller.loadList,
         more: controller.loadMoreList,
@@ -98,7 +98,7 @@ class PointView extends GetView<PointController> {
       child: Stack(
         children: <Widget>[
           SizedBox(
-            child: LoadImage(
+            child: ImgItem(
               'AboutMe/jifen-bg',
               fit: BoxFit.fitWidth,
               width: ScreenUtil().screenWidth,

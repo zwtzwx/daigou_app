@@ -51,7 +51,7 @@ class CommonService {
       [Map<String, dynamic>? params]) async {
     Map<String, dynamic>? result;
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(_TERMS_API, queryParameters: params)
         .then((response) => {result = response.data});
     return result;
@@ -61,7 +61,7 @@ class CommonService {
   static Future<BannersModel?> getAllBannersInfo(
       [Map<String, dynamic>? params]) async {
     BannersModel? result;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(_ALL_BANNERS_API, queryParameters: params)
         .then((response) => {result = BannersModel.fromJson(response.data)});
     return result;
@@ -81,7 +81,7 @@ class CommonService {
 
     String result = "";
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(uploadImageApi, data: formData)
         .then((response) {
       result = response.data;
@@ -96,7 +96,7 @@ class CommonService {
   static Future<List<AlphabeticalCountryModel>> getCountryListByAlphabetical(
       [Map<String, dynamic>? params]) async {
     List<AlphabeticalCountryModel> dataList = <AlphabeticalCountryModel>[];
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(countryListApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -118,7 +118,7 @@ class CommonService {
   static Future<List<CountryModel>> getCountryList(
       [Map<String, dynamic>? params]) async {
     List<CountryModel> dataList = [];
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(countriesApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -135,13 +135,13 @@ class CommonService {
     用于消息推送
    */
   static Future<void> saveDeviceToken(Map<String, dynamic> params) async {
-    await HttpClient.instance.put(deviceTokenApi, data: params);
+    await BeeRequest.instance.put(deviceTokenApi, data: params);
   }
 
   // 刷新 token
   static Future<String?> refreshToken() async {
     String? token;
-    await HttpClient.instance.post(refreshTokenApi).then((res) {
+    await BeeRequest.instance.post(refreshTokenApi).then((res) {
       if (res.ok) {
         token = '${res.data['token_type']} ${res.data['access_token']}';
       }
@@ -152,7 +152,7 @@ class CommonService {
   // 获取图形验证码
   static Future<CaptchaModel?> getCaptcha() async {
     CaptchaModel? captcha;
-    await HttpClient.instance.get(captchaApi).then((res) {
+    await BeeRequest.instance.get(captchaApi).then((res) {
       if (res.ok) {
         captcha = CaptchaModel.formJson(res.data['captcha']);
       }
@@ -164,7 +164,7 @@ class CommonService {
   static Future<Map> getNoticeList(Map<String, dynamic> params) async {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': params['page']};
     List<NoticeModel> dataList = [];
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(noticeListApi, queryParameters: params)
         .then((response) {
       if (response.ret) {
@@ -185,7 +185,7 @@ class CommonService {
   // 消息设为已读
   static Future<bool> onNoticeRead(Map<String, dynamic> params) async {
     bool res = false;
-    await HttpClient.instance
+    await BeeRequest.instance
         .put(noticeReadApi,
             data: params, options: Options(extra: {'showSuccess': false}))
         .then((response) {
@@ -197,7 +197,7 @@ class CommonService {
   // 是否有未读消息
   static Future<bool> hasUnReadInfo() async {
     bool res = false;
-    await HttpClient.instance.get(unReadNoticeApi).then((response) {
+    await BeeRequest.instance.get(unReadNoticeApi).then((response) {
       if (response.ok) {
         res = response.data['no_read_count'] > 0;
       }
@@ -210,7 +210,7 @@ class CommonService {
    */
   static Future<List<CurrencyRateModel>> getRateList() async {
     List<CurrencyRateModel> datas = [];
-    await HttpClient().get(exchangeRateApi).then((res) {
+    await BeeRequest().get(exchangeRateApi).then((res) {
       if (res.ok) {
         res.data.forEach((item) => datas.add(CurrencyRateModel.from(item)));
       }
@@ -221,7 +221,7 @@ class CommonService {
   // 获取商品链接
   static Future<String?> getGoodsUrl(Map<String, dynamic> params) async {
     String? url;
-    await HttpClient()
+    await BeeRequest()
         .get(goodsUrlApi,
             queryParameters: params, options: Options(extra: {'loading': true}))
         .then((res) {
@@ -235,7 +235,7 @@ class CommonService {
   // chorme 插件登录
   static Future<bool> onChromeLogin(Map<String, dynamic> params) async {
     bool result = false;
-    await HttpClient()
+    await BeeRequest()
         .post(chromeLoginApi, data: params)
         .then((res) => result = res.ok);
     return result;
@@ -244,7 +244,7 @@ class CommonService {
   // 获取最新版本 apk 信息
   static Future<AppVersionModel?> getLatestApkInfo() async {
     AppVersionModel? result;
-    await HttpClient().get(latestApkApi).then((res) {
+    await BeeRequest().get(latestApkApi).then((res) {
       if (res.ok && res.data != null) {
         result = AppVersionModel.fromJson(res.data);
       }

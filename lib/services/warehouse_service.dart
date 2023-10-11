@@ -14,7 +14,7 @@ class WarehouseService extends ChangeNotifier {
   static Future<List<WareHouseModel>> getList(
       [Map<String, dynamic>? params]) async {
     List<WareHouseModel> result = [];
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(LISTAPI, queryParameters: params)
         .then((response) => {
               response.data.forEach((good) {
@@ -28,7 +28,7 @@ class WarehouseService extends ChangeNotifier {
   // 获取某个国家的仓库列表
   static Future<WareHouseModel?> getDefaultWarehouse() async {
     WareHouseModel? result;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(defaultApi)
         .then((response) => {
               if (response.ok && response.data != null)

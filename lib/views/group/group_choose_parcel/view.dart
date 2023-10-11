@@ -10,8 +10,8 @@ import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:jiyun_app_client/views/group/group_choose_parcel/controller.dart';
 import 'package:jiyun_app_client/views/parcel/widget/parcel_item_cell.dart';
 
-class GroupChooseParcelPage extends GetView<GroupChooseParcelController> {
-  const GroupChooseParcelPage({Key? key}) : super(key: key);
+class BeeGroupParcelSelectView extends GetView<BeeGroupParcelSelectController> {
+  const BeeGroupParcelSelectView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class GroupChooseParcelPage extends GetView<GroupChooseParcelController> {
                     ],
                   )),
                   10.horizontalSpace,
-                  MainButton(
+                  BeeButton(
                     text: '加入拼团',
                     onPressed: controller.onAddGroup,
                     borderRadis: 999,
@@ -84,14 +84,14 @@ class GroupChooseParcelPage extends GetView<GroupChooseParcelController> {
             ),
           ),
         ),
-        body: ListRefresh(
+        body: RefreshView(
             renderItem: renderItem,
             refresh: controller.loadList,
             more: controller.loadMoreList));
   }
 
   Widget renderItem(index, ParcelModel model) {
-    return ParcelItemCell(
+    return BeePackageItem(
       model: model,
       index: index,
       checkedIds: controller.selectedParcelList,

@@ -23,8 +23,8 @@ import 'package:jiyun_app_client/views/user/vip/center/vip_center_controller.dar
   会员中心
  */
 
-class VipCenterView extends GetView<VipCenterController> {
-  const VipCenterView({Key? key}) : super(key: key);
+class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
+  const BeeSuperUserView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +92,7 @@ class VipCenterView extends GetView<VipCenterController> {
       //                 ),
       //               ],
       //             ),
-      //             MainButton(
+      //             BeeButton(
       //               text: '立即支付',
       //               fontWeight: FontWeight.bold,
       //               backgroundColor: HexToColor('#d1bb7f'),
@@ -404,7 +404,7 @@ class VipCenterView extends GetView<VipCenterController> {
           Container(
             height: ScreenUtil().setHeight(180),
             alignment: Alignment.topLeft,
-            child: LoadImage(
+            child: ImgItem(
               'AboutMe/growth-bg',
               fit: BoxFit.fitWidth,
               width: ScreenUtil().screenWidth,
@@ -442,7 +442,7 @@ class VipCenterView extends GetView<VipCenterController> {
                       Flexible(
                         child: GestureDetector(
                           onTap: () {
-                            Routers.push(Routers.growthValue);
+                            BeeNav.push(BeeNav.growthValue);
                           },
                           child: AppText(
                             str: '距离下一等级还差{count}成长值'.tsArgs(
@@ -519,7 +519,7 @@ class VipCenterView extends GetView<VipCenterController> {
                   width: 60,
                   height: 60,
                   child: ClipOval(
-                    child: LoadImage(
+                    child: ImgItem(
                       controller.userInfo!.avatar,
                       fit: BoxFit.fitWidth,
                       holderImg: "AboutMe/about-logo",
@@ -543,7 +543,7 @@ class VipCenterView extends GetView<VipCenterController> {
                     AppGaps.vGap4,
                     GestureDetector(
                       onTap: () {
-                        Routers.push(Routers.point);
+                        BeeNav.push(BeeNav.point);
                       },
                       child: Row(
                         children: [

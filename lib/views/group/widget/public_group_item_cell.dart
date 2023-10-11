@@ -19,7 +19,7 @@ class PublicGroupItemCell extends StatelessWidget {
   final CoordinateModel? coordinate;
 
   void _toGroupDetail(BuildContext context) {
-    Routers.push(Routers.groupDetail, {'id': model.id});
+    BeeNav.push(BeeNav.groupDetail, {'id': model.id});
   }
 
   @override
@@ -96,7 +96,7 @@ class PublicGroupItemCell extends StatelessWidget {
                       ),
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
-                        child: LoadImage(
+                        child: ImgItem(
                           'Group/arrow',
                           format: 'jpg',
                           width: 100,
@@ -179,7 +179,7 @@ class PublicGroupItemCell extends StatelessWidget {
                                 0,
                               ),
                               child: ClipOval(
-                                child: LoadImage(
+                                child: ImgItem(
                                   model.membersAvatar![index],
                                   width: 28,
                                   height: 28,
@@ -198,7 +198,7 @@ class PublicGroupItemCell extends StatelessWidget {
                     ],
                   ),
                 ),
-                MainButton(
+                BeeButton(
                   text: '去参团',
                   fontSize: 14,
                   borderRadis: 999,

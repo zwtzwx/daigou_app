@@ -12,8 +12,8 @@ import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/help/help_center/controller.dart';
 
-class HelpCenterPage extends GetView<HelpCenterController> {
-  const HelpCenterPage({Key? key}) : super(key: key);
+class BeeSupportView extends GetView<BeeSupportLogic> {
+  const BeeSupportView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class HelpCenterPage extends GetView<HelpCenterController> {
             height: ScreenUtil().setHeight(200),
             alignment: Alignment.topCenter,
             child: Obx(
-              () => LoadImage(
+              () => ImgItem(
                 controller.banner.value ?? '',
                 fit: BoxFit.fitWidth,
                 width: ScreenUtil().screenWidth,
@@ -100,14 +100,14 @@ class HelpCenterPage extends GetView<HelpCenterController> {
       child: GestureDetector(
         onTap: () {
           if (type > 0) {
-            Routers.push(Routers.question, {'type': type});
+            BeeNav.push(BeeNav.question, {'type': type});
           } else {
-            Routers.push('/SuggestPage');
+            BeeNav.push('/SuggestPage');
           }
         },
         child: Column(
           children: [
-            LoadImage(
+            ImgItem(
               img,
               width: 46,
               height: 46,
@@ -157,7 +157,7 @@ class AnnouncementListState extends State<AnnouncementList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListRefresh(
+    return RefreshView(
       shrinkWrap: true,
       // physics: true,
       renderItem: buildBottomListCell,
@@ -169,7 +169,7 @@ class AnnouncementListState extends State<AnnouncementList> {
   Widget buildBottomListCell(int index, AnnouncementModel model) {
     return GestureDetector(
         onTap: () async {
-          Routers.push(Routers.webview, {
+          BeeNav.push(BeeNav.webview, {
             'url': model.content,
             'title': model.title,
             'time': model.createdAt

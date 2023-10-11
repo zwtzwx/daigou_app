@@ -25,8 +25,8 @@ import 'package:jiyun_app_client/views/parcel/widget/prop_sheet_cell.dart';
 /*
   包裹预报
 */
-class ForecastParcelView extends GetView<ForecastController> {
-  const ForecastParcelView({Key? key}) : super(key: key);
+class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
+  const BeeParcelCreatePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +98,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                 height: 50,
-                child: MainButton(
+                child: BeeButton(
                   onPressed: controller.onSubmit,
                   text: '提交预报',
                 ),
@@ -123,7 +123,7 @@ class ForecastParcelView extends GetView<ForecastController> {
             children: [
               GestureDetector(
                 onTap: () {
-                  Routers.push(Routers.help);
+                  BeeNav.push(BeeNav.help);
                 },
                 child: AppText(
                   str: '初次使用包裹转运'.ts,
@@ -132,7 +132,7 @@ class ForecastParcelView extends GetView<ForecastController> {
               ),
               GestureDetector(
                 onTap: () {
-                  Routers.push(Routers.warehouse);
+                  BeeNav.push(BeeNav.warehouse);
                 },
                 child: AppText(
                   str: '查看仓库地址'.ts,
@@ -180,7 +180,7 @@ class ForecastParcelView extends GetView<ForecastController> {
                                     ? '集齐再发'
                                     : '到件即发')
                                 .ts,
-                            style: TextConfig.textDark14,
+                            style: AppTextStyles.textDark14,
                           ),
                         ),
                       ),
@@ -201,7 +201,7 @@ class ForecastParcelView extends GetView<ForecastController> {
           ),
           GestureDetector(
             onTap: () async {
-              var tmp = await Routers.push(Routers.country);
+              var tmp = await BeeNav.push(BeeNav.country);
               if (tmp == null) {
                 return;
               }
@@ -232,8 +232,8 @@ class ForecastParcelView extends GetView<ForecastController> {
                                 ? '请选择寄送国家'.ts
                                 : controller.selectedCountryModel.value!.name!,
                             style: controller.selectedCountryModel.value == null
-                                ? TextConfig.textGray14
-                                : TextConfig.textDark14,
+                                ? AppTextStyles.textGray14
+                                : AppTextStyles.textDark14,
                           ),
                         ),
                       ),
@@ -292,8 +292,8 @@ class ForecastParcelView extends GetView<ForecastController> {
                                     .warehouseName!,
                             style:
                                 controller.selectedWarehouseModel.value == null
-                                    ? TextConfig.textGray14
-                                    : TextConfig.textDark14,
+                                    ? AppTextStyles.textGray14
+                                    : AppTextStyles.textDark14,
                           ),
                         ),
                       ),
@@ -829,8 +829,8 @@ class ForecastParcelView extends GetView<ForecastController> {
                         Text(
                           model.value.expressName ?? '请选择快递名称'.ts,
                           style: model.value.expressName != null
-                              ? TextConfig.textDark14
-                              : TextConfig.textGray14,
+                              ? AppTextStyles.textDark14
+                              : AppTextStyles.textGray14,
                         ),
                         const Padding(
                           padding:
@@ -939,8 +939,8 @@ class ForecastParcelView extends GetView<ForecastController> {
                                       .map((e) => e.name)
                                       .join(' '),
                               style: model.value.prop == null
-                                  ? TextConfig.textGray14
-                                  : TextConfig.textDark14,
+                                  ? AppTextStyles.textGray14
+                                  : AppTextStyles.textDark14,
                             ),
                           ),
                         ),

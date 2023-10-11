@@ -10,7 +10,7 @@ import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 
-class RegisterController extends BaseController {
+class BeeSignUpLogic extends GlobalLogic {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   // 新号码
   final TextEditingController mobileNumberController = TextEditingController();
@@ -53,7 +53,7 @@ class RegisterController extends BaseController {
       var res = await UserService.register(map);
       if (res['ok']) {
         await EasyLoading.showSuccess(res['msg']);
-        Routers.pop(loginType.value == 1
+        BeeNav.pop(loginType.value == 1
             ? mobileNumberController.text
             : emailController.text);
       }
@@ -92,7 +92,7 @@ class RegisterController extends BaseController {
 
   // 选择手机区号
   void onTimezone() async {
-    var s = await Routers.push(Routers.country);
+    var s = await BeeNav.push(BeeNav.country);
     if (s != null) {
       CountryModel a = s as CountryModel;
       areaNumber.value = a.timezone!;

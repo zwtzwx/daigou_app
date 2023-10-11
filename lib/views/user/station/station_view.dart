@@ -24,7 +24,7 @@ class StationView extends GetView<StationController> {
       ),
       backgroundColor: AppColors.bgGray,
       body: SafeArea(
-        child: ListRefresh(
+        child: RefreshView(
           renderItem: renderItem,
           refresh: controller.loadList,
           more: controller.loadMoreList,

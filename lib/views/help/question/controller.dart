@@ -3,7 +3,7 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/models/article_model.dart';
 import 'package:jiyun_app_client/services/article_service.dart';
 
-class QuestionController extends BaseController {
+class BeeQusLogic extends GlobalLogic {
   final articles = <ArticleModel>[].obs;
   final pageTitle = ''.obs;
   final type = 1.obs;

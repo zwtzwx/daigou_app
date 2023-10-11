@@ -10,7 +10,7 @@ import 'package:jiyun_app_client/models/order_model.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
 import 'package:video_player/video_player.dart';
 
-class OrderDetailController extends BaseController {
+class BeeOrderLogic extends GlobalLogic {
   final model = Rxn<OrderModel?>();
   late int orderId;
   final isLoading = false.obs;
@@ -35,7 +35,8 @@ class OrderDetailController extends BaseController {
     hideLoading();
     if (data != null) {
       model.value = data;
-      statusStr.value = Util.getOrderStatusName(data.status, data.stationOrder);
+      statusStr.value =
+          CommonMethods.getOrderStatusName(data.status, data.stationOrder);
       isLoading.value = true;
     }
   }

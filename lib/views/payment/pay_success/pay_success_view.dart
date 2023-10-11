@@ -31,7 +31,7 @@ class PaySuccessView extends GetView<PaySuccessController> {
           child: Column(
             children: [
               20.verticalSpace,
-              LoadImage(
+              ImgItem(
                 'Shop/pay_success',
                 width: 150.w,
               ),
@@ -46,7 +46,7 @@ class PaySuccessView extends GetView<PaySuccessController> {
                 () => SizedBox(
                   width: 150.w,
                   height: 32.h,
-                  child: PlainButton(
+                  child: HollowButton(
                     borderRadis: 999,
                     textColor: AppColors.textDark,
                     text: controller.isShopOrder.value ? '继续逛逛' : '返回',
@@ -58,7 +58,7 @@ class PaySuccessView extends GetView<PaySuccessController> {
               SizedBox(
                 width: 150.w,
                 height: 32.h,
-                child: MainButton(
+                child: BeeButton(
                   text: '查看订单',
                   borderRadis: 999,
                   fontSize: 14,

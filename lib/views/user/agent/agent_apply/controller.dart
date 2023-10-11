@@ -5,7 +5,7 @@ import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/profile_updated_event.dart';
 import 'package:jiyun_app_client/services/agent_service.dart';
 
-class AgentApplyController extends BaseController {
+class AgentApplyController extends GlobalLogic {
   final TextEditingController oldNumberController = TextEditingController();
   final FocusNode oldNumber = FocusNode();
   // 新号码

@@ -75,7 +75,7 @@ class _InputTextItemState extends State<InputTextItem> {
                         Flexible(
                           child: Text(
                             (widget.title).ts,
-                            style: TextConfig.textDark14,
+                            style: AppTextStyles.textDark14,
                           ),
                         ),
                       ],

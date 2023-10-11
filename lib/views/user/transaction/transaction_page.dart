@@ -9,8 +9,8 @@ import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/list_refresh.dart';
 import 'package:jiyun_app_client/views/user/transaction/transaction_controller.dart';
 
-class TransactionView extends GetView<TransactionController> {
-  const TransactionView({Key? key}) : super(key: key);
+class BeeTradePage extends GetView<BeeTradeLogic> {
+  const BeeTradePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class TransactionView extends GetView<TransactionController> {
         ),
       ),
       backgroundColor: AppColors.bgGray,
-      body: ListRefresh(
+      body: RefreshView(
         renderItem: renderItem,
         refresh: controller.loadList,
         more: controller.loadMoreList,
@@ -87,7 +87,7 @@ class TransactionView extends GetView<TransactionController> {
           ([1, 3].contains(model.type) && model.order != null)
               ? GestureDetector(
                   onTap: () {
-                    Routers.push(Routers.orderDetail, {'id': model.order!.id});
+                    BeeNav.push(BeeNav.orderDetail, {'id': model.order!.id});
                   },
                   child: Container(
                     decoration: const BoxDecoration(

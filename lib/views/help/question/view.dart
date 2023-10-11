@@ -8,8 +8,8 @@ import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/help/question/controller.dart';
 
-class QuestionPage extends GetView<QuestionController> {
-  const QuestionPage({Key? key}) : super(key: key);
+class BeeQusView extends GetView<BeeQusLogic> {
+  const BeeQusView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +42,7 @@ class QuestionPage extends GetView<QuestionController> {
     ArticleModel model = controller.articles[index];
     return GestureDetector(
       onTap: () async {
-        Routers.push(Routers.webview, {
+        BeeNav.push(BeeNav.webview, {
           'url': model.content,
           'title': model.title,
           'time': model.createdAt
@@ -79,7 +79,7 @@ class QuestionPage extends GetView<QuestionController> {
                 padding: const EdgeInsets.all(15),
                 child: Row(
                   children: <Widget>[
-                    LoadImage(
+                    ImgItem(
                       model.cover.isNotEmpty ? model.coverFullPath : '',
                       width: 80,
                       height: 40,

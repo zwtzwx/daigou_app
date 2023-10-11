@@ -83,7 +83,7 @@ class SearchBarWidgetState extends State<SearchBar> {
           suffixIcon: _action(),
           filled: false,
           hintText: '输入关键字查询'.ts,
-          hintStyle: TextConfig.textGray14,
+          hintStyle: AppTextStyles.textGray14,
           fillColor: AppColors.bgGray,
           border: OutlineInputBorder(
             borderSide: BorderSide.none,

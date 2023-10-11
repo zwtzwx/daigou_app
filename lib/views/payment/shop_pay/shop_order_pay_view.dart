@@ -85,7 +85,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                 ),
               ),
             ),
-            MainButton(
+            BeeButton(
               text: '确认支付',
               borderRadis: 999,
               fontSize: 14,
@@ -116,7 +116,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      LoadImage(
+                      ImgItem(
                         'Shop/order_pay',
                         width: 150.w,
                       ),
@@ -167,7 +167,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Routers.push(Routers.recharge, context);
+                              BeeNav.push(BeeNav.recharge, context);
                             },
                             child: Row(
                               children: <Widget>[
@@ -241,7 +241,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                     child: Image.asset(controller.getPayTypeIcon(typeMap.name)),
                   ),
                   AppText(
-                    str: Util.getPayTypeName(typeMap.name),
+                    str: CommonMethods.getPayTypeName(typeMap.name),
                   ),
                 ],
               ),

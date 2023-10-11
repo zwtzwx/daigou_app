@@ -5,7 +5,7 @@ import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/models/ship_line_model.dart';
 import 'package:jiyun_app_client/services/ship_line_service.dart';
 
-class LineDetailController extends BaseController {
+class LineDetailController extends GlobalLogic {
   late final lineModel = Rxn<ShipLineModel>();
   final PageController pageController = PageController();
 

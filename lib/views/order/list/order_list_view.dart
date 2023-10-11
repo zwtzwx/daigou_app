@@ -15,8 +15,8 @@ import 'package:jiyun_app_client/views/order/widget/order_item_cell.dart';
   订单列表
 */
 
-class OrderListView extends GetView<OrderListController> {
-  const OrderListView({Key? key}) : super(key: key);
+class BeeOrdersPage extends GetView<BeeOrdersLogic> {
+  const BeeOrdersPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class OrderListView extends GetView<OrderListController> {
       ),
       backgroundColor: AppColors.bgGray,
       body: SafeArea(
-        child: ListRefresh(
+        child: RefreshView(
           renderItem: renderItem,
           refresh: controller.loadList,
           more: controller.loadMoreList,
@@ -48,7 +48,7 @@ class OrderListView extends GetView<OrderListController> {
   }
 
   Widget renderItem(int index, OrderModel orderModel) {
-    return OrderItemCell(
+    return BeeOrderItem(
       orderModel: orderModel,
     );
   }

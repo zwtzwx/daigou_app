@@ -12,7 +12,7 @@ import 'package:jiyun_app_client/models/user_vip_model.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 
-class MeController extends BaseController {
+class BeeCenterLogic extends GlobalLogic {
   final ScrollController scrollController = ScrollController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   //会员中心基础信息

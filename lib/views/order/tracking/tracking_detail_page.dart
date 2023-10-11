@@ -12,8 +12,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/views/order/tracking/tracking_controller.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-class OrderTrackingView extends GetView<TrackController> {
-  const OrderTrackingView({Key? key}) : super(key: key);
+class BeeOrderTrackPage extends GetView<BeeOrderTrackLogic> {
+  const BeeOrderTrackPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -49,7 +49,7 @@ class BalanceService {
       {noBalanceType = false, noDelivery = true, onOther = false}) async {
     List<PayTypeModel> result = <PayTypeModel>[];
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(payTypeApi, queryParameters: null)
         .then((response) {
       Map list = response.data;
@@ -86,7 +86,7 @@ class BalanceService {
       {Map<String, dynamic>? params}) async {
     List<DefaultAmountModel> result = <DefaultAmountModel>[];
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(defaultAmountApi, queryParameters: params)
         .then((response) {
       response.data.forEach((item) {
@@ -103,7 +103,7 @@ class BalanceService {
   */
   static Future rechargePayByWeChat(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    return await HttpClient.instance
+    return await BeeRequest.instance
         .post(balancePayByWechatApi, data: params)
         .then((response) {
       if (response.ok) {
@@ -124,7 +124,7 @@ class BalanceService {
 
     List<OrderTransactionModel> dataList = <OrderTransactionModel>[];
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(transactionHistoryApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -151,7 +151,7 @@ class BalanceService {
 
     List<UserRechargeModel> dataList = <UserRechargeModel>[];
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(rechargeApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -173,7 +173,7 @@ class BalanceService {
    */
   static Future<Map> buyVipTransfer(Map params) async {
     Map result = {"ok": false, "msg": null};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(buyVipTransApi, data: params)
         .then((response) => {
               result = {
@@ -190,7 +190,7 @@ class BalanceService {
    */
   static Future<Map> buyVipBalance(Map params) async {
     Map result = {"ok": false, "msg": null};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(buyVipBalanceApi, data: params)
         .then((response) => {
               result = {
@@ -207,7 +207,7 @@ class BalanceService {
    */
   static Future<Map> rechargeTransfer(Map params) async {
     Map result = {"ok": false, "msg": null};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(rechargeTransApi, data: params)
         .then((response) => {
               result = {
@@ -224,7 +224,7 @@ class BalanceService {
    */
   static Future<Map> orderPayTransfer(Map params) async {
     Map result = {"ok": false, "msg": null};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(orderTransApi, data: params)
         .then((response) => {
               result = {
@@ -241,7 +241,7 @@ class BalanceService {
    */
   static Future<Map> orderBalancePay(Map params) async {
     Map result = {'ok': false, 'msg': null};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(balancePayOrder, data: params)
         .then((response) => {
               result = {
@@ -258,7 +258,7 @@ class BalanceService {
    */
   static Future orderWechatPay(int id, Map<String, dynamic> params,
       OnSuccess onSuccess, OnFail onFail) async {
-    return await HttpClient.instance
+    return await BeeRequest.instance
         .post(orderPayWeChatApi.replaceAll(':id', id.toString()), data: params)
         .then((response) {
       if (response.ok) {
@@ -274,7 +274,7 @@ class BalanceService {
    */
   static Future<Map> orderOnDelivery(Map params) async {
     Map result = {'ok': false, 'msg': null};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(onDeliveryPayOrder, data: params)
         .then((response) => {
               result = {
@@ -291,7 +291,7 @@ class BalanceService {
    */
   static Future buyVipWechatPay(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    return await HttpClient.instance
+    return await BeeRequest.instance
         .post(buyVipWechatPayApi, data: params)
         .then((response) {
       if (response.ok) {
@@ -308,7 +308,7 @@ class BalanceService {
   static Future<Map<String, dynamic>> ipay88BalancePay(
       Map<String, dynamic> params) async {
     Map<String, dynamic> result = {'ok': false, 'msg': ''};
-    await HttpClient.instance
+    await BeeRequest.instance
         .post(balanceIpayApi, data: params)
         .then((response) {
       result = {
@@ -326,7 +326,7 @@ class BalanceService {
   static Future<Map<String, dynamic>> ipay88VipPay(
       Map<String, dynamic> params) async {
     Map<String, dynamic> result = {'ok': false, 'msg': ''};
-    await HttpClient.instance.post(vipIpayApi, data: params).then((response) {
+    await BeeRequest.instance.post(vipIpayApi, data: params).then((response) {
       result = {
         'ok': response.ok,
         'data': response.data['data'],

@@ -66,9 +66,10 @@ class UserInfoModel {
     var data = await LocalizationService.getInfo();
     _localModel.value = data;
     if (currencyModel.value == null) {
+      // 默认哈萨克斯坦货币
       var _data = CurrencyRateModel(
-        code: currency?['code'] ?? data?.currency ?? '',
-        symbol: currency?['symbol'] ?? data?.currencySymbol,
+        code: currency?['code'] ?? 'KZT',
+        symbol: currency?['symbol'] ?? '〒',
       );
       if (_data.code != data?.currency) {
         // 获取对应的汇率

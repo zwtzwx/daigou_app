@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 
 import 'controller.dart';
 
-class GroupDetailBinding implements Bindings {
+class BeeGroupDetailBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<GroupDetailController>(() => GroupDetailController());
+    Get.lazyPut<BeeGroupDetailController>(() => BeeGroupDetailController());
   }
 }

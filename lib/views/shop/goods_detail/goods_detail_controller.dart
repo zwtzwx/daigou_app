@@ -19,7 +19,7 @@ import 'package:jiyun_app_client/services/warehouse_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/goods/sku_bottom_sheet.dart';
 
-class GoodsDetailController extends BaseController {
+class GoodsDetailController extends GlobalLogic {
   final isPlatformGoods = false.obs; // 是否是代购商品
   String platformGoodsUrl = '';
   int? goodsId;
@@ -190,7 +190,7 @@ class GoodsDetailController extends BaseController {
         }
       ]
     };
-    Routers.push(Routers.orderPreview, {
+    BeeNav.push(BeeNav.orderPreview, {
       'from': 'platformGoods',
       'platformGoods': true,
       'goodsInfo': params,
@@ -203,7 +203,7 @@ class GoodsDetailController extends BaseController {
       'sku_id': sku.value?.id,
       'quantity': qty.value,
     };
-    Routers.push(Routers.orderPreview, {
+    BeeNav.push(BeeNav.orderPreview, {
       'from': 'selfGoods',
       'goodsInfo': params,
     });
@@ -212,14 +212,14 @@ class GoodsDetailController extends BaseController {
   bool onCheckLogin() {
     String token = Get.find<UserInfoModel>().token.value;
     if (token.isEmpty) {
-      Routers.push(Routers.login);
+      BeeNav.push(BeeNav.login);
     }
     return token.isNotEmpty;
   }
 
   void showSkuModal(String type) {
     Get.bottomSheet(
-      SKUBottomSheet(
+      BeeShopGoodsSku(
         model: goodsModel.value!,
         qty: qty.value,
         sku: sku.value,

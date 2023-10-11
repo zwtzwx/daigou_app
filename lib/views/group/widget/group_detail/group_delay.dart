@@ -127,7 +127,7 @@ class _CountdownDelayState extends State<CountdownDelay> {
             AppGaps.vGap20,
             SizedBox(
               height: 45,
-              child: MainButton(
+              child: BeeButton(
                 text: '确认',
                 onPressed: onSubmit,
               ),

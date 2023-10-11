@@ -1,9 +1,9 @@
 import 'package:get/instance_manager.dart';
 import 'package:jiyun_app_client/views/parcel/parcel_detail/parcel_detail_controller.dart';
 
-class ParcelDetailBinding extends Bindings {
+class BeePackageDetailBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(ParcelDetailController());
+    Get.put(BeePackageDetailLogic());
   }
 }

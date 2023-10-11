@@ -27,7 +27,7 @@ class PointService {
       [Map<String, dynamic>? params]) async {
     UserPointModel? result;
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(summaryApi, queryParameters: params)
         .then((response) => {result = UserPointModel.fromJson(response.data)});
 
@@ -41,7 +41,7 @@ class PointService {
     var page = (params is Map) ? params!['page'] : 1;
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<UserPointItemModel> dataList = [];
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(dataListApi, queryParameters: params)
         .then((response) {
       response.data?.forEach((item) {
@@ -65,7 +65,7 @@ class PointService {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<UserPointItemModel> dataList = [];
 
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(growthValueListApi, queryParameters: params)
         .then((response) {
       response.data?.forEach((item) {
@@ -86,7 +86,7 @@ class PointService {
   */
   static Future<UserVipRuleModel?> getPointRule() async {
     UserVipRuleModel? result;
-    await HttpClient.instance
+    await BeeRequest.instance
         .get(ruleApi)
         .then((res) => result = UserVipRuleModel.fromJson(res.data));
     return result;

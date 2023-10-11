@@ -22,16 +22,16 @@ extension MethodStr on Methods {
   }
 }
 
-class HttpClient {
+class BeeRequest {
   late final AppDio _dio;
 
-  static late final HttpClient instance = HttpClient();
+  static late final BeeRequest instance = BeeRequest();
 
-  factory HttpClient() {
-    return HttpClient._internal();
+  factory BeeRequest() {
+    return BeeRequest._internal();
   }
 
-  HttpClient._internal() {
+  BeeRequest._internal() {
     _dio = AppDio();
   }
 
@@ -63,7 +63,7 @@ class HttpClient {
           options.extra?['showSuccess'] != false) {
         EasyLoading.showSuccess(res.msg ?? '');
       }
-      if (!res.ok) {
+      if (!res.ok && options.extra?['showError'] != false) {
         EasyLoading.showError(res.msg ?? res.error?.message ?? '');
       }
       return res;

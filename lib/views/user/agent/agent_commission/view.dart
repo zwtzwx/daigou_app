@@ -181,7 +181,7 @@ class PrepaidListState extends State<PrepaidList> {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.bgGray,
-      child: ListRefresh(
+      child: RefreshView(
         renderItem: bottomListCell,
         refresh: loadList,
         more: loadMoreList,

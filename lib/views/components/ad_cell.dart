@@ -19,7 +19,7 @@ class AdsCell extends StatefulWidget {
 }
 
 class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
-  List<AdsPicModel> adList = [];
+  List<BannerModel> adList = [];
 
   @override
   void initState() {
@@ -35,9 +35,9 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
 
   // 获取轮播图
   getAds() async {
-    List<AdsPicModel> result =
+    List<BannerModel> result =
         await AdsService.getList({"source": widget.type == 1 ? 4 : 1});
-    List<AdsPicModel> filterAdList = [];
+    List<BannerModel> filterAdList = [];
     for (var item in result) {
       if (item.type == widget.type) {
         filterAdList.add(item);
@@ -57,10 +57,10 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
       height: 125.h,
       child: Swiper(
         onTap: (index) {
-          AdsPicModel model = adList[index];
+          BannerModel model = adList[index];
           if (model.linkType == 1) {
             // 应用内
-            // Routers.push(
+            // BeeNav.push(
             //     '/HelpSecondListPage', context, {'type': model.linkType});
           }
         },
@@ -69,7 +69,7 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
         itemBuilder: (BuildContext context, int index) {
           return ClipRRect(
             borderRadius: BorderRadius.circular(5.r),
-            child: LoadImage(
+            child: ImgItem(
               adList[index].fullPath,
               fit: BoxFit.cover,
             ),

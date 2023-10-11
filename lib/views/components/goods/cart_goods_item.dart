@@ -9,8 +9,8 @@ import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 
-class CartGoodsItem extends StatelessWidget {
-  const CartGoodsItem({
+class BeeShopOrderGoodsItem extends StatelessWidget {
+  const BeeShopOrderGoodsItem({
     Key? key,
     this.previewMode = false,
     required this.cartModel,
@@ -68,7 +68,7 @@ class CartGoodsItem extends StatelessWidget {
                       ),
                     )
                   : AppGaps.empty,
-              LoadImage(
+              ImgItem(
                 'Shop/cart_shop',
                 width: 20.w,
               ),
@@ -116,7 +116,7 @@ class CartGoodsItem extends StatelessWidget {
                       : AppGaps.empty,
                   ClipRRect(
                     borderRadius: BorderRadius.circular(5),
-                    child: LoadImage(
+                    child: ImgItem(
                       sku.skuInfo?.picUrl ?? '',
                       holderImg: 'Shop/goods_none',
                       width: 95.w,

@@ -82,11 +82,11 @@ class CouponPage extends GetView<CouponController> {
                       SizedBox(
                         height: 40,
                         width: 80,
-                        child: MainButton(
+                        child: BeeButton(
                           text: '确认',
                           borderRadis: 20.0,
                           onPressed: () {
-                            Routers.pop({
+                            BeeNav.pop({
                               'confirm': true,
                               'selectCoupon': controller.selectCoupon.value,
                             });
@@ -174,7 +174,7 @@ class CouponsListState extends State<CouponsList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListRefresh(
+    return RefreshView(
       renderItem: renderItem,
       refresh: loadList,
       more: loadMoreList,

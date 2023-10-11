@@ -17,8 +17,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/views/parcel/parcel_edit/parcel_edit_controller.dart';
 import 'package:jiyun_app_client/views/parcel/widget/prop_sheet_cell.dart';
 
-class ParcelEditView extends GetView<ParcelEditController> {
-  const ParcelEditView({Key? key}) : super(key: key);
+class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
+  const BeePackageUpdatePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class ParcelEditView extends GetView<ParcelEditController> {
                         height: 40,
                         width: ScreenUtil().screenWidth - 30,
                         margin: const EdgeInsets.only(left: 15, right: 15),
-                        child: MainButton(
+                        child: BeeButton(
                           text: '确认',
                           onPressed: controller.onSubmit,
                         ),

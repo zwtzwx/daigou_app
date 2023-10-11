@@ -8,14 +8,14 @@ class AdsService {
   static const String LISTAPI = 'ads-picture';
 
   // 获列表
-  static Future<List<AdsPicModel>> getList(
+  static Future<List<BannerModel>> getList(
       [Map<String, dynamic>? params]) async {
-    List<AdsPicModel> result = [];
-    await HttpClient.instance
+    List<BannerModel> result = [];
+    await BeeRequest.instance
         .get(LISTAPI, queryParameters: params)
         .then((response) => {
               response.data.forEach((good) {
-                result.add(AdsPicModel.fromJson(good));
+                result.add(BannerModel.fromJson(good));
               })
             })
         .onError((error, stackTrace) => {});

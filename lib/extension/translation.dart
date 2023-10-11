@@ -18,7 +18,7 @@ extension StringTranslation on String {
     lang = lang.replaceAll(RegExp(r'{\s+'), '{');
     lang = lang.replaceAll(RegExp(r'\s+}'), '}');
     // 获取所有的占位符
-    List<String> holders = Util.parsePlaceholder(lang);
+    List<String> holders = CommonMethods.parsePlaceholder(lang);
     for (var item in holders) {
       RegExp exp = RegExp('{$item}');
       lang = lang.replaceAll(exp, value[item].toString());

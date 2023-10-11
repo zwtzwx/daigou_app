@@ -1,9 +1,9 @@
 import 'package:get/instance_manager.dart';
 import 'package:jiyun_app_client/views/user/setting_password/setting_password_controller.dart';
 
-class SettingPasswordBinding extends Bindings {
+class BeeNewPwdBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(SettingPasswordController());
+    Get.put(BeeNewPwdLogic());
   }
 }

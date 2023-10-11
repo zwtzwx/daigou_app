@@ -5,8 +5,8 @@ import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 
-class MainButton extends StatelessWidget {
-  const MainButton({
+class BeeButton extends StatelessWidget {
+  const BeeButton({
     Key? key,
     required this.text,
     this.fontSize = 15,

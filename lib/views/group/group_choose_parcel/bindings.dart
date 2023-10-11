@@ -2,9 +2,10 @@ import 'package:get/get.dart';
 
 import 'controller.dart';
 
-class GroupChooseParcelBinding implements Bindings {
+class BeeGroupParcelSelectBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<GroupChooseParcelController>(() => GroupChooseParcelController());
+    Get.lazyPut<BeeGroupParcelSelectController>(
+        () => BeeGroupParcelSelectController());
   }
 }

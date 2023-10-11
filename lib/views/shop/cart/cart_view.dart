@@ -67,7 +67,7 @@ class CartView extends GetView<CartController> {
                     ),
                   ),
                   controller.configState.value
-                      ? MainButton(
+                      ? BeeButton(
                           text: '删除',
                           backgroundColor: const Color(0xFFFF6868),
                           borderRadis: 999,
@@ -115,7 +115,7 @@ class CartView extends GetView<CartController> {
                               ),
                             ),
                             15.horizontalSpace,
-                            MainButton(
+                            BeeButton(
                               text: '提交',
                               borderRadis: 999,
                               fontSize: 14,
@@ -213,7 +213,7 @@ class CartView extends GetView<CartController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: controller.showCartList
                             .map(
-                              (cart) => CartGoodsItem(
+                              (cart) => BeeShopOrderGoodsItem(
                                 cartModel: cart,
                                 checkedIds: controller.checkedList,
                                 onStep: controller.onSkuQty,
@@ -256,7 +256,7 @@ class CartView extends GetView<CartController> {
       color: Colors.white,
       child: Column(
         children: [
-          LoadImage(
+          ImgItem(
             'https://api-jiyun-v3.haiouoms.com/storage/admin/20230826-u0MsFIRRUF396f7D.png',
             width: 200.w,
           ),
@@ -292,7 +292,7 @@ class CartView extends GetView<CartController> {
             visible: controller.loadingUtil.value.list.isNotEmpty,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.w),
-              child: GoodsListCell(
+              child: BeeShopGoodsList(
                 isPlatformGoods: true,
                 platformGoodsList: controller.loadingUtil.value.list,
               ),

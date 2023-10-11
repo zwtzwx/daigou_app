@@ -5,7 +5,7 @@ import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/services/group_service.dart';
 import 'package:jiyun_app_client/services/parcel_service.dart';
 
-class GroupChooseParcelController extends BaseController {
+class BeeGroupParcelSelectController extends GlobalLogic {
   int pageIndex = 0;
   final selectedParcelList = <int>[].obs;
   List<ParcelModel> allParcelList = [];
@@ -82,7 +82,7 @@ class GroupChooseParcelController extends BaseController {
     var res = await GroupService.onGroupAddParcel(
         Get.arguments['id'], {'package_ids': selectedParcelList});
     if (res['ok']) {
-      Routers.pop(true);
+      BeeNav.pop(true);
     }
   }
 }

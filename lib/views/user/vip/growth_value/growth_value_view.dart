@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/views/user/vip/growth_value/growth_value_controller.dart';
 
-class GrowthValueView extends GetView<GrowthValueController> {
-  const GrowthValueView({Key? key}) : super(key: key);
+class BeeValuesPage extends GetView<BeeValuesLogic> {
+  const BeeValuesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class GrowthValueView extends GetView<GrowthValueController> {
       primary: false,
       appBar: const EmptyAppBar(),
       backgroundColor: AppColors.bgGray,
-      body: ListRefresh(
+      body: RefreshView(
         renderItem: buildCellForFirstListView,
         refresh: controller.loadList,
         more: controller.loadMoreList,
@@ -101,7 +101,7 @@ class GrowthValueView extends GetView<GrowthValueController> {
       child: Stack(
         children: <Widget>[
           SizedBox(
-            child: LoadImage(
+            child: ImgItem(
               'AboutMe/growth-bg',
               fit: BoxFit.fitWidth,
               width: ScreenUtil().screenWidth,
