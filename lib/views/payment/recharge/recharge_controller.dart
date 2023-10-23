@@ -74,7 +74,7 @@ class RechargeController extends GlobalLogic {
      */
     BalanceService.rechargePayByWeChat(map, (data) {
       if (data.ok) {
-        Map appconfig = data.data;
+        // Map appconfig = data.data;
         // isWeChatInstalled.then((installed) {
         //   if (installed) {
         //     payWithWeChat(

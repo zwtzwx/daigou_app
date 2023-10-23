@@ -1,7 +1,6 @@
 /*
   订单详细
  */
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/common/fade_route.dart';
 import 'package:jiyun_app_client/common/hex_to_color.dart';
@@ -211,26 +210,26 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
         baseInfoItem('称重重量', text: actualWeight),
         baseInfoItem('计费重量', text: paymentWeight),
         baseInfoItem('留仓物品', text: controller.model.value!.inWarehouseItem),
-        controller.packVideoManager.isNotEmpty
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText(
-                    str: '打包视频'.ts,
-                    color: AppColors.textGray,
-                  ),
-                  AppGaps.vGap10,
-                  ...controller.packVideoManager.map((e) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: FlickVideoPlayer(
-                        flickManager: e,
-                      ),
-                    );
-                  }).toList(),
-                ],
-              )
-            : AppGaps.empty,
+        // controller.packVideoManager.isNotEmpty
+        //     ? Column(
+        //         crossAxisAlignment: CrossAxisAlignment.start,
+        //         children: [
+        //           AppText(
+        //             str: '打包视频'.ts,
+        //             color: AppColors.textGray,
+        //           ),
+        //           AppGaps.vGap10,
+        //           ...controller.packVideoManager.map((e) {
+        //             return Padding(
+        //               padding: const EdgeInsets.only(bottom: 10),
+        //               child: FlickVideoPlayer(
+        //                 flickManager: e,
+        //               ),
+        //             );
+        //           }).toList(),
+        //         ],
+        //       )
+        //     : AppGaps.empty,
         AppGaps.line,
         AppGaps.vGap10,
         Row(
@@ -750,8 +749,8 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
               AppGaps.hGap15,
               GestureDetector(
                 onTap: () {
-                  Clipboard.setData(
-                          ClipboardData(text: controller.model.value?.orderSn))
+                  Clipboard.setData(ClipboardData(
+                          text: controller.model.value?.orderSn ?? ''))
                       .then((value) => {controller.showSuccess('复制成功')});
                 },
                 child: const ImgItem(

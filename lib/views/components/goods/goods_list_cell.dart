@@ -81,7 +81,7 @@ class BeeShopGoodsList extends StatelessWidget {
               BeeNav.push(BeeNav.shopCenter);
             },
             child: Container(
-              height: 25.h,
+              height: 28.h,
               padding: EdgeInsets.symmetric(horizontal: 12.w),
               decoration: BoxDecoration(
                 color: const Color(0xA6757E83),
@@ -93,12 +93,15 @@ class BeeShopGoodsList extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Obx(
-                    () => AppText(
-                      str: '更多商品'.ts,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  Expanded(
+                    child: Obx(
+                      () => AppText(
+                        str: '更多商品'.ts,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        lines: 2,
+                      ),
                     ),
                   ),
                   3.horizontalSpace,

@@ -77,7 +77,7 @@ class PlatformGoodsCell extends StatelessWidget {
                                 ),
                                 alignment: PlaceholderAlignment.middle,
                               ),
-                              TextSpan(text: goods.title),
+                              TextSpan(text: goods.title.wordBreak),
                             ],
                           ),
                           maxLines: 2,

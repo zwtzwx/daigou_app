@@ -37,7 +37,6 @@ class BasePage extends StatelessWidget {
         future: onPageLoad(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            print('请求完成');
             if (snapshot.hasError && snapshot.error is UnAuthenticateEvent) {
               return Center(
                 child: Column(

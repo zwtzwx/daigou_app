@@ -53,6 +53,8 @@ class IndexLogic extends GlobalLogic {
         .on<LanguageChangeEvent>()
         .listen((event) {
       getPlatformCategory();
+      loadingUtil.value.clear();
+      getRecommendGoods();
     });
   }
 

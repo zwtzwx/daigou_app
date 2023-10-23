@@ -96,10 +96,7 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
           Expanded(
             child: Obx(
               () => PrepaidList(
-                params: {
-                  'selectType': '1',
-                  'selList': controller.selModelList.value
-                },
+                params: {'selectType': '1', 'selList': controller.selModelList},
                 onChanged: (WithdrawalModel number) {
                   if (number.settled == 0) return;
                   if (controller.selModelList.contains(number)) {

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jiyun_app_client/common/http_client.dart';
 import 'package:jiyun_app_client/common/util.dart';
+import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/goods_category_model.dart';
 import 'package:jiyun_app_client/models/shop/cart_model.dart';
 import 'package:jiyun_app_client/models/shop/category_model.dart';
@@ -11,6 +12,7 @@ import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
 import 'package:jiyun_app_client/models/shop/platform_goods_service_model.dart';
 import 'package:jiyun_app_client/models/shop/problem_order_model.dart';
 import 'package:jiyun_app_client/models/shop/shop_order_model.dart';
+import 'package:jiyun_app_client/storage/language_storage.dart';
 
 class ShopService {
   static const String recommendGoodsApi = 'shop/get-hot-or-recommend';
@@ -45,6 +47,8 @@ class ShopService {
   static const String chatMessageApi = 'daigou-consult';
   static const String chatMessageMarkApi = '/daigou-problem-order/mark/:id';
   static const String platformGoodsCategoryApi = 'package-category/daigou';
+  static const String goodsTranlateApi = 'translate';
+  static const String orderTransferPayApi = 'daigou-orders/tran-info';
 
   // 推荐商品列表
   static Future<Map<String, dynamic>> getRecommendGoods(
@@ -108,6 +112,13 @@ class ShopService {
         EasyLoading.showError(res.msg ?? '');
       }
     });
+    if (goods != null && LanguageStore.getLanguage() != 'zh_CN') {
+      if (goods!.title.contianCN) {
+        await getTranslate(goods!.title)
+            .then((data) => goods!.title = data ?? goods!.title);
+      }
+      await goods!.propTs();
+    }
     return goods;
   }
 
@@ -470,6 +481,15 @@ class ShopService {
         }
       }
     });
+    if (result['dataList'] != null &&
+        result['dataList'].isNotEmpty &&
+        LanguageStore.getLanguage() != 'zh_CN') {
+      await Future.wait((result['dataList'] as List<PlatformGoodsModel>)
+          .where((e) => e.title.contianCN)
+          .map((PlatformGoodsModel e) {
+        return getTranslate(e.title).then((data) => e.title = data ?? e.title);
+      }));
+    }
     return result;
   }
 
@@ -480,7 +500,7 @@ class ShopService {
     await BeeRequest.instance
         .get(platformGoodsOrderServiceApi, queryParameters: params)
         .then((res) {
-      if (res.ok && res.data != null) {
+      if (res.ok && res.data is Map) {
         model = PlatformGoodsServiceModel.fromJson(res.data);
       }
     });
@@ -577,5 +597,37 @@ class ShopService {
       }
     });
     return result;
+  }
+
+  // 代购商品翻译
+  static Future<String?> getTranslate(String keyword) async {
+    String? translate;
+    await BeeRequest.instance
+        .post(goodsTranlateApi,
+            data: {
+              'platform': 'baidu',
+              'keyword': keyword,
+            },
+            options: Options(extra: {
+              'loading': false,
+              'showError': false,
+              'showSuccess': false,
+            }))
+        .then((res) {
+      if (res.ok) {
+        translate = res.data;
+      }
+    }).catchError(((error) => null));
+
+    return translate;
+  }
+
+  // 订单转账支付
+  static Future<bool> onOrderTransfer(Map<String, dynamic> params) async {
+    bool res = false;
+    await BeeRequest.instance
+        .post(orderTransferPayApi, data: params)
+        .then((response) => res = response.ok);
+    return res;
   }
 }

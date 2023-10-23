@@ -221,7 +221,8 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                               : AppGaps.empty,
                           alignment: PlaceholderAlignment.middle,
                         ),
-                        TextSpan(text: controller.goodsModel.value!.title),
+                        TextSpan(
+                            text: controller.goodsModel.value!.title.wordBreak),
                       ],
                     ),
                   ),

@@ -219,7 +219,6 @@ class _MyAppState extends State<MyApp> {
             },
           ),
           primaryColor: AppColors.primary,
-          backgroundColor: AppColors.bgGray,
           canvasColor: Colors.white,
         ),
         showSemanticsDebugger: false,

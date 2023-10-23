@@ -1,8 +1,10 @@
 /*
   第三方平台商品（淘宝、京东等）
  */
+import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/shop/goods_props_model.dart';
 import 'package:jiyun_app_client/models/shop/goods_sku_model.dart';
+import 'package:jiyun_app_client/services/shop_service.dart';
 
 class PlatformGoodsModel {
   late String title;
@@ -77,6 +79,43 @@ class PlatformGoodsModel {
       propsList = [];
       for (var ele in json['props_list']) {
         propsList!.add(GoodsPropsModel.fromJson(ele, stockSkus));
+      }
+    }
+  }
+
+  // 属性翻译
+  Future<void> propTs() async {
+    if ((propsList ?? []).isEmpty) return;
+    List<Future<void>> waitList = [];
+    for (var prop in propsList!) {
+      if (prop.name!.contianCN) {
+        waitList.add(ShopService.getTranslate(prop.name!).then((data) {
+          if (data != null) {
+            skuTs('${prop.name}:', data);
+            prop.name = data;
+          }
+        }));
+      }
+
+      for (GoodsPropsModel child in (prop.children ?? [])) {
+        if (child.name!.contianCN) {
+          waitList.add(ShopService.getTranslate(child.name!).then((data) {
+            if (data != null) {
+              skuTs(child.name!, data);
+              child.name = data;
+            }
+          }));
+        }
+      }
+    }
+    await Future.wait(waitList);
+  }
+
+  void skuTs(String regStr, String value) {
+    if (skus is List) {
+      for (var sku in skus!) {
+        sku.propertiesName =
+            (sku.propertiesName ?? '').replaceAll(RegExp(regStr), value);
       }
     }
   }

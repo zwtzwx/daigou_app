@@ -11,7 +11,7 @@ import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/list_refresh.dart';
-import 'package:jiyun_app_client/views/components/search_bar.dart';
+import 'package:jiyun_app_client/views/components/search_bar.dart' as Searchs;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jiyun_app_client/views/parcel/no_owner/list/no_owner_parcel_controller.dart';
@@ -66,7 +66,7 @@ class AbnomalParcelPage extends GetView<AbnomalParcelLogic> {
     return Container(
       padding: const EdgeInsets.only(right: 5, left: 5),
       color: Colors.white,
-      child: SearchBar(
+      child: Searchs.SearchBar(
         controller: controller.keywordController,
         focusNode: controller.focusNode,
         onSearch: (str) {

@@ -3,6 +3,9 @@ import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/state/i10n.dart';
 
 // 字符串添加翻译方法
+
+RegExp _reg = RegExp(r'[\u4e00-\u9fa5]');
+
 extension StringTranslation on String {
   String get ts {
     I10n i10n = Get.find<I10n>();
@@ -24,5 +27,18 @@ extension StringTranslation on String {
       lang = lang.replaceAll(exp, value[item].toString());
     }
     return lang;
+  }
+
+  bool get contianCN {
+    return _reg.hasMatch(this);
+  }
+
+  String get wordBreak {
+    String breakWord = '';
+    for (var e in runes) {
+      breakWord += String.fromCharCode(e);
+      breakWord += '\u200B';
+    }
+    return breakWord;
   }
 }

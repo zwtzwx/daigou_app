@@ -336,7 +336,8 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
                       onTap: () {
                         Clipboard.setData(
                           ClipboardData(
-                              text: controller.parcelModel.value!.expressNum),
+                              text: controller.parcelModel.value!.expressNum ??
+                                  ''),
                         ).then((value) {
                           EasyLoading.showSuccess('复制成功'.ts);
                         });

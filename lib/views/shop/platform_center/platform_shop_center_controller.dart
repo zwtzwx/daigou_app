@@ -22,6 +22,8 @@ class PlatformShopCenterController extends GlobalLogic {
         .on<LanguageChangeEvent>()
         .listen((event) {
       getPlatformCategory();
+      loadingUtil.value.clear();
+      getList();
     });
   }
 
@@ -45,6 +47,7 @@ class PlatformShopCenterController extends GlobalLogic {
         'page_size': 10,
         'platform': 'pinduoduo',
       });
+
       loadingUtil.value.isLoading = false;
       if (data['dataList'] != null) {
         if (data.isNotEmpty) {

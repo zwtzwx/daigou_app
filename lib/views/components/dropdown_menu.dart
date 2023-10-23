@@ -6,8 +6,8 @@ import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/button/plain_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 
-class DropdownMenu extends StatefulWidget {
-  const DropdownMenu({
+class PlatformDropdownMenu extends StatefulWidget {
+  const PlatformDropdownMenu({
     Key? key,
     required this.show,
     required this.onHide,
@@ -22,10 +22,10 @@ class DropdownMenu extends StatefulWidget {
   final String platform;
 
   @override
-  State<DropdownMenu> createState() => _DropdownMenuState();
+  State<PlatformDropdownMenu> createState() => _PlatformDropdownMenuState();
 }
 
-class _DropdownMenuState extends State<DropdownMenu> {
+class _PlatformDropdownMenuState extends State<PlatformDropdownMenu> {
   late String platform;
 
   @override

@@ -1,4 +1,3 @@
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/common/util.dart';
@@ -8,15 +7,11 @@ import 'package:jiyun_app_client/events/list_refresh_event.dart';
 import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/models/order_model.dart';
 import 'package:jiyun_app_client/services/order_service.dart';
-import 'package:video_player/video_player.dart';
 
 class BeeOrderLogic extends GlobalLogic {
   final model = Rxn<OrderModel?>();
   late int orderId;
   final isLoading = false.obs;
-
-  // 打包视频
-  final packVideoManager = <FlickManager>[].obs;
 
   final statusStr = ''.obs;
 
@@ -25,7 +20,6 @@ class BeeOrderLogic extends GlobalLogic {
     super.onReady();
     var arguments = Get.arguments;
     orderId = arguments['id'];
-    getVideoList();
     getOrderDetail();
   }
 
@@ -38,19 +32,6 @@ class BeeOrderLogic extends GlobalLogic {
       statusStr.value =
           CommonMethods.getOrderStatusName(data.status, data.stationOrder);
       isLoading.value = true;
-    }
-  }
-
-  // 订单打包视频
-  getVideoList() async {
-    var videos = await OrderService.getOrderPackVideo(orderId);
-    for (var item in videos) {
-      packVideoManager.add(
-        FlickManager(
-          autoPlay: false,
-          videoPlayerController: VideoPlayerController.network(item),
-        ),
-      );
     }
   }
 
@@ -75,13 +56,5 @@ class BeeOrderLogic extends GlobalLogic {
 
   String getPriceStr(num? price) {
     return (price ?? 0).rate();
-  }
-
-  @override
-  void onClose() {
-    for (var item in packVideoManager) {
-      item.dispose();
-    }
-    super.onClose();
   }
 }

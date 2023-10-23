@@ -22,9 +22,9 @@ class KeyboardDone {
   showOverlay() {
     if (_overlayEntry != null) return;
     OverlayState? overlayState = Overlay.of(context);
-    if (overlayState == null) {
-      return;
-    }
+    // if (overlayState == null) {
+    //   return;
+    // }
     _overlayEntry = OverlayEntry(builder: (context) {
       return Positioned(
           bottom: MediaQuery.of(context).viewInsets.bottom,

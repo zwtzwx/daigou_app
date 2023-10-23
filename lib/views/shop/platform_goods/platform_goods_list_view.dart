@@ -79,7 +79,7 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
               ),
             ),
             Obx(
-              () => DropdownMenu(
+              () => PlatformDropdownMenu(
                 show: controller.filterShow.value,
                 offset: controller.loadingUtil.value.position,
                 platform: controller.platform.value,

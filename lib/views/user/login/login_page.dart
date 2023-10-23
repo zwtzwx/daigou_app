@@ -271,13 +271,16 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
                       ],
                     ),
                   ),
-                  GestureDetector(
+                  Flexible(
+                      child: GestureDetector(
                     onTap: controller.toForgetPassword,
                     child: AppText(
                       str: '忘记密码'.ts + '？',
                       color: AppColors.primary,
+                      alignment: TextAlign.end,
+                      lines: 2,
                     ),
-                  )
+                  )),
                 ],
               ),
             ),

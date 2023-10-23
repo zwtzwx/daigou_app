@@ -415,8 +415,8 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                   AppGaps.hGap5,
                   GestureDetector(
                     onTap: () async {
-                      await Clipboard.setData(
-                          ClipboardData(text: controller.model.value!.code));
+                      await Clipboard.setData(ClipboardData(
+                          text: controller.model.value!.code ?? ''));
                       controller.showSuccess('复制成功');
                     },
                     child: const Icon(

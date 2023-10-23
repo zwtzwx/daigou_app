@@ -75,7 +75,7 @@ class ParcelModel {
   num? groupBuyingId;
   num? number;
   num? isWarning;
-  var code;
+  dynamic code;
   num? shipMode;
   num? channelId;
   num? ignoreClaim;

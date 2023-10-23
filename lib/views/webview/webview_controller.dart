@@ -1,14 +1,11 @@
-import 'dart:async';
-
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/services/announcement_service.dart';
-import 'package:webview_flutter/webview_flutter.dart' as webview;
+import 'package:webview_flutter/webview_flutter.dart';
 
 class BeeWebviewLogic extends GlobalLogic {
-  final Completer<webview.WebViewController> webController =
-      Completer<webview.WebViewController>();
+  WebViewController? webController;
 
   final url = RxnString(null);
   final title = RxnString(null);
@@ -21,6 +18,11 @@ class BeeWebviewLogic extends GlobalLogic {
     url.value = arguments["url"];
     title.value = arguments["title"];
     time.value = arguments['time'];
+    if ((url.value ?? '').startsWith('http')) {
+      webController = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..loadRequest(Uri.parse(url.value!));
+    }
     if (arguments['id'] != null) {
       getDetail(arguments['id'], arguments['type']);
     }

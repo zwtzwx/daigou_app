@@ -4,8 +4,8 @@ import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/views/webview/webview_controller.dart';
-import 'package:webview_flutter/webview_flutter.dart' as webview;
 import 'package:flutter_html/flutter_html.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 //浏览器
 
@@ -17,21 +17,12 @@ class BeeWebView extends GetView<BeeWebviewLogic> {
     return Obx(() {
       return Scaffold(
         body: controller.url.value != null &&
-                controller.url.value!.startsWith('http')
+                controller.url.value!.startsWith('http') &&
+                controller.webController != null
             ? SizedBox(
                 width: ScreenUtil().screenWidth,
                 height: ScreenUtil().screenHeight,
-                child: webview.WebView(
-                  initialUrl: controller.url.value,
-                  javascriptMode: webview.JavascriptMode.unrestricted,
-                  onWebViewCreated:
-                      (webview.WebViewController webViewController) {
-                    controller.webController.complete(webViewController);
-                  },
-                  navigationDelegate: (request) {
-                    return webview.NavigationDecision.navigate;
-                  },
-                ),
+                child: WebViewWidget(controller: controller.webController!),
               )
             : SingleChildScrollView(
                 child: Column(
