@@ -310,7 +310,7 @@ class BeeUserInfoPage extends GetView<BeeUserInfoLogic> {
                       backgroundColor: AppColors.textRed,
                       onPressed: () async {
                         var confirmed = await BaseDialog.cupertinoConfirmDialog(
-                            context, '您确定要注销吗？可能会造成无法挽回的损失！');
+                            context, '您确定要注销吗？可能会造成无法挽回的损失！'.ts);
                         if (confirmed!) {}
                       },
                     ),
