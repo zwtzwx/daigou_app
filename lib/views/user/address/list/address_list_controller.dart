@@ -15,7 +15,7 @@ class BeeShippingLogic extends GlobalLogic {
   final TextEditingController keywordController = TextEditingController();
   final FocusNode keywordNode = FocusNode();
   final keyword = ''.obs;
-  final addressType = 1.obs;
+  final addressType = 2.obs;
 
   @override
   void onInit() {
@@ -40,7 +40,7 @@ class BeeShippingLogic extends GlobalLogic {
 
   getAddress() {
     addressList.value = allAddress
-        .where((ele) => ele.addressType == addressType.value)
+        // .where((ele) => ele.addressType == addressType.value)
         .toList();
   }
 

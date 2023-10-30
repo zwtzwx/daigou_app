@@ -79,7 +79,7 @@ class CartController extends GlobalLogic {
     loadingUtil.refresh();
     try {
       var data = await ShopService.getDaigouGoods({
-        'keyword': '推荐',
+        'keyword': '服饰',
         'page': ++loadingUtil.value.pageIndex,
         'page_size': 10,
         'platform': 'pinduoduo'

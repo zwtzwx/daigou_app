@@ -41,7 +41,7 @@ class PlatformShopCenterController extends GlobalLogic {
     try {
       var data = await ShopService.getDaigouGoods({
         'keyword': categoryIndex.value == 0
-            ? '推荐'
+            ? '服饰'
             : categoryList[categoryIndex.value].name,
         'page': ++loadingUtil.value.pageIndex,
         'page_size': 10,

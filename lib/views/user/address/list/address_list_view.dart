@@ -52,10 +52,11 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
           },
           child: Column(
             children: [
-              searchCell(),
+              // searchCell(),
               Expanded(
                 child: Obx(() => listCell()),
               ),
+              20.verticalSpace,
             ],
           ),
         ));
@@ -131,7 +132,7 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
         controller.onSelectAddress(model);
       },
       child: Container(
-        margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 10.h),
+        margin: EdgeInsets.fromLTRB(12.w, 10.h, 12.w, 0),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(5.r),
@@ -214,7 +215,7 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
                       BeeNav.push(BeeNav.addressAddEdit, {
                         'id': model.id,
                         'isEdit': '1',
-                        'addressType': controller.addressType.value
+                        'addressType': model.addressType ?? 1,
                       });
                     },
                     child: const ImageIcon(

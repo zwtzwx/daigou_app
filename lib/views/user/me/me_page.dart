@@ -52,12 +52,14 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
         'icon': 'AboutMe/center-coupon',
         'route': BeeNav.coupon,
       },
-      {
+    ];
+    if (controller.agentStatus.value?.id == 1) {
+      amountList.add({
         'name': '佣金收入',
         'icon': 'AboutMe/center-yj',
         'route': BeeNav.agentCommission,
-      },
-    ];
+      });
+    }
     if (controller.userVipModel.value?.pointStatus == 1) {
       amountList.add({
         'name': '我的积分',
@@ -242,7 +244,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                           str: (list[index]['name']! as String).ts,
                           fontSize: 12,
                           color: AppColors.textNormal,
-                          lines: 3,
+                          lines: 2,
                           alignment: TextAlign.center,
                         ),
                       ),

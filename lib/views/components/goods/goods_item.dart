@@ -60,28 +60,23 @@ class BeeShopGoods extends StatelessWidget {
                     str: goods.name,
                     fontSize: 13,
                     color: AppColors.textDark,
-                    lines: 2,
+                    // lines: 2,
                   ),
                   5.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Obx(
-                        () => AppText(
-                          str: num.parse(goods.goodsLowestPrice ?? '0.00')
-                              .rate(needFormat: false),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                      Obx(
-                        () => AppText(
-                          str: '已卖{count}件'.tsArgs({'count': goods.saleCount}),
-                          fontSize: 10,
-                          color: AppColors.textGrayC9,
-                        ),
-                      ),
-                    ],
+                  Obx(
+                    () => AppText(
+                      str: num.parse(goods.goodsLowestPrice ?? '0.00')
+                          .rate(needFormat: false),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Obx(
+                    () => AppText(
+                      str: '已卖{count}件'.tsArgs({'count': goods.saleCount}),
+                      fontSize: 10,
+                      color: AppColors.textGrayC9,
+                    ),
                   ),
                 ],
               ),

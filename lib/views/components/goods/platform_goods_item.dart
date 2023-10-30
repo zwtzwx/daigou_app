@@ -97,13 +97,18 @@ class PlatformGoodsCell extends StatelessWidget {
                           fontSize: 16,
                         ),
                       ),
-                      Obx(
-                        () => AppText(
-                          str: '{count}人付款'.tsArgs(
-                            {'count': goods.sales},
+                      5.horizontalSpace,
+                      Expanded(
+                        child: Obx(
+                          () => AppText(
+                            str: '{count}人付款'.tsArgs(
+                              {'count': goods.sales},
+                            ),
+                            color: AppColors.textGrayC9,
+                            fontSize: 10,
+                            alignment: TextAlign.right,
+                            lines: 2,
                           ),
-                          color: AppColors.textGrayC9,
-                          fontSize: 10,
                         ),
                       ),
                     ],
