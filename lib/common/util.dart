@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jiyun_app_client/models/self_pickup_station_order_model.dart';
 import 'package:flutter/material.dart';
@@ -141,12 +143,26 @@ class CommonMethods {
   }
 
   // 客服
-  static void onCustomerContact() {
-    Uri uri = Uri(
-      scheme: 'mailto',
-      path: '786969739@qq.com',
-    );
-    launchUrl(uri);
+  static void onCustomerContact() async {
+    // Uri uri = Uri(
+    //   scheme: 'mailto',
+    //   path: '786969739@qq.com',
+    // );
+    // launchUrl(uri);
+    const contact = '+77772040327';
+    String whatsappURlAndroid = 'whatsapp://send?phone=' + contact + '&text=';
+    String whatappURLIos = "https://wa.me/$contact?text=";
+    if (Platform.isIOS) {
+      if (await canLaunchUrl(Uri.parse(whatappURLIos))) {
+        await launchUrl(Uri.parse(whatappURLIos));
+      }
+    } else {
+      if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
+        await launchUrl(Uri.parse(whatsappURlAndroid));
+      } else {
+        await launchUrl(Uri.parse(whatappURLIos));
+      }
+    }
   }
 
   // 第三方平台商品图标
