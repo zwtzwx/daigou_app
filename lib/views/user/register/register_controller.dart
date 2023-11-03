@@ -20,6 +20,8 @@ class BeeSignUpLogic extends GlobalLogic {
   final TextEditingController passwordController = TextEditingController();
   // 验证码
   final TextEditingController validationController = TextEditingController();
+  // 邀请码
+  final TextEditingController inviteController = TextEditingController();
 
   RxString pageTitle = '注册'.ts.obs;
   RxInt loginType = 2.obs; // 1、手机号验证码 2: 邮箱验证码
@@ -43,6 +45,7 @@ class BeeSignUpLogic extends GlobalLogic {
         'verify_code': validationController.text,
         'password': passwordController.text,
         'confirm_password': passwordController.text,
+        'invitor_id': inviteController.text.trim(),
       };
       //  1 手机号验证码 2 邮箱验证码
       if (loginType.value == 2) {

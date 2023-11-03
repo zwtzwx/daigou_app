@@ -82,6 +82,7 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
                 : inPutEmailNumber(context)),
             passwordCell(context),
             inPutVeritfyNumber(context),
+            inPutInviteNumber(context),
             Container(
               margin: const EdgeInsets.only(top: 40),
               height: 40,
@@ -151,13 +152,37 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
     return inputAccountView;
   }
 
+  inPutInviteNumber(BuildContext context) {
+    var inputAccountView = Container(
+      decoration: const BoxDecoration(
+        color: AppColors.white,
+      ),
+      child: Obx(
+        () => TextField(
+          style: const TextStyle(color: Colors.black87),
+          controller: controller.inviteController,
+          decoration: InputDecoration(
+            hintText: '请输入邀请码(选填)'.ts,
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: AppColors.line),
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: AppColors.line),
+            ),
+          ),
+        ),
+      ),
+    );
+    return inputAccountView;
+  }
+
   inPutVeritfyNumber(BuildContext context) {
     var inputVerifyNumber = Container(
       decoration: const BoxDecoration(
         color: AppColors.white,
         border: Border(
             bottom: BorderSide(
-                width: 0.5, color: AppColors.line, style: BorderStyle.solid)),
+                width: 1, color: AppColors.line, style: BorderStyle.solid)),
       ),
       alignment: Alignment.center,
       child: Row(
@@ -175,10 +200,10 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
                       ? '请输入密码'.ts
                       : '请输入验证码'.ts,
                   enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.line),
+                    borderSide: BorderSide.none,
                   ),
                   focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.line),
+                    borderSide: BorderSide.none,
                   ),
                 ),
               ),
