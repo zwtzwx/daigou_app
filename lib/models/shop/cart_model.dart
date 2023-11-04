@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jiyun_app_client/models/shop/platform_goods_service_model.dart';
 
 class CartModel {
-  num? shopId;
+  dynamic shopId;
   String? shopName;
   num? freightFee;
   num? goodsAmount;
@@ -18,11 +18,7 @@ class CartModel {
     bool initTextEdit = false,
   }) {
     if (json['shop'] is Map) {
-      if (json['shop']['id'] is String) {
-        shopId = num.parse(json['shop']['id']);
-      } else {
-        shopId = json['shop']['id'];
-      }
+      shopId = json['shop']['id'];
       shopName = json['shop']['name'];
       freightFee = json['shop']['freight_fee'];
       goodsAmount = json['shop']['goods_amount'];

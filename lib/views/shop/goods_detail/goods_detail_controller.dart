@@ -97,7 +97,9 @@ class GoodsDetailController extends GlobalLogic {
   // 自营商城添加到购物车
   void onGoodsAddCart() async {
     var res = await ShopService.onAddCart({
-      'sku_id': sku.value!.id,
+      'sku_id': (goodsModel.value?.propsList ?? []).isEmpty
+          ? goodsModel.value?.skus?.first.id
+          : sku.value?.id,
       'quantity': qty.value,
     });
     if (res) {
@@ -120,12 +122,12 @@ class GoodsDetailController extends GlobalLogic {
     var res = await ShopService.onPlatformAddCart({
       'warehouse_id': selectedWarehouse.value!.id,
       'platform': goodsModel.value?.platform ?? '',
-      'platform_sku': sku.value?.skuId,
+      'platform_sku': sku.value?.skuId ?? goodsModel.value?.id,
       'platform_url': goodsModel.value?.detailUrl,
       'name': goodsModel.value?.title,
-      'price': sku.value?.price,
+      'price': sku.value?.price ?? goodsModel.value?.price,
       'quantity': qty.value,
-      'amount': (sku.value?.price ?? 0) * qty.value,
+      'amount': (sku.value?.price ?? goodsModel.value?.price ?? 0) * qty.value,
       'freight_fee': priceController.text.isNotEmpty
           ? num.parse(priceController.text) / (currencyModel.value?.rate ?? 1)
           : 0,
@@ -133,7 +135,7 @@ class GoodsDetailController extends GlobalLogic {
         'shop_id': goodsModel.value?.shopId,
         'imgs': goodsModel.value?.images,
         'shop_name': goodsModel.value?.nick,
-        'sku_img': sku.value!.images.isEmpty
+        'sku_img': (sku.value?.images ?? []).isEmpty
             ? goodsModel.value?.picUrl
             : sku.value!.images.first,
         'specs': spec,
@@ -161,7 +163,8 @@ class GoodsDetailController extends GlobalLogic {
         'freight_fee': num.tryParse(priceController.text) != null
             ? num.parse(priceController.text) / (currencyModel.value?.rate ?? 1)
             : 0,
-        'goods_amount': (sku.value?.price ?? 0) * qty.value,
+        'goods_amount':
+            (sku.value?.price ?? goodsModel.value?.price ?? 0) * qty.value,
         'id': goodsModel.value?.shopId,
         'name': goodsModel.value?.nick,
       },
@@ -169,21 +172,22 @@ class GoodsDetailController extends GlobalLogic {
         {
           'warehouse_id': selectedWarehouse.value!.id,
           'platform': goodsModel.value?.platform ?? '',
-          'platform_sku': sku.value?.skuId,
+          'platform_sku': sku.value?.skuId ?? goodsModel.value?.id ?? '',
           'platform_url': goodsModel.value?.detailUrl,
           'name': goodsModel.value?.title,
-          'price': sku.value?.price,
+          'price': sku.value?.price ?? goodsModel.value?.price,
           'quantity': qty.value,
-          'amount': (sku.value?.price ?? 0) * qty.value,
+          'amount':
+              (sku.value?.price ?? goodsModel.value?.price ?? 0) * qty.value,
           'sku_info': {
-            'sku_img': sku.value!.images.isEmpty
+            'sku_img': (sku.value?.images ?? []).isEmpty
                 ? goodsModel.value?.picUrl
                 : sku.value!.images.first,
-            'attributes': spec,
-            'price': sku.value?.price,
+            'specs': spec,
+            'price': sku.value?.price ?? goodsModel.value?.price,
             'qty': qty.value,
             'url': goodsModel.value?.detailUrl,
-            'pic_url': sku.value!.images.isEmpty
+            'pic_url': (sku.value?.images ?? []).isEmpty
                 ? goodsModel.value?.picUrl
                 : sku.value!.images.first,
           }
@@ -199,8 +203,11 @@ class GoodsDetailController extends GlobalLogic {
 
   // 自营商品立即购买
   void onSelfGoodsBuy() {
+    // 没有规格，默认取第一个 sku
     var params = {
-      'sku_id': sku.value?.id,
+      'sku_id': (goodsModel.value?.propsList ?? []).isEmpty
+          ? goodsModel.value?.skus?.first.id
+          : sku.value?.id,
       'quantity': qty.value,
     };
     BeeNav.push(BeeNav.orderPreview, {

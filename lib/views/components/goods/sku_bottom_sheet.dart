@@ -27,7 +27,7 @@ class BeeShopGoodsSku extends StatefulWidget {
   final PlatformGoodsModel model;
   final GoodsSkuModel? sku;
   final int? qty;
-  final Function(GoodsSkuModel value) onSkuChange;
+  final Function(GoodsSkuModel? value) onSkuChange;
   final Function(int value)? onQtyChange;
   final Function? onAddCart;
   final Function? onBuy;
@@ -141,7 +141,9 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
     if (widget.onQtyChange != null) {
       widget.onQtyChange!(qty);
     }
-    widget.onSkuChange(sku!);
+    if (sku != null) {
+      widget.onSkuChange(sku);
+    }
     Navigator.pop(context);
     if (widget.type == 'cart') {
       widget.onAddCart!();
