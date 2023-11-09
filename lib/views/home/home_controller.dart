@@ -23,6 +23,7 @@ import 'package:jiyun_app_client/storage/user_storage.dart';
 import 'package:jiyun_app_client/views/components/update_dialog.dart';
 
 import 'package:jiyun_app_client/views/home/widget/annoucement_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class IndexLogic extends GlobalLogic {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -181,6 +182,17 @@ class IndexLogic extends GlobalLogic {
       BeeNav.push(BeeNav.shopCenter);
     } else {
       BeeNav.push(BeeNav.platformGoodsList, {'keyword': model.name});
+    }
+  }
+
+  toAppLink({
+    required String appLink,
+    required String h5Link,
+  }) async {
+    if (await canLaunchUrl(Uri.parse(appLink))) {
+      launchUrl(Uri.parse(appLink));
+    } else {
+      launchUrl(Uri.parse(h5Link), mode: LaunchMode.externalApplication);
     }
   }
 }

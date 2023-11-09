@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
@@ -94,6 +96,7 @@ class IndexPage extends GetView<IndexLogic> {
                           ),
                         ),
                         const AdsCell(type: 5),
+                        platformCell(),
                         categoryCell(),
                         hotSaleGoodsCell(),
                       ],
@@ -112,13 +115,86 @@ class IndexPage extends GetView<IndexLogic> {
     );
   }
 
+  Widget platformCell() {
+    List<Map<String, String>> list = [
+      {
+        'name': '淘宝',
+        'icon': 't-logo',
+        'appLink': Platform.isAndroid ? 'https://www.taobao.com' : 'taobao://',
+        'h5': 'https://www.taobao.com',
+      },
+      {
+        'name': '京东',
+        'icon': 'j-logo',
+        'appLink': 'openjd://',
+        'h5': 'https://www.jd.com/',
+      },
+      {
+        'name': '1688',
+        'icon': '1688-logo',
+        'appLink': 'wireless1688://',
+        'h5': 'https://www.1688.com/',
+      },
+      {
+        'name': '拼多多',
+        'icon': 'pdd-logo',
+        'appLink': 'pinduoduo://',
+        'h5': 'https://www.pinduoduo.com/',
+      },
+      {
+        'name': '唯品会',
+        'icon': 'wph-logo',
+        'appLink': 'vipshop://',
+        'h5': 'https://www.vip.com',
+      },
+    ];
+    return Container(
+      padding: EdgeInsets.fromLTRB(12.w, 15.h, 12.w, 0),
+      child: Row(
+        children: list
+            .map(
+              (e) => Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    controller.toAppLink(
+                        appLink: e['appLink']!, h5Link: e['h5']!);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Column(
+                      children: [
+                        ImgItem(
+                          'Home/${e['icon']}',
+                          width: 40.w,
+                          height: 40.w,
+                        ),
+                        2.verticalSpaceFromWidth,
+                        Obx(
+                          () => AppText(
+                            str: (e['name'] as String).ts,
+                            fontSize: 12,
+                            lines: 2,
+                            alignment: TextAlign.center,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+
   // 代购分类
   Widget categoryCell() {
     return Obx(
       () => Container(
         padding: EdgeInsets.symmetric(horizontal: 15.w),
         margin: EdgeInsets.only(top: 20.h),
-        height: controller.categoryList.length < 6 ? 70.h : 140.h,
+        height: controller.categoryList.length < 6 ? 70.h : 170.h,
         child: ListView.builder(
           itemCount: (controller.categoryList.length / 8).ceil(),
           scrollDirection: Axis.horizontal,
@@ -146,8 +222,8 @@ class IndexPage extends GetView<IndexLogic> {
                               ImgItem(
                                 e.image ?? 'Home/shop',
                                 holderImg: 'Shop/goods_cate_none',
-                                width: ScreenUtil().setWidth(40),
-                                height: ScreenUtil().setWidth(40),
+                                width: 40.w,
+                                height: 40.w,
                               ),
                               e.id == 0
                                   ? Obx(
