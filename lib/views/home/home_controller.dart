@@ -7,6 +7,7 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/language_change_event.dart';
 import 'package:jiyun_app_client/events/notice_refresh_event.dart';
+import 'package:jiyun_app_client/models/ads_pic_model.dart';
 
 import 'package:jiyun_app_client/models/announcement_model.dart';
 import 'package:jiyun_app_client/models/goods_category_model.dart';
@@ -14,6 +15,7 @@ import 'package:jiyun_app_client/models/language_model.dart';
 import 'package:jiyun_app_client/models/shop/goods_model.dart';
 import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
+import 'package:jiyun_app_client/services/ads_service.dart';
 import 'package:jiyun_app_client/services/announcement_service.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
@@ -21,9 +23,9 @@ import 'package:jiyun_app_client/state/i10n.dart';
 import 'package:jiyun_app_client/storage/annoucement_storage.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 import 'package:jiyun_app_client/views/components/update_dialog.dart';
+import 'package:jiyun_app_client/views/home/widget/ad_dialog.dart';
 
 import 'package:jiyun_app_client/views/home/widget/annoucement_dialog.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class IndexLogic extends GlobalLogic {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -42,6 +44,7 @@ class IndexLogic extends GlobalLogic {
     onGetUnReadNotice();
     getLatestApkInfo();
     getPlatformCategory();
+    getAds();
     loadingUtil.value.initListener(getRecommendGoods);
     ApplicationEvent.getInstance()
         .event
@@ -127,6 +130,22 @@ class IndexLogic extends GlobalLogic {
     noticeUnRead.value = res;
   }
 
+  // 获取弹窗广告
+  getAds() async {
+    List<BannerModel> result = await AdsService.getList({"source": 4});
+    List<BannerModel> filterAdList = [];
+    for (var item in result) {
+      if (item.type == 4) {
+        filterAdList.add(item);
+      }
+    }
+    for (var item in filterAdList) {
+      Get.dialog(
+        AdDialog(adItem: item),
+      );
+    }
+  }
+
   // 页面刷新
   Future<void> handleRefresh() async {
     loadingUtil.value.clear();
@@ -134,6 +153,7 @@ class IndexLogic extends GlobalLogic {
     await getHotGoodsList();
     await getRecommendGoods();
     await getPlatformCategory();
+    getAds();
   }
 
   // 自营商城商品列表
@@ -185,14 +205,9 @@ class IndexLogic extends GlobalLogic {
     }
   }
 
-  toAppLink({
-    required String appLink,
-    required String h5Link,
+  onPlatform({
+    required String platform,
   }) async {
-    if (await canLaunchUrl(Uri.parse(appLink))) {
-      launchUrl(Uri.parse(appLink));
-    } else {
-      launchUrl(Uri.parse(h5Link), mode: LaunchMode.externalApplication);
-    }
+    BeeNav.push(BeeNav.platform, {'platform': platform});
   }
 }

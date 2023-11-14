@@ -33,7 +33,7 @@ class BannerCell extends GetView<IndexLogic> {
     return Positioned(
       left: 10,
       top: ScreenUtil().statusBarHeight + 10,
-      child: LanguageCell(),
+      child: const LanguageCell(),
     );
   }
 

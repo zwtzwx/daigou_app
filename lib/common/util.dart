@@ -1,8 +1,14 @@
 import 'dart:io';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/instance_manager.dart';
+import 'package:jiyun_app_client/config/app_config.dart';
+import 'package:jiyun_app_client/config/routers.dart';
+import 'package:jiyun_app_client/extension/translation.dart';
+import 'package:jiyun_app_client/models/ads_pic_model.dart';
 import 'package:jiyun_app_client/models/self_pickup_station_order_model.dart';
 import 'package:flutter/material.dart';
+import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CommonMethods {
@@ -202,5 +208,40 @@ class CommonMethods {
       }
     }
     return list;
+  }
+
+  // 轮播图跳转
+  static void onAdLink(BannerModel model) {
+    if (model.linkType == 1 && !model.linkPath.startsWith('/pages')) {
+      // 应用内
+      var paths = model.linkPath.split('?');
+      if (paths.first.startsWith('/lottery')) {
+        // 抽奖页面
+        String token = Get.find<UserInfoModel>().token.value;
+        if (token.isEmpty) {
+          BeeNav.push(BeeNav.login);
+        } else {
+          String uuid = AppConfig.getUUID();
+          String api = AppConfig.getBaseApi();
+          var parsedQuery = Uri.splitQueryString(paths[1]);
+          BeeNav.push(BeeNav.webview, {
+            'title': '抽奖'.ts,
+            'url':
+                'https://yingxiao.haiousaas.com/pages/reward/index?token=$token&api_url=$api&env=App&&UUID=$uuid&reward_id=${parsedQuery['id']}'
+          });
+        }
+      } else {
+        if (paths.length > 1) {
+          var parsedQuery = Uri.splitQueryString(paths[1]);
+          BeeNav.push(paths[0], parsedQuery);
+        } else {
+          BeeNav.push(model.linkPath);
+        }
+      }
+    } else if (model.linkType == 2 || model.linkType == 3) {
+      // 外部URL、公众号 URL
+      BeeNav.push(BeeNav.webview,
+          {'url': model.linkPath, 'title': 'Bereke shop', 'time': ''});
+    }
   }
 }

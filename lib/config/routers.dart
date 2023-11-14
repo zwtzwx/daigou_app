@@ -85,6 +85,8 @@ import 'package:jiyun_app_client/views/shop/order_detail/order_detail_binding.da
 import 'package:jiyun_app_client/views/shop/order_detail/order_detail_view.dart';
 import 'package:jiyun_app_client/views/shop/order_preview/order_preview_binding.dart';
 import 'package:jiyun_app_client/views/shop/order_preview/order_preview_view.dart';
+import 'package:jiyun_app_client/views/shop/platform/platform_binding.dart';
+import 'package:jiyun_app_client/views/shop/platform/platform_view.dart';
 import 'package:jiyun_app_client/views/shop/platform_goods/platform_goods_binding.dart';
 import 'package:jiyun_app_client/views/shop/platform_goods/platform_goods_list_view.dart';
 import 'package:jiyun_app_client/views/shop/problem_order/problem_order_binding.dart';
@@ -220,6 +222,7 @@ class BeeNav {
   static const String probleShopOrder = '/probleShopOrder'; // 问题商品列表
   static const String shopOrderChat = '/shopOrderChat'; // 我的咨询
   static const String shopOrderChatDetail = '/shopOrderChatDetail'; // 咨询详情
+  static const String platform = '/platform';
 
   static List filterList = [
     webview,
@@ -236,6 +239,7 @@ class BeeNav {
     platformGoodsList,
     goodsDetail,
     lineQuery,
+    platform,
     lineDetail,
     lineQueryResult,
     help,
@@ -595,6 +599,11 @@ class BeeNav {
       name: groupParcelSelect,
       page: () => const BeeGroupParcelSelectView(),
       binding: BeeGroupParcelSelectBinding(),
+    ),
+    GetPage(
+      name: platform,
+      page: () => const PlatformView(),
+      binding: PlatformBinding(),
     ),
   ];
 

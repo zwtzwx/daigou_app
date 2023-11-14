@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
@@ -120,33 +118,11 @@ class IndexPage extends GetView<IndexLogic> {
       {
         'name': '淘宝',
         'icon': 't-logo',
-        'appLink': Platform.isAndroid ? 'https://www.taobao.com' : 'taobao://',
-        'h5': 'https://www.taobao.com',
+        'value': 'taobao',
       },
-      {
-        'name': '京东',
-        'icon': 'j-logo',
-        'appLink': 'openjd://',
-        'h5': 'https://www.jd.com/',
-      },
-      {
-        'name': '1688',
-        'icon': '1688-logo',
-        'appLink': 'wireless1688://',
-        'h5': 'https://www.1688.com/',
-      },
-      {
-        'name': '拼多多',
-        'icon': 'pdd-logo',
-        'appLink': 'pinduoduo://',
-        'h5': 'https://www.pinduoduo.com/',
-      },
-      {
-        'name': '唯品会',
-        'icon': 'wph-logo',
-        'appLink': 'vipshop://',
-        'h5': 'https://www.vip.com',
-      },
+      {'name': '京东', 'icon': 'j-logo', 'value': 'jd'},
+      {'name': '1688', 'icon': '1688-logo', 'value': '1688'},
+      {'name': '拼多多', 'icon': 'pdd-logo', 'value': 'pinduoduo'},
     ];
     return Container(
       padding: EdgeInsets.fromLTRB(12.w, 15.h, 12.w, 0),
@@ -156,8 +132,7 @@ class IndexPage extends GetView<IndexLogic> {
               (e) => Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    controller.toAppLink(
-                        appLink: e['appLink']!, h5Link: e['h5']!);
+                    controller.onPlatform(platform: e['value']!);
                   },
                   child: Container(
                     color: Colors.transparent,
@@ -194,14 +169,15 @@ class IndexPage extends GetView<IndexLogic> {
       () => Container(
         padding: EdgeInsets.symmetric(horizontal: 15.w),
         margin: EdgeInsets.only(top: 20.h),
-        height: controller.categoryList.length < 6 ? 70.h : 170.h,
+        height: controller.categoryList.length < 6 ? 70.h : 160.h,
         child: ListView.builder(
-          itemCount: (controller.categoryList.length / 8).ceil(),
+          itemCount: (controller.categoryList.length / 10).ceil(),
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
-            int currentLen = controller.categoryList.length - (index * 8);
-            var list = controller.categoryList
-                .sublist(index * 8, index * 8 + currentLen);
+            var length = (controller.categoryList.length / 10).ceil();
+            int currentLen = controller.categoryList.length - (index * 10);
+            var list = controller.categoryList.sublist(index * 10,
+                index * 10 + (index == length - 1 ? currentLen : 10));
             return SizedBox(
               width: 1.sw - 30.w,
               child: Wrap(

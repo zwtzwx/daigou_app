@@ -2,6 +2,7 @@
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jiyun_app_client/common/util.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/home_refresh_event.dart';
 import 'package:jiyun_app_client/models/ads_pic_model.dart';
@@ -58,11 +59,7 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
       child: Swiper(
         onTap: (index) {
           BannerModel model = adList[index];
-          if (model.linkType == 1) {
-            // 应用内
-            // BeeNav.push(
-            //     '/HelpSecondListPage', context, {'type': model.linkType});
-          }
+          CommonMethods.onAdLink(model);
         },
         itemCount: adList.length,
         scrollDirection: Axis.horizontal,

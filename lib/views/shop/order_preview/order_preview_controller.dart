@@ -292,7 +292,7 @@ class OrderPreviewController extends GlobalLogic {
       'quantity': goodsModel.skus.first.quantity,
       'amount': goodsModel.skus.first.amount,
       'sku_info': {
-        'spec': goodsModel.skus.first.skuInfo?.attributes,
+        'specs': goodsModel.skus.first.skuInfo?.attributes,
         'shop_id': goodsModel.shopId,
         'sku_img': goodsModel.skus.first.skuInfo?.picUrl,
         'shop_name': goodsModel.shopName,
