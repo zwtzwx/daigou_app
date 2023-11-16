@@ -45,7 +45,7 @@ class PlatformShopCenterController extends GlobalLogic {
             : categoryList[categoryIndex.value].name,
         'page': ++loadingUtil.value.pageIndex,
         'page_size': 10,
-        'platform': 'pinduoduo',
+        'platform': '1688',
       });
 
       loadingUtil.value.isLoading = false;

@@ -10,7 +10,7 @@ class PlatformGoodsController extends GlobalLogic {
   final Rx<LoadingUtil<PlatformGoodsModel>> loadingUtil =
       LoadingUtil<PlatformGoodsModel>().obs;
   final orderBy = ''.obs;
-  final platform = 'pinduoduo'.obs; // 默认拼多多平台商品
+  final platform = '1688'.obs; // 默认拼多多平台商品
   final filterShow = false.obs;
 
   @override

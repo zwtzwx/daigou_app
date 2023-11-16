@@ -200,12 +200,12 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
             children: [
               AppText(
                 str: label.ts,
-                color: controller.platform.value != 'pinduoduo'
+                color: controller.platform.value != '1688'
                     ? AppColors.textDark
                     : AppColors.textGrayC9,
               ),
               ImgItem(
-                controller.platform.value != 'pinduoduo'
+                controller.platform.value != '1688'
                     ? 'Shop/filter_s'
                     : 'Shop/filter',
                 width: 20.w,

@@ -82,7 +82,7 @@ class CartController extends GlobalLogic {
         'keyword': '服饰',
         'page': ++loadingUtil.value.pageIndex,
         'page_size': 10,
-        'platform': 'pinduoduo'
+        'platform': '1688'
       });
       loadingUtil.value.isLoading = false;
       if (data['dataList'] != null) {

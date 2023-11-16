@@ -173,7 +173,7 @@ class IndexLogic extends GlobalLogic {
       var data = await ShopService.getDaigouGoods({
         'keyword': '服饰',
         'page': ++loadingUtil.value.pageIndex,
-        'platform': 'pinduoduo',
+        'platform': '1688',
         'page_size': 10,
       });
       loadingUtil.value.isLoading = false;
