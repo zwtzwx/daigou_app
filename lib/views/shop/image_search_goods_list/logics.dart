@@ -3,39 +3,30 @@ import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/common/loading_util.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
 import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
-import 'package:jiyun_app_client/services/shop_service.dart';
+import 'package:jiyun_app_client/services/common_service.dart';
 
-class PlatformGoodsController extends GlobalLogic {
-  String keyword = '';
+class GoodsImageSearchResultLogic extends GlobalLogic {
   final Rx<LoadingUtil<PlatformGoodsModel>> loadingUtil =
       LoadingUtil<PlatformGoodsModel>().obs;
-  final orderBy = ''.obs;
-  final platform = '1688'.obs; // 默认拼多多平台商品
-  final filterShow = false.obs;
-  String originKeyword = '';
+
+  String url = '';
 
   @override
-  onInit() {
+  void onInit() {
     super.onInit();
-    var arguments = Get.arguments;
-    if (arguments?['keyword'] != null) {
-      keyword = arguments!['keyword'];
-    }
-    originKeyword = arguments['origin'] ?? '';
-    loadingUtil.value.initListener(loadMoreList, recordPosition: true);
+    url = Get.arguments['url'];
+    loadingUtil.value.initListener(getGoods);
   }
 
-  loadMoreList() async {
+  getGoods() async {
     if (loadingUtil.value.isLoading) return;
     loadingUtil.value.isLoading = true;
     loadingUtil.refresh();
     try {
-      var data = await ShopService.getDaigouGoods({
+      var data = await CommonService.goodsQueryByImg({
         'page': ++loadingUtil.value.pageIndex,
-        'keyword': keyword,
-        'sort': orderBy.value,
         'page_size': 10,
-        'platform': platform.value,
+        'img': url,
       });
       loadingUtil.value.isLoading = false;
       if (data['dataList'] != null) {
@@ -55,29 +46,8 @@ class PlatformGoodsController extends GlobalLogic {
     }
   }
 
-  Future<void> handleRefresh() async {
+  Future<void> onRefresh() async {
     loadingUtil.value.clear();
-    await loadMoreList();
-  }
-
-  void onSearch(String value) async {
-    keyword = value;
-    orderBy.value = '';
-    handleRefresh();
-  }
-
-  void onSortBy(String value) async {
-    orderBy.value = value;
-    handleRefresh();
-  }
-
-  void onHideFilter() {
-    filterShow.value = false;
-  }
-
-  @override
-  void dispose() {
-    loadingUtil.value.controllerDestroy();
-    super.dispose();
+    await getGoods();
   }
 }

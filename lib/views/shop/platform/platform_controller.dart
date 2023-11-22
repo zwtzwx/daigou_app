@@ -2,7 +2,6 @@ import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/common/loading_util.dart';
 import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/models/goods_category_model.dart';
 import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
@@ -11,11 +10,14 @@ class PlatformController extends GlobalLogic {
   String platform = '';
   final RxList<GoodsCategoryModel> categoryList = <GoodsCategoryModel>[].obs;
   final loadingUtil = LoadingUtil<PlatformGoodsModel>().obs;
+  String keyword = '';
+
   @override
   void onInit() {
     super.onInit();
     var arguments = Get.arguments;
     platform = arguments['platform'];
+
     loadingUtil.value.initListener(getGoods);
     getPlatformCategory();
   }
@@ -39,15 +41,13 @@ class PlatformController extends GlobalLogic {
     return title;
   }
 
-  Future<void> getGoods({
-    String? keyword,
-  }) async {
+  Future<void> getGoods() async {
     if (loadingUtil.value.isLoading) return;
     loadingUtil.value.isLoading = true;
     loadingUtil.refresh();
     try {
       var data = await ShopService.getDaigouGoods({
-        'keyword': keyword ?? '衣服',
+        'keyword': keyword.isNotEmpty ? keyword : '衣服',
         'page': ++loadingUtil.value.pageIndex,
         'platform': platform,
         'page_size': 10,
@@ -77,11 +77,6 @@ class PlatformController extends GlobalLogic {
     categoryList.value = list;
   }
 
-  // 分类
-  void onCategory(GoodsCategoryModel model) {
-    BeeNav.push(BeeNav.platformGoodsList, {'keyword': model.name});
-  }
-
   // 页面刷新
   Future<void> handleRefresh() async {
     loadingUtil.value.clear();
@@ -89,8 +84,9 @@ class PlatformController extends GlobalLogic {
     await getPlatformCategory();
   }
 
-  onSearch(String keyword) {
+  onSearch(String value) {
+    keyword = value;
     loadingUtil.value.clear();
-    getGoods(keyword: keyword);
+    getGoods();
   }
 }

@@ -74,6 +74,14 @@ class ImageUpload {
     });
   }
 
+  static Future<String?> imagePickerByLibray() async {
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      return image.path;
+    }
+    return null;
+  }
+
   /*
     图片选择
     带裁剪

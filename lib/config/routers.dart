@@ -77,6 +77,10 @@ import 'package:jiyun_app_client/views/shop/goods_detail/goods_detail_binding.da
 import 'package:jiyun_app_client/views/shop/goods_detail/goods_detail_view.dart';
 import 'package:jiyun_app_client/views/shop/goods_list/goods_list_binding.dart';
 import 'package:jiyun_app_client/views/shop/goods_list/goods_list_view.dart';
+import 'package:jiyun_app_client/views/shop/image_search_goods/image_search_binding.dart';
+import 'package:jiyun_app_client/views/shop/image_search_goods/image_search_view.dart';
+import 'package:jiyun_app_client/views/shop/image_search_goods_list/binding.dart';
+import 'package:jiyun_app_client/views/shop/image_search_goods_list/view.dart';
 import 'package:jiyun_app_client/views/shop/order/shop_order_binding.dart';
 import 'package:jiyun_app_client/views/shop/order/shop_order_view.dart';
 import 'package:jiyun_app_client/views/shop/order_chat/shop_order_chat_binding.dart';
@@ -223,6 +227,8 @@ class BeeNav {
   static const String shopOrderChat = '/shopOrderChat'; // 我的咨询
   static const String shopOrderChatDetail = '/shopOrderChatDetail'; // 咨询详情
   static const String platform = '/platform';
+  static const String imageSearch = '/imageSearch';
+  static const String imageSearchResults = '/imageSearchResults';
 
   static List filterList = [
     webview,
@@ -604,6 +610,16 @@ class BeeNav {
       name: platform,
       page: () => const PlatformView(),
       binding: PlatformBinding(),
+    ),
+    GetPage(
+      name: imageSearch,
+      page: () => const GoodsImageSearchPage(),
+      binding: GoodsImageSearchBinding(),
+    ),
+    GetPage(
+      name: imageSearchResults,
+      page: () => const GoodsImageSearchResultPage(),
+      binding: GoodsImageSearchResultBinding(),
     ),
   ];
 

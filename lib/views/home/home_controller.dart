@@ -201,7 +201,8 @@ class IndexLogic extends GlobalLogic {
       // 自营商城
       BeeNav.push(BeeNav.shopCenter);
     } else {
-      BeeNav.push(BeeNav.platformGoodsList, {'keyword': model.name});
+      BeeNav.push(BeeNav.platformGoodsList,
+          {'keyword': model.nameCn, 'origin': model.name});
     }
   }
 

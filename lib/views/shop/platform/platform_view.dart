@@ -92,7 +92,7 @@ class PlatformView extends GetView<PlatformController> {
                     .map(
                       (e) => GestureDetector(
                         onTap: () {
-                          controller.onSearch(e.name);
+                          controller.onSearch(e.nameCn ?? e.name);
                         },
                         child: Container(
                           width: (1.sw - 30.w) / 5,

@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:jiyun_app_client/common/http_client.dart';
+import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/alphabetical_country_model.dart';
 import 'package:jiyun_app_client/models/app_version_model.dart';
 import 'package:jiyun_app_client/models/banners_model.dart';
@@ -11,6 +12,9 @@ import 'package:jiyun_app_client/models/captcha_model.dart';
 import 'package:jiyun_app_client/models/country_model.dart';
 import 'package:jiyun_app_client/models/currency_rate_model.dart';
 import 'package:jiyun_app_client/models/notice_model.dart';
+import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
+import 'package:jiyun_app_client/services/shop_service.dart';
+import 'package:jiyun_app_client/storage/language_storage.dart';
 
 //通用服务
 class CommonService {
@@ -46,6 +50,8 @@ class CommonService {
   // 最新版本 apk信息
   static const String latestApkApi = 'apk';
 
+  static const String goodsQueryByImgApi = 'alibaba/product/image/query';
+
   // 获取预报的同意条款
   static Future<Map<String, dynamic>?> getTerms(
       [Map<String, dynamic>? params]) async {
@@ -70,7 +76,10 @@ class CommonService {
   /*
     上传图片
    */
-  static Future<String> uploadImage(File image) async {
+  static Future<String> uploadImage(
+    File image, {
+    Options? options,
+  }) async {
     String path = image.path;
     var name = path.substring(path.lastIndexOf("/") + 1, path.length);
     var suffix = name.substring(name.lastIndexOf(".") + 1, name.length);
@@ -82,7 +91,11 @@ class CommonService {
     String result = "";
 
     await BeeRequest.instance
-        .post(uploadImageApi, data: formData)
+        .post(
+      uploadImageApi,
+      data: formData,
+      options: options,
+    )
         .then((response) {
       result = response.data;
     });
@@ -249,6 +262,47 @@ class CommonService {
         result = AppVersionModel.fromJson(res.data);
       }
     });
+    return result;
+  }
+
+  // 扫图识别商品
+  static Future<Map> goodsQueryByImg(Map<String, dynamic> params) async {
+    Map result = {
+      "dataList": null,
+      'total': (params['page'] ?? 1) + 1,
+      'pageIndex': params['page'] ?? 1
+    };
+    await BeeRequest()
+        .post(goodsQueryByImgApi,
+            data: params,
+            options: Options(extra: {
+              'loading': false,
+              'showSuccess': false,
+            }))
+        .then((res) {
+      if (res.data['items'] != null) {
+        List<PlatformGoodsModel> list = [];
+        for (var item in res.data['items']['item']) {
+          item['platform'] =
+              res.data['api_type'] ?? res.data['items']['api_type'];
+          list.add(PlatformGoodsModel.fromJson(item));
+        }
+        result['dataList'] = list;
+        if (list.isEmpty) {
+          result['total'] = result['pageIndex'];
+        }
+      }
+    });
+    if (result['dataList'] != null &&
+        result['dataList'].isNotEmpty &&
+        LanguageStore.getLanguage() != 'zh_CN') {
+      await Future.wait((result['dataList'] as List<PlatformGoodsModel>)
+          .where((e) => e.title.contianCN)
+          .map((PlatformGoodsModel e) {
+        return ShopService.getTranslate(e.title)
+            .then((data) => e.title = data ?? e.title);
+      }));
+    }
     return result;
   }
 }

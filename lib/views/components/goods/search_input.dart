@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,6 +55,13 @@ class _SearchCellState extends State<SearchCell> {
     }
   }
 
+  void onPhotoSearch() async {
+    var cameras = await availableCameras();
+    if (cameras.isNotEmpty) {
+      BeeNav.push(BeeNav.imageSearch, {'device': cameras.first});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -87,7 +95,16 @@ class _SearchCellState extends State<SearchCell> {
               ),
             ),
           ),
-          AppGaps.hGap10,
+          10.horizontalSpace,
+          GestureDetector(
+            onTap: onPhotoSearch,
+            child: Icon(
+              Icons.photo_camera_outlined,
+              size: 25.sp,
+              color: AppColors.textNormal,
+            ),
+          ),
+          10.horizontalSpace,
           BeeButton(
             text: widget.searchText,
             borderRadis: 999,

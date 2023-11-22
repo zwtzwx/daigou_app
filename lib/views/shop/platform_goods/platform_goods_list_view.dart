@@ -124,7 +124,7 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
         searchText: '搜索',
         onSearch: controller.onSearch,
         needCheck: false,
-        initData: controller.keyword,
+        initData: controller.originKeyword,
       ),
     );
   }
