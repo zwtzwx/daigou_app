@@ -45,7 +45,7 @@ class CartSkuModel {
   late int quantity;
   late num amount;
   int? goodsSkuId;
-
+  dynamic goodsId;
   int? warehouseId;
   String? warehouseName;
   String? platform;
@@ -64,6 +64,7 @@ class CartSkuModel {
     price = json['price'];
     goodsSkuId = json['goods_sku_id'];
     amount = json['amount'];
+    goodsId = json['goods_id'];
     quantity = json['quantity'] is String
         ? int.parse(json['quantity'])
         : json['quantity'];

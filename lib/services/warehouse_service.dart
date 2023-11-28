@@ -10,12 +10,29 @@ class WarehouseService extends ChangeNotifier {
   // 获取一个默认仓库
   static const String defaultApi = 'warehouse-address';
 
+  static const String simpleListApi = 'warehouse-address/simple-list';
+
   // 获取仓库列表
   static Future<List<WareHouseModel>> getList(
       [Map<String, dynamic>? params]) async {
     List<WareHouseModel> result = [];
     await BeeRequest.instance
         .get(LISTAPI, queryParameters: params)
+        .then((response) => {
+              response.data.forEach((good) {
+                result.add(WareHouseModel.fromJson(good));
+              })
+            })
+        .onError((error, stackTrace) => {});
+    return result;
+  }
+
+  // 获取仓库列表
+  static Future<List<WareHouseModel>> getSimpleList(
+      [Map<String, dynamic>? params]) async {
+    List<WareHouseModel> result = [];
+    await BeeRequest.instance
+        .get(simpleListApi, queryParameters: params)
         .then((response) => {
               response.data.forEach((good) {
                 result.add(WareHouseModel.fromJson(good));

@@ -45,6 +45,7 @@ class BeeShopOrder extends StatelessWidget {
                         previewMode: true,
                         cartModel: e,
                         orderStatusName: model.statusName,
+                        goodsToDetail: false,
                       ),
                     )
                     .toList(),

@@ -63,7 +63,7 @@ class GoodsDetailController extends GlobalLogic {
 
   // 仓库列表
   void getWarehouse() async {
-    var data = await WarehouseService.getList();
+    var data = await WarehouseService.getSimpleList();
     warehouseList.value = data;
     if (data.isNotEmpty) {
       selectedWarehouse.value = data.first;
