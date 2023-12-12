@@ -26,7 +26,7 @@ class GoodsCategoryModel {
 
   GoodsCategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    nameCn = json['name_cn'];
+    nameCn = json['name_cn'].toString();
     nameEn = json['name_en'];
     detail = json['detail'];
     daigouEnabled = json['daigou_enabled'];
@@ -34,7 +34,7 @@ class GoodsCategoryModel {
     riskWarningContent = json['risk_warning_content'];
     riskWarningEnabled = json['risk_warning_enabled'];
     // parentId = json['parent_id'];
-    name = json['name'];
+    name = json['name'].toString();
     if (json['categories'] != null) {
       children = List<GoodsCategoryModel>.empty(growable: true);
       json['categories'].forEach((v) {

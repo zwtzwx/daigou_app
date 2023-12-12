@@ -209,8 +209,15 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                             children: [
                                               GestureDetector(
                                                 onTap: () {
-                                                  if (sku.quantity == 1) return;
-                                                  onStep!(-1, sku);
+                                                  if (sku.quantity <=
+                                                      (sku.skuInfo
+                                                              ?.minOrderQuantity ??
+                                                          1)) return;
+                                                  onStep!(
+                                                      -(sku.skuInfo
+                                                              ?.batchNumber ??
+                                                          1),
+                                                      sku);
                                                 },
                                                 child: Container(
                                                   padding: EdgeInsets.symmetric(
@@ -219,7 +226,10 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                                   child: Icon(
                                                     Icons.remove,
                                                     size: 14.sp,
-                                                    color: sku.quantity == 1
+                                                    color: sku.quantity <=
+                                                            (sku.skuInfo
+                                                                    ?.minOrderQuantity ??
+                                                                1)
                                                         ? AppColors.textGray
                                                         : Colors.black,
                                                   ),
@@ -244,7 +254,11 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                               ),
                                               GestureDetector(
                                                 onTap: () {
-                                                  onStep!(1, sku);
+                                                  onStep!(
+                                                      sku.skuInfo
+                                                              ?.batchNumber ??
+                                                          1,
+                                                      sku);
                                                 },
                                                 child: Container(
                                                   padding: EdgeInsets.symmetric(

@@ -12,6 +12,7 @@ import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
 import 'package:jiyun_app_client/views/components/error_box.dart';
 import 'package:jiyun_app_client/views/components/input/base_input.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:jiyun_app_client/views/components/skeleton/skeleton.dart';
 import 'package:jiyun_app_client/views/shop/goods_detail/goods_detail_controller.dart';
 
 class GoodsDetailView extends GetView<GoodsDetailController> {
@@ -131,6 +132,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
         baseInfoCell(),
         optionCell(context),
         shopCell(),
+        Obx(() => commentsCell()),
         remarkCell(),
       ],
     );
@@ -189,7 +191,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                             text: ((controller.sku.value?.price ??
                                         controller.goodsModel.value?.price ??
                                         0) *
-                                    controller.qty.value)
+                                    (controller.qty.value ?? 1))
                                 .rate(
                                     showPriceSymbol: false, needFormat: false),
                             style: TextStyle(
@@ -405,6 +407,65 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
         ),
       ),
     );
+  }
+
+  Widget commentsCell() {
+    return controller.commentLoading.value
+        ? Skeleton(
+            type: SkeletonType.singleSkeleton,
+            lineCount: 5,
+            height: 100.h,
+            borderRadius: 8,
+            margin: EdgeInsets.fromLTRB(14.w, 0, 14.w, 10.h),
+          )
+        : (controller.comments.isNotEmpty
+            ? GestureDetector(
+                onTap: controller.onShowCommentSheet,
+                child: defaultBoxItem(
+                  margin: EdgeInsets.fromLTRB(14.w, 0, 14.w, 10.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AppText(
+                              str: '商品评价'.ts +
+                                  '(${controller.commentsTotal.value})',
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 14.sp,
+                            color: AppColors.textGrayC9,
+                          ),
+                        ],
+                      ),
+                      ...controller.comments.map(
+                        (item) => Container(
+                          margin: EdgeInsets.only(top: 15.h),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AppText(
+                                str: item.displayUserNick ?? '',
+                              ),
+                              8.verticalSpaceFromWidth,
+                              AppText(
+                                str: item.rateContent ?? '',
+                                color: const Color(0xff555555),
+                                lines: 20,
+                                fontSize: 14,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : AppGaps.empty);
   }
 
   Widget remarkCell() {

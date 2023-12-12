@@ -51,7 +51,8 @@ class _SearchCellState extends State<SearchCell> {
     if (widget.onSearch != null) {
       widget.onSearch!(value);
     } else if (widget.goPlatformGoods) {
-      BeeNav.push(BeeNav.platformGoodsList, {'keyword': value});
+      BeeNav.push(
+          BeeNav.platformGoodsList, {'keyword': value, 'origin': value});
     }
   }
 

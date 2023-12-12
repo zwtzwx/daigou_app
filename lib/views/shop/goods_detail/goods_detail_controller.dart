@@ -10,6 +10,7 @@ import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/cart_count_refresh_event.dart';
 import 'package:jiyun_app_client/events/change_goods_info_event.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
+import 'package:jiyun_app_client/models/shop/goods_comment_model.dart';
 import 'package:jiyun_app_client/models/shop/goods_sku_model.dart';
 import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
@@ -18,6 +19,7 @@ import 'package:jiyun_app_client/services/shop_service.dart';
 import 'package:jiyun_app_client/services/warehouse_service.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/goods/sku_bottom_sheet.dart';
+import 'package:jiyun_app_client/views/shop/widget/goods_comments_sheet.dart';
 
 class GoodsDetailController extends GlobalLogic {
   final isPlatformGoods = false.obs; // 是否是代购商品
@@ -31,7 +33,10 @@ class GoodsDetailController extends GlobalLogic {
   final sku = Rxn<GoodsSkuModel?>();
   final warehouseList = <WareHouseModel>[].obs;
   final selectedWarehouse = Rxn<WareHouseModel?>();
-  final qty = 1.obs;
+  final comments = <GoodsCommentModel>[].obs;
+  final commentsTotal = ''.obs;
+  final commentLoading = false.obs;
+  final qty = RxnInt();
 
   @override
   void onInit() {
@@ -74,20 +79,55 @@ class GoodsDetailController extends GlobalLogic {
   Future<void> getGoodsDetail() async {
     isLoading.value = true;
     try {
+      PlatformGoodsModel? data;
       if (isPlatformGoods.value) {
-        var data = await ShopService.getDaigouGoodsDetail({
+        data = await ShopService.getDaigouGoodsDetail({
           'keyword': platformGoodsUrl,
         });
-        goodsModel.value = data;
       } else {
-        var data = await ShopService.getGoodsDetail(goodsId!);
-        goodsModel.value = data;
+        data = await ShopService.getGoodsDetail(goodsId!);
+      }
+      goodsModel.value = data;
+      if (isPlatformGoods.value &&
+          goodsModel.value != null &&
+          goodsModel.value?.platform != 'pinduoduo') {
+        getGoodsComments();
       }
     } catch (e) {
       print(e);
     } finally {
       isLoading.value = false;
     }
+  }
+
+  // 商品评价
+  void getGoodsComments() async {
+    commentLoading.value = true;
+    var res =
+        await ShopService.getGoodsComments(goodsModel.value!.id.toString(), {
+      'platform': goodsModel.value?.platform,
+      'user_id': goodsModel.value?.shopId,
+      'nick': goodsModel.value?.nick,
+      'page_size': 2,
+    });
+    commentLoading.value = false;
+    if (res['dataList'] is List) {
+      commentsTotal.value = res['total'];
+      comments.value = res['dataList'].take(2).toList();
+    }
+  }
+
+  void onShowCommentSheet() {
+    Get.bottomSheet(
+      GoodsCommentsList(
+        goodsId: goodsModel.value!.id.toString(),
+        total: commentsTotal.value,
+        platform: goodsModel.value?.platform,
+        userId: goodsModel.value?.shopId,
+        nick: goodsModel.value?.nick,
+      ),
+      isScrollControlled: true,
+    );
   }
 
   void onQty(value) {
@@ -127,7 +167,7 @@ class GoodsDetailController extends GlobalLogic {
       'name': goodsModel.value?.title,
       'price': sku.value?.price ?? goodsModel.value?.price,
       'quantity': qty.value,
-      'amount': (sku.value?.price ?? goodsModel.value?.price ?? 0) * qty.value,
+      'amount': (sku.value?.price ?? goodsModel.value?.price ?? 0) * qty.value!,
       'freight_fee': priceController.text.isNotEmpty
           ? num.parse(priceController.text) / (currencyModel.value?.rate ?? 1)
           : 0,
@@ -139,6 +179,8 @@ class GoodsDetailController extends GlobalLogic {
             ? goodsModel.value?.picUrl
             : sku.value!.images.first,
         'specs': spec,
+        'min_order_quantity': goodsModel.value?.minOrderQuantity ?? 1,
+        'batch_number': goodsModel.value?.batchNumber ?? 1,
       }
     });
     if (res) {
@@ -164,7 +206,7 @@ class GoodsDetailController extends GlobalLogic {
             ? num.parse(priceController.text) / (currencyModel.value?.rate ?? 1)
             : 0,
         'goods_amount':
-            (sku.value?.price ?? goodsModel.value?.price ?? 0) * qty.value,
+            (sku.value?.price ?? goodsModel.value?.price ?? 0) * qty.value!,
         'id': goodsModel.value?.shopId,
         'name': goodsModel.value?.nick,
       },
@@ -178,7 +220,7 @@ class GoodsDetailController extends GlobalLogic {
           'price': sku.value?.price ?? goodsModel.value?.price,
           'quantity': qty.value,
           'amount':
-              (sku.value?.price ?? goodsModel.value?.price ?? 0) * qty.value,
+              (sku.value?.price ?? goodsModel.value?.price ?? 0) * qty.value!,
           'sku_info': {
             'sku_img': (sku.value?.images ?? []).isEmpty
                 ? goodsModel.value?.picUrl
@@ -228,7 +270,7 @@ class GoodsDetailController extends GlobalLogic {
     Get.bottomSheet(
       BeeShopGoodsSku(
         model: goodsModel.value!,
-        qty: qty.value,
+        qty: qty.value ?? goodsModel.value?.minOrderQuantity ?? 1,
         sku: sku.value,
         type: type,
         currencySymbol: currencyModel.value?.symbol,

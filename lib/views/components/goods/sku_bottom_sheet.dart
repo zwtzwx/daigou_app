@@ -71,7 +71,7 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
   }
 
   onQty(int step) {
-    if (step < 0 && qty == 1) return;
+    if (step < 0 && qty == (widget.model.minOrderQuantity ?? 1)) return;
     setState(() {
       qty += step;
     });
@@ -295,14 +295,15 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                onQty(-1);
+                                onQty(-(widget.model.batchNumber ?? 1));
                               },
                               child: Icon(
                                 Icons.remove,
                                 size: 24,
-                                color: qty == 1
-                                    ? AppColors.textGray
-                                    : Colors.black,
+                                color:
+                                    qty == (widget.model.minOrderQuantity ?? 1)
+                                        ? AppColors.textGray
+                                        : Colors.black,
                               ),
                             ),
                             Container(
@@ -321,7 +322,7 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                onQty(1);
+                                onQty(widget.model.batchNumber ?? 1);
                               },
                               child: Icon(
                                 Icons.add,

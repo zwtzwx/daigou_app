@@ -16,6 +16,8 @@ class PlatformGoodsModel {
   String? detailUrl;
   String? desc;
   String? nick;
+  int? minOrderQuantity;
+  int? batchNumber;
   List<String>? images;
   List<GoodsPropsModel>? propsList;
   List<GoodsSkuModel>? skus;
@@ -40,6 +42,8 @@ class PlatformGoodsModel {
     }
     id = json['num_iid'];
     platform = json['platform'];
+    minOrderQuantity = json['min_order_quantity'] ?? 1;
+    batchNumber = json['batch_number'] ?? 1;
     detailUrl = json['detail_url'];
     if (json['shop_id'] is num) {
       shopId = json['shop_id'].toString();

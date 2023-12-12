@@ -89,12 +89,16 @@ class CartSkuInfoModel {
   late int qty;
   late num price;
   String? shopName;
+  int? minOrderQuantity;
+  int? batchNumber;
 
   CartSkuInfoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? 0;
     picUrl = json['pic_url'] ?? json['sku_img'];
     qty = json['qty'] is String ? int.parse(json['qty']) : (json['qty'] ?? 1);
     price = json['price'] ?? 0;
+    minOrderQuantity = json['min_order_quantity'];
+    batchNumber = json['batch_number'];
     shopName = json['shop_name'];
     attributes = [];
     if (json['spec'] is List) {

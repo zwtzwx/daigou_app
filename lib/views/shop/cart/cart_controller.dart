@@ -107,7 +107,7 @@ class CartController extends GlobalLogic {
   void onSkuQty(int step, CartSkuModel sku) async {
     var res = await ShopService.updateGoodsQty(sku.id, {
       'operate': step > 0 ? '+' : '-',
-      'quantity': 1,
+      'quantity': step > 0 ? step : -step,
     });
     if (res) {
       sku.quantity += step;

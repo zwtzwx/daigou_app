@@ -7,6 +7,7 @@ import 'package:jiyun_app_client/models/goods_category_model.dart';
 import 'package:jiyun_app_client/models/shop/cart_model.dart';
 import 'package:jiyun_app_client/models/shop/category_model.dart';
 import 'package:jiyun_app_client/models/shop/consult_model.dart';
+import 'package:jiyun_app_client/models/shop/goods_comment_model.dart';
 import 'package:jiyun_app_client/models/shop/goods_model.dart';
 import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
 import 'package:jiyun_app_client/models/shop/platform_goods_service_model.dart';
@@ -49,6 +50,7 @@ class ShopService {
   static const String platformGoodsCategoryApi = 'package-category/daigou';
   static const String goodsTranlateApi = 'translate';
   static const String orderTransferPayApi = 'daigou-orders/tran-info';
+  static const String goodsCommentsApi = 'purchase/product-review/:id';
 
   // 推荐商品列表
   static Future<Map<String, dynamic>> getRecommendGoods(
@@ -629,5 +631,43 @@ class ShopService {
         .post(orderTransferPayApi, data: params)
         .then((response) => res = response.ok);
     return res;
+  }
+
+  // 商品评价
+  static Future<Map> getGoodsComments(
+      String id, Map<String, dynamic> params) async {
+    Map<String, dynamic> result = {
+      'total': 0,
+      'pageIndex': params['page'] ?? 1,
+      'dataList': null
+    };
+    await BeeRequest.instance
+        .get(goodsCommentsApi.replaceAll(':id', id),
+            queryParameters: params,
+            options: Options(extra: {
+              'showError': false,
+            }))
+        .then((response) {
+      if (response.ok) {
+        List<GoodsCommentModel> list = [];
+        for (var item in response.data['items']) {
+          list.add(GoodsCommentModel.fromJson(item));
+        }
+        result = {
+          'total': response.data['total'].toString(),
+          'pageIndex': params['page'] ?? 1,
+          'dataList': list,
+        };
+      }
+    });
+    if (result['dataList'] != null &&
+        result['dataList'].isNotEmpty &&
+        LanguageStore.getLanguage() != 'zh_CN') {
+      await Future.wait((result['dataList'] as List<GoodsCommentModel>)
+          .map((GoodsCommentModel e) {
+        return e.onTranslate();
+      }));
+    }
+    return result;
   }
 }

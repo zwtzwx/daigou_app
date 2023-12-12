@@ -8,6 +8,7 @@ class ImgItem extends StatelessWidget {
       this.width,
       this.height,
       this.fit = BoxFit.cover,
+      this.placeholderWidget,
       this.format = "png",
       this.holderImg = "none"})
       : super(key: key);
@@ -18,6 +19,7 @@ class ImgItem extends StatelessWidget {
   final BoxFit fit;
   final String format;
   final String holderImg;
+  final Widget? placeholderWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +31,10 @@ class ImgItem extends StatelessWidget {
         return CachedNetworkImage(
           imageUrl: image,
           placeholder: (context, url) =>
+              placeholderWidget ??
               LoadAssetImage(holderImg, height: height, width: width, fit: fit),
           errorWidget: (context, url, error) =>
+              placeholderWidget ??
               LoadAssetImage(holderImg, height: height, width: width, fit: fit),
           width: width,
           height: height,
