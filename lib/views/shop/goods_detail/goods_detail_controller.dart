@@ -90,7 +90,7 @@ class GoodsDetailController extends GlobalLogic {
       goodsModel.value = data;
       if (isPlatformGoods.value &&
           goodsModel.value != null &&
-          goodsModel.value?.platform != 'pinduoduo') {
+          ['taobao', 'jd'].contains(goodsModel.value?.platform)) {
         getGoodsComments();
       }
     } catch (e) {

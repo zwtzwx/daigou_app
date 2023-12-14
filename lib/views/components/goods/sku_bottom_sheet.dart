@@ -71,7 +71,10 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
   }
 
   onQty(int step) {
-    if (step < 0 && qty == (widget.model.minOrderQuantity ?? 1)) return;
+    if ((step < 0 && qty == (widget.model.minOrderQuantity ?? 1)) ||
+        qty == sku?.quantity) {
+      return;
+    }
     setState(() {
       qty += step;
     });
@@ -102,6 +105,9 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
       if (index != -1) {
         setState(() {
           sku = widget.model.skus![index];
+          if (qty > sku!.quantity!) {
+            qty = sku!.quantity!;
+          }
         });
       }
     }
