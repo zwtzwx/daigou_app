@@ -1,0 +1,11 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+*/
+NSCameraUsageDescription = "APP需要您的同意，才能访问相机设置个人头像信息、扫描二维码";
+NSLocationWhenInUseUsageDescription = "APP需要您的同意获取位置信息显示周边拼团";
+NSLocationAlwaysAndWhenInUseUsageDescription = "APP需要您的同意获取位置信息显示周边拼团";
+NSPhotoLibraryAddUsageDescription = "请允许APP保存图片到相册";
+NSPhotoLibraryUsageDescription = "APP需要您的同意，才能访问相册设置个人头像信息";
+NSPasteboardUsageDescription = "APP需要您的同意，才能获取剪贴板内容以便识别商品链接";

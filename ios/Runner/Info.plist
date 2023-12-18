@@ -71,17 +71,17 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>APP需要您的同意，才能访问相机设置个人头像信息、扫描二维码</string>
+	<string>Приложению требуется ваше согласие на доступ к камере для установки личной информации аватара.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>APP需要您的同意获取位置信息显示周边拼团</string>
+	<string>Нам необходимо ваше согласие, чтобы получать информацию о местоположении и отображать групповые бронирования поблизости.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>APP需要您的同意获取位置信息显示周边拼团</string>
+	<string>Нам необходимо ваше согласие, чтобы получать информацию о местоположении и отображать групповые бронирования поблизости.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>请允许APP保存图片到相册</string>
+	<string>Разрешите приложению сохранить QR-код службы поддержки клиентов в альбоме.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>APP需要您的同意，才能访问相册设置个人头像信息</string>
+	<string>Нам необходимо ваше согласие для доступа к альбому, сохранения и установки информации о личном аватаре.</string>
 	<key>NSPasteboardUsageDescription</key>
-	<string>APP需要您的同意，才能获取剪贴板内容以便识别商品链接</string>
+	<string>Нам нужно ваше разрешение на доступ к содержимому буфера обмена для определения ссылок на продукты.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
