@@ -133,7 +133,7 @@ class AgentWithdrawDetailPage extends GetView<AgentWithdrawDetailController> {
                 fontSize: 14,
               ),
               AppText(
-                str: model.orderAmount.rate(showPriceSymbol: false) + '元',
+                str: model.orderAmount.rate(),
                 fontSize: 14,
               ),
             ],
@@ -147,12 +147,7 @@ class AgentWithdrawDetailPage extends GetView<AgentWithdrawDetailController> {
                 fontSize: 14,
               ),
               AppText(
-                str: '佣金'.ts +
-                    '：+' +
-                    '{count}元'.tsArgs({
-                      'count':
-                          model.commissionAmount.rate(showPriceSymbol: false)
-                    }),
+                str: '佣金'.ts + '：+' + model.commissionAmount.rate(),
                 fontSize: 14,
               ),
             ],

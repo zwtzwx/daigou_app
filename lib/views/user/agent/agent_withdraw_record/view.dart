@@ -54,7 +54,7 @@ class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
             ExpansionPanel(
               headerBuilder: (context, isExpanded) {
                 return Container(
-                  padding: const EdgeInsets.only(left: 15),
+                  padding: const EdgeInsets.only(left: 15, top: 5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -65,19 +65,11 @@ class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           AppText(
-                            str: '{count}元'.tsArgs({
-                              'count':
-                                  model.orderAmount.rate(showPriceSymbol: false)
-                            }),
+                            str: model.orderAmount.rate(),
                             color: AppColors.textGray,
                           ),
                           AppText(
-                            str: '佣金'.ts +
-                                '：+' +
-                                '{count}元'.tsArgs({
-                                  'count': model.commissionAmount
-                                      .rate(showPriceSymbol: false)
-                                }),
+                            str: '佣金'.ts + '：+' + model.commissionAmount.rate(),
                             color: AppColors.textGray,
                           ),
                         ],
@@ -120,7 +112,7 @@ class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
               fontSize: 13,
             ),
             AppText(
-              str: model.orderAmount.rate(showPriceSymbol: false) + '元',
+              str: model.orderAmount.rate(),
               fontSize: 13,
               color: AppColors.textGray,
             ),
@@ -134,11 +126,7 @@ class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
               fontSize: 13,
             ),
             AppText(
-              str: '佣金'.ts +
-                  '：+' +
-                  '{count}元'.tsArgs({
-                    'count': model.commissionAmount.rate(showPriceSymbol: false)
-                  }),
+              str: '佣金'.ts + '：+' + model.commissionAmount.rate(),
               fontSize: 13,
               color: AppColors.textGray,
             ),
