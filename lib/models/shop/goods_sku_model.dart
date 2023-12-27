@@ -5,6 +5,7 @@ class GoodsSkuModel {
   int? quantity;
   String? properties;
   String? specName;
+  String? specId;
   late List<String> images;
   String? propertiesName;
 
@@ -29,6 +30,7 @@ class GoodsSkuModel {
     }
     specName = json['spec_name'];
     properties = json['properties'];
+    specId = json['spec_id'];
     if (json['images'] != null) {
       images = (json['images'] as List).cast<String>();
     } else {

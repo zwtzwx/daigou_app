@@ -296,6 +296,7 @@ class OrderPreviewController extends GlobalLogic {
         'shop_id': goodsModel.shopId,
         'sku_img': goodsModel.skus.first.skuInfo?.picUrl,
         'shop_name': goodsModel.shopName,
+        'spec_id': goodsModel.skus.first.skuInfo?.specId ?? '',
       },
       'freight_fee': goodsModel.freightFee,
     };

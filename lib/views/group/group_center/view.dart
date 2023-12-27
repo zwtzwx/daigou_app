@@ -162,12 +162,16 @@ class BeeGroupView extends GetView<BeeGroupController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              searchTitleCell('公开拼团', 1),
-              searchTitleCell('我的拼团', 2),
-              searchTitleCell('我的团单', 3),
-            ],
+          SizedBox(
+            height: 45.h,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                searchTitleCell('公开拼团', 1),
+                searchTitleCell('我的拼团', 2),
+                searchTitleCell('我的团单', 3),
+              ],
+            ),
           ),
           Obx(
             () => Offstage(
@@ -308,48 +312,58 @@ class BeeGroupView extends GetView<BeeGroupController> {
             ],
           ),
         ),
-        Wrap(
-          spacing: 10,
-          crossAxisAlignment: WrapCrossAlignment.center,
+        Row(
           children: [
             AppText(
               str: '排序'.ts,
               fontSize: 12,
             ),
-            ...sortList.asMap().keys.map(
-                  (e) => GestureDetector(
-                    onTap: () {
-                      controller.sortIndex.value = e;
-                      controller.onRefresh();
-                    },
-                    child: Obx(
-                      () => Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 2, horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: controller.sortIndex.value == e
-                              ? Colors.white
-                              : AppColors.bgGray,
-                          borderRadius: BorderRadius.circular(999),
-                          border: Border.all(
-                              width: 1,
-                              color: controller.sortIndex.value == e
-                                  ? AppColors.groupText
-                                  : AppColors.bgGray),
-                        ),
-                        child: Obx(
-                          () => AppText(
-                            str: sortList[e],
-                            fontSize: 11,
-                            color: controller.sortIndex.value == e
-                                ? AppColors.groupText
-                                : AppColors.textBlack,
+            10.horizontalSpace,
+            Expanded(
+                child: SizedBox(
+              height: 18.h,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  ...sortList.asMap().keys.map(
+                        (e) => GestureDetector(
+                          onTap: () {
+                            controller.sortIndex.value = e;
+                            controller.onRefresh();
+                          },
+                          child: Obx(
+                            () => Container(
+                              margin: EdgeInsets.only(right: 10.w),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: controller.sortIndex.value == e
+                                    ? Colors.white
+                                    : AppColors.bgGray,
+                                borderRadius: BorderRadius.circular(999),
+                                border: Border.all(
+                                    width: 1,
+                                    color: controller.sortIndex.value == e
+                                        ? AppColors.groupText
+                                        : AppColors.bgGray),
+                              ),
+                              child: Obx(
+                                () => AppText(
+                                  str: sortList[e].ts,
+                                  fontSize: 10.sp,
+                                  color: controller.sortIndex.value == e
+                                      ? AppColors.groupText
+                                      : AppColors.textBlack,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
+                ],
+              ),
+            ))
           ],
         ),
       ],

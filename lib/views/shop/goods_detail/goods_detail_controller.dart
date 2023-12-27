@@ -181,6 +181,7 @@ class GoodsDetailController extends GlobalLogic {
         'specs': spec,
         'min_order_quantity': goodsModel.value?.minOrderQuantity ?? 1,
         'batch_number': goodsModel.value?.batchNumber ?? 1,
+        'spec_id': sku.value!.specId ?? '',
       }
     });
     if (res) {
@@ -232,6 +233,7 @@ class GoodsDetailController extends GlobalLogic {
             'pic_url': (sku.value?.images ?? []).isEmpty
                 ? goodsModel.value?.picUrl
                 : sku.value!.images.first,
+            'spec_id': sku.value!.specId ?? '',
           }
         }
       ]

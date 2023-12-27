@@ -88,6 +88,7 @@ class CartSkuInfoModel {
   late List<Map<String, dynamic>> attributes;
   late int qty;
   late num price;
+  String? specId;
   String? shopName;
   int? minOrderQuantity;
   int? batchNumber;
@@ -100,6 +101,7 @@ class CartSkuInfoModel {
     minOrderQuantity = json['min_order_quantity'];
     batchNumber = json['batch_number'];
     shopName = json['shop_name'];
+    specId = json['spec_id'];
     attributes = [];
     if (json['spec'] is List) {
       for (var ele in json['spec']) {

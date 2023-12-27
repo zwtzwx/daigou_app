@@ -94,7 +94,7 @@ class LineDetailView extends GetView<LineDetailController> {
       alignment: Alignment.centerLeft,
       child: AppText(
         str: '渠道增值服务'.ts,
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: FontWeight.bold,
         lines: 2,
       ),
@@ -347,36 +347,26 @@ class LineDetailView extends GetView<LineDetailController> {
     Color? textColor,
   }) {
     return Container(
-      height: 30,
+      margin: EdgeInsets.only(top: 5.h),
       alignment: Alignment.center,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-            height: 30,
-            alignment: Alignment.center,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                AppText(
-                  str: title.ts,
-                  fontSize: 14,
-                ),
-              ],
+          Flexible(
+            child: AppText(
+              str: title.ts,
+              fontSize: 14,
+              lines: 2,
             ),
           ),
-          Container(
-            height: 30,
-            alignment: Alignment.bottomCenter,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                AppText(
-                  str: content,
-                  fontSize: 14,
-                  color: textColor ?? AppColors.textBlack,
-                )
-              ],
+          10.horizontalSpace,
+          Flexible(
+            child: AppText(
+              str: content,
+              fontSize: 14,
+              color: textColor ?? AppColors.textBlack,
+              lines: 2,
+              alignment: TextAlign.end,
             ),
           ),
         ],
@@ -397,11 +387,11 @@ class LineDetailView extends GetView<LineDetailController> {
     List<Widget> listWidget = [];
     listWidget.add(Container(
       alignment: Alignment.centerLeft,
-      height: 30,
       child: AppText(
         str: '计费标准'.ts,
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: FontWeight.bold,
+        lines: 2,
       ),
     ));
     String contentSymbol = controller.lineModel.value!.baseMode == 0
