@@ -16,10 +16,12 @@ class BeeShopOrder extends StatelessWidget {
     required this.model,
     this.onCancel,
     this.onPay,
+    this.onTransportDetail,
   }) : super(key: key);
   final ShopOrderModel model;
   final Function? onPay;
   final Function? onCancel;
+  final Function? onTransportDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -132,12 +134,12 @@ class BeeShopOrder extends StatelessWidget {
                               ),
                             )
                           : AppGaps.empty,
-                      10.horizontalSpace,
                       model.status == 0
-                          ? ConstrainedBox(
+                          ? Container(
                               constraints: BoxConstraints(
                                 minWidth: ScreenUtil().setWidth(85),
                               ),
+                              margin: EdgeInsets.only(left: 10.w),
                               child: BeeButton(
                                 text: '立即支付',
                                 borderRadis: 999,
@@ -154,6 +156,22 @@ class BeeShopOrder extends StatelessWidget {
                                   //           .fire(ListRefreshEvent(
                                   //               type: 'refresh'));
                                   //     });
+                                },
+                              ),
+                            )
+                          : AppGaps.empty,
+                      model.package != null
+                          ? Container(
+                              constraints: BoxConstraints(
+                                minWidth: ScreenUtil().setWidth(85),
+                              ),
+                              margin: EdgeInsets.only(left: 10.w),
+                              child: BeeButton(
+                                text: '查看物流包裹',
+                                borderRadis: 999,
+                                fontSize: 14,
+                                onPressed: () {
+                                  onTransportDetail!(model.package);
                                 },
                               ),
                             )

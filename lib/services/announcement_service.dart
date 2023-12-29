@@ -43,7 +43,7 @@ class AnnouncementService {
   }
 
   // 公告详情
-  static Future<AnnouncementModel?> getDetail(int id) async {
+  static Future<AnnouncementModel?> getDetail(dynamic id) async {
     AnnouncementModel? result;
     await BeeRequest.instance
         .get(detailApi.replaceAll(':id', id.toString()))

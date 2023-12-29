@@ -1,3 +1,4 @@
+import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/models/receiver_address_model.dart';
 import 'package:jiyun_app_client/models/ship_line_model.dart';
 import 'package:jiyun_app_client/models/shop/cart_model.dart';
@@ -23,6 +24,7 @@ class ShopOrderModel {
   String? payEndAt;
   int? payStatus;
   String? shopId;
+  ParcelModel? package;
 
   ShopOrderModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -62,6 +64,9 @@ class ShopOrderModel {
     }
     if (json['express_line'] != null) {
       expressLine = ShipLineModel.fromJson(json['express_line']);
+    }
+    if (json['package'] is Map) {
+      package = ParcelModel.fromJson(json['package']);
     }
   }
 }

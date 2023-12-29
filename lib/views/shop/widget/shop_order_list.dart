@@ -3,6 +3,7 @@ import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/events/application_event.dart';
 import 'package:jiyun_app_client/events/list_refresh_event.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
+import 'package:jiyun_app_client/models/parcel_model.dart';
 import 'package:jiyun_app_client/models/shop/shop_order_model.dart';
 import 'package:jiyun_app_client/services/shop_service.dart';
 import 'package:jiyun_app_client/views/components/base_dialog.dart';
@@ -79,6 +80,17 @@ class _ShopOrderListState extends State<ShopOrderList> {
     }
   }
 
+  // 跳转到物流订单
+  void toTransportDetail(ParcelModel package) {
+    if (package.orderId != null) {
+      // 跳转到订单详情
+      BeeNav.push(BeeNav.orderDetail, {'id': package.orderId});
+    } else {
+      // 跳转到包裹详情
+      BeeNav.push(BeeNav.parcelDetail, {'id': package.id, 'edit': false});
+    }
+  }
+
   // 取消订单
   void orderCancel({
     required BuildContext context,
@@ -109,6 +121,7 @@ class _ShopOrderListState extends State<ShopOrderList> {
             onPay: () {
               orderPay(orderSn: model.orderSn);
             },
+            onTransportDetail: toTransportDetail,
             onCancel: () {
               orderCancel(context: context, orderId: model.id);
             },
