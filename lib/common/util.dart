@@ -240,8 +240,8 @@ class CommonMethods {
       }
     } else if (model.linkType == 2 || model.linkType == 3) {
       // 外部URL、公众号 URL
-      BeeNav.push(BeeNav.webview,
-          {'url': model.linkPath, 'title': 'Bereke shop', 'time': ''});
+      BeeNav.push(
+          BeeNav.webview, {'url': model.linkPath, 'title': '华廷', 'time': ''});
     }
   }
 }

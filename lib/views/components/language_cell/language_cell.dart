@@ -22,7 +22,7 @@ class LanguageCell extends GetView<LanguageCellController> {
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
             decoration: BoxDecoration(
-              color: const Color(0xFFEBEBEB),
+              color: const Color(0x24000000),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
@@ -47,6 +47,7 @@ class LanguageCell extends GetView<LanguageCellController> {
                 const Icon(
                   Icons.arrow_forward_ios,
                   size: 14,
+                  color: Colors.white,
                 ),
               ],
             ),

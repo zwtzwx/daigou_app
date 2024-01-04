@@ -54,7 +54,8 @@ class DefaultFirebaseOptions {
     appId: '1:682441097900:android:6f9815fd07cfcc9fbe1509',
     messagingSenderId: '682441097900',
     projectId: 'shop-app-c3017',
-    databaseURL: 'https://shop-app-c3017-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://shop-app-c3017-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'shop-app-c3017.appspot.com',
   );
 
@@ -63,10 +64,13 @@ class DefaultFirebaseOptions {
     appId: '1:682441097900:ios:dbda02d884971787be1509',
     messagingSenderId: '682441097900',
     projectId: 'shop-app-c3017',
-    databaseURL: 'https://shop-app-c3017-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://shop-app-c3017-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'shop-app-c3017.appspot.com',
-    androidClientId: '682441097900-o0bkt8qba1eab16jbsqpcg0od7q4gh2i.apps.googleusercontent.com',
-    iosClientId: '682441097900-dod90pj7o994re6hf59grohvdqlfnqos.apps.googleusercontent.com',
-    iosBundleId: 'com.beeshop.shopAppClient',
+    androidClientId:
+        '682441097900-o0bkt8qba1eab16jbsqpcg0od7q4gh2i.apps.googleusercontent.com',
+    iosClientId:
+        '682441097900-dod90pj7o994re6hf59grohvdqlfnqos.apps.googleusercontent.com',
+    iosBundleId: 'com.huating.shopApp',
   );
 }

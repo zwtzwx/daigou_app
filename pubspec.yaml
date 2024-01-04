@@ -94,6 +94,7 @@ flutter:
   assets:
     - assets/images/PackageAndOrder/
     - assets/images/Home/
+    - assets/images/Center/
     - assets/images/AboutMe/
     - assets/images/TabbarIcon/
     - assets/images/Help/

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 //颜色配置
 class AppColors {
-  static const Color primary = Color(0xFFFFE300);
+  static const Color primary = Color(0xFFFFD24E);
   static const Color themeRed = Color(0xffe4382d);
   static const Color white = Color(0xFFFFFFFF);
   static const Color whiteGray = Color(0xFFF8F8F8);

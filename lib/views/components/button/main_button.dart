@@ -9,10 +9,10 @@ class BeeButton extends StatelessWidget {
   const BeeButton({
     Key? key,
     required this.text,
-    this.fontSize = 15,
+    this.fontSize = 14,
     this.elevation = 0,
-    this.borderRadis = 5,
-    this.fontWeight = FontWeight.w400,
+    this.borderRadis = 999,
+    this.fontWeight = FontWeight.bold,
     this.backgroundColor = AppColors.primary,
     this.textColor = AppColors.textDark,
     this.onPressed,

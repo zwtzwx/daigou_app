@@ -44,39 +44,39 @@ class BeeBottomNavPage extends GetView<BeeBottomNavLogic> {
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Image.asset(
-                    'assets/images/TabbarIcon/home-uns.png',
+                    'assets/images/TabbarIcon/1.png',
                     width: 26.w,
                     height: 26.w,
                   ),
                   label: '首页'.ts,
                   activeIcon: Image.asset(
-                    'assets/images/TabbarIcon/home.png',
+                    'assets/images/TabbarIcon/1-1.png',
                     width: 26.w,
                     height: 26.w,
                   ),
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset(
-                    'assets/images/TabbarIcon/transport-uns.png',
+                    'assets/images/TabbarIcon/2.png',
                     width: 26.w,
                     height: 26.w,
                   ),
                   label: '集运'.ts,
                   activeIcon: Image.asset(
-                    'assets/images/TabbarIcon/transport.png',
+                    'assets/images/TabbarIcon/2-1.png',
                     width: 26.w,
                     height: 26.w,
                   ),
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset(
-                    'assets/images/TabbarIcon/shop-uns.png',
+                    'assets/images/TabbarIcon/3.png',
                     width: 26.w,
                     height: 26.w,
                   ),
                   label: '商城'.ts,
                   activeIcon: Image.asset(
-                    'assets/images/TabbarIcon/shop.png',
+                    'assets/images/TabbarIcon/3-1.png',
                     width: 26.w,
                     height: 26.w,
                   ),
@@ -86,7 +86,7 @@ class BeeBottomNavPage extends GetView<BeeBottomNavLogic> {
                       clipBehavior: Clip.none,
                       children: [
                         Image.asset(
-                          'assets/images/TabbarIcon/cart-uns.png',
+                          'assets/images/TabbarIcon/4.png',
                           width: 26.w,
                           height: 26.w,
                         ),
@@ -119,7 +119,7 @@ class BeeBottomNavPage extends GetView<BeeBottomNavLogic> {
                       clipBehavior: Clip.none,
                       children: [
                         Image.asset(
-                          'assets/images/TabbarIcon/cart.png',
+                          'assets/images/TabbarIcon/4-1.png',
                           width: 26.w,
                           height: 26.w,
                         ),
@@ -149,13 +149,13 @@ class BeeBottomNavPage extends GetView<BeeBottomNavLogic> {
                     )),
                 BottomNavigationBarItem(
                   icon: Image.asset(
-                    'assets/images/TabbarIcon/center-uns.png',
+                    'assets/images/TabbarIcon/5.png',
                     width: 26.w,
                     height: 26.w,
                   ),
                   label: '我的'.ts,
                   activeIcon: Image.asset(
-                    'assets/images/TabbarIcon/center.png',
+                    'assets/images/TabbarIcon/5-1.png',
                     width: 26.w,
                     height: 26.w,
                   ),

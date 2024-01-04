@@ -2,8 +2,11 @@ import 'package:get/state_manager.dart';
 import 'package:jiyun_app_client/models/currency_rate_model.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
+import 'package:jiyun_app_client/models/user_order_count_model.dart';
+import 'package:jiyun_app_client/models/user_vip_model.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/localization_service.dart';
+import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/storage/language_storage.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 
@@ -14,6 +17,8 @@ class UserInfoModel {
   final currencyModel = Rxn<CurrencyRateModel?>();
   final rateList = <CurrencyRateModel>[].obs;
   final _localModel = Rxn<LocalizationModel?>();
+  final amountInfo = Rxn<UserOrderCountModel?>();
+  final vipInfo = Rxn<UserVipModel?>();
 
   LocalizationModel? get localModel => _localModel.value;
 
@@ -47,6 +52,8 @@ class UserInfoModel {
   clear() {
     token.value = '';
     userInfo.value = null;
+    vipInfo.value = null;
+    amountInfo.value = null;
     UserStorage.clearToken();
   }
 
@@ -56,6 +63,7 @@ class UserInfoModel {
       if (res != null) {
         UserStorage.setToken(res);
         token.value = res;
+        getBaseCountInfo();
       }
     }
   }
@@ -84,5 +92,11 @@ class UserInfoModel {
 
   setCurrency(CurrencyRateModel data) async {
     currencyModel.value = data;
+  }
+
+  // 获取余额、优惠券、积分
+  getBaseCountInfo() async {
+    amountInfo.value = await UserService.getOrderDataCount();
+    vipInfo.value = await UserService.getVipMemberData();
   }
 }
