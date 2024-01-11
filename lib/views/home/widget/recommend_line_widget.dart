@@ -16,7 +16,7 @@ class RecommendLineWidget extends GetView<IndexLogic> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(left: 12.w),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             Colors.white,

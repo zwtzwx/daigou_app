@@ -193,8 +193,9 @@ class BeeGroupView extends GetView<BeeGroupController> {
                       .map(
                         (e) => GestureDetector(
                           onTap: () {
-                            if (controller.groupStatus.value == e['value'])
+                            if (controller.groupStatus.value == e['value']) {
                               return;
+                            }
 
                             controller.groupStatus.value = e['value'];
                             controller.onRefresh();

@@ -124,7 +124,7 @@ class IndexPage extends GetView<IndexLogic> {
                             BeeNav.push(BeeNav.login);
                           },
                         )
-                      : Column()
+                      : const Column()
                 ],
               ),
             ),

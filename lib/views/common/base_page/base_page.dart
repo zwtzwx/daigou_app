@@ -52,7 +52,7 @@ class BasePage extends StatelessWidget {
               return body;
             }
           }
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         },
       ),
     );
