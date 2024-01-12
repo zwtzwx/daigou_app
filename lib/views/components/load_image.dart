@@ -1,6 +1,8 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/common/image_util.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:jiyun_app_client/config/color_config.dart';
 
 class ImgItem extends StatelessWidget {
   const ImgItem(this.image,
@@ -10,7 +12,7 @@ class ImgItem extends StatelessWidget {
       this.fit = BoxFit.cover,
       this.placeholderWidget,
       this.format = "png",
-      this.holderImg = "none"})
+      this.holderImg})
       : super(key: key);
 
   final String image;
@@ -18,24 +20,46 @@ class ImgItem extends StatelessWidget {
   final double? height;
   final BoxFit fit;
   final String format;
-  final String holderImg;
+  final String? holderImg;
   final Widget? placeholderWidget;
 
   @override
   Widget build(BuildContext context) {
     if (image.isEmpty || image == "null") {
-      return LoadAssetImage(holderImg,
+      return LoadAssetImage(holderImg ?? 'none',
           height: height, width: width, fit: fit, format: format);
     } else {
       if (image.startsWith("http")) {
         return CachedNetworkImage(
           imageUrl: image,
-          placeholder: (context, url) =>
-              placeholderWidget ??
-              LoadAssetImage(holderImg, height: height, width: width, fit: fit),
-          errorWidget: (context, url, error) =>
-              placeholderWidget ??
-              LoadAssetImage(holderImg, height: height, width: width, fit: fit),
+          placeholder: (context, url) => holderImg != null
+              ? LoadAssetImage(
+                  holderImg!,
+                )
+              : Container(
+                  padding: EdgeInsets.symmetric(vertical: 10.h),
+                  alignment: Alignment.center,
+                  color: AppColors.textGrayC,
+                  child: LoadAssetImage(
+                    'Center/logo-w',
+                    width: 50.w,
+                    height: 50.w,
+                  ),
+                ),
+          errorWidget: (context, url, error) => holderImg != null
+              ? LoadAssetImage(
+                  holderImg!,
+                )
+              : Container(
+                  padding: EdgeInsets.symmetric(vertical: 10.h),
+                  alignment: Alignment.center,
+                  color: AppColors.textGrayC,
+                  child: LoadAssetImage(
+                    'Center/logo-w',
+                    width: 50.w,
+                    height: 50.w,
+                  ),
+                ),
           width: width,
           height: height,
           fit: fit,

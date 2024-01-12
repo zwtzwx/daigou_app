@@ -109,11 +109,10 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
             ? Column(
                 children: <Widget>[
                   headerCardView(context),
-                  AppGaps.vGap15,
+                  15.verticalSpaceFromWidth,
                   buildGrowthValueView(),
-                  AppGaps.vGap15,
-                  buyVipPriceView(context),
-                  AppGaps.vGap15,
+                  // buyVipPriceView(context),
+                  20.verticalSpaceFromWidth,
                 ],
               )
             : AppGaps.empty),
@@ -522,7 +521,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                     child: ImgItem(
                       controller.userInfo!.avatar,
                       fit: BoxFit.fitWidth,
-                      holderImg: "AboutMe/about-logo",
+                      holderImg: "Center/logo",
                     ),
                   ),
                 ),

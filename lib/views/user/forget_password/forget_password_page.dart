@@ -2,6 +2,7 @@
   忘记密码
 */
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
@@ -9,6 +10,7 @@ import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/user/forget_password/forget_password_controller.dart';
 
 class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
@@ -21,13 +23,11 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.white,
-        elevation: 0.5,
+        elevation: 0,
         centerTitle: true,
         title: AppText(
           str: '忘记密码'.ts,
-          color: AppColors.textBlack,
-          fontSize: 18,
-          fontWeight: FontWeight.w400,
+          fontSize: 17,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
@@ -37,7 +37,7 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
-            logoCell(context),
+            logoCell(),
             loginSubmitCell(context),
           ],
         ),
@@ -45,17 +45,16 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
     );
   }
 
-  Widget logoCell(BuildContext context) {
-    var headerView = Container(
-        height: 200,
-        color: Colors.white,
-        alignment: Alignment.center,
-        child: Image.asset(
-          "assets/images/AboutMe/about-logo.png",
-          height: 80,
-          width: 80,
-        ));
-    return headerView;
+  Widget logoCell() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 50.h),
+      alignment: Alignment.center,
+      child: ImgItem(
+        'Center/logo',
+        width: 80.w,
+        height: 80.w,
+      ),
+    );
   }
 
   /*
@@ -70,21 +69,18 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
             inputAccountView(context),
             inPutVeritfyNumber(context),
             inPutEmailNumber(context),
-            const SizedBox(
-              height: 40,
-            ),
+            40.verticalSpaceFromWidth,
             SizedBox(
-              height: 40,
+              height: 38.h,
               width: double.infinity,
               child: BeeButton(
                 text: '确认并登录',
-                borderRadis: 4.0,
                 onPressed: controller.onSubmit,
               ),
             ),
+            15.verticalSpaceFromWidth,
             Container(
               alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(top: 20),
               child: Obx(() => GestureDetector(
                     onTap: () {
                       controller.loginType.value =
@@ -111,6 +107,7 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
             bottom: BorderSide(
                 width: 1, color: AppColors.line, style: BorderStyle.solid)),
       ),
+      padding: EdgeInsets.symmetric(vertical: 5.h),
       child: Row(
         children: <Widget>[
           Expanded(
@@ -150,6 +147,7 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
                 width: 1, color: AppColors.line, style: BorderStyle.solid)),
       ),
       alignment: Alignment.center,
+      padding: EdgeInsets.symmetric(vertical: 5.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -202,6 +200,7 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
             bottom: BorderSide(
                 width: 1, color: AppColors.line, style: BorderStyle.solid)),
       ),
+      padding: EdgeInsets.symmetric(vertical: 5.h),
       child: Obx(
         () => Row(
           children: <Widget>[

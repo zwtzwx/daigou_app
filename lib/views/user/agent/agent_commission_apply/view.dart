@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
@@ -16,19 +17,17 @@ class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.white,
-        elevation: 0.5,
+        elevation: 0.1,
         centerTitle: true,
         title: AppText(
           str: '结算账号信息'.ts,
-          color: AppColors.textBlack,
           fontSize: 17,
         ),
       ),
       bottomNavigationBar: SafeArea(
         child: Container(
-          margin:
-              const EdgeInsets.only(right: 15, left: 15, top: 10, bottom: 10),
-          height: 40,
+          margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+          height: 38.h,
           width: double.infinity,
           child: BeeButton(
             text: '确认',

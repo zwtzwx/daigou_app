@@ -386,7 +386,7 @@ class BeeUserInfoPage extends GetView<BeeUserInfoLogic> {
                               ? (controller.userModel.value?.avatar ?? '')
                               : controller.userImg.value,
                           fit: BoxFit.fitWidth,
-                          holderImg: "AboutMe/about-logo",
+                          holderImg: "Center/logo",
                           format: "png",
                         ),
                       ),

@@ -21,9 +21,7 @@ class AgentApplyPage extends GetView<AgentApplyController> {
           centerTitle: true,
           title: AppText(
             str: '申请代理'.ts,
-            color: AppColors.textBlack,
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
+            fontSize: 17,
           ),
         ),
         bottomNavigationBar: SafeArea(

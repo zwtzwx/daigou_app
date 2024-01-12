@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/user/register/register_controller.dart';
 
 class BeeSignUpPage extends GetView<BeeSignUpLogic> {
@@ -21,51 +22,37 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.white,
-        elevation: 0.5,
+        elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
         title: AppText(
           str: controller.pageTitle.value,
-          color: AppColors.textBlack,
-          fontSize: 18,
-          fontWeight: FontWeight.w400,
+          fontSize: 17,
         ),
       ),
       backgroundColor: AppColors.white,
       // bottomNavigationBar: buildOtherSignIn(),
       body: SingleChildScrollView(
-        child: SizedBox(
-          // color: Colors.red,
-          width: ScreenUtil().screenWidth,
-          height: ScreenUtil().screenHeight -
-              ScreenUtil().statusBarHeight -
-              ScreenUtil().bottomBarHeight,
-          child: Column(
-            children: [
-              logoCell(context),
-              loginCell(context),
-            ],
-          ),
+        child: Column(
+          children: [
+            logoCell(context),
+            loginCell(context),
+          ],
         ),
       ),
     );
   }
 
   Widget logoCell(BuildContext context) {
-    var headerView = Container(
-      height: 200,
-      color: Colors.white,
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 50.h),
       alignment: Alignment.center,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: Image.asset(
-          "assets/images/AboutMe/about-logo.png",
-          height: 80,
-          width: 80,
-        ),
+      child: ImgItem(
+        'Center/logo',
+        width: 80.w,
+        height: 80.w,
       ),
     );
-    return headerView;
   }
 
   /*
@@ -73,8 +60,7 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
   */
   Widget loginCell(BuildContext context) {
     return Container(
-        color: AppColors.white,
-        padding: const EdgeInsets.only(right: 40, left: 40),
+        padding: EdgeInsets.symmetric(horizontal: 40.w),
         child: Column(
           children: <Widget>[
             Obx(() => controller.loginType.value == 1
@@ -83,19 +69,18 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
             passwordCell(context),
             inPutVeritfyNumber(context),
             inPutInviteNumber(context),
-            Container(
-              margin: const EdgeInsets.only(top: 40),
-              height: 40,
+            30.verticalSpaceFromWidth,
+            SizedBox(
+              height: 38.h,
               width: double.infinity,
               child: BeeButton(
                 text: '注册',
-                borderRadis: 4,
                 onPressed: controller.onRegister,
               ),
             ),
+            15.verticalSpaceFromWidth,
             Container(
               alignment: Alignment.centerRight,
-              padding: const EdgeInsets.symmetric(vertical: 20),
               child: Obx(() => controller.loginType.value != 3
                   ? GestureDetector(
                       onTap: () {
@@ -121,8 +106,9 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
         color: AppColors.white,
         border: Border(
             bottom: BorderSide(
-                width: 0.5, color: AppColors.line, style: BorderStyle.solid)),
+                width: 1, color: AppColors.line, style: BorderStyle.solid)),
       ),
+      padding: EdgeInsets.symmetric(vertical: 5.h),
       child: Row(
         children: <Widget>[
           Expanded(
@@ -136,10 +122,10 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
                   decoration: InputDecoration(
                     hintText: '请输入邮箱'.ts,
                     enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: AppColors.line),
+                      borderSide: BorderSide.none,
                     ),
                     focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: AppColors.line),
+                      borderSide: BorderSide.none,
                     ),
                   ),
                 ),
@@ -154,9 +140,7 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
 
   inPutInviteNumber(BuildContext context) {
     var inputAccountView = Container(
-      decoration: const BoxDecoration(
-        color: AppColors.white,
-      ),
+      padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Obx(
         () => TextField(
           style: const TextStyle(color: Colors.black87),
@@ -184,7 +168,7 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
             bottom: BorderSide(
                 width: 1, color: AppColors.line, style: BorderStyle.solid)),
       ),
-      alignment: Alignment.center,
+      padding: EdgeInsets.symmetric(vertical: 5.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -196,9 +180,7 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
                 style: const TextStyle(color: Colors.black87),
                 controller: controller.validationController,
                 decoration: InputDecoration(
-                  hintText: controller.loginType.value == 3
-                      ? '请输入密码'.ts
-                      : '请输入验证码'.ts,
+                  hintText: '请输入验证码'.ts,
                   enabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide.none,
                   ),
@@ -235,9 +217,14 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
       decoration: const BoxDecoration(
         color: AppColors.white,
         border: Border(
-            bottom: BorderSide(
-                width: 0.5, color: AppColors.line, style: BorderStyle.solid)),
+          bottom: BorderSide(
+            width: 1,
+            color: AppColors.line,
+            style: BorderStyle.solid,
+          ),
+        ),
       ),
+      padding: EdgeInsets.symmetric(vertical: 5.h),
       alignment: Alignment.center,
       child: Obx(
         () => TextField(
@@ -247,10 +234,10 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
           decoration: InputDecoration(
             hintText: '请输入密码'.ts,
             enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.line),
+              borderSide: BorderSide.none,
             ),
             focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.line),
+              borderSide: BorderSide.none,
             ),
           ),
         ),
@@ -267,6 +254,7 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
             bottom: BorderSide(
                 width: 1, color: AppColors.line, style: BorderStyle.solid)),
       ),
+      padding: EdgeInsets.symmetric(vertical: 5.h),
       child: Row(
         children: <Widget>[
           GestureDetector(
@@ -300,7 +288,7 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
               ],
             ),
           ),
-          AppGaps.hGap10,
+          10.horizontalSpace,
           Expanded(
               child: Container(
             height: 40,
@@ -311,11 +299,9 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
               decoration: InputDecoration(
                 hintText: '请输入手机号'.ts,
                 enabledBorder: const UnderlineInputBorder(
-                  // borderSide: BorderSide(color: AppColors.line),
                   borderSide: BorderSide.none,
                 ),
                 focusedBorder: const UnderlineInputBorder(
-                  // borderSide: BorderSide(color: AppColors.line),
                   borderSide: BorderSide.none,
                 ),
               ),

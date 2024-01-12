@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
@@ -19,7 +20,7 @@ class AgentCommissionHistoryPage
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.white,
-        elevation: 0.5,
+        elevation: 0,
         centerTitle: true,
         title: AppText(
           str: '佣金报表'.ts,
@@ -28,7 +29,7 @@ class AgentCommissionHistoryPage
         ),
       ),
       backgroundColor: AppColors.bgGray,
-      bottomNavigationBar: bottomListBtn(),
+      // bottomNavigationBar: bottomListBtn(),
       body: RefreshView(
         renderItem: renderItem,
         refresh: controller.loadList,
@@ -38,50 +39,50 @@ class AgentCommissionHistoryPage
   }
 
   // 底部按钮
-  Widget bottomListBtn() {
-    return Row(
-      children: [
-        Expanded(
-          child: GestureDetector(
-            onTap: () {
-              BeeNav.push(BeeNav.agentCommissionList);
-            },
-            child: Container(
-              height: 65,
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
-              color: AppColors.primary,
-              child: AppText(
-                str: '我要提现'.ts,
-                fontSize: 17,
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          child: GestureDetector(
-            onTap: () {
-              BeeNav.push(BeeNav.agentWithdrawRecord);
-            },
-            child: Container(
-              height: 65,
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
-              color: Colors.white,
-              child: AppText(
-                str: '成交记录'.ts,
-                fontSize: 17,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget bottomListBtn() {
+  //   return Row(
+  //     children: [
+  //       Expanded(
+  //         child: GestureDetector(
+  //           onTap: () {
+  //             BeeNav.push(BeeNav.agentCommissionList);
+  //           },
+  //           child: Container(
+  //             height: 65,
+  //             alignment: Alignment.center,
+  //             padding: const EdgeInsets.symmetric(
+  //               horizontal: 10,
+  //             ),
+  //             color: AppColors.primary,
+  //             child: AppText(
+  //               str: '我要提现'.ts,
+  //               fontSize: 17,
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //       Expanded(
+  //         child: GestureDetector(
+  //           onTap: () {
+  //             BeeNav.push(BeeNav.agentWithdrawRecord);
+  //           },
+  //           child: Container(
+  //             height: 65,
+  //             alignment: Alignment.center,
+  //             padding: const EdgeInsets.symmetric(
+  //               horizontal: 10,
+  //             ),
+  //             color: Colors.white,
+  //             child: AppText(
+  //               str: '成交记录'.ts,
+  //               fontSize: 17,
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget renderItem(index, WithdrawalItemModel model) {
     var container = Container(
@@ -94,32 +95,30 @@ class AgentCommissionHistoryPage
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            height: 30,
-            alignment: Alignment.center,
+          5.verticalSpace,
+          Center(
             child: AppText(
               str: model.serialNo,
               fontSize: 14,
-              color: AppColors.textGray,
             ),
           ),
-          Container(
-            height: 30,
-            alignment: Alignment.center,
+          5.verticalSpace,
+          Center(
             child: AppText(
               str: model.amount.rate(),
               fontSize: 22,
               color: AppColors.textRed,
             ),
           ),
-          AppGaps.vGap15,
+          15.verticalSpaceFromWidth,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               children: [
                 AppText(
                   str: '收款账号'.ts + '：',
-                  color: AppColors.textGray,
+                  color: AppColors.textGrayC9,
+                  fontSize: 14,
                 ),
                 AppText(
                   str: model.user?.name ?? '',
@@ -127,14 +126,15 @@ class AgentCommissionHistoryPage
               ],
             ),
           ),
-          AppGaps.vGap4,
+          5.verticalSpaceFromWidth,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               children: [
                 AppText(
                   str: '收款方式'.ts + '：',
-                  color: AppColors.textGray,
+                  color: AppColors.textGrayC9,
+                  fontSize: 14,
                 ),
                 AppText(
                   str: model.withdrawTypeName,
@@ -142,14 +142,15 @@ class AgentCommissionHistoryPage
               ],
             ),
           ),
-          AppGaps.vGap4,
+          5.verticalSpaceFromWidth,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               children: [
                 AppText(
                   str: '结算状态'.ts + '：',
-                  color: AppColors.textGray,
+                  color: AppColors.textGrayC9,
+                  fontSize: 14,
                 ),
                 AppText(
                   str: model.status == 0
@@ -162,7 +163,7 @@ class AgentCommissionHistoryPage
               ],
             ),
           ),
-          AppGaps.vGap5,
+          5.verticalSpaceFromWidth,
           AppGaps.line,
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),

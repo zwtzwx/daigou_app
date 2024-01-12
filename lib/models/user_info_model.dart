@@ -33,6 +33,7 @@ class UserInfoModel {
   saveInfo(String t, UserModel u) {
     token.value = t;
     userInfo.value = u;
+    getBaseCountInfo();
   }
 
   setUserInfo(UserModel u) {
