@@ -61,7 +61,7 @@ class BeeParcelCreateLogic extends GlobalLogic {
   // 默认自提点
   SelfPickupStationModel? stationModel;
 
-  UserModel? userModel = Get.find<UserInfoModel>().userInfo.value;
+  UserModel? userModel = Get.find<AppStore>().userInfo.value;
 
   @override
   void onInit() {

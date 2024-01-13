@@ -216,9 +216,8 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
         ),
         Obx(() {
           UserModel? userModel = controller.userInfoModel.userInfo.value;
-          UserOrderCountModel? amount =
-              Get.find<UserInfoModel>().amountInfo.value;
-          UserVipModel? vipModel = Get.find<UserInfoModel>().vipInfo.value;
+          UserOrderCountModel? amount = Get.find<AppStore>().amountInfo.value;
+          UserVipModel? vipModel = Get.find<AppStore>().vipInfo.value;
           List<Map<String, String>> list = [
             {
               'label': '余额',

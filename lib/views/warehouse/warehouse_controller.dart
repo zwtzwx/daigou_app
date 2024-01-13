@@ -10,7 +10,7 @@ import 'package:jiyun_app_client/services/warehouse_service.dart';
 class BeeCangKuLogic extends GlobalLogic {
   final warehouseList = <WareHouseModel>[].obs;
   final isLoading = false.obs;
-  UserModel? userModel = Get.find<UserInfoModel>().userInfo.value;
+  UserModel? userModel = Get.find<AppStore>().userInfo.value;
 
   @override
   onInit() {

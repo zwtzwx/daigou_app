@@ -9,7 +9,7 @@ class AgentMemberController extends GlobalLogic {
   final promotionType = 1.obs;
 
   final countModel = Rxn<AgentDataCountModel?>();
-  final userInfo = Get.find<UserInfoModel>().userInfo;
+  final userInfo = Get.find<AppStore>().userInfo;
   final userList = <UserModel>[].obs;
   final loading = false.obs;
 

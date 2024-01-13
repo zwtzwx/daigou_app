@@ -47,7 +47,7 @@ class BeeSignInLogic extends GlobalLogic {
   @override
   onInit() {
     super.onInit();
-    var accountInfo = Get.find<UserInfoModel>().accountInfo.value;
+    var accountInfo = Get.find<AppStore>().accountInfo.value;
     if (accountInfo != null) {
       if (accountInfo['loginType'] != null) {
         saveAccount.value = true;
@@ -87,7 +87,7 @@ class BeeSignInLogic extends GlobalLogic {
           : emailController.text;
       if (account.isEmpty || validationController.text.isNotEmpty) {
         saveAccount.value = value;
-        Get.find<UserInfoModel>().saveAccount({
+        Get.find<AppStore>().saveAccount({
           'account': loginType.value == 1
               ? mobileNumberController.text
               : emailController.text,
@@ -100,7 +100,7 @@ class BeeSignInLogic extends GlobalLogic {
       }
     } else {
       saveAccount.value = value;
-      Get.find<UserInfoModel>().clearAccount();
+      Get.find<AppStore>().clearAccount();
     }
   }
 
@@ -158,7 +158,7 @@ class BeeSignInLogic extends GlobalLogic {
       ApplicationEvent.getInstance().event.fire(LoginedEvent());
       ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
       //更新状态管理器
-      UserInfoModel userInfoModel = Get.find<UserInfoModel>();
+      AppStore userInfoModel = Get.find<AppStore>();
       userInfoModel.saveInfo(
           tokenModel!.tokenType + ' ' + tokenModel.accessToken,
           tokenModel.user!);

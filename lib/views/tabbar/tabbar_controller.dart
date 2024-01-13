@@ -16,7 +16,7 @@ class BeeBottomNavLogic extends GlobalLogic {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final selectIndex = 0.obs;
   final cartCount = 0.obs;
-  UserInfoModel userInfoModel = Get.find<UserInfoModel>();
+  AppStore userInfoModel = Get.find<AppStore>();
 
   @override
   void onInit() {

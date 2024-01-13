@@ -36,10 +36,9 @@ class IndexLogic extends GlobalLogic {
   final RxList<GoodsModel> hotGoodsList = <GoodsModel>[].obs;
   final loadingUtil = LoadingUtil<PlatformGoodsModel>().obs;
 
-  final userModel = Get.find<UserInfoModel>().userInfo;
-  final amountModel = Get.find<UserInfoModel>().amountInfo;
-  final vipModel = Get.find<UserInfoModel>().vipInfo;
-  final activityPicList = <BannerModel>[].obs;
+  final userModel = Get.find<AppStore>().userInfo;
+  final amountModel = Get.find<AppStore>().amountInfo;
+  final vipModel = Get.find<AppStore>().vipInfo;
   final lineList = <ShipLineModel>[].obs;
   final TextEditingController keywordController = TextEditingController();
   final FocusNode keywordNode = FocusNode();
@@ -132,26 +131,22 @@ class IndexLogic extends GlobalLogic {
   }
 
   // 是否有未读消息
-  onGetUnReadNotice() async {
-    var token = Get.find<UserInfoModel>().token.value;
-    if (token.isEmpty) return;
-    var res = await CommonService.hasUnReadInfo();
-    noticeUnRead.value = res;
-  }
+  // onGetUnReadNotice() async {
+  //   var token = Get.find<AppStore>().token.value;
+  //   if (token.isEmpty) return;
+  //   var res = await CommonService.hasUnReadInfo();
+  //   noticeUnRead.value = res;
+  // }
 
   // 获取弹窗、活动广告
   getAds() async {
     List<BannerModel> result = await AdsService.getList({"source": 4});
     List<BannerModel> adList = [];
-    List<BannerModel> pics = [];
     for (var item in result) {
       if (item.type == 4) {
         adList.add(item);
-      } else if (item.position == 1 && item.type == 2) {
-        pics.add(item);
       }
     }
-    activityPicList.value = pics;
     for (var item in adList) {
       Get.dialog(
         AdDialog(adItem: item),

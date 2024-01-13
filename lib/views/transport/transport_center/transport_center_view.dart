@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/instance_manager.dart';
 import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
+import 'package:jiyun_app_client/models/user_info_model.dart';
 import 'package:jiyun_app_client/views/components/ad_cell.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/contact_cell.dart';
-import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
-import 'package:jiyun_app_client/views/components/language_cell/language_cell.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
 import 'package:jiyun_app_client/views/transport/transport_center/transport_center_controller.dart';
-import 'package:jiyun_app_client/views/transport/widget/recommend_group_cell.dart';
-import 'package:jiyun_app_client/views/transport/widget/recommend_line_cell.dart';
+import 'package:jiyun_app_client/views/transport/widget/comment_list_widget.dart';
 
 class TransportCenterView extends GetView<TransportCenterController> {
   const TransportCenterView({Key? key}) : super(key: key);
@@ -20,110 +18,196 @@ class TransportCenterView extends GetView<TransportCenterController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      primary: false,
-      appBar: const EmptyAppBar(),
-      backgroundColor: AppColors.bgGray,
-      body: Stack(
-        children: [
-          RefreshIndicator(
-            onRefresh: controller.handleRefresh,
-            child: ListView(
-              shrinkWrap: true,
-              physics: const AlwaysScrollableScrollPhysics(),
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.white, AppColors.bgGray],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: [0.7, 0.8],
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Obx(
+          () => AppText(
+            str: '集运'.ts,
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      backgroundColor: Colors.white,
+      body: RefreshIndicator(
+        onRefresh: controller.handleRefresh,
+        color: AppColors.primary,
+        child: ListView(
+          shrinkWrap: true,
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [
+            const AdsCell(type: 1),
+            14.verticalSpaceFromWidth,
+            buildShipType(),
+            20.verticalSpaceFromWidth,
+            Obx(() => parcelModule()),
+            22.verticalSpaceFromWidth,
+            linksCell(),
+            25.verticalSpaceFromWidth,
+            adList(),
+            25.verticalSpaceFromWidth,
+            const CommentListWidget(),
+            30.verticalSpaceFromWidth,
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildShipType() {
+    List<Map<String, dynamic>> links = [
+      {
+        'img': 'wyzy',
+        'name': '我要直邮',
+        'color': const Color(0xFFFFF8F1),
+        'route': BeeNav.forecast
+      },
+      {
+        'img': 'wypy',
+        'name': '拼邮更划算',
+        'route': BeeNav.groupCenter,
+        'color': const Color(0xFFFFF9E3),
+      },
+    ];
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 12.w),
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: links
+              .map(
+                (e) => Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      BeeNav.push(e['route']!);
+                    },
+                    child: Container(
+                      margin:
+                          EdgeInsets.only(left: e['img'] == 'wypy' ? 10.w : 0),
+                      padding: EdgeInsets.only(
+                        top: 12.h,
+                        bottom: 30.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: e['color'],
+                        borderRadius: BorderRadius.circular(18.r),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ImgItem(
+                            'Transport/${e['img']}',
+                            width: 100.w,
+                            height: 84.w,
+                          ),
+                          10.verticalSpaceFromWidth,
+                          Obx(
+                            () => AppText(
+                              str: (e['name'] as String).ts,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      const LanguageCell(),
-                      const AdsCell(type: 1),
-                      10.verticalSpace,
-                      mainModuleCell(),
-                      15.verticalSpaceFromWidth,
-                      linksCell(),
-                    ],
-                  ),
                 ),
-                25.verticalSpaceFromWidth,
-                RecommandShipLinesCell(
-                  currencySymbol: controller.currencyModel.value,
+              )
+              .toList(),
+        ),
+      ),
+    );
+  }
+
+  Widget parcelModule() {
+    final parcelCount = Get.find<AppStore>().amountInfo;
+    List<Map<String, dynamic>> list = [
+      {'name': '未入库', 'count': parcelCount.value?.waitStorage},
+      {'name': '已入库', 'count': parcelCount.value?.alreadyStorage},
+      {'name': '待处理', 'count': parcelCount.value?.waitPack},
+      {'name': '待支付', 'count': parcelCount.value?.waitPay},
+      {'name': '待发货', 'count': parcelCount.value?.waitTran},
+      {'name': '已发货', 'count': parcelCount.value?.shipping},
+      {'name': '已签收'}
+    ];
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 14.w),
+      child: Row(
+        children: [
+          Expanded(
+            child: SizedBox(
+              height: 36.h,
+              child: ListView.builder(
+                itemCount: list.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    GestureDetector(
+                      child: UnconstrainedBox(
+                        child: Container(
+                          height: 30.h,
+                          margin: EdgeInsets.only(top: 3.h, right: 14.w),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: const Color(0xFFE4E4E4)),
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 18.w),
+                          alignment: Alignment.center,
+                          child: AppText(
+                            str: (list[index]['name'] as String).ts,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ),
+                    list[index]['count'] != null && list[index]['count'] != 0
+                        ? Positioned(
+                            right: 5.w,
+                            top: 0,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5.w, vertical: 2.w),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(999),
+                                color: const Color(0xFFFF6868),
+                              ),
+                              child: AppText(
+                                str: list[index]['count'].toString(),
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
+                            ))
+                        : AppGaps.empty,
+                  ],
                 ),
-                const RecommendGroupCell(size: 2),
-                30.verticalSpaceFromWidth,
-              ],
+              ),
             ),
           ),
-          const ContactCell(),
+          10.horizontalSpace,
+          Icon(
+            Icons.arrow_forward_ios,
+            color: AppColors.textNormal,
+            size: 12.sp,
+          ),
+          10.horizontalSpace,
         ],
       ),
     );
   }
 
-  Widget mainModuleCell() {
-    List<Map<String, String>> links = [
-      {'img': 'zy', 'name': '我要直邮', 'route': BeeNav.forecast},
-      {'img': 'smqj', 'name': '我要拼邮', 'route': BeeNav.groupCenter},
-      {'img': 'py', 'name': '自提点', 'route': BeeNav.station},
-    ];
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 6.w,
-          childAspectRatio: 11 / 7,
-        ),
-        itemCount: links.length,
-        itemBuilder: (context, index) => GestureDetector(
-          onTap: () {
-            BeeNav.push(links[index]['route']!);
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.w),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                    'assets/images/Transport/${links[index]['img']}.png'),
-                fit: BoxFit.fill,
-              ),
-            ),
-            child: Obx(
-              () => AppText(
-                str: links[index]['name']!.ts,
-                fontSize: 14,
-                lines: 3,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget linksCell() {
-    List<Map<String, String>> list1 = [
-      {'img': 'ckdz', 'name': '仓库地址', 'route': BeeNav.warehouse},
-      {'img': 'yfss', 'name': '运费试算', 'route': BeeNav.lineQuery},
-      {'img': 'wlgz', 'name': '物流查询', 'route': BeeNav.track},
-      {'img': 'order', 'name': '我的订单', 'route': BeeNav.orderCenter},
-    ];
-    List<Map<String, String>> list2 = [
-      {'img': 'help', 'name': '帮助支持', 'route': BeeNav.help},
-      {'img': 'comment', 'name': '集运评论', 'route': BeeNav.comment},
-      {'img': 'chrome', 'name': 'chrome一健预报', 'route': BeeNav.chromeLogin},
+    List<Map<String, String>> list = [
+      {'img': 'ico_ckdz', 'name': '仓库地址', 'route': BeeNav.warehouse},
+      {'img': 'ico_yfgs', 'name': '运费试算', 'route': BeeNav.lineQuery},
+      {'img': 'ico_bgyb', 'name': '包裹预报', 'route': BeeNav.forecast},
+      {'img': 'ico_ycjrl', 'name': '异常件认领', 'route': BeeNav.noOwnerList},
     ];
     return Container(
-      padding: EdgeInsets.fromLTRB(16.w, 20.w, 16.w, 10.w),
-      margin: EdgeInsets.symmetric(horizontal: 12.w),
+      margin: EdgeInsets.symmetric(horizontal: 14.w),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
@@ -131,85 +215,96 @@ class TransportCenterView extends GetView<TransportCenterController> {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: list1
+            children: list
                 .map(
                   (e) => GestureDetector(
                     onTap: () {
                       BeeNav.push(e['route']!);
                     },
-                    child: ConstrainedBox(
+                    child: Container(
+                      color: Colors.transparent,
                       constraints: BoxConstraints(
-                        maxWidth: (1.sw - 70.w) / 4,
+                        maxWidth: (1.sw - 50.w) / 4,
                       ),
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Column(
-                          children: [
-                            ImgItem(
-                              'Transport/${e['img']}',
-                              width: 40.w,
+                      child: Column(
+                        children: [
+                          ImgItem(
+                            'Transport/${e['img']}',
+                            width: 50.w,
+                          ),
+                          2.verticalSpace,
+                          Obx(
+                            () => AppText(
+                              str: e['name']!.ts,
+                              fontSize: 12,
+                              lines: 3,
+                              alignment: TextAlign.center,
                             ),
-                            2.verticalSpace,
-                            Obx(
-                              () => AppText(
-                                str: e['name']!.ts,
-                                fontSize: 12,
-                                lines: 3,
-                                alignment: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 )
                 .toList(),
           ),
-          15.verticalSpace,
+          40.verticalSpaceFromWidth,
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: list2
-                .map((e) => GestureDetector(
-                      onTap: () {
-                        BeeNav.push(e['route']!);
-                      },
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxWidth: (1.sw - 70.w) / 3,
-                        ),
-                        child: Container(
-                          color: Colors.transparent,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ImgItem(
-                                'Transport/${e['img']}',
-                                width: 14.w,
-                              ),
-                              5.horizontalSpace,
-                              Expanded(
-                                child: Obx(
-                                  () => AppText(
-                                    str: e['name']!.ts,
-                                    fontSize: 10,
-                                    color: AppColors.textGrayC9,
-                                    lines: 4,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ))
-                .toList(),
+            children: [
+              ImgItem(
+                'Transport/chrome',
+                width: 25.w,
+                height: 25.w,
+              ),
+              10.horizontalSpace,
+              Expanded(
+                child: Obx(
+                  () => AppText(
+                    str: 'chrome省心预报'.ts,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              10.horizontalSpace,
+              Icon(
+                Icons.arrow_forward_ios,
+                color: AppColors.textNormal,
+                size: 12.sp,
+              ),
+            ],
           ),
         ],
       ),
     );
+  }
+
+  Widget adList() {
+    return Obx(() {
+      var ads = Get.find<AppStore>()
+          .adList
+          .where((item) => item.position == 3 && item.type == 2)
+          .toList();
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: ads
+            .map(
+              (e) => Container(
+                margin: EdgeInsets.only(
+                    bottom: e.id != ads.last.id ? 15.h : 0,
+                    left: 14.w,
+                    right: 14.w),
+                child: GestureDetector(
+                  child: ImgItem(
+                    e.fullPath,
+                    fit: BoxFit.fitWidth,
+                  ),
+                ),
+              ),
+            )
+            .toList(),
+      );
+    });
   }
 }

@@ -48,7 +48,7 @@ class BeeResetPwdLogic extends GlobalLogic {
   final mobileNumber = "".obs;
   // 验证码
   final verifyCode = "".obs;
-  final userModelInfo = Get.find<UserInfoModel>();
+  final userModelInfo = Get.find<AppStore>();
 
   // 选择手机区号
   void onTimezone() async {
@@ -133,7 +133,7 @@ class BeeResetPwdLogic extends GlobalLogic {
         return;
       }
       // 清除记住的账号密码
-      Get.find<UserInfoModel>().clearAccount();
+      Get.find<AppStore>().clearAccount();
       //发送登录事件
       ApplicationEvent.getInstance().event.fire(LoginedEvent());
       ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());

@@ -44,7 +44,7 @@ class BannerCell extends GetView<IndexLogic> {
         right: 10,
         top: ScreenUtil().statusBarHeight + 60,
         child: Obx(() {
-          var userInfo = Get.find<UserInfoModel>().userInfo.value;
+          var userInfo = Get.find<AppStore>().userInfo.value;
           return userInfo != null
               ? Row(
                   children: [

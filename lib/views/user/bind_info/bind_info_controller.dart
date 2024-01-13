@@ -38,7 +38,7 @@ class BeePhoneLogic extends GlobalLogic {
   final TextEditingController validationController = TextEditingController();
   final FocusNode validation = FocusNode();
 
-  UserModel? userInfo = Get.find<UserInfoModel>().userInfo.value;
+  UserModel? userInfo = Get.find<AppStore>().userInfo.value;
 
   @override
   void onReady() {

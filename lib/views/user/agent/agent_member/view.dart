@@ -143,7 +143,7 @@ class AgentMemberPage extends GetView<AgentMemberController> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Obx(() {
-                  final amount = Get.find<UserInfoModel>().amountInfo;
+                  final amount = Get.find<AppStore>().amountInfo;
                   return AppText(
                     str: (amount.value?.commissionSum ?? 0)
                         .rate(showPriceSymbol: false),

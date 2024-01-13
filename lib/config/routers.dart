@@ -627,7 +627,7 @@ class BeeNav {
 
   // 跳转到下个页面
   static Future<dynamic>? push(String page, [dynamic arguments]) {
-    UserInfoModel userInfo = Get.find<UserInfoModel>();
+    AppStore userInfo = Get.find<AppStore>();
     if (filterList.contains(page) || userInfo.token.value.isNotEmpty) {
       return Get.toNamed(page, arguments: arguments);
     } else {
@@ -694,7 +694,7 @@ class BeeNav {
   //     return;
   //   }
   //   // 如果状态管理器中的Token是空的
-  //   var token = Get.find<UserInfoModel>().token;
+  //   var token = Get.find<AppStore>().token;
   //   if (token.value.isEmpty) {
   //     BeeNav.push(BeeNav.login);
   //     return;

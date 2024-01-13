@@ -261,7 +261,7 @@ class GoodsDetailController extends GlobalLogic {
   }
 
   bool onCheckLogin() {
-    String token = Get.find<UserInfoModel>().token.value;
+    String token = Get.find<AppStore>().token.value;
     if (token.isEmpty) {
       BeeNav.push(BeeNav.login);
     }

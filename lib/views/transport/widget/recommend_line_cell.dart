@@ -208,7 +208,7 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
   }
 
   Widget lineItemCell(ShipLineModel model) {
-    var currencyModel = Get.find<UserInfoModel>().currencyModel;
+    var currencyModel = Get.find<AppStore>().currencyModel;
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
       width: (1.sw - 36.w) / 2,
@@ -241,35 +241,36 @@ class _RecommandShipLinesState extends State<RecommandShipLinesCell>
             color: const Color(0xff555555),
           ),
           Expanded(
-              child: Center(
-            child: Obx(
-              () => Text.rich(
-                TextSpan(
-                    style: TextStyle(
-                      color: const Color(0xFFFA6363),
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: currencyModel.value?.symbol ?? '',
+            child: Center(
+              child: Obx(
+                () => Text.rich(
+                  TextSpan(
+                      style: TextStyle(
+                        color: const Color(0xFFFA6363),
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.bold,
                       ),
-                      TextSpan(
-                        text: num.parse(model.basePrice).rate(
-                          showPriceSymbol: false,
-                          needFormat: false,
+                      children: [
+                        TextSpan(
+                          text: currencyModel.value?.symbol ?? '',
                         ),
-                        style: TextStyle(
-                          fontSize: 14.sp,
+                        TextSpan(
+                          text: num.parse(model.basePrice).rate(
+                            showPriceSymbol: false,
+                            needFormat: false,
+                          ),
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: '起'.ts,
-                      ),
-                    ]),
+                        TextSpan(
+                          text: '起'.ts,
+                        ),
+                      ]),
+                ),
               ),
             ),
-          )),
+          ),
           SizedBox(
             width: 90.w,
             child: BeeButton(

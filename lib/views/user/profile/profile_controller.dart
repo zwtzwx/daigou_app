@@ -30,7 +30,7 @@ class BeeUserInfoLogic extends GlobalLogic {
   FocusNode blankNode = FocusNode();
   // 注销按钮
   final deleteShow = false.obs;
-  final userInfoModel = Get.find<UserInfoModel>();
+  final userInfoModel = Get.find<AppStore>();
 
   @override
   onInit() {

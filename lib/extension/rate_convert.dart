@@ -7,8 +7,8 @@ extension RateConvert on num {
     bool needFormat = true,
     bool showInt = false,
   }) {
-    var currency = Get.find<UserInfoModel>().currencyModel;
-    var localizationInfo = Get.find<UserInfoModel>().localModel;
+    var currency = Get.find<AppStore>().currencyModel;
+    var localizationInfo = Get.find<AppStore>().localModel;
     var rate = currency.value?.rate ?? 1;
     var currencySymbol =
         currency.value?.symbol ?? localizationInfo?.currencySymbol ?? '';

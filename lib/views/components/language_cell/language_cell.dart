@@ -12,8 +12,8 @@ class LanguageCell extends GetView<LanguageCellController> {
     return Container(
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.only(left: 12.w),
-      padding:
-          EdgeInsets.fromLTRB(0, ScreenUtil().statusBarHeight + 5.h, 0, 10.h),
+      // padding:
+      //     EdgeInsets.fromLTRB(0, ScreenUtil().statusBarHeight + 5.h, 0, 10.h),
       child: UnconstrainedBox(
         child: GestureDetector(
           onTap: () {

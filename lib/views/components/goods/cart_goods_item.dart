@@ -35,7 +35,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var currencyModel = Get.find<UserInfoModel>().currencyModel;
+    var currencyModel = Get.find<AppStore>().currencyModel;
     return Container(
       margin: EdgeInsets.only(bottom: previewMode ? 0 : 10.h),
       decoration: BoxDecoration(

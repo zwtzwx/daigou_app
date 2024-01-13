@@ -13,7 +13,7 @@ class ShopOrderChatDetailController extends GlobalLogic {
   late final order = Rxn<ConsultModel>();
   final TextEditingController messageController = TextEditingController();
   final FocusNode messageNode = FocusNode();
-  UserInfoModel userInfoModel = Get.find<UserInfoModel>();
+  AppStore userInfoModel = Get.find<AppStore>();
   final messageList = RxMap<String, List<ConsultContentModel>>();
   final ScrollController scrollController = ScrollController();
 

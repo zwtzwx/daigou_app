@@ -4,14 +4,11 @@ import 'package:jiyun_app_client/config/color_config.dart';
 import 'package:jiyun_app_client/config/routers.dart';
 import 'package:jiyun_app_client/extension/rate_convert.dart';
 import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/ad_cell.dart';
 import 'package:jiyun_app_client/views/components/button/main_button.dart';
 import 'package:jiyun_app_client/views/components/caption.dart';
 import 'package:jiyun_app_client/views/components/contact_cell.dart';
-import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
 import 'package:jiyun_app_client/views/components/goods/goods_item.dart';
 import 'package:jiyun_app_client/views/components/goods/goods_list_cell.dart';
-import 'package:jiyun_app_client/views/components/goods/search_input.dart';
 import 'package:jiyun_app_client/views/components/input/base_input.dart';
 import 'package:jiyun_app_client/views/components/language_cell/language_cell.dart';
 import 'package:jiyun_app_client/views/components/load_image.dart';
@@ -34,8 +31,14 @@ class IndexPage extends GetView<IndexLogic> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: controller.scaffoldKey,
-      primary: false,
-      appBar: const EmptyAppBar(),
+      // primary: false,
+      // appBar: const EmptyAppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: const LanguageCell(),
+        elevation: 0,
+        leadingWidth: 120.w,
+      ),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -49,7 +52,6 @@ class IndexPage extends GetView<IndexLogic> {
                 shrinkWrap: true,
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: [
-                  const LanguageCell(),
                   Obx(() => buildUserInfo()),
                   buildLinks(),
                   40.verticalSpaceFromWidth,
@@ -114,6 +116,7 @@ class IndexPage extends GetView<IndexLogic> {
                       controller.userModel.value?.avatar ?? 'Center/logo',
                       width: 66.w,
                       height: 66.w,
+                      holderImg: 'Center/logo',
                     ),
                   ),
                   12.horizontalSpace,
@@ -240,6 +243,11 @@ class IndexPage extends GetView<IndexLogic> {
                 ),
               ],
             ),
+          ),
+          18.verticalSpaceFromWidth,
+          const ImgItem(
+            'Home/banne',
+            fit: BoxFit.fitWidth,
           ),
           18.verticalSpaceFromWidth,
           IntrinsicHeight(

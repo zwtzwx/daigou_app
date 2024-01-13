@@ -7,7 +7,7 @@ class InstanceInit {
   static Future<void> init() async {
     await Get.putAsync<SharedPreferences>(
         () => SharedPreferences.getInstance());
-    Get.put(UserInfoModel());
+    Get.put(AppStore());
     Get.put(I10n());
   }
 }

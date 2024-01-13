@@ -11,7 +11,7 @@ class BeeNewPwdLogic extends GlobalLogic {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final FocusNode confirmPaddwordNode = FocusNode();
-  UserInfoModel userInfoModel = Get.find<UserInfoModel>();
+  AppStore userInfoModel = Get.find<AppStore>();
 
   void onSubmit() async {
     showLoading();

@@ -5,8 +5,8 @@ import 'package:jiyun_app_client/extension/translation.dart';
 import 'package:jiyun_app_client/models/user_info_model.dart';
 
 class GlobalLogic extends GetxController {
-  final currencyModel = Get.find<UserInfoModel>().currencyModel;
-  final localModel = Get.find<UserInfoModel>().localModel;
+  final currencyModel = Get.find<AppStore>().currencyModel;
+  final localModel = Get.find<AppStore>().localModel;
 
   // @override
   // onInit() {

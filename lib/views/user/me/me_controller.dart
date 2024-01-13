@@ -13,7 +13,7 @@ class BeeCenterLogic extends GlobalLogic {
   final ScrollController scrollController = ScrollController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final isloading = false.obs;
-  UserInfoModel userInfoModel = Get.find<UserInfoModel>();
+  AppStore userInfoModel = Get.find<AppStore>();
   final agentStatus = Rxn<UserAgentStatusModel?>();
   final noticeUnRead = false.obs;
   @override
@@ -37,7 +37,7 @@ class BeeCenterLogic extends GlobalLogic {
 
   // 是否有未读消息
   // onGetUnReadNotice() async {
-  //   var token = Get.find<UserInfoModel>().token.value;
+  //   var token = Get.find<AppStore>().token.value;
   //   if (token.isEmpty) return;
   //   var res = await CommonService.hasUnReadInfo();
   //   noticeUnRead.value = res;

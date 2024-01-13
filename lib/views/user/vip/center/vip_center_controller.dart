@@ -17,7 +17,7 @@ class BeeSuperUserLogic extends GlobalLogic {
   //会员中心基础信息
   final userVipModel = Rxn<UserVipModel?>();
 
-  UserModel? userInfo = Get.find<UserInfoModel>().userInfo.value;
+  UserModel? userInfo = Get.find<AppStore>().userInfo.value;
 
   final selectButton = 999.obs;
 

@@ -1,16 +1,18 @@
 import 'package:get/state_manager.dart';
+import 'package:jiyun_app_client/models/ads_pic_model.dart';
 import 'package:jiyun_app_client/models/currency_rate_model.dart';
 import 'package:jiyun_app_client/models/localization_model.dart';
 import 'package:jiyun_app_client/models/user_model.dart';
 import 'package:jiyun_app_client/models/user_order_count_model.dart';
 import 'package:jiyun_app_client/models/user_vip_model.dart';
+import 'package:jiyun_app_client/services/ads_service.dart';
 import 'package:jiyun_app_client/services/common_service.dart';
 import 'package:jiyun_app_client/services/localization_service.dart';
 import 'package:jiyun_app_client/services/user_service.dart';
 import 'package:jiyun_app_client/storage/language_storage.dart';
 import 'package:jiyun_app_client/storage/user_storage.dart';
 
-class UserInfoModel {
+class AppStore {
   final token = ''.obs;
   final userInfo = Rxn<UserModel?>();
   final accountInfo = Rxn<Map?>();
@@ -19,15 +21,17 @@ class UserInfoModel {
   final _localModel = Rxn<LocalizationModel?>();
   final amountInfo = Rxn<UserOrderCountModel?>();
   final vipInfo = Rxn<UserVipModel?>();
+  final adList = <BannerModel>[].obs;
 
   LocalizationModel? get localModel => _localModel.value;
 
-  UserInfoModel() {
+  AppStore() {
     token.value = UserStorage.getToken();
     userInfo.value = UserStorage.getUserInfo();
     accountInfo.value = UserStorage.getAccountInfo();
     refreshToken();
     initCurrency();
+    getAds();
   }
 
   saveInfo(String t, UserModel u) {
@@ -99,5 +103,10 @@ class UserInfoModel {
   getBaseCountInfo() async {
     amountInfo.value = await UserService.getOrderDataCount();
     vipInfo.value = await UserService.getVipMemberData();
+  }
+
+  // 获取横幅、活动图
+  getAds() async {
+    adList.value = await AdsService.getList({"source": 4});
   }
 }

@@ -21,7 +21,7 @@ import 'package:jiyun_app_client/views/components/caption.dart';
 class LanguageCellController extends GetxController {
   final RxList<LanguageModel> langList = <LanguageModel>[].obs;
   final I10n i10n = Get.find<I10n>();
-  final currency = Get.find<UserInfoModel>().currencyModel;
+  final currency = Get.find<AppStore>().currencyModel;
 
   @override
   onInit() {
@@ -118,7 +118,7 @@ class LanguageCellController extends GetxController {
 
   // 显示货币列表
   showCurrency() async {
-    var list = Get.find<UserInfoModel>().rateList;
+    var list = Get.find<AppStore>().rateList;
     var rate = await Get.bottomSheet<CurrencyRateModel?>(CupertinoActionSheet(
       actions: list.map((e) {
         return CupertinoActionSheetAction(
@@ -143,7 +143,7 @@ class LanguageCellController extends GetxController {
         'code': rate.code,
         'symbol': rate.symbol,
       }));
-      Get.find<UserInfoModel>().setCurrency(rate);
+      Get.find<AppStore>().setCurrency(rate);
     }
   }
 

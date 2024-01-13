@@ -217,7 +217,7 @@ class CommonMethods {
       var paths = model.linkPath.split('?');
       if (paths.first.startsWith('/lottery')) {
         // 抽奖页面
-        String token = Get.find<UserInfoModel>().token.value;
+        String token = Get.find<AppStore>().token.value;
         if (token.isEmpty) {
           BeeNav.push(BeeNav.login);
         } else {

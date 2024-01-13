@@ -16,7 +16,7 @@ class BeeTrackingController extends GlobalLogic {
 
   // 物流查询
   onQuery() async {
-    String token = Get.find<UserInfoModel>().token.value;
+    String token = Get.find<AppStore>().token.value;
     if (expressNumController.text.isEmpty) {
       showToast('请输入快递单号');
       return;

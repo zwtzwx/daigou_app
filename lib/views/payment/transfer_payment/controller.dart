@@ -11,7 +11,7 @@ import 'package:jiyun_app_client/services/balance_service.dart';
 class TransferPaymentController extends GlobalLogic {
   final selectImg = [''].obs;
 
-  UserModel? userModel = Get.find<UserInfoModel>().userInfo.value;
+  UserModel? userModel = Get.find<AppStore>().userInfo.value;
 
   final isLoading = false.obs;
 

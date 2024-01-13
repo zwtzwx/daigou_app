@@ -44,130 +44,77 @@ class CommentPage extends GetView<CommentController> {
   }
 
   Widget buildBottomListCell(int index, CommentModel model) {
-    double height = calculateTextHeight(
-        model.content, 17.0, FontWeight.w400, 1.sw - 60, 99);
-    double imgHeight = model.images.isEmpty ? 0 : (1.sw - 60) / 4;
     return Container(
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
-          border: Border.all(width: 1, color: Colors.white),
+          borderRadius: BorderRadius.all(Radius.circular(14.r)),
         ),
-        padding: const EdgeInsets.only(left: 5, right: 5),
-        margin: const EdgeInsets.only(top: 15, right: 15, left: 15),
-        height: 110 + height + imgHeight,
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+        margin: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 0),
         child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 65,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                      margin: const EdgeInsets.only(top: 0, left: 15),
-                      decoration: const BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      height: 40,
-                      width: 40,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: ImgItem(
-                          model.user!.avatar,
-                          fit: BoxFit.fitWidth,
-                        ),
-                      )),
-                  Expanded(
-                      child: Container(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                ClipOval(
+                  child: ImgItem(
+                    model.user!.avatar,
+                    height: 40.w,
+                    width: 40.w,
+                  ),
+                ),
+                14.horizontalSpace,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                      height: 20,
-                                      margin: const EdgeInsets.only(
-                                          top: 10, left: 15),
-                                      alignment: Alignment.centerLeft,
-                                      child: AppText(
-                                        str: model.user!.name,
-                                        fontSize: 16,
-                                        color: AppColors.textBlack,
-                                      )),
-                                  // Container(
-                                  //     height: 15,
-                                  //     width: 20,
-                                  //     margin: EdgeInsets.only(
-                                  //         top: 15, right: 5, left: 5),
-                                  //     decoration: BoxDecoration(
-                                  //       borderRadius: BorderRadius.all(
-                                  //           Radius.circular(3)),
-                                  //       color: AppColors.vipBG,
-                                  //     ),
-                                  //     alignment: Alignment.center,
-                                  //     child: AppText(
-                                  //       str: 'V6',
-                                  //       fontSize: 10,
-                                  //       color: AppColors.white,
-                                  //     )),
-                                ],
-                              ),
-                              Container(
-                                  height: 20,
-                                  margin: const EdgeInsets.only(top: 10),
-                                  alignment: Alignment.bottomRight,
-                                  child: AppText(
-                                    str: model.createdAt.split(' ').first,
-                                    fontSize: 14,
-                                    color: AppColors.textGrayC,
-                                  )),
-                            ],
+                          Expanded(
+                            child: AppText(
+                              str: model.user!.name,
+                            ),
                           ),
-                          Container(
-                              height: 30,
-                              width: ScreenUtil().screenWidth / 2 - 60,
-                              margin: const EdgeInsets.only(top: 5, left: 15),
-                              alignment: Alignment.topLeft,
-                              child: Row(children: startsSourceList(model))),
-                        ]),
-                  ))
-                ],
+                          10.horizontalSpace,
+                          AppText(
+                            str: model.createdAt.split(' ').first,
+                            fontSize: 14,
+                            color: AppColors.textGrayC,
+                          ),
+                        ],
+                      ),
+                      5.verticalSpaceFromWidth,
+                      Row(children: startsSourceList(model)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            15.verticalSpaceFromWidth,
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              child: AppText(
+                lines: 99,
+                str: model.content,
+                fontSize: 16,
               ),
             ),
-            Row(children: <Widget>[
-              Container(
-                  height: height,
-                  padding: const EdgeInsets.only(top: 0, left: 15, right: 15),
-                  margin: const EdgeInsets.only(bottom: 10, top: 5),
-                  width: ScreenUtil().screenWidth - 42,
-                  alignment: Alignment.topLeft,
-                  child: AppText(
-                    lines: 99,
-                    str: model.content,
-                    fontSize: 17,
-                    color: AppColors.textBlack,
-                  )),
-            ]),
+            10.verticalSpaceFromWidth,
             Container(
-              margin: const EdgeInsets.only(top: 0, left: 15, right: 15),
-              width: ScreenUtil().screenWidth - 60,
-              height: imgHeight,
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: buildMoreSupportType(index, model),
             ),
             Container(
-                padding: const EdgeInsets.only(left: 15, top: 4),
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
                 child: Row(
                   children: <Widget>[
-                    const Icon(
+                    Icon(
                       Icons.location_on,
                       color: AppColors.textGray,
-                      size: 15,
+                      size: 15.sp,
                     ),
+                    5.horizontalSpace,
                     AppText(
                       fontSize: 13,
                       str: model.order!.address.countryName,
@@ -188,10 +135,9 @@ class CommentPage extends GetView<CommentController> {
       var view = GestureDetector(
         onTap: () {},
         child: Container(
-            alignment: Alignment.centerLeft,
-            height: 25,
-            width: 25,
-            padding: const EdgeInsets.all(4),
+            height: 16.w,
+            width: 16.w,
+            margin: EdgeInsets.only(right: 5.w),
             child: selectStar > i
                 ? Image.asset(
                     'assets/images/AboutMe/好评Sel@3x.png',
