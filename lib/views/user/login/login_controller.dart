@@ -3,20 +3,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/common/util.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/logined_event.dart';
-import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/country_model.dart';
-import 'package:jiyun_app_client/models/token_model.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/services/common_service.dart';
-import 'package:jiyun_app_client/services/user_service.dart';
-import 'package:jiyun_app_client/storage/user_storage.dart';
+import 'package:huanting_shop/common/util.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/logined_event.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/country_model.dart';
+import 'package:huanting_shop/models/token_model.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/services/common_service.dart';
+import 'package:huanting_shop/services/user_service.dart';
+import 'package:huanting_shop/storage/user_storage.dart';
 
 class BeeSignInLogic extends GlobalLogic {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -156,7 +155,7 @@ class BeeSignInLogic extends GlobalLogic {
       }
       //发送登录事件
       ApplicationEvent.getInstance().event.fire(LoginedEvent());
-      ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
+
       //更新状态管理器
       AppStore userInfoModel = Get.find<AppStore>();
       userInfoModel.saveInfo(

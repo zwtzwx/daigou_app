@@ -1,19 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/common/util.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/goods_category_model.dart';
-import 'package:jiyun_app_client/models/shop/cart_model.dart';
-import 'package:jiyun_app_client/models/shop/category_model.dart';
-import 'package:jiyun_app_client/models/shop/consult_model.dart';
-import 'package:jiyun_app_client/models/shop/goods_comment_model.dart';
-import 'package:jiyun_app_client/models/shop/goods_model.dart';
-import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
-import 'package:jiyun_app_client/models/shop/platform_goods_service_model.dart';
-import 'package:jiyun_app_client/models/shop/problem_order_model.dart';
-import 'package:jiyun_app_client/models/shop/shop_order_model.dart';
-import 'package:jiyun_app_client/storage/language_storage.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/common/util.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/goods_category_model.dart';
+import 'package:huanting_shop/models/shop/cart_model.dart';
+import 'package:huanting_shop/models/shop/category_model.dart';
+import 'package:huanting_shop/models/shop/consult_model.dart';
+import 'package:huanting_shop/models/shop/goods_comment_model.dart';
+import 'package:huanting_shop/models/shop/goods_model.dart';
+import 'package:huanting_shop/models/shop/platform_goods_model.dart';
+import 'package:huanting_shop/models/shop/platform_goods_service_model.dart';
+import 'package:huanting_shop/models/shop/problem_order_model.dart';
+import 'package:huanting_shop/models/shop/shop_order_model.dart';
+import 'package:huanting_shop/storage/language_storage.dart';
 
 class ShopService {
   static const String recommendGoodsApi = 'shop/get-hot-or-recommend';
@@ -35,6 +35,7 @@ class ShopService {
   static const String orderStatusCountApi = 'daigou-orders/status/count';
   static const String cartCountApi = 'daigou-carts/sku-num';
   static const String daigouGoodsApi = 'purchase/search/item';
+  static const String addCustomCartApi = 'daigou-carts/custom-store';
   static const String daigouGoodsDetailApi = 'purchase/product-info';
   static const String platformGoodsOrderServiceApi =
       'daigou-order-services/custom-count';
@@ -279,6 +280,19 @@ class ShopService {
       };
     });
     return res;
+  }
+
+  // 自定义商品添加到购物车
+  static Future<String?> addCustomToCart(Map<String, dynamic> params) async {
+    String? msg;
+    await BeeRequest.instance
+        .post(addCustomCartApi, data: params)
+        .then((response) {
+      if (response.ok) {
+        msg = response.msg;
+      }
+    });
+    return msg;
   }
 
   // 提交自营商品订单

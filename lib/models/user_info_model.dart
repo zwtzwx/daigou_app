@@ -1,16 +1,16 @@
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/models/ads_pic_model.dart';
-import 'package:jiyun_app_client/models/currency_rate_model.dart';
-import 'package:jiyun_app_client/models/localization_model.dart';
-import 'package:jiyun_app_client/models/user_model.dart';
-import 'package:jiyun_app_client/models/user_order_count_model.dart';
-import 'package:jiyun_app_client/models/user_vip_model.dart';
-import 'package:jiyun_app_client/services/ads_service.dart';
-import 'package:jiyun_app_client/services/common_service.dart';
-import 'package:jiyun_app_client/services/localization_service.dart';
-import 'package:jiyun_app_client/services/user_service.dart';
-import 'package:jiyun_app_client/storage/language_storage.dart';
-import 'package:jiyun_app_client/storage/user_storage.dart';
+import 'package:huanting_shop/models/ads_pic_model.dart';
+import 'package:huanting_shop/models/currency_rate_model.dart';
+import 'package:huanting_shop/models/localization_model.dart';
+import 'package:huanting_shop/models/user_model.dart';
+import 'package:huanting_shop/models/user_order_count_model.dart';
+import 'package:huanting_shop/models/user_vip_model.dart';
+import 'package:huanting_shop/services/ads_service.dart';
+import 'package:huanting_shop/services/common_service.dart';
+import 'package:huanting_shop/services/localization_service.dart';
+import 'package:huanting_shop/services/user_service.dart';
+import 'package:huanting_shop/storage/language_storage.dart';
+import 'package:huanting_shop/storage/user_storage.dart';
 
 class AppStore {
   final token = ''.obs;
@@ -22,6 +22,7 @@ class AppStore {
   final amountInfo = Rxn<UserOrderCountModel?>();
   final vipInfo = Rxn<UserVipModel?>();
   final adList = <BannerModel>[].obs;
+  int shopPlatformType = 1;
 
   LocalizationModel? get localModel => _localModel.value;
 
@@ -38,6 +39,10 @@ class AppStore {
     token.value = t;
     userInfo.value = u;
     getBaseCountInfo();
+  }
+
+  setShopPlatformType(int value) {
+    shopPlatformType = value;
   }
 
   setUserInfo(UserModel u) {

@@ -4,17 +4,18 @@
   无人认领包裹
  */
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/parcel_model.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/list_refresh.dart';
-import 'package:jiyun_app_client/views/components/search_bar.dart' as Searchs;
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/parcel_model.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/goods/search_input.dart';
+import 'package:huanting_shop/views/components/list_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jiyun_app_client/views/parcel/no_owner/list/no_owner_parcel_controller.dart';
+import 'package:huanting_shop/views/parcel/no_owner/list/no_owner_parcel_controller.dart';
 
 class AbnomalParcelPage extends GetView<AbnomalParcelLogic> {
   const AbnomalParcelPage({Key? key}) : super(key: key);
@@ -64,15 +65,12 @@ class AbnomalParcelPage extends GetView<AbnomalParcelLogic> {
 
   Widget headerView() {
     return Container(
-      padding: const EdgeInsets.only(right: 5, left: 5),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       color: Colors.white,
-      child: Searchs.SearchBar(
-        controller: controller.keywordController,
-        focusNode: controller.focusNode,
-        onSearch: (str) {
-          // onSearch();
-        },
-        onSearchClick: (str) {
+      child: SearchCell(
+        hintText: '请输入快递单号'.ts,
+        onSearch: (value) {
+          controller.keyword = value;
           controller.onSearch();
         },
       ),
@@ -87,50 +85,36 @@ class AbnomalParcelPage extends GetView<AbnomalParcelLogic> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                alignment: Alignment.center,
-                child: const ImageIcon(
-                  const AssetImage("assets/images/PackageAndOrder/tag.png"),
-                  color: AppColors.primary,
-                  size: 20,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    AppText(
+                      str: '快递单号'.ts + '：',
+                      fontSize: 14,
+                    ),
+                    AppText(
+                      str: model.expressNum ?? "",
+                      fontSize: 14,
+                    ),
+                  ],
                 ),
-              ),
-              AppGaps.hGap5,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      AppText(
-                        str: '快递单号'.ts + '：',
-                        fontSize: 14,
-                      ),
-                      AppText(
-                        str: model.expressNum ?? "",
-                        fontSize: 14,
-                      ),
-                    ],
-                  ),
-                  AppGaps.vGap4,
-                  AppText(
-                    str: '${'入库时间'.ts}：' + (model.inStorageAt ?? ""),
-                    fontSize: 13,
-                    color: AppColors.textGray,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Flexible(
-            child: BeeButton(
-              text: '认领',
-              onPressed: () {
-                controller.toDetail(model);
-              },
+                5.verticalSpaceFromWidth,
+                AppText(
+                  str: '${'入库时间'.ts}：' + (model.inStorageAt ?? ""),
+                  fontSize: 13,
+                  color: AppColors.textGray,
+                ),
+              ],
             ),
+          ),
+          BeeButton(
+            text: '认领',
+            onPressed: () {
+              controller.toDetail(model);
+            },
           ),
         ],
       ),

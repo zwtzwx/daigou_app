@@ -1,5 +1,5 @@
-import 'package:jiyun_app_client/models/shop/goods_sku_model.dart';
-import 'package:jiyun_app_client/models/shop/goods_spec_model.dart';
+import 'package:huanting_shop/models/shop/goods_sku_model.dart';
+import 'package:huanting_shop/models/shop/goods_spec_model.dart';
 
 class GoodsModel {
   late dynamic id;

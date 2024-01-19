@@ -7,16 +7,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/language_change_event.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/currency_rate_model.dart';
-import 'package:jiyun_app_client/models/language_model.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/services/language_service.dart';
-import 'package:jiyun_app_client/state/i10n.dart';
-import 'package:jiyun_app_client/storage/language_storage.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/language_change_event.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/currency_rate_model.dart';
+import 'package:huanting_shop/models/language_model.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/services/language_service.dart';
+import 'package:huanting_shop/state/i10n.dart';
+import 'package:huanting_shop/storage/language_storage.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 
 class LanguageCellController extends GetxController {
   final RxList<LanguageModel> langList = <LanguageModel>[].obs;

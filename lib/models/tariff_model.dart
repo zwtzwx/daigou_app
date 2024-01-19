@@ -1,4 +1,4 @@
-import 'package:jiyun_app_client/models/tariff_item_model.dart';
+import 'package:huanting_shop/models/tariff_item_model.dart';
 
 /*
   附加费用

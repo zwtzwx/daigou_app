@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/order_model.dart';
-import 'package:jiyun_app_client/models/parcel_box_model.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/order_model.dart';
+import 'package:huanting_shop/models/parcel_box_model.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 
 /*
   公共弹窗

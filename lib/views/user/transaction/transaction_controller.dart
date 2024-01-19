@@ -1,5 +1,5 @@
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/services/balance_service.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/services/balance_service.dart';
 
 class BeeTradeLogic extends GlobalLogic {
   int pageIndex = 0;

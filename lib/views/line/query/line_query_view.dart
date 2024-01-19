@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/input/base_input.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/line/query/line_query_controller.dart';
+import 'package:get/route_manager.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/input/base_input.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/line/query/line_query_controller.dart';
+import 'package:huanting_shop/views/parcel/widget/prop_sheet_cell.dart';
 
 class LineQueryView extends GetView<LineQueryController> {
   const LineQueryView({Key? key}) : super(key: key);
@@ -20,359 +22,205 @@ class LineQueryView extends GetView<LineQueryController> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-        backgroundColor: AppColors.bgGray,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
-          elevation: 0.5,
-          backgroundColor: Colors.white,
+          elevation: 0,
+          backgroundColor: const Color(0xFFFFE067),
           title: AppText(
-            str: '运费试算'.ts,
-            fontSize: 18,
+            str: '运费估算'.ts,
+            fontSize: 17,
           ),
           leading: const BackButton(color: Colors.black),
         ),
+        bottomNavigationBar: SafeArea(
+            child: Container(
+          height: 38.h,
+          margin: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+          child: BeeButton(
+            text: '立即查询',
+            onPressed: controller.onSubmit,
+          ),
+        )),
         body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            child: Column(
-              children: <Widget>[
-                queryItemCell(context),
-                AppGaps.vGap10,
-                Container(
-                  margin: const EdgeInsets.only(top: 20, bottom: 30),
-                  width: double.infinity,
-                  height: 50,
-                  child: BeeButton(
-                    text: '立即试算',
-                    borderRadis: 999,
-                    onPressed: controller.onSubmit,
-                  ),
-                ),
-                lineIllustrate(),
-              ],
-            ),
+          child: Column(
+            children: [
+              shipInfo(context),
+              queryItemCell(),
+            ],
           ),
         ),
       ),
     );
   }
 
-  destinationCell(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: AppColors.line)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget queryTitle(String title, {bool isRequired = true}) {
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(
+          fontSize: 14.sp,
+          color: AppColors.textDark,
+          fontWeight: FontWeight.w500,
+        ),
         children: [
-          Flexible(
-            child: GestureDetector(
-              onTap: () async {
-                FocusScope.of(context).requestFocus(FocusNode());
-                Picker(
-                  adapter:
-                      PickerDataAdapter(data: controller.getWarehousePicker()),
-                  cancelText: '取消'.ts,
-                  confirmText: '确认'.ts,
-                  selectedTextStyle:
-                      const TextStyle(color: Colors.blue, fontSize: 12),
-                  onCancel: () {},
-                  onConfirm: (Picker picker, List value) {
-                    controller.selectWareHouse.value =
-                        controller.list[value.first];
-                  },
-                ).showModal(context);
-              },
-              child: Column(
-                children: [
-                  Obx(
-                    () => AppText(
-                      str: controller.selectWareHouse.value != null
-                          ? controller.selectWareHouse.value!.warehouseName!
-                          : '请选择'.ts,
-                      fontSize: 17,
-                      lines: 4,
-                      alignment: TextAlign.center,
-                    ),
-                  ),
-                  AppGaps.vGap5,
-                  AppText(
-                    str: '出发地'.ts,
-                    fontSize: 13,
-                    color: AppColors.textGrayC,
-                  ),
-                ],
+          TextSpan(
+            text: title,
+          ),
+          if (isRequired)
+            const TextSpan(
+              text: '*',
+              style: TextStyle(
+                color: AppColors.textRed,
               ),
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            child: ImgItem(
-              'Home/arrow',
-              width: 60,
-            ),
-          ),
-          Flexible(
-            child: GestureDetector(
-              onTap: controller.onCountry,
-              child: Column(
-                children: [
-                  Obx(
-                    () => AppText(
-                      alignment: TextAlign.center,
-                      str: controller.selectCountry.value != null
-                          ? controller.selectCountry.value!.name!
-                          : '请选择'.ts,
-                      fontSize: 17,
-                      lines: 4,
-                    ),
-                  ),
-                  AppGaps.vGap5,
-                  AppText(
-                    str: '目的地'.ts,
-                    fontSize: 13,
-                    color: AppColors.textGrayC,
-                  ),
-                ],
-              ),
-            ),
-          ),
         ],
       ),
     );
   }
 
-  Widget queryItemCell(BuildContext context) {
+  Widget queryItemCell() {
     var mainView = Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
       ),
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 30),
+      margin: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          destinationCell(context),
-          selectItem(
-            '预估重量',
-            rightItem: Container(
-              width: 170.w,
-              margin: EdgeInsets.only(left: 10.w),
-              height: 40,
-              decoration: BoxDecoration(
-                border: Border.all(color: const Color(0xFFDFDFDF)),
-                borderRadius: BorderRadius.circular(999),
+          queryTitle('重量'.ts + '(${controller.localModel?.weightSymbol})'),
+          BaseInput(
+            isCollapsed: true,
+            autoShowRemove: false,
+            controller: controller.weightController,
+            focusNode: controller.weightNode,
+            hintText: '请输入包裹重量'.ts,
+            hintStyle: TextStyle(color: AppColors.textGrayC9, fontSize: 12.sp),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          ),
+          15.verticalSpaceFromWidth,
+          queryTitle('包裹尺寸'.ts + '(${controller.localModel?.lengthSymbol})',
+              isRequired: false),
+          15.verticalSpaceFromWidth,
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  height: 30.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4.r),
+                    border: Border.all(color: const Color(0xFFEDEDED)),
+                  ),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 2.h, horizontal: 14.w),
+                  child: BaseInput(
+                    textAlign: TextAlign.center,
+                    controller: controller.longController,
+                    focusNode: controller.longNode,
+                    autoShowRemove: false,
+                    contentPadding: EdgeInsets.symmetric(vertical: 8.h),
+                    hintStyle:
+                        TextStyle(color: AppColors.textGrayC9, fontSize: 12.sp),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    hintText: '长'.ts,
+                  ),
+                ),
               ),
+              15.horizontalSpace,
+              Expanded(
+                child: Container(
+                  height: 30.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4.r),
+                    border: Border.all(color: const Color(0xFFEDEDED)),
+                  ),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 2.h, horizontal: 14.w),
+                  child: BaseInput(
+                    textAlign: TextAlign.center,
+                    controller: controller.wideController,
+                    focusNode: controller.wideNode,
+                    autoShowRemove: false,
+                    hintStyle:
+                        TextStyle(color: AppColors.textGrayC9, fontSize: 12.sp),
+                    contentPadding: EdgeInsets.symmetric(vertical: 8.h),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    hintText: '宽'.ts,
+                  ),
+                ),
+              ),
+              15.horizontalSpace,
+              Expanded(
+                child: Container(
+                  height: 30.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4.r),
+                    border: Border.all(color: const Color(0xFFEDEDED)),
+                  ),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 2.h, horizontal: 14.w),
+                  child: BaseInput(
+                    textAlign: TextAlign.center,
+                    controller: controller.highController,
+                    focusNode: controller.highNode,
+                    autoShowRemove: false,
+                    hintStyle:
+                        TextStyle(color: AppColors.textGrayC9, fontSize: 12.sp),
+                    contentPadding: EdgeInsets.symmetric(vertical: 8.h),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    hintText: '高'.ts,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          20.verticalSpaceFromWidth,
+          queryTitle('物品分类'.ts),
+          15.verticalSpaceFromWidth,
+          GestureDetector(
+            onTap: () {
+              Get.bottomSheet(
+                PropSheetCell(
+                  goodsPropsList: controller.propList,
+                  propSingle: false,
+                  prop: controller.selectPropList,
+                  onConfirm: (data) {
+                    controller.selectPropList.value = data;
+                  },
+                ),
+                backgroundColor: Colors.white,
+              );
+            },
+            child: Container(
+              color: Colors.transparent,
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      controller.onWeight(-1);
-                    },
-                    child: Container(
-                      alignment: Alignment.topCenter,
-                      height: 40,
-                      padding: EdgeInsets.symmetric(horizontal: 8.w),
-                      child: const Icon(
-                        Icons.minimize_outlined,
-                      ),
-                    ),
-                  ),
                   Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 10, right: 15),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          left: BorderSide(color: AppColors.line),
-                          right: BorderSide(color: AppColors.line),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: BaseInput(
-                              isCollapsed: true,
-                              autoShowRemove: false,
-                              controller: controller.weightController,
-                              focusNode: controller.weightNode,
-                              style: const TextStyle(fontSize: 18),
-                              contentPadding:
-                                  const EdgeInsets.symmetric(vertical: 12),
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                      decimal: true),
-                            ),
-                          ),
-                          AppText(
-                            str: controller.localModel?.weightSymbol ?? '',
-                            color: AppColors.textGrayC9,
-                            fontSize: 14,
-                          ),
-                        ],
+                    child: Obx(
+                      () => AppText(
+                        str: controller.selectPropList.isNotEmpty
+                            ? controller.selectPropList
+                                .map((ele) => ele.name)
+                                .join('、')
+                            : '请选择物品类型'.ts,
+                        fontSize: 14,
+                        color: controller.selectPropList.isNotEmpty
+                            ? AppColors.textDark
+                            : AppColors.textGrayC9,
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      controller.onWeight(1);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: const Icon(
-                        Icons.add,
-                      ),
-                    ),
+                  10.horizontalSpace,
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: AppColors.textNormal,
+                    size: 12.sp,
                   ),
                 ],
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppText(
-                  str: '预估体积重'.ts,
-                ),
-                AppGaps.vGap5,
-                AppText(
-                  str: '包裹尺寸为商品打包，实际包裹箱的长宽高用于某些体积重线路的运费计算'.ts,
-                  color: AppColors.textGray,
-                  fontSize: 14,
-                  lines: 4,
-                ),
-                AppGaps.vGap20,
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 30.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(999),
-                          border: Border.all(color: AppColors.line),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: 2.h, horizontal: 14.w),
-                        child: BaseInput(
-                          textAlign: TextAlign.center,
-                          controller: controller.longController,
-                          focusNode: controller.longNode,
-                          autoShowRemove: false,
-                          contentPadding: EdgeInsets.symmetric(vertical: 8.h),
-                          keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true),
-                          hintText: '长'.ts +
-                              ':' +
-                              (controller.localModel?.lengthSymbol ?? ''),
-                        ),
-                      ),
-                    ),
-                    AppGaps.hGap15,
-                    Expanded(
-                      child: Container(
-                        height: 30.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(999),
-                          border: Border.all(color: AppColors.line),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: 2.h, horizontal: 14.w),
-                        child: BaseInput(
-                          textAlign: TextAlign.center,
-                          controller: controller.wideController,
-                          focusNode: controller.wideNode,
-                          autoShowRemove: false,
-                          contentPadding: EdgeInsets.symmetric(vertical: 8.h),
-                          keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true),
-                          hintText: '${'宽'.ts}:' +
-                              (controller.localModel?.lengthSymbol ?? ''),
-                        ),
-                      ),
-                    ),
-                    15.horizontalSpace,
-                    Expanded(
-                      child: Container(
-                        height: 30.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(999),
-                          border: Border.all(color: AppColors.line),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: 2.h, horizontal: 14.w),
-                        child: BaseInput(
-                          textAlign: TextAlign.center,
-                          controller: controller.highController,
-                          focusNode: controller.highNode,
-                          autoShowRemove: false,
-                          contentPadding: EdgeInsets.symmetric(vertical: 8.h),
-                          keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true),
-                          hintText: '${'高'.ts}:' +
-                              (controller.localModel?.lengthSymbol ?? ''),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppText(
-                  str: '物品属性'.ts,
-                ),
-                8.verticalSpace,
-                Obx(
-                  () => Wrap(
-                    spacing: 10.w,
-                    runSpacing: 10.w,
-                    children: controller.propList
-                        .map(
-                          (prop) => GestureDetector(
-                            onTap: () {
-                              controller.onProps(prop);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 15.w, vertical: 3.h),
-                              decoration: BoxDecoration(
-                                  color: controller.selectPropList
-                                          .map((e) => e.id)
-                                          .contains(prop.id)
-                                      ? Colors.transparent
-                                      : const Color(0xffFAF8FB),
-                                  borderRadius: BorderRadius.circular(999),
-                                  border: Border.all(
-                                    color: controller.selectPropList
-                                            .map((e) => e.id)
-                                            .contains(prop.id)
-                                        ? AppColors.primary
-                                        : const Color(0xffFAF8FB),
-                                  )),
-                              child: AppText(
-                                str: prop.name!,
-                                color: controller.selectPropList
-                                        .map((e) => e.id)
-                                        .contains(prop.id)
-                                    ? AppColors.primary
-                                    : const Color(0xff918E91),
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-              ],
             ),
           ),
         ],
@@ -441,22 +289,97 @@ class LineQueryView extends GetView<LineQueryController> {
     );
   }
 
-  Widget lineIllustrate() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AppText(
-          str: '运费规则说明'.ts,
-          fontWeight: FontWeight.bold,
+  Widget shipInfo(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFE067),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(40.r),
+          bottomRight: Radius.circular(40.r),
         ),
-        AppGaps.vGap10,
-        AppText(
-          str:
-              '${'体积重计算方法'.ts}：\n${'计算公式'.ts}：\n${'按照国际惯例，低密度的包裹，比较其实重，占用的空间通常较大，计算出的体积重量。体积重量和实际重量两者取大者计算。体积重量(KG) = (长 (cm) x 宽 (cm) x 高 (cm)) ÷ 6000'.ts}\n${'具体规则会在详细的试算结果中注明'.ts}',
-          lines: 10,
-          fontSize: 14,
-        ),
-      ],
+      ),
+      padding: EdgeInsets.fromLTRB(14.w, 25.h, 14.w, 30.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Flexible(
+            child: GestureDetector(
+              onTap: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+                Picker(
+                  adapter:
+                      PickerDataAdapter(data: controller.getWarehousePicker()),
+                  cancelText: '取消'.ts,
+                  confirmText: '确认'.ts,
+                  selectedTextStyle:
+                      const TextStyle(color: Colors.blue, fontSize: 12),
+                  onCancel: () {},
+                  onConfirm: (Picker picker, List value) {
+                    controller.selectWareHouse.value =
+                        controller.list[value.first];
+                  },
+                ).showModal(context);
+              },
+              child: Container(
+                color: Colors.transparent,
+                child: Column(
+                  children: [
+                    Obx(
+                      () => AppText(
+                        str: controller.selectWareHouse.value != null
+                            ? controller.selectWareHouse.value!.warehouseName!
+                            : '请选择'.ts,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    5.verticalSpaceFromWidth,
+                    AppText(
+                      str: '出发地'.ts,
+                      fontSize: 12,
+                      color: AppColors.textNormal,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          15.horizontalSpace,
+          ImgItem(
+            'Home/ship',
+            width: 90.w,
+            fit: BoxFit.fitWidth,
+          ),
+          15.horizontalSpace,
+          Flexible(
+            child: GestureDetector(
+              onTap: controller.onCountry,
+              child: Container(
+                color: Colors.transparent,
+                child: Column(
+                  children: [
+                    Obx(
+                      () => AppText(
+                        str: controller.selectCountry.value != null
+                            ? controller.selectCountry.value!.name!
+                            : '请选择'.ts,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    5.verticalSpaceFromWidth,
+                    AppText(
+                      str: '收货地'.ts,
+                      fontSize: 12,
+                      color: AppColors.textNormal,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

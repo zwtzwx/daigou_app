@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/insurance_item_model.dart';
-import 'package:jiyun_app_client/models/parcel_model.dart';
-import 'package:jiyun_app_client/models/ship_line_service_model.dart';
-import 'package:jiyun_app_client/models/tariff_item_model.dart';
-import 'package:jiyun_app_client/models/value_added_service_model.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/parcel/create_order/controller.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/insurance_item_model.dart';
+import 'package:huanting_shop/models/parcel_model.dart';
+import 'package:huanting_shop/models/ship_line_service_model.dart';
+import 'package:huanting_shop/models/tariff_item_model.dart';
+import 'package:huanting_shop/models/value_added_service_model.dart';
+import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/input/base_input.dart';
+import 'package:huanting_shop/views/parcel/create_order/controller.dart';
 
 class BeePackingView extends GetView<BeePackingLogic> {
   const BeePackingView({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
         appBar: AppBar(
           leading: const BackButton(color: Colors.black),
           backgroundColor: Colors.white,
-          elevation: 0.5,
+          elevation: 0,
           centerTitle: true,
           title: Obx(
             () => AppText(
@@ -43,7 +44,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
                     child: buildSubViews(context),
                   ),
                 ))
-            : Container()));
+            : AppGaps.empty));
   }
 
   Widget buildSubViews(BuildContext context) {
@@ -66,7 +67,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
           child: AppText(
             fontSize: 14,
             str: '提示合并打包后无法更改哦'.ts,
-            color: AppColors.textGray,
+            color: AppColors.textGrayC9,
           ),
         ),
         // Obx(
@@ -75,52 +76,44 @@ class BeePackingView extends GetView<BeePackingLogic> {
         //       : Container(),
         // ),
         Container(
-            height: 80,
-            width: ScreenUtil().screenWidth - 30,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-              border: Border.all(width: 1, color: Colors.white),
+              borderRadius: BorderRadius.all(Radius.circular(10.r)),
             ),
             margin: const EdgeInsets.only(right: 15, left: 15, bottom: 10),
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            alignment: Alignment.centerLeft,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                AppText(
+                  str: '备注'.ts,
+                  fontWeight: FontWeight.bold,
+                ),
+                10.verticalSpaceFromWidth,
                 Container(
-                  alignment: Alignment.centerLeft,
-                  height: 40,
-                  width: 80,
-                  child: AppText(
-                    fontSize: 16,
-                    str: '备注'.ts + '：',
-                    color: AppColors.textDark,
+                  decoration: BoxDecoration(
+                    color: AppColors.bgGray,
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: BaseInput(
+                    controller: controller.evaluateController,
+                    focusNode: null,
+                    board: true,
+                    maxLines: 5,
+                    minLines: 4,
+                    maxLength: 200,
+                    keyboardType: TextInputType.multiline,
+                    hintText: '请输入打包备注'.ts,
+                    contentPadding: EdgeInsets.all(10.w),
                   ),
                 ),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.only(top: 10, bottom: 5),
-                    child: TextField(
-                      controller: controller.evaluateController,
-                      maxLines: 3,
-                      minLines: 2,
-                      maxLength: 200,
-                      keyboardType: TextInputType.multiline,
-                      autofocus: false,
-                      decoration: InputDecoration.collapsed(
-                        hintText: '请输入打包备注'.ts,
-                      ),
-                    ),
-                  ),
-                )
               ],
             )),
         Container(
           margin:
               const EdgeInsets.only(right: 15, left: 15, top: 30, bottom: 10),
-          height: 40,
+          height: 38.h,
           width: double.infinity,
           child: BeeButton(
             text: '提交',
@@ -131,12 +124,11 @@ class BeePackingView extends GetView<BeePackingLogic> {
           alignment: Alignment.center,
           child: AppText(
             str: '在仓库打包完成之后才会需要进行支付'.ts,
-            color: AppColors.textGray,
+            color: AppColors.textNormal,
+            fontSize: 14,
           ),
         ),
-        const SizedBox(
-          height: 10,
-        ),
+        20.verticalSpaceFromWidth,
       ],
     );
     return content;

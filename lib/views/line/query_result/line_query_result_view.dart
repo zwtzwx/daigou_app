@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/common/util.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/goods_props.dart';
-import 'package:jiyun_app_client/models/ship_line_model.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/line/query_result/line_query_result_controller.dart';
+import 'package:huanting_shop/common/util.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/goods_props.dart';
+import 'package:huanting_shop/models/ship_line_model.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/line/query_result/line_query_result_controller.dart';
 
 class LineQueryResultView extends GetView<LineQueryResultController> {
   const LineQueryResultView({Key? key}) : super(key: key);
@@ -20,12 +21,12 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
         appBar: AppBar(
           leading: const BackButton(color: Colors.black),
           backgroundColor: Colors.white,
-          elevation: 0.5,
+          elevation: 0,
           centerTitle: true,
           title: AppText(
             str: '线路列表'.ts,
             color: AppColors.textBlack,
-            fontSize: 18,
+            fontSize: 17,
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -86,33 +87,34 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                   children: [
                     AppText(
                       str: controller.postDic.value?['warehouseName'] ?? '',
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
-                    AppGaps.vGap4,
+                    5.verticalSpaceFromWidth,
                     AppText(
                       str: '出发地'.ts,
                       fontSize: 12,
-                      color: AppColors.textGrayC,
+                      color: AppColors.textNormal,
                     ),
                   ],
                 ),
-                const ImgItem(
-                  'Home/arrow',
-                  width: 60,
+                ImgItem(
+                  'Home/ship',
+                  width: 80.w,
+                  fit: BoxFit.fitWidth,
                 ),
                 Column(
                   children: [
                     AppText(
                       alignment: TextAlign.center,
                       str: controller.postDic.value?['countryName'],
-                      fontSize: 18,
+                      fontSize: 16,
                       lines: 3,
                     ),
-                    AppGaps.vGap4,
+                    5.verticalSpaceFromWidth,
                     AppText(
                       str: '目的地'.ts,
                       fontSize: 12,
-                      color: AppColors.textGrayC,
+                      color: AppColors.textNormal,
                     ),
                   ],
                 ),
@@ -138,7 +140,7 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                     AppText(
                       str: '预估重量'.ts,
                       fontSize: 12,
-                      color: AppColors.textGrayC,
+                      color: AppColors.textNormal,
                     ),
                   ],
                 ),
@@ -153,7 +155,7 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                     AppText(
                       str: '体积'.ts,
                       fontSize: 12,
-                      color: AppColors.textGrayC,
+                      color: AppColors.textNormal,
                     ),
                   ],
                 ),
@@ -176,17 +178,15 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                     children: ((controller.postDic.value?['propList'] ?? [])
                             as List<ParcelPropsModel>)
                         .map((prop) => Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 15),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14.w, vertical: 4.h),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(999),
-                                border: Border.all(color: AppColors.primary),
+                                color: AppColors.primary,
                               ),
-                              child: Text(
-                                prop.name ?? '',
-                                style: const TextStyle(
-                                  color: AppColors.primary,
-                                ),
+                              child: AppText(
+                                str: prop.name ?? '',
+                                fontSize: 12,
                               ),
                             ))
                         .toList(),

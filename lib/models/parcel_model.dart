@@ -1,10 +1,11 @@
-import 'package:jiyun_app_client/models/additional_model.dart';
-import 'package:jiyun_app_client/models/concat_info_model.dart';
-import 'package:jiyun_app_client/models/country_model.dart';
-import 'package:jiyun_app_client/models/goods_category_model.dart';
-import 'package:jiyun_app_client/models/goods_props.dart';
-import 'package:jiyun_app_client/models/parcel_goods_model.dart';
-import 'package:jiyun_app_client/models/warehouse_model.dart';
+import 'package:flutter/material.dart';
+import 'package:huanting_shop/models/additional_model.dart';
+import 'package:huanting_shop/models/concat_info_model.dart';
+import 'package:huanting_shop/models/country_model.dart';
+import 'package:huanting_shop/models/goods_category_model.dart';
+import 'package:huanting_shop/models/goods_props.dart';
+import 'package:huanting_shop/models/parcel_goods_model.dart';
+import 'package:huanting_shop/models/warehouse_model.dart';
 
 //定义枚举类型
 enum ParcelStatus { forecast, inWarehouse }
@@ -94,6 +95,7 @@ class ParcelModel {
   int? isExceptional;
   List<ParcelGoodsModel>? details;
   int? freeTime;
+  ParcelEditingController? editControllers;
 
   ParcelModel(
       {this.isExceptional,
@@ -163,6 +165,11 @@ class ParcelModel {
       this.categoriesStr = '',
       this.details,
       this.select = false});
+
+  ParcelModel.initEdit() {
+    qty = 1;
+    editControllers = ParcelEditingController();
+  }
 
   ParcelModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -396,5 +403,27 @@ class ParcelModel {
       data['country'] = country!.toJson();
     }
     return data;
+  }
+}
+
+class ParcelEditingController {
+  TextEditingController numController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  late TextEditingController valueController = TextEditingController();
+  late TextEditingController remarkController = TextEditingController();
+  late FocusNode numNode = FocusNode();
+  late FocusNode nameNode = FocusNode();
+  late FocusNode valueNode = FocusNode();
+  late FocusNode remarkNode = FocusNode();
+
+  dispose() {
+    numController.dispose();
+    nameController.dispose();
+    valueController.dispose();
+    remarkController.dispose();
+    numNode.dispose();
+    nameNode.dispose();
+    valueNode.dispose();
+    remarkNode.dispose();
   }
 }

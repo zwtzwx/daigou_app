@@ -1,8 +1,8 @@
 /*
   发票服务
  */
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/invoice_model.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/invoice_model.dart';
 
 class InvoiceService {
   // 列表

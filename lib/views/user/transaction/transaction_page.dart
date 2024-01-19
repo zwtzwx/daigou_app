@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/order_transaction_model.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/list_refresh.dart';
-import 'package:jiyun_app_client/views/user/transaction/transaction_controller.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/order_transaction_model.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/list_refresh.dart';
+import 'package:huanting_shop/views/user/transaction/transaction_controller.dart';
 
 class BeeTradePage extends GetView<BeeTradeLogic> {
   const BeeTradePage({Key? key}) : super(key: key);

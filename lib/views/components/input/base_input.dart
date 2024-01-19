@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/text_config.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/text_config.dart';
 import 'package:flutter/material.dart';
-import 'package:jiyun_app_client/views/components/keyboard_number_done.dart';
+import 'package:huanting_shop/views/components/keyboard_number_done.dart';
 
 class BaseInput extends StatefulWidget {
   const BaseInput(
@@ -88,9 +88,11 @@ class _BaseInputState extends State<BaseInput> {
 
     if (widget.focusNode != null) {
       widget.focusNode!.addListener(() {
-        setState(() {
-          _isFoucsed = widget.focusNode!.hasFocus;
-        });
+        if (mounted) {
+          setState(() {
+            _isFoucsed = widget.focusNode!.hasFocus;
+          });
+        }
       });
     }
 
@@ -163,6 +165,7 @@ class _BaseInputState extends State<BaseInput> {
 
     var widgetList = <Widget>[
       TextField(
+        // key: UniqueKey(),
         enabled: !widget.readOnly,
         // enableInteractiveSelection: false,
         cursorColor: Theme.of(context).primaryColor,

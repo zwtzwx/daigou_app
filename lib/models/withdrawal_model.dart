@@ -2,7 +2,7 @@
   提现模型
  */
 
-import 'package:jiyun_app_client/models/user_model.dart';
+import 'package:huanting_shop/models/user_model.dart';
 
 class WithdrawalModel {
   late int id;

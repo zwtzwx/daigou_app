@@ -4,19 +4,19 @@
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/country_model.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
-import 'package:jiyun_app_client/views/components/input/normal_input.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/country_model.dart';
+import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/input/input_text_item.dart';
+import 'package:huanting_shop/views/components/input/normal_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_picker/flutter_picker.dart';
-import 'package:jiyun_app_client/views/user/address/add/address_add_edit_controller.dart';
+import 'package:huanting_shop/views/user/address/add/address_add_edit_controller.dart';
 
 class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
   const BeeAddressInfoPage({Key? key}) : super(key: key);
@@ -72,7 +72,7 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
                 ),
                 Container(
                   margin: const EdgeInsets.only(right: 15, left: 15, top: 10),
-                  height: 40,
+                  height: 38.h,
                   width: double.infinity,
                   child: BeeButton(
                     text: '确认提交',

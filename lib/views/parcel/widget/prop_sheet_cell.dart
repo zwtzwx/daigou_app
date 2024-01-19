@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/goods_props.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/goods_props.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 
 // 物品属性
 class PropSheetCell extends StatefulWidget {

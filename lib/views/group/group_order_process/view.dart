@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/group/group_order_process/controller.dart';
-import 'package:jiyun_app_client/views/group/widget/member_avatar_widget.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/group/group_order_process/controller.dart';
+import 'package:huanting_shop/views/group/widget/member_avatar_widget.dart';
 
 import '../../../models/order_model.dart';
 

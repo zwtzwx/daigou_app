@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/group_model.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/group/group_member_detail/controller.dart';
-import 'package:jiyun_app_client/views/group/widget/member_avatar_widget.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/group_model.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/group/group_member_detail/controller.dart';
+import 'package:huanting_shop/views/group/widget/member_avatar_widget.dart';
 
 class BeeGroupUsersView extends GetView<BeeGroupUsersController> {
   const BeeGroupUsersView({Key? key}) : super(key: key);

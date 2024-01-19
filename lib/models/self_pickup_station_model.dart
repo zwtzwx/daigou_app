@@ -1,7 +1,7 @@
-import 'package:jiyun_app_client/models/area_model.dart';
-import 'package:jiyun_app_client/models/country_model.dart';
-import 'package:jiyun_app_client/models/ship_line_model.dart';
-import 'package:jiyun_app_client/models/ship_line_prop_model.dart';
+import 'package:huanting_shop/models/area_model.dart';
+import 'package:huanting_shop/models/country_model.dart';
+import 'package:huanting_shop/models/ship_line_model.dart';
+import 'package:huanting_shop/models/ship_line_prop_model.dart';
 
 /*
   自提点信息

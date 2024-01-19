@@ -1,8 +1,8 @@
 /*
   代理佣金提现记录
  */
-import 'package:jiyun_app_client/models/user_model.dart';
-import 'package:jiyun_app_client/models/withdrawal_model.dart';
+import 'package:huanting_shop/models/user_model.dart';
+import 'package:huanting_shop/models/withdrawal_model.dart';
 
 class WithdrawalItemModel {
   late int id;

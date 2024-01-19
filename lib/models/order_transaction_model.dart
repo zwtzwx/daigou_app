@@ -1,7 +1,7 @@
 /*
   交易流水
  */
-import 'package:jiyun_app_client/models/order_model.dart';
+import 'package:huanting_shop/models/order_model.dart';
 
 class OrderTransactionModel {
   late int id;

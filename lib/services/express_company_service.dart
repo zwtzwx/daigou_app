@@ -1,5 +1,5 @@
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/express_company_model.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/express_company_model.dart';
 
 class ExpressCompanyService {
   // 获取支持的快递

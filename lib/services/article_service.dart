@@ -1,6 +1,6 @@
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/article_model.dart';
-import 'package:jiyun_app_client/services/base_service.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/article_model.dart';
+import 'package:huanting_shop/services/base_service.dart';
 
 class ArticleService {
   // 列表

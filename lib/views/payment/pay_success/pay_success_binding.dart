@@ -1,5 +1,5 @@
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/views/payment/pay_success/pay_success_controller.dart';
+import 'package:huanting_shop/views/payment/pay_success/pay_success_controller.dart';
 
 class PaySuccessBinding extends Bindings {
   @override

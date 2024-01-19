@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/common/util.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:huanting_shop/common/util.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/shop/platform_goods_model.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 
 class PlatformGoodsCell extends StatelessWidget {
   const PlatformGoodsCell({
@@ -87,32 +85,37 @@ class PlatformGoodsCell extends StatelessWidget {
                     ),
                   ),
                   5.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Obx(
-                        () => AppText(
-                          str: (goods.price ?? 0).rate(needFormat: false),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      5.horizontalSpace,
-                      Expanded(
-                        child: Obx(
-                          () => AppText(
-                            str: '{count}人付款'.tsArgs(
-                              {'count': goods.sales},
-                            ),
-                            color: AppColors.textGrayC9,
-                            fontSize: 10,
-                            alignment: TextAlign.right,
-                            lines: 2,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
+                  AppText(
+                    str: (goods.price ?? 0).rate(needFormat: false),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Obx(
+                  //       () => AppText(
+                  //         str: (goods.price ?? 0).rate(needFormat: false),
+                  //         fontWeight: FontWeight.bold,
+                  //         fontSize: 16,
+                  //       ),
+                  //     ),
+                  //     5.horizontalSpace,
+                  //     Expanded(
+                  //       child: Obx(
+                  //         () => AppText(
+                  //           str: '{count}人付款'.tsArgs(
+                  //             {'count': goods.sales},
+                  //           ),
+                  //           color: AppColors.textGrayC9,
+                  //           fontSize: 10,
+                  //           alignment: TextAlign.right,
+                  //           lines: 2,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // )
                 ],
               ),
             ),

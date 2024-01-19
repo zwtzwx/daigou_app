@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
-import 'package:jiyun_app_client/common/fade_route.dart';
-import 'package:jiyun_app_client/common/loading_util.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/shop/goods_comment_model.dart';
-import 'package:jiyun_app_client/services/shop_service.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/components/loading_cell.dart';
-import 'package:jiyun_app_client/views/components/photo_view_gallery_screen.dart';
+import 'package:huanting_shop/common/fade_route.dart';
+import 'package:huanting_shop/common/loading_util.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/shop/goods_comment_model.dart';
+import 'package:huanting_shop/services/shop_service.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/components/loading_cell.dart';
+import 'package:huanting_shop/views/components/photo_view_gallery_screen.dart';
 
 class GoodsCommentsList extends StatefulWidget {
   const GoodsCommentsList({

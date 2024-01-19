@@ -5,8 +5,8 @@ import 'dart:convert' as convert;
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/storage/user_storage.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/storage/user_storage.dart';
 
 class Notifications {
   static final FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -112,7 +112,7 @@ class Notifications {
   static void onMessage(Map<String, dynamic>? data) {
     if (data == null) return;
     if (data['type'] == '1') {
-      BeeNav.push(BeeNav.parcelList, 2);
+      BeeNav.push(BeeNav.orderCenter, 1);
     } else if (data['type'] == '7') {
       BeeNav.push(
           BeeNav.webview, {'type': 'notice', 'id': int.parse(data['value'])});

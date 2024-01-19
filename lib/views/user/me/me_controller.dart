@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/change_page_index_event.dart';
-import 'package:jiyun_app_client/events/profile_updated_event.dart';
-import 'package:jiyun_app_client/models/user_agent_status_model.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/services/user_service.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/change_page_index_event.dart';
+import 'package:huanting_shop/events/profile_updated_event.dart';
+import 'package:huanting_shop/models/user_agent_status_model.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/services/user_service.dart';
 
 class BeeCenterLogic extends GlobalLogic {
   final ScrollController scrollController = ScrollController();

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/common/util.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/pay_type_model.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/payment/transport_pay/controller.dart';
+import 'package:huanting_shop/common/util.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/pay_type_model.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/payment/transport_pay/controller.dart';
 
 class TransportPayPage extends GetView<TransportPayController> {
   const TransportPayPage({Key? key}) : super(key: key);
@@ -21,13 +21,11 @@ class TransportPayPage extends GetView<TransportPayController> {
         appBar: AppBar(
           leading: const BackButton(color: Colors.black),
           backgroundColor: Colors.white,
-          elevation: 0.5,
+          elevation: 0,
           centerTitle: true,
           title: AppText(
             str: '支付订单'.ts,
-            color: AppColors.textBlack,
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
+            fontSize: 17,
           ),
         ),
         backgroundColor: AppColors.bgGray,
@@ -292,7 +290,7 @@ class TransportPayPage extends GetView<TransportPayController> {
                   ),
                 ),
                 Container(
-                  height: 40,
+                  height: 38.h,
                   margin: const EdgeInsets.only(
                     top: 50,
                     right: 15,
@@ -361,24 +359,17 @@ class TransportPayPage extends GetView<TransportPayController> {
           child: Obx(
             () => Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.only(right: 15),
-                      height: 30.w,
-                      width: 30.w,
-                      child: ImgItem(controller.getPayTypeIcon(typeMap.name)),
-                    ),
-                    AppText(
-                      str: CommonMethods.getPayTypeName(typeMap.name),
-                    ),
-                    // show
-                    //     ? AppText(
-                    //         str: '（${'余额不足'.ts})',
-                    //       )
-                    //     : Container(),
-                  ],
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(right: 15),
+                  height: 30.w,
+                  width: 30.w,
+                  child: ImgItem(controller.getPayTypeIcon(typeMap.name)),
+                ),
+                Expanded(
+                  child: AppText(
+                    str: CommonMethods.getPayTypeName(typeMap.name).ts,
+                  ),
                 ),
                 controller.selectedPayType.value == typeMap
                     ? const Icon(

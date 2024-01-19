@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/views/code_scan/controller.dart';
+import 'package:huanting_shop/views/code_scan/controller.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class CodeScanPage extends GetView<CodeScanController> {

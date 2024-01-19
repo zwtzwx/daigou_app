@@ -1,9 +1,9 @@
 import 'dart:core';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/views/webview/webview_controller.dart';
+import 'package:huanting_shop/views/webview/webview_controller.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

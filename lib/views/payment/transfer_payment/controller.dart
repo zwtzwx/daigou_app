@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/models/order_model.dart';
-import 'package:jiyun_app_client/models/pay_type_model.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/models/user_model.dart';
-import 'package:jiyun_app_client/models/user_vip_price_model.dart';
-import 'package:jiyun_app_client/services/balance_service.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/models/order_model.dart';
+import 'package:huanting_shop/models/pay_type_model.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/models/user_model.dart';
+import 'package:huanting_shop/models/user_vip_price_model.dart';
+import 'package:huanting_shop/services/balance_service.dart';
 
 class TransferPaymentController extends GlobalLogic {
   final selectImg = [''].obs;
@@ -32,8 +32,11 @@ class TransferPaymentController extends GlobalLogic {
   // 订单付款数据
   final orderModel = Rxn<OrderModel?>();
 
+  List<int> shopOrderIds = [];
+
   final isRequest = false.obs;
-  final modelType = 0.obs; // 数据类型  0转账购买会员  1转账充值余额 2转账订单付款
+  final modelType =
+      0.obs; // 0-->购买会员  1-->充值余额 2-->集运订单付款 3-->代购订单付款 4-->代购补款订单
 
   @override
   void onInit() {
@@ -47,6 +50,9 @@ class TransferPaymentController extends GlobalLogic {
       amount.value = arguments['amount'];
     } else if (modelType.value == 2) {
       orderModel.value = arguments['contentModel'];
+    } else {
+      shopOrderIds = arguments['ids'];
+      amount.value = arguments['amount'];
     }
   }
 
@@ -94,6 +100,20 @@ class TransferPaymentController extends GlobalLogic {
         'payment_id': payModel.value!.id,
       };
       result = await BalanceService.orderPayTransfer(upData);
+    } else {
+      // 商城订单
+      Map<String, dynamic> upData = {
+        'id': modelType.value == 3 ? shopOrderIds : shopOrderIds.first,
+        'transfer_account': transferAccountController.text,
+        'images': listImg,
+        'payment_id': payModel.value!.id,
+        'tran_amount': ((amount.value ?? 0) * 100).toInt(),
+      };
+      if (modelType.value == 3) {
+        result = await BalanceService.onShopOrderTransfer(upData);
+      } else {
+        result = await BalanceService.onProblemOrderTransfer(upData);
+      }
     }
     isRequest.value = false;
 

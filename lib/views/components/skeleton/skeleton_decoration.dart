@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jiyun_app_client/views/components/skeleton/skeleton_animation.dart';
+import 'package:huanting_shop/views/components/skeleton/skeleton_animation.dart';
 
 class SkeletonDecoration extends BoxDecoration {
   SkeletonDecoration({

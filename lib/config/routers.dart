@@ -1,164 +1,157 @@
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/views/code_scan/bindings.dart';
-import 'package:jiyun_app_client/views/code_scan/view.dart';
-import 'package:jiyun_app_client/views/common/comment/bindings.dart';
-import 'package:jiyun_app_client/views/common/comment/view.dart';
-import 'package:jiyun_app_client/views/common/country/country_binding.dart';
-import 'package:jiyun_app_client/views/common/country/country_list_page.dart';
-import 'package:jiyun_app_client/views/express/express_query_bind.dart';
-import 'package:jiyun_app_client/views/express/express_query_page.dart';
-import 'package:jiyun_app_client/views/group/group_center/bindings.dart';
-import 'package:jiyun_app_client/views/group/group_center/view.dart';
-import 'package:jiyun_app_client/views/group/group_choose_parcel/bindings.dart';
-import 'package:jiyun_app_client/views/group/group_choose_parcel/view.dart';
-import 'package:jiyun_app_client/views/group/group_create/bindings.dart';
-import 'package:jiyun_app_client/views/group/group_create/view.dart';
-import 'package:jiyun_app_client/views/group/group_detail/bindings.dart';
-import 'package:jiyun_app_client/views/group/group_detail/view.dart';
-import 'package:jiyun_app_client/views/group/group_member_detail/bindings.dart';
-import 'package:jiyun_app_client/views/group/group_member_detail/view.dart';
-import 'package:jiyun_app_client/views/group/group_order/bindings.dart';
-import 'package:jiyun_app_client/views/group/group_order/view.dart';
-import 'package:jiyun_app_client/views/group/group_order_process/bindings.dart';
-import 'package:jiyun_app_client/views/group/group_order_process/view.dart';
-import 'package:jiyun_app_client/views/help/help_center/bindings.dart';
-import 'package:jiyun_app_client/views/help/help_center/view.dart';
-import 'package:jiyun_app_client/views/help/question/bindings.dart';
-import 'package:jiyun_app_client/views/help/question/view.dart';
-import 'package:jiyun_app_client/views/line/detail/line_detail_binding.dart';
-import 'package:jiyun_app_client/views/line/detail/line_detail_view.dart';
-import 'package:jiyun_app_client/views/line/query/line_query_binding.dart';
-import 'package:jiyun_app_client/views/line/query/line_query_view.dart';
-import 'package:jiyun_app_client/views/line/query_result/line_query_result_binding.dart';
-import 'package:jiyun_app_client/views/line/query_result/line_query_result_view.dart';
-import 'package:jiyun_app_client/views/notice/notice_binding.dart';
-import 'package:jiyun_app_client/views/notice/notice_page.dart';
-import 'package:jiyun_app_client/views/order/center/order_center_binding.dart';
-import 'package:jiyun_app_client/views/order/center/order_center_page.dart';
-import 'package:jiyun_app_client/views/order/detail/order_detail_binding.dart';
-import 'package:jiyun_app_client/views/order/detail/order_detail_page.dart';
-import 'package:jiyun_app_client/views/order/list/order_list_binding.dart';
-import 'package:jiyun_app_client/views/order/list/order_list_view.dart';
-import 'package:jiyun_app_client/views/order/tracking/tracking_binding.dart';
-import 'package:jiyun_app_client/views/order/tracking/tracking_detail_page.dart';
-import 'package:jiyun_app_client/views/parcel/create_order/bindings.dart';
-import 'package:jiyun_app_client/views/parcel/create_order/view.dart';
-import 'package:jiyun_app_client/views/parcel/forecast/forecast_binding.dart';
-import 'package:jiyun_app_client/views/parcel/forecast/forecast_parcel_page.dart';
-import 'package:jiyun_app_client/views/parcel/no_owner/detail/no_owner_parcel_detail_binding.dart';
-import 'package:jiyun_app_client/views/parcel/no_owner/detail/no_owner_parcel_detail_view.dart';
-import 'package:jiyun_app_client/views/parcel/no_owner/list/no_owner_parcel_binding.dart';
-import 'package:jiyun_app_client/views/parcel/no_owner/list/no_owner_parcel_view.dart';
-import 'package:jiyun_app_client/views/parcel/parcel_detail/parcel_detail_binding.dart';
-import 'package:jiyun_app_client/views/parcel/parcel_detail/parcel_detail_page.dart';
-import 'package:jiyun_app_client/views/parcel/parcel_edit/parcel_edit_binding.dart';
-import 'package:jiyun_app_client/views/parcel/parcel_edit/parcel_edit_page.dart';
-import 'package:jiyun_app_client/views/parcel/parcel_list/parcel_list_binding.dart';
-import 'package:jiyun_app_client/views/parcel/parcel_list/parcel_list_page.dart';
-import 'package:jiyun_app_client/views/payment/pay_success/pay_success_binding.dart';
-import 'package:jiyun_app_client/views/payment/pay_success/pay_success_view.dart';
-import 'package:jiyun_app_client/views/payment/recharge/recharge_binding.dart';
-import 'package:jiyun_app_client/views/payment/recharge/recharge_view.dart';
-import 'package:jiyun_app_client/views/payment/recharge_history/bindings.dart';
-import 'package:jiyun_app_client/views/payment/recharge_history/view.dart';
-import 'package:jiyun_app_client/views/payment/shop_pay/shop_order_pay_binding.dart';
-import 'package:jiyun_app_client/views/payment/shop_pay/shop_order_pay_view.dart';
-import 'package:jiyun_app_client/views/payment/transfer_payment/bindings.dart';
-import 'package:jiyun_app_client/views/payment/transfer_payment/view.dart';
-import 'package:jiyun_app_client/views/payment/transport_pay/bindings.dart';
-import 'package:jiyun_app_client/views/payment/transport_pay/view.dart';
-import 'package:jiyun_app_client/views/shop/center/shop_center_binding.dart';
-import 'package:jiyun_app_client/views/shop/center/shop_center_view.dart';
-import 'package:jiyun_app_client/views/shop/chat_detail/order_chat_detail_binding.dart';
-import 'package:jiyun_app_client/views/shop/chat_detail/order_chat_detail_view.dart';
-import 'package:jiyun_app_client/views/shop/goods_detail/goods_detail_binding.dart';
-import 'package:jiyun_app_client/views/shop/goods_detail/goods_detail_view.dart';
-import 'package:jiyun_app_client/views/shop/goods_list/goods_list_binding.dart';
-import 'package:jiyun_app_client/views/shop/goods_list/goods_list_view.dart';
-import 'package:jiyun_app_client/views/shop/image_search_goods/image_search_binding.dart';
-import 'package:jiyun_app_client/views/shop/image_search_goods/image_search_view.dart';
-import 'package:jiyun_app_client/views/shop/image_search_goods_list/binding.dart';
-import 'package:jiyun_app_client/views/shop/image_search_goods_list/view.dart';
-import 'package:jiyun_app_client/views/shop/order/shop_order_binding.dart';
-import 'package:jiyun_app_client/views/shop/order/shop_order_view.dart';
-import 'package:jiyun_app_client/views/shop/order_chat/shop_order_chat_binding.dart';
-import 'package:jiyun_app_client/views/shop/order_chat/shop_order_chat_view.dart';
-import 'package:jiyun_app_client/views/shop/order_detail/order_detail_binding.dart';
-import 'package:jiyun_app_client/views/shop/order_detail/order_detail_view.dart';
-import 'package:jiyun_app_client/views/shop/order_preview/order_preview_binding.dart';
-import 'package:jiyun_app_client/views/shop/order_preview/order_preview_view.dart';
-import 'package:jiyun_app_client/views/shop/platform/platform_binding.dart';
-import 'package:jiyun_app_client/views/shop/platform/platform_view.dart';
-import 'package:jiyun_app_client/views/shop/platform_goods/platform_goods_binding.dart';
-import 'package:jiyun_app_client/views/shop/platform_goods/platform_goods_list_view.dart';
-import 'package:jiyun_app_client/views/shop/problem_order/problem_order_binding.dart';
-import 'package:jiyun_app_client/views/shop/problem_order/problem_order_view.dart';
-import 'package:jiyun_app_client/views/user/abount/about_me_binding.dart';
-import 'package:jiyun_app_client/views/user/abount/about_me_page.dart';
-import 'package:jiyun_app_client/views/user/address/add/address_add_edit_binding.dart';
-import 'package:jiyun_app_client/views/user/address/add/address_add_edit_view.dart';
-import 'package:jiyun_app_client/views/user/address/list/address_list_binding.dart';
-import 'package:jiyun_app_client/views/user/address/list/address_list_view.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_apply/bindings.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_apply/view.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_commission/bindings.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_commission/view.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_commission_apply/bindings.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_commission_apply/view.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_commission_history/bindings.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_commission_history/view.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_member/bindings.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_member/view.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_withdraw_detail/bindings.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_withdraw_detail/view.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_withdraw_record/bindings.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_withdraw_record/view.dart';
-import 'package:jiyun_app_client/views/user/bind_info/bind_info_binding.dart';
-import 'package:jiyun_app_client/views/user/bind_info/bind_info_view.dart';
-import 'package:jiyun_app_client/views/user/coupon/bindings.dart';
-import 'package:jiyun_app_client/views/user/coupon/view.dart';
-import 'package:jiyun_app_client/views/user/forget_password/forget_password_binding.dart';
-import 'package:jiyun_app_client/views/user/forget_password/forget_password_page.dart';
-import 'package:jiyun_app_client/views/user/profile/profile_binding.dart';
-import 'package:jiyun_app_client/views/user/profile/profile_view.dart';
-import 'package:jiyun_app_client/views/user/register/register_binding.dart';
-import 'package:jiyun_app_client/views/user/register/register_page.dart';
-import 'package:jiyun_app_client/views/user/setting_password/setting_password_binding.dart';
-import 'package:jiyun_app_client/views/user/setting_password/setting_password_view.dart';
-import 'package:jiyun_app_client/views/user/station/station_binding.dart';
-import 'package:jiyun_app_client/views/user/station/station_view.dart';
-import 'package:jiyun_app_client/views/user/station_select/station_select_binding.dart';
-import 'package:jiyun_app_client/views/user/station_select/station_select_view.dart';
-import 'package:jiyun_app_client/views/user/transaction/transaction_binding.dart';
-import 'package:jiyun_app_client/views/user/transaction/transaction_page.dart';
-import 'package:jiyun_app_client/views/user/vip/center/vip_center_binding.dart';
-import 'package:jiyun_app_client/views/user/vip/center/vip_center_view.dart';
-import 'package:jiyun_app_client/views/user/vip/growth_value/growth_value_binding.dart';
-import 'package:jiyun_app_client/views/user/vip/growth_value/growth_value_view.dart';
-import 'package:jiyun_app_client/views/user/vip/point/point_binding.dart';
-import 'package:jiyun_app_client/views/user/vip/point/point_view.dart';
-import 'package:jiyun_app_client/views/warehouse/warehouse_binding.dart';
-import 'package:jiyun_app_client/views/warehouse/warehouse_page.dart';
-import 'package:jiyun_app_client/views/tabbar/tabbar_binding.dart';
-import 'package:jiyun_app_client/views/tabbar/tabbar_view.dart';
-import 'package:jiyun_app_client/views/user/login/login_binding.dart';
-import 'package:jiyun_app_client/views/user/login/login_page.dart';
-import 'package:jiyun_app_client/views/webview/webview_binding.dart';
-import 'package:jiyun_app_client/views/webview/webview_page.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/views/code_scan/bindings.dart';
+import 'package:huanting_shop/views/code_scan/view.dart';
+import 'package:huanting_shop/views/common/comment/bindings.dart';
+import 'package:huanting_shop/views/common/comment/view.dart';
+import 'package:huanting_shop/views/common/country/country_binding.dart';
+import 'package:huanting_shop/views/common/country/country_list_page.dart';
+import 'package:huanting_shop/views/express/express_query_bind.dart';
+import 'package:huanting_shop/views/express/express_query_page.dart';
+import 'package:huanting_shop/views/group/group_center/bindings.dart';
+import 'package:huanting_shop/views/group/group_center/view.dart';
+import 'package:huanting_shop/views/group/group_choose_parcel/bindings.dart';
+import 'package:huanting_shop/views/group/group_choose_parcel/view.dart';
+import 'package:huanting_shop/views/group/group_create/bindings.dart';
+import 'package:huanting_shop/views/group/group_create/view.dart';
+import 'package:huanting_shop/views/group/group_detail/bindings.dart';
+import 'package:huanting_shop/views/group/group_detail/view.dart';
+import 'package:huanting_shop/views/group/group_member_detail/bindings.dart';
+import 'package:huanting_shop/views/group/group_member_detail/view.dart';
+import 'package:huanting_shop/views/group/group_order/bindings.dart';
+import 'package:huanting_shop/views/group/group_order/view.dart';
+import 'package:huanting_shop/views/group/group_order_process/bindings.dart';
+import 'package:huanting_shop/views/group/group_order_process/view.dart';
+import 'package:huanting_shop/views/help/help_center/bindings.dart';
+import 'package:huanting_shop/views/help/help_center/view.dart';
+import 'package:huanting_shop/views/help/question/bindings.dart';
+import 'package:huanting_shop/views/help/question/view.dart';
+import 'package:huanting_shop/views/line/detail/line_detail_binding.dart';
+import 'package:huanting_shop/views/line/detail/line_detail_view.dart';
+import 'package:huanting_shop/views/line/query/line_query_binding.dart';
+import 'package:huanting_shop/views/line/query/line_query_view.dart';
+import 'package:huanting_shop/views/line/query_result/line_query_result_binding.dart';
+import 'package:huanting_shop/views/line/query_result/line_query_result_view.dart';
+import 'package:huanting_shop/views/notice/notice_binding.dart';
+import 'package:huanting_shop/views/notice/notice_page.dart';
+import 'package:huanting_shop/views/order/center/order_center_binding.dart';
+import 'package:huanting_shop/views/order/center/order_center_page.dart';
+import 'package:huanting_shop/views/order/detail/order_detail_binding.dart';
+import 'package:huanting_shop/views/order/detail/order_detail_page.dart';
+import 'package:huanting_shop/views/order/tracking/tracking_binding.dart';
+import 'package:huanting_shop/views/order/tracking/tracking_detail_page.dart';
+import 'package:huanting_shop/views/parcel/create_order/bindings.dart';
+import 'package:huanting_shop/views/parcel/create_order/view.dart';
+import 'package:huanting_shop/views/parcel/forecast/forecast_binding.dart';
+import 'package:huanting_shop/views/parcel/forecast/forecast_parcel_page.dart';
+import 'package:huanting_shop/views/parcel/no_owner/detail/no_owner_parcel_detail_binding.dart';
+import 'package:huanting_shop/views/parcel/no_owner/detail/no_owner_parcel_detail_view.dart';
+import 'package:huanting_shop/views/parcel/no_owner/list/no_owner_parcel_binding.dart';
+import 'package:huanting_shop/views/parcel/no_owner/list/no_owner_parcel_view.dart';
+import 'package:huanting_shop/views/parcel/parcel_detail/parcel_detail_binding.dart';
+import 'package:huanting_shop/views/parcel/parcel_detail/parcel_detail_page.dart';
+import 'package:huanting_shop/views/parcel/parcel_edit/parcel_edit_binding.dart';
+import 'package:huanting_shop/views/parcel/parcel_edit/parcel_edit_page.dart';
+import 'package:huanting_shop/views/payment/pay_success/pay_success_binding.dart';
+import 'package:huanting_shop/views/payment/pay_success/pay_success_view.dart';
+import 'package:huanting_shop/views/payment/recharge/recharge_binding.dart';
+import 'package:huanting_shop/views/payment/recharge/recharge_view.dart';
+import 'package:huanting_shop/views/payment/recharge_history/bindings.dart';
+import 'package:huanting_shop/views/payment/recharge_history/view.dart';
+import 'package:huanting_shop/views/payment/shop_pay/shop_order_pay_binding.dart';
+import 'package:huanting_shop/views/payment/shop_pay/shop_order_pay_view.dart';
+import 'package:huanting_shop/views/payment/transfer_payment/bindings.dart';
+import 'package:huanting_shop/views/payment/transfer_payment/view.dart';
+import 'package:huanting_shop/views/payment/transport_pay/bindings.dart';
+import 'package:huanting_shop/views/payment/transport_pay/view.dart';
+import 'package:huanting_shop/views/shop/center/shop_center_binding.dart';
+import 'package:huanting_shop/views/shop/center/shop_center_view.dart';
+import 'package:huanting_shop/views/shop/chat_detail/order_chat_detail_binding.dart';
+import 'package:huanting_shop/views/shop/chat_detail/order_chat_detail_view.dart';
+import 'package:huanting_shop/views/shop/goods_detail/goods_detail_binding.dart';
+import 'package:huanting_shop/views/shop/goods_detail/goods_detail_view.dart';
+import 'package:huanting_shop/views/shop/goods_list/goods_list_binding.dart';
+import 'package:huanting_shop/views/shop/goods_list/goods_list_view.dart';
+import 'package:huanting_shop/views/shop/image_search_goods/image_search_binding.dart';
+import 'package:huanting_shop/views/shop/image_search_goods/image_search_view.dart';
+import 'package:huanting_shop/views/shop/image_search_goods_list/binding.dart';
+import 'package:huanting_shop/views/shop/image_search_goods_list/view.dart';
+import 'package:huanting_shop/views/shop/manual_order/binding.dart';
+import 'package:huanting_shop/views/shop/manual_order/view.dart';
+import 'package:huanting_shop/views/shop/order/shop_order_binding.dart';
+import 'package:huanting_shop/views/shop/order/shop_order_view.dart';
+import 'package:huanting_shop/views/shop/order_chat/shop_order_chat_binding.dart';
+import 'package:huanting_shop/views/shop/order_chat/shop_order_chat_view.dart';
+import 'package:huanting_shop/views/shop/order_detail/order_detail_binding.dart';
+import 'package:huanting_shop/views/shop/order_detail/order_detail_view.dart';
+import 'package:huanting_shop/views/shop/order_preview/order_preview_binding.dart';
+import 'package:huanting_shop/views/shop/order_preview/order_preview_view.dart';
+import 'package:huanting_shop/views/shop/platform_goods/platform_goods_binding.dart';
+import 'package:huanting_shop/views/shop/platform_goods/platform_goods_list_view.dart';
+import 'package:huanting_shop/views/shop/problem_order/problem_order_binding.dart';
+import 'package:huanting_shop/views/shop/problem_order/problem_order_view.dart';
+import 'package:huanting_shop/views/user/abount/about_me_binding.dart';
+import 'package:huanting_shop/views/user/abount/about_me_page.dart';
+import 'package:huanting_shop/views/user/address/add/address_add_edit_binding.dart';
+import 'package:huanting_shop/views/user/address/add/address_add_edit_view.dart';
+import 'package:huanting_shop/views/user/address/list/address_list_binding.dart';
+import 'package:huanting_shop/views/user/address/list/address_list_view.dart';
+import 'package:huanting_shop/views/user/agent/agent_apply/bindings.dart';
+import 'package:huanting_shop/views/user/agent/agent_apply/view.dart';
+import 'package:huanting_shop/views/user/agent/agent_commission/bindings.dart';
+import 'package:huanting_shop/views/user/agent/agent_commission/view.dart';
+import 'package:huanting_shop/views/user/agent/agent_commission_apply/bindings.dart';
+import 'package:huanting_shop/views/user/agent/agent_commission_apply/view.dart';
+import 'package:huanting_shop/views/user/agent/agent_commission_history/bindings.dart';
+import 'package:huanting_shop/views/user/agent/agent_commission_history/view.dart';
+import 'package:huanting_shop/views/user/agent/agent_member/bindings.dart';
+import 'package:huanting_shop/views/user/agent/agent_member/view.dart';
+import 'package:huanting_shop/views/user/agent/agent_withdraw_detail/bindings.dart';
+import 'package:huanting_shop/views/user/agent/agent_withdraw_detail/view.dart';
+import 'package:huanting_shop/views/user/agent/agent_withdraw_record/bindings.dart';
+import 'package:huanting_shop/views/user/agent/agent_withdraw_record/view.dart';
+import 'package:huanting_shop/views/user/bind_info/bind_info_binding.dart';
+import 'package:huanting_shop/views/user/bind_info/bind_info_view.dart';
+import 'package:huanting_shop/views/user/coupon/bindings.dart';
+import 'package:huanting_shop/views/user/coupon/view.dart';
+import 'package:huanting_shop/views/user/forget_password/forget_password_binding.dart';
+import 'package:huanting_shop/views/user/forget_password/forget_password_page.dart';
+import 'package:huanting_shop/views/user/profile/profile_binding.dart';
+import 'package:huanting_shop/views/user/profile/profile_view.dart';
+import 'package:huanting_shop/views/user/register/register_binding.dart';
+import 'package:huanting_shop/views/user/register/register_page.dart';
+import 'package:huanting_shop/views/user/setting_password/setting_password_binding.dart';
+import 'package:huanting_shop/views/user/setting_password/setting_password_view.dart';
+import 'package:huanting_shop/views/user/station/station_binding.dart';
+import 'package:huanting_shop/views/user/station/station_view.dart';
+import 'package:huanting_shop/views/user/station_select/station_select_binding.dart';
+import 'package:huanting_shop/views/user/station_select/station_select_view.dart';
+import 'package:huanting_shop/views/user/transaction/transaction_binding.dart';
+import 'package:huanting_shop/views/user/transaction/transaction_page.dart';
+import 'package:huanting_shop/views/user/vip/center/vip_center_binding.dart';
+import 'package:huanting_shop/views/user/vip/center/vip_center_view.dart';
+import 'package:huanting_shop/views/user/vip/growth_value/growth_value_binding.dart';
+import 'package:huanting_shop/views/user/vip/growth_value/growth_value_view.dart';
+import 'package:huanting_shop/views/user/vip/point/point_binding.dart';
+import 'package:huanting_shop/views/user/vip/point/point_view.dart';
+import 'package:huanting_shop/views/warehouse/warehouse_binding.dart';
+import 'package:huanting_shop/views/warehouse/warehouse_page.dart';
+import 'package:huanting_shop/views/tabbar/tabbar_binding.dart';
+import 'package:huanting_shop/views/tabbar/tabbar_view.dart';
+import 'package:huanting_shop/views/user/login/login_binding.dart';
+import 'package:huanting_shop/views/user/login/login_page.dart';
+import 'package:huanting_shop/views/webview/webview_binding.dart';
+import 'package:huanting_shop/views/webview/webview_page.dart';
 
 class BeeNav {
   BeeNav._();
 
   static const String home = '/';
-  static const String parcelList = '/parcel/forcast/list'; // 未入库包裹列表
-  static const String inWarehouseList = '/parcel/inWarehouse/list'; // 已入库包裹列表
   static const String editParcel = '/parcel/edit'; // 修改包裹
   static const String parcelDetail = '/parcel/detail'; // 包裹详情
   static const String addressList = '/address/list'; // 地址列表
   static const String addressAddEdit = '/address/addEdit'; // 添加、修改地址
-  static const String orderList = '/order/list'; // 订单列表
   static const String orderDetail = '/order/detail'; // 订单详情
   static const String orderComment = '/order/comment'; // 订单评价
   static const String orderTracking = '/order/tracking'; // 订单物流
@@ -226,9 +219,9 @@ class BeeNav {
   static const String probleShopOrder = '/probleShopOrder'; // 问题商品列表
   static const String shopOrderChat = '/shopOrderChat'; // 我的咨询
   static const String shopOrderChatDetail = '/shopOrderChatDetail'; // 咨询详情
-  static const String platform = '/platform';
   static const String imageSearch = '/imageSearch';
   static const String imageSearchResults = '/imageSearchResults';
+  static const String manualOrder = '/manualOrder';
 
   static List filterList = [
     webview,
@@ -245,7 +238,6 @@ class BeeNav {
     platformGoodsList,
     goodsDetail,
     lineQuery,
-    platform,
     lineDetail,
     lineQueryResult,
     help,
@@ -280,11 +272,6 @@ class BeeNav {
       name: forecast,
       page: () => const BeeParcelCreatePage(),
       binding: BeeParcelCreateBinding(),
-    ),
-    GetPage(
-      name: parcelList,
-      page: () => const BeePackagesPage(),
-      binding: BeePackagesBinding(),
     ),
     GetPage(
       name: parcelDetail,
@@ -345,11 +332,6 @@ class BeeNav {
       name: forgetPassword,
       page: () => const BeeResetPwdPage(),
       binding: BeeResetPwdBinding(),
-    ),
-    GetPage(
-      name: orderList,
-      page: () => const BeeOrdersPage(),
-      binding: BeeOrdersBinding(),
     ),
     GetPage(
       name: orderDetail,
@@ -607,11 +589,6 @@ class BeeNav {
       binding: BeeGroupParcelSelectBinding(),
     ),
     GetPage(
-      name: platform,
-      page: () => const PlatformView(),
-      binding: PlatformBinding(),
-    ),
-    GetPage(
       name: imageSearch,
       page: () => const GoodsImageSearchPage(),
       binding: GoodsImageSearchBinding(),
@@ -620,6 +597,11 @@ class BeeNav {
       name: imageSearchResults,
       page: () => const GoodsImageSearchResultPage(),
       binding: GoodsImageSearchResultBinding(),
+    ),
+    GetPage(
+      name: manualOrder,
+      page: () => const ManualOrderView(),
+      binding: ManualOrderBinding(),
     ),
   ];
 

@@ -1,7 +1,7 @@
-import 'package:jiyun_app_client/models/region_area_model.dart';
-import 'package:jiyun_app_client/models/ship_line_rule_model.dart';
-import 'package:jiyun_app_client/models/ship_line_service_model.dart';
-import 'package:jiyun_app_client/models/ship_line_price_model.dart';
+import 'package:huanting_shop/models/region_area_model.dart';
+import 'package:huanting_shop/models/ship_line_rule_model.dart';
+import 'package:huanting_shop/models/ship_line_service_model.dart';
+import 'package:huanting_shop/models/ship_line_price_model.dart';
 
 class RegionModel {
   late num id;

@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/services/common_service.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/services/common_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

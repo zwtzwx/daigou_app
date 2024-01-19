@@ -1,5 +1,5 @@
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/views/shop/chat_detail/order_chat_detail_controller.dart';
+import 'package:huanting_shop/views/shop/chat_detail/order_chat_detail_controller.dart';
 
 class ShopOrderChatDetailBinding extends Bindings {
   @override

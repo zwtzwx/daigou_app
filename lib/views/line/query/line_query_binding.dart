@@ -1,5 +1,5 @@
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/views/line/query/line_query_controller.dart';
+import 'package:huanting_shop/views/line/query/line_query_controller.dart';
 
 class LineQueryBinding extends Bindings {
   @override

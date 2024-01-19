@@ -1,11 +1,11 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:dio/dio.dart';
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/insurance_model.dart';
-import 'package:jiyun_app_client/models/ship_line_model.dart';
-import 'package:jiyun_app_client/models/tariff_model.dart';
-import 'package:jiyun_app_client/models/value_added_service_model.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/insurance_model.dart';
+import 'package:huanting_shop/models/ship_line_model.dart';
+import 'package:huanting_shop/models/tariff_model.dart';
+import 'package:huanting_shop/models/value_added_service_model.dart';
 
 /*
   渠道

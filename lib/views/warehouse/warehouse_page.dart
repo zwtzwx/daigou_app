@@ -1,11 +1,11 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/warehouse_model.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/warehouse_model.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 import 'package:flutter/material.dart';
-import 'package:jiyun_app_client/views/warehouse/warehouse_controller.dart';
+import 'package:huanting_shop/views/warehouse/warehouse_controller.dart';
 
 /*
   仓库地址、

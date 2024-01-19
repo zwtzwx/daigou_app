@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/button/plain_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/payment/pay_success/pay_success_controller.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/button/plain_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/payment/pay_success/pay_success_controller.dart';
 
 class PaySuccessView extends GetView<PaySuccessController> {
   const PaySuccessView({Key? key}) : super(key: key);
@@ -47,7 +47,6 @@ class PaySuccessView extends GetView<PaySuccessController> {
                   width: 150.w,
                   height: 32.h,
                   child: HollowButton(
-                    borderRadis: 999,
                     textColor: AppColors.textDark,
                     text: controller.isShopOrder.value ? '继续逛逛' : '返回',
                     onPressed: controller.onShopCenter,

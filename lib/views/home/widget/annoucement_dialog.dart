@@ -1,12 +1,12 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/announcement_model.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/announcement_model.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 import 'package:flutter/material.dart';
-import 'package:jiyun_app_client/views/home/home_controller.dart';
+import 'package:huanting_shop/views/home/home_controller.dart';
 
 class AnnoucementDialog extends StatelessWidget {
   AnnoucementDialog({

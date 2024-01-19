@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/services/user_service.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/services/user_service.dart';
 
 class BeeNewPwdLogic extends GlobalLogic {
   final TextEditingController newPasswordController = TextEditingController();

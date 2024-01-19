@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/goods/goods_list_cell.dart';
-import 'package:jiyun_app_client/views/components/loading_cell.dart';
-import 'package:jiyun_app_client/views/shop/image_search_goods_list/logics.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/goods/goods_list_cell.dart';
+import 'package:huanting_shop/views/components/loading_cell.dart';
+import 'package:huanting_shop/views/shop/image_search_goods_list/logics.dart';
 
 class GoodsImageSearchResultPage extends GetView<GoodsImageSearchResultLogic> {
   const GoodsImageSearchResultPage({Key? key}) : super(key: key);

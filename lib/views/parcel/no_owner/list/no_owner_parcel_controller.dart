@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/list_refresh_event.dart';
-import 'package:jiyun_app_client/models/parcel_model.dart';
-import 'package:jiyun_app_client/services/parcel_service.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/list_refresh_event.dart';
+import 'package:huanting_shop/models/parcel_model.dart';
+import 'package:huanting_shop/services/parcel_service.dart';
 
 class AbnomalParcelLogic extends GlobalLogic {
-  final TextEditingController keywordController = TextEditingController();
-
+  String keyword = '';
   final FocusNode focusNode = FocusNode();
   int pageIndex = 0;
 
@@ -27,7 +26,7 @@ class AbnomalParcelLogic extends GlobalLogic {
   loadMoreList() async {
     Map<String, dynamic> params = {
       "page": (++pageIndex),
-      'keyword': keywordController.text
+      'keyword': keyword,
     };
 
     var data = ParcelService.getOnOwnerList(params);

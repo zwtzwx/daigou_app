@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/common/util.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/group_order_model.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/list_refresh.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/group/group_order/controller.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/group_order_model.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/list_refresh.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/group/group_order/controller.dart';
 
 class BeeGroupOrderView extends GetView<GroupOrderController> {
   const BeeGroupOrderView({Key? key}) : super(key: key);
@@ -93,16 +92,16 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
           children: [
             Row(
               children: [
-                const ImgItem(
-                  'PackageAndOrder/group-buy',
-                  width: 25,
-                  height: 25,
+                ImgItem(
+                  'Group/group-buy',
+                  width: 25.w,
+                  height: 25.w,
                 ),
-                AppGaps.hGap5,
+                5.horizontalSpace,
                 AppText(
                   str: model.orderSn,
                 ),
-                AppGaps.hGap10,
+                10.horizontalSpace,
                 AppText(
                   str: '${'子订单'.ts}：${model.subOrdersCount}',
                   color: AppColors.textGray,
@@ -118,62 +117,22 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
-                    children: [
-                      ClipOval(
-                        child: Container(
-                          color: const Color(0xFF9bbf4d),
-                          width: 8,
-                          height: 8,
-                        ),
-                      ),
-                      AppGaps.vGap20,
-                      AppText(
-                        str: model.warehouse!.warehouseName!,
-                      )
-                    ],
+                  AppText(
+                    str: model.warehouse!.warehouseName!,
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20.w,
-                    ),
-                    child: Column(
-                      children: [
-                        const ImgItem(
-                          'PackageAndOrder/fly',
-                          width: 24,
-                          height: 24,
-                        ),
-                        AppGaps.vGap4,
-                        AppText(
-                          str: CommonMethods.getOrderStatusName(
-                              model.status!, model.stationOrder),
-                          color: AppColors.primary,
-                          fontSize: 14,
-                        )
-                      ],
-                    ),
+                  ImgItem(
+                    'Home/ship',
+                    width: 80.w,
+                    fit: BoxFit.fitWidth,
                   ),
-                  Column(
-                    children: [
-                      ClipOval(
-                        child: Container(
-                          color: const Color(0xFFff4326),
-                          width: 8,
-                          height: 8,
-                        ),
-                      ),
-                      AppGaps.vGap20,
-                      AppText(
-                        str: model.address?.countryName ?? '',
-                      )
-                    ],
+                  AppText(
+                    str: model.address?.countryName ?? '',
                   ),
                 ],
               ),
             ),
             AppGaps.line,
-            AppGaps.vGap15,
+            15.verticalSpaceFromWidth,
             AppText(
               str:
                   '${model.address?.receiverName} ${model.address?.timezone} ${model.address?.phone}',
@@ -181,7 +140,7 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
               fontSize: 16,
               lines: 2,
             ),
-            AppGaps.vGap5,
+            5.verticalSpaceFromWidth,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -200,7 +159,7 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
                     ),
                   ],
                 ),
-                AppGaps.hGap10,
+                10.horizontalSpace,
                 model.status == 1
                     ? Column(
                         children: [

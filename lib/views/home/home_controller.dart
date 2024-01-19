@@ -1,47 +1,36 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/common/loading_util.dart';
-import 'package:jiyun_app_client/common/version_util.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/models/ads_pic_model.dart';
+import 'package:huanting_shop/common/version_util.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/models/ads_pic_model.dart';
 
-import 'package:jiyun_app_client/models/announcement_model.dart';
-import 'package:jiyun_app_client/models/goods_category_model.dart';
-import 'package:jiyun_app_client/models/language_model.dart';
-import 'package:jiyun_app_client/models/ship_line_model.dart';
-import 'package:jiyun_app_client/models/shop/goods_model.dart';
-import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/services/ads_service.dart';
-import 'package:jiyun_app_client/services/announcement_service.dart';
-import 'package:jiyun_app_client/services/common_service.dart';
-import 'package:jiyun_app_client/services/ship_line_service.dart';
-import 'package:jiyun_app_client/services/shop_service.dart';
-import 'package:jiyun_app_client/state/i10n.dart';
-import 'package:jiyun_app_client/storage/annoucement_storage.dart';
-import 'package:jiyun_app_client/storage/user_storage.dart';
-import 'package:jiyun_app_client/views/components/update_dialog.dart';
-import 'package:jiyun_app_client/views/home/widget/ad_dialog.dart';
+import 'package:huanting_shop/models/announcement_model.dart';
+import 'package:huanting_shop/models/language_model.dart';
+import 'package:huanting_shop/models/ship_line_model.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/services/ads_service.dart';
+import 'package:huanting_shop/services/announcement_service.dart';
+import 'package:huanting_shop/services/common_service.dart';
+import 'package:huanting_shop/services/ship_line_service.dart';
+import 'package:huanting_shop/state/i10n.dart';
+import 'package:huanting_shop/storage/annoucement_storage.dart';
+import 'package:huanting_shop/storage/user_storage.dart';
+import 'package:huanting_shop/views/components/update_dialog.dart';
+import 'package:huanting_shop/views/home/widget/ad_dialog.dart';
 
-import 'package:jiyun_app_client/views/home/widget/annoucement_dialog.dart';
+import 'package:huanting_shop/views/home/widget/annoucement_dialog.dart';
 
 class IndexLogic extends GlobalLogic {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final I10n i10n = Get.find<I10n>();
   RxList<LanguageModel> langList = <LanguageModel>[].obs;
-  final noticeUnRead = false.obs;
-  final RxList<GoodsCategoryModel> categoryList = <GoodsCategoryModel>[].obs;
-  final RxList<GoodsModel> hotGoodsList = <GoodsModel>[].obs;
-  final loadingUtil = LoadingUtil<PlatformGoodsModel>().obs;
 
   final userModel = Get.find<AppStore>().userInfo;
   final amountModel = Get.find<AppStore>().amountInfo;
   final vipModel = Get.find<AppStore>().vipInfo;
   final lineList = <ShipLineModel>[].obs;
-  final TextEditingController keywordController = TextEditingController();
-  final FocusNode keywordNode = FocusNode();
 
   @override
   void onInit() {
@@ -84,12 +73,6 @@ class IndexLogic extends GlobalLogic {
     }
   }
 
-  @override
-  void dispose() {
-    loadingUtil.value.controllerDestroy();
-    super.dispose();
-  }
-
   // 最新公告
   getIndexAnnoucement() async {
     var data = await AnnouncementService.getLatest();
@@ -114,20 +97,6 @@ class IndexLogic extends GlobalLogic {
         'type': 'notice',
       });
     }
-  }
-
-  // 代购分类
-  getPlatformCategory() async {
-    var list = await ShopService.getCategoryList();
-    categoryList.value = list;
-    categoryList.insert(
-      0,
-      GoodsCategoryModel(
-        id: 0,
-        name: '自营商城',
-        image: 'Home/shop',
-      ),
-    );
   }
 
   // 是否有未读消息
@@ -170,68 +139,7 @@ class IndexLogic extends GlobalLogic {
 
   // 页面刷新
   Future<void> handleRefresh() async {
-    // loadingUtil.value.clear();
-    // await getIndexAnnoucement();
-    // await getHotGoodsList();
-    // await getRecommendGoods();
-    // await getPlatformCategory();
     await getAds();
     await getGreatLine();
-  }
-
-  // 自营商城商品列表
-  Future<void> getHotGoodsList() async {
-    var data = await ShopService.getRecommendGoods({'type': 1, 'size': 10});
-    if (data['dataList'] != null) {
-      hotGoodsList.value = data['dataList'];
-    }
-  }
-
-  // 代购推荐商品
-  Future<void> getRecommendGoods() async {
-    if (loadingUtil.value.isLoading) return;
-    loadingUtil.value.isLoading = true;
-    loadingUtil.refresh();
-    try {
-      var data = await ShopService.getDaigouGoods({
-        'keyword': '服饰',
-        'page': ++loadingUtil.value.pageIndex,
-        'platform': '1688',
-        'page_size': 10,
-      });
-      loadingUtil.value.isLoading = false;
-      if (data['dataList'] != null) {
-        if (data.isNotEmpty) {
-          loadingUtil.value.list.addAll(data['dataList']);
-        } else if (loadingUtil.value.list.isEmpty) {
-          loadingUtil.value.isEmpty = true;
-        } else {
-          loadingUtil.value.hasMoreData = false;
-        }
-      }
-    } catch (e) {
-      loadingUtil.value.isLoading = false;
-      loadingUtil.value.pageIndex--;
-      loadingUtil.value.hasError = true;
-    } finally {
-      loadingUtil.refresh();
-    }
-  }
-
-  // 分类
-  void onCategory([GoodsCategoryModel? model]) {
-    if (model == null || model.id == 0) {
-      // 自营商城
-      BeeNav.push(BeeNav.shopCenter);
-    } else {
-      BeeNav.push(BeeNav.platformGoodsList,
-          {'keyword': model.nameCn, 'origin': model.name});
-    }
-  }
-
-  onPlatform({
-    required String platform,
-  }) async {
-    BeeNav.push(BeeNav.platform, {'platform': platform});
   }
 }

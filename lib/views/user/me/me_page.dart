@@ -1,20 +1,20 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/models/user_model.dart';
-import 'package:jiyun_app_client/models/user_order_count_model.dart';
-import 'package:jiyun_app_client/models/user_vip_model.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/models/user_model.dart';
+import 'package:huanting_shop/models/user_order_count_model.dart';
+import 'package:huanting_shop/models/user_vip_model.dart';
+import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/empty_app_bar.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/views/user/me/me_controller.dart';
+import 'package:huanting_shop/views/user/me/me_controller.dart';
 
 /*
   我的
@@ -47,14 +47,6 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
   }
 
   Widget toolList() {
-    // if (controller.agentStatus.value?.id == 1) {
-    //   amountList.add({
-    //     'name': '佣金收入',
-    //     'icon': 'AboutMe/center-yj',
-    //     'route': BeeNav.agentCommission,
-    //   });
-    // }
-
     List<Map<String, dynamic>> list1 = [
       {
         'name': '个人信息',
@@ -89,7 +81,6 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
         'icon': 'Center/ico_jyjl',
         'route': BeeNav.transaction,
       },
-
       {
         'name': '我的咨询',
         'icon': 'Center/ico_wdzx',
@@ -100,17 +91,16 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
         'icon': 'Center/ico_dl',
         'route': BeeNav.agentApply,
       },
-
       {
         'name': '关于我们',
         'icon': 'Center/ico_gywm',
         'route': BeeNav.abountMe,
       },
-      // {
-      //   'name': '修改密码',
-      //   'icon': 'Center/password',
-      //   'route': BeeNav.password,
-      // },
+      {
+        'name': '修改密码',
+        'icon': 'Center/ico_xgmm',
+        'route': BeeNav.password,
+      },
       {
         'name': '退出登录',
         'icon': 'Center/ico_tcdl',

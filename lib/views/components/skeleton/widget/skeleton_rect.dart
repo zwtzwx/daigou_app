@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jiyun_app_client/views/components/skeleton/skeleton_decoration.dart';
+import 'package:huanting_shop/views/components/skeleton/skeleton_decoration.dart';
 
 class SkeletonRect extends StatelessWidget {
   const SkeletonRect({

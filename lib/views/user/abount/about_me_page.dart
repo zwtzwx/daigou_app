@@ -1,12 +1,12 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/article_model.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/article_model.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jiyun_app_client/views/user/abount/about_me_controller.dart';
+import 'package:huanting_shop/views/user/abount/about_me_controller.dart';
 
 /*
   关于我们

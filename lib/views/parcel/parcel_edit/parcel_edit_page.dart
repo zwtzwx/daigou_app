@@ -3,19 +3,19 @@
 */
 
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/express_company_model.dart';
-import 'package:jiyun_app_client/models/warehouse_model.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/input/base_input.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/express_company_model.dart';
+import 'package:huanting_shop/models/warehouse_model.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/input/base_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/views/parcel/parcel_edit/parcel_edit_controller.dart';
-import 'package:jiyun_app_client/views/parcel/widget/prop_sheet_cell.dart';
+import 'package:huanting_shop/views/parcel/parcel_edit/parcel_edit_controller.dart';
+import 'package:huanting_shop/views/parcel/widget/prop_sheet_cell.dart';
 
 class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
   const BeePackageUpdatePage({Key? key}) : super(key: key);
@@ -26,13 +26,11 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.white,
-        elevation: 0.5,
+        elevation: 0,
         centerTitle: true,
         title: AppText(
           str: '修改包裹'.ts,
-          color: AppColors.textBlack,
-          fontSize: 18,
-          fontWeight: FontWeight.w400,
+          fontSize: 17,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
@@ -41,20 +39,21 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
         child: SafeArea(
             child: Obx(() => controller.isLoadingLocal.value
                 ? Column(
-                    children: <Widget>[
+                    children: [
                       goodsCell(context),
-                      AppGaps.vGap15,
+                      15.verticalSpaceFromWidth,
                       parcelCell(context),
-                      AppGaps.vGap50,
+                      50.verticalSpaceFromWidth,
                       Container(
-                        height: 40,
-                        width: ScreenUtil().screenWidth - 30,
+                        height: 38.h,
+                        width: double.infinity,
                         margin: const EdgeInsets.only(left: 15, right: 15),
                         child: BeeButton(
                           text: '确认',
                           onPressed: controller.onSubmit,
                         ),
                       ),
+                      20.verticalSpaceFromWidth,
                     ],
                   )
                 : AppGaps.empty)),
@@ -111,7 +110,7 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                     color: AppColors.textNormal,
                   ),
                 ),
-                AppGaps.hGap10,
+                10.horizontalSpace,
                 Expanded(
                     child: GestureDetector(
                         onTap: () {

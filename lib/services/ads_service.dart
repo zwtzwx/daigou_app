@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/ads_pic_model.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/ads_pic_model.dart';
 
 class AdsService {
   // 列表

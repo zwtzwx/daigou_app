@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/config/app_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/ads_pic_model.dart';
-import 'package:jiyun_app_client/models/self_pickup_station_order_model.dart';
+import 'package:huanting_shop/config/app_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/ads_pic_model.dart';
+import 'package:huanting_shop/models/self_pickup_station_order_model.dart';
 import 'package:flutter/material.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CommonMethods {
@@ -173,7 +173,7 @@ class CommonMethods {
 
   // 第三方平台商品图标
   static String getPlatformIcon(String? platform) {
-    String icon = 'Home/tao';
+    String icon = 'Shop/tb';
     switch (platform) {
       case 'jd':
         icon = 'Shop/jd';

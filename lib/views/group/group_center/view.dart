@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/group_model.dart';
-import 'package:jiyun_app_client/views/components/button/plain_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
-import 'package:jiyun_app_client/views/components/input/base_input.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/components/loading_cell.dart';
-import 'package:jiyun_app_client/views/group/group_center/controller.dart';
-import 'package:jiyun_app_client/views/group/widget/group_item_cell.dart';
-import 'package:jiyun_app_client/views/group/widget/public_group_item_cell.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/group_model.dart';
+import 'package:huanting_shop/views/components/button/plain_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/empty_app_bar.dart';
+import 'package:huanting_shop/views/components/input/base_input.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/components/loading_cell.dart';
+import 'package:huanting_shop/views/group/group_center/controller.dart';
+import 'package:huanting_shop/views/group/widget/group_item_cell.dart';
+import 'package:huanting_shop/views/group/widget/public_group_item_cell.dart';
 
 class BeeGroupView extends GetView<BeeGroupController> {
   const BeeGroupView({Key? key}) : super(key: key);

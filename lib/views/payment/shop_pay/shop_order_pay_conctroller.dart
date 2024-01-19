@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 // import 'package:fluwx/fluwx.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/pay_type_model.dart';
-import 'package:jiyun_app_client/models/shop/problem_order_model.dart';
-import 'package:jiyun_app_client/models/shop/shop_order_model.dart';
-import 'package:jiyun_app_client/services/balance_service.dart';
-import 'package:jiyun_app_client/services/shop_service.dart';
-import 'package:jiyun_app_client/services/user_service.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/pay_type_model.dart';
+import 'package:huanting_shop/models/shop/problem_order_model.dart';
+import 'package:huanting_shop/models/shop/shop_order_model.dart';
+import 'package:huanting_shop/services/balance_service.dart';
+import 'package:huanting_shop/services/shop_service.dart';
+import 'package:huanting_shop/services/user_service.dart';
+import 'package:huanting_shop/views/components/base_dialog.dart';
 
 class ShopOrderPayController extends GlobalLogic {
   final orderList = <ShopOrderModel>[].obs;
@@ -74,7 +74,6 @@ class ShopOrderPayController extends GlobalLogic {
     showLoading();
     payTypeList.value = await BalanceService.getPayTypeList(
       noDelivery: true,
-      onOther: true,
     );
     hideLoading();
   }
@@ -89,7 +88,21 @@ class ShopOrderPayController extends GlobalLogic {
       if (result == true) {
         onBalancePay();
       }
-    } else if (selectedPayType.value!.name == 'wechat') {}
+    } else {
+      // 转账支付
+      BeeNav.push(BeeNav.paymentTransfer, {
+        'payModel': payTypeList
+            .where((e) => e.name == selectedPayType.value?.name)
+            .first,
+        'ids': problemOrder.value != null
+            ? [problemOrder.value!.oaf?.id]
+            : orderList.map((e) => e.id).toList(),
+        'transferType': problemOrder.value != null ? 4 : 3,
+        'amount': problemOrder.value != null
+            ? double.parse(problemOrder.value!.amount ?? '0')
+            : totalAmount,
+      });
+    }
   }
 
   // 微信支付
@@ -155,16 +168,16 @@ class ShopOrderPayController extends GlobalLogic {
   }
 
   String getPayTypeIcon(String type) {
-    String icon = 'assets/images/AboutMe/transfer.png';
+    String icon = 'Center/transfer';
     switch (type) {
       case 'alipay':
-        icon = 'assets/images/AboutMe/alipay.png';
+        icon = 'Center/alipay';
         break;
       case 'wechat':
-        icon = 'assets/images/AboutMe/wechat_pay.png';
+        icon = 'Center/wechat_pay';
         break;
       case 'balance':
-        icon = 'assets/images/AboutMe/balance_pay.png';
+        icon = 'Center/balance_pay';
         break;
     }
     return icon;

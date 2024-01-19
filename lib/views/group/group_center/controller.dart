@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/common/loading_util.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/models/coordinate_model.dart';
-import 'package:jiyun_app_client/models/group_model.dart';
-import 'package:jiyun_app_client/services/common_service.dart';
-import 'package:jiyun_app_client/services/group_service.dart';
+import 'package:huanting_shop/common/loading_util.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/models/coordinate_model.dart';
+import 'package:huanting_shop/models/group_model.dart';
+import 'package:huanting_shop/services/common_service.dart';
+import 'package:huanting_shop/services/group_service.dart';
 
 class BeeGroupController extends GlobalLogic {
   final TextEditingController keywordController = TextEditingController();

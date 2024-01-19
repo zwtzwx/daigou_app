@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/services/language_service.dart';
-import 'package:jiyun_app_client/storage/language_storage.dart';
+import 'package:huanting_shop/services/language_service.dart';
+import 'package:huanting_shop/storage/language_storage.dart';
 
 class I10n {
   final RxMap<String, dynamic> _translations = <String, dynamic>{}.obs;

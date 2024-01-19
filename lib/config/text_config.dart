@@ -1,5 +1,5 @@
 //文本设置
-import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:huanting_shop/config/color_config.dart';
 import 'package:flutter/material.dart';
 
 class AppTextStyles {

@@ -5,10 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/common/upload_util.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/services/common_service.dart';
+import 'package:huanting_shop/common/upload_util.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/services/common_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class GoodsImageSearchLogic extends GlobalLogic with WidgetsBindingObserver {

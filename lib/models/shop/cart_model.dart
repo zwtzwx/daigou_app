@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jiyun_app_client/models/shop/platform_goods_service_model.dart';
+import 'package:huanting_shop/models/shop/platform_goods_service_model.dart';
 
 class CartModel {
   dynamic shopId;

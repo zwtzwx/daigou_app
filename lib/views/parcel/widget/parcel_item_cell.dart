@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/common/hex_to_color.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/localization_model.dart';
-import 'package:jiyun_app_client/models/parcel_model.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
-import 'package:jiyun_app_client/views/components/button/plain_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/localization_model.dart';
+import 'package:huanting_shop/models/parcel_model.dart';
+import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/button/plain_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 
 class BeePackageItem extends StatelessWidget {
   const BeePackageItem({
@@ -39,10 +39,9 @@ class BeePackageItem extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-            border: Border.all(width: 1, color: Colors.white),
+            borderRadius: BorderRadius.all(Radius.circular(10.r)),
           ),
-          margin: const EdgeInsets.only(top: 15, right: 15, left: 15),
+          margin: EdgeInsets.fromLTRB(14.w, 15.h, 14.w, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -84,19 +83,10 @@ class BeePackageItem extends StatelessWidget {
                                         ),
                                       ))
                                 : AppGaps.empty,
-                            model.status == 2
-                                ? 5.horizontalSpace
-                                : AppGaps.empty,
-                            const ImgItem(
-                              'PackageAndOrder/package',
-                              width: 23,
-                              height: 23,
-                            ),
-                            AppGaps.hGap10,
+                            10.horizontalSpace,
                             AppText(
                               fontSize: 16,
                               str: model.expressNum!,
-                              color: HexToColor('#8a8a8a'),
                             ),
                           ],
                         ),
@@ -129,10 +119,11 @@ class BeePackageItem extends StatelessWidget {
                                     ),
                                   )
                                 : Container(),
+                            5.horizontalSpace,
                             Icon(
                               Icons.arrow_forward_ios,
-                              size: 14,
-                              color: HexToColor('#8a8a8a'),
+                              size: 14.sp,
+                              color: AppColors.textGrayC9,
                             )
                           ],
                         ),
@@ -163,56 +154,19 @@ class BeePackageItem extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Column(
-                          children: [
-                            ClipOval(
-                              child: Container(
-                                color: const Color(0xFF9bbf4d),
-                                width: 8,
-                                height: 8,
-                              ),
-                            ),
-                            AppGaps.vGap20,
-                            AppText(
-                              str: model.warehouse?.warehouseName ?? '',
-                            )
-                          ],
+                        AppText(
+                          str: model.warehouse?.warehouseName ?? '',
                         ),
-                        Column(
-                          children: [
-                            const ImgItem(
-                              'PackageAndOrder/fly',
-                              width: 24,
-                              height: 24,
-                            ),
-                            AppGaps.vGap4,
-                            AppText(
-                              str: model.status == 1 ? '等待称重'.ts : '已入库'.ts,
-                              color: AppColors.primary,
-                              fontSize: 14,
-                            )
-                          ],
+                        ImgItem(
+                          'Home/ship',
+                          width: 80.w,
                         ),
-                        Column(
-                          children: [
-                            ClipOval(
-                              child: Container(
-                                color: const Color(0xFFff4326),
-                                width: 8,
-                                height: 8,
-                              ),
-                            ),
-                            AppGaps.vGap20,
-                            AppText(
-                              str: model.country?.name ?? '',
-                            )
-                          ],
+                        AppText(
+                          str: model.country?.name ?? '',
                         ),
                       ],
                     ),
-                    AppGaps.vGap15,
-                    AppGaps.line,
-                    AppGaps.vGap10,
+                    25.verticalSpaceFromWidth,
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
@@ -228,7 +182,7 @@ class BeePackageItem extends StatelessWidget {
                             runSpacing: 10,
                             children: buildPropList(),
                           ),
-                          AppGaps.vGap10,
+                          10.verticalSpaceFromWidth,
                           AppText(
                             str: '${model.packageName} ' +
                                 (model.packageValue!).rate(),
@@ -236,7 +190,7 @@ class BeePackageItem extends StatelessWidget {
                         ],
                       ),
                     ),
-                    AppGaps.vGap10,
+                    10.verticalSpaceFromWidth,
                     model.status == 2
                         ? Padding(
                             padding: const EdgeInsets.only(bottom: 3),
@@ -244,7 +198,7 @@ class BeePackageItem extends StatelessWidget {
                               str: '称重重量'.ts +
                                   '：${((model.countWeight ?? 0) / 1000).toStringAsFixed(2)}${localModel?.weightSymbol}',
                               fontSize: 13,
-                              color: AppColors.textGray,
+                              color: AppColors.textGrayC9,
                             ),
                           )
                         : AppGaps.empty,
@@ -258,14 +212,14 @@ class BeePackageItem extends StatelessWidget {
                                       '${((model.width ?? 0) / 100).toStringAsFixed(2)}*'
                                       '${((model.height ?? 0) / 100).toStringAsFixed(2)}${localModel?.lengthSymbol}',
                               fontSize: 13,
-                              color: AppColors.textGray,
+                              color: AppColors.textGrayC9,
                             ),
                           )
                         : AppGaps.empty,
                     AppText(
                       str: '提交时间'.ts + '：${model.createdAt ?? ''}',
                       fontSize: 13,
-                      color: AppColors.textGray,
+                      color: AppColors.textGrayC9,
                     ),
                     model.status == 2
                         ? Padding(
@@ -273,7 +227,7 @@ class BeePackageItem extends StatelessWidget {
                             child: AppText(
                               str: '入库时间'.ts + '：${model.inStorageAt ?? ''}',
                               fontSize: 13,
-                              color: AppColors.textGray,
+                              color: AppColors.textGrayC9,
                             ),
                           )
                         : AppGaps.empty,
@@ -289,7 +243,7 @@ class BeePackageItem extends StatelessWidget {
                                   text: '${'免费仓储'.ts}：',
                                   style: const TextStyle(
                                     fontSize: 13,
-                                    color: AppColors.textGray,
+                                    color: AppColors.textGrayC9,
                                   ),
                                 ),
                                 model.freeTime! >= 0
@@ -307,7 +261,7 @@ class BeePackageItem extends StatelessWidget {
                                         ),
                                         style: const TextStyle(
                                           fontSize: 13,
-                                          color: AppColors.textGray,
+                                          color: AppColors.textGrayC9,
                                         ),
                                       )
                                     : TextSpan(children: [
@@ -333,7 +287,7 @@ class BeePackageItem extends StatelessWidget {
                                               ),
                                           style: const TextStyle(
                                             fontSize: 13,
-                                            color: AppColors.textGray,
+                                            color: AppColors.textGrayC9,
                                           ),
                                         ),
                                       ])
@@ -344,45 +298,48 @@ class BeePackageItem extends StatelessWidget {
                   ],
                 ),
               ),
+              10.verticalSpaceFromWidth,
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                margin: EdgeInsets.symmetric(horizontal: 14.w),
                 child: Column(
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         model.status == 1
-                            ? HollowButton(
-                                text: '删除',
-                                textColor: AppColors.textRed,
-                                borderRadis: 999,
-                                fontSize: 14,
-                                borderColor: AppColors.textRed,
-                                onPressed: () async {
-                                  var data = await BaseDialog.confirmDialog(
-                                      context, '确定要删除吗'.ts + '？');
-                                  if (data != null) {
-                                    onDeleteParcel!();
-                                  }
-                                },
+                            ? SizedBox(
+                                height: 30.h,
+                                child: HollowButton(
+                                  text: '删除',
+                                  textColor: AppColors.textRed,
+                                  borderColor: AppColors.textRed,
+                                  onPressed: () async {
+                                    var data = await BaseDialog.confirmDialog(
+                                        context, '确定要删除吗'.ts + '？');
+                                    if (data != null) {
+                                      onDeleteParcel!();
+                                    }
+                                  },
+                                ),
                               )
                             : AppGaps.empty,
-                        AppGaps.hGap10,
-                        HollowButton(
-                          textColor: Colors.black,
-                          borderRadis: 999,
-                          fontSize: 14,
-                          text: model.notConfirmed == 1 ? '补全信息' : '修改',
-                          onPressed: () {
-                            BeeNav.push(BeeNav.editParcel,
-                                {'id': model.id, 'edit': true});
-                          },
+                        10.horizontalSpace,
+                        SizedBox(
+                          height: 30.h,
+                          child: BeeButton(
+                            text: model.notConfirmed == 1 ? '补全信息' : '修改',
+                            onPressed: () {
+                              BeeNav.push(BeeNav.editParcel,
+                                  {'id': model.id, 'edit': true});
+                            },
+                          ),
                         )
                       ],
                     )
                   ],
                 ),
-              )
+              ),
+              10.verticalSpaceFromWidth,
             ],
           ),
         ));
@@ -395,12 +352,12 @@ class BeePackageItem extends StatelessWidget {
       widgets.add(Container(
         padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
         decoration: BoxDecoration(
-          border: Border.all(color: AppColors.primary),
+          color: AppColors.primary,
+          borderRadius: BorderRadius.circular(2.r),
         ),
         child: AppText(
           str: element.name ?? '',
           fontSize: 12,
-          color: AppColors.primary,
         ),
       ));
     });

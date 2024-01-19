@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/models/coordinate_model.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/models/coordinate_model.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 
 class DistanceWidget extends StatelessWidget {
   const DistanceWidget({

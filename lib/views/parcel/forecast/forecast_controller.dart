@@ -2,30 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
-import 'package:jiyun_app_client/events/un_authenticate_event.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/country_model.dart';
-import 'package:jiyun_app_client/models/express_company_model.dart';
-import 'package:jiyun_app_client/models/goods_props.dart';
-import 'package:jiyun_app_client/models/parcel_model.dart';
-import 'package:jiyun_app_client/models/receiver_address_model.dart';
-import 'package:jiyun_app_client/models/self_pickup_station_model.dart';
-import 'package:jiyun_app_client/models/ship_line_model.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/models/user_model.dart';
-import 'package:jiyun_app_client/models/value_added_service_model.dart';
-import 'package:jiyun_app_client/models/warehouse_model.dart';
-import 'package:jiyun_app_client/services/common_service.dart';
-import 'package:jiyun_app_client/services/express_company_service.dart';
-import 'package:jiyun_app_client/services/goods_service.dart';
-import 'package:jiyun_app_client/services/parcel_service.dart';
-import 'package:jiyun_app_client/services/warehouse_service.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/un_authenticate_event.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/country_model.dart';
+import 'package:huanting_shop/models/express_company_model.dart';
+import 'package:huanting_shop/models/goods_props.dart';
+import 'package:huanting_shop/models/parcel_model.dart';
+import 'package:huanting_shop/models/receiver_address_model.dart';
+import 'package:huanting_shop/models/self_pickup_station_model.dart';
+import 'package:huanting_shop/models/ship_line_model.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/models/user_model.dart';
+import 'package:huanting_shop/models/value_added_service_model.dart';
+import 'package:huanting_shop/models/warehouse_model.dart';
+import 'package:huanting_shop/services/common_service.dart';
+import 'package:huanting_shop/services/express_company_service.dart';
+import 'package:huanting_shop/services/goods_service.dart';
+import 'package:huanting_shop/services/parcel_service.dart';
+import 'package:huanting_shop/services/warehouse_service.dart';
+import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 
 class BeeParcelCreateLogic extends GlobalLogic {
   ScrollController scrollController = ScrollController();
@@ -36,7 +35,7 @@ class BeeParcelCreateLogic extends GlobalLogic {
   final FocusNode remarkNode = FocusNode();
 
   //预报的包裹列表
-  final formData = <Rx<ParcelModel>>[ParcelModel().obs].obs;
+  final formData = <Rx<ParcelModel>>[ParcelModel.initEdit().obs].obs;
 
   // 协议确认
   final agreementBool = true.obs;
@@ -75,6 +74,14 @@ class BeeParcelCreateLogic extends GlobalLogic {
     });
     created();
     loadInitData();
+  }
+
+  @override
+  onClose() {
+    scrollController.dispose();
+    blankNode.dispose();
+    remarkNode.dispose();
+    super.dispose();
   }
 
   created() async {
@@ -204,8 +211,7 @@ class BeeParcelCreateLogic extends GlobalLogic {
     }
     ParcelService.store(params, (data) {
       if (data.ok) {
-        ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
-
+        Get.find<AppStore>().getBaseCountInfo();
         BeeNav.pop();
       }
     }, (message) {});

@@ -4,22 +4,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/cart_count_refresh_event.dart';
-import 'package:jiyun_app_client/events/change_goods_info_event.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/shop/goods_comment_model.dart';
-import 'package:jiyun_app_client/models/shop/goods_sku_model.dart';
-import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/models/warehouse_model.dart';
-import 'package:jiyun_app_client/services/shop_service.dart';
-import 'package:jiyun_app_client/services/warehouse_service.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/goods/sku_bottom_sheet.dart';
-import 'package:jiyun_app_client/views/shop/widget/goods_comments_sheet.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/cart_count_refresh_event.dart';
+import 'package:huanting_shop/events/change_goods_info_event.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/shop/goods_comment_model.dart';
+import 'package:huanting_shop/models/shop/goods_sku_model.dart';
+import 'package:huanting_shop/models/shop/platform_goods_model.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/models/warehouse_model.dart';
+import 'package:huanting_shop/services/shop_service.dart';
+import 'package:huanting_shop/services/warehouse_service.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/goods/sku_bottom_sheet.dart';
+import 'package:huanting_shop/views/shop/widget/goods_comments_sheet.dart';
 
 class GoodsDetailController extends GlobalLogic {
   final isPlatformGoods = false.obs; // 是否是代购商品

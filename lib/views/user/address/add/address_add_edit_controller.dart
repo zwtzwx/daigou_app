@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/receiver_address_refresh_event.dart';
-import 'package:jiyun_app_client/models/area_model.dart';
-import 'package:jiyun_app_client/models/country_model.dart';
-import 'package:jiyun_app_client/models/receiver_address_model.dart';
-import 'package:jiyun_app_client/models/self_pickup_station_model.dart';
-import 'package:jiyun_app_client/services/address_service.dart';
-import 'package:jiyun_app_client/services/common_service.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/receiver_address_refresh_event.dart';
+import 'package:huanting_shop/models/area_model.dart';
+import 'package:huanting_shop/models/country_model.dart';
+import 'package:huanting_shop/models/receiver_address_model.dart';
+import 'package:huanting_shop/models/self_pickup_station_model.dart';
+import 'package:huanting_shop/services/address_service.dart';
+import 'package:huanting_shop/services/common_service.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 
 class BeeAddressInfoLogic extends GlobalLogic {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();

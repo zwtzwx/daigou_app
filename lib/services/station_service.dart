@@ -1,5 +1,5 @@
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/self_pickup_station_model.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/self_pickup_station_model.dart';
 
 /*
   自提点

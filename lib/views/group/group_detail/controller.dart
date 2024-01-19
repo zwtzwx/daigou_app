@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/models/coordinate_model.dart';
-import 'package:jiyun_app_client/models/group_model.dart';
-import 'package:jiyun_app_client/services/group_service.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
-import 'package:jiyun_app_client/views/group/widget/group_detail/group_delay.dart';
-import 'package:jiyun_app_client/views/group/widget/group_detail/leader_tip.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/models/coordinate_model.dart';
+import 'package:huanting_shop/models/group_model.dart';
+import 'package:huanting_shop/services/group_service.dart';
+import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:huanting_shop/views/group/widget/group_detail/group_delay.dart';
+import 'package:huanting_shop/views/group/widget/group_detail/leader_tip.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BeeGroupDetailController extends GlobalLogic {

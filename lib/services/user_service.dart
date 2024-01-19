@@ -1,15 +1,15 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/common/http_response.dart';
-import 'package:jiyun_app_client/exceptions/login_error_exception.dart';
-import 'package:jiyun_app_client/models/token_model.dart';
-import 'package:jiyun_app_client/models/user_agent_status_model.dart';
-import 'package:jiyun_app_client/models/user_model.dart';
-import 'package:jiyun_app_client/models/user_order_count_model.dart';
-import 'package:jiyun_app_client/models/user_vip_model.dart';
-import 'package:jiyun_app_client/services/base_service.dart';
-import 'package:jiyun_app_client/storage/user_storage.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/common/http_response.dart';
+import 'package:huanting_shop/exceptions/login_error_exception.dart';
+import 'package:huanting_shop/models/token_model.dart';
+import 'package:huanting_shop/models/user_agent_status_model.dart';
+import 'package:huanting_shop/models/user_model.dart';
+import 'package:huanting_shop/models/user_order_count_model.dart';
+import 'package:huanting_shop/models/user_vip_model.dart';
+import 'package:huanting_shop/services/base_service.dart';
+import 'package:huanting_shop/storage/user_storage.dart';
 
 class UserService {
   // 登录

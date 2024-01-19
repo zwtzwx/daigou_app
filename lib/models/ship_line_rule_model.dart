@@ -1,4 +1,4 @@
-import 'package:jiyun_app_client/models/ship_line_condition_model.dart';
+import 'package:huanting_shop/models/ship_line_condition_model.dart';
 
 /*
   线路规则

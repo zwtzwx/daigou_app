@@ -2,19 +2,20 @@
   已入库包裹详情
 */
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/common/fade_route.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/parcel_goods_model.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/components/photo_view_gallery_screen.dart';
+import 'package:huanting_shop/common/fade_route.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/parcel_goods_model.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/components/photo_view_gallery_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:jiyun_app_client/views/parcel/parcel_detail/parcel_detail_controller.dart';
+import 'package:huanting_shop/views/parcel/parcel_detail/parcel_detail_controller.dart';
 
 /*
   包裹详情
@@ -342,9 +343,9 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
                           EasyLoading.showSuccess('复制成功'.ts);
                         });
                       },
-                      child: AppText(
-                        str: '复制'.ts,
-                        color: AppColors.primary,
+                      child: Icon(
+                        Icons.copy,
+                        size: 18.sp,
                       ),
                     ),
                   ],

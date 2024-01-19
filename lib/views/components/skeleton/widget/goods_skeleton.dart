@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/views/components/skeleton/skeleton_animation.dart';
-import 'package:jiyun_app_client/views/components/skeleton/skeleton_decoration.dart';
-import 'package:jiyun_app_client/views/components/skeleton/widget/skeleton_line.dart';
-import 'package:jiyun_app_client/views/components/skeleton/widget/skeleton_rect.dart';
+import 'package:huanting_shop/views/components/skeleton/skeleton_animation.dart';
+import 'package:huanting_shop/views/components/skeleton/skeleton_decoration.dart';
+import 'package:huanting_shop/views/components/skeleton/widget/skeleton_line.dart';
+import 'package:huanting_shop/views/components/skeleton/widget/skeleton_rect.dart';
 
 class GoodsSkeleton extends StatefulWidget {
   const GoodsSkeleton({

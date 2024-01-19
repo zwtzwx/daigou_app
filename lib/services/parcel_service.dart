@@ -1,8 +1,9 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/parcel_model.dart';
-import 'package:jiyun_app_client/models/value_added_service_model.dart';
+import 'package:dio/dio.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/parcel_model.dart';
+import 'package:huanting_shop/models/value_added_service_model.dart';
 
 import 'base_service.dart';
 
@@ -82,7 +83,11 @@ class ParcelService {
 
     //为啥API是POST
     await BeeRequest.instance
-        .post(noOwnerListApi, data: params)
+        .post(noOwnerListApi,
+            data: params,
+            options: Options(extra: {
+              'showSuccess': false,
+            }))
         .then((response) {
       var list = response.data;
       list['data']?.forEach((item) {

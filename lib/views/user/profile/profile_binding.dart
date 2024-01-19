@@ -1,5 +1,5 @@
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/views/user/profile/profile_controller.dart';
+import 'package:huanting_shop/views/user/profile/profile_controller.dart';
 
 class BeeUserInfoBinding extends Bindings {
   @override

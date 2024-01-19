@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/common/util.dart';
-import 'package:jiyun_app_client/models/ads_pic_model.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:huanting_shop/common/util.dart';
+import 'package:huanting_shop/models/ads_pic_model.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 
 class AdDialog extends StatelessWidget {
   const AdDialog({

@@ -2,18 +2,23 @@
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/common/util.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/home_refresh_event.dart';
-import 'package:jiyun_app_client/models/ads_pic_model.dart';
-import 'package:jiyun_app_client/services/ads_service.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:huanting_shop/common/util.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/home_refresh_event.dart';
+import 'package:huanting_shop/models/ads_pic_model.dart';
+import 'package:huanting_shop/services/ads_service.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 
 class AdsCell extends StatefulWidget {
-  const AdsCell({Key? key, this.onFansUrl, required this.type})
-      : super(key: key);
+  const AdsCell({
+    Key? key,
+    this.onFansUrl,
+    required this.type,
+    this.padding,
+  }) : super(key: key);
   final Function? onFansUrl;
   final int type;
+  final double? padding;
 
   @override
   HomeAdsState createState() => HomeAdsState();
@@ -54,7 +59,7 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 12.w),
+      margin: EdgeInsets.symmetric(horizontal: widget.padding ?? 12.w),
       height: 125.h,
       child: Swiper(
         onTap: (index) {

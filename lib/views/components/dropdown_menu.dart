@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/button/plain_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/button/plain_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 
 class PlatformDropdownMenu extends StatefulWidget {
   const PlatformDropdownMenu({
@@ -125,7 +125,6 @@ class _PlatformDropdownMenuState extends State<PlatformDropdownMenu> {
                 Expanded(
                     child: HollowButton(
                   text: '取消',
-                  borderRadis: 999,
                   textColor: AppColors.textGray,
                   borderColor: AppColors.textGray,
                   onPressed: () {

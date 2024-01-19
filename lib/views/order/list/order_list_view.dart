@@ -1,48 +1,48 @@
-// ignore_for_file: unnecessary_new
-
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/order_model.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/list_refresh.dart';
+import 'package:huanting_shop/models/order_model.dart';
+import 'package:huanting_shop/services/order_service.dart';
+import 'package:huanting_shop/views/components/list_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:jiyun_app_client/views/order/list/order_list_controller.dart';
-import 'package:jiyun_app_client/views/order/widget/order_item_cell.dart';
+import 'package:huanting_shop/views/order/widget/order_item_cell.dart';
 
 /*
   订单列表
 */
 
-class BeeOrdersPage extends GetView<BeeOrdersLogic> {
-  const BeeOrdersPage({Key? key}) : super(key: key);
+class TransportOrderList extends StatefulWidget {
+  const TransportOrderList({
+    Key? key,
+    required this.status,
+  }) : super(key: key);
+  final int status;
+
+  @override
+  State<TransportOrderList> createState() => _TransportOrderListState();
+}
+
+class _TransportOrderListState extends State<TransportOrderList> {
+  int pageIndex = 0;
+
+  loadList({type}) async {
+    pageIndex = 0;
+    return await loadMoreList();
+  }
+
+  loadMoreList() async {
+    Map<String, dynamic> dic = {
+      'status': widget.status,
+      'page': (++pageIndex),
+    };
+    var data = await OrderService.getList(dic);
+    return data;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: const BackButton(color: Colors.black),
-        backgroundColor: Colors.white,
-        elevation: 0.5,
-        centerTitle: true,
-        title: Obx(
-          () => AppText(
-            str: controller.pageTitle.value.ts,
-            color: AppColors.textBlack,
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
-      ),
-      backgroundColor: AppColors.bgGray,
-      body: SafeArea(
-        child: RefreshView(
-          renderItem: renderItem,
-          refresh: controller.loadList,
-          more: controller.loadMoreList,
-        ),
+    return SafeArea(
+      child: RefreshView(
+        renderItem: renderItem,
+        refresh: loadList,
+        more: loadMoreList,
       ),
     );
   }

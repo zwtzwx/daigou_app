@@ -1,12 +1,12 @@
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/common/util.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/list_refresh_event.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/models/order_model.dart';
-import 'package:jiyun_app_client/services/order_service.dart';
+import 'package:huanting_shop/common/util.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/list_refresh_event.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/models/order_model.dart';
+import 'package:huanting_shop/services/order_service.dart';
 
 class BeeOrderLogic extends GlobalLogic {
   final model = Rxn<OrderModel?>();

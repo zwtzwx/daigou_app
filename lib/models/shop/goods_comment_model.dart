@@ -1,4 +1,4 @@
-import 'package:jiyun_app_client/services/shop_service.dart';
+import 'package:huanting_shop/services/shop_service.dart';
 
 class GoodsCommentModel {
   String? displayUserNick;

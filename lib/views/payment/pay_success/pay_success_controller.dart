@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
 
 class PaySuccessController extends GlobalLogic {
   final isShopOrder = false.obs;

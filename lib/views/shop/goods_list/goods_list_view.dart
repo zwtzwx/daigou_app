@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/goods/goods_item.dart';
-import 'package:jiyun_app_client/views/components/goods/search_input.dart';
-import 'package:jiyun_app_client/views/components/loading_cell.dart';
-import 'package:jiyun_app_client/views/shop/goods_list/goods_list_controller.dart';
-import 'package:jiyun_app_client/views/shop/widget/sliver_header_delegate.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/goods/goods_item.dart';
+import 'package:huanting_shop/views/components/goods/search_input.dart';
+import 'package:huanting_shop/views/components/loading_cell.dart';
+import 'package:huanting_shop/views/shop/goods_list/goods_list_controller.dart';
+import 'package:huanting_shop/views/shop/widget/sliver_header_delegate.dart';
 
 class GoodsListView extends GetView<GoodsListController> {
   const GoodsListView({Key? key}) : super(key: key);
@@ -99,7 +99,6 @@ class GoodsListView extends GetView<GoodsListController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SearchCell(
-            searchText: '搜索',
             onSearch: controller.onSearch,
             needCheck: false,
             initData: controller.keyword,

@@ -2,7 +2,7 @@
   订单异常说明
  */
 
-import 'package:jiyun_app_client/config/app_config.dart';
+import 'package:huanting_shop/config/app_config.dart';
 
 class OrderExceptionalModel {
   late int id;

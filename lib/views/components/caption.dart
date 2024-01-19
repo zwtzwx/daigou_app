@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:huanting_shop/config/color_config.dart';
 
 class AppText extends StatefulWidget {
   // ignore: use_key_in_widget_constructors

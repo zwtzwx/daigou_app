@@ -1,10 +1,10 @@
 /*
  * VIP会员
  */
-import 'package:jiyun_app_client/models/user_vip_count_model.dart';
-import 'package:jiyun_app_client/models/user_vip_level_model.dart';
-import 'package:jiyun_app_client/models/user_vip_price_model.dart';
-import 'package:jiyun_app_client/models/user_vip_rule_model.dart';
+import 'package:huanting_shop/models/user_vip_count_model.dart';
+import 'package:huanting_shop/models/user_vip_level_model.dart';
+import 'package:huanting_shop/models/user_vip_price_model.dart';
+import 'package:huanting_shop/models/user_vip_rule_model.dart';
 
 class UserVipModel {
   //用户基础信息

@@ -1,15 +1,15 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 import 'package:flutter/material.dart';
 
 class HollowButton extends StatefulWidget {
   const HollowButton({
     Key? key,
     required this.text,
-    this.fontSize = 15,
-    this.borderRadis = 5,
+    this.fontSize = 14,
+    this.borderRadis = 999,
     this.padding,
     this.visualDensity,
     this.borderColor = AppColors.primary,

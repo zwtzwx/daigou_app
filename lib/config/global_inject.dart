@@ -1,6 +1,6 @@
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/state/i10n.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/state/i10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class InstanceInit {

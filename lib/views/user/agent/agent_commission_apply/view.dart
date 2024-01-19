@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
-import 'package:jiyun_app_client/views/components/input/normal_input.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_commission_apply/controller.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/input/input_text_item.dart';
+import 'package:huanting_shop/views/components/input/normal_input.dart';
+import 'package:huanting_shop/views/user/agent/agent_commission_apply/controller.dart';
 
 class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
   const AgentCommissionApplyPage({Key? key}) : super(key: key);

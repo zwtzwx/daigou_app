@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/common/util.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 
 class ContactCell extends StatefulWidget {
   const ContactCell({Key? key}) : super(key: key);
@@ -12,62 +14,142 @@ class ContactCell extends StatefulWidget {
 
 class _ContactCellState extends State<ContactCell>
     with AutomaticKeepAliveClientMixin {
-  late double leftOffset;
   late double topOffset;
+  bool maskShow = false;
+
   @override
   void initState() {
     super.initState();
-    leftOffset = 1.sw - 45.w;
-    topOffset = 1.sh - 180.h;
+    topOffset = 320.h;
+  }
+
+  onMaskShow() {
+    bool value = !maskShow;
+    setState(() {
+      maskShow = value;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Positioned(
-      left: leftOffset,
-      top: topOffset,
-      child: GestureDetector(
-        onTap: () async {
-          CommonMethods.onCustomerContact();
-        },
-        onPanUpdate: (detail) {
-          _calcOffset(detail.delta);
-        },
-        onPanEnd: (detail) {},
-        child: SizedBox(
-            child: ImgItem(
-          'Home/contact',
-          width: 45.w,
-          height: 45.w,
-        )),
-      ),
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        child: Stack(
+          children: [
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: Offstage(
+                offstage: !maskShow,
+                child: GestureDetector(
+                  onTap: onMaskShow,
+                  child: Container(
+                    color: const Color(0x99000000),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              right: 82.w,
+              top: topOffset - 88.w - 35.w,
+              child: Offstage(
+                offstage: !maskShow,
+                child: buildHelpList(),
+              ),
+            ),
+            Positioned(
+              right: 12.w,
+              top: topOffset,
+              child: GestureDetector(
+                  onPanUpdate: (detail) {
+                    onDrag(detail.delta);
+                  },
+                  onTap: onMaskShow,
+                  child: ImgItem(
+                    'Home/contact',
+                    width: 50.w,
+                    height: 50.w,
+                  )),
+            ),
+          ],
+        ));
+  }
+
+  Widget buildHelpList() {
+    List<Map<String, dynamic>> list = [
+      {
+        'name': '微信',
+        'icon': 'Home/wx-info',
+      },
+      {
+        'name': 'WhatsApp',
+        'icon': 'Home/whatsaspp-info',
+        'route': BeeNav.webview,
+        'params': {'id': 3732, 'type': 'article'},
+      },
+      {'name': '帮助中心', 'icon': 'Home/bzzc', 'route': BeeNav.help},
+    ];
+    return Column(
+      children: list
+          .map(
+            (e) => GestureDetector(
+              onTap: () {
+                if (e['route'] != null) {
+                  BeeNav.push(e['route']!, e['params']);
+                } else if (e['icon'] == 'Home/zzgt') {
+                  // CommonMethods.onContact();
+                }
+              },
+              child: Container(
+                height: 88.w,
+                width: 88.w,
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                margin: EdgeInsets.only(bottom: 10.h),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18.r),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ImgItem(
+                      e['icon']!,
+                      width: 38.w,
+                    ),
+                    2.verticalSpaceFromWidth,
+                    AppText(
+                      str: (e['name']! as String).ts,
+                      fontSize: 12,
+                      lines: 2,
+                      alignment: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 
-  void _calcOffset(Offset offset) {
-    var screenWidth = ScreenUtil().screenWidth;
-    var screentHeight = ScreenUtil().screenHeight;
-    double dx = 0;
+  void onDrag(Offset offset) {
     double dy = 0;
-    // 水平方向偏移量不能小于0不能大于屏幕最大宽度
-    if (leftOffset + offset.dx <= 0) {
-      dx = 0;
-    } else if (leftOffset + offset.dx >= (screenWidth - 50)) {
-      dx = screenWidth - 50;
-    } else {
-      dx = leftOffset + offset.dx;
-    }
     // 垂直方向偏移量不能小于0不能大于屏幕最大高度
-    if (topOffset + offset.dy <= ScreenUtil().statusBarHeight) {
-      dy = ScreenUtil().statusBarHeight;
-    } else if (topOffset + offset.dy >= (screentHeight - 150)) {
-      dy = screentHeight - 150;
+    var maxTopOffset = ScreenUtil().statusBarHeight + 135.w;
+    if (topOffset + offset.dy <= maxTopOffset) {
+      dy = maxTopOffset;
+    } else if (topOffset + offset.dy >= (1.sh - 230.h)) {
+      dy = 1.sh - 230.h;
     } else {
       dy = topOffset + offset.dy;
     }
     setState(() {
-      leftOffset = dx;
       topOffset = dy;
     });
   }

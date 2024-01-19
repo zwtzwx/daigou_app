@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/ad_cell.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/contact_cell.dart';
-import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
-import 'package:jiyun_app_client/views/components/goods/goods_list_cell.dart';
-import 'package:jiyun_app_client/views/components/goods/search_input.dart';
-import 'package:jiyun_app_client/views/components/language_cell/language_cell.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/components/loading_cell.dart';
-import 'package:jiyun_app_client/views/shop/platform_center/platform_shop_center_controller.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/shop/platform_center/platform_shop_center_controller.dart';
+import 'package:huanting_shop/views/shop/platform_center/widget/daigou_widget.dart';
+import 'package:huanting_shop/views/shop/platform_center/widget/self_shop_widget.dart';
+import 'package:huanting_shop/views/shop/widget/app_bar_bottom.dart';
 
 class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
   const PlatformShopCenterView({Key? key}) : super(key: key);
@@ -20,208 +15,69 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      primary: false,
-      appBar: const EmptyAppBar(),
-      backgroundColor: AppColors.bgGray,
-      body: Stack(
-        children: [
-          RefreshIndicator(
-            onRefresh: controller.handleRefresh,
-            color: AppColors.primary,
-            child: ListView(
-              shrinkWrap: true,
-              physics: const AlwaysScrollableScrollPhysics(),
-              controller: controller.loadingUtil.value.scrollController,
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.white, AppColors.bgGray],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: [0.9, 1],
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const LanguageCell(),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(12.w, 0, 12.w, 10.h),
-                        child: const SearchCell(goPlatformGoods: true),
-                      ),
-                      const AdsCell(type: 5),
-                      20.verticalSpaceFromWidth,
-                      stepCell(),
-                      25.verticalSpaceFromWidth,
-                      categoryList(),
-                      15.verticalSpaceFromWidth,
-                    ],
-                  ),
-                ),
-                goodsList(),
-                30.verticalSpaceFromWidth,
-              ],
-            ),
+      appBar: AppBarBottom(
+        height: 50.h,
+        child: Obx(
+          () => platformList(),
+        ),
+      ),
+      backgroundColor: Colors.white,
+      body: RefreshIndicator(
+        onRefresh: controller.handleRefresh,
+        color: AppColors.primary,
+        child: Obx(
+          () => ListView(
+            shrinkWrap: true,
+            physics: const AlwaysScrollableScrollPhysics(),
+            controller: controller.platformType.value == 1
+                ? controller.loadingUtil.value.scrollController
+                : controller.selfShopLoadingUtil.value.scrollController,
+            children: [
+              Offstage(
+                offstage: controller.platformType.value == 2,
+                child: const DaigouWidget(),
+              ),
+              Offstage(
+                offstage: controller.platformType.value == 1,
+                child: const SelfShopWidget(),
+              ),
+              30.verticalSpaceFromWidth,
+            ],
           ),
-          const ContactCell(),
-        ],
+        ),
       ),
     );
   }
 
-  Widget stepCell() {
-    List<Map<String, String>> list = [
-      {'img': 'step1', 'name': '支付订单'},
-      {'img': 'step2', 'name': '采购验货'},
-      {'img': 'step3', 'name': '申请发货'},
-      {'img': 'step4', 'name': '支付运费'},
-    ];
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Obx(
-            () => AppText(
-              str: '代购流程'.ts,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-          10.verticalSpace,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.w),
-            child: Stack(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: list
-                      .map(
-                        (e) => ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: (1.sw - 60.w) / 4,
-                          ),
-                          child: Column(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ImgItem(
-                                'Shop/${e['img']}',
-                                width: 40.w,
-                                height: 40.w,
-                              ),
-                              3.verticalSpace,
-                              Obx(
-                                () => AppText(
-                                  str: e['name']!.ts,
-                                  fontSize: 12,
-                                  lines: 4,
-                                  alignment: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: 19.w,
-                  child: const ImgItem(
-                    'Shop/line',
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget categoryList() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      height: 20.h,
-      child: Obx(
-        () => ListView.builder(
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          itemCount: controller.categoryList.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                controller.onCategory(index);
-              },
-              child: Obx(
-                () => Container(
-                  margin: EdgeInsets.only(left: index == 0 ? 0 : 20.w),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: controller.categoryIndex.value == index
-                          ? BorderSide(color: AppColors.primary, width: 2.h)
-                          : BorderSide.none,
-                    ),
-                  ),
-                  child: controller.categoryList[index].id == 0
-                      ? Obx(
-                          () => AppText(
-                            str: controller.categoryList[index].name.ts,
-                            fontSize: controller.categoryIndex.value == index
-                                ? 16
-                                : 14,
-                            color: controller.categoryIndex.value == index
-                                ? AppColors.textDark
-                                : AppColors.textNormal,
-                            fontWeight: controller.categoryIndex.value == index
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                          ),
-                        )
-                      : AppText(
-                          str: controller.categoryList[index].name,
-                          fontSize:
-                              controller.categoryIndex.value == index ? 16 : 14,
-                          color: controller.categoryIndex.value == index
-                              ? AppColors.textDark
-                              : AppColors.textNormal,
-                          fontWeight: controller.categoryIndex.value == index
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                        ),
+  Widget platformList() {
+    List<String> list = ['代购', '自营'];
+    return Padding(
+      padding: EdgeInsets.only(
+          top: ScreenUtil().statusBarHeight + 5.h, left: 14.w, bottom: 10.h),
+      child: Wrap(
+        spacing: 20.w,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: list
+            .asMap()
+            .keys
+            .map(
+              (index) => GestureDetector(
+                onTap: () {
+                  if (controller.platformType.value == index + 1) return;
+                  controller.platformType.value = index + 1;
+                },
+                child: AppText(
+                  str: list[index].ts,
+                  fontSize:
+                      controller.platformType.value == index + 1 ? 18 : 16,
+                  fontWeight: controller.platformType.value == index + 1
+                      ? FontWeight.bold
+                      : FontWeight.normal,
                 ),
               ),
-            );
-          },
-        ),
+            )
+            .toList(),
       ),
-    );
-  }
-
-  Widget goodsList() {
-    return Column(
-      children: [
-        Obx(
-          () => Visibility(
-            visible: controller.loadingUtil.value.list.isNotEmpty,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              child: BeeShopGoodsList(
-                isPlatformGoods: true,
-                platformGoodsList: controller.loadingUtil.value.list,
-                firstPlaceholder: true,
-              ),
-            ),
-          ),
-        ),
-        Obx(
-          () => LoadingCell(
-            util: controller.loadingUtil.value,
-          ),
-        ),
-      ],
     );
   }
 }

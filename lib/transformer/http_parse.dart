@@ -1,18 +1,18 @@
 // 成功回调
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/un_authenticate_event.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/un_authenticate_event.dart';
 import 'package:dio/dio.dart';
-import 'package:jiyun_app_client/common/http_response.dart';
-import 'package:jiyun_app_client/exceptions/bad_request_exception.dart';
-import 'package:jiyun_app_client/exceptions/bad_service_exception.dart';
-import 'package:jiyun_app_client/exceptions/cancel_exception.dart';
-import 'package:jiyun_app_client/exceptions/http_exception.dart';
-import 'package:jiyun_app_client/exceptions/network_exception.dart';
-import 'package:jiyun_app_client/exceptions/unauthorised_exception.dart';
-import 'package:jiyun_app_client/exceptions/unknown_exception.dart';
-import 'package:jiyun_app_client/transformer/default_http_transformer.dart';
+import 'package:huanting_shop/common/http_response.dart';
+import 'package:huanting_shop/exceptions/bad_request_exception.dart';
+import 'package:huanting_shop/exceptions/bad_service_exception.dart';
+import 'package:huanting_shop/exceptions/cancel_exception.dart';
+import 'package:huanting_shop/exceptions/http_exception.dart';
+import 'package:huanting_shop/exceptions/network_exception.dart';
+import 'package:huanting_shop/exceptions/unauthorised_exception.dart';
+import 'package:huanting_shop/exceptions/unknown_exception.dart';
+import 'package:huanting_shop/transformer/default_http_transformer.dart';
 import 'http_transformer.dart';
 
 //解析处理响应

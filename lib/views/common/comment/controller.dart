@@ -1,5 +1,5 @@
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/services/comment_service.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/services/comment_service.dart';
 
 class CommentController extends GlobalLogic {
   int pageIndex = 0;

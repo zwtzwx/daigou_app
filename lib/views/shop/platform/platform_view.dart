@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/goods/goods_list_cell.dart';
-import 'package:jiyun_app_client/views/components/goods/search_input.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/components/loading_cell.dart';
-import 'package:jiyun_app_client/views/shop/platform/platform_controller.dart';
-import 'package:jiyun_app_client/views/shop/widget/app_bar_bottom.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/goods/goods_list_cell.dart';
+import 'package:huanting_shop/views/components/goods/search_input.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/components/loading_cell.dart';
+import 'package:huanting_shop/views/shop/platform/platform_controller.dart';
+import 'package:huanting_shop/views/shop/widget/app_bar_bottom.dart';
 
 class PlatformView extends GetView<PlatformController> {
   const PlatformView({Key? key}) : super(key: key);
@@ -31,7 +31,6 @@ class PlatformView extends GetView<PlatformController> {
             margin: EdgeInsets.only(top: 10.h),
             padding: EdgeInsets.fromLTRB(12.w, 0, 12.w, 10.h),
             child: SearchCell(
-              searchText: '搜索',
               onSearch: (value) {
                 controller.onSearch(value);
               },

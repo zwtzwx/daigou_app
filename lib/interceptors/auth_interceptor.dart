@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/config/app_config.dart';
-import 'package:jiyun_app_client/storage/language_storage.dart';
-import 'package:jiyun_app_client/storage/user_storage.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/config/app_config.dart';
+import 'package:huanting_shop/storage/language_storage.dart';
+import 'package:huanting_shop/storage/user_storage.dart';
 
 class AuthInterceptor extends Interceptor {
   @override

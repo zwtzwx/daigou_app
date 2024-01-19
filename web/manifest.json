@@ -1,6 +1,6 @@
 {
-    "name": "jiyun_app_client",
-    "short_name": "jiyun_app_client",
+    "name": "huanting_shop",
+    "short_name": "huanting_shop",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

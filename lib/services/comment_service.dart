@@ -1,8 +1,8 @@
 /*
   评价
  */
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/comment_model.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/comment_model.dart';
 
 class CommentService {
   // 评论列表

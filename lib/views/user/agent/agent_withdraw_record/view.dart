@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/agent_commission_record_model.dart';
-import 'package:jiyun_app_client/models/agent_commissions_model.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/list_refresh.dart';
-import 'package:jiyun_app_client/views/user/agent/agent_withdraw_record/controller.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/agent_commission_record_model.dart';
+import 'package:huanting_shop/models/agent_commissions_model.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/list_refresh.dart';
+import 'package:huanting_shop/views/user/agent/agent_withdraw_record/controller.dart';
 
 class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
   const AgentWithdrawRecordPage({Key? key}) : super(key: key);

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/list_refresh_event.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/shop/problem_order_model.dart';
-import 'package:jiyun_app_client/services/shop_service.dart';
-import 'package:jiyun_app_client/views/components/button/plain_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/goods/cart_goods_item.dart';
-import 'package:jiyun_app_client/views/components/list_refresh.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/list_refresh_event.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/shop/problem_order_model.dart';
+import 'package:huanting_shop/services/shop_service.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/button/plain_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/goods/cart_goods_item.dart';
+import 'package:huanting_shop/views/components/list_refresh.dart';
 
 class ProbleShopOrder extends StatefulWidget {
   const ProbleShopOrder({
@@ -160,38 +161,32 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      ConstrainedBox(
+                      Container(
                         constraints: BoxConstraints(
                           minWidth: 90.w,
                         ),
+                        height: 30.h,
                         child: HollowButton(
                           text: '咨询',
                           textColor: AppColors.textDark,
                           borderColor: AppColors.textGrayC,
-                          borderRadis: 999,
-                          fontSize: 14,
                           onPressed: () {
                             onChat(model);
                           },
                         ),
                       ),
                       model.problemType == 2
-                          ? Padding(
-                              padding: EdgeInsets.only(left: 10.w),
-                              child: ConstrainedBox(
-                                constraints: BoxConstraints(
-                                  minWidth: 90.w,
-                                ),
-                                child: HollowButton(
-                                  text: '补款',
-                                  textColor: AppColors.textDark,
-                                  borderColor: AppColors.primary,
-                                  borderRadis: 999,
-                                  fontSize: 14,
-                                  onPressed: () {
-                                    onOrderAddtionalFee(model);
-                                  },
-                                ),
+                          ? Container(
+                              margin: EdgeInsets.only(left: 10.w),
+                              constraints: BoxConstraints(
+                                minWidth: 90.w,
+                              ),
+                              height: 30.h,
+                              child: BeeButton(
+                                text: '补款',
+                                onPressed: () {
+                                  onOrderAddtionalFee(model);
+                                },
                               ),
                             )
                           : AppGaps.empty,
@@ -207,7 +202,7 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
     List<String> types = ['待处理', '已处理'];
     return Container(
       height: 28.h,
-      margin: EdgeInsets.only(bottom: 10.h),
+      margin: EdgeInsets.symmetric(vertical: 10.h),
       alignment: Alignment.center,
       child: UnconstrainedBox(
         child: Container(

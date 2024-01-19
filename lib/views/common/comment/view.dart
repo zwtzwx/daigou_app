@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/common/fade_route.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/comment_model.dart';
-import 'package:jiyun_app_client/views/common/comment/controller.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/list_refresh.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/components/photo_view_gallery_screen.dart';
+import 'package:huanting_shop/common/fade_route.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/comment_model.dart';
+import 'package:huanting_shop/views/common/comment/controller.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/list_refresh.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/components/photo_view_gallery_screen.dart';
 
 class CommentPage extends GetView<CommentController> {
   const CommentPage({Key? key}) : super(key: key);
@@ -140,10 +140,10 @@ class CommentPage extends GetView<CommentController> {
             margin: EdgeInsets.only(right: 5.w),
             child: selectStar > i
                 ? Image.asset(
-                    'assets/images/AboutMe/好评Sel@3x.png',
+                    'assets/images/Center/star.png',
                   )
                 : Image.asset(
-                    'assets/images/AboutMe/好评Dis@3x.png',
+                    'assets/images/Center/star-uns.png',
                   )),
       );
       startList.add(view);

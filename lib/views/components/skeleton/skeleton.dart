@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/views/components/skeleton/widget/goods_skeleton.dart';
-import 'package:jiyun_app_client/views/components/skeleton/widget/single_skeleton.dart';
+import 'package:huanting_shop/views/components/skeleton/widget/goods_skeleton.dart';
+import 'package:huanting_shop/views/components/skeleton/widget/single_skeleton.dart';
 
 enum SkeletonType { singleSkeleton, listSkeleton, goodsSkeleton }
 

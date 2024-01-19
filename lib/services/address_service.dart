@@ -1,5 +1,5 @@
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/receiver_address_model.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/receiver_address_model.dart';
 
 class AddressService {
   // 列表

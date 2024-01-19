@@ -2,14 +2,14 @@
   快递跟踪
 */
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/models/tracking_model.dart';
-import 'package:jiyun_app_client/views/components/banner.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/models/tracking_model.dart';
+import 'package:huanting_shop/views/components/banner.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/empty_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/views/order/tracking/tracking_controller.dart';
+import 'package:huanting_shop/views/order/tracking/tracking_controller.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class BeeOrderTrackPage extends GetView<BeeOrderTrackLogic> {

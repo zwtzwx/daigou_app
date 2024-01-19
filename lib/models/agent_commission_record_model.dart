@@ -1,7 +1,7 @@
 /*
   成交记录
  */
-import 'package:jiyun_app_client/models/agent_commissions_model.dart';
+import 'package:huanting_shop/models/agent_commissions_model.dart';
 
 class AgentCommissionRecordModel {
   late num commissionAmount;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/models/user_coupon_model.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/models/user_coupon_model.dart';
 
 class CouponController extends GlobalLogic
     with GetSingleTickerProviderStateMixin {

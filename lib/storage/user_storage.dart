@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/models/user_model.dart';
+import 'package:huanting_shop/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserStorage {

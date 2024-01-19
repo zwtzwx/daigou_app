@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/order_count_refresh_event.dart';
-import 'package:jiyun_app_client/models/insurance_model.dart';
-import 'package:jiyun_app_client/models/parcel_model.dart';
-import 'package:jiyun_app_client/models/receiver_address_model.dart';
-import 'package:jiyun_app_client/models/self_pickup_station_model.dart';
-import 'package:jiyun_app_client/models/ship_line_model.dart';
-import 'package:jiyun_app_client/models/tariff_model.dart';
-import 'package:jiyun_app_client/models/value_added_service_model.dart';
-import 'package:jiyun_app_client/services/group_service.dart';
-import 'package:jiyun_app_client/services/order_service.dart';
-import 'package:jiyun_app_client/services/ship_line_service.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/models/insurance_model.dart';
+import 'package:huanting_shop/models/parcel_model.dart';
+import 'package:huanting_shop/models/receiver_address_model.dart';
+import 'package:huanting_shop/models/self_pickup_station_model.dart';
+import 'package:huanting_shop/models/ship_line_model.dart';
+import 'package:huanting_shop/models/tariff_model.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/models/value_added_service_model.dart';
+import 'package:huanting_shop/services/group_service.dart';
+import 'package:huanting_shop/services/order_service.dart';
+import 'package:huanting_shop/services/ship_line_service.dart';
 
 class BeePackingLogic extends GlobalLogic {
   final packageList = <ParcelModel>[].obs;
@@ -258,7 +257,7 @@ class BeePackingLogic extends GlobalLogic {
     };
     Map data = await OrderService.store(upData);
     if (data['ok']) {
-      ApplicationEvent.getInstance().event.fire(OrderCountRefreshEvent());
+      Get.find<AppStore>().getBaseCountInfo();
       BeeNav.pop('succeed');
     }
   }

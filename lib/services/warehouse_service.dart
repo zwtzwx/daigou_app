@@ -1,8 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:jiyun_app_client/common/http_client.dart';
+import 'package:huanting_shop/common/http_client.dart';
 import 'package:flutter/material.dart';
-import 'package:jiyun_app_client/models/warehouse_model.dart';
+import 'package:huanting_shop/models/warehouse_model.dart';
 
 class WarehouseService extends ChangeNotifier {
   // 获取包裹的仓库数据

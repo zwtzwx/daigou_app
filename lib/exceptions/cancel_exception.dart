@@ -1,4 +1,4 @@
-import 'package:jiyun_app_client/exceptions/http_exception.dart';
+import 'package:huanting_shop/exceptions/http_exception.dart';
 
 class CancelException extends HttpException {
   CancelException([String? message]) : super(message);

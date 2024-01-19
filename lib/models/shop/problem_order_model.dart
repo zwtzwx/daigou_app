@@ -1,6 +1,6 @@
-import 'package:jiyun_app_client/models/shop/cart_model.dart';
-import 'package:jiyun_app_client/models/shop/consult_model.dart';
-import 'package:jiyun_app_client/models/shop/shop_order_model.dart';
+import 'package:huanting_shop/models/shop/cart_model.dart';
+import 'package:huanting_shop/models/shop/consult_model.dart';
+import 'package:huanting_shop/models/shop/shop_order_model.dart';
 
 class ProblemOrderModel {
   int? id;

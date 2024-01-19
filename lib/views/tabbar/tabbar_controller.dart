@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/cart_count_refresh_event.dart';
-import 'package:jiyun_app_client/events/change_page_index_event.dart';
-import 'package:jiyun_app_client/events/un_authenticate_event.dart';
-import 'package:jiyun_app_client/firebase/notification.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/services/shop_service.dart';
-import 'package:jiyun_app_client/storage/user_storage.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/cart_count_refresh_event.dart';
+import 'package:huanting_shop/events/change_page_index_event.dart';
+import 'package:huanting_shop/events/un_authenticate_event.dart';
+import 'package:huanting_shop/firebase/notification.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/services/shop_service.dart';
+import 'package:huanting_shop/storage/user_storage.dart';
 
 class BeeBottomNavLogic extends GlobalLogic {
   late final pageController;
@@ -74,10 +74,10 @@ class BeeBottomNavLogic extends GlobalLogic {
       case 'home':
         index = 0;
         break;
-      case 'express':
+      case 'transport':
         index = 1;
         break;
-      case 'orders':
+      case 'shop':
         index = 2;
         break;
     }

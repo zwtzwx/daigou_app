@@ -3,28 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/input/base_input.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/input/base_input.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 
 class SearchCell extends StatefulWidget {
   const SearchCell({
     Key? key,
-    this.hintText = '请输入',
-    this.searchText = '代购',
+    this.hintText = '请输入商品名称',
     this.onSearch,
     this.needCheck = true,
     this.initData,
     this.goPlatformGoods = false,
+    this.showScan = false,
+    this.cleanContentWhenSearch = false,
   }) : super(key: key);
   final String hintText;
-  final String searchText;
   final bool needCheck;
   final Function(String value)? onSearch;
   final String? initData;
   final bool goPlatformGoods;
+  final bool showScan;
+  final bool cleanContentWhenSearch;
 
   @override
   State<SearchCell> createState() => _SearchCellState();
@@ -54,6 +56,9 @@ class _SearchCellState extends State<SearchCell> {
       BeeNav.push(
           BeeNav.platformGoodsList, {'keyword': value, 'origin': value});
     }
+    if (widget.cleanContentWhenSearch) {
+      controller.text = '';
+    }
   }
 
   void onPhotoSearch() async {
@@ -66,12 +71,12 @@ class _SearchCellState extends State<SearchCell> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(30),
+      height: 35.h,
       clipBehavior: Clip.none,
-      padding: EdgeInsets.only(left: 10.w, right: 5.w),
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
       decoration: BoxDecoration(
         color: AppColors.bgGray,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(14.r),
       ),
       child: Row(
         children: [
@@ -87,8 +92,7 @@ class _SearchCellState extends State<SearchCell> {
                 textInputAction: TextInputAction.search,
                 hintStyle:
                     TextStyle(fontSize: 12.sp, color: AppColors.textGrayC9),
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(7)),
+                contentPadding: EdgeInsets.symmetric(vertical: 10.h),
                 hintText: widget.hintText.ts,
                 onSubmitted: (value) {
                   onConfirm(context, value);
@@ -96,23 +100,27 @@ class _SearchCellState extends State<SearchCell> {
               ),
             ),
           ),
+          if (widget.showScan) ...[
+            10.horizontalSpace,
+            GestureDetector(
+              onTap: onPhotoSearch,
+              child: Icon(
+                Icons.photo_camera_outlined,
+                size: 25.sp,
+                color: AppColors.textNormal,
+              ),
+            ),
+          ],
           10.horizontalSpace,
           GestureDetector(
-            onTap: onPhotoSearch,
-            child: Icon(
-              Icons.photo_camera_outlined,
-              size: 25.sp,
-              color: AppColors.textNormal,
-            ),
-          ),
-          10.horizontalSpace,
-          BeeButton(
-            text: widget.searchText,
-            borderRadis: 999,
-            fontSize: 12,
-            onPressed: () {
+            onTap: () {
               onConfirm(context, controller.text);
             },
+            child: ImgItem(
+              'Shop/search',
+              width: 20.w,
+              height: 20.w,
+            ),
           ),
         ],
       ),

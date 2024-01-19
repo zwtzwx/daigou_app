@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/order_model.dart';
-import 'package:jiyun_app_client/models/pay_type_model.dart';
-import 'package:jiyun_app_client/models/user_coupon_model.dart';
-import 'package:jiyun_app_client/models/user_vip_price_model.dart';
-import 'package:jiyun_app_client/services/balance_service.dart';
-import 'package:jiyun_app_client/services/order_service.dart';
-import 'package:jiyun_app_client/services/user_service.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/order_model.dart';
+import 'package:huanting_shop/models/pay_type_model.dart';
+import 'package:huanting_shop/models/user_coupon_model.dart';
+import 'package:huanting_shop/models/user_vip_price_model.dart';
+import 'package:huanting_shop/services/balance_service.dart';
+import 'package:huanting_shop/services/order_service.dart';
+import 'package:huanting_shop/services/user_service.dart';
+import 'package:huanting_shop/views/components/base_dialog.dart';
 
 class TransportPayController extends GlobalLogic {
   final payTypeList = <PayTypeModel>[].obs;
@@ -62,16 +62,16 @@ class TransportPayController extends GlobalLogic {
   }
 
   String getPayTypeIcon(String type) {
-    String icon = 'AboutMe/transfer';
+    String icon = 'Center/transfer';
     switch (type) {
       case 'alipay':
-        icon = 'AboutMe/alipay';
+        icon = 'Center/alipay';
         break;
       case 'wechat':
-        icon = 'AboutMe/wechat_pay';
+        icon = 'Center/wechat_pay';
         break;
       case 'balance':
-        icon = 'AboutMe/balance_pay';
+        icon = 'Center/balance_pay';
         break;
     }
     return icon;

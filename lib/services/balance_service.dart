@@ -2,12 +2,12 @@
   余额类的服务
   余额列表，充值之类
  */
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/default_amount_model.dart';
-import 'package:jiyun_app_client/models/order_transaction_model.dart';
-import 'package:jiyun_app_client/models/pay_type_model.dart';
-import 'package:jiyun_app_client/models/user_recharge_model.dart';
-import 'package:jiyun_app_client/services/base_service.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/default_amount_model.dart';
+import 'package:huanting_shop/models/order_transaction_model.dart';
+import 'package:huanting_shop/models/pay_type_model.dart';
+import 'package:huanting_shop/models/user_recharge_model.dart';
+import 'package:huanting_shop/services/base_service.dart';
 
 class BalanceService {
   // 订单支付方式列表
@@ -37,10 +37,12 @@ class BalanceService {
   static const String buyVipBalanceApi = 'user-member/pay/balance';
   // 获取微信支付数据
   static const String orderPayWeChatApi = 'order/pay/:id';
-  // ipay88余额充值
-  static const String balanceIpayApi = 'balance/recharge/iPay88/web';
-  // ipay88会员充值
-  static const String vipIpayApi = 'user-member/payment/iPay88/web';
+
+  // 问题订单转账补款
+  static const String problemOrderTransferApi =
+      'daigou-problem-order/tran-info';
+  // 购物订单转账支付
+  static const String shopOrderTransferApi = 'daigou-orders/tran-info';
 
   /*
     获取支付方式列表
@@ -302,37 +304,31 @@ class BalanceService {
     }).onError((error, stackTrace) => onFail(error.toString()));
   }
 
-  /*
-    iPay88 余额充值
-   */
-  static Future<Map<String, dynamic>> ipay88BalancePay(
-      Map<String, dynamic> params) async {
-    Map<String, dynamic> result = {'ok': false, 'msg': ''};
+  // 订单转账支付
+  static Future<Map> onShopOrderTransfer(Map<String, dynamic> params) async {
+    Map res = {'ok': false, 'msg': ''};
     await BeeRequest.instance
-        .post(balanceIpayApi, data: params)
+        .post(shopOrderTransferApi, data: params)
         .then((response) {
-      result = {
-        'ok': response.ok,
-        'data': response.data['data'],
-        'msg': response.msg ?? response.error?.message,
+      res = {
+        "ok": response.ok,
+        "msg": response.msg ?? response.error!.message,
       };
     });
-    return result;
+    return res;
   }
 
-  /*
-    iPay88 会员充值
-   */
-  static Future<Map<String, dynamic>> ipay88VipPay(
-      Map<String, dynamic> params) async {
-    Map<String, dynamic> result = {'ok': false, 'msg': ''};
-    await BeeRequest.instance.post(vipIpayApi, data: params).then((response) {
-      result = {
-        'ok': response.ok,
-        'data': response.data['data'],
-        'msg': response.msg ?? response.error?.message,
+  // 补款订单转账支付
+  static Future<Map> onProblemOrderTransfer(Map<String, dynamic> params) async {
+    Map res = {'ok': false, 'msg': ''};
+    await BeeRequest.instance
+        .post(problemOrderTransferApi, data: params)
+        .then((response) {
+      res = {
+        "ok": response.ok,
+        "msg": response.msg ?? response.error!.message,
       };
     });
-    return result;
+    return res;
   }
 }

@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/region_model.dart';
-import 'package:jiyun_app_client/models/ship_line_service_model.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/line/detail/line_detail_controller.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:huanting_shop/common/util.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/region_model.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/skeleton/skeleton.dart';
+import 'package:huanting_shop/views/line/detail/line_detail_controller.dart';
 
 class LineDetailView extends GetView<LineDetailController> {
   const LineDetailView({Key? key}) : super(key: key);
@@ -21,84 +20,292 @@ class LineDetailView extends GetView<LineDetailController> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: const BackButton(color: Colors.black),
-        elevation: 0.5,
+        elevation: 0,
         centerTitle: true,
         title: AppText(
           str: '详情'.ts,
-          fontSize: 18,
+          fontSize: 17,
         ),
       ),
       backgroundColor: AppColors.bgGray,
-      body: ListView(
-        shrinkWrap: true,
-        physics: const AlwaysScrollableScrollPhysics(), //禁用滑动事件
-        children: <Widget>[
-          Obx(() => controller.lineModel.value != null
-              ? (Get.arguments!['type'] == 1
-                  ? multipleRegion(context)
-                  : singleCell(context))
-              : AppGaps.empty),
-          Container(
-            decoration: const BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-            ),
-            margin: const EdgeInsets.only(left: 15, top: 0, right: 15),
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            // height: reMarkheight + 40,
-            alignment: Alignment.centerLeft,
-            child: Obx(
-              () => AppText(
-                fontSize: 14,
-                lines: 99,
-                str: controller.lineModel.value?.remark ?? '',
+      body: Obx(
+        () => controller.loading.value
+            ? Container(
+                height: 170.h,
+                color: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 15.h),
+                child: const Skeleton(
+                  type: SkeletonType.singleSkeleton,
+                  lineCount: 6,
+                ),
+              )
+            : ListView(
+                shrinkWrap: true,
+                physics: const AlwaysScrollableScrollPhysics(), //禁用滑动事件
+                children: <Widget>[
+                  baseInfo(),
+                  Offstage(
+                    offstage: controller.tabIndex.value != 0,
+                    child: regionList(),
+                  ),
+                  Offstage(
+                    offstage: controller.tabIndex.value != 1,
+                    child: remark(),
+                  ),
+                  Offstage(
+                    offstage: controller.tabIndex.value != 2,
+                    child: linePropList(),
+                  ),
+                  30.verticalSpaceFromWidth,
+                ],
               ),
+      ),
+    );
+  }
+
+  Widget baseInfo() {
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          15.verticalSpaceFromWidth,
+          AppText(
+            str: controller.lineModel.value?.name ?? '',
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+          10.verticalSpaceFromWidth,
+          if (controller.fromCalc) ...[
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: AppText(
+                    str: '目的地'.ts,
+                    fontSize: 12,
+                    color: AppColors.textGray,
+                  ),
+                ),
+                10.horizontalSpace,
+                Expanded(
+                  flex: 7,
+                  child: AppText(
+                    str: controller.lineModel.value!.region!.name,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
+            8.verticalSpaceFromWidth,
+          ],
+          Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: AppText(
+                  str: '计费方式'.ts,
+                  fontSize: 12,
+                  color: AppColors.textGray,
+                ),
+              ),
+              10.horizontalSpace,
+              Expanded(
+                flex: 7,
+                child: AppText(
+                  str: CommonMethods.getLineModelName(
+                      controller.lineModel.value?.mode ?? 0),
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+          8.verticalSpaceFromWidth,
+          Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: AppText(
+                  str: '体积计算'.ts,
+                  fontSize: 12,
+                  color: AppColors.textGray,
+                ),
+              ),
+              10.horizontalSpace,
+              Expanded(
+                flex: 7,
+                child: AppText(
+                  str: '(${'长'.ts} (${controller.localModel?.lengthSymbol}) x '
+                      '${'宽'.ts} (${controller.localModel?.lengthSymbol}) x '
+                      '${'高'.ts} (${controller.localModel?.lengthSymbol})) ÷ ${controller.lineModel.value?.factor}',
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+          if (controller.fromCalc) ...[
+            8.verticalSpaceFromWidth,
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: AppText(
+                    str: '预估运费'.ts,
+                    fontSize: 12,
+                    color: AppColors.textGray,
+                  ),
+                ),
+                10.horizontalSpace,
+                Expanded(
+                  flex: 7,
+                  child: AppText(
+                    str: controller.lineModel.value!.expireFee!.rate(),
+                    color: AppColors.textRed,
+                  ),
+                ),
+              ],
+            ),
+          ],
+          30.verticalSpaceFromWidth,
+          TabBar(
+            tabs: ['报价标准', '注意事项', '可寄物品']
+                .asMap()
+                .entries
+                .map(
+                  (e) => Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 3.w, vertical: 5.h),
+                    child: Obx(
+                      () => AppText(
+                        str: e.value.ts,
+                        fontSize: 14,
+                        fontWeight: controller.tabIndex.value == e.key
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+            controller: controller.tabController,
+            indicatorColor: AppColors.primary,
+            indicatorSize: TabBarIndicatorSize.label,
+            indicatorWeight: 3,
+            onTap: (index) {
+              controller.tabIndex.value = index;
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget singleCell(BuildContext context) {
+  Widget regionList() {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-      decoration: const BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.all(Radius.circular(8))),
-      child: Column(
-        children: [
-          baseInfoCell(controller.lineModel.value!.region!),
-          billingDesView(controller.lineModel.value!.region!),
-          lineServiceCell(context, controller.lineModel.value!.region!),
-          // lineRuleCell(controller.lineModel.value!.region!),
-        ],
+      margin: EdgeInsets.symmetric(horizontal: 14.w),
+      child: Get.arguments!['type'] == 1
+          ? Column(
+              children: controller.lineModel.value!.regions!
+                  .map((e) => regionItem(e))
+                  .toList(),
+            )
+          : regionItem(controller.lineModel.value!.region!),
+    );
+  }
+
+  Widget regionItem(RegionModel model) {
+    return Column(
+      children: [
+        15.verticalSpaceFromWidth,
+        Row(
+          children: [
+            AppText(
+              str: model.name,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ],
+        ),
+        10.verticalSpaceFromWidth,
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.r),
+            color: Colors.white,
+          ),
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 15.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppText(
+                str: '运送时效'.ts,
+                fontSize: 12,
+                color: AppColors.textGray,
+              ),
+              8.verticalSpaceFromWidth,
+              AppText(
+                str: model.referenceTime,
+                fontSize: 14,
+              ),
+              10.verticalSpaceFromWidth,
+              ...priceList(model),
+              ...lineServiceList(model),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // 备注
+  Widget remark() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 14.w, vertical: 15.h),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.r),
+        color: Colors.white,
+      ),
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 15.h),
+      child: AppText(
+        fontSize: 14,
+        lines: 99,
+        str: controller.lineModel.value?.remark ?? '',
       ),
     );
   }
 
-  // 线路服务数据
-  lineServiceCell(BuildContext context, RegionModel model) {
-    return model.services!.isNotEmpty
-        ? Container(
-            color: AppColors.white,
-            padding:
-                const EdgeInsets.only(top: 10, right: 15, left: 15, bottom: 5),
-            child: Column(children: listWidgetForLineServices(context, model)))
-        : Container();
+  // 可寄物品
+  Widget linePropList() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 14.w, vertical: 15.h),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.r),
+        color: Colors.white,
+      ),
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 15.h),
+      child: AppText(
+        fontSize: 14,
+        lines: 99,
+        str: controller.lineModel.value?.propStr ?? '',
+      ),
+    );
   }
 
-  listWidgetForLineServices(BuildContext context, RegionModel model) {
+  lineServiceList(RegionModel model) {
     List<Widget> viewList = [];
-    viewList.add(Container(
-      alignment: Alignment.centerLeft,
-      child: AppText(
-        str: '渠道增值服务'.ts,
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        lines: 2,
-      ),
-    ));
+    viewList.add(
+      Padding(
+          padding: EdgeInsets.only(top: 15.h, bottom: 10.h),
+          child: AppText(
+            str: '渠道增值服务'.ts,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            lines: 2,
+          )),
+    );
     for (var item in model.services!) {
       String first = '';
       String second = '';
@@ -142,20 +349,23 @@ class LineDetailView extends GetView<LineDetailController> {
                     children: <Widget>[
                       AppText(
                         str: item.name,
+                        fontSize: 13,
                       ),
                       AppText(
-                          str: item.isForced == 0
-                              ? '（${'可选'.ts}）'
-                              : '（${'必选'.ts}）'),
+                        str: item.isForced == 0
+                            ? '（${'可选'.ts}）'
+                            : '（${'必选'.ts}）',
+                        fontSize: 13,
+                      ),
                       item.remark.isNotEmpty
                           ? InkResponse(
-                              child: const Icon(
+                              child: Icon(
                                 Icons.error_outline_outlined,
                                 color: AppColors.green,
-                                size: 25,
+                                size: 20.sp,
                               ),
                               onTap: () {
-                                showTipsView(context, item);
+                                controller.showTipsView(item);
                               },
                             )
                           : Container(),
@@ -171,39 +381,24 @@ class LineDetailView extends GetView<LineDetailController> {
                         text: TextSpan(
                           children: <TextSpan>[
                             TextSpan(
-                              text: first,
-                              style: const TextStyle(
+                              text: first + ' ',
+                              style: TextStyle(
                                   color: AppColors.textDark,
-                                  fontSize: 15,
+                                  fontSize: 13.sp,
                                   fontWeight: FontWeight.w400),
                             ),
-                            const TextSpan(
-                              text: ' ',
-                              style: TextStyle(
-                                color: AppColors.textBlack,
-                                fontSize: 10.0,
-                              ),
-                            ),
                             TextSpan(
-                              text: second,
-                              style: const TextStyle(
-                                color: AppColors.textBlack,
-                                fontSize: 15.0,
-                              ),
-                            ),
-                            const TextSpan(
-                              text: ' ',
+                              text: second + ' ',
                               style: TextStyle(
                                 color: AppColors.textBlack,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 13.sp,
                               ),
                             ),
                             TextSpan(
                               text: third,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: AppColors.textDark,
-                                fontSize: 15,
+                                fontSize: 13.sp,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -215,129 +410,13 @@ class LineDetailView extends GetView<LineDetailController> {
                 ],
               ),
             ),
-            AppGaps.vGap10,
+            10.verticalSpaceFromWidth,
           ],
         ),
       );
       viewList.add(view);
     }
     return viewList;
-  }
-
-  multipleRegion(context) {
-    return Column(
-      children: [
-        SizedBox(
-          child: Obx(
-            () => Container(
-              margin: const EdgeInsets.only(top: 20, left: 25, right: 25),
-              height: ScreenUtil().screenHeight * 3 / 5,
-              child: PageView.builder(
-                key: const Key('pageView'),
-                itemCount: controller.lineModel.value?.regions?.length,
-                controller: controller.pageController,
-                itemBuilder: (BuildContext context, int index) {
-                  return buildSignScrollView(context, index);
-                },
-              ),
-            ),
-          ),
-        ),
-        buildPlugin(),
-      ],
-    );
-  }
-
-  buildSignScrollView(BuildContext context, int index) {
-    RegionModel regionModel = controller.lineModel.value!.regions![index];
-    var scrollVIew = Container(
-        height: ScreenUtil().screenHeight * 3 / 5,
-        decoration: const BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.all(Radius.circular(8))),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              baseInfoCell(regionModel),
-              billingDesView(regionModel),
-              lineServiceCell(context, regionModel),
-              // buildAddRulesForLine(regionModel),
-            ],
-          ),
-        ));
-    return scrollVIew;
-  }
-
-  buildPlugin() {
-    return Obx(
-      () => Container(
-        alignment: Alignment.center,
-        height: 50,
-        width: ScreenUtil().screenWidth,
-        child: SmoothPageIndicator(
-          count: controller.lineModel.value!.regions!.length,
-          controller: controller.pageController,
-          effect: const WormEffect(
-              dotWidth: 10,
-              dotHeight: 10,
-              spacing: 5,
-              dotColor: AppColors.textGray,
-              activeDotColor: AppColors.textBlack),
-        ),
-      ),
-    );
-  }
-
-  Widget baseInfoCell(RegionModel model) {
-    String modeStr = '';
-    switch (controller.lineModel.value!.mode) {
-      case 1:
-        modeStr = '首重续重模式';
-        break;
-      case 2:
-        modeStr = '阶梯价格模式';
-        break;
-      case 3:
-        modeStr = '单位价格+阶梯价格模式';
-        break;
-      case 4:
-        modeStr = '多级续重模式';
-        break;
-      case 5:
-        modeStr = '阶梯首重续重模式';
-        break;
-      default:
-    }
-    List<Widget> list = [];
-    if (Get.arguments['type'] == 2) {
-      String countWeight =
-          (controller.lineModel.value!.countWeight! / 1000).toStringAsFixed(2) +
-              (controller.lineModel.value!.mode == 1
-                  ? '立方'
-                  : (controller.localModel?.weightSymbol ?? ''));
-      String expireFee = controller.lineModel.value!.expireFee!.rate();
-      list.add(buildTitleAndContentCell('计费重量', countWeight,
-          textColor: AppColors.textRed));
-      list.add(buildTitleAndContentCell('预估运费', expireFee,
-          textColor: AppColors.textRed));
-    }
-    return Container(
-        // height: 100,
-        padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            AppText(
-              str: controller.lineModel.value?.name ?? '',
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-            buildTitleAndContentCell('分区', model.name, showIcon: true),
-            buildTitleAndContentCell('计费模式', modeStr.ts),
-            buildTitleAndContentCell('运送时效', model.referenceTime),
-            ...list
-          ],
-        ));
   }
 
   buildTitleAndContentCell(
@@ -355,7 +434,7 @@ class LineDetailView extends GetView<LineDetailController> {
           Flexible(
             child: AppText(
               str: title.ts,
-              fontSize: 14,
+              fontSize: 13,
               lines: 2,
             ),
           ),
@@ -363,7 +442,7 @@ class LineDetailView extends GetView<LineDetailController> {
           Flexible(
             child: AppText(
               str: content,
-              fontSize: 14,
+              fontSize: 13,
               color: textColor ?? AppColors.textBlack,
               lines: 2,
               alignment: TextAlign.end,
@@ -374,24 +453,14 @@ class LineDetailView extends GetView<LineDetailController> {
     );
   }
 
-  billingDesView(RegionModel model) {
-    return Container(
-      padding: const EdgeInsets.only(top: 10, right: 15, left: 15, bottom: 5),
-      child: Column(
-        children: listWidget(model),
-      ),
-    );
-  }
-
-  listWidget(RegionModel model) {
+  priceList(RegionModel model) {
     List<Widget> listWidget = [];
     listWidget.add(Container(
       alignment: Alignment.centerLeft,
       child: AppText(
         str: '计费标准'.ts,
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        lines: 2,
+        fontSize: 12,
+        color: AppColors.textGray,
       ),
     ));
     String contentSymbol = controller.lineModel.value!.baseMode == 0
@@ -531,10 +600,9 @@ class LineDetailView extends GetView<LineDetailController> {
         String title = key + contentSymbol;
         listWidget.add(Container(
           alignment: Alignment.centerLeft,
-          height: 40,
+          height: 25.h,
           child: AppText(
             str: title,
-            fontSize: 17,
             fontWeight: FontWeight.bold,
           ),
         ));
@@ -555,22 +623,5 @@ class LineDetailView extends GetView<LineDetailController> {
       }
     }
     return listWidget;
-  }
-
-  showTipsView(context, ShipLineServiceModel item) {
-    BaseDialog.normalDialog(
-      context,
-      title: item.name,
-      titleFontSize: 18,
-      child: Container(
-        // height: 60,
-        alignment: Alignment.topLeft,
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-        child: AppText(
-          str: item.remark,
-          lines: 10,
-        ),
-      ),
-    );
   }
 }

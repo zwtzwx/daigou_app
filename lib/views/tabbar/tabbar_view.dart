@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/home/home_page.dart';
-import 'package:jiyun_app_client/views/shop/cart/cart_view.dart';
-import 'package:jiyun_app_client/views/shop/platform_center/platform_shop_center_view.dart';
-import 'package:jiyun_app_client/views/tabbar/tabbar_controller.dart';
-import 'package:jiyun_app_client/views/transport/transport_center/transport_center_view.dart';
-import 'package:jiyun_app_client/views/user/me/me_page.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/home/home_page.dart';
+import 'package:huanting_shop/views/shop/cart/cart_view.dart';
+import 'package:huanting_shop/views/shop/platform_center/platform_shop_center_view.dart';
+import 'package:huanting_shop/views/tabbar/tabbar_controller.dart';
+import 'package:huanting_shop/views/transport/transport_center/transport_center_view.dart';
+import 'package:huanting_shop/views/user/me/me_page.dart';
 
 class BeeBottomNavPage extends GetView<BeeBottomNavLogic> {
   const BeeBottomNavPage({Key? key}) : super(key: key);

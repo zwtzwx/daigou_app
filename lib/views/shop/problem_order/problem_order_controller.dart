@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
 
 class ProblemOrderController extends GlobalLogic
     with GetSingleTickerProviderStateMixin {

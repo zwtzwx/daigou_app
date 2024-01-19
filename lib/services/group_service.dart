@@ -1,9 +1,9 @@
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/coordinate_model.dart';
-import 'package:jiyun_app_client/models/group_model.dart';
-import 'package:jiyun_app_client/models/group_order_model.dart';
-import 'package:jiyun_app_client/models/group_preview_order_model.dart';
-import 'package:jiyun_app_client/models/parcel_model.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/coordinate_model.dart';
+import 'package:huanting_shop/models/group_model.dart';
+import 'package:huanting_shop/models/group_order_model.dart';
+import 'package:huanting_shop/models/group_preview_order_model.dart';
+import 'package:huanting_shop/models/parcel_model.dart';
 
 class GroupService {
   // 公开拼团列表

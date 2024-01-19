@@ -1,8 +1,8 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/common/image_util.dart';
+import 'package:huanting_shop/common/image_util.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
+import 'package:huanting_shop/config/color_config.dart';
 
 class ImgItem extends StatelessWidget {
   const ImgItem(this.image,

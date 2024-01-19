@@ -1,9 +1,9 @@
 /*
   评价Model
  */
-import 'package:jiyun_app_client/models/order_model.dart';
-import 'package:jiyun_app_client/models/receiver_address_model.dart';
-import 'package:jiyun_app_client/models/user_model.dart';
+import 'package:huanting_shop/models/order_model.dart';
+import 'package:huanting_shop/models/receiver_address_model.dart';
+import 'package:huanting_shop/models/user_model.dart';
 
 class CommentModel {
   late int id;

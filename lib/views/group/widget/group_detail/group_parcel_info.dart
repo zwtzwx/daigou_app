@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:jiyun_app_client/common/util.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/goods_props.dart';
-import 'package:jiyun_app_client/models/group_model.dart';
-import 'package:jiyun_app_client/models/localization_model.dart';
-import 'package:jiyun_app_client/models/parcel_model.dart';
-import 'package:jiyun_app_client/models/warehouse_model.dart';
-import 'package:jiyun_app_client/services/group_service.dart';
-import 'package:jiyun_app_client/services/warehouse_service.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:huanting_shop/common/util.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/goods_props.dart';
+import 'package:huanting_shop/models/group_model.dart';
+import 'package:huanting_shop/models/localization_model.dart';
+import 'package:huanting_shop/models/parcel_model.dart';
+import 'package:huanting_shop/models/warehouse_model.dart';
+import 'package:huanting_shop/services/group_service.dart';
+import 'package:huanting_shop/services/warehouse_service.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 
 class MemberGroupParcelInfo extends StatefulWidget {
   const MemberGroupParcelInfo({

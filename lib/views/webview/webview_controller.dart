@@ -1,7 +1,7 @@
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/services/announcement_service.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/services/announcement_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class BeeWebviewLogic extends GlobalLogic {

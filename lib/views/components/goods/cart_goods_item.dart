@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/models/shop/cart_model.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:huanting_shop/common/util.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/models/shop/cart_model.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 
 class BeeShopOrderGoodsItem extends StatelessWidget {
   const BeeShopOrderGoodsItem({
@@ -37,14 +38,13 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var currencyModel = Get.find<AppStore>().currencyModel;
     return Container(
-      margin: EdgeInsets.only(bottom: previewMode ? 0 : 10.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8.r),
       ),
       padding: previewMode
           ? null
-          : EdgeInsets.symmetric(horizontal: 10.w, vertical: 13.h),
+          : EdgeInsets.symmetric(horizontal: 5.w, vertical: 10.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -72,7 +72,10 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                     )
                   : AppGaps.empty,
               ImgItem(
-                'Shop/cart_shop',
+                cartModel.shopId.toString() == '-1'
+                    ? 'Shop/zy'
+                    : CommonMethods.getPlatformIcon(
+                        cartModel.skus.first.platform),
                 width: 20.w,
               ),
               5.horizontalSpace,
@@ -166,6 +169,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                   TextSpan(
                                       style: TextStyle(
                                         fontSize: 14.sp,
+                                        color: const Color(0xFFFF5138),
                                       ),
                                       children: [
                                         TextSpan(
@@ -174,8 +178,10 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                         ),
                                         TextSpan(
                                           text: (sku.price).rate(
-                                              needFormat: false,
-                                              showPriceSymbol: false),
+                                            needFormat: false,
+                                            showPriceSymbol: false,
+                                            showInt: true,
+                                          ),
                                           // text: previewMode
                                           //     ? (sku.price).rate(
                                           //         needFormat: false,
@@ -197,32 +203,31 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                       fontSize: 12,
                                     )
                                   : sku.changeQty
-                                      ? Container(
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: const Color(0xFFEEEEEE),
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(4.r),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () {
-                                                  if (sku.quantity <=
-                                                      (sku.skuInfo
-                                                              ?.minOrderQuantity ??
-                                                          1)) return;
-                                                  onStep!(
-                                                      -(sku.skuInfo
-                                                              ?.batchNumber ??
-                                                          1),
-                                                      sku);
-                                                },
+                                      ? Row(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                if (sku.quantity <=
+                                                    (sku.skuInfo
+                                                            ?.minOrderQuantity ??
+                                                        1)) return;
+                                                onStep!(
+                                                    -(sku.skuInfo
+                                                            ?.batchNumber ??
+                                                        1),
+                                                    sku);
+                                              },
+                                              child: ClipOval(
                                                 child: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 5.w),
-                                                  color: Colors.transparent,
+                                                  width: 24.w,
+                                                  height: 24.w,
+                                                  alignment: Alignment.center,
+                                                  color: sku.quantity <=
+                                                          (sku.skuInfo
+                                                                  ?.minOrderQuantity ??
+                                                              1)
+                                                      ? const Color(0xFFF0F0F0)
+                                                      : AppColors.primary,
                                                   child: Icon(
                                                     Icons.remove,
                                                     size: 14.sp,
@@ -230,48 +235,44 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                                             (sku.skuInfo
                                                                     ?.minOrderQuantity ??
                                                                 1)
-                                                        ? AppColors.textGray
+                                                        ? const Color(
+                                                            0xFFBBBBBB)
                                                         : Colors.black,
                                                   ),
                                                 ),
                                               ),
-                                              Container(
-                                                height: 20.h,
-                                                alignment: Alignment.center,
-                                                decoration: const BoxDecoration(
-                                                  border: Border.symmetric(
-                                                    vertical: BorderSide(
-                                                      color: Color(0xFFEEEEEE),
-                                                    ),
-                                                  ),
-                                                ),
-                                                width: 40.w,
-                                                child: AppText(
-                                                  str: sku.quantity.toString(),
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
-                                                ),
+                                            ),
+                                            Container(
+                                              height: 20.h,
+                                              alignment: Alignment.center,
+                                              width: 40.w,
+                                              child: AppText(
+                                                str: sku.quantity.toString(),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
                                               ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  onStep!(
-                                                      sku.skuInfo
-                                                              ?.batchNumber ??
-                                                          1,
-                                                      sku);
-                                                },
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                onStep!(
+                                                    sku.skuInfo?.batchNumber ??
+                                                        1,
+                                                    sku);
+                                              },
+                                              child: ClipOval(
                                                 child: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 5.w),
-                                                  color: Colors.transparent,
+                                                  width: 24.w,
+                                                  height: 24.w,
+                                                  alignment: Alignment.center,
+                                                  color: AppColors.primary,
                                                   child: Icon(
                                                     Icons.add,
                                                     size: 14.sp,
                                                   ),
                                                 ),
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         )
                                       : GestureDetector(
                                           onTap: () {

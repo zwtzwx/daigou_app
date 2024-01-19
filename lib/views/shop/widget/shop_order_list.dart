@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/list_refresh_event.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/parcel_model.dart';
-import 'package:jiyun_app_client/models/shop/shop_order_model.dart';
-import 'package:jiyun_app_client/services/shop_service.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
-import 'package:jiyun_app_client/views/components/goods/shop_order_item.dart';
-import 'package:jiyun_app_client/views/components/list_refresh.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/list_refresh_event.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/parcel_model.dart';
+import 'package:huanting_shop/models/shop/shop_order_model.dart';
+import 'package:huanting_shop/services/shop_service.dart';
+import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:huanting_shop/views/components/goods/shop_order_item.dart';
+import 'package:huanting_shop/views/components/list_refresh.dart';
 
 class ShopOrderList extends StatefulWidget {
   const ShopOrderList({

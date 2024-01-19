@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/input/input_text_item.dart';
-import 'package:jiyun_app_client/views/components/input/normal_input.dart';
-import 'package:jiyun_app_client/views/user/setting_password/setting_password_controller.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/input/input_text_item.dart';
+import 'package:huanting_shop/views/components/input/normal_input.dart';
+import 'package:huanting_shop/views/user/setting_password/setting_password_controller.dart';
 
 class BeeNewPwdPage extends GetView<BeeNewPwdLogic> {
   const BeeNewPwdPage({Key? key}) : super(key: key);
@@ -17,19 +18,23 @@ class BeeNewPwdPage extends GetView<BeeNewPwdLogic> {
         backgroundColor: Colors.white,
         leading: const BackButton(color: Colors.black),
         centerTitle: true,
-        elevation: 0.5,
+        elevation: 0.1,
         title: AppText(
           str: '修改密码'.ts,
-          fontSize: 18,
+          fontSize: 17,
         ),
       ),
       bottomNavigationBar: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 15),
+        margin: EdgeInsets.symmetric(horizontal: 14.w),
         child: SafeArea(
+          child: SizedBox(
+            height: 38.h,
             child: BeeButton(
-          text: '提交',
-          onPressed: controller.onSubmit,
-        )),
+              text: '提交',
+              onPressed: controller.onSubmit,
+            ),
+          ),
+        ),
       ),
       body: Column(
         children: [

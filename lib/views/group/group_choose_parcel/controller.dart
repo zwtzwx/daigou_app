@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/models/parcel_model.dart';
-import 'package:jiyun_app_client/services/group_service.dart';
-import 'package:jiyun_app_client/services/parcel_service.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/models/parcel_model.dart';
+import 'package:huanting_shop/services/group_service.dart';
+import 'package:huanting_shop/services/parcel_service.dart';
 
 class BeeGroupParcelSelectController extends GlobalLogic {
   int pageIndex = 0;

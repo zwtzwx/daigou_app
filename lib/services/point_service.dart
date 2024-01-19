@@ -1,10 +1,10 @@
 /*
   积分服务
  */
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/user_point_item_model.dart';
-import 'package:jiyun_app_client/models/user_point_model.dart';
-import 'package:jiyun_app_client/models/user_vip_rule_model.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/user_point_item_model.dart';
+import 'package:huanting_shop/models/user_point_model.dart';
+import 'package:huanting_shop/models/user_vip_rule_model.dart';
 
 class PointService {
   // 积分列表integral

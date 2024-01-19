@@ -1,20 +1,20 @@
 /*
   订单
  */
-import 'package:jiyun_app_client/models/group_model.dart';
-import 'package:jiyun_app_client/models/receiver_address_model.dart';
-import 'package:jiyun_app_client/models/order_transaction_model.dart';
-import 'package:jiyun_app_client/models/parcel_box_model.dart';
-import 'package:jiyun_app_client/models/parcel_model.dart';
-import 'package:jiyun_app_client/models/self_pickup_station_model.dart';
-import 'package:jiyun_app_client/models/self_pickup_station_order_model.dart';
-import 'package:jiyun_app_client/models/ship_line_model.dart';
-import 'package:jiyun_app_client/models/ship_line_service_model.dart';
-import 'package:jiyun_app_client/models/shipment_model.dart';
-import 'package:jiyun_app_client/models/user_coupon_model.dart';
-import 'package:jiyun_app_client/models/value_added_service_model.dart';
-import 'package:jiyun_app_client/models/warehouse_model.dart';
-import 'package:jiyun_app_client/models/price_model.dart';
+import 'package:huanting_shop/models/group_model.dart';
+import 'package:huanting_shop/models/receiver_address_model.dart';
+import 'package:huanting_shop/models/order_transaction_model.dart';
+import 'package:huanting_shop/models/parcel_box_model.dart';
+import 'package:huanting_shop/models/parcel_model.dart';
+import 'package:huanting_shop/models/self_pickup_station_model.dart';
+import 'package:huanting_shop/models/self_pickup_station_order_model.dart';
+import 'package:huanting_shop/models/ship_line_model.dart';
+import 'package:huanting_shop/models/ship_line_service_model.dart';
+import 'package:huanting_shop/models/shipment_model.dart';
+import 'package:huanting_shop/models/user_coupon_model.dart';
+import 'package:huanting_shop/models/value_added_service_model.dart';
+import 'package:huanting_shop/models/warehouse_model.dart';
+import 'package:huanting_shop/models/price_model.dart';
 
 //定义枚举类型
 enum OrderStatus {

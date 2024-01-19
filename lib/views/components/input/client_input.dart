@@ -1,7 +1,7 @@
 // ignore_for_file: unnecessary_this
 
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/views/components/input/base_input.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/views/components/input/base_input.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable

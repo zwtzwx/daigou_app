@@ -2,7 +2,7 @@
   优惠券
   券的生命周期，包括券的使用信息
  */
-import 'package:jiyun_app_client/models/user_coupon_item_model.dart';
+import 'package:huanting_shop/models/user_coupon_item_model.dart';
 
 class UserCouponModel {
   late int id;
@@ -19,6 +19,8 @@ class UserCouponModel {
   late String status;
   late bool canUse;
   UserCouponItemModel? coupon;
+  bool isOpen = false;
+  String? remark;
 
   UserCouponModel(
       {required this.id,
@@ -50,6 +52,7 @@ class UserCouponModel {
     enabled = json['enabled'];
     status = json['status'];
     canUse = json['can_use'];
+    remark = json['remark'];
     if (json['coupon'] != null) {
       coupon = UserCouponItemModel.fromJson(json['coupon']);
     }

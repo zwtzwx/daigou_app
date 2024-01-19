@@ -1,5 +1,5 @@
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/views/user/login/login_controller.dart';
+import 'package:huanting_shop/views/user/login/login_controller.dart';
 
 class BeeSignInBinding extends Bindings {
   @override

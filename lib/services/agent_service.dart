@@ -1,15 +1,15 @@
 /*
   代理信息
  */
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/agent_commission_record_model.dart';
-import 'package:jiyun_app_client/models/agent_data_count_model.dart';
-import 'package:jiyun_app_client/models/agent_model.dart';
-import 'package:jiyun_app_client/models/bank_model.dart';
-import 'package:jiyun_app_client/models/user_model.dart';
-import 'package:jiyun_app_client/models/withdrawal_item_model.dart';
-import 'package:jiyun_app_client/models/withdrawal_model.dart';
-import 'package:jiyun_app_client/services/base_service.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/agent_commission_record_model.dart';
+import 'package:huanting_shop/models/agent_data_count_model.dart';
+import 'package:huanting_shop/models/agent_model.dart';
+import 'package:huanting_shop/models/bank_model.dart';
+import 'package:huanting_shop/models/user_model.dart';
+import 'package:huanting_shop/models/withdrawal_item_model.dart';
+import 'package:huanting_shop/models/withdrawal_model.dart';
+import 'package:huanting_shop/services/base_service.dart';
 import 'package:flutter/foundation.dart';
 
 class AgentService {

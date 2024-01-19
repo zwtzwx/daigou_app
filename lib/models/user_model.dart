@@ -1,4 +1,4 @@
-import 'package:jiyun_app_client/models/profile_model.dart';
+import 'package:huanting_shop/models/profile_model.dart';
 
 /*
   用户基本资料

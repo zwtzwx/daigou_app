@@ -1,5 +1,5 @@
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/views/user/setting_password/setting_password_controller.dart';
+import 'package:huanting_shop/views/user/setting_password/setting_password_controller.dart';
 
 class BeeNewPwdBinding extends Bindings {
   @override

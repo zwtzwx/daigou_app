@@ -1,14 +1,14 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/user_point_item_model.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
-import 'package:jiyun_app_client/views/components/list_refresh.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/user_point_item_model.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/empty_app_bar.dart';
+import 'package:huanting_shop/views/components/list_refresh.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/views/user/vip/growth_value/growth_value_controller.dart';
+import 'package:huanting_shop/views/user/vip/growth_value/growth_value_controller.dart';
 
 class BeeValuesPage extends GetView<BeeValuesLogic> {
   const BeeValuesPage({Key? key}) : super(key: key);
@@ -102,7 +102,7 @@ class BeeValuesPage extends GetView<BeeValuesLogic> {
         children: <Widget>[
           SizedBox(
             child: ImgItem(
-              'AboutMe/growth-bg',
+              'Center/growth-bg',
               fit: BoxFit.fitWidth,
               width: ScreenUtil().screenWidth,
             ),

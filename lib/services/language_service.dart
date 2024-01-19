@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/language_model.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/language_model.dart';
 
 class LanguageService {
   // 支持的语言列表

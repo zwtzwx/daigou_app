@@ -1,10 +1,10 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:dio/dio.dart';
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/order_exceptional_model.dart';
-import 'package:jiyun_app_client/models/order_model.dart';
-import 'package:jiyun_app_client/services/base_service.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/order_exceptional_model.dart';
+import 'package:huanting_shop/models/order_model.dart';
+import 'package:huanting_shop/services/base_service.dart';
 
 /*
   订单相关的服务

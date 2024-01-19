@@ -1,14 +1,17 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
-import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/models/user_model.dart';
-import 'package:jiyun_app_client/services/user_service.dart';
-import 'package:jiyun_app_client/storage/user_storage.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:huanting_shop/common/upload_util.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/models/user_model.dart';
+import 'package:huanting_shop/services/user_service.dart';
+import 'package:huanting_shop/storage/user_storage.dart';
 
 class BeeUserInfoLogic extends GlobalLogic {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -23,11 +26,6 @@ class BeeUserInfoLogic extends GlobalLogic {
   final TextEditingController nameController = TextEditingController();
   final FocusNode nameNode = FocusNode();
 
-  // 城市
-  final TextEditingController cityNameController = TextEditingController();
-  final FocusNode cityName = FocusNode();
-
-  FocusNode blankNode = FocusNode();
   // 注销按钮
   final deleteShow = false.obs;
   final userInfoModel = Get.find<AppStore>();
@@ -43,7 +41,6 @@ class BeeUserInfoLogic extends GlobalLogic {
     showLoading();
     userModel.value = await UserService.getProfile();
     hideLoading();
-    cityNameController.text = userModel.value!.liveCity;
     nameController.text = userModel.value!.name;
     isloading.value = true;
   }
@@ -60,8 +57,6 @@ class BeeUserInfoLogic extends GlobalLogic {
     Map<String, dynamic> upData = {
       'name': nameController.text,
       'avatar': userImg.isEmpty ? userModel.value!.avatar : userImg.value,
-      'gender': userModel.value!.gender, // 性别
-      'live_city': cityNameController.text, // 当前城市
     };
     showLoading();
     var result = await UserService.updateByModel(upData);
@@ -74,6 +69,45 @@ class BeeUserInfoLogic extends GlobalLogic {
     } else {
       showToast(result['msg']);
     }
+  }
+
+  onCopyUserId() async {
+    await Clipboard.setData(
+        ClipboardData(text: userModel.value?.id.toString() ?? ''));
+    showSuccess('复制成功');
+  }
+
+  onUploadAvatar() {
+    ImageUpload.imagePicker(
+      onSuccessCallback: (imageUrl) async {
+        userImg.value = imageUrl;
+      },
+      context: Get.context!,
+      child: CupertinoActionSheet(
+        title: Text('请选择上传方式'.ts),
+        actions: <Widget>[
+          CupertinoActionSheetAction(
+            child: Text('相册'.ts),
+            onPressed: () {
+              Navigator.pop(Get.context!, 'gallery');
+            },
+          ),
+          CupertinoActionSheetAction(
+            child: Text('照相机'.ts),
+            onPressed: () {
+              Navigator.pop(Get.context!, 'camera');
+            },
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          child: Text('取消'.ts),
+          isDefaultAction: true,
+          onPressed: () {
+            Navigator.pop(Get.context!, 'Cancel');
+          },
+        ),
+      ),
+    );
   }
 
   // 注销
@@ -93,8 +127,7 @@ class BeeUserInfoLogic extends GlobalLogic {
   @override
   void onClose() {
     super.onClose();
+    nameController.dispose();
     nameNode.dispose();
-    cityName.dispose();
-    blankNode.dispose();
   }
 }

@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/shop/cart_model.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/contact_cell.dart';
-import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
-import 'package:jiyun_app_client/views/components/goods/cart_goods_item.dart';
-import 'package:jiyun_app_client/views/components/goods/goods_list_cell.dart';
-import 'package:jiyun_app_client/views/components/language_cell/language_cell.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/components/loading_cell.dart';
-import 'package:jiyun_app_client/views/components/skeleton/skeleton.dart';
-import 'package:jiyun_app_client/views/shop/cart/cart_controller.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/shop/cart_model.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/empty_app_bar.dart';
+import 'package:huanting_shop/views/components/goods/cart_goods_item.dart';
+import 'package:huanting_shop/views/components/goods/goods_list_cell.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/components/loading_cell.dart';
+import 'package:huanting_shop/views/components/skeleton/skeleton.dart';
+import 'package:huanting_shop/views/shop/cart/cart_controller.dart';
 
 class CartView extends GetView<CartController> {
   const CartView({Key? key}) : super(key: key);
@@ -23,9 +21,8 @@ class CartView extends GetView<CartController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: Colors.white,
       bottomSheet: Obx(() => controller.showCartList.isNotEmpty
           ? Container(
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 5.h),
@@ -68,12 +65,11 @@ class CartView extends GetView<CartController> {
                   ),
                   controller.configState.value
                       ? BeeButton(
-                          text: '删除',
-                          backgroundColor: const Color(0xFFFF6868),
-                          borderRadis: 999,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          textColor: Colors.white,
+                          backgroundColor: const Color(0xFFFF4949),
+                          img: ImgItem(
+                            'Shop/ico_sc',
+                            width: 18.w,
+                          ),
                           onPressed: () {
                             controller.onCartDelete(context);
                           },
@@ -89,14 +85,6 @@ class CartView extends GetView<CartController> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                   children: [
-                                    TextSpan(
-                                      text: '总计'.ts + '：',
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: AppColors.textDark,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
                                     TextSpan(
                                       text: controller
                                               .currencyModel.value?.symbol ??
@@ -128,39 +116,30 @@ class CartView extends GetView<CartController> {
               ),
             )
           : AppGaps.empty),
-      body: Stack(
-        children: [
-          RefreshIndicator(
-            color: AppColors.primary,
-            onRefresh: controller.handleRefresh,
-            child: ListView(
-              shrinkWrap: true,
-              physics: const AlwaysScrollableScrollPhysics(),
-              controller: controller.loadingUtil.value.scrollController,
-              children: [
-                Container(
-                  color: Colors.white,
-                  child: const LanguageCell(),
-                ),
-                Obx(() => controller.cartLoading.value
-                    ? SizedBox(
-                        height: 270.h,
-                        child: Skeleton(
-                          type: SkeletonType.listSkeleton,
-                          itemCount: 3,
-                          showImg: true,
-                          height: 80.h,
-                          lineCount: 4,
-                        ),
-                      )
-                    : cartCell()),
-                recommendGoodsList(),
-                30.verticalSpaceFromWidth,
-              ],
-            ),
-          ),
-          const ContactCell(),
-        ],
+      body: RefreshIndicator(
+        color: AppColors.primary,
+        onRefresh: controller.handleRefresh,
+        child: ListView(
+          shrinkWrap: true,
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: controller.loadingUtil.value.scrollController,
+          children: [
+            Obx(() => controller.cartLoading.value
+                ? SizedBox(
+                    height: 270.h,
+                    child: Skeleton(
+                      type: SkeletonType.listSkeleton,
+                      itemCount: 3,
+                      showImg: true,
+                      height: 80.h,
+                      lineCount: 4,
+                    ),
+                  )
+                : cartCell()),
+            recommendGoodsList(),
+            30.verticalSpaceFromWidth,
+          ],
+        ),
       ),
     );
   }
@@ -169,45 +148,45 @@ class CartView extends GetView<CartController> {
     return controller.allCartList.isEmpty
         ? emptyCell()
         : Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: const [Colors.white, AppColors.bgGray],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [controller.showCartList.isNotEmpty ? 0.1 : 1, 0.3],
-              ),
-            ),
+            margin: EdgeInsets.only(top: 10.h),
+            padding: EdgeInsets.symmetric(horizontal: 14.w),
             child: Column(
               children: [
-                Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.only(bottom: 10.h),
-                  child: Row(
-                    children: [
-                      cartTypeItem('代购', 1),
-                      10.horizontalSpace,
-                      Expanded(
-                        child: cartTypeItem('自营', 2),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          controller.configState.value =
-                              !controller.configState.value;
-                        },
-                        child: AppText(
-                          str: controller.configState.value
-                              ? '退出管理'.ts
-                              : '管理'.ts,
-                          fontSize: 14,
-                          color: controller.configState.value
-                              ? const Color(0xFFFFA441)
-                              : AppColors.textDark,
+                SizedBox(
+                    height: 30.h,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              cartTypeItem('代购', 1),
+                              15.horizontalSpace,
+                              Expanded(
+                                child: cartTypeItem('自营', 2),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                        10.horizontalSpace,
+                        GestureDetector(
+                          onTap: () {
+                            controller.configState.value =
+                                !controller.configState.value;
+                          },
+                          child: AppText(
+                            str: controller.configState.value
+                                ? '退出'.ts
+                                : '管理'.ts,
+                            fontSize: 14,
+                            color: controller.configState.value
+                                ? const Color(0xFFFFA441)
+                                : AppColors.textDark,
+                          ),
+                        ),
+                      ],
+                    )),
                 controller.showCartList.isNotEmpty
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,11 +219,12 @@ class CartView extends GetView<CartController> {
       },
       child: AppText(
         str: label.ts +
-            '（${type == 1 ? controller.platformCartSkuNum : controller.cartSkuNum}）',
-        fontSize: controller.cartType.value == type ? 16 : 14,
-        color: controller.cartType.value == type
-            ? AppColors.textDark
-            : AppColors.textGrayC9,
+            '(${type == 1 ? controller.platformCartSkuNum : controller.cartSkuNum})',
+        fontSize: 16,
+        color: AppColors.textDark,
+        fontWeight: controller.cartType.value == type
+            ? FontWeight.bold
+            : FontWeight.w500,
       ),
     );
   }
@@ -276,13 +256,13 @@ class CartView extends GetView<CartController> {
   // 推荐商品（代购商品）
   Widget recommendGoodsList() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          margin: EdgeInsets.symmetric(vertical: 10.h),
-          alignment: Alignment.center,
+          margin: EdgeInsets.symmetric(vertical: 15.h, horizontal: 14.w),
           child: Obx(
             () => AppText(
-              str: '推荐商品'.ts,
+              str: '推荐'.ts,
               fontWeight: FontWeight.bold,
             ),
           ),

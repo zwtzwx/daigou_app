@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/user_info_model.dart';
-import 'package:jiyun_app_client/views/components/ad_cell.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/transport/transport_center/transport_center_controller.dart';
-import 'package:jiyun_app_client/views/transport/widget/comment_list_widget.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/views/components/ad_cell.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/transport/transport_center/transport_center_controller.dart';
+import 'package:huanting_shop/views/transport/widget/comment_list_widget.dart';
 
 class TransportCenterView extends GetView<TransportCenterController> {
   const TransportCenterView({Key? key}) : super(key: key);
@@ -146,6 +146,9 @@ class TransportCenterView extends GetView<TransportCenterController> {
                   clipBehavior: Clip.none,
                   children: [
                     GestureDetector(
+                      onTap: () {
+                        BeeNav.push(BeeNav.orderCenter, index);
+                      },
                       child: UnconstrainedBox(
                         child: Container(
                           height: 30.h,
@@ -251,30 +254,38 @@ class TransportCenterView extends GetView<TransportCenterController> {
                 .toList(),
           ),
           40.verticalSpaceFromWidth,
-          Row(
-            children: [
-              ImgItem(
-                'Transport/chrome',
-                width: 25.w,
-                height: 25.w,
-              ),
-              10.horizontalSpace,
-              Expanded(
-                child: Obx(
-                  () => AppText(
-                    str: 'chrome省心预报'.ts,
-                    fontSize: 14,
+          GestureDetector(
+            onTap: () {
+              BeeNav.push(BeeNav.chromeLogin);
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Row(
+                children: [
+                  ImgItem(
+                    'Transport/chrome',
+                    width: 25.w,
+                    height: 25.w,
                   ),
-                ),
+                  10.horizontalSpace,
+                  Expanded(
+                    child: Obx(
+                      () => AppText(
+                        str: 'chrome省心预报'.ts,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  10.horizontalSpace,
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: AppColors.textNormal,
+                    size: 12.sp,
+                  ),
+                ],
               ),
-              10.horizontalSpace,
-              Icon(
-                Icons.arrow_forward_ios,
-                color: AppColors.textNormal,
-                size: 12.sp,
-              ),
-            ],
-          ),
+            ),
+          )
         ],
       ),
     );

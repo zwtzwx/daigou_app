@@ -1,24 +1,25 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 import 'package:flutter/material.dart';
 
 class BeeButton extends StatelessWidget {
   const BeeButton({
     Key? key,
-    required this.text,
+    this.text,
     this.fontSize = 14,
     this.elevation = 0,
     this.borderRadis = 999,
     this.fontWeight = FontWeight.bold,
     this.backgroundColor = AppColors.primary,
     this.textColor = AppColors.textDark,
+    this.img,
     this.onPressed,
   }) : super(key: key);
 
-  final String text;
+  final String? text;
   final double fontSize;
   final FontWeight fontWeight;
   final double elevation;
@@ -26,6 +27,7 @@ class BeeButton extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
   final Function? onPressed;
+  final Widget? img;
 
   @override
   Widget build(BuildContext context) {
@@ -51,16 +53,17 @@ class BeeButton extends StatelessWidget {
             BorderSide(color: backgroundColor),
           ),
         ),
-        child: Obx(
-          () => AppText(
-            str: text.ts,
-            color: textColor,
-            fontSize: fontSize,
-            fontWeight: fontWeight,
-            alignment: TextAlign.center,
-            lines: 2,
-          ),
-        ),
+        child: img ??
+            Obx(
+              () => AppText(
+                str: text!.ts,
+                color: textColor,
+                fontSize: fontSize,
+                fontWeight: fontWeight,
+                alignment: TextAlign.center,
+                lines: 2,
+              ),
+            ),
       ),
     );
   }

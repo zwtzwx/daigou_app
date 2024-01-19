@@ -5,19 +5,19 @@
 */
 
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/common/hex_to_color.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/user_vip_level_model.dart';
-import 'package:jiyun_app_client/models/user_vip_price_model.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:huanting_shop/common/hex_to_color.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/user_vip_level_model.dart';
+import 'package:huanting_shop/models/user_vip_price_model.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/empty_app_bar.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/views/user/vip/center/vip_center_controller.dart';
+import 'package:huanting_shop/views/user/vip/center/vip_center_controller.dart';
 
 /*
   会员中心
@@ -404,7 +404,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
             height: ScreenUtil().setHeight(180),
             alignment: Alignment.topLeft,
             child: ImgItem(
-              'AboutMe/growth-bg',
+              'Center/growth-bg',
               fit: BoxFit.fitWidth,
               width: ScreenUtil().screenWidth,
             ),

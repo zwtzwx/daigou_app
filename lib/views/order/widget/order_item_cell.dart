@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/common/util.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/events/application_event.dart';
-import 'package:jiyun_app_client/events/list_refresh_event.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/order_model.dart';
-import 'package:jiyun_app_client/services/order_service.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/button/plain_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
+import 'package:huanting_shop/common/util.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/list_refresh_event.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/order_model.dart';
+import 'package:huanting_shop/services/order_service.dart';
+import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/button/plain_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 
 class BeeOrderItem extends StatelessWidget {
   const BeeOrderItem({Key? key, required this.orderModel}) : super(key: key);
@@ -27,34 +27,22 @@ class BeeOrderItem extends StatelessWidget {
         BeeNav.push(BeeNav.orderDetail, {'id': orderModel.id});
       },
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
-          ),
+          borderRadius: BorderRadius.all(Radius.circular(10.r)),
         ),
-        margin: const EdgeInsets.only(right: 15, left: 15, top: 15),
-        padding: const EdgeInsets.symmetric(
-          vertical: 15,
-          horizontal: 10,
+        margin: EdgeInsets.fromLTRB(14.w, 15.h, 14.w, 0),
+        padding: EdgeInsets.symmetric(
+          vertical: 12.h,
+          horizontal: 10.w,
         ),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    const ImgItem(
-                      'PackageAndOrder/process',
-                      width: 25,
-                      height: 25,
-                    ),
-                    AppGaps.hGap5,
-                    AppText(
-                      str: orderModel.orderSn,
-                    ),
-                  ],
+                AppText(
+                  str: orderModel.orderSn,
                 ),
                 Row(
                   children: [
@@ -75,78 +63,33 @@ class BeeOrderItem extends StatelessWidget {
                             ),
                           )
                         : AppGaps.empty,
-                    const Icon(
+                    Icon(
                       Icons.arrow_forward_ios,
-                      size: 14,
+                      size: 14.sp,
+                      color: AppColors.textNormal,
                     ),
                   ],
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 20,
-                bottom: 10,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      ClipOval(
-                        child: Container(
-                          color: const Color(0xFF9bbf4d),
-                          width: 8,
-                          height: 8,
-                        ),
-                      ),
-                      AppGaps.vGap20,
-                      AppText(
-                        str: orderModel.warehouse.warehouseName!,
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: ScreenUtil().setWidth(20),
-                    ),
-                    child: Column(
-                      children: [
-                        const ImgItem(
-                          'PackageAndOrder/fly',
-                          width: 24,
-                          height: 24,
-                        ),
-                        AppGaps.vGap4,
-                        AppText(
-                          str: CommonMethods.getOrderStatusName(
-                              orderModel.status, orderModel.stationOrder),
-                          color: AppColors.primary,
-                          fontSize: 14,
-                        )
-                      ],
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      ClipOval(
-                        child: Container(
-                          color: const Color(0xFFff4326),
-                          width: 8,
-                          height: 8,
-                        ),
-                      ),
-                      AppGaps.vGap20,
-                      AppText(
-                        str: orderModel.address.countryName,
-                      )
-                    ],
-                  ),
-                ],
-              ),
+            20.verticalSpaceFromWidth,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                AppText(
+                  str: orderModel.warehouse.warehouseName!,
+                ),
+                ImgItem(
+                  'Home/ship',
+                  width: 80.w,
+                  fit: BoxFit.fitWidth,
+                ),
+                AppText(
+                  str: orderModel.address.countryName,
+                ),
+              ],
             ),
-            AppGaps.line,
-            AppGaps.vGap15,
+            25.verticalSpaceFromWidth,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -159,7 +102,7 @@ class BeeOrderItem extends StatelessWidget {
                     fontSize: 16,
                   ),
                 ),
-                AppGaps.vGap4,
+                5.verticalSpacingRadius,
                 AppText(
                   str: (orderModel.address.address != null &&
                           orderModel.address.address!.isNotEmpty)
@@ -167,14 +110,14 @@ class BeeOrderItem extends StatelessWidget {
                       : '${orderModel.address.area != null ? '${orderModel.address.area!.name} ' : ''}${orderModel.address.subArea != null ? '${orderModel.address.subArea!.name} ' : ''}${orderModel.address.street} ${orderModel.address.doorNo} ${orderModel.address.city}',
                   lines: 4,
                 ),
-                AppGaps.vGap4,
+                5.verticalSpaceFromWidth,
                 AppText(
                   str: orderModel.station != null
                       ? '${'自提收货'.ts}-${orderModel.station!.name}'
                       : '送货上门'.ts,
                   fontSize: 14,
                 ),
-                AppGaps.vGap4,
+                5.verticalSpaceFromWidth,
                 [3, 4, 5].contains(orderModel.status)
                     ? Container(
                         margin: const EdgeInsets.only(bottom: 4),
@@ -194,9 +137,9 @@ class BeeOrderItem extends StatelessWidget {
                                               EasyLoading.showSuccess(
                                                   '复制成功'.ts));
                                     },
-                                    child: AppText(
-                                      str: '复制'.ts,
-                                      color: AppColors.primary,
+                                    child: Icon(
+                                      Icons.copy,
+                                      size: 18.sp,
                                     ),
                                   )
                                 : AppGaps.empty
@@ -204,13 +147,14 @@ class BeeOrderItem extends StatelessWidget {
                         ),
                       )
                     : AppGaps.empty,
+                5.verticalSpaceFromWidth,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppText(
                       str: '${'提交时间'.ts}：${orderModel.createdAt}',
                       fontSize: 13,
-                      color: AppColors.textGray,
+                      color: AppColors.textGrayC,
                     ),
                     AppText(
                       str: orderModel.paymentTypeName,
@@ -248,6 +192,7 @@ class BeeOrderItem extends StatelessWidget {
                 orderModel.groupMode == 0
             ? Container(
                 margin: const EdgeInsets.only(left: 10),
+                height: 30.h,
                 child: BeeButton(
                   text: (orderModel.status == OrderStatus.waitPay.id ||
                           orderModel.onDeliveryStatus == 1 ||
@@ -275,26 +220,30 @@ class BeeOrderItem extends StatelessWidget {
                 orderModel.isLeaderOrder
             ? Expanded(
                 child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: AppText(
-                      str: '该团购单为团长代款,请您及时付款'.ts,
-                      fontSize: 14,
-                      color: AppColors.textRed,
-                      lines: 3,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: AppText(
+                        str: '该团购单为团长代款,请您及时付款'.ts,
+                        fontSize: 14,
+                        color: AppColors.textRed,
+                        lines: 3,
+                      ),
                     ),
-                  ),
-                  10.horizontalSpace,
-                  BeeButton(
-                    text: '前往支付',
-                    onPressed: () {
-                      BeeNav.push(BeeNav.groupOrderPorcess,
-                          {'id': orderModel.parentId});
-                    },
-                  ),
-                ],
-              ))
+                    10.horizontalSpace,
+                    SizedBox(
+                      height: 30.h,
+                      child: BeeButton(
+                        text: '前往支付',
+                        onPressed: () {
+                          BeeNav.push(BeeNav.groupOrderPorcess,
+                              {'id': orderModel.parentId});
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              )
             : AppGaps.empty,
         [OrderStatus.waitPay.id, OrderStatus.checkFailure.id]
                     .contains(orderModel.status) &&
@@ -308,22 +257,28 @@ class BeeOrderItem extends StatelessWidget {
               )
             : AppGaps.empty,
         [4, 5].contains(orderModel.status)
-            ? HollowButton(
-                text: '查看物流',
-                onPressed: () {
-                  if (orderModel.boxes.isNotEmpty) {
-                    BaseDialog.showBoxsTracking(context, orderModel);
-                  } else {
-                    BeeNav.push(
-                        BeeNav.orderTracking, {"order_sn": orderModel.orderSn});
-                  }
-                },
+            ? SizedBox(
+                height: 30.h,
+                child: HollowButton(
+                  text: '查看物流',
+                  textColor: AppColors.textDark,
+                  borderColor: AppColors.textGrayC,
+                  onPressed: () {
+                    if (orderModel.boxes.isNotEmpty) {
+                      BaseDialog.showBoxsTracking(context, orderModel);
+                    } else {
+                      BeeNav.push(BeeNav.orderTracking,
+                          {"order_sn": orderModel.orderSn});
+                    }
+                  },
+                ),
               )
             : AppGaps.empty,
         orderModel.status == 4
             ? Flexible(
                 child: Container(
-                  padding: const EdgeInsets.only(left: 10),
+                  margin: EdgeInsets.only(left: 10.w),
+                  height: 30.h,
                   child: BeeButton(
                     text: '确认收货',
                     onPressed: () {

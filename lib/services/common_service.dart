@@ -2,19 +2,19 @@
 
 import 'dart:io';
 
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/alphabetical_country_model.dart';
-import 'package:jiyun_app_client/models/app_version_model.dart';
-import 'package:jiyun_app_client/models/banners_model.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/alphabetical_country_model.dart';
+import 'package:huanting_shop/models/app_version_model.dart';
+import 'package:huanting_shop/models/banners_model.dart';
 import 'package:dio/dio.dart';
-import 'package:jiyun_app_client/models/captcha_model.dart';
-import 'package:jiyun_app_client/models/country_model.dart';
-import 'package:jiyun_app_client/models/currency_rate_model.dart';
-import 'package:jiyun_app_client/models/notice_model.dart';
-import 'package:jiyun_app_client/models/shop/platform_goods_model.dart';
-import 'package:jiyun_app_client/services/shop_service.dart';
-import 'package:jiyun_app_client/storage/language_storage.dart';
+import 'package:huanting_shop/models/captcha_model.dart';
+import 'package:huanting_shop/models/country_model.dart';
+import 'package:huanting_shop/models/currency_rate_model.dart';
+import 'package:huanting_shop/models/notice_model.dart';
+import 'package:huanting_shop/models/shop/platform_goods_model.dart';
+import 'package:huanting_shop/services/shop_service.dart';
+import 'package:huanting_shop/storage/language_storage.dart';
 
 //通用服务
 class CommonService {

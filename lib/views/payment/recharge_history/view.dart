@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/extension/rate_convert.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/user_recharge_model.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/list_refresh.dart';
-import 'package:jiyun_app_client/views/payment/recharge_history/controller.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/user_recharge_model.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/list_refresh.dart';
+import 'package:huanting_shop/views/payment/recharge_history/controller.dart';
 
 class RechargeHistoryPage extends GetView<RechargeHistoryController> {
   const RechargeHistoryPage({Key? key}) : super(key: key);
@@ -58,18 +58,18 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
                 width: 30,
                 child: model.payType.contains('支付宝')
                     ? Image.asset(
-                        'assets/images/AboutMe/alipay.png',
+                        'assets/images/Center/alipay.png',
                       )
                     : model.payType.contains('微信')
                         ? Image.asset(
-                            'assets/images/AboutMe/wechat_pay.png',
+                            'assets/images/Center/wechat_pay.png',
                           )
                         : model.payType.contains('银行')
                             ? Image.asset(
-                                'assets/images/AboutMe/transfer.png',
+                                'assets/images/Center/transfer.png',
                               )
                             : Image.asset(
-                                'assets/images/AboutMe/balance_pay.png',
+                                'assets/images/Center/balance_pay.png',
                               )),
             Container(
                 width: 1.sw - 100,

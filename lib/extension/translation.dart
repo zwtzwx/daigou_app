@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/common/util.dart';
-import 'package:jiyun_app_client/state/i10n.dart';
+import 'package:huanting_shop/common/util.dart';
+import 'package:huanting_shop/state/i10n.dart';
 
 // 字符串添加翻译方法
 

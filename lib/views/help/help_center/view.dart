@@ -1,16 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/announcement_model.dart';
-import 'package:jiyun_app_client/services/announcement_service.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/empty_app_bar.dart';
-import 'package:jiyun_app_client/views/components/list_refresh.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/help/help_center/controller.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/announcement_model.dart';
+import 'package:huanting_shop/models/article_model.dart';
+import 'package:huanting_shop/services/announcement_service.dart';
+import 'package:huanting_shop/services/article_service.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/list_refresh.dart';
+import 'package:huanting_shop/views/help/help_center/controller.dart';
 
 class BeeSupportView extends GetView<BeeSupportLogic> {
   const BeeSupportView({Key? key}) : super(key: key);
@@ -18,126 +19,68 @@ class BeeSupportView extends GetView<BeeSupportLogic> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      primary: false,
-      appBar: const EmptyAppBar(),
+      appBar: AppBar(
+        leading: const BackButton(color: Colors.black),
+        centerTitle: true,
+        title: AppText(
+          str: '帮助中心'.ts,
+          fontSize: 17,
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0.1,
+        bottom: TabBar(
+          controller: controller.tabController,
+          isScrollable: true,
+          tabs: ['公告', '常见问题', '禁运物品', '新手指引']
+              .map(
+                (e) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: AppText(
+                    str: e.ts,
+                    lines: 2,
+                    alignment: TextAlign.center,
+                  ),
+                ),
+              )
+              .toList(),
+          labelColor: AppColors.primary,
+          indicatorColor: AppColors.primary,
+          onTap: (value) {
+            controller.pageController.jumpToPage(value);
+          },
+        ),
+      ),
       backgroundColor: AppColors.bgGray,
-      body: SafeArea(
-        child: Column(
-          children: [
-            bannerBox(),
-            helpListView(),
-            const Expanded(
-              child: AnnouncementList(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // banner
-  Widget bannerBox() {
-    return Stack(
-      children: [
-        Positioned(
-          child: Container(
-            height: ScreenUtil().setHeight(200),
-            alignment: Alignment.topCenter,
-            child: Obx(
-              () => ImgItem(
-                controller.banner.value ?? '',
-                fit: BoxFit.fitWidth,
-                width: ScreenUtil().screenWidth,
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          top: ScreenUtil().statusBarHeight,
-          left: 15,
-          child: const BackButton(
-            color: Colors.white,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget helpListView() {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildHelpItem(
-            'Help/how',
-            '如何下单'.ts,
-            3,
-          ),
-          buildHelpItem(
-            'Help/forbid',
-            '禁运物品'.ts,
-            2,
-          ),
-          buildHelpItem(
-            'Help/question',
-            '常见问题'.ts,
-            1,
-          ),
-          // buildHelpItem(
-          //   'Help/suggest',
-          //   '投诉建议'.ts,
-          //   0,
-          // ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildHelpItem(String img, String label, int type) {
-    return Flexible(
-      child: GestureDetector(
-        onTap: () {
-          if (type > 0) {
-            BeeNav.push(BeeNav.question, {'type': type});
-          } else {
-            BeeNav.push('/SuggestPage');
-          }
+      body: PageView.builder(
+        itemCount: 4,
+        controller: controller.pageController,
+        onPageChanged: (value) {
+          controller.tabController.animateTo(value);
         },
-        child: Column(
-          children: [
-            ImgItem(
-              img,
-              width: 46,
-              height: 46,
-            ),
-            AppGaps.vGap5,
-            AppText(
-              str: label,
-              fontSize: 14,
-              lines: 2,
-              alignment: TextAlign.center,
-            )
-          ],
-        ),
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: index == 0
+                ? const _AnnouncementList()
+                : _ArticleList(type: index),
+          );
+        },
       ),
     );
   }
 }
 
 // 公告消息列表
-class AnnouncementList extends StatefulWidget {
-  const AnnouncementList({
+class _AnnouncementList extends StatefulWidget {
+  const _AnnouncementList({
     Key? key,
   }) : super(key: key);
 
   @override
-  AnnouncementListState createState() => AnnouncementListState();
+  _AnnouncementListState createState() => _AnnouncementListState();
 }
 
-class AnnouncementListState extends State<AnnouncementList> {
-  final GlobalKey<AnnouncementListState> key = GlobalKey();
+class _AnnouncementListState extends State<_AnnouncementList> {
   int pageIndex = 0;
 
   @override
@@ -168,54 +111,133 @@ class AnnouncementListState extends State<AnnouncementList> {
 
   Widget buildBottomListCell(int index, AnnouncementModel model) {
     return GestureDetector(
-        onTap: () async {
-          BeeNav.push(BeeNav.webview, {
-            'url': model.content,
-            'title': model.title,
-            'time': model.createdAt
-          });
-        },
-        child: Container(
-            decoration: const BoxDecoration(
-              color: AppColors.white,
-              border: Border(
-                  bottom: BorderSide(
-                      width: 1,
-                      color: AppColors.line,
-                      style: BorderStyle.solid)),
+      onTap: () async {
+        BeeNav.push(BeeNav.webview, {
+          'url': model.content,
+          'title': model.title,
+          'time': model.createdAt
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.only(top: 10.h),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(5.r),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            AppText(
+              str: model.title,
+              fontSize: 16,
             ),
-            padding: const EdgeInsets.only(left: 15),
-            // margin: EdgeInsets.only(top: 15, right: 15, left: 15),
-            height: 80,
-            child: Row(
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                        child: Container(
-                            height: 30,
-                            width: ScreenUtil().screenWidth - 80,
-                            padding: const EdgeInsets.only(top: 15),
-                            alignment: Alignment.topLeft,
-                            child: AppText(
-                              str: model.title,
-                              fontSize: 16,
-                              color: AppColors.textBlack,
-                            ))),
-                    Expanded(
-                        child: Container(
-                            height: 30,
-                            width: ScreenUtil().screenWidth - 80,
-                            padding: const EdgeInsets.only(top: 5),
-                            alignment: Alignment.topLeft,
-                            child: AppText(
-                              str: model.createdAt,
-                              color: AppColors.textGrayC,
-                            ))),
-                  ],
-                ),
-              ],
-            )));
+            5.verticalSpaceFromWidth,
+            AppText(
+              str: model.createdAt,
+              color: AppColors.textGrayC,
+              fontSize: 14,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ArticleList extends StatefulWidget {
+  const _ArticleList({
+    Key? key,
+    required this.type,
+  }) : super(key: key);
+  final int type;
+
+  @override
+  State<_ArticleList> createState() => __ArticleListState();
+}
+
+class __ArticleListState extends State<_ArticleList> {
+  List<ArticleModel> articles = [];
+  bool isLoading = true;
+
+  @override
+  initState() {
+    super.initState();
+    getList();
+  }
+
+  void getList() async {
+    var data = await ArticleService.getList({'type': widget.type});
+    setState(() {
+      articles = data;
+      isLoading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return isLoading
+        ? buildLoading()
+        : ListView.builder(
+            itemCount: articles.length,
+            itemBuilder: buildBottomListCell,
+          );
+  }
+
+  Widget buildBottomListCell(BuildContext context, int index) {
+    ArticleModel model = articles[index];
+    return GestureDetector(
+      onTap: () async {
+        BeeNav.push(BeeNav.webview, {
+          'url': model.content,
+          'title': model.title,
+          'time': model.createdAt
+        });
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+        margin: EdgeInsets.only(top: 10.h),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(5.r),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppText(
+              str: model.title,
+            ),
+            5.verticalSpaceFromWidth,
+            AppText(
+              str: model.createdAt ?? '',
+              color: AppColors.textGrayC,
+              fontSize: 14,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildLoading() {
+    return Center(
+      child: Column(
+        children: <Widget>[
+          10.verticalSpaceFromWidth,
+          const CupertinoActivityIndicator(),
+          Padding(
+            padding: EdgeInsets.only(top: 5.h),
+            child: Text(
+              '加载中'.ts + '...',
+              style: TextStyle(
+                color: AppColors.textGray,
+                fontSize: 14.sp,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

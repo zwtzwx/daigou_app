@@ -2,23 +2,22 @@
   订单详细
  */
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:jiyun_app_client/common/fade_route.dart';
-import 'package:jiyun_app_client/common/hex_to_color.dart';
-import 'package:jiyun_app_client/common/util.dart';
-import 'package:jiyun_app_client/config/color_config.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/extension/translation.dart';
-import 'package:jiyun_app_client/models/parcel_box_model.dart';
-import 'package:jiyun_app_client/views/components/base_dialog.dart';
-import 'package:jiyun_app_client/views/components/button/main_button.dart';
-import 'package:jiyun_app_client/views/components/button/plain_button.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
-import 'package:jiyun_app_client/views/components/load_image.dart';
-import 'package:jiyun_app_client/views/components/photo_view_gallery_screen.dart';
+import 'package:huanting_shop/common/fade_route.dart';
+import 'package:huanting_shop/common/util.dart';
+import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/parcel_box_model.dart';
+import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/button/plain_button.dart';
+import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/components/photo_view_gallery_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jiyun_app_client/views/order/detail/order_detail_controller.dart';
+import 'package:huanting_shop/views/order/detail/order_detail_controller.dart';
 
 class BeeOrderPage extends GetView<BeeOrderLogic> {
   const BeeOrderPage({Key? key}) : super(key: key);
@@ -28,35 +27,33 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
     return Scaffold(
         appBar: AppBar(
           leading: const BackButton(color: Colors.black),
-          backgroundColor: Colors.white,
-          elevation: 0.5,
+          backgroundColor: AppColors.primary,
+          elevation: 0,
           centerTitle: true,
           title: AppText(
             str: '订单详情'.ts,
-            color: AppColors.textBlack,
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
+            fontSize: 17,
           ),
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
         backgroundColor: AppColors.bgGray,
-        bottomNavigationBar: bottomButton(context),
+        bottomNavigationBar: Obx(() => bottomButton(context)),
         body: SingleChildScrollView(
           child: Obx(
             () => controller.isLoading.value
                 ? Column(
                     children: [
                       firstView(),
-                      AppGaps.vGap10,
+                      10.verticalSpaceFromWidth,
                       addressView(),
-                      AppGaps.vGap10,
+                      10.verticalSpaceFromWidth,
                       controller.model.value!.remark.isNotEmpty
                           ? remarkView()
                           : AppGaps.empty,
                       baseInfoView(),
-                      AppGaps.vGap10,
+                      10.verticalSpaceFromWidth,
                       valueInfoView(context),
-                      AppGaps.vGap10,
+                      20.verticalSpaceFromWidth,
                       // controller.model.value!.status > 2
                       //     ? payInfoView()
                       //     : AppGaps.empty,
@@ -87,32 +84,24 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              const ImgItem(
-                'PackageAndOrder/address-icon',
-                width: 24,
-                height: 24,
-              ),
-              AppGaps.hGap10,
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Container(
-                  height: 30,
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  color: HexToColor('#eceeff'),
-                  child: AppText(
-                    str: address.countryName,
-                    fontSize: 12,
-                  ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10.r),
+            child: UnconstrainedBox(
+              child: Container(
+                height: 26.h,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                color: AppColors.primary,
+                child: AppText(
+                  str: address.countryName,
+                  fontSize: 12,
                 ),
               ),
-            ],
+            ),
           ),
-          AppGaps.vGap15,
+          12.verticalSpaceFromWidth,
           AppGaps.line,
-          AppGaps.vGap15,
+          12.verticalSpaceFromWidth,
           AppText(
             str: '收货地址'.ts,
             fontSize: 13,
@@ -129,7 +118,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
             str: addressStr,
             lines: 4,
           ),
-          AppGaps.vGap5,
+          5.verticalSpaceFromWidth,
           AppText(
             str: controller.model.value!.station != null
                 ? '${'自提收货'.ts}-${controller.model.value!.station!.name}'
@@ -627,69 +616,53 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Flexible(
-              child: HollowButton(
-                text: '联系客服',
-                onPressed: () async {
-                  CommonMethods.onCustomerContact();
-                },
-                fontSize: 14,
-                borderRadis: 999,
-                textColor: Colors.black,
+              child: SizedBox(
+                height: 30.h,
+                child: HollowButton(
+                  text: '联系客服',
+                  onPressed: () async {
+                    CommonMethods.onCustomerContact();
+                  },
+                  textColor: AppColors.textDark,
+                  borderColor: AppColors.textGrayC,
+                ),
               ),
             ),
-            AppGaps.hGap10,
-            [2, 12].contains(controller.model.value?.status) ||
-                    controller.model.value?.paymentStatus == 1
-                ? BeeButton(
-                    fontSize: 14,
-                    borderRadis: 999,
-                    text: controller.model.value?.status == 12 ? '重新支付' : '去付款',
-                    onPressed: () async {
-                      var s = await Navigator.pushNamed(
-                          context, '/OrderPayPage',
-                          arguments: {
-                            'id': controller.model.value?.id,
-                            'payModel': 1,
-                            'deliveryStatus':
-                                controller.model.value?.onDeliveryStatus,
-                          });
-                      if (s != null) {
-                        controller.onRefresh();
-                      }
-                    },
-                  )
-                : AppGaps.empty,
-            [4, 5].contains(controller.model.value?.status)
-                ? HollowButton(
-                    text: '查看物流',
-                    fontSize: 14,
-                    borderRadis: 999,
-                    textColor: Colors.black,
-                    onPressed: () {
-                      if (controller.model.value!.boxes.isNotEmpty) {
-                        BaseDialog.showBoxsTracking(
-                            context, controller.model.value!);
-                      } else {
-                        BeeNav.push(BeeNav.orderTracking,
-                            {"order_sn": controller.model.value!.orderSn});
-                      }
-                    },
-                  )
-                : AppGaps.empty,
-            AppGaps.hGap10,
+            if ([2, 12].contains(controller.model.value?.status) ||
+                controller.model.value?.paymentStatus == 1)
+              Container(
+                margin: EdgeInsets.only(left: 10.w),
+                height: 30.h,
+                child: BeeButton(
+                  text: controller.model.value?.status == 12 ? '重新支付' : '去付款',
+                  onPressed: () async {
+                    var s = await BeeNav.push(BeeNav.transportPay, {
+                      'id': controller.model.value?.id,
+                      'payModel': 1,
+                      'deliveryStatus':
+                          controller.model.value?.onDeliveryStatus,
+                    });
+                    if (s != null) {
+                      controller.onRefresh();
+                    }
+                  },
+                ),
+              ),
             controller.model.value?.status == 4
                 ? Flexible(
-                    child: BeeButton(
-                      text: '确认收货',
-                      fontSize: 14,
-                      borderRadis: 999,
-                      onPressed: () async {
-                        var data = await BaseDialog.confirmDialog(
-                            context, '请确认您已收到货'.ts);
-                        if (data != null) {
-                          controller.onSign();
-                        }
-                      },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 10.w),
+                      height: 30.h,
+                      child: BeeButton(
+                        text: '确认收货',
+                        onPressed: () async {
+                          var data = await BaseDialog.confirmDialog(
+                              context, '请确认您已收到货'.ts);
+                          if (data != null) {
+                            controller.onSign();
+                          }
+                        },
+                      ),
                     ),
                   )
                 : AppGaps.empty,
@@ -740,7 +713,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
             fontSize: 13,
             color: AppColors.textGray,
           ),
-          AppGaps.vGap10,
+          10.verticalSpaceFromWidth,
           Row(
             children: [
               AppText(
@@ -748,26 +721,24 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
               ),
               AppGaps.hGap15,
               GestureDetector(
-                onTap: () {
-                  Clipboard.setData(ClipboardData(
-                          text: controller.model.value?.orderSn ?? ''))
-                      .then((value) => {controller.showSuccess('复制成功')});
-                },
-                child: const ImgItem(
-                  'PackageAndOrder/copy-icon',
-                  width: 20,
-                  height: 20,
-                ),
-              ),
+                  onTap: () {
+                    Clipboard.setData(ClipboardData(
+                            text: controller.model.value?.orderSn ?? ''))
+                        .then((value) => {controller.showSuccess('复制成功')});
+                  },
+                  child: Icon(
+                    Icons.copy,
+                    size: 20.sp,
+                  )),
             ],
           ),
-          AppGaps.vGap10,
+          10.verticalSpaceFromWidth,
           AppText(
             str: '包含的包裹'.ts,
             fontSize: 13,
             color: AppColors.textGray,
           ),
-          AppGaps.vGap10,
+          10.verticalSpaceFromWidth,
           Wrap(
             spacing: 15,
             runSpacing: 10,
@@ -782,10 +753,10 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const ImgItem(
-                      'PackageAndOrder/package',
-                      width: 24,
-                      height: 24,
+                    ImgItem(
+                      'Home/parcel',
+                      width: 20.w,
+                      height: 20.w,
                     ),
                     AppGaps.hGap10,
                     AppText(

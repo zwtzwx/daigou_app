@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:get/state_manager.dart';
-import 'package:jiyun_app_client/config/base_conctroller.dart';
-import 'package:jiyun_app_client/config/routers.dart';
-import 'package:jiyun_app_client/models/country_model.dart';
-import 'package:jiyun_app_client/models/goods_props.dart';
-import 'package:jiyun_app_client/models/warehouse_model.dart';
-import 'package:jiyun_app_client/services/goods_service.dart';
-import 'package:jiyun_app_client/services/warehouse_service.dart';
-import 'package:jiyun_app_client/views/components/caption.dart';
+import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/models/country_model.dart';
+import 'package:huanting_shop/models/goods_props.dart';
+import 'package:huanting_shop/models/warehouse_model.dart';
+import 'package:huanting_shop/services/goods_service.dart';
+import 'package:huanting_shop/services/warehouse_service.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 
 class LineQueryController extends GlobalLogic {
   final TextEditingController weightController = TextEditingController();
@@ -28,8 +28,16 @@ class LineQueryController extends GlobalLogic {
   @override
   void onInit() {
     super.onInit();
-    weightController.text = '1';
     initData();
+  }
+
+  @override
+  void onClose() {
+    weightNode.dispose();
+    longNode.dispose();
+    wideNode.dispose();
+    highNode.dispose();
+    super.onClose();
   }
 
   void initData() async {

@@ -1,8 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:jiyun_app_client/common/http_client.dart';
-import 'package:jiyun_app_client/models/goods_category_model.dart';
-import 'package:jiyun_app_client/models/goods_props.dart';
+import 'package:huanting_shop/common/http_client.dart';
+import 'package:huanting_shop/models/goods_category_model.dart';
+import 'package:huanting_shop/models/goods_props.dart';
 
 class GoodsService {
   // 获取可以选择属性列表
