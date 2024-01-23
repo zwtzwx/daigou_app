@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/common/util.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/goods_props.dart';
 import 'package:huanting_shop/models/ship_line_model.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:huanting_shop/views/line/query_result/line_query_result_controller.dart';
+import 'package:huanting_shop/views/line/widget/line_item_widget.dart';
 
 class LineQueryResultView extends GetView<LineQueryResultController> {
   const LineQueryResultView({Key? key}) : super(key: key);
@@ -206,139 +205,15 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
     }
     ShipLineModel model =
         controller.lineData[controller.fromQuery.value ? index - 1 : index];
-    String modelName = CommonMethods.getLineModelName(model.mode);
-    return GestureDetector(
-      onTap: () async {
+    return LineItemWidget(
+      model: model,
+      onSelect: () {
         if (controller.fromQuery.value) {
           BeeNav.push(BeeNav.lineDetail, {'line': model, 'type': 2});
         } else {
           BeeNav.pop(model);
         }
       },
-      child: Container(
-        decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            border: Border.all(width: 1, color: AppColors.white)),
-        margin: const EdgeInsets.only(top: 15, right: 15, left: 15),
-        padding: const EdgeInsets.only(bottom: 15, left: 15, right: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                color: Color(0xFF51CEA5),
-                borderRadius:
-                    BorderRadius.only(bottomRight: Radius.circular(10)),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              child: AppText(
-                str: model.isDelivery == 0
-                    ? '派送'.ts
-                    : (model.isDelivery == 1 ? '自提'.ts : '派送/自提'.ts),
-                color: Colors.white,
-                fontSize: 12,
-              ),
-            ),
-            AppGaps.vGap10,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppText(
-                  str: model.name,
-                  fontSize: 18,
-                ),
-                RichText(
-                  text: TextSpan(
-                    style: const TextStyle(color: AppColors.textRed),
-                    children: [
-                      TextSpan(
-                          text: (controller.currencyModel.value?.symbol ?? '')),
-                      TextSpan(
-                        text:
-                            (model.expireFee ?? 0).rate(showPriceSymbol: false),
-                        style: const TextStyle(fontSize: 24),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            AppGaps.vGap4,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppText(
-                  str: '运送时效'.ts + '：' + model.region!.referenceTime,
-                  color: AppColors.textNormal,
-                  fontSize: 14,
-                ),
-                AppText(
-                  str: '预估运费'.ts,
-                  color: AppColors.textRed,
-                  fontSize: 12,
-                ),
-              ],
-            ),
-            AppGaps.vGap4,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppText(
-                  str: '计费重'.ts +
-                      '：' +
-                      ((model.countWeight ?? 0) / 1000).toStringAsFixed(2) +
-                      (controller.localModel?.weightSymbol ?? ''),
-                  color: AppColors.textNormal,
-                  fontSize: 14,
-                ),
-                AppGaps.hGap10,
-                AppText(
-                  str: modelName.ts,
-                  fontSize: 12,
-                ),
-              ],
-            ),
-            AppGaps.vGap10,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                (model.labels != null && model.labels!.isNotEmpty)
-                    ? Flexible(
-                        child: Row(
-                          children: model.labels!
-                              .map(
-                                (e) => Container(
-                                  color: AppColors.primary,
-                                  margin: const EdgeInsets.only(right: 5),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 2),
-                                  child: AppText(
-                                    str: e.name,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      )
-                    : AppGaps.empty,
-                GestureDetector(
-                    onTap: () {
-                      BeeNav.push(
-                          BeeNav.lineDetail, {'line': model, 'type': 2});
-                    },
-                    child: AppText(
-                      str: '查看详情'.ts,
-                      color: AppColors.textGray,
-                      fontSize: 12,
-                    )),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

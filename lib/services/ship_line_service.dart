@@ -30,7 +30,8 @@ class ShipLineService {
     List<ShipLineModel> list = [];
     Map result = {'ok': false, 'msg': '', 'list': list};
     await BeeRequest.instance
-        .post(LISTAPI, data: params, options: option)
+        .post(LISTAPI,
+            data: params, options: Options(extra: {'showSuccess': false}))
         .then((response) {
       response.data?.forEach((item) {
         list.add(ShipLineModel.fromJson(item));

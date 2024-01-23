@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
+import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
@@ -273,9 +274,9 @@ class BeeParcelCreateLogic extends GlobalLogic {
   }
 
   // 渠道增值服务备注
-  showRemark(BuildContext context, String title, String content) {
+  showRemark(String title, String content) {
     BaseDialog.normalDialog(
-      context,
+      Get.context!,
       title: title,
       titleFontSize: 18,
       child: Padding(
@@ -314,5 +315,15 @@ class BeeParcelCreateLogic extends GlobalLogic {
       'warehouse_id': selectedWarehouseModel.value!.id,
       'op_service_ids': selectService,
     };
+  }
+
+  // 删除包裹
+  onDeleteParcel(int index) async {
+    blankNode.requestFocus();
+    var data = await BaseDialog.confirmDialog(Get.context!, '您确定要删除这个包裹吗'.ts);
+    if (data != null) {
+      var removeItem = formData.removeAt(index);
+      removeItem.value.editControllers!.dispose();
+    }
   }
 }

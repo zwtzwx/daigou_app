@@ -209,11 +209,13 @@ class CouponsListState extends State<CouponsList> {
                       Expanded(
                         flex: 4,
                         child: Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               image: DecorationImage(
-                                colorFilter: ColorFilter.mode(
-                                    Color(0xFFBFBFBF), BlendMode.color),
-                                image: AssetImage(
+                                colorFilter: widget.params['selectType'] == 1
+                                    ? const ColorFilter.mode(
+                                        Color(0xFFBFBFBF), BlendMode.color)
+                                    : null,
+                                image: const AssetImage(
                                     "assets/images/Center/coupon-new.png"),
                                 fit: BoxFit.contain,
                               ),

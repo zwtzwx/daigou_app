@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/text_config.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,8 @@ class InputTextItem extends StatefulWidget {
       this.isRequired = false,
       this.bgColor,
       this.alignment = CrossAxisAlignment.center,
-      this.height = 55.0})
+      this.addedWidget,
+      this.height = 45})
       : super(key: key);
 
   final String title;
@@ -31,6 +33,7 @@ class InputTextItem extends StatefulWidget {
   final bool isRequired;
   final CrossAxisAlignment alignment;
   final Color? bgColor;
+  final Widget? addedWidget;
 
   @override
   _InputTextItemState createState() => _InputTextItemState();
@@ -40,55 +43,60 @@ class _InputTextItemState extends State<InputTextItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: widget.height,
-        padding: (widget.padding is EdgeInsets)
-            ? widget.padding
-            : const EdgeInsets.all(0),
-        margin: (widget.margin is EdgeInsets)
-            ? widget.margin
-            : const EdgeInsets.all(0),
-        width: double.infinity,
-        decoration: BoxDecoration(
-            color: widget.bgColor ?? AppColors.white,
-            border: Border(
-              bottom: Divider.createBorderSide(context,
-                  color: AppColors.line, width: widget.flag ? 1 : 0),
-            )),
-        child: Row(
-            crossAxisAlignment: widget.alignment,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Expanded(
-                  flex: widget.leftFlex,
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      left: 15.0,
+      height: widget.height.h,
+      padding: (widget.padding is EdgeInsets)
+          ? widget.padding
+          : const EdgeInsets.all(0),
+      margin: (widget.margin is EdgeInsets)
+          ? widget.margin
+          : const EdgeInsets.all(0),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: widget.bgColor ?? AppColors.white,
+        border: Border(
+          bottom: Divider.createBorderSide(context,
+              color: AppColors.line, width: widget.flag ? 1 : 0),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: widget.alignment,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Expanded(
+              flex: widget.leftFlex,
+              child: Container(
+                margin: EdgeInsets.only(
+                  left: 14.w,
+                ),
+                child: Row(
+                  children: [
+                    widget.isRequired
+                        ? const AppText(
+                            str: '*',
+                            color: AppColors.textRed,
+                          )
+                        : AppGaps.empty,
+                    Flexible(
+                      child: Text(
+                        (widget.title).ts,
+                        style: AppTextStyles.textDark14,
+                      ),
                     ),
-                    child: Row(
-                      children: [
-                        widget.isRequired
-                            ? const AppText(
-                                str: '*',
-                                color: AppColors.textRed,
-                              )
-                            : AppGaps.empty,
-                        Flexible(
-                          child: Text(
-                            (widget.title).ts,
-                            style: AppTextStyles.textDark14,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )),
-              Expanded(
-                  flex: widget.rightFlex,
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                      left: 10.0,
-                    ),
-                    child: widget.inputText,
-                  ))
-            ]));
+                  ],
+                ),
+              )),
+          Expanded(
+            flex: widget.rightFlex,
+            child: Container(
+              padding: EdgeInsets.only(
+                left: 10.w,
+              ),
+              child: widget.inputText,
+            ),
+          ),
+          if (widget.addedWidget != null) widget.addedWidget!
+        ],
+      ),
+    );
   }
 }

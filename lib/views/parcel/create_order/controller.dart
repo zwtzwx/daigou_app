@@ -2,27 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/rate_convert.dart';
+import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/insurance_model.dart';
 import 'package:huanting_shop/models/parcel_model.dart';
 import 'package:huanting_shop/models/receiver_address_model.dart';
 import 'package:huanting_shop/models/self_pickup_station_model.dart';
 import 'package:huanting_shop/models/ship_line_model.dart';
+import 'package:huanting_shop/models/ship_line_service_model.dart';
 import 'package:huanting_shop/models/tariff_model.dart';
 import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/models/value_added_service_model.dart';
 import 'package:huanting_shop/services/group_service.dart';
 import 'package:huanting_shop/services/order_service.dart';
 import 'package:huanting_shop/services/ship_line_service.dart';
+import 'package:huanting_shop/views/components/base_dialog.dart';
 
 class BeePackingLogic extends GlobalLogic {
   final packageList = <ParcelModel>[].obs;
-  final TextEditingController evaluateController = TextEditingController();
-  FocusNode blankNode = FocusNode();
-  final isLoading = false.obs;
+  final TextEditingController remarkController = TextEditingController();
   // 收件地址
   final selectedAddressModel = Rxn<ReceiverAddressModel?>();
-  // 收货形式
-  // final tempDelivery = Rxn<int?>();
+
   // 选择的自提点
   final selectStations = Rxn<SelfPickupStationModel?>();
 
@@ -30,9 +31,6 @@ class BeePackingLogic extends GlobalLogic {
   final insuranceServices = false.obs;
 // 关税服务
   final customsService = false.obs;
-
-  // 自提点数据
-  final selfPickupStationModel = Rxn<SelfPickupStationModel?>();
 
   final shipLineModel = Rxn<ShipLineModel?>();
 
@@ -89,7 +87,6 @@ class BeePackingLogic extends GlobalLogic {
       tariffModel.value = _tariff;
     }
     serviceList.value = _serviceList;
-    isLoading.value = true;
   }
 
   // 拼团订单信息
@@ -253,7 +250,7 @@ class BeePackingLogic extends GlobalLogic {
               : 0,
       'region_id': shipLineModel.value!.region!.id,
       'line_service_ids': lineServiceId,
-      'vip_remark': evaluateController.text,
+      'vip_remark': remarkController.text,
     };
     Map data = await OrderService.store(upData);
     if (data['ok']) {
@@ -277,7 +274,7 @@ class BeePackingLogic extends GlobalLogic {
           : customsService.value
               ? 1
               : 0,
-      'vip_remark': evaluateController.text,
+      'vip_remark': remarkController.text,
     };
     var data = await GroupService.onCreatedOrder(Get.arguments['id'], params);
     if (data['ok']) {
@@ -285,9 +282,56 @@ class BeePackingLogic extends GlobalLogic {
     }
   }
 
+  showRemark(String title, String content) {
+    BaseDialog.normalDialog(
+      Get.context!,
+      title: title,
+      titleFontSize: 18,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        child: Text(
+          content,
+        ),
+      ),
+    );
+  }
+
+  String getLineServiceType(ShipLineServiceModel item) {
+    String value = '';
+    switch (item.type) {
+      case 1:
+        value = '实际运费'.ts + ' ${(item.value / 100).toStringAsFixed(2)}%';
+        break;
+      case 2:
+        value = item.value.rate();
+        break;
+      case 3:
+        value = item.value.rate() + '/${'箱'.ts}';
+        break;
+      case 4:
+        value = item.value.rate() +
+            '/' +
+            localModel!.weightSymbol +
+            ' (${'计费重'.ts})';
+        break;
+      case 5:
+        value = item.value.rate() +
+            '/' +
+            localModel!.weightSymbol +
+            ' (${'实重'.ts})';
+        break;
+      case 6:
+        value = ((item.value / 10000) * (totalValue.value / 100))
+            .rate(needFormat: false);
+        break;
+    }
+    return value;
+  }
+
   /// dispose 释放内存
   @override
   void dispose() {
+    remarkController.dispose();
     super.dispose();
   }
 }

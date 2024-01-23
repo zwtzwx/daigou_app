@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:682441097900:android:6f9815fd07cfcc9fbe1509",
         "android_client_info": {
-          "package_name": "com.zhongha.shop_app_client"
+          "package_name": "com.huating"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "682441097900-o0bkt8qba1eab16jbsqpcg0od7q4gh2i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.zhongha.shop_app_client",
+            "package_name": "com.huating",
             "certificate_hash": "9ef329c1927f42a9e117f30c1a961b7905afc194"
           }
         },

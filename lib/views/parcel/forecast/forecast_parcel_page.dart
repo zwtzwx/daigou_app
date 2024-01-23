@@ -47,9 +47,9 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
         },
         child: ListView(
           children: [
-            buildHeaderView(context),
+            shipTypeInfo(context),
             Obx(() => parcelListCell()),
-            buildBottomListView(context),
+            addedInfo(context),
             Padding(
               padding: EdgeInsets.only(left: 5.w),
               child: Wrap(
@@ -107,7 +107,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
     );
   }
 
-  Widget buildHeaderView(BuildContext context) {
+  Widget shipTypeInfo(BuildContext context) {
     return Container(
       margin: EdgeInsets.fromLTRB(12.w, 10.h, 12.w, 0),
       clipBehavior: Clip.none,
@@ -276,7 +276,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
     );
   }
 
-  Widget buildBottomListView(BuildContext context) {
+  Widget addedInfo(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -308,7 +308,9 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
           ),
         ),
         Obx(
-          () => buildAddServiceListView(),
+          () => controller.valueAddedServiceList.isNotEmpty
+              ? buildAddServiceListView()
+              : AppGaps.empty,
         ),
       ],
     );
@@ -601,8 +603,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                                   size: 25,
                                 ),
                                 onPressed: () {
-                                  controller.showRemark(
-                                      context, item.name, item.remark);
+                                  controller.showRemark(item.name, item.remark);
                                 },
                               ),
                             )
@@ -654,30 +655,41 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
         title: RichText(
           text: TextSpan(
             style: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 14.sp,
               color: AppColors.textDark,
             ),
             children: [
               TextSpan(
                 text: item.value.content,
               ),
-              TextSpan(
-                text: '  ' + (item.value.charge ?? 0).rate(),
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: AppColors.textRed,
+              WidgetSpan(
+                alignment: PlaceholderAlignment.middle,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: AppText(
+                    str: (item.value.charge ?? 0).rate(),
+                    color: AppColors.textRed,
+                  ),
                 ),
               ),
+              if (item.value.remark.isNotEmpty)
+                WidgetSpan(
+                  alignment: PlaceholderAlignment.middle,
+                  child: GestureDetector(
+                    onTap: () {
+                      controller.showRemark(
+                          item.value.content, item.value.remark);
+                    },
+                    child: Icon(
+                      Icons.help,
+                      color: AppColors.green,
+                      size: 18.sp,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
-        subtitle: item.value.remark.isNotEmpty
-            ? AppText(
-                str: item.value.remark,
-                fontSize: 12,
-                color: AppColors.textGray,
-              )
-            : null,
         trailing: Switch.adaptive(
           value: item.value.isOpen,
           activeColor: AppColors.green,
@@ -698,7 +710,18 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: Column(
-        children: addValueWigets,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 0),
+            child: AppText(
+              str: '到仓服务'.ts,
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          ...addValueWigets,
+        ],
       ),
     );
   }
@@ -800,6 +823,21 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                 },
                 keyName: '',
               ),
+              addedWidget: controller.formData.length > 1
+                  ? Padding(
+                      padding: EdgeInsets.only(right: 14.w),
+                      child: GestureDetector(
+                        onTap: () {
+                          controller.onDeleteParcel(index);
+                        },
+                        child: Icon(
+                          Icons.remove_circle,
+                          color: Colors.red,
+                          size: 20.sp,
+                        ),
+                      ),
+                    )
+                  : null,
             ),
             InputTextItem(
               title: "物品名称".ts,
@@ -964,53 +1002,26 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                   ],
                 )),
             InputTextItem(
-                title: '备注'.ts,
-                flag: false,
-                bgColor: Colors.transparent,
-                inputText: BaseInput(
-                  hintText: '请输入备注信息'.ts,
-                  textAlign: TextAlign.right,
-                  controller: model.value.editControllers!.remarkController,
-                  focusNode: model.value.editControllers!.remarkNode,
-                  autoShowRemove: false,
-                  contentPadding: const EdgeInsets.only(right: 15),
-                  keyboardType: TextInputType.text,
-                  autoRemoveController: false,
-                  onSubmitted: (res) {
-                    FocusScope.of(context).requestFocus(controller.blankNode);
-                  },
-                  onChanged: (res) {
-                    model.value.remark = res;
-                  },
-                )),
-            controller.formData.length > 1
-                ? Container(
-                    height: 45,
-                    color: HexToColor('#fafafa'),
-                    width: ScreenUtil().screenWidth,
-                    child: TextButton.icon(
-                      style: ButtonStyle(
-                        overlayColor: MaterialStateColor.resolveWith(
-                            (states) => Colors.transparent),
-                      ),
-                      onPressed: () async {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        var data = await BaseDialog.confirmDialog(
-                            context, '您确定要删除这个包裹吗'.ts);
-                        if (data != null) {
-                          var removeItem = controller.formData.removeAt(index);
-                          removeItem.value.editControllers!.dispose();
-                        }
-                      },
-                      icon: const Icon(Icons.delete_outline,
-                          color: AppColors.textGrayC),
-                      label: AppText(
-                        str: '删除'.ts,
-                        color: AppColors.textGrayC,
-                      ),
-                    ),
-                  )
-                : AppGaps.empty
+              title: '备注'.ts,
+              flag: false,
+              bgColor: Colors.transparent,
+              inputText: BaseInput(
+                hintText: '请输入备注信息'.ts,
+                textAlign: TextAlign.right,
+                controller: model.value.editControllers!.remarkController,
+                focusNode: model.value.editControllers!.remarkNode,
+                autoShowRemove: false,
+                contentPadding: const EdgeInsets.only(right: 15),
+                keyboardType: TextInputType.text,
+                autoRemoveController: false,
+                onSubmitted: (res) {
+                  FocusScope.of(context).requestFocus(controller.blankNode);
+                },
+                onChanged: (res) {
+                  model.value.remark = res;
+                },
+              ),
+            ),
           ],
         ),
       ),

@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:huanting_shop/config/color_config.dart';
 
-class AppText extends StatefulWidget {
-  // ignore: use_key_in_widget_constructors
+class AppText extends StatelessWidget {
   const AppText(
-      {this.str = "",
+      {Key? key,
+      this.str = "",
       this.color = AppColors.textBlack,
       this.fontSize = 15,
       this.fontWeight = FontWeight.w400,
       this.lines = 1,
+      this.lineHeight,
       this.decoration,
-      this.alignment = TextAlign.left});
+      this.alignment = TextAlign.left})
+      : super(key: key);
 
   final String str;
   final int lines;
@@ -20,25 +22,22 @@ class AppText extends StatefulWidget {
   final FontWeight fontWeight;
   final TextAlign alignment;
   final TextDecoration? decoration;
+  final double? lineHeight;
 
-  @override
-  ZHTextLineState createState() => ZHTextLineState();
-}
-
-class ZHTextLineState extends State<AppText> {
   @override
   Widget build(BuildContext context) {
     return Text(
-      widget.str,
+      str,
       style: TextStyle(
-        color: widget.color,
-        fontSize: widget.fontSize.sp,
-        fontWeight: widget.fontWeight,
-        decoration: widget.decoration,
+        color: color,
+        fontSize: fontSize.sp,
+        fontWeight: fontWeight,
+        decoration: decoration,
+        height: lineHeight,
       ),
       overflow: TextOverflow.ellipsis,
-      maxLines: widget.lines,
-      textAlign: widget.alignment,
+      maxLines: lines,
+      textAlign: alignment,
     );
   }
 }

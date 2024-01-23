@@ -250,7 +250,8 @@ class LineDetailView extends GetView<LineDetailController> {
               ),
               10.verticalSpaceFromWidth,
               ...priceList(model),
-              ...lineServiceList(model),
+              if ((model.services ?? []).isNotEmpty) ...lineServiceList(model),
+              if ((model.rules ?? []).isNotEmpty) ruleList(model),
             ],
           ),
         ),
@@ -301,7 +302,7 @@ class LineDetailView extends GetView<LineDetailController> {
           padding: EdgeInsets.only(top: 15.h, bottom: 10.h),
           child: AppText(
             str: '渠道增值服务'.ts,
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: FontWeight.bold,
             lines: 2,
           )),
@@ -419,7 +420,7 @@ class LineDetailView extends GetView<LineDetailController> {
     return viewList;
   }
 
-  buildTitleAndContentCell(
+  descriptItem(
     String title,
     String content, {
     bool showIcon = false,
@@ -494,7 +495,7 @@ class LineDetailView extends GetView<LineDetailController> {
             (controller.lineModel.value!.baseMode == 0
                 ? controller.localModel!.weightSymbol
                 : 'm³');
-        listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
+        listWidget.add(descriptItem(titleStr, contentStr));
       }
     } else if (controller.lineModel.value!.mode == 2) {
       // 阶梯价格档 基价 + 单价
@@ -523,7 +524,7 @@ class LineDetailView extends GetView<LineDetailController> {
       }
       for (var key in newPirces.keys) {
         String titleStr = key + contentSymbol;
-        listWidget.add(buildTitleAndContentCell(titleStr, newPirces[key]));
+        listWidget.add(descriptItem(titleStr, newPirces[key]));
       }
     } else if (controller.lineModel.value!.mode == 3) {
       // 单位价格 + 阶梯总价模式
@@ -531,14 +532,14 @@ class LineDetailView extends GetView<LineDetailController> {
         if (item.type == 3) {
           String titleStr = '单位价格'.ts;
           String contentStr = item.price.rate() + '/$contentSymbol';
-          listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
+          listWidget.add(descriptItem(titleStr, contentStr));
         } else {
           String titleStr = (item.start / 1000).toStringAsFixed(2) +
               '~' +
               (item.end / 1000).toStringAsFixed(2) +
               contentSymbol;
           String contentStr = item.price.rate();
-          listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
+          listWidget.add(descriptItem(titleStr, contentStr));
         }
       }
     } else if (controller.lineModel.value!.mode == 4) {
@@ -555,7 +556,7 @@ class LineDetailView extends GetView<LineDetailController> {
               '/' +
               (item.start / 1000).toStringAsFixed(2) +
               contentSymbol;
-          listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
+          listWidget.add(descriptItem(titleStr, contentStr));
         } else {
           ++k;
           String titleStr = '总重'.ts + k.toString();
@@ -566,14 +567,14 @@ class LineDetailView extends GetView<LineDetailController> {
                   ? (item.unitWeight! / 1000).toStringAsFixed(2)
                   : '') +
               contentSymbol;
-          listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
+          listWidget.add(descriptItem(titleStr, contentStr));
         }
       }
       String titleStr = '最大限重'.ts;
       String contentStr =
           (controller.lineModel.value!.maxWeight! / 1000).toStringAsFixed(2) +
               contentSymbol;
-      listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
+      listWidget.add(descriptItem(titleStr, contentStr));
     } else if (controller.lineModel.value!.mode == 5) {
       // 阶梯价格范围首重续重模式
       model.prices!.sort((a, b) {
@@ -603,6 +604,7 @@ class LineDetailView extends GetView<LineDetailController> {
           height: 25.h,
           child: AppText(
             str: title,
+            fontSize: 13,
             fontWeight: FontWeight.bold,
           ),
         ));
@@ -618,10 +620,66 @@ class LineDetailView extends GetView<LineDetailController> {
               '/' +
               ((unitPrice ?? 0) / 1000).toStringAsFixed(2) +
               contentSymbol;
-          listWidget.add(buildTitleAndContentCell(titleStr, contentStr));
+          listWidget.add(descriptItem(titleStr, contentStr));
         }
       }
     }
     return listWidget;
+  }
+
+  //渠道增值服务
+  Widget ruleList(RegionModel model) {
+    List<String> contents = [];
+    for (var rule in model.rules!) {
+      String contentStr = '${contents.length + 1}、';
+      for (var subItem in rule.conditions!) {
+        contentStr += '({condition})时'.tsArgs({
+              'condition': subItem.paramName +
+                  subItem.comparison +
+                  subItem.value.toString()
+            }) +
+            '，';
+        if (rule.type == 1) {
+          contentStr += '限定【按订单收费】'.ts + rule.value.rate();
+        } else if (rule.type == 2) {
+          contentStr += '限定【按箱收费】'.ts + rule.value.rate();
+        } else if (rule.type == 3) {
+          contentStr += '限定【按单位计费重量收费】'.ts + rule.value.rate();
+        } else if (rule.type == 4) {
+          contentStr += '限定【限制出仓】'.ts;
+        }
+        if (rule.minCharge != 0) {
+          contentStr += '（${'最低收费'.ts}' + rule.minCharge.rate() + ',';
+        }
+        if (rule.maxCharge != 0) {
+          contentStr += '（${'最高收费'.ts}' + rule.maxCharge.rate() + '）';
+        }
+      }
+      contents.add(contentStr);
+    }
+    String tips = '${'注'.ts} '
+        '${controller.lineModel.value?.ruleFeeMode == 0 ? '以上规则【同时收取】'.ts : '以上规则【每个分区仅按最高项规则收取】'}'
+        '，${'最高收费'.ts}'
+        '${controller.lineModel.value?.maxRuleFee == 0 ? '无上限'.ts : controller.lineModel.value?.maxRuleFee.rate()}';
+    contents.add(tips);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppText(
+          str: '渠道规则'.ts,
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+        ),
+        10.verticalSpaceFromWidth,
+        ...contents.map(
+          (e) => AppText(
+            str: e.wordBreak,
+            fontSize: 13,
+            lines: 10,
+            lineHeight: 1.6,
+          ),
+        ),
+      ],
+    );
   }
 }
