@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
 // import 'package:fluwx/fluwx.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
@@ -8,6 +9,7 @@ import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/pay_type_model.dart';
 import 'package:huanting_shop/models/shop/problem_order_model.dart';
 import 'package:huanting_shop/models/shop/shop_order_model.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/services/balance_service.dart';
 import 'package:huanting_shop/services/shop_service.dart';
 import 'package:huanting_shop/services/user_service.dart';
@@ -151,6 +153,7 @@ class ShopOrderPayController extends GlobalLogic {
   }
 
   void onPaySuccess() {
+    Get.find<AppStore>().getBaseCountInfo();
     if (problemOrder.value != null || Get.arguments['fromOrderList'] == true) {
       BeeNav.pop('success');
     } else {

@@ -141,5 +141,6 @@ class IndexLogic extends GlobalLogic {
   Future<void> handleRefresh() async {
     await getAds();
     await getGreatLine();
+    Get.find<AppStore>().getBaseCountInfo();
   }
 }

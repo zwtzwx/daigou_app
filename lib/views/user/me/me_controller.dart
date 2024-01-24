@@ -51,6 +51,11 @@ class BeeCenterLogic extends GlobalLogic {
     }
   }
 
+  Future<void> handleRefresh() async {
+    await created();
+    Get.find<AppStore>().getBaseCountInfo();
+  }
+
   /* 注销登录 */
   void onLogout() async {
     //清除TOKEN

@@ -6,6 +6,7 @@ import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/order_model.dart';
 import 'package:huanting_shop/models/pay_type_model.dart';
 import 'package:huanting_shop/models/user_coupon_model.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/models/user_vip_price_model.dart';
 import 'package:huanting_shop/services/balance_service.dart';
 import 'package:huanting_shop/services/order_service.dart';
@@ -187,6 +188,7 @@ class TransportPayController extends GlobalLogic {
   // 支付结果
   onPayResult(Map result) {
     if (result['ok']) {
+      Get.find<AppStore>().getBaseCountInfo();
       BeeNav.pop('succeed');
     }
   }

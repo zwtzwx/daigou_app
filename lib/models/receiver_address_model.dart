@@ -139,7 +139,7 @@ class ReceiverAddressModel {
     timezone = json['timezone'] ?? '';
     addressType = json['address_type'];
     userId = json['user_id'];
-    receiverName = json['receiver_name'];
+    receiverName = json['receiver_name'] ?? '';
     countryId = json['country_id'];
     street = json['street'] ?? '';
     doorNo = json['door_no'] ?? '';
@@ -165,7 +165,7 @@ class ReceiverAddressModel {
       country = CountryModel.fromJson(json['country']);
     }
 
-    if (json['sub_area'] != null) {
+    if (json['sub_area'] is Map) {
       subArea = AreaModel.fromJson(json['sub_area']);
     }
     if (json['station'] != null) {

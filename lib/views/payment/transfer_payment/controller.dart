@@ -118,6 +118,7 @@ class TransferPaymentController extends GlobalLogic {
     isRequest.value = false;
 
     if (result['ok']) {
+      Get.find<AppStore>().getBaseCountInfo();
       Get
         ..back()
         ..back(result: 'succeed');

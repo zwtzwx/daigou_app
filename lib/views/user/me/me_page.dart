@@ -31,7 +31,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
       primary: false,
       backgroundColor: Colors.white,
       body: RefreshIndicator(
-        onRefresh: controller.created,
+        onRefresh: controller.handleRefresh,
         color: AppColors.textRed,
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -131,6 +131,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
               return GestureDetector(
                 onTap: () async {
                   if (list[index]['route'] == BeeNav.agentApply) {
+                    if (controller.agentStatus.value?.id == 2) return;
                     if (controller.agentStatus.value?.id == 1) {
                       // 代理
                       BeeNav.push(BeeNav.agentMember);
@@ -161,7 +162,10 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                       Expanded(
                         child: Obx(
                           () => AppText(
-                            str: (list[index]['name']! as String).ts,
+                            str: list[index]['route'] == BeeNav.agentApply &&
+                                    controller.agentStatus.value?.id == 2
+                                ? '代理(审核中)'.ts
+                                : (list[index]['name']! as String).ts,
                             fontSize: 12,
                             color: AppColors.textNormal,
                             lines: 2,

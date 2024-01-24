@@ -106,6 +106,7 @@ class AppStore {
 
   // 获取余额、优惠券、积分
   getBaseCountInfo() async {
+    if (token.value.isEmpty) return;
     amountInfo.value = await UserService.getOrderDataCount();
     vipInfo.value = await UserService.getVipMemberData();
   }
