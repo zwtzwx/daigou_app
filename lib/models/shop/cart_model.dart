@@ -96,6 +96,9 @@ class CartSkuInfoModel {
   CartSkuInfoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? 0;
     picUrl = json['pic_url'] ?? json['sku_img'];
+    if ((picUrl ?? '').isNotEmpty && !picUrl!.startsWith('http')) {
+      picUrl = 'https:$picUrl';
+    }
     qty = json['qty'] is String ? int.parse(json['qty']) : (json['qty'] ?? 1);
     price = json['price'] ?? 0;
     minOrderQuantity = json['min_order_quantity'];

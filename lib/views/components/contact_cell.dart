@@ -90,8 +90,6 @@ class _ContactCellState extends State<ContactCell>
       {
         'name': 'WhatsApp',
         'icon': 'Home/whatsaspp-info',
-        'route': BeeNav.webview,
-        'params': {'id': 3732, 'type': 'article'},
       },
       {'name': '帮助中心', 'icon': 'Home/bzzc', 'route': BeeNav.help},
     ];

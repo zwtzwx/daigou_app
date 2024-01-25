@@ -163,9 +163,7 @@ class CartView extends GetView<CartController> {
                             children: [
                               cartTypeItem('代购', 1),
                               15.horizontalSpace,
-                              Expanded(
-                                child: cartTypeItem('自营', 2),
-                              ),
+                              cartTypeItem('自营', 2),
                             ],
                           ),
                         ),
