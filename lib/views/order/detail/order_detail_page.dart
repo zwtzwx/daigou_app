@@ -648,24 +648,35 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                   },
                 ),
               ),
-            controller.model.value?.status == 4
-                ? Flexible(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 10.w),
-                      height: 30.h,
-                      child: BeeButton(
-                        text: '确认收货',
-                        onPressed: () async {
-                          var data = await BaseDialog.confirmDialog(
-                              context, '请确认您已收到货'.ts);
-                          if (data != null) {
-                            controller.onSign();
-                          }
-                        },
-                      ),
-                    ),
-                  )
-                : AppGaps.empty,
+            if (controller.model.value?.status == 4)
+              Flexible(
+                child: Container(
+                  margin: EdgeInsets.only(left: 10.w),
+                  height: 30.h,
+                  child: BeeButton(
+                    text: '确认收货',
+                    onPressed: () async {
+                      var data = await BaseDialog.confirmDialog(
+                          context, '请确认您已收到货'.ts);
+                      if (data != null) {
+                        controller.onSign();
+                      }
+                    },
+                  ),
+                ),
+              ),
+            if (controller.model.value?.status == 5 &&
+                controller.model.value?.evaluated == 0)
+              Flexible(
+                child: Container(
+                  margin: EdgeInsets.only(left: 10.w),
+                  height: 30.h,
+                  child: BeeButton(
+                    text: '我要评价',
+                    onPressed: controller.onComment,
+                  ),
+                ),
+              ),
           ],
         ),
       ),

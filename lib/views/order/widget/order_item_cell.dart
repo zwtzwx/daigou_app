@@ -179,115 +179,122 @@ class BeeOrderItem extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        orderModel.status == OrderStatus.checking.id
-            ? AppText(
-                str: '等待客服确认支付'.ts,
-                fontSize: 14,
-                color: AppColors.textRed,
-              )
-            : AppGaps.empty,
-        [OrderStatus.waitPay.id, OrderStatus.checkFailure.id]
-                    .contains(orderModel.status) &&
-                orderModel.onDeliveryStatus != 11 &&
-                orderModel.groupMode == 0
-            ? Container(
-                margin: const EdgeInsets.only(left: 10),
-                height: 30.h,
-                child: BeeButton(
-                  text: (orderModel.status == OrderStatus.waitPay.id ||
-                          orderModel.onDeliveryStatus == 1 ||
-                          orderModel.paymentStatus == 1)
-                      ? '去付款'
-                      : '重新支付',
-                  onPressed: () async {
-                    var s = await BeeNav.push(BeeNav.transportPay, {
-                      'id': orderModel.id,
-                      'payModel': 1,
-                      'deliveryStatus': orderModel.onDeliveryStatus,
-                    });
-                    if (s != null) {
-                      ApplicationEvent.getInstance()
-                          .event
-                          .fire(ListRefreshEvent(type: 'refresh'));
-                    }
-                  },
+        if (orderModel.status == OrderStatus.checking.id)
+          AppText(
+            str: '等待客服确认支付'.ts,
+            fontSize: 14,
+            color: AppColors.textRed,
+          ),
+        if ([OrderStatus.waitPay.id, OrderStatus.checkFailure.id]
+                .contains(orderModel.status) &&
+            orderModel.onDeliveryStatus != 11 &&
+            orderModel.groupMode == 0)
+          Container(
+            margin: const EdgeInsets.only(left: 10),
+            height: 30.h,
+            child: BeeButton(
+              text: (orderModel.status == OrderStatus.waitPay.id ||
+                      orderModel.onDeliveryStatus == 1 ||
+                      orderModel.paymentStatus == 1)
+                  ? '去付款'
+                  : '重新支付',
+              onPressed: () async {
+                var s = await BeeNav.push(BeeNav.transportPay, {
+                  'id': orderModel.id,
+                  'payModel': 1,
+                  'deliveryStatus': orderModel.onDeliveryStatus,
+                });
+                if (s != null) {
+                  ApplicationEvent.getInstance()
+                      .event
+                      .fire(ListRefreshEvent(type: 'refresh'));
+                }
+              },
+            ),
+          ),
+        if ([OrderStatus.waitPay.id, OrderStatus.checkFailure.id]
+                .contains(orderModel.status) &&
+            orderModel.groupMode != 0 &&
+            orderModel.isLeaderOrder)
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: AppText(
+                    str: '该团购单为团长代款,请您及时付款'.ts,
+                    fontSize: 14,
+                    color: AppColors.textRed,
+                    lines: 3,
+                  ),
                 ),
-              )
-            : AppGaps.empty,
-        [OrderStatus.waitPay.id, OrderStatus.checkFailure.id]
-                    .contains(orderModel.status) &&
-                orderModel.groupMode != 0 &&
-                orderModel.isLeaderOrder
-            ? Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: AppText(
-                        str: '该团购单为团长代款,请您及时付款'.ts,
-                        fontSize: 14,
-                        color: AppColors.textRed,
-                        lines: 3,
-                      ),
-                    ),
-                    10.horizontalSpace,
-                    SizedBox(
-                      height: 30.h,
-                      child: BeeButton(
-                        text: '前往支付',
-                        onPressed: () {
-                          BeeNav.push(BeeNav.groupOrderPorcess,
-                              {'id': orderModel.parentId});
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : AppGaps.empty,
-        [OrderStatus.waitPay.id, OrderStatus.checkFailure.id]
-                    .contains(orderModel.status) &&
-                orderModel.groupMode != 0 &&
-                !orderModel.isLeaderOrder
-            ? AppText(
-                str: '该团购单为团长代款,您无需支付'.ts,
-                fontSize: 14,
-                color: AppColors.textRed,
-                lines: 2,
-              )
-            : AppGaps.empty,
-        [4, 5].contains(orderModel.status)
-            ? SizedBox(
-                height: 30.h,
-                child: HollowButton(
-                  text: '查看物流',
-                  textColor: AppColors.textDark,
-                  borderColor: AppColors.textGrayC,
-                  onPressed: () {
-                    if (orderModel.boxes.isNotEmpty) {
-                      BaseDialog.showBoxsTracking(context, orderModel);
-                    } else {
-                      BeeNav.push(BeeNav.orderTracking,
-                          {"order_sn": orderModel.orderSn});
-                    }
-                  },
-                ),
-              )
-            : AppGaps.empty,
-        orderModel.status == 4
-            ? Flexible(
-                child: Container(
-                  margin: EdgeInsets.only(left: 10.w),
+                10.horizontalSpace,
+                SizedBox(
                   height: 30.h,
                   child: BeeButton(
-                    text: '确认收货',
+                    text: '前往支付',
                     onPressed: () {
-                      onSign(context);
+                      BeeNav.push(BeeNav.groupOrderPorcess,
+                          {'id': orderModel.parentId});
                     },
                   ),
                 ),
-              )
-            : AppGaps.empty,
+              ],
+            ),
+          ),
+        if ([OrderStatus.waitPay.id, OrderStatus.checkFailure.id]
+                .contains(orderModel.status) &&
+            orderModel.groupMode != 0 &&
+            !orderModel.isLeaderOrder)
+          AppText(
+            str: '该团购单为团长代款,您无需支付'.ts,
+            fontSize: 14,
+            color: AppColors.textRed,
+            lines: 2,
+          ),
+        if ([4, 5].contains(orderModel.status))
+          SizedBox(
+            height: 30.h,
+            child: HollowButton(
+              text: '查看物流',
+              textColor: AppColors.textDark,
+              borderColor: AppColors.textGrayC,
+              onPressed: () {
+                if (orderModel.boxes.isNotEmpty) {
+                  BaseDialog.showBoxsTracking(context, orderModel);
+                } else {
+                  BeeNav.push(
+                      BeeNav.orderTracking, {"order_sn": orderModel.orderSn});
+                }
+              },
+            ),
+          ),
+        if (orderModel.status == 4)
+          Flexible(
+            child: Container(
+              margin: EdgeInsets.only(left: 10.w),
+              height: 30.h,
+              child: BeeButton(
+                text: '确认收货',
+                onPressed: () {
+                  onSign(context);
+                },
+              ),
+            ),
+          ),
+        if (orderModel.status == 5 && orderModel.evaluated == 0)
+          Flexible(
+            child: Container(
+              margin: EdgeInsets.only(left: 10.w),
+              height: 30.h,
+              child: BeeButton(
+                text: '我要评价',
+                onPressed: () {
+                  BeeNav.push(BeeNav.orderComment, {'order': orderModel});
+                },
+              ),
+            ),
+          ),
       ],
     );
   }

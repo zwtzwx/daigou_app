@@ -2,6 +2,7 @@ import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:huanting_shop/common/util.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/events/application_event.dart';
 import 'package:huanting_shop/events/list_refresh_event.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
@@ -44,6 +45,13 @@ class BeeOrderLogic extends GlobalLogic {
       onRefresh();
     } else {
       showError(result['msg']);
+    }
+  }
+
+  void onComment() async {
+    var s = await BeeNav.push(BeeNav.orderComment, {'order': model.value});
+    if (s == 'success') {
+      getOrderDetail();
     }
   }
 

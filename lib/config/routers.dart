@@ -37,6 +37,8 @@ import 'package:huanting_shop/views/notice/notice_binding.dart';
 import 'package:huanting_shop/views/notice/notice_page.dart';
 import 'package:huanting_shop/views/order/center/order_center_binding.dart';
 import 'package:huanting_shop/views/order/center/order_center_page.dart';
+import 'package:huanting_shop/views/order/comment/binding.dart';
+import 'package:huanting_shop/views/order/comment/view.dart';
 import 'package:huanting_shop/views/order/detail/order_detail_binding.dart';
 import 'package:huanting_shop/views/order/detail/order_detail_page.dart';
 import 'package:huanting_shop/views/order/tracking/tracking_binding.dart';
@@ -397,6 +399,11 @@ class BeeNav {
       name: orderPreview,
       page: () => const OrderPreviewView(),
       binding: OrderPreviewBinding(),
+    ),
+    GetPage(
+      name: orderComment,
+      page: () => const OrderCommentView(),
+      binding: OrderCommentBinding(),
     ),
     GetPage(
       name: lineQuery,
