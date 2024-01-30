@@ -54,9 +54,9 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                       10.verticalSpaceFromWidth,
                       valueInfoView(context),
                       20.verticalSpaceFromWidth,
-                      // controller.model.value!.status > 2
-                      //     ? payInfoView()
-                      //     : AppGaps.empty,
+                      controller.model.value!.status > 2
+                          ? payInfoView()
+                          : AppGaps.empty,
                     ],
                     // children: returnSubView(),
                   )

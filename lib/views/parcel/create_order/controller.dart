@@ -138,22 +138,15 @@ class BeePackingLogic extends GlobalLogic {
       showToast('请选择收货地址');
       return;
     }
-    num totalWeight = 0;
     List<num> packageIdList = [];
-    List<num> propIdList = [];
+    Set<num> propIdList = {};
     for (ParcelModel item in packageList) {
       packageIdList.add(item.id!);
-      if (item.prop != null) {
-        propIdList.add(item.prop!.first.id);
-      }
-      if (item.packageWeight == null) {
-        totalWeight += 0;
-      } else {
-        totalWeight += item.packageWeight ?? 0;
+      if (item.prop != null && item.prop!.isNotEmpty) {
+        propIdList.addAll(item.prop!.map((e) => e.id));
       }
     }
-    // int areaid = selectedAddressModel!.area =
-    // int subareaid =
+
     Map<String, dynamic> dic = {
       'country_id': selectedAddressModel.value!.countryId,
       'area_id': selectedAddressModel.value!.area == null
@@ -162,9 +155,7 @@ class BeePackingLogic extends GlobalLogic {
       'sub_area_id': selectedAddressModel.value!.subArea == null
           ? ''
           : selectedAddressModel.value!.subArea?.id,
-      'weight': totalWeight, // 所选包裹总重量
-      'prop_ids': propIdList, // 所有包裹的propId 数组
-      // 'warehouse_id': packageList.first.warehouseId, // 包裹所在的仓库
+      'props': propIdList.toList(), // 所有包裹的propId 数组
       'package_ids': packageIdList, // 包裹的id 数组
       'is_delivery': selectedAddressModel.value!.station != null ? 1 : 0,
       'station_id': selectedAddressModel.value!.station?.id ?? '',

@@ -155,7 +155,7 @@ class OrderCommentView extends GetView<OrderCommentController> {
           ),
         );
       }
-      return imageItem(context, controller.selectImg[index - 1], index);
+      return imageItem(context, controller.selectImg[index], index);
     };
   }
 

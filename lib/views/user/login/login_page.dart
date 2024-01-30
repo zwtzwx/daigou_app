@@ -32,14 +32,8 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
         ),
       ),
       backgroundColor: AppColors.white,
-      // bottomNavigationBar: buildOtherSignIn(),
       body: SingleChildScrollView(
         child: SizedBox(
-          // color: Colors.red,
-          width: ScreenUtil().screenWidth,
-          height: ScreenUtil().screenHeight -
-              ScreenUtil().statusBarHeight -
-              ScreenUtil().bottomBarHeight,
           child: Column(
             children: [
               logoCell(),
@@ -168,72 +162,42 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
         color: AppColors.white,
         padding: const EdgeInsets.only(right: 40, left: 40),
         child: Column(
-          children: <Widget>[
+          children: [
             Obx(
-              () => Row(
-                children: [
-                  Flexible(
-                    child: GestureDetector(
+              () => SizedBox(
+                height: 25.h,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    GestureDetector(
                       onTap: () {
                         controller.onLoginType(2);
                       },
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              width: 2,
-                              color: controller.loginType.value == 2
-                                  ? AppColors.primary
-                                  : Colors.white,
-                            ),
-                          ),
-                        ),
-                        height: 40.h,
-                        child: AppText(
-                          str: '邮箱登录'.ts,
-                          fontSize: 17,
-                          fontWeight: controller.loginType.value == 2
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                          lines: 2,
-                          alignment: TextAlign.center,
-                        ),
+                      child: AppText(
+                        str: '邮箱登录'.ts,
+                        fontSize: controller.loginType.value == 2 ? 17 : 16,
+                        fontWeight: controller.loginType.value == 2
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                        alignment: TextAlign.center,
                       ),
                     ),
-                  ),
-                  15.horizontalSpace,
-                  Flexible(
-                    child: GestureDetector(
+                    30.horizontalSpace,
+                    GestureDetector(
                       onTap: () {
                         controller.onLoginType(1);
                       },
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              width: 2,
-                              color: controller.loginType.value == 1
-                                  ? AppColors.primary
-                                  : Colors.white,
-                            ),
-                          ),
-                        ),
-                        height: 40.h,
-                        child: AppText(
-                          str: '手机号登录'.ts,
-                          fontSize: 17,
-                          fontWeight: controller.loginType.value == 1
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                          lines: 2,
-                          alignment: TextAlign.center,
-                        ),
+                      child: AppText(
+                        str: '手机号登录'.ts,
+                        fontSize: controller.loginType.value == 1 ? 17 : 16,
+                        fontWeight: controller.loginType.value == 1
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                        alignment: TextAlign.center,
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             30.verticalSpaceFromWidth,
@@ -437,17 +401,15 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
                       '+' +
                           controller
                               .formatTimezone(controller.areaNumber.value),
-                      style: const TextStyle(
-                        fontSize: 16.0, //textsize
-                        color: AppColors.textNormal,
+                      style: TextStyle(
+                        fontSize: 16.sp, //textsize
                       ),
                     ),
                   ),
                 ),
-                const Icon(
+                Icon(
                   Icons.arrow_forward_ios,
-                  size: 14,
-                  color: AppColors.textNormal,
+                  size: 15.sp,
                 ),
               ],
             ),

@@ -32,7 +32,7 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
         ),
         bottomNavigationBar: SafeArea(
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 14.w),
+            margin: EdgeInsets.fromLTRB(14.w, 0, 14.w, 15.h),
             height: 38.h,
             child: BeeButton(
               text: '添加地址',

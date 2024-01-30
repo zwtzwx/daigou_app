@@ -56,9 +56,12 @@ class LineQueryResultController extends GlobalLogic {
     // if (postDic.value?['is_delivery'] != null) {
     //   params['is_delivery'] = postDic.value?['is_delivery'] ?? '';
     // }
-    // if (postDic.value?['station_id'] != null) {
-    //   params['station_id'] = postDic.value?['station_id'] ?? '';
-    // }
+    if (postDic.value?['station_id'] != null) {
+      params['station_id'] = postDic.value?['station_id'] ?? '';
+    }
+    if (postDic.value?['package_ids'] != null) {
+      params['package_ids'] = postDic.value?['package_ids'] ?? '';
+    }
     Map result = await ShipLineService.getList(params: params);
     lineData.value = result['list'];
     if (!result['ok']) {

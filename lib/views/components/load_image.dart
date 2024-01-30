@@ -26,8 +26,19 @@ class ImgItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (image.isEmpty || image == "null") {
-      return LoadAssetImage(holderImg ?? 'none',
-          height: height, width: width, fit: fit, format: format);
+      return holderImg != null
+          ? LoadAssetImage(holderImg!,
+              height: height, width: width, fit: fit, format: format)
+          : Container(
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+              alignment: Alignment.center,
+              color: AppColors.textGrayC,
+              child: LoadAssetImage(
+                'Center/logo-w',
+                width: 50.w,
+                height: 50.w,
+              ),
+            );
     } else {
       if (image.startsWith("http")) {
         return CachedNetworkImage(

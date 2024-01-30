@@ -33,7 +33,7 @@ class IndexPage extends GetView<IndexLogic> {
         backgroundColor: Colors.white,
         leading: const LanguageCell(),
         elevation: 0,
-        leadingWidth: 120.w,
+        leadingWidth: 140.w,
       ),
       body: GestureDetector(
         onTap: () {
