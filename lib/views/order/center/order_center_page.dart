@@ -2,17 +2,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/list_refresh_event.dart';
 import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/base_search.dart';
 import 'package:huanting_shop/views/components/button/main_button.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:flutter/material.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:huanting_shop/views/order/center/order_center_controller.dart';
 import 'package:huanting_shop/views/order/list/order_list_view.dart';
 import 'package:huanting_shop/views/parcel/parcel_list/parcel_list_page.dart';
 
 /*
-  包裹&订单
-  订单中心
+  包裹&订单中心
 */
 
 class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
@@ -25,23 +28,45 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: Obx(
-          () => AppText(
-            str: '集运/转运包裹'.ts,
-            fontSize: 17,
-          ),
-        ),
-        leading: const BackButton(color: Colors.black),
-        bottom: TabBar(
-          isScrollable: true,
-          tabs: tabListCell(),
-          controller: controller.tabController,
-          indicator: const BoxDecoration(),
-          onTap: (index) {
-            controller.pageController.jumpToPage(index);
-            controller.tabIndex.value = index;
+        title: BaseSearch(
+          showScan: false,
+          needCheck: false,
+          hintText: '包裹号/订单号'.ts,
+          onSearch: (value) {
+            controller.keyword = value;
+            ApplicationEvent.getInstance()
+                .event
+                .fire(ListRefreshEvent(type: 'refresh'));
           },
         ),
+        leadingWidth: 25.w,
+        leading: Padding(
+            padding: EdgeInsets.only(left: 5.w),
+            child: const BackButton(color: Colors.black)),
+        bottom: tabListCell() as PreferredSizeWidget,
+        actions: [
+          GestureDetector(
+            child: Container(
+              color: Colors.white,
+              margin: EdgeInsets.only(right: 14.w),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  LoadAssetImage(
+                    'Transport/ico_bkdd',
+                    width: 20.w,
+                  ),
+                  2.verticalSpaceFromWidth,
+                  AppText(
+                    str: '补款订单'.ts,
+                    fontSize: 10,
+                    color: AppColors.textNormal,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       backgroundColor: AppColors.bgGray,
       bottomNavigationBar: Obx(
@@ -118,48 +143,58 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
           },
           controller: controller.pageController,
           itemBuilder: (context, index) {
-            if (index < 2) {
-              return ParcelListWidget(status: index + 1);
-            } else {
-              return TransportOrderList(status: index - 1);
-            }
+            return Padding(
+              padding: EdgeInsets.only(bottom: 20.h),
+              child: index < 2
+                  ? ParcelListWidget(status: index + 1)
+                  : TransportOrderList(status: index - 1),
+            );
           }),
     );
   }
 
-  List<Widget> tabListCell() {
+  Widget tabListCell() {
     List<String> tabs = ['未入库', '已入库', '待处理', '待支付', '待发货', '已发货', '已签收'];
-    return tabs
-        .asMap()
-        .keys
-        .map(
-          (index) => Obx(
-            () => Column(
-              children: [
-                AppText(
-                  str: tabs[index].ts + controller.getCountStr(index),
-                  fontWeight: controller.tabIndex.value == index
-                      ? FontWeight.bold
-                      : FontWeight.normal,
-                  color: controller.tabIndex.value == index
-                      ? AppColors.textDark
-                      : AppColors.textNormal,
-                ),
-                5.verticalSpaceFromWidth,
-                Container(
-                  width: 30.w,
-                  height: 3.h,
-                  decoration: BoxDecoration(
+    return TabBar(
+      isScrollable: true,
+      tabs: tabs
+          .asMap()
+          .keys
+          .map(
+            (index) => Obx(
+              () => Column(
+                children: [
+                  AppText(
+                    str: tabs[index].ts,
+                    fontWeight: controller.tabIndex.value == index
+                        ? FontWeight.bold
+                        : FontWeight.normal,
                     color: controller.tabIndex.value == index
-                        ? AppColors.primary
-                        : Colors.white,
-                    borderRadius: BorderRadius.circular(2.h),
+                        ? AppColors.textDark
+                        : AppColors.textNormal,
                   ),
-                ),
-              ],
+                  5.verticalSpaceFromWidth,
+                  Container(
+                    width: 30.w,
+                    height: 3.h,
+                    decoration: BoxDecoration(
+                      color: controller.tabIndex.value == index
+                          ? AppColors.primary
+                          : Colors.white,
+                      borderRadius: BorderRadius.circular(2.h),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        )
-        .toList();
+          )
+          .toList(),
+      controller: controller.tabController,
+      indicator: const BoxDecoration(),
+      onTap: (index) {
+        controller.pageController.jumpToPage(index);
+        controller.tabIndex.value = index;
+      },
+    );
   }
 }

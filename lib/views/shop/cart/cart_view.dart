@@ -7,7 +7,6 @@ import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/shop/cart_model.dart';
 import 'package:huanting_shop/views/components/button/main_button.dart';
 import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
 import 'package:huanting_shop/views/components/goods/cart_goods_item.dart';
 import 'package:huanting_shop/views/components/goods/goods_list_cell.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
@@ -21,98 +20,112 @@ class CartView extends GetView<CartController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const EmptyAppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        elevation: 0,
+        leading: const BackButton(color: Colors.black),
+        title: AppText(
+          str: '购物车'.ts,
+          fontSize: 17,
+        ),
+      ),
       backgroundColor: Colors.white,
       bottomSheet: Obx(() => controller.showCartList.isNotEmpty
           ? Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 5.h),
+              padding: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 15.h),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8.r),
-                  topRight: Radius.circular(8.r),
-                ),
                 boxShadow: [
                   BoxShadow(
-                    blurRadius: 5.r,
+                    offset: Offset(0, -1.h),
+                    blurRadius: 20.r,
                     color: const Color(0x0D000000),
                   ),
                 ],
               ),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 24.w,
-                    height: 24.w,
-                    child: Checkbox(
-                      value: controller.allChecked.value,
-                      shape: const CircleBorder(),
-                      activeColor: AppColors.primary,
-                      checkColor: Colors.black,
-                      onChanged: (value) {
-                        controller.onAllCheck(value!);
-                      },
-                    ),
-                  ),
-                  2.horizontalSpace,
-                  Expanded(
-                    child: Obx(
-                      () => AppText(
-                        str: '全选'.ts,
-                        fontSize: 14,
+              child: SafeArea(
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 24.w,
+                      height: 24.w,
+                      child: Checkbox(
+                        value: controller.allChecked.value,
+                        shape: const CircleBorder(),
+                        activeColor: AppColors.primary,
+                        checkColor: Colors.black,
+                        onChanged: (value) {
+                          controller.onAllCheck(value!);
+                        },
                       ),
                     ),
-                  ),
-                  controller.configState.value
-                      ? BeeButton(
-                          backgroundColor: const Color(0xFFFF4949),
-                          img: ImgItem(
-                            'Shop/ico_sc',
-                            width: 18.w,
-                          ),
-                          onPressed: () {
-                            controller.onCartDelete(context);
-                          },
-                        )
-                      : Row(
-                          children: [
-                            Obx(
-                              () => Text.rich(
-                                TextSpan(
-                                  style: TextStyle(
-                                    color: const Color(0xFFFF6868),
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: controller
-                                              .currencyModel.value?.symbol ??
-                                          '',
+                    2.horizontalSpace,
+                    Expanded(
+                      child: Obx(
+                        () => AppText(
+                          str: '全选'.ts,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    controller.configState.value
+                        ? SizedBox(
+                            height: 30.h,
+                            child: BeeButton(
+                              backgroundColor: const Color(0xFFFF4949),
+                              img: ImgItem(
+                                'Shop/ico_sc',
+                                width: 18.w,
+                              ),
+                              onPressed: () {
+                                controller.onCartDelete(context);
+                              },
+                            ),
+                          )
+                        : Row(
+                            children: [
+                              Obx(
+                                () => Text.rich(
+                                  TextSpan(
+                                    style: TextStyle(
+                                      color: const Color(0xFFFF6868),
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    TextSpan(
-                                      text: controller.totalCheckedPrice.rate(
-                                          needFormat: false,
-                                          showPriceSymbol: false),
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
+                                    children: [
+                                      TextSpan(
+                                        text: controller
+                                                .currencyModel.value?.symbol ??
+                                            '',
                                       ),
-                                    ),
-                                  ],
+                                      TextSpan(
+                                        text: controller.totalCheckedPrice.rate(
+                                            needFormat: false,
+                                            showPriceSymbol: false),
+                                        style: TextStyle(
+                                          fontSize: 16.sp,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            15.horizontalSpace,
-                            BeeButton(
-                              text: '提交',
-                              borderRadis: 999,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              onPressed: controller.onSubmit,
-                            ),
-                          ],
-                        ),
-                ],
+                              15.horizontalSpace,
+                              SizedBox(
+                                height: 30.h,
+                                child: BeeButton(
+                                  text: '提交',
+                                  borderRadis: 999,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  onPressed: controller.onSubmit,
+                                ),
+                              ),
+                            ],
+                          ),
+                  ],
+                ),
               ),
             )
           : AppGaps.empty),

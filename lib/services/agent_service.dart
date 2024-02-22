@@ -50,6 +50,8 @@ class AgentService {
   // 绑定提现信息
   static const String agentBindApi = 'agent/bind';
 
+  static const String agentCommissionInfoApi = 'agent/commission-info';
+
   /*
     得到统计信息
    */
@@ -289,5 +291,20 @@ class AgentService {
         onFail(response.error!.message);
       }
     }).onError((error, stackTrace) => onFail(error.toString()));
+  }
+
+  // 已提现金额
+  static Future<Map?> getAgentCommissionInfo() async {
+    Map? res;
+    await BeeRequest.instance
+        .get(
+      agentCommissionInfoApi,
+    )
+        .then((response) {
+      if (response.ok) {
+        res = response.data;
+      }
+    });
+    return res;
   }
 }

@@ -11,6 +11,7 @@ import 'package:huanting_shop/views/components/button/main_button.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:huanting_shop/views/user/address/list/address_list_controller.dart';
 
 class BeeShippingPage extends GetView<BeeShippingLogic> {
@@ -52,7 +53,7 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
           },
           child: Column(
             children: [
-              // searchCell(),
+              searchCell(),
               Expanded(
                 child: Obx(() => listCell()),
               ),
@@ -99,6 +100,9 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
                         fontWeight: controller.addressType.value == index + 1
                             ? FontWeight.bold
                             : FontWeight.normal,
+                        color: controller.addressType.value == index + 1
+                            ? Colors.white
+                            : AppColors.textDark,
                       ),
                     ),
                   ),
@@ -218,10 +222,9 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
                         'addressType': model.addressType ?? 1,
                       });
                     },
-                    child: const ImageIcon(
-                      AssetImage("assets/images/Center/edit.png"),
-                      color: AppColors.textDark,
-                      size: 15,
+                    child: LoadAssetImage(
+                      'Center/edit',
+                      width: 15.w,
                     ),
                   )
                 ],

@@ -14,7 +14,7 @@ import 'package:huanting_shop/services/user_service.dart';
 
 class BeePhoneLogic extends GlobalLogic {
   final textEditingController = TextEditingController();
-  final timezone = '0007'.obs;
+  final timezone = '0086'.obs;
   final sent = '获取验证码'.obs;
   final isButtonEnable = true.obs;
   final resetTimer = Rxn<Timer?>();

@@ -41,7 +41,7 @@ class BeePackageItem extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(10.r)),
           ),
-          margin: EdgeInsets.fromLTRB(14.w, 15.h, 14.w, 0),
+          margin: EdgeInsets.fromLTRB(12.w, 12.h, 12.w, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -311,8 +311,8 @@ class BeePackageItem extends StatelessWidget {
                                 height: 30.h,
                                 child: HollowButton(
                                   text: '删除',
-                                  textColor: AppColors.textRed,
-                                  borderColor: AppColors.textRed,
+                                  borderColor: AppColors.textGray,
+                                  textColor: AppColors.textNormal,
                                   onPressed: () async {
                                     var data = await BaseDialog.confirmDialog(
                                         context, '确定要删除吗'.ts + '？');
@@ -358,6 +358,7 @@ class BeePackageItem extends StatelessWidget {
         child: AppText(
           str: element.name ?? '',
           fontSize: 12,
+          color: Colors.white,
         ),
       ));
     });

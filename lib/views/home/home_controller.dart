@@ -1,19 +1,21 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:huanting_shop/common/version_util.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/language_change_event.dart';
 import 'package:huanting_shop/models/ads_pic_model.dart';
 
 import 'package:huanting_shop/models/announcement_model.dart';
+import 'package:huanting_shop/models/goods_category_model.dart';
 import 'package:huanting_shop/models/language_model.dart';
-import 'package:huanting_shop/models/ship_line_model.dart';
+import 'package:huanting_shop/models/shop/platform_goods_model.dart';
 import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/services/ads_service.dart';
 import 'package:huanting_shop/services/announcement_service.dart';
 import 'package:huanting_shop/services/common_service.dart';
-import 'package:huanting_shop/services/ship_line_service.dart';
+import 'package:huanting_shop/services/shop_service.dart';
 import 'package:huanting_shop/state/i10n.dart';
 import 'package:huanting_shop/storage/annoucement_storage.dart';
 import 'package:huanting_shop/storage/user_storage.dart';
@@ -28,36 +30,27 @@ class IndexLogic extends GlobalLogic {
   RxList<LanguageModel> langList = <LanguageModel>[].obs;
 
   final userModel = Get.find<AppStore>().userInfo;
-  final amountModel = Get.find<AppStore>().amountInfo;
-  final vipModel = Get.find<AppStore>().vipInfo;
-  final lineList = <ShipLineModel>[].obs;
+  final noticeList = <AnnouncementModel>[].obs;
+  final goodsList = <PlatformGoodsModel>[].obs;
+  final goodsLoading = true.obs;
+  final RxList<GoodsCategoryModel> categoryList = <GoodsCategoryModel>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-
+    getAnnoucementList();
     getIndexAnnoucement();
-    // onGetUnReadNotice();
     getLatestApkInfo();
-    // getPlatformCategory();
+    getRecommendGoods();
+    getCategory();
     getAds();
-    getGreatLine();
-    // loadingUtil.value.initListener(getRecommendGoods);
-    // ApplicationEvent.getInstance()
-    //     .event
-    //     .on<NoticeRefreshEvent>()
-    //     .listen((event) {
-    //   onGetUnReadNotice();
-    // });
-    // ApplicationEvent.getInstance()
-    //     .event
-    //     .on<LanguageChangeEvent>()
-    //     .listen((event) {
-    //   getPlatformCategory();
-    //   getHotGoodsList();
-    //   loadingUtil.value.clear();
-    //   getRecommendGoods();
-    // });
+    ApplicationEvent.getInstance()
+        .event
+        .on<LanguageChangeEvent>()
+        .listen((event) {
+      getCategory();
+      getRecommendGoods();
+    });
   }
 
   // 获取最新版本的安装包
@@ -70,6 +63,20 @@ class IndexLogic extends GlobalLogic {
       if (needUpdate && (lastTime == null || lastTime + 24 * 3600 < nowTime)) {
         Get.dialog(UpdateDialog(appModel: res), barrierDismissible: false);
       }
+    }
+  }
+
+  // 代购商品分类列表
+  getCategory() async {
+    var list = await ShopService.getCategoryList();
+    categoryList.value = list;
+  }
+
+  // 公告列表
+  getAnnoucementList() async {
+    var data = await AnnouncementService.getList();
+    if (data['dataList'] != null) {
+      noticeList.value = data['dataList'];
     }
   }
 
@@ -123,24 +130,19 @@ class IndexLogic extends GlobalLogic {
     }
   }
 
-  // 推荐线路
-  getGreatLine() async {
-    Map result = await ShipLineService.getList(
-      params: {
-        'is_great_value': 1,
-      },
-      option: Options(
-        extra: {'loading': false, 'showSuccess': false, 'showError': false},
-      ),
-    );
-
-    lineList.value = result['list'];
+  // 推荐商品
+  getRecommendGoods() async {
+    var data = await ShopService.getCachedGoodsList();
+    goodsLoading.value = false;
+    if (data != null) {
+      goodsList.value = data;
+    }
   }
 
   // 页面刷新
   Future<void> handleRefresh() async {
     await getAds();
-    await getGreatLine();
-    Get.find<AppStore>().getBaseCountInfo();
+    await getRecommendGoods();
+    await getCategory();
   }
 }

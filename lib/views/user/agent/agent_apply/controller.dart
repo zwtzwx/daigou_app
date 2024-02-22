@@ -38,19 +38,9 @@ class AgentApplyController extends GlobalLogic {
     var resulst = await AgentService.applyAgent(dic);
     if (resulst['ok']) {
       ApplicationEvent.getInstance().event.fire(ProfileUpdateEvent());
-      Get.back(result: 'refresh');
+      Get
+        ..back()
+        ..back(result: 'refresh');
     }
-  }
-
-  /// 在 [onDelete] 方法之前调用。
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  /// dispose 释放内存
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

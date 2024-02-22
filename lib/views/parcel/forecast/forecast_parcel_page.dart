@@ -1,6 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/common/hex_to_color.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/config/text_config.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
@@ -9,6 +8,7 @@ import 'package:huanting_shop/models/country_model.dart';
 import 'package:huanting_shop/models/ship_line_service_model.dart';
 import 'package:huanting_shop/views/components/base_dialog.dart';
 import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:huanting_shop/views/components/button/plain_button.dart';
 import 'package:huanting_shop/views/components/input/base_input.dart';
 import 'package:huanting_shop/views/components/input/input_text_item.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,6 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/models/express_company_model.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/parcel/forecast/forecast_controller.dart';
 import 'package:huanting_shop/views/parcel/widget/prop_sheet_cell.dart';
@@ -32,13 +31,28 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.bgGray,
         elevation: 0,
         centerTitle: true,
         title: AppText(
-          str: '包裹预报'.ts,
+          str: '提交转运'.ts,
           fontSize: 17,
         ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              BeeNav.push(BeeNav.orderCenter);
+            },
+            child: Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(right: 15.w),
+              child: AppText(
+                str: '到仓商品'.ts,
+                fontSize: 14,
+              ),
+            ),
+          ),
+        ],
       ),
       backgroundColor: AppColors.bgGray,
       body: GestureDetector(
@@ -47,37 +61,34 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
         },
         child: ListView(
           children: [
-            shipTypeInfo(context),
+            shipCountry(),
+            Obx(() => controller.selectedWarehouseModel.value != null
+                ? shipWarehouse()
+                : AppGaps.empty),
             Obx(() => parcelListCell()),
             addedInfo(context),
             Padding(
-              padding: EdgeInsets.only(left: 5.w),
+              padding: EdgeInsets.only(left: 12.w, top: 30.h),
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: <Widget>[
-                  Obx(
-                    () => TextButton.icon(
-                      style: ButtonStyle(
-                        overlayColor: MaterialStateColor.resolveWith(
-                            (states) => Colors.transparent),
-                      ),
-                      onPressed: () {
-                        controller.agreementBool.value =
-                            !controller.agreementBool.value;
-                      },
-                      icon: controller.agreementBool.value
-                          ? const Icon(
-                              Icons.check_circle_outline,
-                              color: AppColors.green,
-                            )
-                          : const Icon(
-                              Icons.circle_outlined,
-                              color: AppColors.textGray,
-                            ),
-                      label: AppText(
-                        str: '我已阅读并同意'.ts,
-                      ),
-                    ),
+                  Obx(() => SizedBox(
+                        width: 22.w,
+                        height: 22.w,
+                        child: Checkbox.adaptive(
+                          value: controller.agreementBool.value,
+                          activeColor: AppColors.primary,
+                          shape: const CircleBorder(),
+                          onChanged: (value) {
+                            if (value == null) return;
+                            controller.agreementBool.value = value;
+                          },
+                        ),
+                      )),
+                  5.horizontalSpace,
+                  AppText(
+                    str: '已阅读并同意'.ts,
+                    fontSize: 14,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -85,19 +96,40 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                     },
                     child: AppText(
                       str: '《${'转运协议'.ts}》',
-                      color: HexToColor('#fe8b25'),
+                      color: const Color(0xFFFA9601),
+                      fontSize: 14,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              height: 50,
-              child: BeeButton(
-                onPressed: controller.onSubmit,
-                text: '提交预报',
+            15.verticalSpaceFromWidth,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14.w),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 38.h,
+                      child: HollowButton(
+                        onPressed: controller.onSubmit,
+                        text: '批量预报',
+                        borderWidth: 2,
+                        textFontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  15.horizontalSpace,
+                  Expanded(
+                    child: SizedBox(
+                      height: 38.h,
+                      child: BeeButton(
+                        onPressed: controller.onSubmit,
+                        text: '提交预报',
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             30.verticalSpace,
@@ -107,172 +139,127 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
     );
   }
 
-  Widget shipTypeInfo(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(12.w, 10.h, 12.w, 0),
-      clipBehavior: Clip.none,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.r),
+  // 寄往国家
+  Widget shipCountry() {
+    return GestureDetector(
+      onTap: () async {
+        var tmp = await BeeNav.push(BeeNav.country);
+        if (tmp == null) return;
+        controller.selectedCountryModel.value = tmp as CountryModel;
+        controller.getWarehouseList();
+        controller.getProps();
+      },
+      child: decorateBox(
+        child: Row(
+          children: [
+            AppText(
+              str: '寄往国家'.ts,
+              fontSize: 14,
+            ),
+            Expanded(
+              child: Obx(
+                () => AppText(
+                  str: controller.selectedCountryModel.value == null
+                      ? '请选择国家'.ts
+                      : controller.selectedCountryModel.value!.name!,
+                  color: controller.selectedCountryModel.value == null
+                      ? AppColors.textGrayC9
+                      : AppColors.textDark,
+                  fontSize: 12,
+                  alignment: TextAlign.right,
+                ),
+              ),
+            ),
+            8.horizontalSpace,
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 13.sp,
+              color: AppColors.textNormal,
+            )
+          ],
+        ),
       ),
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: () {
-              controller.onForecastType(context);
-            },
-            child: InputTextItem(
-              title: '下单方式'.ts,
-              bgColor: Colors.transparent,
-              inputText: Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.only(left: 11),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.centerRight,
-                        child: Obx(
-                          () => Text(
-                            (controller.forecastType.value == 1
-                                    ? '集齐再发'
-                                    : '到件即发')
-                                .ts,
-                            style: AppTextStyles.textDark14,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          right: 13.w, top: 8.w, bottom: 8.w, left: 8.w),
-                      child: const Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.textBlack,
-                        size: 15,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () async {
-              var tmp = await BeeNav.push(BeeNav.country);
-              if (tmp == null) {
-                return;
-              }
-              CountryModel? s = tmp as CountryModel;
-              if (s.id == null) {
-                return;
-              }
+    );
+  }
 
-              controller.selectedCountryModel.value = s;
-              controller.getWarehouseList();
-              controller.getProps();
-            },
-            child: InputTextItem(
-              title: '寄送国家'.ts,
-              bgColor: Colors.transparent,
-              inputText: Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.only(left: 11),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.centerRight,
-                        child: Obx(
-                          () => Text(
-                            controller.selectedCountryModel.value == null
-                                ? '请选择寄送国家'.ts
-                                : controller.selectedCountryModel.value!.name!,
-                            style: controller.selectedCountryModel.value == null
-                                ? AppTextStyles.textGray14
-                                : AppTextStyles.textDark14,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          right: 13.w, top: 8.w, bottom: 8.w, left: 8.w),
-                      child: const Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.textBlack,
-                        size: 15,
-                      ),
-                    ),
-                  ],
+  // 寄往仓库
+  Widget shipWarehouse() {
+    return decorateBox(
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: AppText(
+                  str: '仓库地址'.ts,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              if (controller.selectedCountryModel.value?.id != null) {
-                Picker(
-                  adapter: PickerDataAdapter(
-                      data: controller
-                          .getPickerWareHouse(controller.wareHouseList)),
-                  cancelText: '取消'.ts,
-                  confirmText: '确认'.ts,
-                  selectedTextStyle:
-                      const TextStyle(color: Colors.blue, fontSize: 12),
-                  onCancel: () {},
-                  onConfirm: (Picker picker, List value) {
-                    controller.selectedWarehouseModel.value =
-                        controller.wareHouseList[value.first];
+              SizedBox(
+                height: 30.h,
+                child: BeeButton(
+                  text: '复制',
+                  onPressed: () {
+                    String data =
+                        '收件人：${controller.selectedWarehouseModel.value?.receiverName ?? ''}\n'
+                        '手机号码：${controller.selectedWarehouseModel.value?.phone ?? ''}\n'
+                        '邮编：${controller.selectedWarehouseModel.value?.postcode ?? ''}\n'
+                        '收件地址：${controller.selectedWarehouseModel.value?.address ?? ''}';
+                    controller.onCopyData(data);
                   },
-                ).showModal(context);
-              }
-            },
-            child: InputTextItem(
-              title: '集运仓库'.ts,
-              flag: false,
-              bgColor: Colors.transparent,
-              inputText: Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.only(left: 11),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.centerRight,
-                        child: Obx(
-                          () => Text(
-                            controller.selectedWarehouseModel.value == null
-                                ? '请选择集运仓库'.ts
-                                : controller.selectedWarehouseModel.value!
-                                    .warehouseName!,
-                            style:
-                                controller.selectedWarehouseModel.value == null
-                                    ? AppTextStyles.textGray14
-                                    : AppTextStyles.textDark14,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          right: 13.w, top: 8.w, bottom: 8.w, left: 8.w),
-                      child: const Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.textBlack,
-                        size: 15,
-                      ),
-                    ),
-                  ],
                 ),
               ),
-            ),
+            ],
+          ),
+          15.verticalSpaceFromWidth,
+          Row(
+            children: [
+              AppText(
+                str:
+                    controller.selectedWarehouseModel.value?.receiverName ?? '',
+                fontSize: 14,
+              ),
+              10.horizontalSpace,
+              Expanded(
+                child: AppText(
+                  str: controller.selectedWarehouseModel.value?.phone ?? '',
+                  fontSize: 14,
+                ),
+              ),
+              AppText(
+                str: controller.selectedWarehouseModel.value?.postcode ?? '',
+                fontSize: 14,
+              ),
+            ],
+          ),
+          10.verticalSpaceFromWidth,
+          AppText(
+            str: controller.selectedWarehouseModel.value?.address ?? '',
+            fontSize: 14,
+            lineHeight: 1.4,
+            lines: 5,
           ),
         ],
       ),
+    );
+  }
+
+  Widget decorateBox({
+    required Widget child,
+    EdgeInsetsGeometry? padding,
+  }) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(14.w, 0, 10.h, 14.w),
+      padding:
+          padding ?? EdgeInsets.symmetric(horizontal: 14.w, vertical: 15.h),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(6.r),
+      ),
+      child: child,
     );
   }
 
@@ -281,26 +268,6 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        GestureDetector(
-          onTap: () {
-            FocusScope.of(context).requestFocus(controller.blankNode);
-            controller.formData.add(Rx(ParcelModel.initEdit()));
-            controller.formData.refresh();
-          },
-          child: Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.fromLTRB(12.w, 10.h, 12.w, 10.h),
-              height: 38.h,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: AppColors.primary)),
-              child: AppText(
-                str: '再添加一个包裹'.ts,
-                color: AppColors.primary,
-                fontWeight: FontWeight.bold,
-              )),
-        ),
         Obx(
           () => Offstage(
             offstage: controller.forecastType.value == 1,
@@ -651,74 +618,71 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
   Widget buildAddServiceListView() {
     List<Widget> addValueWigets = [];
     for (var item in controller.valueAddedServiceList) {
-      var listTitle = ListTile(
-        title: RichText(
-          text: TextSpan(
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: AppColors.textDark,
-            ),
-            children: [
-              TextSpan(
-                text: item.value.content,
-              ),
-              WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w),
-                  child: AppText(
-                    str: (item.value.charge ?? 0).rate(),
-                    color: AppColors.textRed,
-                  ),
+      var listTitle = Row(
+        children: [
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: AppColors.textDark,
                 ),
-              ),
-              if (item.value.remark.isNotEmpty)
-                WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
-                  child: GestureDetector(
-                    onTap: () {
-                      controller.showRemark(
-                          item.value.content, item.value.remark);
-                    },
-                    child: Icon(
-                      Icons.help,
-                      color: AppColors.green,
-                      size: 18.sp,
+                children: [
+                  TextSpan(
+                    text: item.value.content,
+                  ),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 10.w, right: 5.w),
+                      child: AppText(
+                        str: (item.value.charge ?? 0).rate(),
+                        color: AppColors.primary,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-            ],
+                  if (item.value.remark.isNotEmpty)
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: GestureDetector(
+                        onTap: () {
+                          controller.showRemark(
+                              item.value.content, item.value.remark);
+                        },
+                        child: Icon(
+                          Icons.help,
+                          color: AppColors.green,
+                          size: 18.sp,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
-        ),
-        trailing: Switch.adaptive(
-          value: item.value.isOpen,
-          activeColor: AppColors.green,
-          onChanged: (value) {
-            item.value.isOpen = value;
-            item.refresh();
-          },
-        ),
+          Switch.adaptive(
+            value: item.value.isOpen,
+            activeColor: AppColors.primary,
+            onChanged: (value) {
+              item.value.isOpen = value;
+              item.refresh();
+            },
+          ),
+        ],
       );
       addValueWigets.add(listTitle);
     }
 
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 13.w),
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.r),
-      ),
+    return decorateBox(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 0),
-            child: AppText(
-              str: '到仓服务'.ts,
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
+          AppText(
+            str: '到仓服务'.ts,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
           ...addValueWigets,
         ],
@@ -740,13 +704,8 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
   Widget parcelItemCell(BuildContext context, int index) {
     final model = controller.formData[index];
 
-    return Container(
-      margin: EdgeInsets.fromLTRB(12.w, 10.h, 12.w, 0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.r),
-        color: Colors.white,
-      ),
-      clipBehavior: Clip.antiAlias,
+    return decorateBox(
+      padding: EdgeInsets.only(left: 14.w),
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -808,7 +767,9 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             InputTextItem(
               title: '快递单号'.ts,
               leftFlex: 2,
+              flag: false,
               isRequired: true,
+              margin: const EdgeInsets.only(left: 0),
               inputText: BaseInput(
                 hintText: '请输入快递单号'.ts,
                 contentPadding: EdgeInsets.only(right: 13.w),
@@ -839,50 +800,50 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                     )
                   : null,
             ),
-            InputTextItem(
-              title: "物品名称".ts,
-              inputText: BaseInput(
-                hintText: '请输入物品名称'.ts,
-                textAlign: TextAlign.right,
-                controller: model.value.editControllers!.nameController,
-                focusNode: model.value.editControllers!.nameNode,
-                contentPadding: EdgeInsets.only(right: 13.w),
-                autoShowRemove: false,
-                autoRemoveController: false,
-                keyboardType: TextInputType.text,
-                onSubmitted: (res) {
-                  FocusScope.of(context)
-                      .requestFocus(model.value.editControllers!.valueNode);
-                },
-                onChanged: (res) {
-                  model.value.packageName = res;
-                },
-                keyName: '',
-              ),
-            ),
-            InputTextItem(
-              leftFlex: 3,
-              title: '物品价值'.ts + '(${controller.currencyModel.value?.symbol})',
-              inputText: BaseInput(
-                  hintText: '请输入物品价值'.ts,
-                  textAlign: TextAlign.right,
-                  controller: model.value.editControllers!.valueController,
-                  contentPadding: EdgeInsets.only(right: 13.w),
-                  focusNode: model.value.editControllers!.valueNode,
-                  autoShowRemove: false,
-                  autoRemoveController: false,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  onSubmitted: (res) {
-                    FocusScope.of(context)
-                        .requestFocus(model.value.editControllers!.remarkNode);
-                  },
-                  onChanged: (res) {
-                    if (double.tryParse(res) != null) {
-                      model.value.packageValue = double.parse(res);
-                    }
-                  }),
-            ),
+            // InputTextItem(
+            //   title: "物品名称".ts,
+            //   inputText: BaseInput(
+            //     hintText: '请输入物品名称'.ts,
+            //     textAlign: TextAlign.right,
+            //     controller: model.value.editControllers!.nameController,
+            //     focusNode: model.value.editControllers!.nameNode,
+            //     contentPadding: EdgeInsets.only(right: 13.w),
+            //     autoShowRemove: false,
+            //     autoRemoveController: false,
+            //     keyboardType: TextInputType.text,
+            //     onSubmitted: (res) {
+            //       FocusScope.of(context)
+            //           .requestFocus(model.value.editControllers!.valueNode);
+            //     },
+            //     onChanged: (res) {
+            //       model.value.packageName = res;
+            //     },
+            //     keyName: '',
+            //   ),
+            // ),
+            // InputTextItem(
+            //   leftFlex: 3,
+            //   title: '物品价值'.ts + '(${controller.currencyModel.value?.symbol})',
+            //   inputText: BaseInput(
+            //       hintText: '请输入物品价值'.ts,
+            //       textAlign: TextAlign.right,
+            //       controller: model.value.editControllers!.valueController,
+            //       contentPadding: EdgeInsets.only(right: 13.w),
+            //       focusNode: model.value.editControllers!.valueNode,
+            //       autoShowRemove: false,
+            //       autoRemoveController: false,
+            //       keyboardType:
+            //           const TextInputType.numberWithOptions(decimal: true),
+            //       onSubmitted: (res) {
+            //         FocusScope.of(context)
+            //             .requestFocus(model.value.editControllers!.remarkNode);
+            //       },
+            //       onChanged: (res) {
+            //         if (double.tryParse(res) != null) {
+            //           model.value.packageValue = double.parse(res);
+            //         }
+            //       }),
+            // ),
             GestureDetector(
               onTap: () async {
                 // 属性选择框
@@ -901,8 +862,9 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                     });
               },
               child: InputTextItem(
-                title: '物品属性'.ts,
-                isRequired: true,
+                title: '物品类型'.ts,
+                flag: false,
+                margin: const EdgeInsets.only(left: 0),
                 inputText: Container(
                   alignment: Alignment.center,
                   margin: const EdgeInsets.only(left: 11),
@@ -940,79 +902,91 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                 ),
               ),
             ),
-            InputTextItem(
-                leftFlex: 5,
-                rightFlex: 5,
-                title: '商品数量'.ts,
-                inputText: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.center,
-                      child: IconButton(
-                          icon: Obx(
-                            () => Icon(
-                              model.value.qty == 1
-                                  ? Icons.remove_circle
-                                  : Icons.remove_circle,
-                              color: model.value.qty == 1
-                                  ? AppColors.textGray
-                                  : AppColors.primary,
-                              size: 35,
-                            ),
-                          ),
-                          onPressed: () {
-                            int k = model.value.qty!;
-                            if (k == 1) {
-                              return;
-                            }
-                            k--;
-                            model.value.qty = k;
-                            model.refresh();
-                          }),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      alignment: Alignment.center,
-                      child: Obx(
-                        () => Text(
-                          model.value.qty.toString(),
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: IconButton(
-                          icon: const Icon(
-                            Icons.add_circle,
-                            color: AppColors.primary,
-                            size: 35,
-                          ),
-                          onPressed: () {
-                            int k = model.value.qty!;
-                            k++;
+            // InputTextItem(
+            //     leftFlex: 5,
+            //     rightFlex: 5,
+            //     title: '商品数量'.ts,
+            //     inputText: Row(
+            //       mainAxisSize: MainAxisSize.max,
+            //       mainAxisAlignment: MainAxisAlignment.end,
+            //       crossAxisAlignment: CrossAxisAlignment.center,
+            //       children: <Widget>[
+            //         Container(
+            //           alignment: Alignment.center,
+            //           child: IconButton(
+            //               icon: Obx(
+            //                 () => Icon(
+            //                   model.value.qty == 1
+            //                       ? Icons.remove_circle
+            //                       : Icons.remove_circle,
+            //                   color: model.value.qty == 1
+            //                       ? AppColors.textGray
+            //                       : AppColors.primary,
+            //                   size: 35,
+            //                 ),
+            //               ),
+            //               onPressed: () {
+            //                 int k = model.value.qty!;
+            //                 if (k == 1) {
+            //                   return;
+            //                 }
+            //                 k--;
+            //                 model.value.qty = k;
+            //                 model.refresh();
+            //               }),
+            //         ),
+            //         Container(
+            //           margin: const EdgeInsets.symmetric(horizontal: 20),
+            //           alignment: Alignment.center,
+            //           child: Obx(
+            //             () => Text(
+            //               model.value.qty.toString(),
+            //               style: const TextStyle(fontSize: 20),
+            //             ),
+            //           ),
+            //         ),
+            //         Container(
+            //           alignment: Alignment.center,
+            //           child: IconButton(
+            //               icon: const Icon(
+            //                 Icons.add_circle,
+            //                 color: AppColors.primary,
+            //                 size: 35,
+            //               ),
+            //               onPressed: () {
+            //                 int k = model.value.qty!;
+            //                 k++;
 
-                            model.value.qty = k;
-                            model.refresh();
-                          }),
-                    )
-                  ],
-                )),
-            InputTextItem(
-              title: '备注'.ts,
-              flag: false,
-              bgColor: Colors.transparent,
-              inputText: BaseInput(
-                hintText: '请输入备注信息'.ts,
-                textAlign: TextAlign.right,
+            //                 model.value.qty = k;
+            //                 model.refresh();
+            //               }),
+            //         )
+            //       ],
+            //     )),
+            10.verticalSpaceFromWidth,
+            AppText(
+              str: '备注'.ts,
+              fontSize: 14,
+            ),
+            10.verticalSpaceFromWidth,
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4.r),
+              ),
+              margin: EdgeInsets.only(right: 14.w),
+              clipBehavior: Clip.none,
+              child: BaseInput(
+                hintText: '请填写备注信息'.ts,
+                board: true,
+                minLines: 5,
+                maxLines: 7,
+                maxLength: 300,
                 controller: model.value.editControllers!.remarkController,
                 focusNode: model.value.editControllers!.remarkNode,
                 autoShowRemove: false,
-                contentPadding: const EdgeInsets.only(right: 15),
-                keyboardType: TextInputType.text,
+                contentPadding: EdgeInsets.all(10.w),
+                keyboardType: TextInputType.multiline,
+                textInputAction: TextInputAction.newline,
                 autoRemoveController: false,
                 onSubmitted: (res) {
                   FocusScope.of(context).requestFocus(controller.blankNode);
@@ -1022,6 +996,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                 },
               ),
             ),
+            14.verticalSpaceFromWidth,
           ],
         ),
       ),

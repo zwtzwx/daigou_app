@@ -52,6 +52,7 @@ class ShopService {
   static const String goodsTranlateApi = 'translate';
   static const String orderTransferPayApi = 'daigou-orders/tran-info';
   static const String goodsCommentsApi = 'purchase/product-review/:id';
+  static const String cacheGoodsApi = 'daigou-cache-goods';
 
   // 推荐商品列表
   static Future<Map<String, dynamic>> getRecommendGoods(
@@ -72,6 +73,19 @@ class ShopService {
       }
     });
     return result;
+  }
+
+  // 代购推荐商品
+  static Future<List<PlatformGoodsModel>?> getCachedGoodsList() async {
+    List<PlatformGoodsModel>? list;
+    await BeeRequest.instance.get(cacheGoodsApi).then((res) {
+      if (res.ok) {
+        list = [];
+        res.data.forEach(
+            (goods) => list!.add(PlatformGoodsModel.fromJson(goods['detail'])));
+      }
+    });
+    return list;
   }
 
   // 分类列表

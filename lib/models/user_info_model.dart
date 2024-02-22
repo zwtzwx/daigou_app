@@ -1,13 +1,11 @@
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/models/ads_pic_model.dart';
 import 'package:huanting_shop/models/currency_rate_model.dart';
 import 'package:huanting_shop/models/localization_model.dart';
 import 'package:huanting_shop/models/user_model.dart';
 import 'package:huanting_shop/models/user_order_count_model.dart';
-import 'package:huanting_shop/models/user_vip_model.dart';
-import 'package:huanting_shop/services/ads_service.dart';
 import 'package:huanting_shop/services/common_service.dart';
 import 'package:huanting_shop/services/localization_service.dart';
+import 'package:huanting_shop/services/shop_service.dart';
 import 'package:huanting_shop/services/user_service.dart';
 import 'package:huanting_shop/storage/language_storage.dart';
 import 'package:huanting_shop/storage/user_storage.dart';
@@ -20,9 +18,8 @@ class AppStore {
   final rateList = <CurrencyRateModel>[].obs;
   final _localModel = Rxn<LocalizationModel?>();
   final amountInfo = Rxn<UserOrderCountModel?>();
-  final vipInfo = Rxn<UserVipModel?>();
-  final adList = <BannerModel>[].obs;
   int shopPlatformType = 1;
+  final cartCount = 0.obs;
 
   LocalizationModel? get localModel => _localModel.value;
 
@@ -32,13 +29,13 @@ class AppStore {
     accountInfo.value = UserStorage.getAccountInfo();
     refreshToken();
     initCurrency();
-    getAds();
   }
 
   saveInfo(String t, UserModel u) {
     token.value = t;
     userInfo.value = u;
     getBaseCountInfo();
+    getCartCount();
   }
 
   setShopPlatformType(int value) {
@@ -62,7 +59,6 @@ class AppStore {
   clear() {
     token.value = '';
     userInfo.value = null;
-    vipInfo.value = null;
     amountInfo.value = null;
     UserStorage.clearToken();
   }
@@ -74,6 +70,7 @@ class AppStore {
         UserStorage.setToken(res);
         token.value = res;
         getBaseCountInfo();
+        getCartCount();
       }
     }
   }
@@ -86,8 +83,8 @@ class AppStore {
     if (currencyModel.value == null) {
       // 默认哈萨克斯坦货币
       var _data = CurrencyRateModel(
-        code: currency?['code'] ?? 'KZT',
-        symbol: currency?['symbol'] ?? '〒',
+        code: currency?['code'] ?? data?.currency ?? '',
+        symbol: currency?['symbol'] ?? data?.currencySymbol,
       );
       if (_data.code != data?.currency) {
         // 获取对应的汇率
@@ -104,15 +101,19 @@ class AppStore {
     currencyModel.value = data;
   }
 
-  // 获取余额、优惠券、积分
   getBaseCountInfo() async {
     if (token.value.isEmpty) return;
     amountInfo.value = await UserService.getOrderDataCount();
-    vipInfo.value = await UserService.getVipMemberData();
   }
 
-  // 获取横幅、活动图
-  getAds() async {
-    adList.value = await AdsService.getList({"source": 4});
+  // 购物车商品数量
+  void getCartCount() async {
+    var token = UserStorage.getToken();
+    if (token.isNotEmpty) {
+      var data = await ShopService.getCartCount();
+      cartCount.value = data ?? 0;
+    } else {
+      cartCount.value = 0;
+    }
   }
 }

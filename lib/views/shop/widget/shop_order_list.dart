@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/events/application_event.dart';
 import 'package:huanting_shop/events/list_refresh_event.dart';
@@ -7,8 +9,10 @@ import 'package:huanting_shop/models/parcel_model.dart';
 import 'package:huanting_shop/models/shop/shop_order_model.dart';
 import 'package:huanting_shop/services/shop_service.dart';
 import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/goods/shop_order_item.dart';
 import 'package:huanting_shop/views/components/list_refresh.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 
 class ShopOrderList extends StatefulWidget {
   const ShopOrderList({
@@ -129,6 +133,28 @@ class _ShopOrderListState extends State<ShopOrderList> {
         },
         refresh: loadData,
         more: loadMoreData,
+        emptyWidget: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            LoadAssetImage(
+              'Transport/order_empty',
+              fit: BoxFit.fitWidth,
+              width: 200.w,
+            ),
+            10.verticalSpaceFromWidth,
+            Container(
+              constraints: BoxConstraints(maxWidth: 270.w),
+              child: AppText(
+                str: '您还没有任何订单，去下单吧'.ts + '~',
+                fontSize: 12,
+                color: AppColors.textGrayC9,
+                alignment: TextAlign.center,
+                lineHeight: 1.8,
+                lines: 10,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

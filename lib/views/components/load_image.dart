@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:huanting_shop/common/image_util.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/views/components/indicator.dart';
 
 class ImgItem extends StatelessWidget {
   const ImgItem(this.image,
@@ -12,6 +14,7 @@ class ImgItem extends StatelessWidget {
       this.fit = BoxFit.cover,
       this.placeholderWidget,
       this.format = "png",
+      this.holderColor,
       this.holderImg})
       : super(key: key);
 
@@ -22,6 +25,7 @@ class ImgItem extends StatelessWidget {
   final String format;
   final String? holderImg;
   final Widget? placeholderWidget;
+  final Color? holderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +36,8 @@ class ImgItem extends StatelessWidget {
           : Container(
               padding: EdgeInsets.symmetric(vertical: 10.h),
               alignment: Alignment.center,
-              color: AppColors.textGrayC,
-              child: LoadAssetImage(
-                'Center/logo-w',
-                width: 50.w,
-                height: 50.w,
-              ),
+              color: holderColor ?? AppColors.textGrayC,
+              child: const Indicator(),
             );
     } else {
       if (image.startsWith("http")) {
@@ -50,12 +50,8 @@ class ImgItem extends StatelessWidget {
               : Container(
                   padding: EdgeInsets.symmetric(vertical: 10.h),
                   alignment: Alignment.center,
-                  color: AppColors.textGrayC,
-                  child: LoadAssetImage(
-                    'Center/logo-w',
-                    width: 50.w,
-                    height: 50.w,
-                  ),
+                  color: holderColor ?? AppColors.textGrayC,
+                  child: const Indicator(),
                 ),
           errorWidget: (context, url, error) => holderImg != null
               ? LoadAssetImage(
@@ -64,12 +60,8 @@ class ImgItem extends StatelessWidget {
               : Container(
                   padding: EdgeInsets.symmetric(vertical: 10.h),
                   alignment: Alignment.center,
-                  color: AppColors.textGrayC,
-                  child: LoadAssetImage(
-                    'Center/logo-w',
-                    width: 50.w,
-                    height: 50.w,
-                  ),
+                  color: holderColor ?? AppColors.textGrayC,
+                  child: const Indicator(),
                 ),
           width: width,
           height: height,

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/goods_props.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 
 // 物品属性
@@ -39,8 +40,9 @@ class _PropSheetCellState extends State<PropSheetCell> {
   Widget build(BuildContext context) {
     return StatefulBuilder(builder: (context1, setBottomSheetState) {
       return SizedBox(
-          height: 310.h,
-          child: Column(children: <Widget>[
+        height: 310.h,
+        child: Column(
+          children: <Widget>[
             Container(
               height: 40.h,
               margin: const EdgeInsets.only(left: 15),
@@ -97,19 +99,25 @@ class _PropSheetCellState extends State<PropSheetCell> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             AppText(
-                              fontSize: 14,
-                              str: propmodel.name!,
-                              lines: 2,
-                              color: AppColors.textDark,
-                            ),
+                                fontSize: 14,
+                                str: propmodel.name!,
+                                lines: 2,
+                                color: selectProp.contains(propmodel.id)
+                                    ? Colors.white
+                                    : AppColors.textDark),
                           ],
                         ),
                       ),
                     );
                   }),
             ),
-            GestureDetector(
-                onTap: () {
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.symmetric(horizontal: 15.w),
+              height: 35.h,
+              child: BeeButton(
+                text: '确认',
+                onPressed: () {
                   setState(() {
                     if (selectProp.isNotEmpty) {
                       var props = widget.goodsPropsList
@@ -120,21 +128,11 @@ class _PropSheetCellState extends State<PropSheetCell> {
                     Navigator.of(context).pop();
                   });
                 },
-                child: Container(
-                  margin: const EdgeInsets.only(right: 15, left: 15),
-                  decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(4.0)),
-                      border: Border.all(width: 1, color: AppColors.primary)),
-                  alignment: Alignment.center,
-                  height: 35.h,
-                  child: AppText(
-                    str: '确认'.ts,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
-          ]));
+              ),
+            ),
+          ],
+        ),
+      );
     });
   }
 }

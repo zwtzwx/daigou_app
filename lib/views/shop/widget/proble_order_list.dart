@@ -239,8 +239,8 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
                           str: types[index].ts,
                           fontSize: 14,
                           color: processType == index
-                              ? AppColors.textDark
-                              : AppColors.textGrayC9,
+                              ? Colors.white
+                              : AppColors.textNormal,
                         ),
                       ),
                     ))

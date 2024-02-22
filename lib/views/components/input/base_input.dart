@@ -86,7 +86,7 @@ class _BaseInputState extends State<BaseInput> {
 
     _isShowRemove = widget.readOnly;
 
-    if (widget.focusNode != null) {
+    if (widget.focusNode != null && widget.autoShowRemove) {
       widget.focusNode!.addListener(() {
         if (mounted) {
           setState(() {

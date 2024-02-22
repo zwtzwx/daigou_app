@@ -2,12 +2,9 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/models/user_model.dart';
-import 'package:huanting_shop/models/user_order_count_model.dart';
-import 'package:huanting_shop/models/user_vip_model.dart';
 import 'package:huanting_shop/views/components/base_dialog.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/empty_app_bar.dart';
@@ -29,18 +26,30 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
       key: controller.scaffoldKey,
       appBar: const EmptyAppBar(),
       primary: false,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.bgGray,
       body: RefreshIndicator(
         onRefresh: controller.handleRefresh,
         color: AppColors.textRed,
-        child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          children: [
-            userInfo(),
-            10.verticalSpaceFromWidth,
-            toolList(),
-            30.verticalSpaceFromWidth,
-          ],
+        child: SafeArea(
+          child: ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: [
+              Stack(
+                children: [
+                  const Positioned(
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    child: LoadAssetImage('Center/bg', fit: BoxFit.fitWidth),
+                  ),
+                  userInfo(),
+                ],
+              ),
+              10.verticalSpaceFromWidth,
+              toolList(),
+              30.verticalSpaceFromWidth,
+            ],
+          ),
         ),
       ),
     );
@@ -49,61 +58,49 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
   Widget toolList() {
     List<Map<String, dynamic>> list1 = [
       {
-        'name': '个人信息',
-        'icon': 'Center/ico_grxx',
-        'route': BeeNav.profile,
-      },
-      {
         'name': '地址簿',
         'icon': 'Center/ico_dzb',
         'route': BeeNav.addressList,
         'params': {'select': 0},
       },
       {
-        'name': '更改手机号',
-        'icon': 'Center/ico_ggsjh',
-        'route': BeeNav.changeMobileAndEmail,
-        'params': {'type': 1},
+        'name': '推广联盟',
+        'icon': 'Center/ico_tglm',
+        'route': BeeNav.agentApplyInstruct,
       },
       {
-        'name': '更改邮箱',
-        'icon': 'Center/ico_ggyx',
-        'route': BeeNav.changeMobileAndEmail,
-        'params': {'type': 2},
+        'name': '余额',
+        'icon': 'Center/ico_ye',
+        'route': BeeNav.recharge,
       },
       {
-        'name': '一键预报',
-        'icon': 'Center/ico_yjyb',
-        'route': BeeNav.chromeLogin,
+        'name': '我的积分',
+        'icon': 'Center/ico_jf',
+        'route': BeeNav.vip,
       },
       {
-        'name': '交易记录',
-        'icon': 'Center/ico_jyjl',
-        'route': BeeNav.transaction,
+        'name': '我的评论',
+        'icon': 'Center/ico_pl',
+        'route': BeeNav.comment,
       },
       {
         'name': '我的咨询',
-        'icon': 'Center/ico_wdzx',
+        'icon': 'Center/ico_zx',
         'route': BeeNav.shopOrderChat,
       },
       {
-        'name': '代理',
-        'icon': 'Center/ico_dl',
-        'route': BeeNav.agentApply,
+        'name': '帮助中心',
+        'icon': 'Center/ico_bzzx',
+        'route': BeeNav.help,
       },
       {
-        'name': '关于我们',
-        'icon': 'Center/ico_gywm',
-        'route': BeeNav.abountMe,
-      },
-      {
-        'name': '修改密码',
-        'icon': 'Center/ico_xgmm',
-        'route': BeeNav.password,
+        'name': '账号安全',
+        'icon': 'Center/ico_zhaq',
+        'route': BeeNav.profile,
       },
       {
         'name': '退出登录',
-        'icon': 'Center/ico_tcdl',
+        'icon': 'Center/ico_tc',
       },
     ];
     return buildListView(
@@ -119,7 +116,12 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
     double? iconWidth,
   }) {
     var listView = Container(
-      margin: EdgeInsets.symmetric(horizontal: 30.w),
+      margin: EdgeInsets.symmetric(horizontal: 14.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 20.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -130,13 +132,12 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () async {
-                  if (list[index]['route'] == BeeNav.agentApply) {
+                  if (list[index]['route'] == BeeNav.agentApplyInstruct) {
                     if (controller.agentStatus.value?.id == 2) return;
                     if (controller.agentStatus.value?.id == 1) {
-                      // 代理
-                      BeeNav.push(BeeNav.agentMember);
+                      BeeNav.push(BeeNav.agentCenter);
                     } else {
-                      BeeNav.push(list[index]['route'], list[index]['params']);
+                      BeeNav.push(list[index]['route']);
                     }
                   } else if (list[index]['route'] != null) {
                     BeeNav.push(list[index]['route'], list[index]['params']);
@@ -155,29 +156,27 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                     children: [
                       ImgItem(
                         list[index]['icon'],
-                        width: 22.w,
-                        height: 22.w,
+                        width: 18.w,
+                        height: 18.w,
                       ),
                       14.horizontalSpace,
                       Expanded(
                         child: Obx(
                           () => AppText(
-                            str: list[index]['route'] == BeeNav.agentApply &&
-                                    controller.agentStatus.value?.id == 2
-                                ? '代理(审核中)'.ts
-                                : (list[index]['name']! as String).ts,
-                            fontSize: 12,
+                            str: (list[index]['name']! as String).ts,
+                            fontSize: 14,
                             color: AppColors.textNormal,
                             lines: 2,
                           ),
                         ),
                       ),
                       10.horizontalSpace,
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 14.sp,
-                        color: AppColors.textNormal,
-                      ),
+                      if (list[index]['route'] != null)
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 14.sp,
+                          color: AppColors.textNormal,
+                        ),
                     ],
                   ),
                 ),
@@ -191,166 +190,211 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
   }
 
   Widget userInfo() {
-    var headerView = Stack(
-      children: [
-        Positioned(
-          left: 0,
-          top: 0,
-          right: 0,
-          child: Container(
-            height: 190.h,
-            decoration: BoxDecoration(
-              color: const Color(0xFFFFE067),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(40.r),
-                bottomRight: Radius.circular(40.r),
-              ),
-            ),
-          ),
-        ),
-        Obx(() {
-          UserModel? userModel = controller.userInfoModel.userInfo.value;
-          UserOrderCountModel? amount = Get.find<AppStore>().amountInfo.value;
-          UserVipModel? vipModel = Get.find<AppStore>().vipInfo.value;
-          List<Map<String, String>> list = [
-            {
-              'label': '余额',
-              'value': (amount?.balance ?? 0).rate(showPriceSymbol: false),
-              'route': BeeNav.recharge,
-            },
-            {
-              'label': '优惠券',
-              'value': (amount?.couponCount ?? 0).toString(),
-              'route': BeeNav.coupon,
-            },
-          ];
-          if (vipModel?.pointStatus == 1) {
-            list.add({
-              'label': '积分',
-              'value': (vipModel?.profile.point ?? 0).toString(),
-              'route': BeeNav.vip,
-            });
-          }
-          return Column(
-            children: [
-              Container(
-                margin: EdgeInsets.fromLTRB(
-                    18.w, ScreenUtil().statusBarHeight + 30.h, 28.w, 20.h),
-                child: Row(
-                  children: [
-                    ClipOval(
-                      child: ImgItem(
-                        userModel?.avatar ?? '',
-                        fit: BoxFit.fitWidth,
-                        width: 70.w,
-                        height: 70.w,
-                      ),
+    var headerView = Obx(() {
+      UserModel? userModel = controller.userInfoModel.userInfo.value;
+      List<Map<String, String>> list = [
+        {
+          'label': '问题订单',
+          'icon': 'Center/ico_wtdd',
+          'route': BeeNav.probleShopOrder,
+        },
+        {
+          'label': '购物车',
+          'icon': 'Center/ico_gwc',
+          'route': BeeNav.cart,
+        },
+        {
+          'label': '异常件认领',
+          'icon': 'Center/ico_ycjrl',
+          'route': BeeNav.noOwnerList,
+        },
+      ];
+      List<Map<String, String>> list2 = [
+        {
+          'label': '我的订单',
+          'icon': 'Center/ico_wddd',
+          'route': BeeNav.shopOrderList,
+        },
+        {
+          'label': '我的仓库',
+          'icon': 'Center/ico_wdck',
+          'route': BeeNav.warehouse,
+        },
+        {
+          'label': '运费试算',
+          'icon': 'Center/ico_yfss',
+          'route': BeeNav.lineQuery,
+        },
+        {
+          'label': '我的包裹',
+          'icon': 'Center/ico_wdbg',
+          'route': BeeNav.orderCenter,
+        },
+      ];
+
+      return Column(
+        children: [
+          Container(
+            margin: EdgeInsets.fromLTRB(
+                18.w, ScreenUtil().statusBarHeight + 30.h, 28.w, 20.h),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 70.w,
+                  height: 70.w,
+                  child: ClipOval(
+                    child: ImgItem(
+                      userModel?.avatar ?? '',
                     ),
-                    12.horizontalSpace,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            children: [
-                              Expanded(
-                                child: AppText(
-                                  str: userModel?.name ?? '',
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              // 5.horizontalSpace,
-                              // GestureDetector(
-                              //   onTap: () {
-                              //     BeeNav.push(BeeNav.notice);
-                              //   },
-                              //   child: Stack(
-                              //     alignment: Alignment.topRight,
-                              //     children: [
-                              //       ImgItem(
-                              //         'Home/bell',
-                              //         width: 28.w,
-                              //         height: 28.w,
-                              //       ),
-                              //       Obx(() => controller.noticeUnRead.value
-                              //           ? ClipOval(
-                              //               child: Container(
-                              //                 width: 6.w,
-                              //                 height: 6.w,
-                              //                 color: AppColors.textRed,
-                              //               ),
-                              //             )
-                              //           : AppGaps.empty)
-                              // ],
-                              // ),
-                              // ),
-                            ],
-                          ),
-                          5.verticalSpace,
-                          AppText(
-                            alignment: TextAlign.center,
-                            str: 'ID: ${userModel?.id ?? ''}',
-                            fontSize: 12,
-                            color: const Color(0xFF888888),
+                  ),
+                ),
+                12.horizontalSpace,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AppText(
+                              str: userModel?.name ?? '',
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                      5.verticalSpace,
+                      AppText(
+                        alignment: TextAlign.center,
+                        str: 'ID: ${userModel?.id ?? ''}',
+                        fontSize: 12,
+                        color: const Color(0xFF888888),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(18.r),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(0, 10.w),
-                      color: const Color(0x0D000000),
-                      blurRadius: 40.r,
-                    ),
-                  ],
-                ),
-                margin: EdgeInsets.symmetric(horizontal: 14.w),
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: list
-                      .map(
-                        (e) => Flexible(
-                            child: GestureDetector(
-                          onTap: () {
-                            BeeNav.push(e['route']!);
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            child: Column(
-                              children: [
-                                AppText(
-                                  str: e['value']!,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+              ],
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 14.w),
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: list
+                  .map(
+                    (e) => Flexible(
+                      child: GestureDetector(
+                        onTap: () {
+                          BeeNav.push(e['route']!);
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Column(
+                            children: [
+                              if (e['route'] == BeeNav.cart)
+                                Obx(() {
+                                  var cartCount =
+                                      Get.find<AppStore>().cartCount.value;
+                                  return Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      LoadAssetImage(
+                                        e['icon']!,
+                                        width: 40.w,
+                                        height: 40.w,
+                                      ),
+                                      if (cartCount != 0)
+                                        Positioned(
+                                          right: -5.w,
+                                          top: 0,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: AppColors.themeRed,
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 5.w, vertical: 2.w),
+                                            child: AppText(
+                                              str: cartCount.toString(),
+                                              fontSize: 10,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  );
+                                })
+                              else
+                                LoadAssetImage(
+                                  e['icon']!,
+                                  width: 40.w,
+                                  height: 40.w,
                                 ),
-                                4.verticalSpace,
-                                AppText(
-                                  str: e['label']!.ts,
-                                  fontSize: 14,
-                                  color: const Color(0xFF888888),
-                                ),
-                              ],
-                            ),
+                              4.verticalSpace,
+                              AppText(
+                                str: e['label']!.ts,
+                                fontSize: 14,
+                              ),
+                            ],
                           ),
-                        )),
-                      )
-                      .toList(),
-                ),
-              ),
-            ],
-          );
-        }),
-      ],
-    );
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+          10.verticalSpaceFromWidth,
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 14.w),
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: list2
+                  .map(
+                    (e) => Flexible(
+                      child: GestureDetector(
+                        onTap: () {
+                          BeeNav.push(e['route']!);
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Column(
+                            children: [
+                              LoadAssetImage(
+                                e['icon']!,
+                                width: 34.w,
+                                height: 34.w,
+                              ),
+                              4.verticalSpace,
+                              AppText(
+                                str: e['label']!.ts,
+                                fontSize: 12,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ],
+      );
+    });
     return headerView;
   }
 }

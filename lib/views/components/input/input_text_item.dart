@@ -1,6 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/text_config.dart';
 import 'package:flutter/material.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/views/components/caption.dart';
@@ -49,13 +48,14 @@ class _InputTextItemState extends State<InputTextItem> {
           : const EdgeInsets.all(0),
       margin: (widget.margin is EdgeInsets)
           ? widget.margin
-          : const EdgeInsets.all(0),
+          : EdgeInsets.only(left: 14.w),
       width: double.infinity,
       decoration: BoxDecoration(
         color: widget.bgColor ?? AppColors.white,
         border: Border(
-          bottom: Divider.createBorderSide(context,
-              color: AppColors.line, width: widget.flag ? 1 : 0),
+          bottom: widget.flag
+              ? const BorderSide(color: AppColors.line)
+              : BorderSide.none,
         ),
       ),
       child: Row(
@@ -63,28 +63,24 @@ class _InputTextItemState extends State<InputTextItem> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Expanded(
-              flex: widget.leftFlex,
-              child: Container(
-                margin: EdgeInsets.only(
-                  left: 14.w,
+            flex: widget.leftFlex,
+            child: Row(
+              children: [
+                widget.isRequired
+                    ? const AppText(
+                        str: '*',
+                        color: AppColors.textRed,
+                      )
+                    : AppGaps.empty,
+                Flexible(
+                  child: AppText(
+                    str: (widget.title).ts,
+                    fontSize: 14,
+                  ),
                 ),
-                child: Row(
-                  children: [
-                    widget.isRequired
-                        ? const AppText(
-                            str: '*',
-                            color: AppColors.textRed,
-                          )
-                        : AppGaps.empty,
-                    Flexible(
-                      child: Text(
-                        (widget.title).ts,
-                        style: AppTextStyles.textDark14,
-                      ),
-                    ),
-                  ],
-                ),
-              )),
+              ],
+            ),
+          ),
           Expanded(
             flex: widget.rightFlex,
             child: Container(

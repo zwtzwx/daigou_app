@@ -5,20 +5,21 @@ import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/events/application_event.dart';
 import 'package:huanting_shop/events/change_page_index_event.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/views/components/ad_cell.dart';
 import 'package:huanting_shop/views/components/base_search.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/contact_cell.dart';
+import 'package:huanting_shop/views/components/goods/goods_list_cell.dart';
+import 'package:huanting_shop/views/components/indicator.dart';
 import 'package:huanting_shop/views/components/language_cell/language_cell.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:huanting_shop/views/home/home_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/views/home/widget/activity_widget.dart';
-import 'package:huanting_shop/views/home/widget/recommend_line_widget.dart';
+import 'package:huanting_shop/views/home/widget/notice_widget.dart';
 import 'package:huanting_shop/views/shop/platform_center/platform_shop_center_controller.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 
 class IndexPage extends GetView<IndexLogic> {
   const IndexPage({Key? key}) : super(key: key);
@@ -27,125 +28,210 @@ class IndexPage extends GetView<IndexLogic> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: controller.scaffoldKey,
-      // primary: false,
-      // appBar: const EmptyAppBar(),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: const LanguageCell(),
-        elevation: 0,
-        leadingWidth: 140.w,
-      ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: Stack(
-          children: [
-            RefreshIndicator(
-              onRefresh: controller.handleRefresh,
-              color: AppColors.primary,
-              child: ListView(
-                shrinkWrap: true,
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: [
-                  Obx(() => buildUserInfo()),
-                  buildLinks(),
-                  40.verticalSpaceFromWidth,
-                  const ActivityWidget(),
-                  30.verticalSpaceFromWidth,
-                  const RecommendLineWidget(),
-                  50.verticalSpaceFromWidth,
-                ],
+      body: SafeArea(
+        bottom: false,
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: Stack(
+            children: [
+              RefreshIndicator(
+                onRefresh: controller.handleRefresh,
+                color: AppColors.primary,
+                child: ListView(
+                  shrinkWrap: true,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: [
+                    StickyHeader(
+                      header: Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.fromLTRB(14.w, 0, 14.w, 8.h),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const LanguageCell(),
+                            12.verticalSpaceFromWidth,
+                            Row(
+                              children: [
+                                const Expanded(child: BaseSearch()),
+                                8.horizontalSpace,
+                                Obx(() {
+                                  var cartCount =
+                                      Get.find<AppStore>().cartCount.value;
+                                  return GestureDetector(
+                                    onTap: () {
+                                      BeeNav.push(BeeNav.cart);
+                                    },
+                                    child: Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        LoadAssetImage(
+                                          'Home/ico_gwc',
+                                          width: 28.w,
+                                          height: 28.w,
+                                        ),
+                                        if (cartCount != 0)
+                                          Positioned(
+                                            right: -5.w,
+                                            top: -5.w,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: AppColors.themeRed,
+                                                borderRadius:
+                                                    BorderRadius.circular(10.r),
+                                              ),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 5.w,
+                                                  vertical: 2.w),
+                                              child: AppText(
+                                                str: cartCount.toString(),
+                                                fontSize: 10,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AdsCell(type: 5, padding: 14.w),
+                          buildLinks(),
+                          const NoticeWidget(),
+                          categoryBox(),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 14.w),
+                            child: AppText(
+                              str: '大家在看什么'.ts,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          15.verticalSpaceFromWidth,
+                          Obx(
+                            () => controller.goodsLoading.value
+                                ? const Indicator()
+                                : Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 14.w),
+                                    child: BeeShopGoodsList(
+                                      isPlatformGoods: true,
+                                      platformGoodsList: controller.goodsList,
+                                    ),
+                                  ),
+                          ),
+                          50.verticalSpaceFromWidth,
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const ContactCell(),
-          ],
+              const ContactCell(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  // 个人信息
-  Widget buildUserInfo() {
-    List<Map<String, String>> list = [
-      {
-        'label': '余额',
-        'value': (controller.amountModel.value?.balance ?? 0)
-            .rate(showPriceSymbol: false)
-      },
-      {
-        'label': '优惠券',
-        'value': (controller.amountModel.value?.couponCount ?? 0).toString()
-      },
-    ];
-    if (controller.vipModel.value?.pointStatus == 1) {
-      list.add({
-        'label': '积分',
-        'value': (controller.vipModel.value?.profile.point ?? 0).toString()
-      });
-    }
+  // 商品分类
+  Widget categoryBox() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 12.w),
-      padding: EdgeInsets.symmetric(vertical: 20.h),
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          alignment: Alignment.topLeft,
-          fit: BoxFit.fill,
-          image: AssetImage('assets/images/Home/user-bg.png'),
+      margin: EdgeInsets.fromLTRB(14.w, 18.h, 14.w, 25.h),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.r),
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xFFE8F7FF),
+            Color(0xFFF7FBFE),
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
       ),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 15.h),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Obx(
-            () => Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Row(
-                children: [
-                  ClipOval(
-                    child: ImgItem(
-                      controller.userModel.value?.avatar ?? 'Center/logo',
-                      width: 66.w,
-                      height: 66.w,
-                      holderImg: 'Center/logo',
-                    ),
-                  ),
-                  12.horizontalSpace,
-                  controller.userModel.value == null
-                      ? BeeButton(
-                          text: '点击登录',
-                          onPressed: () {
-                            BeeNav.push(BeeNav.login);
-                          },
-                        )
-                      : const Column()
-                ],
-              ),
-            ),
-          ),
-          25.verticalSpaceFromWidth,
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: list
-                .map(
-                  (e) => Flexible(
+            children: [
+              Expanded(
+                child: Obx(
+                  () => AppText(
+                    str: '精选分类'.ts,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Obx(
+                () => AppText(
+                  str: '查看全部'.ts,
+                  fontSize: 14,
+                  color: AppColors.textNormal,
+                ),
+              ),
+              5.horizontalSpace,
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 13.sp,
+                color: AppColors.textNormal,
+              ),
+            ],
+          ),
+          15.verticalSpaceFromWidth,
+          SizedBox(
+            height: 100.w,
+            child: Obx(
+              () => ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: controller.categoryList.length,
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    BeeNav.push(BeeNav.platformGoodsList, {
+                      'keyword': controller.categoryList[index].nameCn,
+                      'origin': controller.categoryList[index].name
+                    });
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(right: 14.w),
+                    color: Colors.transparent,
                     child: Column(
                       children: [
-                        AppText(
-                          str: e['value']!,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                        Container(
+                          width: 68.w,
+                          height: 68.w,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          padding: EdgeInsets.all(8.w),
+                          child: ImgItem(
+                            controller.categoryList[index].image ?? '',
+                            holderColor: Colors.white,
+                          ),
                         ),
-                        4.verticalSpace,
+                        10.verticalSpaceFromWidth,
                         AppText(
-                          str: e['label']!.ts,
-                          fontSize: 14,
+                          str: controller.categoryList[index].name,
+                          fontSize: 12,
                         ),
                       ],
                     ),
                   ),
-                )
-                .toList(),
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -156,162 +242,79 @@ class IndexPage extends GetView<IndexLogic> {
     List<Map<String, dynamic>> list = [
       {
         'label': '新手指引',
-        'icon': 'Home/xszy',
+        'icon': 'Home/ico_xszy',
         'route': BeeNav.help,
         'params': {'index': 3},
       },
       {
-        'label': '集运转运',
-        'icon': 'Home/jyzy',
+        'label': '运费估算',
+        'icon': 'Home/ico_yfgs',
+        'route': BeeNav.lineQuery,
       },
       {
-        'label': '代购代买',
-        'icon': 'Home/dgdm',
+        'label': '推广联盟',
+        'icon': 'Home/ico_tglm',
         'route': BeeNav.manualOrder,
       },
       {
-        'label': '自营商城',
-        'icon': 'Home/zysc',
+        'label': '提交转运',
+        'icon': 'Home/ico_zydd',
+        'route': BeeNav.forecast,
       },
     ];
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12.w),
-      child: Column(
-        children: [
-          16.verticalSpaceFromWidth,
-          IntrinsicHeight(
-            child: Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      BeeNav.push(BeeNav.shopOrderList);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFF8F1),
-                        borderRadius: BorderRadius.circular(18.r),
-                      ),
-                      padding: EdgeInsets.only(top: 15.h, bottom: 25.h),
-                      child: Column(
-                        children: [
-                          ImgItem(
-                            'Home/dgscdd',
-                            width: 55.w,
-                            height: 55.w,
-                          ),
-                          10.verticalSpaceFromWidth,
-                          Obx(
-                            () => AppText(
-                              str: '代购/商城订单'.ts,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                10.horizontalSpace,
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      BeeNav.push(BeeNav.orderCenter);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFFBEB),
-                        borderRadius: BorderRadius.circular(18.r),
-                      ),
-                      padding: EdgeInsets.only(top: 15.h, bottom: 25.h),
-                      child: Column(
-                        children: [
-                          ImgItem(
-                            'Home/jyzybg',
-                            width: 55.w,
-                            height: 55.w,
-                          ),
-                          10.verticalSpaceFromWidth,
-                          Obx(
-                            () => AppText(
-                              str: '集运/转运包裹'.ts,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          18.verticalSpaceFromWidth,
-          const ImgItem(
-            'Home/banne',
-            fit: BoxFit.fitWidth,
-          ),
-          18.verticalSpaceFromWidth,
-          Obx(
-            () => BaseSearch(
-              hintText: '粘贴商品链接或输入商品名'.ts,
-            ),
-          ),
-          28.verticalSpaceFromWidth,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: list
-                .map(
-                  (e) => Flexible(
-                    child: GestureDetector(
-                      onTap: () {
-                        if (e['route'] != null) {
-                          BeeNav.push(e['route']!, e['params']);
-                        } else if (e['icon'] == 'Home/jyzy') {
-                          ApplicationEvent.getInstance().event.fire(
-                              ChangePageIndexEvent(pageName: 'transport'));
-                        } else {
-                          Get.find<AppStore>().setShopPlatformType(2);
-                          bool isRegistered =
-                              Get.isRegistered<PlatformShopCenterController>();
-                          if (isRegistered) {
-                            Get.find<PlatformShopCenterController>()
-                                .platformType
-                                .value = 2;
-                          }
-                          ApplicationEvent.getInstance()
-                              .event
-                              .fire(ChangePageIndexEvent(pageName: 'shop'));
-                        }
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Column(
-                          children: [
-                            ImgItem(
-                              e['icon']!,
-                              width: 50.w,
-                              height: 50.w,
-                            ),
-                            5.verticalSpaceFromWidth,
-                            Obx(
-                              () => AppText(
-                                str: (e['label']! as String).ts,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
+    return Container(
+      margin: EdgeInsets.fromLTRB(14.w, 20.h, 14.w, 25.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: list
+            .map(
+              (e) => Flexible(
+                child: GestureDetector(
+                  onTap: () {
+                    if (e['route'] != null) {
+                      BeeNav.push(e['route']!, e['params']);
+                    } else if (e['icon'] == 'Home/jyzy') {
+                      ApplicationEvent.getInstance()
+                          .event
+                          .fire(ChangePageIndexEvent(pageName: 'transport'));
+                    } else {
+                      Get.find<AppStore>().setShopPlatformType(2);
+                      bool isRegistered =
+                          Get.isRegistered<PlatformShopCenterController>();
+                      if (isRegistered) {
+                        Get.find<PlatformShopCenterController>()
+                            .platformType
+                            .value = 2;
+                      }
+                      ApplicationEvent.getInstance()
+                          .event
+                          .fire(ChangePageIndexEvent(pageName: 'shop'));
+                    }
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Column(
+                      children: [
+                        ImgItem(
+                          e['icon']!,
+                          width: 42.w,
+                          height: 42.w,
                         ),
-                      ),
+                        5.verticalSpaceFromWidth,
+                        Obx(
+                          () => AppText(
+                            str: (e['label']! as String).ts,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                )
-                .toList(),
-          )
-        ],
+                ),
+              ),
+            )
+            .toList(),
       ),
     );
   }

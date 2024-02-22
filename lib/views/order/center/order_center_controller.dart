@@ -15,6 +15,7 @@ class BeeOrderIndexLogic extends GlobalLogic
   final orderCount = Get.find<AppStore>().amountInfo;
   final checkedIds = <int>[].obs;
   final allParcels = <ParcelModel>[];
+  String keyword = '';
 
   @override
   onInit() {

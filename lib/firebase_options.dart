@@ -71,6 +71,6 @@ class DefaultFirebaseOptions {
         '682441097900-o0bkt8qba1eab16jbsqpcg0od7q4gh2i.apps.googleusercontent.com',
     iosClientId:
         '682441097900-dod90pj7o994re6hf59grohvdqlfnqos.apps.googleusercontent.com',
-    iosBundleId: 'com.huating.shopApp',
+    iosBundleId: 'com.yunliantiao.jiyunAppClient',
   );
 }

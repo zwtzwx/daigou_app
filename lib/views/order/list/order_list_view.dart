@@ -1,7 +1,9 @@
+import 'package:get/instance_manager.dart';
 import 'package:huanting_shop/models/order_model.dart';
 import 'package:huanting_shop/services/order_service.dart';
 import 'package:huanting_shop/views/components/list_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:huanting_shop/views/order/center/order_center_controller.dart';
 import 'package:huanting_shop/views/order/widget/order_item_cell.dart';
 
 /*
@@ -21,6 +23,7 @@ class TransportOrderList extends StatefulWidget {
 
 class _TransportOrderListState extends State<TransportOrderList> {
   int pageIndex = 0;
+  final controller = Get.find<BeeOrderIndexLogic>();
 
   loadList({type}) async {
     pageIndex = 0;
@@ -31,6 +34,7 @@ class _TransportOrderListState extends State<TransportOrderList> {
     Map<String, dynamic> dic = {
       'status': widget.status,
       'page': (++pageIndex),
+      'keyword': controller.keyword,
     };
     var data = await OrderService.getList(dic);
     return data;

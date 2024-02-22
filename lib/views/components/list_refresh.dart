@@ -32,6 +32,7 @@ class RefreshView extends StatefulWidget {
   final double gridViewCrossSpace;
   final double gridViewMainSpace;
   final String? emptyImg;
+  final Widget? emptyWidget;
 
   const RefreshView(
       {Key? key,
@@ -51,6 +52,7 @@ class RefreshView extends StatefulWidget {
       this.gridViewMainSpace = 10,
       this.separator,
       this.emptyImg,
+      this.emptyWidget,
       this.putAlldatas})
       : super(key: key);
 
@@ -254,25 +256,27 @@ class _ListRefreshState extends State<RefreshView> {
 
   Widget _empty() {
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        const SizedBox(
-          height: 140,
-          width: 140,
-          child: ImgItem(
-            '',
-            fit: BoxFit.contain,
-            holderImg: "Home/empty",
-            format: "png",
+      child: widget.emptyWidget ??
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const SizedBox(
+                height: 140,
+                width: 140,
+                child: ImgItem(
+                  '',
+                  fit: BoxFit.contain,
+                  holderImg: "Home/empty",
+                  format: "png",
+                ),
+              ),
+              AppText(
+                str: widget.noMessageTip.ts,
+                color: AppColors.textGrayC,
+              )
+            ],
           ),
-        ),
-        AppText(
-          str: widget.noMessageTip.ts,
-          color: AppColors.textGrayC,
-        )
-      ],
-    ));
+    );
   }
 
   @override

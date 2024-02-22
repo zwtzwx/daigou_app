@@ -41,8 +41,7 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
 
   // 获取轮播图
   getAds() async {
-    List<BannerModel> result =
-        await AdsService.getList({"source": widget.type == 1 ? 4 : 1});
+    List<BannerModel> result = await AdsService.getList({"source": 4});
     List<BannerModel> filterAdList = [];
     for (var item in result) {
       if (item.type == widget.type) {
@@ -60,7 +59,7 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
     super.build(context);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: widget.padding ?? 12.w),
-      height: 125.h,
+      height: 130.h,
       child: Swiper(
         onTap: (index) {
           BannerModel model = adList[index];

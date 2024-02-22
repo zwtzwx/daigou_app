@@ -49,10 +49,13 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 50.h),
       alignment: Alignment.center,
-      child: ImgItem(
-        'Center/logo',
-        width: 80.w,
-        height: 80.w,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5.r),
+        child: ImgItem(
+          'Center/logo',
+          width: 80.w,
+          height: 80.w,
+        ),
       ),
     );
   }

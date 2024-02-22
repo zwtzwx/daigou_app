@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:682441097900:android:6f9815fd07cfcc9fbe1509",
         "android_client_info": {
-          "package_name": "com.huating"
+          "package_name": "com.yunliantiao.jiyun_app_client"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "682441097900-o0bkt8qba1eab16jbsqpcg0od7q4gh2i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.huating",
+            "package_name": "com.yunliantiao.jiyun_app_client",
             "certificate_hash": "9ef329c1927f42a9e117f30c1a961b7905afc194"
           }
         },
@@ -43,7 +43,7 @@
               "client_id": "682441097900-dod90pj7o994re6hf59grohvdqlfnqos.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.huating.shopApp"
+                "bundle_id": "com.yunliantiao.jiyunAppClient"
               }
             }
           ]

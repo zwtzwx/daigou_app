@@ -212,7 +212,7 @@ class BeeParcelCreateLogic extends GlobalLogic {
     }
     ParcelService.store(params, (data) {
       if (data.ok) {
-        Get.find<AppStore>().getBaseCountInfo();
+        // Get.find<AppStore>().getBaseCountInfo();
         BeeNav.pop();
       }
     }, (message) {});
@@ -324,6 +324,22 @@ class BeeParcelCreateLogic extends GlobalLogic {
     if (data != null) {
       var removeItem = formData.removeAt(index);
       removeItem.value.editControllers!.dispose();
+    }
+  }
+
+  // 选择仓库
+  onPickupWarehouse(BuildContext context) {
+    if (selectedCountryModel.value?.id != null) {
+      Picker(
+        adapter: PickerDataAdapter(data: getPickerWareHouse(wareHouseList)),
+        cancelText: '取消'.ts,
+        confirmText: '确认'.ts,
+        selectedTextStyle: const TextStyle(color: Colors.blue, fontSize: 12),
+        onCancel: () {},
+        onConfirm: (Picker picker, List value) {
+          selectedWarehouseModel.value = wareHouseList[value.first];
+        },
+      ).showModal(context);
     }
   }
 }

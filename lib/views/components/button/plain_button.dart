@@ -12,6 +12,8 @@ class HollowButton extends StatefulWidget {
     this.borderRadis = 999,
     this.padding,
     this.visualDensity,
+    this.borderWidth = 1,
+    this.textFontWeight = FontWeight.w500,
     this.borderColor = AppColors.primary,
     this.textColor = AppColors.primary,
     this.onPressed,
@@ -19,8 +21,10 @@ class HollowButton extends StatefulWidget {
   final String text;
   final double fontSize;
   final double borderRadis;
+  final double borderWidth;
   final Color borderColor;
   final Color textColor;
+  final FontWeight textFontWeight;
   final Function? onPressed;
   final VisualDensity? visualDensity;
   final EdgeInsetsGeometry? padding;
@@ -47,13 +51,14 @@ class _PlainButtonState extends State<HollowButton> {
         padding: MaterialStateProperty.all(
             widget.padding ?? EdgeInsets.symmetric(horizontal: 15.w)),
         side: MaterialStateProperty.all(
-          BorderSide(color: widget.borderColor),
+          BorderSide(color: widget.borderColor, width: widget.borderWidth),
         ),
       ),
       child: AppText(
         str: widget.text.ts,
         fontSize: widget.fontSize,
         color: widget.textColor,
+        fontWeight: widget.textFontWeight,
       ),
     );
   }

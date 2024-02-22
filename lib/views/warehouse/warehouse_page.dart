@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/extension/translation.dart';
@@ -5,10 +6,11 @@ import 'package:huanting_shop/models/warehouse_model.dart';
 import 'package:huanting_shop/views/components/button/main_button.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:flutter/material.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:huanting_shop/views/warehouse/warehouse_controller.dart';
 
 /*
-  仓库地址、
+  仓库地址
 */
 
 class BeeCangKuPage extends GetView<BeeCangKuLogic> {
@@ -104,11 +106,9 @@ class BeeCangKuPage extends GetView<BeeCangKuLogic> {
           .tsArgs({'day': model.freeStoreDays, 'fee': storeFee});
     }
     List<String> contents = [
-      model.receiverName! +
-          (controller.userModel != null ? '(${controller.userModel!.id})' : ''),
+      model.receiverName!,
       model.phone!,
-      model.address! +
-          (controller.userModel != null ? '(${controller.userModel!.id})' : ''),
+      model.address!,
       model.postcode!,
       storeStr,
     ];
@@ -128,8 +128,8 @@ class BeeCangKuPage extends GetView<BeeCangKuLogic> {
               width: 100,
               child: AppText(
                 str: labels[i].ts,
-                color: AppColors.textGray,
-                fontSize: 16,
+                color: AppColors.textGrayC9,
+                fontSize: 14,
                 lines: 3,
               ),
             ),
@@ -137,25 +137,19 @@ class BeeCangKuPage extends GetView<BeeCangKuLogic> {
               child: AppText(
                 str: contents[i],
                 lines: 4,
-                fontSize: 16,
               ),
             ),
             i < 4
                 ? Container(
-                    padding: const EdgeInsets.only(left: 15),
-                    margin: const EdgeInsets.only(left: 10),
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        left: BorderSide(color: AppColors.line),
-                      ),
-                    ),
+                    margin: EdgeInsets.only(left: 10.w),
                     child: GestureDetector(
                       onTap: () {
-                        controller.onCopy(contents[i]);
+                        controller.onCopyData(contents[i]);
                       },
-                      child: AppText(
-                        str: '复制'.ts,
-                        fontSize: 14,
+                      child: LoadAssetImage(
+                        'Transport/ico_fz',
+                        width: 20.w,
+                        height: 20.w,
                       ),
                     ),
                   )
@@ -208,8 +202,8 @@ class BeeCangKuPage extends GetView<BeeCangKuLogic> {
             text: '一键复制仓库地址',
             onPressed: () {
               String copyStr =
-                  '${labels[0]}：${contents[0]}\n${labels[1]}：${contents[1]}\n${labels[4]}：${contents[4]}\n${labels[2]}：${contents[2]}';
-              controller.onCopy(copyStr);
+                  '${labels[0]}：${contents[0]}\n${labels[1]}：${contents[1]}\n${labels[3]}：${contents[3]}\n${labels[2]}：${contents[2]}';
+              controller.onCopyData(copyStr);
             },
           ),
         ),

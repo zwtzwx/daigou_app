@@ -15,36 +15,27 @@ class LanguageCell extends GetView<LanguageCellController> {
       },
       child: UnconstrainedBox(
         child: Container(
-          alignment: Alignment.centerLeft,
-          margin: EdgeInsets.only(left: 12.w),
-          width: 120.w,
-          padding: EdgeInsets.symmetric(vertical: 7.h, horizontal: 12.w),
+          width: 100.w,
+          height: 30.h,
           decoration: BoxDecoration(
-            color: const Color(0x24000000),
+            color: const Color(0x7DD7D7D7),
             borderRadius: BorderRadius.circular(999),
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 8.w),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Obx(
-                  () => AppText(
-                    str: controller.i10n.language.split('_').last +
-                        (controller.currency.value != null
-                            ? '/${controller.currency.value!.symbol}'
-                            : ''),
-                  ),
+              Obx(
+                () => AppText(
+                  str: controller.i10n.language.split('_').last +
+                      (controller.currency.value != null
+                          ? '/${controller.currency.value!.symbol}'
+                          : ''),
                 ),
               ),
-              const Icon(
+              5.horizontalSpace,
+              Icon(
                 Icons.arrow_forward_ios,
-                size: 14,
-                color: Colors.white,
+                size: 14.sp,
               ),
             ],
           ),

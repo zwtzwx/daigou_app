@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/extension/translation.dart';
@@ -17,7 +18,7 @@ class AgentApplyPage extends GetView<AgentApplyController> {
         appBar: AppBar(
           leading: const BackButton(color: Colors.black),
           backgroundColor: Colors.white,
-          elevation: 0.5,
+          elevation: 0.1,
           centerTitle: true,
           title: AppText(
             str: '申请代理'.ts,
@@ -26,8 +27,8 @@ class AgentApplyPage extends GetView<AgentApplyController> {
         ),
         bottomNavigationBar: SafeArea(
           child: Container(
-              height: 40,
-              margin: const EdgeInsets.only(right: 15, left: 15),
+              height: 38.h,
+              margin: EdgeInsets.symmetric(horizontal: 15.w),
               child: BeeButton(
                 text: '申请成为代理',
                 onPressed: controller.onSubmit,
@@ -42,81 +43,81 @@ class AgentApplyPage extends GetView<AgentApplyController> {
             child: Column(
               children: <Widget>[
                 SizedBox(
-                    child: Column(
-                  children: <Widget>[
-                    InputTextItem(
-                        title: '姓名'.ts,
-                        isRequired: true,
-                        inputText: Container(
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Expanded(
-                                  child: BaseInput(
-                                hintText: '请输入您的姓名'.ts,
-                                textAlign: TextAlign.left,
-                                controller: controller.mobileNumberController,
-                                focusNode: controller.mobileNumber,
-                                autoFocus: false,
-                                autoShowRemove: false,
-                                maxLength: 50,
-                                keyboardType: TextInputType.text,
-                                onSubmitted: (res) {
-                                  FocusScope.of(context)
-                                      .requestFocus(controller.oldNumber);
-                                },
-                              ))
-                            ],
-                          ),
-                        )),
-                    InputTextItem(
-                        title: '联系电话'.ts,
-                        isRequired: true,
-                        inputText: BaseInput(
-                          hintText: '请输入联系电话'.ts,
-                          textAlign: TextAlign.left,
-                          controller: controller.oldNumberController,
-                          focusNode: controller.oldNumber,
-                          autoFocus: false,
-                          autoShowRemove: false,
-                          maxLength: 50,
-                          keyboardType: TextInputType.text,
-                          onSubmitted: (res) {
-                            FocusScope.of(context)
-                                .requestFocus(controller.validation);
-                          },
-                        )),
-                    InputTextItem(
-                        title: '联系邮箱'.ts,
-                        isRequired: true,
-                        inputText: Container(
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Expanded(
-                                  child: BaseInput(
-                                hintText: '请输入邮箱号'.ts,
-                                textAlign: TextAlign.left,
-                                controller: controller.validationController,
-                                focusNode: controller.validation,
-                                autoFocus: false,
-                                maxLength: 50,
-                                autoShowRemove: false,
-                                keyboardType: TextInputType.text,
-                                onSubmitted: (res) {
-                                  FocusScope.of(context)
-                                      .requestFocus(controller.blankNode);
-                                },
-                              )),
-                            ],
-                          ),
-                        )),
-                    AppGaps.line,
-                  ],
-                )),
-                AppGaps.vGap15,
+                  child: Column(
+                    children: <Widget>[
+                      InputTextItem(
+                          title: '姓名'.ts,
+                          isRequired: true,
+                          inputText: Container(
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Expanded(
+                                    child: BaseInput(
+                                  hintText: '请输入您的姓名'.ts,
+                                  textAlign: TextAlign.left,
+                                  controller: controller.mobileNumberController,
+                                  focusNode: controller.mobileNumber,
+                                  autoFocus: false,
+                                  autoShowRemove: false,
+                                  maxLength: 50,
+                                  keyboardType: TextInputType.text,
+                                  onSubmitted: (res) {
+                                    FocusScope.of(context)
+                                        .requestFocus(controller.oldNumber);
+                                  },
+                                ))
+                              ],
+                            ),
+                          )),
+                      InputTextItem(
+                          title: '联系电话'.ts,
+                          isRequired: true,
+                          inputText: BaseInput(
+                            hintText: '请输入联系电话'.ts,
+                            textAlign: TextAlign.left,
+                            controller: controller.oldNumberController,
+                            focusNode: controller.oldNumber,
+                            autoFocus: false,
+                            autoShowRemove: false,
+                            maxLength: 50,
+                            keyboardType: TextInputType.text,
+                            onSubmitted: (res) {
+                              FocusScope.of(context)
+                                  .requestFocus(controller.validation);
+                            },
+                          )),
+                      InputTextItem(
+                          title: '联系邮箱'.ts,
+                          isRequired: true,
+                          flag: false,
+                          inputText: Container(
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Expanded(
+                                    child: BaseInput(
+                                  hintText: '请输入邮箱号'.ts,
+                                  textAlign: TextAlign.left,
+                                  controller: controller.validationController,
+                                  focusNode: controller.validation,
+                                  autoFocus: false,
+                                  maxLength: 50,
+                                  autoShowRemove: false,
+                                  keyboardType: TextInputType.text,
+                                  onSubmitted: (res) {
+                                    FocusScope.of(context)
+                                        .requestFocus(controller.blankNode);
+                                  },
+                                )),
+                              ],
+                            ),
+                          )),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

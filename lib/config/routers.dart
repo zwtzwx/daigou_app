@@ -67,6 +67,8 @@ import 'package:huanting_shop/views/payment/transfer_payment/bindings.dart';
 import 'package:huanting_shop/views/payment/transfer_payment/view.dart';
 import 'package:huanting_shop/views/payment/transport_pay/bindings.dart';
 import 'package:huanting_shop/views/payment/transport_pay/view.dart';
+import 'package:huanting_shop/views/shop/cart/cart_binding.dart';
+import 'package:huanting_shop/views/shop/cart/cart_view.dart';
 import 'package:huanting_shop/views/shop/center/shop_center_binding.dart';
 import 'package:huanting_shop/views/shop/center/shop_center_view.dart';
 import 'package:huanting_shop/views/shop/chat_detail/order_chat_detail_binding.dart';
@@ -101,6 +103,10 @@ import 'package:huanting_shop/views/user/address/list/address_list_binding.dart'
 import 'package:huanting_shop/views/user/address/list/address_list_view.dart';
 import 'package:huanting_shop/views/user/agent/agent_apply/bindings.dart';
 import 'package:huanting_shop/views/user/agent/agent_apply/view.dart';
+import 'package:huanting_shop/views/user/agent/agent_apply_instruction/binding.dart';
+import 'package:huanting_shop/views/user/agent/agent_apply_instruction/view.dart';
+import 'package:huanting_shop/views/user/agent/agent_center/binding.dart';
+import 'package:huanting_shop/views/user/agent/agent_center/view.dart';
 import 'package:huanting_shop/views/user/agent/agent_commission/bindings.dart';
 import 'package:huanting_shop/views/user/agent/agent_commission/view.dart';
 import 'package:huanting_shop/views/user/agent/agent_commission_apply/bindings.dart';
@@ -185,6 +191,8 @@ class BeeNav {
   static const String rechargeHistory = '/rechargeHistory'; // 充值
   static const String paymentTransfer = '/paymentTransfer'; // 充值
   static const String coupon = '/coupon'; // 优惠券
+  static const String agentApplyInstruct = '/agentApplyInstruct'; // 代理申请说明
+  static const String agentCenter = '/agentCenter'; // 代理中心
   static const String agentApply = '/agentApply'; // 代理申请
   static const String agentMember = '/agentMember'; // 代理推广好友
   static const String agentCommission = '/agentCommission'; // 佣金申请列表
@@ -224,6 +232,7 @@ class BeeNav {
   static const String imageSearch = '/imageSearch';
   static const String imageSearchResults = '/imageSearchResults';
   static const String manualOrder = '/manualOrder';
+  static const String cart = '/cart';
 
   static List filterList = [
     webview,
@@ -486,6 +495,11 @@ class BeeNav {
       binding: CouponBinding(),
     ),
     GetPage(
+      name: agentCenter,
+      page: () => const AgentCenterView(),
+      binding: AgentCenterBinding(),
+    ),
+    GetPage(
       name: agentApply,
       page: () => const AgentApplyPage(),
       binding: AgentApplyBinding(),
@@ -509,6 +523,11 @@ class BeeNav {
       name: agentWithdrawRecord,
       page: () => const AgentWithdrawRecordPage(),
       binding: AgentWithdrawRecordBinding(),
+    ),
+    GetPage(
+      name: agentApplyInstruct,
+      page: () => const AgentApplyInstructionView(),
+      binding: AgentApplyInstructionBinding(),
     ),
     GetPage(
       name: agentCommissionList,
@@ -609,6 +628,11 @@ class BeeNav {
       name: manualOrder,
       page: () => const ManualOrderView(),
       binding: ManualOrderBinding(),
+    ),
+    GetPage(
+      name: cart,
+      page: () => const CartView(),
+      binding: CartBinding(),
     ),
   ];
 

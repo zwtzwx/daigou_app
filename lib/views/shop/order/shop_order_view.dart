@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/list_refresh_event.dart';
 import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/base_search.dart';
 import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:huanting_shop/views/shop/order/shop_order_controller.dart';
-import 'package:huanting_shop/views/shop/widget/app_bar_bottom.dart';
-import 'package:huanting_shop/views/shop/widget/proble_order_list.dart';
 import 'package:huanting_shop/views/shop/widget/shop_order_list.dart';
 
 class ShopOrderView extends GetView<ShopOrderController> {
@@ -16,112 +19,75 @@ class ShopOrderView extends GetView<ShopOrderController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: AppText(
-          str: '购物订单'.ts,
-          fontSize: 17,
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: const BackButton(color: Colors.black),
-        bottom: AppBarBottom(
-            height:
-                30.h + (myTabbar() as PreferredSizeWidget).preferredSize.height,
-            child: topWidget()),
-      ),
-      backgroundColor: AppColors.bgGray,
-      body: Obx(
-        () => PageView.builder(
-          itemCount: controller.orderType.value == 1 ? 7 : 3,
-          onPageChanged: (value) {
-            if (controller.orderType.value == 1) {
-              controller.tabController.animateTo(value);
-              controller.tabIndex.value = value;
-            } else {
-              controller.problemTabController.animateTo(value);
-              controller.problemTabIndex.value = value;
-            }
+        title: BaseSearch(
+          showScan: false,
+          needCheck: false,
+          hintText: '名称/主订单/商品单号'.ts,
+          onSearch: (value) {
+            controller.keyword = value;
+            ApplicationEvent.getInstance()
+                .event
+                .fire(ListRefreshEvent(type: 'refresh'));
           },
-          controller: controller.pageController,
-          itemBuilder: (context, index) => Obx(
-            () => controller.orderType.value == 1
-                ? ShopOrderList(
-                    status: index,
-                  )
-                : ProbleShopOrder(
-                    status: index,
-                  ),
-          ),
         ),
-      ),
-    );
-  }
-
-  Widget topWidget() {
-    List<String> orderTypes = ['购物订单', '异常订单'];
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          height: 26.h,
-          child: Obx(
-            () => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: orderTypes
-                  .asMap()
-                  .keys
-                  .map(
-                    (index) => GestureDetector(
-                      onTap: () {
-                        if (controller.orderType.value == index + 1) return;
-                        controller.orderType.value = index + 1;
-                        controller.pageController.jumpToPage(0);
-                        if (controller.orderType.value == 1) {
-                          controller.tabIndex.value = 0;
-                        } else {
-                          controller.problemTabIndex.value = 0;
-                        }
-                      },
-                      child: AppText(
-                        str: orderTypes[index].ts,
-                        fontSize:
-                            controller.orderType.value == index + 1 ? 18 : 16,
-                        color: controller.orderType.value == index + 1
-                            ? AppColors.textDark
-                            : AppColors.textNormal,
-                        fontWeight: controller.orderType.value == index + 1
-                            ? FontWeight.bold
-                            : FontWeight.w500,
-                      ),
-                    ),
+        leadingWidth: 25.w,
+        leading: Padding(
+            padding: EdgeInsets.only(left: 5.w),
+            child: const BackButton(color: Colors.black)),
+        bottom: myTabbar() as PreferredSizeWidget,
+        actions: [
+          GestureDetector(
+            onTap: () {
+              BeeNav.push(BeeNav.probleShopOrder);
+            },
+            child: Container(
+              color: Colors.white,
+              margin: EdgeInsets.only(right: 14.w),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  LoadAssetImage(
+                    'Transport/ico_wtdd',
+                    width: 20.w,
+                  ),
+                  2.verticalSpaceFromWidth,
+                  AppText(
+                    str: '问题订单'.ts,
+                    fontSize: 10,
+                    color: AppColors.textNormal,
                   )
-                  .toList(),
+                ],
+              ),
             ),
           ),
+        ],
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
+      backgroundColor: AppColors.bgGray,
+      body: PageView.builder(
+        itemCount: 7,
+        onPageChanged: (value) {
+          controller.tabController.animateTo(value);
+          controller.tabIndex.value = value;
+        },
+        controller: controller.pageController,
+        itemBuilder: (context, index) => ShopOrderList(
+          status: index,
         ),
-        10.verticalSpaceFromWidth,
-        Obx(() => myTabbar()),
-      ],
+      ),
     );
   }
 
   Widget myTabbar() {
     return TabBar(
-      isScrollable: controller.orderType.value == 1,
-      tabs: controller.orderType.value == 1
-          ? tabListCell()
-          : problemTabListCell(),
-      controller: controller.orderType.value == 1
-          ? controller.tabController
-          : controller.problemTabController,
+      isScrollable: true,
+      tabs: tabListCell(),
+      controller: controller.tabController,
       indicator: const BoxDecoration(),
       onTap: (index) {
         controller.pageController.jumpToPage(index);
-        if (controller.orderType.value == 1) {
-          controller.tabIndex.value = index;
-        } else {
-          controller.problemTabIndex.value = index;
-        }
+        controller.tabIndex.value = index;
       },
     );
   }
@@ -151,43 +117,6 @@ class ShopOrderView extends GetView<ShopOrderController> {
                   height: 3.h,
                   decoration: BoxDecoration(
                     color: controller.tabIndex.value == index
-                        ? AppColors.primary
-                        : Colors.white,
-                    borderRadius: BorderRadius.circular(2.h),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        )
-        .toList();
-  }
-
-  List<Widget> problemTabListCell() {
-    List<String> tabs = ['全部', '退款', '补款'];
-    return tabs
-        .asMap()
-        .keys
-        .map(
-          (index) => Obx(
-            () => Column(
-              children: [
-                AppText(
-                  str: tabs[index].ts,
-                  fontWeight: controller.problemTabIndex.value == index
-                      ? FontWeight.bold
-                      : FontWeight.normal,
-                  color: controller.problemTabIndex.value == index
-                      ? AppColors.textDark
-                      : AppColors.textNormal,
-                  fontSize: controller.problemTabIndex.value == index ? 16 : 14,
-                ),
-                3.verticalSpaceFromWidth,
-                Container(
-                  width: 24.w,
-                  height: 3.h,
-                  decoration: BoxDecoration(
-                    color: controller.problemTabIndex.value == index
                         ? AppColors.primary
                         : Colors.white,
                     borderRadius: BorderRadius.circular(2.h),

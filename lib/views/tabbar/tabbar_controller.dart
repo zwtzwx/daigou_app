@@ -3,19 +3,15 @@ import 'package:get/get.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/cart_count_refresh_event.dart';
 import 'package:huanting_shop/events/change_page_index_event.dart';
 import 'package:huanting_shop/events/un_authenticate_event.dart';
 import 'package:huanting_shop/firebase/notification.dart';
 import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/services/shop_service.dart';
-import 'package:huanting_shop/storage/user_storage.dart';
 
 class BeeBottomNavLogic extends GlobalLogic {
   late final pageController;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final selectIndex = 0.obs;
-  final cartCount = 0.obs;
   AppStore userInfoModel = Get.find<AppStore>();
 
   @override
@@ -29,7 +25,6 @@ class BeeBottomNavLogic extends GlobalLogic {
     } else {
       pageController = PageController(initialPage: 0);
     }
-    getCartCount();
     ApplicationEvent.getInstance()
         .event
         .on<UnAuthenticateEvent>()
@@ -45,13 +40,6 @@ class BeeBottomNavLogic extends GlobalLogic {
       int index = jumpToIndex(event.pageName);
       onPageSelect(index);
       pageController.jumpToPage(index);
-    });
-
-    ApplicationEvent.getInstance()
-        .event
-        .on<CartCountRefreshEvent>()
-        .listen((event) {
-      getCartCount();
     });
   }
 
@@ -74,11 +62,8 @@ class BeeBottomNavLogic extends GlobalLogic {
       case 'home':
         index = 0;
         break;
-      case 'transport':
+      case 'center':
         index = 1;
-        break;
-      case 'shop':
-        index = 2;
         break;
     }
 
@@ -87,21 +72,10 @@ class BeeBottomNavLogic extends GlobalLogic {
 
   void onTap(int index) async {
     //Token存在Model状态管理器中的
-    if (userInfoModel.token.value.isEmpty && [3, 4].contains(index)) {
+    if (userInfoModel.token.value.isEmpty && index != 0) {
       BeeNav.push(BeeNav.login);
       return;
     }
     pageController.jumpToPage(index);
-  }
-
-  // 购物车商品数量
-  void getCartCount() async {
-    var token = UserStorage.getToken();
-    if (token.isNotEmpty) {
-      var data = await ShopService.getCartCount();
-      cartCount.value = data ?? 0;
-    } else {
-      cartCount.value = 0;
-    }
   }
 }

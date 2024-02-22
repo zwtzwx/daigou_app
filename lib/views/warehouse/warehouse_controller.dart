@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
@@ -25,11 +24,5 @@ class BeeCangKuLogic extends GlobalLogic {
     hideLoading();
     warehouseList.value = dic;
     isLoading.value = true;
-  }
-
-  // 复制
-  onCopy(String data) {
-    Clipboard.setData(ClipboardData(text: data))
-        .then((value) => showSuccess('复制成功'));
   }
 }

@@ -14,7 +14,7 @@ class BeeButton extends StatelessWidget {
     this.borderRadis = 999,
     this.fontWeight = FontWeight.bold,
     this.backgroundColor = AppColors.primary,
-    this.textColor = AppColors.textDark,
+    this.textColor = Colors.white,
     this.img,
     this.onPressed,
   }) : super(key: key);

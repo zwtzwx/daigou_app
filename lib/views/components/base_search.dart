@@ -6,13 +6,13 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
 import 'package:huanting_shop/views/components/input/base_input.dart';
+import 'package:huanting_shop/views/components/load_image.dart';
 
 class BaseSearch extends StatefulWidget {
   const BaseSearch({
     Key? key,
-    this.hintText = '请输入商品名',
+    this.hintText = '请输入商品名/电商平台商品链接',
     this.searchText = '代购',
     this.onSearch,
     this.needCheck = true,
@@ -35,13 +35,36 @@ class BaseSearch extends StatefulWidget {
 class _SearchCellState extends State<BaseSearch> {
   final TextEditingController controller = TextEditingController();
   final FocusNode focusNode = FocusNode();
+  String keyword = '';
+  bool _isFoucsed = false;
 
   @override
   initState() {
     super.initState();
     if (widget.initData != null) {
       controller.text = widget.initData!;
+      keyword = widget.initData!;
     }
+    if (!widget.showScan) {
+      focusNode.addListener(listenFocus);
+    }
+  }
+
+  void listenFocus() {
+    if (mounted) {
+      setState(() {
+        _isFoucsed = focusNode.hasFocus;
+      });
+    }
+  }
+
+  @override
+  dispose() {
+    if (!widget.showScan) {
+      focusNode.removeListener(listenFocus);
+    }
+    focusNode.dispose();
+    super.dispose();
   }
 
   void onConfirm(BuildContext context, String value) {
@@ -61,6 +84,7 @@ class _SearchCellState extends State<BaseSearch> {
             BeeNav.platformGoodsList, {'keyword': value, 'origin': value});
       }
       controller.text = '';
+      keyword = '';
     }
   }
 
@@ -73,66 +97,66 @@ class _SearchCellState extends State<BaseSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
+    return Container(
+      height: 35.h,
+      padding: EdgeInsets.symmetric(horizontal: 15.w),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF6F7FB),
+        borderRadius: BorderRadius.circular(999),
+      ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          LoadAssetImage('Home/ico_search', width: 20.w, height: 20.w),
+          10.horizontalSpace,
           Expanded(
-            child: Container(
-              height: 36.h,
-              padding: EdgeInsets.only(left: 20.w, right: 10.w),
-              decoration: BoxDecoration(
-                color: AppColors.bgGray,
-                borderRadius: BorderRadius.circular(14.r),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Obx(
-                      () => BaseInput(
-                        board: true,
-                        controller: controller,
-                        focusNode: focusNode,
-                        isCollapsed: true,
-                        isSearchInput: true,
-                        maxLength: 200,
-                        autoShowRemove: false,
-                        textInputAction: TextInputAction.search,
-                        hintStyle: TextStyle(
-                            fontSize: 12.sp, color: AppColors.textGrayC9),
-                        contentPadding: EdgeInsets.symmetric(vertical: 7.h),
-                        hintText: widget.hintText.ts,
-                        onSubmitted: (value) {
-                          onConfirm(context, value);
-                        },
-                      ),
-                    ),
-                  ),
-                  widget.showScan
-                      ? Padding(
-                          padding: EdgeInsets.only(left: 10.w),
-                          child: GestureDetector(
-                            onTap: onPhotoSearch,
-                            child: Icon(
-                              Icons.photo_camera_outlined,
-                              size: 25.sp,
-                              color: AppColors.textNormal,
-                            ),
-                          ),
-                        )
-                      : AppGaps.empty,
-                ],
+            child: Obx(
+              () => BaseInput(
+                board: true,
+                controller: controller,
+                focusNode: focusNode,
+                isCollapsed: true,
+                isSearchInput: true,
+                maxLength: 200,
+                autoShowRemove: false,
+                textInputAction: TextInputAction.search,
+                hintStyle:
+                    TextStyle(fontSize: 12.sp, color: AppColors.textGrayC9),
+                contentPadding: EdgeInsets.symmetric(vertical: 7.h),
+                hintText: widget.hintText.ts,
+                onSubmitted: (value) {
+                  onConfirm(context, value);
+                },
+                onChanged: (value) {
+                  setState(() {
+                    keyword = value;
+                  });
+                },
               ),
             ),
           ),
-          10.horizontalSpace,
-          BeeButton(
-            text: '代购',
-            borderRadis: 14.r,
-            onPressed: () {
-              onConfirm(context, controller.text);
-            },
-          ),
+          if (widget.showScan)
+            Padding(
+              padding: EdgeInsets.only(left: 10.w),
+              child: GestureDetector(
+                onTap: onPhotoSearch,
+                child:
+                    LoadAssetImage('Home/ico_zxj', width: 20.w, height: 20.w),
+              ),
+            ),
+          if (_isFoucsed && keyword.isNotEmpty)
+            GestureDetector(
+              onTap: () {
+                controller.text = '';
+                setState(() {
+                  keyword = '';
+                });
+              },
+              child: Icon(
+                Icons.cancel,
+                color: AppColors.textGray,
+                size: 18.sp,
+              ),
+            ),
         ],
       ),
     );

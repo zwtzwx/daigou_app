@@ -26,13 +26,14 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: const BackButton(color: Colors.black),
+          leading: const BackButton(color: Colors.white),
           backgroundColor: AppColors.primary,
           elevation: 0,
           centerTitle: true,
           title: AppText(
             str: '订单详情'.ts,
             fontSize: 17,
+            color: Colors.white,
           ),
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
@@ -95,6 +96,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                 child: AppText(
                   str: address.countryName,
                   fontSize: 12,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -495,13 +497,13 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                           controller.model.value!.transaction[0].pointAmount),
                 )
               : AppGaps.empty,
-          // controller.model.value!.status != 1
-          //     ? baseInfoItem(
-          //         '订单总价',
-          //         text: controller
-          //             .getPriceStr(controller.model.value!.actualPaymentFee),
-          //       )
-          //     : AppGaps.empty,
+          controller.model.value!.status != 1
+              ? baseInfoItem(
+                  '订单总价',
+                  text: controller
+                      .getPriceStr(controller.model.value!.actualPaymentFee),
+                )
+              : AppGaps.empty,
         ],
       ),
     );
@@ -785,21 +787,23 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
 
   Widget firstView() {
     return Container(
-        color: AppColors.primary,
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 80,
-              padding: const EdgeInsets.only(top: 30, left: 15),
-              width: ScreenUtil().screenWidth,
-              child: AppText(
-                str: controller.statusStr.value.ts,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+      color: AppColors.primary,
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: 80,
+            padding: const EdgeInsets.only(top: 30, left: 15),
+            width: ScreenUtil().screenWidth,
+            child: AppText(
+              str: controller.statusStr.value.ts,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
-            secondView(),
-          ],
-        ));
+          ),
+          secondView(),
+        ],
+      ),
+    );
   }
 }

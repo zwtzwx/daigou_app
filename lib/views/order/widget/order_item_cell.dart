@@ -31,7 +31,7 @@ class BeeOrderItem extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(10.r)),
         ),
-        margin: EdgeInsets.fromLTRB(14.w, 15.h, 14.w, 0),
+        margin: EdgeInsets.fromLTRB(12.w, 12.h, 12.w, 0),
         padding: EdgeInsets.symmetric(
           vertical: 12.h,
           horizontal: 10.w,

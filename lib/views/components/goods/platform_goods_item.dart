@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:huanting_shop/common/util.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/shop/platform_goods_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
 
 class PlatformGoodsCell extends StatelessWidget {
@@ -21,6 +22,7 @@ class PlatformGoodsCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currency = Get.find<AppStore>().currencyModel.value;
     return GestureDetector(
       onTap: () {
         BeeNav.push(BeeNav.goodsDetail, {'url': goods.detailUrl});
@@ -84,12 +86,27 @@ class PlatformGoodsCell extends StatelessWidget {
                       ],
                     ),
                   ),
-                  5.verticalSpace,
-                  AppText(
-                    str: (goods.price ?? 0).rate(needFormat: false),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
+                  Text.rich(
+                    TextSpan(
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: (currency?.symbol ?? '') + ' ',
+                        ),
+                        TextSpan(
+                          text: (goods.price ?? 0)
+                              .rate(needFormat: false, showPriceSymbol: false),
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   //   children: [
