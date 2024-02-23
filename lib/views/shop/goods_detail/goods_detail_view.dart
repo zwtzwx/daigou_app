@@ -4,17 +4,18 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/instance_manager.dart';
 import 'package:huanting_shop/common/util.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/views/components/base_search.dart';
 import 'package:huanting_shop/views/components/button/main_button.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/contact_cell.dart';
 import 'package:huanting_shop/views/components/empty_app_bar.dart';
 import 'package:huanting_shop/views/components/error_box.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:huanting_shop/views/components/skeleton/skeleton.dart';
 import 'package:huanting_shop/views/shop/goods_detail/goods_detail_controller.dart';
@@ -143,22 +144,50 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                   if (controller.prcent.value > 0)
                     const Expanded(child: BaseSearch()),
                   10.horizontalSpace,
-                  ClipOval(
-                    child: Container(
-                      width: 30.w,
-                      height: 30.w,
-                      decoration: BoxDecoration(
-                        color: controller.prcent.value > 0
-                            ? Colors.transparent
-                            : Colors.black.withOpacity(0.5),
-                      ),
-                      padding: EdgeInsets.all(4.w),
-                      child: LoadAssetImage(
-                        'Home/ico_gwc',
-                        color: controller.prcent.value > 0
-                            ? Colors.black
-                            : Colors.white,
-                      ),
+                  Container(
+                    width: 30.w,
+                    height: 30.w,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: controller.prcent.value > 0
+                          ? Colors.transparent
+                          : Colors.black.withOpacity(0.5),
+                    ),
+                    padding: EdgeInsets.all(4.w),
+                    child: Obx(
+                      () {
+                        var cartCount = Get.find<AppStore>().cartCount.value;
+                        return Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            LoadAssetImage(
+                              'Home/ico_gwc',
+                              color: controller.prcent.value > 0
+                                  ? Colors.black
+                                  : Colors.white,
+                            ),
+                            if (cartCount != 0)
+                              Positioned(
+                                right: -4.w,
+                                top: -4.w,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primary,
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 4.w, vertical: 1.w),
+                                  child: AppText(
+                                    str: cartCount.toString(),
+                                    fontSize: 10,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -316,21 +345,6 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                                     fontSize: 14,
                                   ),
                                   3.horizontalSpace,
-                                  Expanded(
-                                    child: BaseInput(
-                                      controller: controller.priceController,
-                                      focusNode: controller.priceNode,
-                                      autoRemoveController: false,
-                                      showDone: true,
-                                      autoShowRemove: false,
-                                      style: TextStyle(fontSize: 16.sp),
-                                      contentPadding:
-                                          EdgeInsets.symmetric(vertical: 8.h),
-                                      keyboardType:
-                                          const TextInputType.numberWithOptions(
-                                              decimal: true),
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),

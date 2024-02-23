@@ -73,17 +73,17 @@ class IndexPage extends GetView<IndexLogic> {
                                         ),
                                         if (cartCount != 0)
                                           Positioned(
-                                            right: -5.w,
-                                            top: -5.w,
+                                            right: -4.w,
+                                            top: -4.w,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                color: AppColors.themeRed,
+                                                color: AppColors.primary,
                                                 borderRadius:
-                                                    BorderRadius.circular(10.r),
+                                                    BorderRadius.circular(8.r),
                                               ),
                                               padding: EdgeInsets.symmetric(
-                                                  horizontal: 5.w,
-                                                  vertical: 2.w),
+                                                  horizontal: 4.w,
+                                                  vertical: 1.w),
                                               child: AppText(
                                                 str: cartCount.toString(),
                                                 fontSize: 10,

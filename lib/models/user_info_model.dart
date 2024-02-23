@@ -60,6 +60,7 @@ class AppStore {
     token.value = '';
     userInfo.value = null;
     amountInfo.value = null;
+    cartCount.value = 0;
     UserStorage.clearToken();
   }
 

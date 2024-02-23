@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
@@ -7,8 +8,10 @@ import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/shop/goods_props_model.dart';
 import 'package:huanting_shop/models/shop/goods_sku_model.dart';
 import 'package:huanting_shop/models/shop/platform_goods_model.dart';
+import 'package:huanting_shop/models/warehouse_model.dart';
 import 'package:huanting_shop/views/components/button/main_button.dart';
 import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/input/base_input.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
 
 class BeeShopGoodsSku extends StatefulWidget {
@@ -18,7 +21,10 @@ class BeeShopGoodsSku extends StatefulWidget {
     required this.sku,
     this.qty,
     required this.onSkuChange,
+    required this.freightFee,
     required this.type,
+    required this.warehouseList,
+    this.warehouse,
     this.onQtyChange,
     this.onAddCart,
     this.onBuy,
@@ -29,10 +35,13 @@ class BeeShopGoodsSku extends StatefulWidget {
   final int? qty;
   final Function(GoodsSkuModel? value) onSkuChange;
   final Function(int value)? onQtyChange;
-  final Function? onAddCart;
-  final Function? onBuy;
+  final Function(num fee, WareHouseModel? warehouse)? onAddCart;
+  final Function(num fee, WareHouseModel? warehouse)? onBuy;
   final String type;
   final String? currencySymbol;
+  final num freightFee;
+  final WareHouseModel? warehouse;
+  final List<WareHouseModel> warehouseList;
 
   @override
   State<BeeShopGoodsSku> createState() => _SKUBottomSheetState();
@@ -43,12 +52,17 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
   GoodsSkuModel? sku;
   Map<String, String> tempSelectProps = {};
   late List<GoodsPropsModel> propList;
+  WareHouseModel? selectedWarehouse;
+  final TextEditingController priceController = TextEditingController();
+  final FocusNode priceNode = FocusNode();
 
   @override
   initState() {
     super.initState();
     qty = widget.qty ?? 1;
     sku = widget.sku;
+    selectedWarehouse = widget.warehouse;
+    priceController.text = widget.freightFee.toString();
     propList = [];
     for (GoodsPropsModel prop in (widget.model.propsList ?? [])) {
       List<GoodsPropsModel> children = prop.children!
@@ -68,6 +82,13 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
       });
     }
     onPropStock();
+  }
+
+  @override
+  dispose() {
+    priceController.dispose();
+    priceNode.dispose();
+    super.dispose();
   }
 
   onQty(int step) {
@@ -150,12 +171,35 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
     if (sku != null) {
       widget.onSkuChange(sku);
     }
-    Navigator.pop(context);
+    var freight = num.parse(priceController.text);
     if (widget.type == 'cart') {
-      widget.onAddCart!();
+      widget.onAddCart!(freight, selectedWarehouse);
     } else if (widget.type == 'buy') {
-      widget.onBuy!();
+      widget.onBuy!(freight, selectedWarehouse);
     }
+    Navigator.pop(context);
+  }
+
+  void showWarehousePicker() {
+    Picker(
+      height: 150.h,
+      adapter: PickerDataAdapter(
+          data: widget.warehouseList
+              .map((ele) => PickerItem(
+                    text: AppText(
+                      str: ele.warehouseName!,
+                    ),
+                  ))
+              .toList()),
+      cancelText: '取消'.ts,
+      confirmText: '确认'.ts,
+      selectedTextStyle: TextStyle(color: AppColors.primary, fontSize: 12.sp),
+      onConfirm: (Picker picker, List value) {
+        setState(() {
+          selectedWarehouse = widget.warehouseList[value.first];
+        });
+      },
+    ).showModal(context);
   }
 
   @override
@@ -178,11 +222,11 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                     sku != null && sku!.images.isNotEmpty
                         ? sku!.images.first
                         : (widget.model.picUrl ?? ''),
-                    width: ScreenUtil().setWidth(80),
-                    height: ScreenUtil().setWidth(80),
+                    width: 80.w,
+                    height: 80.w,
                   ),
                 ),
-                AppGaps.hGap15,
+                15.horizontalSpace,
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,6 +279,74 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    if (widget.model.shopId != '-1') ...[
+                      15.verticalSpaceFromWidth,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AppText(
+                              str: '本地运费'.ts,
+                              fontSize: 14,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              priceNode.requestFocus();
+                            },
+                            child: LoadAssetImage(
+                              'Home/ico_bj',
+                              width: 16.w,
+                              height: 16.w,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 40.w,
+                            child: BaseInput(
+                              controller: priceController,
+                              focusNode: priceNode,
+                              autoRemoveController: false,
+                              showDone: true,
+                              textAlign: TextAlign.right,
+                              autoShowRemove: false,
+                              style: TextStyle(fontSize: 14.sp),
+                              contentPadding: const EdgeInsets.all(0),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      decimal: true),
+                            ),
+                          ),
+                        ],
+                      ),
+                      10.verticalSpaceFromWidth,
+                      GestureDetector(
+                        onTap: showWarehousePicker,
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: AppText(
+                                  str: '寄往仓库'.ts,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              AppText(
+                                str:
+                                    selectedWarehouse?.warehouseName ?? '请选择仓库',
+                                fontSize: 14,
+                                color: AppColors.textNormal,
+                              ),
+                              5.horizontalSpace,
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 12.sp,
+                                color: AppColors.textNormal,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                     ...propList
                         .map((e) => Container(
                               margin: EdgeInsets.only(top: 20.h),

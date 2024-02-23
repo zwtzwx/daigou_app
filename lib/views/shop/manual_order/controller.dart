@@ -1,16 +1,15 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:huanting_shop/common/upload_util.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/cart_count_refresh_event.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/models/warehouse_model.dart';
 import 'package:huanting_shop/services/shop_service.dart';
 import 'package:huanting_shop/services/warehouse_service.dart';
@@ -150,7 +149,7 @@ class ManualOrderController extends GlobalLogic {
     hideLoading();
     if (data != null) {
       showSuccess(data);
-      ApplicationEvent.getInstance().event.fire(CartCountRefreshEvent());
+      Get.find<AppStore>().getCartCount();
       BeeNav.pop();
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
@@ -14,6 +15,7 @@ import 'package:huanting_shop/models/ship_line_model.dart';
 import 'package:huanting_shop/models/shop/cart_model.dart';
 import 'package:huanting_shop/models/tariff_item_model.dart';
 import 'package:huanting_shop/models/tariff_model.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/models/value_added_service_model.dart';
 import 'package:huanting_shop/services/address_service.dart';
 import 'package:huanting_shop/services/parcel_service.dart';
@@ -276,6 +278,7 @@ class OrderPreviewController extends GlobalLogic {
       res = await ShopService.orderCreate(params);
     }
     if (res['ok']) {
+      Get.find<AppStore>().getCartCount();
       ApplicationEvent.getInstance().event.fire(CartCountRefreshEvent());
       BeeNav.redirect(BeeNav.shopOrderPay, {'order': res['order']});
     }

@@ -7,7 +7,6 @@ import 'package:get/state_manager.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/cart_count_refresh_event.dart';
 import 'package:huanting_shop/events/change_goods_info_event.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/shop/goods_comment_model.dart';
@@ -26,12 +25,10 @@ class GoodsDetailController extends GlobalLogic {
   String platformGoodsUrl = '';
   int? goodsId;
   final goodsModel = Rxn<PlatformGoodsModel?>();
-  final TextEditingController priceController =
-      TextEditingController(text: '0');
-  final FocusNode priceNode = FocusNode();
+
   final isLoading = true.obs;
   final sku = Rxn<GoodsSkuModel?>();
-  final warehouseList = <WareHouseModel>[].obs;
+  List<WareHouseModel> warehouseList = [];
   final selectedWarehouse = Rxn<WareHouseModel?>();
   final comments = <GoodsCommentModel>[].obs;
   final commentsTotal = ''.obs;
@@ -39,6 +36,7 @@ class GoodsDetailController extends GlobalLogic {
   final qty = RxnInt();
   final ScrollController scrollController = ScrollController();
   final prcent = 0.0.obs;
+  num freightFee = 0;
 
   @override
   void onInit() {
@@ -67,16 +65,10 @@ class GoodsDetailController extends GlobalLogic {
     });
   }
 
-  @override
-  onClose() {
-    priceController.dispose();
-    priceNode.dispose();
-  }
-
   // 仓库列表
   void getWarehouse() async {
     var data = await WarehouseService.getSimpleList();
-    warehouseList.value = data;
+    warehouseList = data;
     if (data.isNotEmpty) {
       selectedWarehouse.value = data.first;
     }
@@ -150,7 +142,7 @@ class GoodsDetailController extends GlobalLogic {
       'quantity': qty.value,
     });
     if (res) {
-      ApplicationEvent.getInstance().event.fire(CartCountRefreshEvent());
+      Get.find<AppStore>().getCartCount();
     }
   }
 
@@ -175,9 +167,7 @@ class GoodsDetailController extends GlobalLogic {
       'price': sku.value?.price ?? goodsModel.value?.price,
       'quantity': qty.value,
       'amount': (sku.value?.price ?? goodsModel.value?.price ?? 0) * qty.value!,
-      'freight_fee': priceController.text.isNotEmpty
-          ? num.parse(priceController.text) / (currencyModel.value?.rate ?? 1)
-          : 0,
+      'freight_fee': freightFee / (currencyModel.value?.rate ?? 1),
       'sku_info': {
         'shop_id': goodsModel.value?.shopId,
         'imgs': goodsModel.value?.images,
@@ -192,7 +182,7 @@ class GoodsDetailController extends GlobalLogic {
       }
     });
     if (res) {
-      ApplicationEvent.getInstance().event.fire(CartCountRefreshEvent());
+      Get.find<AppStore>().getCartCount();
     }
   }
 
@@ -210,9 +200,7 @@ class GoodsDetailController extends GlobalLogic {
     }).toList();
     var params = {
       'shop': {
-        'freight_fee': num.tryParse(priceController.text) != null
-            ? num.parse(priceController.text) / (currencyModel.value?.rate ?? 1)
-            : 0,
+        'freight_fee': freightFee / (currencyModel.value?.rate ?? 1),
         'goods_amount':
             (sku.value?.price ?? goodsModel.value?.price ?? 0) * qty.value!,
         'id': goodsModel.value?.shopId,
@@ -282,12 +270,17 @@ class GoodsDetailController extends GlobalLogic {
         qty: qty.value ?? goodsModel.value?.minOrderQuantity ?? 1,
         sku: sku.value,
         type: type,
+        freightFee: freightFee,
+        warehouse: selectedWarehouse.value,
+        warehouseList: warehouseList,
         currencySymbol: currencyModel.value?.symbol,
         onSkuChange: (value) {
           sku.value = value;
         },
         onQtyChange: onQty,
-        onAddCart: () {
+        onAddCart: (num fee, WareHouseModel? warehouse) {
+          freightFee = fee;
+          selectedWarehouse.value = warehouse;
           if (onCheckLogin()) {
             if (isPlatformGoods.value) {
               onPlatformGoodsAddCart();
@@ -296,7 +289,9 @@ class GoodsDetailController extends GlobalLogic {
             }
           }
         },
-        onBuy: () {
+        onBuy: (num fee, WareHouseModel? warehouse) {
+          freightFee = fee;
+          selectedWarehouse.value = warehouse;
           if (onCheckLogin()) {
             if (isPlatformGoods.value) {
               onPlatformGoodsBuy();
