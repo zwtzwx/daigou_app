@@ -69,6 +69,8 @@ import 'package:huanting_shop/views/payment/transport_pay/bindings.dart';
 import 'package:huanting_shop/views/payment/transport_pay/view.dart';
 import 'package:huanting_shop/views/shop/cart/cart_binding.dart';
 import 'package:huanting_shop/views/shop/cart/cart_view.dart';
+import 'package:huanting_shop/views/shop/category/binding.dart';
+import 'package:huanting_shop/views/shop/category/view.dart';
 import 'package:huanting_shop/views/shop/center/shop_center_binding.dart';
 import 'package:huanting_shop/views/shop/center/shop_center_view.dart';
 import 'package:huanting_shop/views/shop/chat_detail/order_chat_detail_binding.dart';
@@ -233,6 +235,7 @@ class BeeNav {
   static const String imageSearchResults = '/imageSearchResults';
   static const String manualOrder = '/manualOrder';
   static const String cart = '/cart';
+  static const String goodsCategory = '/goodsCategory';
 
   static List filterList = [
     webview,
@@ -242,6 +245,7 @@ class BeeNav {
     abountMe,
     home,
     login,
+    goodsCategory,
     register,
     track,
     shopCenter,
@@ -468,6 +472,11 @@ class BeeNav {
       name: shopOrderChatDetail,
       page: () => const ShopChatDetailView(),
       binding: ShopOrderChatDetailBinding(),
+    ),
+    GetPage(
+      name: goodsCategory,
+      page: () => const GoodsCategoryView(),
+      binding: GoodsCategoryBinding(),
     ),
     GetPage(
       name: notice,

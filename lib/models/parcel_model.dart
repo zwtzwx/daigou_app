@@ -166,9 +166,13 @@ class ParcelModel {
       this.details,
       this.select = false});
 
-  ParcelModel.initEdit() {
+  ParcelModel.initEdit({String? num}) {
     qty = 1;
     editControllers = ParcelEditingController();
+    if (num != null) {
+      expressNum = num;
+      editControllers!.numController.text = num;
+    }
   }
 
   ParcelModel.fromJson(Map<String, dynamic> json) {

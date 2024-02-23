@@ -26,6 +26,7 @@ import 'package:huanting_shop/services/parcel_service.dart';
 import 'package:huanting_shop/services/warehouse_service.dart';
 import 'package:huanting_shop/views/components/base_dialog.dart';
 import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/parcel/widget/batch_forecast.dart';
 
 class BeeParcelCreateLogic extends GlobalLogic {
   ScrollController scrollController = ScrollController();
@@ -194,10 +195,10 @@ class BeeParcelCreateLogic extends GlobalLogic {
         return;
       }
 
-      if (item.value.prop == null) {
-        showToast('有包裹没有选择物品属性');
-        return;
-      }
+      // if (item.value.prop == null) {
+      //   showToast('有包裹没有选择物品类型');
+      //   return;
+      // }
     }
     var params = getParcels();
     if (forecastType.value == 2) {
@@ -295,9 +296,9 @@ class BeeParcelCreateLogic extends GlobalLogic {
     for (var item in formData) {
       Map<String, dynamic> dic = {
         'express_num': item.value.expressNum,
-        'package_name': item.value.packageName ?? '',
+        'package_name': item.value.packageName ?? '日用品',
         'package_value': (item.value.packageValue ?? 1) / rate * 100,
-        'prop_id': item.value.prop!.map((e) => e.id).toList(),
+        'prop_id': (item.value.prop ?? []).map((e) => e.id).toList(),
         'express_id': item.value.expressId ?? '',
         'qty': item.value.qty,
         'remark': item.value.remark ?? '',
@@ -341,5 +342,16 @@ class BeeParcelCreateLogic extends GlobalLogic {
         },
       ).showModal(context);
     }
+  }
+
+  // 批量添加包裹单号
+  void onBatchAdd() {
+    Get.bottomSheet(
+      BatchForecast(onConfirm: (value) {
+        formData.value =
+            value.map((e) => ParcelModel.initEdit(num: e).obs).toList();
+      }),
+      isScrollControlled: true,
+    );
   }
 }

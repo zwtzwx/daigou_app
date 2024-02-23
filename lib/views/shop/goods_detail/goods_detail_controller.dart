@@ -37,6 +37,8 @@ class GoodsDetailController extends GlobalLogic {
   final commentsTotal = ''.obs;
   final commentLoading = false.obs;
   final qty = RxnInt();
+  final ScrollController scrollController = ScrollController();
+  final prcent = 0.0.obs;
 
   @override
   void onInit() {
@@ -57,6 +59,11 @@ class GoodsDetailController extends GlobalLogic {
       isPlatformGoods.value = true;
       platformGoodsUrl = event.url;
       getGoodsDetail();
+    });
+    scrollController.addListener(() {
+      var pixel = scrollController.position.pixels;
+      var value = pixel / 120.h;
+      prcent.value = value > 1 ? 1 : (value < 0 ? 0 : value);
     });
   }
 

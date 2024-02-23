@@ -112,7 +112,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                     child: SizedBox(
                       height: 38.h,
                       child: HollowButton(
-                        onPressed: controller.onSubmit,
+                        onPressed: controller.onBatchAdd,
                         text: '批量预报',
                         borderWidth: 2,
                         textFontWeight: FontWeight.bold,

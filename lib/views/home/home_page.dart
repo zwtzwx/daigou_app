@@ -175,10 +175,15 @@ class IndexPage extends GetView<IndexLogic> {
                 ),
               ),
               Obx(
-                () => AppText(
-                  str: '查看全部'.ts,
-                  fontSize: 14,
-                  color: AppColors.textNormal,
+                () => GestureDetector(
+                  onTap: () {
+                    BeeNav.push(BeeNav.goodsCategory);
+                  },
+                  child: AppText(
+                    str: '查看全部'.ts,
+                    fontSize: 14,
+                    color: AppColors.textNormal,
+                  ),
                 ),
               ),
               5.horizontalSpace,

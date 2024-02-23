@@ -41,6 +41,12 @@ class GoodsCategoryModel {
         children!.add(GoodsCategoryModel.fromJson(v));
       });
     }
+    if (json['children'] != null) {
+      children = List<GoodsCategoryModel>.empty(growable: true);
+      json['children'].forEach((v) {
+        children!.add(GoodsCategoryModel.fromJson(v));
+      });
+    }
     if (json['img'] is String) {
       if (json['img'].startsWith('/')) {
         image = AppConfig.getImageApi() + json['img'];

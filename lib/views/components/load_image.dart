@@ -83,6 +83,7 @@ class LoadAssetImage extends StatelessWidget {
     this.width,
     this.height,
     this.fit,
+    this.color,
     this.format = 'png',
   }) : super(key: key);
 
@@ -91,6 +92,7 @@ class LoadAssetImage extends StatelessWidget {
   final double? height;
   final BoxFit? fit;
   final String format;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +101,7 @@ class LoadAssetImage extends StatelessWidget {
       height: height,
       width: width,
       fit: fit,
+      color: color,
     );
   }
 }

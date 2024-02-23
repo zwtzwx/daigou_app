@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
@@ -7,7 +8,10 @@ import 'package:huanting_shop/common/util.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/base_search.dart';
+import 'package:huanting_shop/views/components/button/main_button.dart';
 import 'package:huanting_shop/views/components/caption.dart';
+import 'package:huanting_shop/views/components/contact_cell.dart';
 import 'package:huanting_shop/views/components/empty_app_bar.dart';
 import 'package:huanting_shop/views/components/error_box.dart';
 import 'package:huanting_shop/views/components/input/base_input.dart';
@@ -20,120 +24,148 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      primary: false,
-      appBar: const EmptyAppBar(),
-      backgroundColor: AppColors.bgGray,
-      bottomNavigationBar: Obx(() => controller.goodsModel.value != null
-          ? Container(
-              color: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 16.w),
-              child: SafeArea(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        CommonMethods.onCustomerContact();
-                      },
-                      child: ImgItem(
-                        'Shop/custom',
-                        width: 30.w,
-                        height: 30.w,
-                      ),
-                    ),
-                    Flexible(
-                        flex: 0,
-                        child: SizedBox(
-                          height: 35.h,
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  controller.showSkuModal('cart');
-                                },
-                                child: ConstrainedBox(
-                                  constraints: BoxConstraints(minWidth: 110.w),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    decoration: const BoxDecoration(
-                                        color: AppColors.textDark,
-                                        borderRadius: BorderRadius.horizontal(
-                                            left: Radius.circular(999))),
-                                    child: ImgItem(
-                                      'Shop/cart',
-                                      width: 26.w,
-                                      height: 26.w,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  controller.showSkuModal('buy');
-                                },
-                                child: ConstrainedBox(
-                                  constraints: BoxConstraints(minWidth: 110.w),
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                        color: AppColors.primary,
-                                        borderRadius: BorderRadius.horizontal(
-                                            right: Radius.circular(999))),
-                                    alignment: Alignment.center,
-                                    child: AppText(
-                                      str: '购买'.ts,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+    return AnnotatedRegion(
+        child: Scaffold(
+          primary: false,
+          appBar: const EmptyAppBar(),
+          backgroundColor: AppColors.bgGray,
+          bottomNavigationBar: Obx(() => controller.goodsModel.value != null
+              ? Container(
+                  color: Colors.white,
+                  padding:
+                      EdgeInsets.symmetric(vertical: 5.h, horizontal: 16.w),
+                  child: SafeArea(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 38.h,
+                            child: BeeButton(
+                              text: '加入购物车',
+                              backgroundColor: const Color(0xFFFFE1E2),
+                              textColor: AppColors.primary,
+                              onPressed: () {
+                                controller.showSkuModal('cart');
+                              },
+                            ),
                           ),
-                        )),
-                  ],
+                        ),
+                        15.horizontalSpace,
+                        Expanded(
+                          child: SizedBox(
+                            height: 38.h,
+                            child: BeeButton(
+                              text: '购买',
+                              onPressed: () {
+                                controller.showSkuModal('buy');
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : AppGaps.empty),
+          body: Obx(() {
+            if (controller.isLoading.value) {
+              return Container(
+                alignment: Alignment.center,
+                child: const CircularProgressIndicator(
+                  color: AppColors.primary,
+                  strokeWidth: 5,
                 ),
-              ),
-            )
-          : AppGaps.empty),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return Container(
-            alignment: Alignment.center,
-            child: const CircularProgressIndicator(
-              color: AppColors.primary,
-              strokeWidth: 5,
-            ),
-          );
-        } else if (controller.goodsModel.value != null) {
-          return buildContentList(context);
-        }
+              );
+            } else if (controller.goodsModel.value != null) {
+              return buildContentList(context);
+            }
 
-        return Stack(
-          children: [
-            Center(
-              child: ErrorBox(
-                onRefresh: controller.getGoodsDetail,
-              ),
-            ),
-            Positioned(
-              left: 15.w,
-              top: ScreenUtil().statusBarHeight + 5,
-              child: const BackButton(color: Colors.black),
-            ),
-          ],
-        );
-      }),
-    );
+            return Stack(
+              children: [
+                Center(
+                  child: ErrorBox(
+                    onRefresh: controller.getGoodsDetail,
+                  ),
+                ),
+                Positioned(
+                  left: 15.w,
+                  top: ScreenUtil().statusBarHeight + 5,
+                  child: const BackButton(color: Colors.black),
+                ),
+              ],
+            );
+          }),
+        ),
+        value: SystemUiOverlayStyle.dark);
   }
 
   Widget buildContentList(BuildContext context) {
-    return ListView(
+    return Stack(
       children: [
-        baseInfoCell(),
-        optionCell(context),
-        shopCell(),
-        Obx(() => commentsCell()),
-        remarkCell(),
+        ListView(
+          controller: controller.scrollController,
+          children: [
+            baseInfoCell(),
+            // optionCell(context),
+            shopCell(),
+            10.verticalSpaceFromWidth,
+            Obx(() => commentsCell()),
+            remarkCell(),
+          ],
+        ),
+        const ContactCell(),
+        Positioned(
+          child: Obx(
+            () => Container(
+              padding: EdgeInsets.fromLTRB(
+                  10.w, ScreenUtil().statusBarHeight + 5.h, 14.w, 10.h),
+              decoration: BoxDecoration(
+                  color: controller.prcent.value != 0
+                      ? Colors.white.withOpacity(controller.prcent.value)
+                      : Colors.transparent,
+                  boxShadow: controller.prcent.value > 0.5
+                      ? [
+                          BoxShadow(
+                            offset: const Offset(0, 1),
+                            blurRadius: 10.r,
+                            color: Colors.black.withOpacity(0.2),
+                          )
+                        ]
+                      : null),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  BackButton(
+                    color: controller.prcent.value > 0
+                        ? Colors.black
+                        : Colors.white,
+                  ),
+                  if (controller.prcent.value > 0)
+                    const Expanded(child: BaseSearch()),
+                  10.horizontalSpace,
+                  ClipOval(
+                    child: Container(
+                      width: 30.w,
+                      height: 30.w,
+                      decoration: BoxDecoration(
+                        color: controller.prcent.value > 0
+                            ? Colors.transparent
+                            : Colors.black.withOpacity(0.5),
+                      ),
+                      padding: EdgeInsets.all(4.w),
+                      child: LoadAssetImage(
+                        'Home/ico_gwc',
+                        color: controller.prcent.value > 0
+                            ? Colors.black
+                            : Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -142,94 +174,100 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Obx(
-              () => SizedBox(
-                height: 320.h,
-                child: Swiper(
-                  autoplay:
-                      (controller.goodsModel.value?.images ?? []).length > 1,
-                  itemBuilder: (context, index) {
-                    return ImgItem(
-                      controller.goodsModel.value!.images![index],
-                      holderImg: 'Shop/goods_none',
-                      fit: BoxFit.fitWidth,
-                    );
-                  },
-                  loop: (controller.goodsModel.value?.images ?? []).length > 1,
-                  itemCount: controller.goodsModel.value?.images!.length ?? 0,
-                ),
-              ),
+        Obx(
+          () => SizedBox(
+            height: 305.h,
+            child: Swiper(
+              autoplay: (controller.goodsModel.value?.images ?? []).length > 1,
+              itemBuilder: (context, index) {
+                return ImgItem(
+                  controller.goodsModel.value!.images![index],
+                  holderImg: 'Shop/goods_none',
+                  fit: BoxFit.cover,
+                );
+              },
+              loop: (controller.goodsModel.value?.images ?? []).length > 1,
+              itemCount: controller.goodsModel.value?.images!.length ?? 0,
             ),
-            Positioned(
-              left: 15.w,
-              top: ScreenUtil().statusBarHeight + 5,
-              child: const BackButton(color: Colors.black),
-            ),
-          ],
+          ),
         ),
         Obx(
-          () => Transform.translate(
-            offset: Offset(0, -30.h),
-            child: defaultBoxItem(
-              margin: EdgeInsets.symmetric(horizontal: 14.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text.rich(
-                    TextSpan(
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: controller.currencyModel.value?.symbol ?? '',
-                          ),
-                          TextSpan(
-                            text: ((controller.sku.value?.price ??
-                                        controller.goodsModel.value?.price ??
-                                        0) *
-                                    (controller.qty.value ?? 1))
-                                .rate(
-                                    showPriceSymbol: false, needFormat: false),
-                            style: TextStyle(
-                              fontSize: 26.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ]),
-                  ),
-                  6.verticalSpaceFromWidth,
-                  Text.rich(
-                    TextSpan(
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        height: 1.5,
-                      ),
-                      children: [
-                        WidgetSpan(
-                          child: controller.isPlatformGoods.value
-                              ? Padding(
-                                  padding: EdgeInsets.only(right: 5.w),
-                                  child: ImgItem(
-                                    CommonMethods.getPlatformIcon(
-                                        controller.goodsModel.value?.platform),
-                                    width: 20.w,
-                                    height: 20.w,
-                                  ),
-                                )
-                              : AppGaps.empty,
-                          alignment: PlaceholderAlignment.middle,
-                        ),
+          () => defaultBoxItem(
+            margin: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text.rich(
                         TextSpan(
-                            text: controller.goodsModel.value!.title.wordBreak),
-                      ],
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          children: [
+                            TextSpan(
+                              text:
+                                  controller.currencyModel.value?.symbol ?? '',
+                            ),
+                            TextSpan(
+                              text: ((controller.sku.value?.price ??
+                                          controller.goodsModel.value?.price ??
+                                          0) *
+                                      (controller.qty.value ?? 1))
+                                  .rate(
+                                      showPriceSymbol: false,
+                                      needFormat: false),
+                              style: TextStyle(
+                                fontSize: 26.sp,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
+                    LoadAssetImage(
+                      'Transport/ico_zxs',
+                      width: 20.w,
+                      height: 20.w,
+                    ),
+                    16.horizontalSpace,
+                    LoadAssetImage(
+                      'Transport/ico_share',
+                      width: 22.w,
+                      height: 22.w,
+                    ),
+                  ],
+                ),
+                6.verticalSpaceFromWidth,
+                Text.rich(
+                  TextSpan(
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      height: 1.5,
+                    ),
+                    children: [
+                      WidgetSpan(
+                        child: controller.isPlatformGoods.value
+                            ? Padding(
+                                padding: EdgeInsets.only(right: 5.w),
+                                child: ImgItem(
+                                  CommonMethods.getPlatformIcon(
+                                      controller.goodsModel.value?.platform),
+                                  width: 20.w,
+                                  height: 20.w,
+                                ),
+                              )
+                            : AppGaps.empty,
+                        alignment: PlaceholderAlignment.middle,
+                      ),
+                      TextSpan(
+                          text: controller.goodsModel.value!.title.wordBreak),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -384,27 +422,24 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
   }
 
   Widget shopCell() {
-    return Transform.translate(
-      offset: Offset(0, -10.h),
-      child: defaultBoxItem(
-        child: Row(
-          children: [
-            ImgItem(
-              'Shop/shop',
-              width: 30.w,
-              height: 30.w,
+    return defaultBoxItem(
+      child: Row(
+        children: [
+          ImgItem(
+            'Shop/shop',
+            width: 30.w,
+            height: 30.w,
+          ),
+          10.horizontalSpace,
+          Expanded(
+            child: AppText(
+              str: controller.isPlatformGoods.value
+                  ? controller.goodsModel.value!.nick ?? ''
+                  : '自营商城'.ts,
+              lines: 2,
             ),
-            10.horizontalSpace,
-            Expanded(
-              child: AppText(
-                str: controller.isPlatformGoods.value
-                    ? controller.goodsModel.value!.nick ?? ''
-                    : '自营商城'.ts,
-                lines: 2,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
