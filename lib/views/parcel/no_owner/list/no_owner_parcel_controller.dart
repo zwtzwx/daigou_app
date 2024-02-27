@@ -34,7 +34,7 @@ class AbnomalParcelLogic extends GlobalLogic {
   }
 
   void toDetail(ParcelModel model) async {
-    var s = await BeeNav.push(BeeNav.noOwnerDetail, {'order': model});
+    var s = await BeeNav.push(BeeNav.noOwnerDetail, arg: {'order': model});
     if (s == 'success') {
       ApplicationEvent.getInstance()
           .event

@@ -35,7 +35,7 @@ class BeeUserInfoPage extends GetView<BeeUserInfoLogic> {
                 (e) => GestureDetector(
                   onTap: () async {
                     if (e['route'] != null) {
-                      BeeNav.push(e['route']!, e['params']);
+                      BeeNav.push(e['route']!, arg: e['params']);
                     } else {
                       var confirmed = await BaseDialog.cupertinoConfirmDialog(
                           context, '您确定要注销吗？可能会造成无法挽回的损失！'.ts);

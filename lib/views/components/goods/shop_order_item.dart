@@ -27,7 +27,7 @@ class BeeShopOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        BeeNav.push(BeeNav.shopOrderDetail, {'id': model.id});
+        BeeNav.push(BeeNav.shopOrderDetail, arg: {'id': model.id});
       },
       child: Container(
         decoration: BoxDecoration(

@@ -121,7 +121,7 @@ class BeePackingLogic extends GlobalLogic {
     //   showToast('请选择收货形式'.ts);
     //   return;
     // }
-    var s = await BeeNav.push(BeeNav.addressList, {'select': 1});
+    var s = await BeeNav.push(BeeNav.addressList, arg: {'select': 1});
 
     if (s == null) {
       return;
@@ -160,7 +160,7 @@ class BeePackingLogic extends GlobalLogic {
       'is_delivery': selectedAddressModel.value!.station != null ? 1 : 0,
       'station_id': selectedAddressModel.value!.station?.id ?? '',
     };
-    var s = await BeeNav.push(BeeNav.lineQueryResult, {"data": dic});
+    var s = await BeeNav.push(BeeNav.lineQueryResult, arg: {"data": dic});
     if (s == null) {
       return;
     }

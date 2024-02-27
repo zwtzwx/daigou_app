@@ -13,6 +13,12 @@ class PlatformGoodsController extends GlobalLogic {
   final platform = '1688'.obs; // 默认拼多多平台商品
   final filterShow = false.obs;
   String originKeyword = '';
+  bool hideSearch = false;
+  List<Map<String, String>> platforms = [
+    {'name': '1688', 'value': '1688'},
+    {'name': '淘宝', 'value': 'taobao'},
+    {'name': '京东', 'value': 'jd'},
+  ];
 
   @override
   onInit() {
@@ -21,6 +27,7 @@ class PlatformGoodsController extends GlobalLogic {
     if (arguments?['keyword'] != null) {
       keyword = arguments!['keyword'];
     }
+    hideSearch = arguments?['hideSearch'] ?? false;
     originKeyword = arguments['origin'] ?? '';
     loadingUtil.value.initListener(loadMoreList, recordPosition: true);
   }

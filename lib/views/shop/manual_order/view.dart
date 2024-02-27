@@ -26,7 +26,7 @@ class ManualOrderView extends GetView<ManualOrderController> {
         ),
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: const BackButton(color: Colors.white),
+        leading: const BackButton(color: Colors.black),
       ),
       backgroundColor: AppColors.bgGray,
       body: SingleChildScrollView(

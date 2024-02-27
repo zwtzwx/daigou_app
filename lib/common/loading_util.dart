@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/state_manager.dart';
 
 class LoadingUtil<T> {
   ScrollController scrollController = ScrollController();
@@ -8,7 +9,7 @@ class LoadingUtil<T> {
   bool isLoading = false;
   bool isEmpty = false;
   bool hasError = false;
-  double position = 0;
+  final position = 0.0.obs;
   List<T> list = [];
 
   LoadingUtil();
@@ -25,7 +26,7 @@ class LoadingUtil<T> {
         callback();
       }
       if (recordPosition) {
-        position = scrollController.position.pixels;
+        position.value = scrollController.position.pixels;
       }
     });
   }
@@ -36,7 +37,7 @@ class LoadingUtil<T> {
 
   void clear() {
     list.clear();
-    position = 0;
+    position.value = 0;
     hasMoreData = true;
     pageIndex = 0;
     isLoading = false;

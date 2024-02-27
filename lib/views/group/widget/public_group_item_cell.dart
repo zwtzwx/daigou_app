@@ -19,7 +19,7 @@ class PublicGroupItemCell extends StatelessWidget {
   final CoordinateModel? coordinate;
 
   void _toGroupDetail(BuildContext context) {
-    BeeNav.push(BeeNav.groupDetail, {'id': model.id});
+    BeeNav.push(BeeNav.groupDetail, arg: {'id': model.id});
   }
 
   @override

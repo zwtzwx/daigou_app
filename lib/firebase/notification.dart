@@ -112,12 +112,12 @@ class Notifications {
   static void onMessage(Map<String, dynamic>? data) {
     if (data == null) return;
     if (data['type'] == '1') {
-      BeeNav.push(BeeNav.orderCenter, 1);
+      BeeNav.push(BeeNav.orderCenter, arg: 1);
     } else if (data['type'] == '7') {
-      BeeNav.push(
-          BeeNav.webview, {'type': 'notice', 'id': int.parse(data['value'])});
+      BeeNav.push(BeeNav.webview,
+          arg: {'type': 'notice', 'id': int.parse(data['value'])});
     } else if (data['type'] == '8') {
-      BeeNav.push(BeeNav.orderDetail, {'id': num.parse(data['value'])});
+      BeeNav.push(BeeNav.orderDetail, arg: {'id': num.parse(data['value'])});
     }
   }
 }

@@ -59,12 +59,12 @@ class ShopCenterController extends GlobalLogic {
 
   // 商品列表
   void onCategory(int id) {
-    BeeNav.push(BeeNav.goodsList, {'id': id});
+    BeeNav.push(BeeNav.goodsList, arg: {'id': id});
   }
 
   // 搜索商品
   void onSearch(String value) {
-    BeeNav.push(BeeNav.goodsList, {'keyword': value});
+    BeeNav.push(BeeNav.goodsList, arg: {'keyword': value});
   }
 
   @override

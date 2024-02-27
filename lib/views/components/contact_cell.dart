@@ -99,7 +99,7 @@ class _ContactCellState extends State<ContactCell>
             (e) => GestureDetector(
               onTap: () {
                 if (e['route'] != null) {
-                  BeeNav.push(e['route']!, e['params']);
+                  BeeNav.push(e['route']!, arg: e['params']);
                 } else if (e['icon'] == 'Home/zzgt') {
                   // CommonMethods.onContact();
                 }

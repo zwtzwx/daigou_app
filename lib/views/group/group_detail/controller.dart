@@ -64,7 +64,7 @@ class BeeGroupDetailController extends GlobalLogic {
 
   void onChooseParcel([Function? callback]) async {
     var s = await BeeNav.push(BeeNav.groupParcelSelect,
-        {'id': model.value!.id, 'warehouseId': model.value!.warehouseId});
+        arg: {'id': model.value!.id, 'warehouseId': model.value!.warehouseId});
     if (s != null) {
       getDetail();
       if (callback != null) {
@@ -163,7 +163,7 @@ class BeeGroupDetailController extends GlobalLogic {
 
   // 提交拼团货物
   void onSubmitParcel() async {
-    var s = await BeeNav.push(BeeNav.createOrder, {'id': model.value!.id});
+    var s = await BeeNav.push(BeeNav.createOrder, arg: {'id': model.value!.id});
     if (s != null) {
       getDetail();
     }

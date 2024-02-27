@@ -171,13 +171,13 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
     if (sku != null) {
       widget.onSkuChange(sku);
     }
+    Navigator.pop(context);
     var freight = num.parse(priceController.text);
     if (widget.type == 'cart') {
       widget.onAddCart!(freight, selectedWarehouse);
     } else if (widget.type == 'buy') {
       widget.onBuy!(freight, selectedWarehouse);
     }
-    Navigator.pop(context);
   }
 
   void showWarehousePicker() {

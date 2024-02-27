@@ -45,7 +45,7 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
                           ? '立即支付'
                           : '重新支付',
                       onPressed: () {
-                        BeeNav.push(BeeNav.transportPay, {
+                        BeeNav.push(BeeNav.transportPay, arg: {
                           'id': controller.orderModel.value!.id,
                           'payModel': 1,
                           'deliveryStatus': 1,

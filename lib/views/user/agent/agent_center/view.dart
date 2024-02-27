@@ -281,7 +281,8 @@ class AgentCenterView extends GetView<AgentCenterController> {
                                               GestureDetector(
                                                 onTap: () {
                                                   BeeNav.push(
-                                                      BeeNav.agentMember, 2);
+                                                      BeeNav.agentMember,
+                                                      arg: 2);
                                                 },
                                                 child: Row(
                                                   mainAxisAlignment:

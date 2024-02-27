@@ -76,7 +76,7 @@ class BeeGroupView extends GetView<BeeGroupController> {
         groupModel: groupModel,
         localizationModel: controller.localModel,
         onConfirm: () {
-          BeeNav.push(BeeNav.groupDetail, {'id': groupModel.id});
+          BeeNav.push(BeeNav.groupDetail, arg: {'id': groupModel.id});
         },
       );
     }

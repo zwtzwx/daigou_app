@@ -26,12 +26,13 @@ class LineQueryView extends GetView<LineQueryController> {
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,
-          backgroundColor: const Color(0xFFFFE067),
+          backgroundColor: AppColors.primary,
           title: AppText(
             str: '运费估算'.ts,
             fontSize: 17,
+            color: Colors.white,
           ),
-          leading: const BackButton(color: Colors.black),
+          leading: const BackButton(color: Colors.white),
         ),
         bottomNavigationBar: SafeArea(
             child: Container(
@@ -178,7 +179,7 @@ class LineQueryView extends GetView<LineQueryController> {
             ],
           ),
           20.verticalSpaceFromWidth,
-          queryTitle('物品分类'.ts),
+          queryTitle('物品属性'.ts),
           15.verticalSpaceFromWidth,
           GestureDetector(
             onTap: () {
@@ -205,7 +206,7 @@ class LineQueryView extends GetView<LineQueryController> {
                             ? controller.selectPropList
                                 .map((ele) => ele.name)
                                 .join('、')
-                            : '请选择物品类型'.ts,
+                            : '请选择物品属性'.ts,
                         fontSize: 14,
                         color: controller.selectPropList.isNotEmpty
                             ? AppColors.textDark
@@ -292,7 +293,7 @@ class LineQueryView extends GetView<LineQueryController> {
   Widget shipInfo(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFFFE067),
+        color: AppColors.primary,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(40.r),
           bottomRight: Radius.circular(40.r),
@@ -331,13 +332,14 @@ class LineQueryView extends GetView<LineQueryController> {
                             : '请选择'.ts,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                     5.verticalSpaceFromWidth,
                     AppText(
                       str: '出发地'.ts,
                       fontSize: 12,
-                      color: AppColors.textNormal,
+                      color: Colors.white,
                     ),
                   ],
                 ),
@@ -345,10 +347,11 @@ class LineQueryView extends GetView<LineQueryController> {
             ),
           ),
           15.horizontalSpace,
-          ImgItem(
+          LoadAssetImage(
             'Home/ship',
             width: 90.w,
             fit: BoxFit.fitWidth,
+            color: Colors.white,
           ),
           15.horizontalSpace,
           Flexible(
@@ -365,13 +368,14 @@ class LineQueryView extends GetView<LineQueryController> {
                             : '请选择'.ts,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                     5.verticalSpaceFromWidth,
                     AppText(
                       str: '收货地'.ts,
                       fontSize: 12,
-                      color: AppColors.textNormal,
+                      color: Colors.white,
                     ),
                   ],
                 ),

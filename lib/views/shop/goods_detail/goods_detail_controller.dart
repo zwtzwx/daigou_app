@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -63,6 +64,14 @@ class GoodsDetailController extends GlobalLogic {
       var value = pixel / 120.h;
       prcent.value = value > 1 ? 1 : (value < 0 ? 0 : value);
     });
+  }
+
+  // 以图搜物
+  void onPhotoSearch() async {
+    var cameras = await availableCameras();
+    if (cameras.isNotEmpty) {
+      BeeNav.push(BeeNav.imageSearch, arg: {'device': cameras.first});
+    }
   }
 
   // 仓库列表
@@ -233,7 +242,7 @@ class GoodsDetailController extends GlobalLogic {
         }
       ]
     };
-    BeeNav.push(BeeNav.orderPreview, {
+    BeeNav.push(BeeNav.orderPreview, arg: {
       'from': 'platformGoods',
       'platformGoods': true,
       'goodsInfo': params,
@@ -249,7 +258,7 @@ class GoodsDetailController extends GlobalLogic {
           : sku.value?.id,
       'quantity': qty.value,
     };
-    BeeNav.push(BeeNav.orderPreview, {
+    BeeNav.push(BeeNav.orderPreview, arg: {
       'from': 'selfGoods',
       'goodsInfo': params,
     });

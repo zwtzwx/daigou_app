@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/route_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/views/components/input/base_input.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/shop/goods_detail/goods_detail_binding.dart';
+import 'package:huanting_shop/views/shop/goods_detail/goods_detail_view.dart';
+import 'package:huanting_shop/views/shop/platform_goods/platform_goods_binding.dart';
+import 'package:huanting_shop/views/shop/platform_goods/platform_goods_list_view.dart';
 
 class BaseSearch extends StatefulWidget {
   const BaseSearch({
@@ -18,6 +23,7 @@ class BaseSearch extends StatefulWidget {
     this.needCheck = true,
     this.initData,
     this.goPlatformGoods = true,
+    this.whiteBg = false,
     this.showScan = true,
   }) : super(key: key);
   final String hintText;
@@ -27,6 +33,7 @@ class BaseSearch extends StatefulWidget {
   final String? initData;
   final bool goPlatformGoods;
   final bool showScan;
+  final bool whiteBg;
 
   @override
   State<BaseSearch> createState() => _SearchCellState();
@@ -78,10 +85,12 @@ class _SearchCellState extends State<BaseSearch> {
     } else if (widget.goPlatformGoods) {
       if (value.startsWith('http')) {
         // 商品链接直接跳转到详情
-        BeeNav.push(BeeNav.goodsDetail, {'url': value});
+        Get.to(GoodsDetailView(goodsId: value),
+            arguments: {'url': value}, binding: GoodsDetailBinding(tag: value));
       } else {
-        BeeNav.push(
-            BeeNav.platformGoodsList, {'keyword': value, 'origin': value});
+        Get.to(PlatformGoodsListView(controllerTag: value),
+            arguments: {'keyword': value, 'origin': value},
+            binding: PlatformGoodsBinding(tag: value));
       }
       controller.text = '';
       keyword = '';
@@ -91,7 +100,7 @@ class _SearchCellState extends State<BaseSearch> {
   void onPhotoSearch() async {
     var cameras = await availableCameras();
     if (cameras.isNotEmpty) {
-      BeeNav.push(BeeNav.imageSearch, {'device': cameras.first});
+      BeeNav.push(BeeNav.imageSearch, arg: {'device': cameras.first});
     }
   }
 
@@ -101,7 +110,7 @@ class _SearchCellState extends State<BaseSearch> {
       height: 35.h,
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       decoration: BoxDecoration(
-        color: const Color(0xFFF6F7FB),
+        color: widget.whiteBg ? Colors.white : const Color(0xFFF6F7FB),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Row(
@@ -111,7 +120,7 @@ class _SearchCellState extends State<BaseSearch> {
           Expanded(
             child: Obx(
               () => BaseInput(
-                board: true,
+                board: !widget.whiteBg,
                 controller: controller,
                 focusNode: focusNode,
                 isCollapsed: true,

@@ -19,6 +19,6 @@ class ShopOrderChatController extends GlobalLogic {
   }
 
   void onDetail(ConsultModel model) {
-    BeeNav.push(BeeNav.shopOrderChatDetail, {'consult': model});
+    BeeNav.push(BeeNav.shopOrderChatDetail, arg: {'consult': model});
   }
 }

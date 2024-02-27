@@ -49,7 +49,7 @@ class BeeOrderLogic extends GlobalLogic {
   }
 
   void onComment() async {
-    var s = await BeeNav.push(BeeNav.orderComment, {'order': model.value});
+    var s = await BeeNav.push(BeeNav.orderComment, arg: {'order': model.value});
     if (s == 'success') {
       getOrderDetail();
     }

@@ -65,7 +65,7 @@ class LineQueryController extends GlobalLogic {
   // 选择国家
   onCountry() async {
     var s = await BeeNav.push(BeeNav.country,
-        {'warehouseId': selectWareHouse.value!.id, 'showArea': 1});
+        arg: {'warehouseId': selectWareHouse.value!.id, 'showArea': 1});
     if (s == null) return;
     if (s is Map) {
       selectCountry.value = s['country'];
@@ -125,6 +125,6 @@ class LineQueryController extends GlobalLogic {
       'warehouse_id': selectWareHouse.value?.id ?? '',
       'warehouseName': selectWareHouse.value?.warehouseName ?? '',
     };
-    BeeNav.push(BeeNav.lineQueryResult, {"data": dic, "query": true});
+    BeeNav.push(BeeNav.lineQueryResult, arg: {"data": dic, "query": true});
   }
 }

@@ -141,7 +141,7 @@ class BeeParcelCreateLogic extends GlobalLogic {
 
   // 到件即发选择收件地址
   onAddress() async {
-    var s = await BeeNav.push(BeeNav.addressList, {'select': 1});
+    var s = await BeeNav.push(BeeNav.addressList, arg: {'select': 1});
     if (s == null) return;
 
     addressModel.value = s as ReceiverAddressModel;
@@ -167,7 +167,7 @@ class BeeParcelCreateLogic extends GlobalLogic {
       'props': propIds.toList(),
       'postcode': addressModel.value?.postcode,
     };
-    var s = await BeeNav.push(BeeNav.lineQueryResult, {"data": params});
+    var s = await BeeNav.push(BeeNav.lineQueryResult, arg: {"data": params});
     if (s == null) return;
 
     lineModel.value = s as ShipLineModel;

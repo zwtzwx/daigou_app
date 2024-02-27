@@ -24,7 +24,7 @@ class BeeGroupOrderDetailController extends GlobalLogic {
 
   // 支付
   void onPay() async {
-    BeeNav.push(BeeNav.transportPay, {
+    BeeNav.push(BeeNav.transportPay, arg: {
       'id': orderModel.value!.id,
       'payModel': 1,
       'deliveryStatus': 1,

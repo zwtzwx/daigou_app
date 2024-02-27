@@ -20,7 +20,7 @@ class AgentCommissionController extends GlobalLogic {
       showToast('请选择要提现的订单');
       return;
     }
-    BeeNav.push(BeeNav.agentCommissionApply, {'ids': ids});
+    BeeNav.push(BeeNav.agentCommissionApply, arg: {'ids': ids});
   }
 
   loadList({type}) async {

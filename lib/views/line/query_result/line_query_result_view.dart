@@ -209,7 +209,7 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
       model: model,
       onSelect: () {
         if (controller.fromQuery.value) {
-          BeeNav.push(BeeNav.lineDetail, {'line': model, 'type': 2});
+          BeeNav.push(BeeNav.lineDetail, arg: {'line': model, 'type': 2});
         } else {
           BeeNav.pop(model);
         }

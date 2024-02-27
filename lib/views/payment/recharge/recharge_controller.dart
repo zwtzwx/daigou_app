@@ -113,7 +113,7 @@ class RechargeController extends GlobalLogic {
     if (selectType.first.name == 'wechat') {
       weChatPayMethod();
     } else {
-      BeeNav.push(BeeNav.paymentTransfer, {
+      BeeNav.push(BeeNav.paymentTransfer, arg: {
         'transferType': 1,
         'amount': amount.value,
         'payModel': selectType.first,

@@ -23,6 +23,8 @@ import 'package:huanting_shop/views/group/group_order/bindings.dart';
 import 'package:huanting_shop/views/group/group_order/view.dart';
 import 'package:huanting_shop/views/group/group_order_process/bindings.dart';
 import 'package:huanting_shop/views/group/group_order_process/view.dart';
+import 'package:huanting_shop/views/help/guide/guide_binding.dart';
+import 'package:huanting_shop/views/help/guide/guide_view.dart';
 import 'package:huanting_shop/views/help/help_center/bindings.dart';
 import 'package:huanting_shop/views/help/help_center/view.dart';
 import 'package:huanting_shop/views/help/question/bindings.dart';
@@ -75,14 +77,10 @@ import 'package:huanting_shop/views/shop/center/shop_center_binding.dart';
 import 'package:huanting_shop/views/shop/center/shop_center_view.dart';
 import 'package:huanting_shop/views/shop/chat_detail/order_chat_detail_binding.dart';
 import 'package:huanting_shop/views/shop/chat_detail/order_chat_detail_view.dart';
-import 'package:huanting_shop/views/shop/goods_detail/goods_detail_binding.dart';
-import 'package:huanting_shop/views/shop/goods_detail/goods_detail_view.dart';
 import 'package:huanting_shop/views/shop/goods_list/goods_list_binding.dart';
 import 'package:huanting_shop/views/shop/goods_list/goods_list_view.dart';
 import 'package:huanting_shop/views/shop/image_search_goods/image_search_binding.dart';
 import 'package:huanting_shop/views/shop/image_search_goods/image_search_view.dart';
-import 'package:huanting_shop/views/shop/image_search_goods_list/binding.dart';
-import 'package:huanting_shop/views/shop/image_search_goods_list/view.dart';
 import 'package:huanting_shop/views/shop/manual_order/binding.dart';
 import 'package:huanting_shop/views/shop/manual_order/view.dart';
 import 'package:huanting_shop/views/shop/order/shop_order_binding.dart';
@@ -93,8 +91,6 @@ import 'package:huanting_shop/views/shop/order_detail/order_detail_binding.dart'
 import 'package:huanting_shop/views/shop/order_detail/order_detail_view.dart';
 import 'package:huanting_shop/views/shop/order_preview/order_preview_binding.dart';
 import 'package:huanting_shop/views/shop/order_preview/order_preview_view.dart';
-import 'package:huanting_shop/views/shop/platform_goods/platform_goods_binding.dart';
-import 'package:huanting_shop/views/shop/platform_goods/platform_goods_list_view.dart';
 import 'package:huanting_shop/views/shop/problem_order/problem_order_binding.dart';
 import 'package:huanting_shop/views/shop/problem_order/problem_order_view.dart';
 import 'package:huanting_shop/views/user/abount/about_me_binding.dart';
@@ -210,6 +206,7 @@ class BeeNav {
   static const String transportPay = '/transportPay'; // 集运订单支付
   static const String createOrder = '/createOrder'; // 合箱
   static const String chromeLogin = '/chromeLogin'; // chorme 插件扫码登录
+  static const String guide = '/guide'; // 新手指引
 
   static const String groupCenter = '/groupCenter'; // 拼团中心
   static const String groupCreate = '/groupCreate'; // 创建拼团
@@ -221,8 +218,6 @@ class BeeNav {
 
   static const String shopCenter = '/shopCenter'; //自营商城中心
   static const String goodsList = '/goodsList'; // 自营商品列表
-  static const String platformGoodsList = '/platformGoodsList'; // 代购商品列表
-  static const String goodsDetail = '/goodsDetail'; // 商品详情
   static const String orderPreview = '/orderPreview'; // 商品订单确认
   static const String shopOrderPay = '/shopOrderPay'; // 商城订单支付
   static const String paySuccess = '/paySuccess'; // 支付成功
@@ -232,7 +227,6 @@ class BeeNav {
   static const String shopOrderChat = '/shopOrderChat'; // 我的咨询
   static const String shopOrderChatDetail = '/shopOrderChatDetail'; // 咨询详情
   static const String imageSearch = '/imageSearch';
-  static const String imageSearchResults = '/imageSearchResults';
   static const String manualOrder = '/manualOrder';
   static const String cart = '/cart';
   static const String goodsCategory = '/goodsCategory';
@@ -249,9 +243,8 @@ class BeeNav {
     register,
     track,
     shopCenter,
+    guide,
     goodsList,
-    platformGoodsList,
-    goodsDetail,
     lineQuery,
     lineDetail,
     lineQueryResult,
@@ -292,6 +285,11 @@ class BeeNav {
       name: parcelDetail,
       page: () => const BeePackageDetailPage(),
       binding: BeePackageDetailBinding(),
+    ),
+    GetPage(
+      name: guide,
+      page: () => const GuideView(),
+      binding: GuideBinding(),
     ),
     GetPage(
       name: editParcel,
@@ -397,16 +395,6 @@ class BeeNav {
       name: goodsList,
       page: () => const GoodsListView(),
       binding: GoodsListBinding(),
-    ),
-    GetPage(
-      name: platformGoodsList,
-      page: () => const PlatformGoodsListView(),
-      binding: PlatformGoodsBinding(),
-    ),
-    GetPage(
-      name: goodsDetail,
-      page: () => const GoodsDetailView(),
-      binding: GoodsDetailBinding(),
     ),
     GetPage(
       name: orderPreview,
@@ -629,11 +617,6 @@ class BeeNav {
       binding: GoodsImageSearchBinding(),
     ),
     GetPage(
-      name: imageSearchResults,
-      page: () => const GoodsImageSearchResultPage(),
-      binding: GoodsImageSearchResultBinding(),
-    ),
-    GetPage(
       name: manualOrder,
       page: () => const ManualOrderView(),
       binding: ManualOrderBinding(),
@@ -648,10 +631,14 @@ class BeeNav {
   static String currentRouteName = "";
 
   // 跳转到下个页面
-  static Future<dynamic>? push(String page, [dynamic arguments]) {
+  static Future<dynamic>? push(
+    String page, {
+    dynamic arg,
+    Map<String, String>? parameters,
+  }) {
     AppStore userInfo = Get.find<AppStore>();
     if (filterList.contains(page) || userInfo.token.value.isNotEmpty) {
-      return Get.toNamed(page, arguments: arguments);
+      return Get.toNamed(page, arguments: arg, parameters: parameters);
     } else {
       return Get.toNamed(login);
     }

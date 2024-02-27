@@ -87,7 +87,8 @@ class BeeTradePage extends GetView<BeeTradeLogic> {
           ([1, 3].contains(model.type) && model.order != null)
               ? GestureDetector(
                   onTap: () {
-                    BeeNav.push(BeeNav.orderDetail, {'id': model.order!.id});
+                    BeeNav.push(BeeNav.orderDetail,
+                        arg: {'id': model.order!.id});
                   },
                   child: Container(
                     decoration: const BoxDecoration(

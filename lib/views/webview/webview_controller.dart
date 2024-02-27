@@ -2,6 +2,7 @@ import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/services/announcement_service.dart';
+import 'package:huanting_shop/services/article_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class BeeWebviewLogic extends GlobalLogic {
@@ -28,7 +29,7 @@ class BeeWebviewLogic extends GlobalLogic {
     }
   }
 
-  void getDetail(int id, String? type) async {
+  void getDetail(dynamic id, String? type) async {
     showLoading();
     if (type == 'notice') {
       // 公告
@@ -37,6 +38,12 @@ class BeeWebviewLogic extends GlobalLogic {
         url.value = data.content;
         title.value ??= data.title;
         time.value ??= data.createdAt;
+      }
+    } else if (type == 'article') {
+      var data = await ArticleService.getDetail(id);
+      if (data != null) {
+        url.value = data.content;
+        title.value ??= data.title;
       }
     }
     hideLoading();

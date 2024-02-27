@@ -42,7 +42,7 @@ class BeeQusView extends GetView<BeeQusLogic> {
     ArticleModel model = controller.articles[index];
     return GestureDetector(
       onTap: () async {
-        BeeNav.push(BeeNav.webview, {
+        BeeNav.push(BeeNav.webview, arg: {
           'url': model.content,
           'title': model.title,
           'time': model.createdAt

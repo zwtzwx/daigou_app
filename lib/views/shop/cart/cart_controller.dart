@@ -148,7 +148,7 @@ class CartController extends GlobalLogic {
       return;
     }
 
-    BeeNav.push(BeeNav.orderPreview, {
+    BeeNav.push(BeeNav.orderPreview, arg: {
       'ids': checkedList,
       'from': 'cart',
       'platformGoods': cartType.value == 1,

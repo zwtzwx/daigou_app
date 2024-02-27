@@ -7,10 +7,12 @@ class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double maxHeight;
   final double minHeight;
   final SliverHeaderBuilder builder;
+  final Color? bgColor;
 
   SliverHeaderDelegate({
     required this.maxHeight,
     this.minHeight = 0,
+    this.bgColor,
     required Widget child,
   })  : builder = ((a, b, c) => child),
         assert(minHeight <= maxHeight && minHeight >= 0);
@@ -22,7 +24,7 @@ class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     return Container(
       alignment: Alignment.center,
       child: child,
-      color: Colors.white,
+      color: bgColor ?? Colors.white,
     );
   }
 

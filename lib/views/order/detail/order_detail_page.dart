@@ -638,7 +638,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                 child: BeeButton(
                   text: controller.model.value?.status == 12 ? '重新支付' : '去付款',
                   onPressed: () async {
-                    var s = await BeeNav.push(BeeNav.transportPay, {
+                    var s = await BeeNav.push(BeeNav.transportPay, arg: {
                       'id': controller.model.value?.id,
                       'payModel': 1,
                       'deliveryStatus':
@@ -758,7 +758,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
             children: controller.model.value!.packages.map((e) {
               return GestureDetector(
                 onTap: () {
-                  BeeNav.push(BeeNav.parcelDetail, {
+                  BeeNav.push(BeeNav.parcelDetail, arg: {
                     "edit": false,
                     'id': e.id,
                   });

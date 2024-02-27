@@ -140,7 +140,8 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                       BeeNav.push(list[index]['route']);
                     }
                   } else if (list[index]['route'] != null) {
-                    BeeNav.push(list[index]['route'], list[index]['params']);
+                    BeeNav.push(list[index]['route'],
+                        arg: list[index]['params']);
                   } else {
                     var res = await BaseDialog.cupertinoConfirmDialog(
                         context, '确认退出登录吗'.ts + '？');

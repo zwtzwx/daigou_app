@@ -112,7 +112,7 @@ class _AnnouncementListState extends State<_AnnouncementList> {
   Widget buildBottomListCell(int index, AnnouncementModel model) {
     return GestureDetector(
       onTap: () async {
-        BeeNav.push(BeeNav.webview, {
+        BeeNav.push(BeeNav.webview, arg: {
           'url': model.content,
           'title': model.title,
           'time': model.createdAt
@@ -188,7 +188,7 @@ class __ArticleListState extends State<_ArticleList> {
     ArticleModel model = articles[index];
     return GestureDetector(
       onTap: () async {
-        BeeNav.push(BeeNav.webview, {
+        BeeNav.push(BeeNav.webview, arg: {
           'url': model.content,
           'title': model.title,
           'time': model.createdAt

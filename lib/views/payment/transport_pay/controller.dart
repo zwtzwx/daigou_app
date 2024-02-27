@@ -145,14 +145,14 @@ class TransportPayController extends GlobalLogic {
     } else {
       if (payModel.value == 0) {
         // 充值会员转账
-        BeeNav.push(BeeNav.paymentTransfer, {
+        BeeNav.push(BeeNav.paymentTransfer, arg: {
           'transferType': 0,
           'contentModel': vipPriceModel.value!,
           'payModel': model,
         });
       } else if (payModel.value == 1) {
         // 订单付款转账
-        BeeNav.push(BeeNav.paymentTransfer, {
+        BeeNav.push(BeeNav.paymentTransfer, arg: {
           'transferType': 2,
           'contentModel': orderModel.value,
           'payModel': model,

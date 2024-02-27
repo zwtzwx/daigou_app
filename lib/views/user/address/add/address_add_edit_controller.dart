@@ -174,8 +174,8 @@ class BeeAddressInfoLogic extends GlobalLogic {
 
   // 选择国家
   void onStationSelect() async {
-    var s = await BeeNav.push(
-        BeeNav.stationSelect, {'country_id': countryModel.value?.id ?? ''});
+    var s = await BeeNav.push(BeeNav.stationSelect,
+        arg: {'country_id': countryModel.value?.id ?? ''});
     if (s == null) return;
     station.value = s;
   }

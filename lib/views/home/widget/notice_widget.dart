@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:get/get.dart';
 import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
@@ -39,9 +40,15 @@ class NoticeWidget extends StatelessWidget {
             ),
             Expanded(
                 child: Swiper(
+              loop: list.length > 1,
+              autoplay: list.length > 1,
               scrollDirection: Axis.vertical,
               itemBuilder: (context, index) {
                 return GestureDetector(
+                  onTap: () {
+                    BeeNav.push(BeeNav.webview,
+                        arg: {'type': 'notice', 'id': list[index].id});
+                  },
                   child: Container(
                     height: 36.h,
                     alignment: Alignment.centerLeft,

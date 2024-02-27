@@ -54,7 +54,7 @@ class BeeGroupCreateController extends GlobalLogic {
 
   // 地址
   void onAddress() async {
-    var s = await BeeNav.push(BeeNav.addressList, {'select': 1});
+    var s = await BeeNav.push(BeeNav.addressList, arg: {'select': 1});
     if (s == null) return;
 
     addressModel.value = s as ReceiverAddressModel;
@@ -82,7 +82,7 @@ class BeeGroupCreateController extends GlobalLogic {
       'sub_area_id': addressModel.value!.subArea?.id ?? '',
       'is_group': 1,
     };
-    var s = await BeeNav.push(BeeNav.lineQueryResult, {"data": dic});
+    var s = await BeeNav.push(BeeNav.lineQueryResult, arg: {"data": dic});
     if (s == null) return;
 
     lineModel.value = s as ShipLineModel;

@@ -140,7 +140,7 @@ class PlatformShopCenterController extends GlobalLogic {
 
   // 选择自营商品分类
   void onSelfShopCategory(int id) {
-    BeeNav.push(BeeNav.goodsList, {'id': id});
+    BeeNav.push(BeeNav.goodsList, arg: {'id': id});
   }
 
   @override

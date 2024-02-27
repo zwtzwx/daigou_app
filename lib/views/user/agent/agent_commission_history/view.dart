@@ -169,7 +169,7 @@ class AgentCommissionHistoryPage
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: GestureDetector(
               onTap: () {
-                BeeNav.push(BeeNav.agentWithdrawDetail, {"id": model.id});
+                BeeNav.push(BeeNav.agentWithdrawDetail, arg: {"id": model.id});
               },
               child: Container(
                 color: Colors.white,

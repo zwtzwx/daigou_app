@@ -190,9 +190,9 @@ class BaseDialog {
       return;
     }
     if (result != null && result.isEmpty) {
-      BeeNav.push(BeeNav.orderTracking, {"order_sn": orderModel.orderSn});
+      BeeNav.push(BeeNav.orderTracking, arg: {"order_sn": orderModel.orderSn});
     } else {
-      BeeNav.push(BeeNav.orderTracking, {"order_sn": result});
+      BeeNav.push(BeeNav.orderTracking, arg: {"order_sn": result});
     }
   }
 

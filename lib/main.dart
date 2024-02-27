@@ -11,11 +11,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:huanting_shop/events/change_goods_info_event.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/services/common_service.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/shop/goods_detail/goods_detail_binding.dart';
+import 'package:huanting_shop/views/shop/goods_detail/goods_detail_view.dart';
 import 'package:huanting_shop/views/tabbar/tabbar_binding.dart';
 
 void main() async {
@@ -103,22 +104,12 @@ class _MyAppState extends State<MyApp> {
       var url = await CommonService.getGoodsUrl(params);
 
       if (url != null) {
-        if (currentRoute == BeeNav.goodsDetail) {
-          ApplicationEvent.getInstance()
-              .event
-              .fire(ChangeGoodsInfoEvent(url: url));
-        } else {
-          BeeNav.push(BeeNav.goodsDetail, {'url': url});
-        }
+        Get.to(GoodsDetailView(goodsId: url),
+            arguments: {'url': url}, binding: GoodsDetailBinding(tag: url));
       }
     } else {
-      if (currentRoute == BeeNav.goodsDetail) {
-        ApplicationEvent.getInstance()
-            .event
-            .fire(ChangeGoodsInfoEvent(url: data));
-      } else {
-        BeeNav.push(BeeNav.goodsDetail, {'url': data});
-      }
+      Get.to(GoodsDetailView(goodsId: data),
+          arguments: {'url': data}, binding: GoodsDetailBinding(tag: data));
     }
   }
 

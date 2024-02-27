@@ -34,7 +34,8 @@ class BeePackageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          BeeNav.push(BeeNav.parcelDetail, {'id': model.id, 'edit': false});
+          BeeNav.push(BeeNav.parcelDetail,
+              arg: {'id': model.id, 'edit': false});
         },
         child: Container(
           decoration: BoxDecoration(
@@ -330,7 +331,7 @@ class BeePackageItem extends StatelessWidget {
                             text: model.notConfirmed == 1 ? '补全信息' : '修改',
                             onPressed: () {
                               BeeNav.push(BeeNav.editParcel,
-                                  {'id': model.id, 'edit': true});
+                                  arg: {'id': model.id, 'edit': true});
                             },
                           ),
                         )

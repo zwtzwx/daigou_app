@@ -5,6 +5,7 @@ import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/events/application_event.dart';
 import 'package:huanting_shop/events/language_change_event.dart';
+import 'package:huanting_shop/events/logined_event.dart';
 import 'package:huanting_shop/models/ads_pic_model.dart';
 
 import 'package:huanting_shop/models/announcement_model.dart';
@@ -16,6 +17,7 @@ import 'package:huanting_shop/services/ads_service.dart';
 import 'package:huanting_shop/services/announcement_service.dart';
 import 'package:huanting_shop/services/common_service.dart';
 import 'package:huanting_shop/services/shop_service.dart';
+import 'package:huanting_shop/services/user_service.dart';
 import 'package:huanting_shop/state/i10n.dart';
 import 'package:huanting_shop/storage/annoucement_storage.dart';
 import 'package:huanting_shop/storage/user_storage.dart';
@@ -34,6 +36,7 @@ class IndexLogic extends GlobalLogic {
   final goodsList = <PlatformGoodsModel>[].obs;
   final goodsLoading = true.obs;
   final RxList<GoodsCategoryModel> categoryList = <GoodsCategoryModel>[].obs;
+  final agentStatus = 3.obs;
 
   @override
   void onInit() {
@@ -44,12 +47,16 @@ class IndexLogic extends GlobalLogic {
     getRecommendGoods();
     getCategory();
     getAds();
+    getAgentStatus();
     ApplicationEvent.getInstance()
         .event
         .on<LanguageChangeEvent>()
         .listen((event) {
       getCategory();
       getRecommendGoods();
+    });
+    ApplicationEvent.getInstance().event.on<LoginedEvent>().listen((event) {
+      getAgentStatus();
     });
   }
 
@@ -62,6 +69,15 @@ class IndexLogic extends GlobalLogic {
       var nowTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       if (needUpdate && (lastTime == null || lastTime + 24 * 3600 < nowTime)) {
         Get.dialog(UpdateDialog(appModel: res), barrierDismissible: false);
+      }
+    }
+  }
+
+  getAgentStatus() async {
+    if (userModel.value != null) {
+      var data = await UserService.getAgentStatus();
+      if (data != null) {
+        agentStatus.value = data.id.toInt();
       }
     }
   }
@@ -97,7 +113,7 @@ class IndexLogic extends GlobalLogic {
       barrierDismissible: false,
     );
     if (detail) {
-      BeeNav.push(BeeNav.webview, {
+      BeeNav.push(BeeNav.webview, arg: {
         'id': data.id,
         'title': data.title,
         'time': data.createdAt,

@@ -333,7 +333,7 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
               ),
               GestureDetector(
                 onTap: () {
-                  BeeNav.push(BeeNav.lineDetail, {
+                  BeeNav.push(BeeNav.lineDetail, arg: {
                     'id': controller.model.value!.expressLine?.id,
                     'type': 1
                   });
@@ -608,7 +608,7 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                         ? GestureDetector(
                             onTap: () {
                               BeeNav.push(BeeNav.groupMemberDetail,
-                                  {'id': controller.model.value!.id});
+                                  arg: {'id': controller.model.value!.id});
                             },
                             child: AppText(
                               str: '查看参团详情'.ts,

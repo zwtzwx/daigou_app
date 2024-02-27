@@ -37,4 +37,16 @@ class ArticleService {
       }
     }).onError((error, stackTrace) => onFail(error.toString()));
   }
+
+  // 文章详情
+  static Future<ArticleModel?> getDetail(dynamic id) async {
+    ArticleModel? data;
+
+    await BeeRequest.instance.get(listApi + '/$id').then((response) {
+      if (response.ok) {
+        data = ArticleModel.fromJson(response.data);
+      }
+    });
+    return data;
+  }
 }

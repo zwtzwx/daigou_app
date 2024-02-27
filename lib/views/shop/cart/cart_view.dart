@@ -33,7 +33,7 @@ class CartView extends GetView<CartController> {
       backgroundColor: Colors.white,
       bottomSheet: Obx(() => controller.showCartList.isNotEmpty
           ? Container(
-              padding: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 15.h),
+              padding: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 20.h),
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [

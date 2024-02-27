@@ -83,7 +83,7 @@ class BeeOrderIndexLogic extends GlobalLogic
     }
     List<ParcelModel> checkedList =
         allParcels.where((e) => checkedIds.contains(e.id!)).toList();
-    var s = await BeeNav.push(BeeNav.createOrder, {
+    var s = await BeeNav.push(BeeNav.createOrder, arg: {
       'modelList': checkedList,
     });
     if (s == 'succeed') {

@@ -73,7 +73,7 @@ class _ShopOrderListState extends State<ShopOrderList> {
   void orderPay({
     required String orderSn,
   }) async {
-    var s = await BeeNav.push(BeeNav.shopOrderPay, {
+    var s = await BeeNav.push(BeeNav.shopOrderPay, arg: {
       'order': [orderSn],
       'fromOrderList': true,
     });
@@ -88,10 +88,10 @@ class _ShopOrderListState extends State<ShopOrderList> {
   void toTransportDetail(ParcelModel package) {
     if (package.orderId != null) {
       // 跳转到订单详情
-      BeeNav.push(BeeNav.orderDetail, {'id': package.orderId});
+      BeeNav.push(BeeNav.orderDetail, arg: {'id': package.orderId});
     } else {
       // 跳转到包裹详情
-      BeeNav.push(BeeNav.parcelDetail, {'id': package.id, 'edit': false});
+      BeeNav.push(BeeNav.parcelDetail, arg: {'id': package.id, 'edit': false});
     }
   }
 

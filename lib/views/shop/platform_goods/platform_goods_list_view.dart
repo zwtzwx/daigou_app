@@ -3,30 +3,44 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/views/components/base_search.dart';
 import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/dropdown_menu.dart';
 import 'package:huanting_shop/views/components/goods/platform_goods_item.dart';
-import 'package:huanting_shop/views/components/goods/search_input.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:huanting_shop/views/components/loading_cell.dart';
 import 'package:huanting_shop/views/shop/platform_goods/platform_goods_controller.dart';
 import 'package:huanting_shop/views/shop/widget/sliver_header_delegate.dart';
 
 class PlatformGoodsListView extends GetView<PlatformGoodsController> {
-  const PlatformGoodsListView({Key? key}) : super(key: key);
+  const PlatformGoodsListView({Key? key, required this.controllerTag})
+      : super(key: key);
+  final String controllerTag;
+
+  @override
+  String? get tag => controllerTag;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          leading: const BackButton(color: Colors.black),
-          backgroundColor: Colors.white,
-          title: AppText(
-            str: '代购商品'.ts,
-            fontSize: 18,
-          ),
+          leading: Padding(
+              padding: EdgeInsets.only(left: 10.w),
+              child: const BackButton(color: Colors.black)),
+          backgroundColor: AppColors.bgGray,
+          title: controller.hideSearch
+              ? AppText(
+                  str: controller.keyword,
+                  fontSize: 17,
+                )
+              : BaseSearch(
+                  onSearch: controller.onSearch,
+                  needCheck: false,
+                  initData: controller.originKeyword,
+                  whiteBg: true,
+                ),
           elevation: 0,
+          leadingWidth: 40.w,
         ),
         backgroundColor: AppColors.bgGray,
         body: Stack(
@@ -37,23 +51,76 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
               child: CustomScrollView(
                 controller: controller.loadingUtil.value.scrollController,
                 slivers: [
-                  SliverToBoxAdapter(
-                    child: filtersCell(),
-                  ),
+                  // SliverToBoxAdapter(
+                  //   child: filtersCell(),
+                  // ),
+                  SliverPadding(padding: EdgeInsets.only(top: 10.h)),
                   SliverPersistentHeader(
                     pinned: true,
                     delegate: SliverHeaderDelegate(
                       maxHeight: 33.h,
                       minHeight: 33.h,
+                      bgColor: AppColors.bgGray,
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 12.w),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            orderByItem('综合', ''),
+                            Expanded(
+                                child: Row(
+                              children: controller.platforms
+                                  .map(
+                                    (e) => Obx(
+                                      () => GestureDetector(
+                                        onTap: () {
+                                          controller.platform.value =
+                                              e['value']!;
+                                          controller.handleRefresh();
+                                        },
+                                        child: Container(
+                                          color: Colors.transparent,
+                                          margin: EdgeInsets.only(right: 15.w),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                alignment: Alignment.center,
+                                                height: 20.h,
+                                                child: AppText(
+                                                  str: e['name']!.ts,
+                                                  color: controller
+                                                              .platform.value ==
+                                                          e['value']
+                                                      ? AppColors.textDark
+                                                      : AppColors.textGrayC9,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          3.r),
+                                                  color: controller
+                                                              .platform.value ==
+                                                          e['value']
+                                                      ? AppColors.primary
+                                                      : AppColors.bgGray,
+                                                ),
+                                                width: 22.w,
+                                                height: 3.h,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            )),
                             orderByItem('销量', 'sale'),
+                            15.horizontalSpace,
                             orderByItem('价格', 'bid2', sorted: true),
-                            orderByItem('筛选', '', filter: true),
+                            // orderByItem('筛选', '', filter: true),
                           ],
                         ),
                       ),
@@ -78,19 +145,26 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
                 ],
               ),
             ),
-            Obx(
-              () => PlatformDropdownMenu(
-                show: controller.filterShow.value,
-                offset: controller.loadingUtil.value.position,
-                platform: controller.platform.value,
-                onHide: controller.onHideFilter,
-                onConfirm: (String value) {
-                  controller.onHideFilter();
-                  controller.platform.value = value;
-                  controller.handleRefresh();
-                },
-              ),
-            ),
+            Obx(() => controller.loadingUtil.value.position.value > 200.h
+                ? Positioned(
+                    right: 14.w,
+                    bottom: 100.h,
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.loadingUtil.value.scrollController
+                            .animateTo(0,
+                                duration: const Duration(
+                                  milliseconds: 500,
+                                ),
+                                curve: Curves.easeInOut);
+                      },
+                      child: LoadAssetImage(
+                        'Shop/ico_db',
+                        width: 38.w,
+                        height: 38.w,
+                      ),
+                    ))
+                : AppGaps.empty),
           ],
         ));
   }
@@ -120,7 +194,7 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.fromLTRB(12.w, 0, 12.w, 5.h),
-      child: SearchCell(
+      child: BaseSearch(
         onSearch: controller.onSearch,
         needCheck: false,
         initData: controller.originKeyword,
@@ -143,6 +217,7 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
         },
         child: Container(
           alignment: Alignment.center,
+          height: 20.h,
           child: Row(
             // mainAxisSize: MainAxisSize.min,
             // crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -153,6 +228,7 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
                   color: ['bid2', '_bid2'].contains(controller.orderBy.value)
                       ? AppColors.textDark
                       : AppColors.textGrayC9,
+                  fontSize: 14,
                 ),
               ),
               Obx(
@@ -163,23 +239,25 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
                       height: 16.h,
                     ),
                     Positioned(
-                      top: -6,
+                      top: -5.w,
+                      right: 2.w,
                       child: Icon(
                         Icons.arrow_drop_up_sharp,
                         color: controller.orderBy.value == 'bid2'
                             ? AppColors.textDark
                             : AppColors.textGrayC9,
-                        size: 25,
+                        size: 22.sp,
                       ),
                     ),
                     Positioned(
-                      top: 2,
+                      top: 2.w,
+                      right: 2.w,
                       child: Icon(
                         Icons.arrow_drop_down_sharp,
                         color: controller.orderBy.value == '_bid2'
                             ? AppColors.textDark
                             : AppColors.textGrayC9,
-                        size: 25,
+                        size: 22.sp,
                       ),
                     ),
                   ],
@@ -219,12 +297,17 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
         controller.onHideFilter();
         controller.onSortBy(value);
       },
-      child: Obx(
-        () => AppText(
-          str: label.ts,
-          color: controller.orderBy.value == value
-              ? AppColors.textDark
-              : AppColors.textGrayC9,
+      child: Container(
+        alignment: Alignment.center,
+        height: 20.h,
+        child: Obx(
+          () => AppText(
+            str: label.ts,
+            color: controller.orderBy.value == value
+                ? AppColors.textDark
+                : AppColors.textGrayC9,
+            fontSize: 14,
+          ),
         ),
       ),
     );

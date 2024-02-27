@@ -9,7 +9,14 @@ import 'package:huanting_shop/views/components/loading_cell.dart';
 import 'package:huanting_shop/views/shop/image_search_goods_list/logics.dart';
 
 class GoodsImageSearchResultPage extends GetView<GoodsImageSearchResultLogic> {
-  const GoodsImageSearchResultPage({Key? key}) : super(key: key);
+  const GoodsImageSearchResultPage({
+    Key? key,
+    required this.controllerTag,
+  }) : super(key: key);
+  final String controllerTag;
+
+  @override
+  String? get tag => controllerTag;
 
   @override
   Widget build(BuildContext context) {

@@ -73,7 +73,7 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
   Widget groupOrderItemCell(int index, GroupOrderModel model) {
     return GestureDetector(
       onTap: () {
-        BeeNav.push(BeeNav.groupOrderPorcess, {'id': model.id});
+        BeeNav.push(BeeNav.groupOrderPorcess, arg: {'id': model.id});
       },
       child: Container(
         decoration: const BoxDecoration(
@@ -215,7 +215,7 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
                     child: BeeButton(
                       text: '团长代付',
                       onPressed: () {
-                        BeeNav.push(BeeNav.transportPay, {
+                        BeeNav.push(BeeNav.transportPay, arg: {
                           'id': model.id,
                           'payModel': 1,
                           'deliveryStatus': 1,

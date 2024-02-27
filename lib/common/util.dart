@@ -224,7 +224,7 @@ class CommonMethods {
           String uuid = AppConfig.getUUID();
           String api = AppConfig.getBaseApi();
           var parsedQuery = Uri.splitQueryString(paths[1]);
-          BeeNav.push(BeeNav.webview, {
+          BeeNav.push(BeeNav.webview, arg: {
             'title': '抽奖'.ts,
             'url':
                 'https://yingxiao.haiousaas.com/pages/reward/index?token=$token&api_url=$api&env=App&&UUID=$uuid&reward_id=${parsedQuery['id']}'
@@ -233,7 +233,7 @@ class CommonMethods {
       } else {
         if (paths.length > 1) {
           var parsedQuery = Uri.splitQueryString(paths[1]);
-          BeeNav.push(paths[0], parsedQuery);
+          BeeNav.push(paths[0], arg: parsedQuery);
         } else {
           BeeNav.push(model.linkPath);
         }
@@ -241,7 +241,7 @@ class CommonMethods {
     } else if (model.linkType == 2 || model.linkType == 3) {
       // 外部URL、公众号 URL
       BeeNav.push(BeeNav.webview,
-          {'url': model.linkPath, 'title': '包裹集运系统', 'time': ''});
+          arg: {'url': model.linkPath, 'title': '包裹集运系统', 'time': ''});
     }
   }
 }

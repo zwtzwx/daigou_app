@@ -92,7 +92,7 @@ class ShopOrderPayController extends GlobalLogic {
       }
     } else {
       // 转账支付
-      BeeNav.push(BeeNav.paymentTransfer, {
+      BeeNav.push(BeeNav.paymentTransfer, arg: {
         'payModel': payTypeList
             .where((e) => e.name == selectedPayType.value?.name)
             .first,

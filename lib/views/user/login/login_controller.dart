@@ -105,7 +105,7 @@ class BeeSignInLogic extends GlobalLogic {
 
   // 忘记密码
   toForgetPassword() async {
-    BeeNav.push(BeeNav.forgetPassword, {'type': loginType.value});
+    BeeNav.push(BeeNav.forgetPassword, arg: {'type': loginType.value});
   }
 
   // 登录

@@ -98,6 +98,7 @@ flutter:
     - assets/images/Shop/
     - assets/images/Group/
     - assets/images/Transport/
+    - assets/images/Guide/
     - assets/images/none.png
     - .env
 

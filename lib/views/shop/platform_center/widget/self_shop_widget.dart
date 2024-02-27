@@ -26,7 +26,7 @@ class SelfShopWidget extends GetView<PlatformShopCenterController> {
           10.verticalSpaceFromWidth,
           SearchCell(
             onSearch: (value) {
-              BeeNav.push(BeeNav.goodsList, {'keyword': value});
+              BeeNav.push(BeeNav.goodsList, arg: {'keyword': value});
             },
             cleanContentWhenSearch: true,
           ),

@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/route_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/views/components/input/base_input.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/shop/platform_goods/platform_goods_binding.dart';
+import 'package:huanting_shop/views/shop/platform_goods/platform_goods_list_view.dart';
 
 class SearchCell extends StatefulWidget {
   const SearchCell({
@@ -53,8 +56,9 @@ class _SearchCellState extends State<SearchCell> {
     if (widget.onSearch != null) {
       widget.onSearch!(value);
     } else if (widget.goPlatformGoods) {
-      BeeNav.push(
-          BeeNav.platformGoodsList, {'keyword': value, 'origin': value});
+      Get.to(PlatformGoodsListView(controllerTag: value),
+          arguments: {'keyword': value, 'origin': value},
+          binding: PlatformGoodsBinding(tag: value));
     }
     if (widget.cleanContentWhenSearch) {
       controller.text = '';
@@ -64,7 +68,7 @@ class _SearchCellState extends State<SearchCell> {
   void onPhotoSearch() async {
     var cameras = await availableCameras();
     if (cameras.isNotEmpty) {
-      BeeNav.push(BeeNav.imageSearch, {'device': cameras.first});
+      BeeNav.push(BeeNav.imageSearch, arg: {'device': cameras.first});
     }
   }
 

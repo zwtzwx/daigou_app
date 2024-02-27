@@ -34,12 +34,13 @@ class InformationLogic extends GlobalLogic {
   onDetail(NoticeModel model, int index) async {
     if (model.value == null) return;
     if (model.type == 1) {
-      await BeeNav.push(BeeNav.orderCenter, 1);
+      await BeeNav.push(BeeNav.orderCenter, arg: 1);
     } else if ([2, 3, 5, 6, 8].contains(model.type)) {
-      await BeeNav.push(BeeNav.orderDetail, {'id': num.parse(model.value!)});
+      await BeeNav.push(BeeNav.orderDetail,
+          arg: {'id': num.parse(model.value!)});
     } else if (model.type == 7) {
-      await BeeNav.push(
-          BeeNav.webview, {'type': 'notice', 'id': num.parse(model.value!)});
+      await BeeNav.push(BeeNav.webview,
+          arg: {'type': 'notice', 'id': num.parse(model.value!)});
     }
     await onReadInfo(model.id, index);
   }

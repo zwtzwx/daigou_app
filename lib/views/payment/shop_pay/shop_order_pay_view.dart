@@ -167,7 +167,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              BeeNav.push(BeeNav.recharge, context);
+                              BeeNav.push(BeeNav.recharge, arg: context);
                             },
                             child: Row(
                               children: <Widget>[

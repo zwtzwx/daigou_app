@@ -148,7 +148,7 @@ class TransportPayPage extends GetView<TransportPayController> {
                             ),
                             GestureDetector(
                                 onTap: () {
-                                  BeeNav.push(BeeNav.recharge, context);
+                                  BeeNav.push(BeeNav.recharge, arg: context);
                                 },
                                 child: Row(
                                   children: <Widget>[
@@ -219,15 +219,16 @@ class TransportPayPage extends GetView<TransportPayController> {
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        var s =
-                                            await BeeNav.push(BeeNav.coupon, {
-                                          'select': true,
-                                          'lineid': controller
-                                              .orderModel.value!.expressLineId,
-                                          'amount': controller.orderModel.value!
-                                              .actualPaymentFee,
-                                          'model': controller.selectCoupon.value
-                                        });
+                                        var s = await BeeNav.push(BeeNav.coupon,
+                                            arg: {
+                                              'select': true,
+                                              'lineid': controller.orderModel
+                                                  .value!.expressLineId,
+                                              'amount': controller.orderModel
+                                                  .value!.actualPaymentFee,
+                                              'model':
+                                                  controller.selectCoupon.value
+                                            });
                                         if (s == null) {
                                           return;
                                         }

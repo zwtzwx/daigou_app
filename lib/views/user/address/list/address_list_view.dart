@@ -38,7 +38,7 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
             child: BeeButton(
               text: '添加地址',
               onPressed: () {
-                BeeNav.push(BeeNav.addressAddEdit, {
+                BeeNav.push(BeeNav.addressAddEdit, arg: {
                   'isEdit': '0',
                   'addressType': controller.addressType.value
                 });
@@ -216,7 +216,7 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
                   10.horizontalSpace,
                   GestureDetector(
                     onTap: () {
-                      BeeNav.push(BeeNav.addressAddEdit, {
+                      BeeNav.push(BeeNav.addressAddEdit, arg: {
                         'id': model.id,
                         'isEdit': '1',
                         'addressType': model.addressType ?? 1,

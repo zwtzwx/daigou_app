@@ -54,7 +54,7 @@ class BeePage extends GetView<BeeLogic> {
           ),
           trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () {
-            BeeNav.push(BeeNav.webview, {
+            BeeNav.push(BeeNav.webview, arg: {
               'url': model.content,
               'title': model.title,
               'time': model.createdAt

@@ -22,7 +22,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
       appBar: AppBar(
         centerTitle: true,
         title: AppText(
-          str: '订单确认'.ts,
+          str: '确认订单'.ts,
           fontSize: 17,
         ),
         leading: const BackButton(color: Colors.black),
@@ -31,57 +31,140 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
       ),
       backgroundColor: AppColors.bgGray,
       bottomNavigationBar: Container(
-        padding: EdgeInsets.all(14.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(blurRadius: 5.r, color: const Color(0x0D000000)),
-          ],
-        ),
+        color: Colors.white,
         child: SafeArea(
-          child: Row(
-            children: [
-              Expanded(
-                child: Obx(
-                  () => Text.rich(
-                    TextSpan(
-                      style: TextStyle(
-                        color: AppColors.textDark,
-                        fontSize: 12.sp,
+            child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFCFCFE),
+                boxShadow: [
+                  BoxShadow(blurRadius: 7.r, color: const Color(0x0D000000)),
+                ],
+              ),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 22.w,
+                    height: 22.w,
+                    child: Obx(
+                      () => Checkbox.adaptive(
+                        shape: const CircleBorder(),
+                        activeColor: AppColors.primary,
+                        value: controller.agreeProtocol.value,
+                        onChanged: (value) {
+                          if (value == null) return;
+                          controller.agreeProtocol.value = value;
+                        },
                       ),
+                    ),
+                  ),
+                  5.horizontalSpace,
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: AppColors.textNormal,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: '我已阅读与同意'.ts,
+                          ),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: GestureDetector(
+                              onTap: () {
+                                BeeNav.push(BeeNav.webview,
+                                    arg: {'type': 'article', 'id': 4179});
+                              },
+                              child: AppText(
+                                str: '《${'禁购商品声明'.ts}》',
+                                fontSize: 12,
+                                color: const Color(0xFF5CADF6),
+                              ),
+                            ),
+                          ),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.middle,
+                            child: GestureDetector(
+                              onTap: () {
+                                BeeNav.push(BeeNav.webview,
+                                    arg: {'type': 'article', 'id': 4180});
+                              },
+                              child: AppText(
+                                str: '《${'免责声明'.ts}》',
+                                fontSize: 12,
+                                color: const Color(0xFF5CADF6),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(14.w, 8.h, 14.w, 10.h),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        TextSpan(text: '总计'.ts + '：'),
-                        TextSpan(
-                          text: controller.currencyModel.value?.symbol ?? '',
-                          style: const TextStyle(
-                            color: AppColors.textRed,
-                            fontWeight: FontWeight.bold,
+                        Obx(
+                          () => Text.rich(
+                            TextSpan(
+                              style: TextStyle(
+                                color: AppColors.textRed,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text:
+                                      controller.currencyModel.value?.symbol ??
+                                          '',
+                                ),
+                                TextSpan(
+                                  text: controller.shopOrderValue.rate(
+                                      needFormat: false,
+                                      showPriceSymbol: false),
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        TextSpan(
-                          text: controller.shopOrderValue
-                              .rate(needFormat: false, showPriceSymbol: false),
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: AppColors.textRed,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        AppText(
+                          str: '待支付总价(国际运费需另计)'.ts,
+                          fontSize: 12,
                         ),
                       ],
                     ),
                   ),
-                ),
+                  14.horizontalSpace,
+                  Container(
+                    height: 35.h,
+                    constraints: BoxConstraints(minWidth: 85.w),
+                    child: BeeButton(
+                      text: '提交',
+                      fontWeight: FontWeight.bold,
+                      onPressed: controller.onSubmit,
+                    ),
+                  ),
+                ],
               ),
-              BeeButton(
-                text: '提交',
-                borderRadis: 999,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                onPressed: controller.onSubmit,
-              ),
-            ],
-          ),
-        ),
+            ),
+          ],
+        )),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -89,7 +172,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              shipModelCell(),
+              // shipModelCell(),
               addressCell(),
               Obx(() => Offstage(
                     offstage: controller.shipModel.value == 0,
@@ -354,8 +437,10 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                     15.verticalSpace,
                     GestureDetector(
                       onTap: () {
-                        BeeNav.push(BeeNav.lineDetail,
-                            {'line': controller.lineModel.value, 'type': 2});
+                        BeeNav.push(BeeNav.lineDetail, arg: {
+                          'line': controller.lineModel.value,
+                          'type': 2
+                        });
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,

@@ -39,6 +39,7 @@ class OrderPreviewController extends GlobalLogic {
   final insuranceChecked = false.obs;
   final tariffChecked = false.obs;
   final insuranceFee = 0.0.obs;
+  final agreeProtocol = false.obs;
 
   @override
   void onInit() {
@@ -144,7 +145,7 @@ class OrderPreviewController extends GlobalLogic {
 
   // 选择收货地址
   void onAddress() async {
-    var s = await BeeNav.push(BeeNav.addressList, {'select': 1});
+    var s = await BeeNav.push(BeeNav.addressList, arg: {'select': 1});
     if (s == null) return;
     address.value = s as ReceiverAddressModel;
     lineModel.value = null;
@@ -195,7 +196,7 @@ class OrderPreviewController extends GlobalLogic {
       'area_id': address.value!.area?.id ?? '',
       'sub_area_id': address.value!.subArea?.id ?? '',
     };
-    var s = await BeeNav.push(BeeNav.lineQueryResult, {"data": dic});
+    var s = await BeeNav.push(BeeNav.lineQueryResult, arg: {"data": dic});
     if (s == null) return;
     lineModel.value = s;
     // lineServiceIds.value = (lineModel.value!.region?.services ?? [])
@@ -206,7 +207,9 @@ class OrderPreviewController extends GlobalLogic {
 
   // 提交
   onSubmit() {
-    if (address.value == null) {
+    if (!agreeProtocol.value) {
+      return showToast('请同意《禁购商品声明》《免责声明》');
+    } else if (address.value == null) {
       return showToast('请选择收件地址');
     } else if (shipModel.value == 1 && lineModel.value == null) {
       return showToast('请选择物流方案');

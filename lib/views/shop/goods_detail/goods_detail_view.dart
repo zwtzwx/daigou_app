@@ -21,7 +21,11 @@ import 'package:huanting_shop/views/components/skeleton/skeleton.dart';
 import 'package:huanting_shop/views/shop/goods_detail/goods_detail_controller.dart';
 
 class GoodsDetailView extends GetView<GoodsDetailController> {
-  const GoodsDetailView({Key? key}) : super(key: key);
+  const GoodsDetailView({Key? key, required this.goodsId}) : super(key: key);
+  final String goodsId;
+
+  @override
+  String? get tag => goodsId;
 
   @override
   Widget build(BuildContext context) {
@@ -256,16 +260,26 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                         ),
                       ),
                     ),
-                    LoadAssetImage(
-                      'Transport/ico_zxs',
-                      width: 20.w,
-                      height: 20.w,
+                    GestureDetector(
+                      onTap: controller.onPhotoSearch,
+                      child: LoadAssetImage(
+                        'Transport/ico_zxs',
+                        width: 20.w,
+                        height: 20.w,
+                      ),
                     ),
                     16.horizontalSpace,
-                    LoadAssetImage(
-                      'Transport/ico_share',
-                      width: 22.w,
-                      height: 22.w,
+                    GestureDetector(
+                      onTap: () {
+                        var data =
+                            '${controller.goodsModel.value?.detailUrl} ${controller.goodsModel.value?.title}';
+                        controller.onCopyData(data);
+                      },
+                      child: LoadAssetImage(
+                        'Transport/ico_share',
+                        width: 22.w,
+                        height: 22.w,
+                      ),
                     ),
                   ],
                 ),

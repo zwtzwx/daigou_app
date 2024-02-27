@@ -1,10 +1,9 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
+import 'package:get/route_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/change_page_index_event.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/views/components/ad_cell.dart';
@@ -18,7 +17,8 @@ import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:huanting_shop/views/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:huanting_shop/views/home/widget/notice_widget.dart';
-import 'package:huanting_shop/views/shop/platform_center/platform_shop_center_controller.dart';
+import 'package:huanting_shop/views/shop/platform_goods/platform_goods_binding.dart';
+import 'package:huanting_shop/views/shop/platform_goods/platform_goods_list_view.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
 class IndexPage extends GetView<IndexLogic> {
@@ -203,10 +203,16 @@ class IndexPage extends GetView<IndexLogic> {
                 itemCount: controller.categoryList.length,
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
-                    BeeNav.push(BeeNav.platformGoodsList, {
-                      'keyword': controller.categoryList[index].nameCn,
-                      'origin': controller.categoryList[index].name
-                    });
+                    Get.to(
+                        PlatformGoodsListView(
+                            controllerTag: controller.categoryList[index].name),
+                        arguments: {
+                          'keyword': controller.categoryList[index].nameCn,
+                          'origin': controller.categoryList[index].name,
+                          'hideSearch': true,
+                        },
+                        binding: PlatformGoodsBinding(
+                            tag: controller.categoryList[index].name));
                   },
                   child: Container(
                     margin: EdgeInsets.only(right: 14.w),
@@ -248,8 +254,7 @@ class IndexPage extends GetView<IndexLogic> {
       {
         'label': '新手指引',
         'icon': 'Home/ico_xszy',
-        'route': BeeNav.help,
-        'params': {'index': 3},
+        'route': BeeNav.guide,
       },
       {
         'label': '运费估算',
@@ -259,7 +264,7 @@ class IndexPage extends GetView<IndexLogic> {
       {
         'label': '推广联盟',
         'icon': 'Home/ico_tglm',
-        'route': BeeNav.manualOrder,
+        'route': BeeNav.agentApplyInstruct,
       },
       {
         'label': '提交转运',
@@ -277,24 +282,11 @@ class IndexPage extends GetView<IndexLogic> {
               (e) => Flexible(
                 child: GestureDetector(
                   onTap: () {
-                    if (e['route'] != null) {
-                      BeeNav.push(e['route']!, e['params']);
-                    } else if (e['icon'] == 'Home/jyzy') {
-                      ApplicationEvent.getInstance()
-                          .event
-                          .fire(ChangePageIndexEvent(pageName: 'transport'));
+                    if (e['route'] == BeeNav.agentApplyInstruct &&
+                        controller.agentStatus.value == 1) {
+                      BeeNav.push(BeeNav.agentCenter);
                     } else {
-                      Get.find<AppStore>().setShopPlatformType(2);
-                      bool isRegistered =
-                          Get.isRegistered<PlatformShopCenterController>();
-                      if (isRegistered) {
-                        Get.find<PlatformShopCenterController>()
-                            .platformType
-                            .value = 2;
-                      }
-                      ApplicationEvent.getInstance()
-                          .event
-                          .fire(ChangePageIndexEvent(pageName: 'shop'));
+                      BeeNav.push(e['route']!, arg: e['params']);
                     }
                   },
                   child: Container(

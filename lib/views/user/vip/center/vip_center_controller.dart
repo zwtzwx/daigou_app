@@ -38,7 +38,7 @@ class BeeSuperUserLogic extends GlobalLogic {
   }
 
   onPay() async {
-    var a = await BeeNav.push('/OrderPayPage', {
+    var a = await BeeNav.push('/OrderPayPage', arg: {
       'model': userVipModel.value!.priceList[selectButton.value],
       'payModel': 0
     });

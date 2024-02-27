@@ -24,7 +24,7 @@ class BeeOrderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        BeeNav.push(BeeNav.orderDetail, {'id': orderModel.id});
+        BeeNav.push(BeeNav.orderDetail, arg: {'id': orderModel.id});
       },
       child: Container(
         decoration: BoxDecoration(
@@ -199,7 +199,7 @@ class BeeOrderItem extends StatelessWidget {
                   ? '去付款'
                   : '重新支付',
               onPressed: () async {
-                var s = await BeeNav.push(BeeNav.transportPay, {
+                var s = await BeeNav.push(BeeNav.transportPay, arg: {
                   'id': orderModel.id,
                   'payModel': 1,
                   'deliveryStatus': orderModel.onDeliveryStatus,
@@ -235,7 +235,7 @@ class BeeOrderItem extends StatelessWidget {
                     text: '前往支付',
                     onPressed: () {
                       BeeNav.push(BeeNav.groupOrderPorcess,
-                          {'id': orderModel.parentId});
+                          arg: {'id': orderModel.parentId});
                     },
                   ),
                 ),
@@ -263,8 +263,8 @@ class BeeOrderItem extends StatelessWidget {
                 if (orderModel.boxes.isNotEmpty) {
                   BaseDialog.showBoxsTracking(context, orderModel);
                 } else {
-                  BeeNav.push(
-                      BeeNav.orderTracking, {"order_sn": orderModel.orderSn});
+                  BeeNav.push(BeeNav.orderTracking,
+                      arg: {"order_sn": orderModel.orderSn});
                 }
               },
             ),
@@ -290,7 +290,7 @@ class BeeOrderItem extends StatelessWidget {
               child: BeeButton(
                 text: '我要评价',
                 onPressed: () {
-                  BeeNav.push(BeeNav.orderComment, {'order': orderModel});
+                  BeeNav.push(BeeNav.orderComment, arg: {'order': orderModel});
                 },
               ),
             ),

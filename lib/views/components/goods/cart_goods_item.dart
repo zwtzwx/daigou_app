@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
+import 'package:get/route_manager.dart';
 import 'package:huanting_shop/common/util.dart';
 import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/models/shop/cart_model.dart';
 import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/shop/goods_detail/goods_detail_binding.dart';
+import 'package:huanting_shop/views/shop/goods_detail/goods_detail_view.dart';
 
 class BeeShopOrderGoodsItem extends StatelessWidget {
   const BeeShopOrderGoodsItem({
@@ -101,10 +103,15 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
               onTap: goodsToDetail
                   ? () {
                       if (cartModel.shopId.toString() == '-1') {
-                        BeeNav.push(BeeNav.goodsDetail, {'id': sku.goodsId});
+                        Get.to(GoodsDetailView(goodsId: sku.goodsId.toString()),
+                            arguments: {'id': sku.goodsId},
+                            binding: GoodsDetailBinding(
+                                tag: sku.goodsId.toString()));
                       } else {
-                        BeeNav.push(
-                            BeeNav.goodsDetail, {'url': sku.platformUrl});
+                        Get.to(GoodsDetailView(goodsId: sku.id.toString()),
+                            arguments: {'url': sku.platformUrl},
+                            binding:
+                                GoodsDetailBinding(tag: sku.id.toString()));
                       }
                     }
                   : null,

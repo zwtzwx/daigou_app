@@ -159,7 +159,7 @@ class BeePackageUpdateLogic extends GlobalLogic {
 
   // 选择国家
   goCountry() async {
-    var s = await BeeNav.push(BeeNav.country, {
+    var s = await BeeNav.push(BeeNav.country, arg: {
       'warehouseId': packageModel.value.warehouse?.id,
     });
     if (s == null) {

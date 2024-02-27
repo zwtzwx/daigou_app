@@ -62,7 +62,8 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
 
   // 补款
   void onOrderAddtionalFee(ProblemOrderModel order) async {
-    var s = await BeeNav.push(BeeNav.shopOrderPay, {'problemOrder': order});
+    var s =
+        await BeeNav.push(BeeNav.shopOrderPay, arg: {'problemOrder': order});
     if (s != null) {
       ApplicationEvent.getInstance()
           .event
@@ -72,7 +73,7 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
 
   // 咨询
   void onChat(ProblemOrderModel order) async {
-    BeeNav.push(BeeNav.shopOrderChatDetail, {'consult': order.consult});
+    BeeNav.push(BeeNav.shopOrderChatDetail, arg: {'consult': order.consult});
   }
 
   @override

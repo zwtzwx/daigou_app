@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/shop/platform_goods_model.dart';
 import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/shop/goods_detail/goods_detail_binding.dart';
+import 'package:huanting_shop/views/shop/goods_detail/goods_detail_view.dart';
 
 class PlatformGoodsCell extends StatelessWidget {
   const PlatformGoodsCell({
@@ -25,7 +26,9 @@ class PlatformGoodsCell extends StatelessWidget {
     final currency = Get.find<AppStore>().currencyModel.value;
     return GestureDetector(
       onTap: () {
-        BeeNav.push(BeeNav.goodsDetail, {'url': goods.detailUrl});
+        Get.to(GoodsDetailView(goodsId: goods.id.toString()),
+            arguments: {'url': goods.detailUrl},
+            binding: GoodsDetailBinding(tag: goods.id.toString()));
       },
       child: Container(
         width: width,

@@ -7,6 +7,8 @@ import 'package:huanting_shop/views/components/base_search.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:huanting_shop/views/shop/category/controller.dart';
+import 'package:huanting_shop/views/shop/platform_goods/platform_goods_binding.dart';
+import 'package:huanting_shop/views/shop/platform_goods/platform_goods_list_view.dart';
 
 class GoodsCategoryView extends GetView<GoodsCategoryController> {
   const GoodsCategoryView({Key? key}) : super(key: key);
@@ -108,6 +110,15 @@ class GoodsCategoryView extends GetView<GoodsCategoryController> {
           itemBuilder: (context, index) {
             var child = model[index];
             return GestureDetector(
+              onTap: () {
+                Get.to(PlatformGoodsListView(controllerTag: child.name),
+                    arguments: {
+                      'keyword': child.nameCn,
+                      'origin': child.name,
+                      'hideSearch': true,
+                    },
+                    binding: PlatformGoodsBinding(tag: child.name));
+              },
               child: Container(
                 color: Colors.transparent,
                 alignment: Alignment.center,

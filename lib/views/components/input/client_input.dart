@@ -57,7 +57,7 @@ class _ClientInput extends State<ClientInput> {
   }
 
   void openModal() {
-    BeeNav.push(widget.router, context);
+    BeeNav.push(widget.router, arg: context);
   }
 
   Widget buildInputItem() {

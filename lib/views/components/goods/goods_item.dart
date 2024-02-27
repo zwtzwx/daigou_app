@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/route_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/shop/goods_model.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/shop/goods_detail/goods_detail_binding.dart';
+import 'package:huanting_shop/views/shop/goods_detail/goods_detail_view.dart';
 
 class BeeShopGoods extends StatelessWidget {
   const BeeShopGoods({
@@ -26,7 +28,9 @@ class BeeShopGoods extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        BeeNav.push(BeeNav.goodsDetail, {'id': goods.id});
+        Get.to(GoodsDetailView(goodsId: goods.id.toString()),
+            arguments: {'id': goods.id},
+            binding: GoodsDetailBinding(tag: goods.id.toString()));
       },
       child: Container(
         width: width,

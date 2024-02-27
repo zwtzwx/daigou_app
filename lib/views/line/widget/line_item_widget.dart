@@ -146,8 +146,8 @@ class LineItemWidget extends StatelessWidget {
                     : AppGaps.empty,
                 GestureDetector(
                     onTap: () {
-                      BeeNav.push(
-                          BeeNav.lineDetail, {'line': model, 'type': 2});
+                      BeeNav.push(BeeNav.lineDetail,
+                          arg: {'line': model, 'type': 2});
                     },
                     child: AppText(
                       str: '查看详情'.ts,
