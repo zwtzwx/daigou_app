@@ -35,7 +35,7 @@ class BeeSignInLogic extends GlobalLogic {
   RxInt count = 60.obs;
   Rx<Color> codeColor = AppColors.textBlack.obs;
   // 电话区号
-  RxString areaNumber = '0007'.obs;
+  RxString areaNumber = '0086'.obs;
   // 电话号码
   RxString mobileNumber = ''.obs;
   // 验证码

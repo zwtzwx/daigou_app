@@ -42,7 +42,7 @@ class BeeResetPwdLogic extends GlobalLogic {
   final FocusNode validation = FocusNode();
 
   // 电话区号
-  final areaNumber = "0007".obs;
+  final areaNumber = "0086".obs;
   // 电话号码
   final mobileNumber = "".obs;
   // 验证码

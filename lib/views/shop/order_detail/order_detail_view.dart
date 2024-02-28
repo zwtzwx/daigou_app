@@ -302,10 +302,16 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
               ),
             ),
             5.horizontalSpace,
-            AppText(
-              str: controller.orderModel.value!.orderSn,
-              fontSize: 14,
-              color: AppColors.textGrayC9,
+            GestureDetector(
+              onLongPress: () {
+                controller.onCopyData(controller.orderModel.value!.orderSn);
+              },
+              child: AppText(
+                str: controller.orderModel.value!.orderSn,
+                fontSize: 14,
+                color: AppColors.textGrayC9,
+                decoration: TextDecoration.underline,
+              ),
             ),
           ],
         ),
