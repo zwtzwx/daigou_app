@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/events/application_event.dart';
@@ -13,13 +14,16 @@ import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/goods/shop_order_item.dart';
 import 'package:huanting_shop/views/components/list_refresh.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/shop/order/shop_order_controller.dart';
 
 class ShopOrderList extends StatefulWidget {
   const ShopOrderList({
     Key? key,
     required this.status,
+    required this.keyword,
   }) : super(key: key);
   final int status;
+  final String keyword;
 
   @override
   State<ShopOrderList> createState() => _ShopOrderListState();
@@ -27,6 +31,7 @@ class ShopOrderList extends StatefulWidget {
 
 class _ShopOrderListState extends State<ShopOrderList> {
   int page = 0;
+  final controller = Get.find<ShopOrderController>();
 
   loadData({type}) async {
     page = 0;
@@ -34,7 +39,12 @@ class _ShopOrderListState extends State<ShopOrderList> {
   }
 
   loadMoreData() async {
-    var params = {'page': ++page, 'size': 10};
+    var params = {
+      'page': ++page,
+      'size': 10,
+      'keyword': controller.keyword,
+      // 'sort': 'desc'
+    };
     if (widget.status != 0) {
       for (var i = 0; i < statusList.length; i++) {
         params['status[$i]'] = statusList[i];

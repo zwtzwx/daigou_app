@@ -74,6 +74,7 @@ class ShopOrderView extends GetView<ShopOrderController> {
         controller: controller.pageController,
         itemBuilder: (context, index) => ShopOrderList(
           status: index,
+          keyword: controller.keyword,
         ),
       ),
     );
