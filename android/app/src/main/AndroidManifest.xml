@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> 
    <application
-        android:label="包裹集运系统"
+        android:label="Daigou"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:extractNativeLibs="true"

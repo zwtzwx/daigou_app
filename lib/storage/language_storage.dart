@@ -15,7 +15,7 @@ class LanguageStore {
 
   static String getLanguage() {
     SharedPreferences sp = Get.find<SharedPreferences>();
-    return sp.getString(languageKey) ?? 'ru_RU';
+    return sp.getString(languageKey) ?? 'zh_CN';
   }
 
   static void setTranslate(Map<String, dynamic> data) {

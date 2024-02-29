@@ -47,12 +47,13 @@ class ImgItem extends StatelessWidget {
               ? LoadAssetImage(
                   holderImg!,
                 )
-              : Container(
-                  padding: EdgeInsets.symmetric(vertical: 10.h),
-                  alignment: Alignment.center,
-                  color: holderColor ?? AppColors.textGrayC,
-                  child: const Indicator(),
-                ),
+              : (placeholderWidget ??
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10.h),
+                    alignment: Alignment.center,
+                    color: holderColor ?? AppColors.textGrayC,
+                    child: const Indicator(),
+                  )),
           errorWidget: (context, url, error) => holderImg != null
               ? LoadAssetImage(
                   holderImg!,

@@ -321,7 +321,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                                                   BorderRadius.circular(10.r),
                                             ),
                                             padding: EdgeInsets.symmetric(
-                                                horizontal: 5.w, vertical: 2.w),
+                                                horizontal: 6.w, vertical: 2.w),
                                             child: AppText(
                                               str: cartCount.toString(),
                                               fontSize: 10,

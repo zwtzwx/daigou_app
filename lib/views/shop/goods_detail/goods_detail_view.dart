@@ -180,7 +180,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                                     borderRadius: BorderRadius.circular(8.r),
                                   ),
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 4.w, vertical: 1.w),
+                                      horizontal: 5.w, vertical: 1.w),
                                   child: AppText(
                                     str: cartCount.toString(),
                                     fontSize: 10,

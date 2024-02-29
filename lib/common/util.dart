@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluwx/fluwx.dart';
 import 'package:get/instance_manager.dart';
 import 'package:huanting_shop/config/app_config.dart';
 import 'package:huanting_shop/config/routers.dart';
@@ -149,25 +150,30 @@ class CommonMethods {
   }
 
   // 客服
-  static void onCustomerContact() async {
-    // Uri uri = Uri(
-    //   scheme: 'mailto',
-    //   path: '786969739@qq.com',
-    // );
-    // launchUrl(uri);
-    const contact = '+77772040327';
-    String whatsappURlAndroid = 'whatsapp://send?phone=' + contact + '&text=';
-    String whatappURLIos = "https://wa.me/$contact?text=";
-    if (Platform.isIOS) {
-      if (await canLaunchUrl(Uri.parse(whatappURLIos))) {
-        await launchUrl(Uri.parse(whatappURLIos));
+  static void onCustomerContact([String type = 'wx']) async {
+    if (type == 'whatsapp') {
+      const contact = '+8618163665594';
+      String whatsappURlAndroid = 'whatsapp://send?phone=' + contact + '&text=';
+      String whatappURLIos = "https://wa.me/$contact?text=";
+      if (Platform.isIOS) {
+        if (await canLaunchUrl(Uri.parse(whatappURLIos))) {
+          await launchUrl(Uri.parse(whatappURLIos));
+        }
+      } else {
+        if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
+          await launchUrl(Uri.parse(whatsappURlAndroid));
+        } else {
+          await launchUrl(Uri.parse(whatappURLIos));
+        }
       }
     } else {
-      if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
-        await launchUrl(Uri.parse(whatsappURlAndroid));
-      } else {
-        await launchUrl(Uri.parse(whatappURLIos));
-      }
+      var fluwx = Fluwx();
+      fluwx.open(
+        target: CustomerServiceChat(
+          corpId: 'ww956f22ae6465bb51',
+          url: 'https://work.weixin.qq.com/kfid/kfc6427e510860ac433',
+        ),
+      );
     }
   }
 
@@ -241,7 +247,7 @@ class CommonMethods {
     } else if (model.linkType == 2 || model.linkType == 3) {
       // 外部URL、公众号 URL
       BeeNav.push(BeeNav.webview,
-          arg: {'url': model.linkPath, 'title': '包裹集运系统', 'time': ''});
+          arg: {'url': model.linkPath, 'title': 'Daigou', 'time': ''});
     }
   }
 }

@@ -199,7 +199,7 @@ class RechargeView extends GetView<RechargeController> {
             decoration: BoxDecoration(
               color: controller.selectButton.value == index
                   ? AppColors.primary
-                  : const Color(0xFFFFF9DB),
+                  : AppColors.bgGray,
               // color: ,
               borderRadius: BorderRadius.circular(5),
             ),
@@ -218,7 +218,9 @@ class RechargeView extends GetView<RechargeController> {
                         }),
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.textBlack,
+                        color: controller.selectButton.value == index
+                            ? Colors.white
+                            : AppColors.textBlack,
                       ),
                       model.complimentaryAmount != 0
                           ? AppText(
@@ -230,8 +232,9 @@ class RechargeView extends GetView<RechargeController> {
                                 )
                               }),
                               fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.textBlack,
+                              color: controller.selectButton.value == index
+                                  ? Colors.white
+                                  : AppColors.textBlack,
                             )
                           : Container(),
                     ],

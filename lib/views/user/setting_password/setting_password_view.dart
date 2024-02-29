@@ -25,7 +25,7 @@ class BeeNewPwdPage extends GetView<BeeNewPwdLogic> {
         ),
       ),
       bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(horizontal: 14.w),
+        margin: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
         child: SafeArea(
           child: SizedBox(
             height: 38.h,
@@ -41,6 +41,8 @@ class BeeNewPwdPage extends GetView<BeeNewPwdLogic> {
           InputTextItem(
             title: '新密码'.ts,
             isRequired: true,
+            margin: const EdgeInsets.only(left: 0),
+            padding: EdgeInsets.only(left: 14.w),
             inputText: NormalInput(
               hintText: '请输入新密码'.ts,
               contentPadding: const EdgeInsets.only(right: 15),
@@ -58,6 +60,8 @@ class BeeNewPwdPage extends GetView<BeeNewPwdLogic> {
           ),
           InputTextItem(
             title: '确认密码'.ts,
+            margin: const EdgeInsets.only(left: 0),
+            padding: EdgeInsets.only(left: 14.w),
             isRequired: true,
             inputText: NormalInput(
               hintText: '请确认密码'.ts,

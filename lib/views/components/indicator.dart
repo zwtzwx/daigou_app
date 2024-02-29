@@ -9,12 +9,8 @@ class Indicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Platform.isAndroid
-        ? const CircularProgressIndicator(
-            color: AppColors.textNormal,
-          )
-        : const CupertinoActivityIndicator(
-            color: AppColors.textNormal,
-          );
+    return const CupertinoActivityIndicator(
+      color: AppColors.textNormal,
+    );
   }
 }

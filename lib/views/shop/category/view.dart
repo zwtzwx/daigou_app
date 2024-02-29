@@ -106,6 +106,7 @@ class GoodsCategoryView extends GetView<GoodsCategoryController> {
             crossAxisCount: 3,
             crossAxisSpacing: 10.w,
             mainAxisSpacing: 10.h,
+            childAspectRatio: 1 / 1.3,
           ),
           itemBuilder: (context, index) {
             var child = model[index];
@@ -130,7 +131,7 @@ class GoodsCategoryView extends GetView<GoodsCategoryController> {
                       height: 38.w,
                       fit: BoxFit.fill,
                     ),
-                    2.verticalSpaceFromWidth,
+                    5.verticalSpaceFromWidth,
                     AppText(
                       str: child.name,
                       fontSize: 14,

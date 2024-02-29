@@ -39,6 +39,12 @@ PODS:
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
+  - fluwx (0.0.1):
+    - Flutter
+    - fluwx/pay (= 0.0.1)
+  - fluwx/pay (0.0.1):
+    - Flutter
+    - WechatOpenSDK-XCFramework (~> 2.0.2)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -101,6 +107,7 @@ PODS:
     - Flutter
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
+  - WechatOpenSDK-XCFramework (2.0.2)
 
 DEPENDENCIES:
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
@@ -109,6 +116,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - fluwx (from `.symlinks/plugins/fluwx/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
@@ -137,6 +145,7 @@ SPEC REPOS:
     - PromisesObjC
     - Toast
     - TOCropViewController
+    - WechatOpenSDK-XCFramework
 
 EXTERNAL SOURCES:
   camera_avfoundation:
@@ -151,6 +160,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
+  fluwx:
+    :path: ".symlinks/plugins/fluwx/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   image_cropper:
@@ -188,6 +199,7 @@ SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   fluttertoast: fafc4fa4d01a6a9e4f772ecd190ffa525e9e2d9c
+  fluwx: 4e01cbba9403c95cd973d5d8f8b9db5244f09446
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
   GoogleDataTransport: 54dee9d48d14580407f8f5fbf2f496e92437a2f2
@@ -208,6 +220,7 @@ SPEC CHECKSUMS:
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
   webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
+  WechatOpenSDK-XCFramework: acdeeda129efbef9532bca8a10c24e1b4b8c7d69
 
 PODFILE CHECKSUM: 9ba338d534971dc44e2d87b1d318672ca421ac3e
 

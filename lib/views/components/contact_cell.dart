@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:huanting_shop/common/util.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/views/components/caption.dart';
@@ -57,7 +58,7 @@ class _ContactCellState extends State<ContactCell>
             ),
             Positioned(
               right: 82.w,
-              top: topOffset - 88.w - 35.w,
+              top: topOffset - 75.w,
               child: Offstage(
                 offstage: !maskShow,
                 child: buildHelpList(),
@@ -83,26 +84,15 @@ class _ContactCellState extends State<ContactCell>
 
   Widget buildHelpList() {
     List<Map<String, dynamic>> list = [
-      {
-        'name': '微信',
-        'icon': 'Home/wx-info',
-      },
-      {
-        'name': 'WhatsApp',
-        'icon': 'Home/whatsaspp-info',
-      },
-      {'name': '帮助中心', 'icon': 'Home/bzzc', 'route': BeeNav.help},
+      {'name': '微信', 'icon': 'Home/wx-info', 'type': 'wx'},
+      {'name': 'WhatsApp', 'icon': 'Home/whatsaspp-info', 'type': 'whatsapp'},
     ];
     return Column(
       children: list
           .map(
             (e) => GestureDetector(
               onTap: () {
-                if (e['route'] != null) {
-                  BeeNav.push(e['route']!, arg: e['params']);
-                } else if (e['icon'] == 'Home/zzgt') {
-                  // CommonMethods.onContact();
-                }
+                CommonMethods.onCustomerContact(e['type']);
               },
               child: Container(
                 height: 88.w,

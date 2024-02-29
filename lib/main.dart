@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:fluwx/fluwx.dart';
 import 'package:get/get.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/global_inject.dart';
@@ -29,7 +29,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
   await InstanceInit.init();
   // 初始化 Firebase
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
 
   runApp(const MyApp());
 
@@ -60,6 +60,17 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    _initFluwx();
+  }
+
+  _initFluwx() async {
+    Fluwx fluwx = Fluwx();
+    fluwx.registerApi(
+      appId: "wxb1290b1691a16593",
+      doOnAndroid: true,
+      doOnIOS: true,
+      universalLink: "https://jiyun-demo.yunliantiao.com/app/",
+    );
   }
 
   initClipboadListener() {

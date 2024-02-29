@@ -9,7 +9,6 @@ import 'package:huanting_shop/views/components/base_search.dart';
 import 'package:huanting_shop/views/components/button/main_button.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:huanting_shop/views/order/center/order_center_controller.dart';
 import 'package:huanting_shop/views/order/list/order_list_view.dart';
 import 'package:huanting_shop/views/parcel/parcel_list/parcel_list_page.dart';
@@ -44,29 +43,29 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
             padding: EdgeInsets.only(left: 5.w),
             child: const BackButton(color: Colors.black)),
         bottom: tabListCell() as PreferredSizeWidget,
-        actions: [
-          GestureDetector(
-            child: Container(
-              color: Colors.white,
-              margin: EdgeInsets.only(right: 14.w),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  LoadAssetImage(
-                    'Transport/ico_bkdd',
-                    width: 20.w,
-                  ),
-                  2.verticalSpaceFromWidth,
-                  AppText(
-                    str: '补款订单'.ts,
-                    fontSize: 10,
-                    color: AppColors.textNormal,
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
+        // actions: [
+        //   GestureDetector(
+        //     child: Container(
+        //       color: Colors.white,
+        //       margin: EdgeInsets.only(right: 14.w),
+        //       child: Column(
+        //         mainAxisAlignment: MainAxisAlignment.center,
+        //         children: [
+        //           LoadAssetImage(
+        //             'Transport/ico_bkdd',
+        //             width: 20.w,
+        //           ),
+        //           2.verticalSpaceFromWidth,
+        //           AppText(
+        //             str: '补款订单'.ts,
+        //             fontSize: 10,
+        //             color: AppColors.textNormal,
+        //           )
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // ],
       ),
       backgroundColor: AppColors.bgGray,
       bottomNavigationBar: Obx(

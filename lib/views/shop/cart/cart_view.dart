@@ -175,8 +175,8 @@ class CartView extends GetView<CartController> {
                             scrollDirection: Axis.horizontal,
                             children: [
                               cartTypeItem('代购', 1),
-                              15.horizontalSpace,
-                              cartTypeItem('自营', 2),
+                              // 15.horizontalSpace,
+                              // cartTypeItem('自营', 2),
                             ],
                           ),
                         ),
@@ -250,6 +250,7 @@ class CartView extends GetView<CartController> {
           ImgItem(
             'https://api-jiyun-v3.haiouoms.com/storage/admin/20230826-u0MsFIRRUF396f7D.png',
             width: 200.w,
+            placeholderWidget: SizedBox(),
           ),
           10.verticalSpace,
           Obx(

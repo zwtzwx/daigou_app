@@ -18,7 +18,7 @@ class BeeBottomNavLogic extends GlobalLogic {
   void onInit() {
     super.onInit();
     // 初始化 notification
-    Notifications.initialized();
+    // Notifications.initialized();
     if (Get.arguments is Map && Get.arguments['index'] != null) {
       selectIndex.value = Get.arguments['index'];
       pageController = PageController(initialPage: Get.arguments['index']);

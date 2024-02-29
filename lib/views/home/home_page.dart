@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
@@ -10,6 +11,7 @@ import 'package:huanting_shop/views/components/ad_cell.dart';
 import 'package:huanting_shop/views/components/base_search.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/contact_cell.dart';
+import 'package:huanting_shop/views/components/empty_app_bar.dart';
 import 'package:huanting_shop/views/components/goods/goods_list_cell.dart';
 import 'package:huanting_shop/views/components/indicator.dart';
 import 'package:huanting_shop/views/components/language_cell/language_cell.dart';
@@ -26,11 +28,11 @@ class IndexPage extends GetView<IndexLogic> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: controller.scaffoldKey,
-      body: SafeArea(
-        bottom: false,
-        child: GestureDetector(
+    return AnnotatedRegion(
+      child: Scaffold(
+        appBar: const EmptyAppBar(),
+        key: controller.scaffoldKey,
+        body: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
           },
@@ -82,7 +84,7 @@ class IndexPage extends GetView<IndexLogic> {
                                                     BorderRadius.circular(8.r),
                                               ),
                                               padding: EdgeInsets.symmetric(
-                                                  horizontal: 4.w,
+                                                  horizontal: 5.w,
                                                   vertical: 1.w),
                                               child: AppText(
                                                 str: cartCount.toString(),
@@ -119,7 +121,7 @@ class IndexPage extends GetView<IndexLogic> {
                           15.verticalSpaceFromWidth,
                           Obx(
                             () => controller.goodsLoading.value
-                                ? const Indicator()
+                                ? const Center(child: Indicator())
                                 : Padding(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 14.w),
@@ -141,6 +143,7 @@ class IndexPage extends GetView<IndexLogic> {
           ),
         ),
       ),
+      value: SystemUiOverlayStyle.dark,
     );
   }
 
@@ -227,10 +230,13 @@ class IndexPage extends GetView<IndexLogic> {
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                           padding: EdgeInsets.all(8.w),
-                          child: ImgItem(
-                            controller.categoryList[index].image ?? '',
-                            holderColor: Colors.white,
-                          ),
+                          child: (controller.categoryList[index].image ?? '')
+                                  .isNotEmpty
+                              ? ImgItem(
+                                  controller.categoryList[index].image ?? '',
+                                  holderColor: Colors.white,
+                                )
+                              : null,
                         ),
                         10.verticalSpaceFromWidth,
                         AppText(

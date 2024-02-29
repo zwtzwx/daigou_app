@@ -163,13 +163,13 @@ class BeeSignInLogic extends GlobalLogic {
           tokenModel.user!);
 
       // 保存 device token
-      String? dt = UserStorage.getDeviceToken();
-      if (dt != null) {
-        await CommonService.saveDeviceToken({
-          'type': 1,
-          'token': dt,
-        });
-      }
+      // String? dt = UserStorage.getDeviceToken();
+      // if (dt != null) {
+      //   await CommonService.saveDeviceToken({
+      //     'type': 1,
+      //     'token': dt,
+      //   });
+      // }
       BeeNav.pop();
     } catch (e) {
       showToast(e.toString());

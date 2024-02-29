@@ -29,7 +29,6 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
                 : controller.emailFlag.value
                     ? '更换邮箱'.ts
                     : '绑定邮箱'.ts,
-            color: AppColors.textBlack,
             fontSize: 17,
           ),
         ),
@@ -38,7 +37,7 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
       bottomNavigationBar: SafeArea(
         child: Container(
           height: 38.h,
-          margin: EdgeInsets.symmetric(horizontal: 14.w),
+          margin: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
           child: BeeButton(
             text: '确定',
             onPressed: controller.onSubmit,
@@ -50,10 +49,14 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: SingleChildScrollView(
+            child: Container(
+          color: Colors.white,
           child: Obx(
             () => Column(
-              children: <Widget>[
+              children: [
                 InputTextItem(
+                  margin: const EdgeInsets.only(left: 0),
+                  padding: EdgeInsets.only(left: 14.w),
                   title: controller.flagBool.value == 1 ? '联系电话'.ts : '现邮箱'.ts,
                   inputText: Container(
                     height: 55,
@@ -67,6 +70,8 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
                 ),
                 InputTextItem(
                   height: 55,
+                  margin: const EdgeInsets.only(left: 0),
+                  padding: EdgeInsets.only(left: 14.w),
                   title: controller.flagBool.value == 2 ? '新邮箱'.ts : '新号码'.ts,
                   inputText: Container(
                     alignment: Alignment.center,
@@ -119,7 +124,10 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
                 ),
                 InputTextItem(
                   title: '验证码'.ts,
+                  margin: const EdgeInsets.only(left: 0),
+                  padding: EdgeInsets.only(left: 14.w),
                   isRequired: true,
+                  flag: false,
                   inputText: Container(
                     alignment: Alignment.center,
                     child: Row(
@@ -151,7 +159,7 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
                                   ? AppColors.primary
                                   : AppColors.bgGray,
                               textColor: controller.isButtonEnable.value
-                                  ? AppColors.textDark
+                                  ? Colors.white
                                   : Colors.grey,
                               onPressed: controller.onGetCode,
                             ),
@@ -164,7 +172,7 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
               ],
             ),
           ),
-        ),
+        )),
       ),
     );
   }
