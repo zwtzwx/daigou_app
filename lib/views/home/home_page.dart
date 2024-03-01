@@ -18,6 +18,7 @@ import 'package:huanting_shop/views/components/language_cell/language_cell.dart'
 import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:huanting_shop/views/home/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:huanting_shop/views/home/widget/header.dart';
 import 'package:huanting_shop/views/home/widget/notice_widget.dart';
 import 'package:huanting_shop/views/shop/platform_goods/platform_goods_binding.dart';
 import 'package:huanting_shop/views/shop/platform_goods/platform_goods_list_view.dart';
@@ -30,7 +31,8 @@ class IndexPage extends GetView<IndexLogic> {
   Widget build(BuildContext context) {
     return AnnotatedRegion(
       child: Scaffold(
-        appBar: const EmptyAppBar(),
+        primary: false,
+        appBar: HomeHeader(),
         key: controller.scaffoldKey,
         body: GestureDetector(
           onTap: () {
@@ -45,96 +47,31 @@ class IndexPage extends GetView<IndexLogic> {
                   shrinkWrap: true,
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: [
-                    StickyHeader(
-                      header: Container(
-                        color: Colors.white,
-                        padding: EdgeInsets.fromLTRB(14.w, 0, 14.w, 8.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const LanguageCell(),
-                            12.verticalSpaceFromWidth,
-                            Row(
-                              children: [
-                                const Expanded(child: BaseSearch()),
-                                8.horizontalSpace,
-                                Obx(() {
-                                  var cartCount =
-                                      Get.find<AppStore>().cartCount.value;
-                                  return GestureDetector(
-                                    onTap: () {
-                                      BeeNav.push(BeeNav.cart);
-                                    },
-                                    child: Stack(
-                                      clipBehavior: Clip.none,
-                                      children: [
-                                        LoadAssetImage(
-                                          'Home/ico_gwc',
-                                          width: 28.w,
-                                          height: 28.w,
-                                        ),
-                                        if (cartCount != 0)
-                                          Positioned(
-                                            right: -4.w,
-                                            top: -4.w,
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: AppColors.primary,
-                                                borderRadius:
-                                                    BorderRadius.circular(8.r),
-                                              ),
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 5.w,
-                                                  vertical: 1.w),
-                                              child: AppText(
-                                                str: cartCount.toString(),
-                                                fontSize: 10,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      content: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AdsCell(type: 5, padding: 14.w),
-                          buildLinks(),
-                          const NoticeWidget(),
-                          categoryBox(),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 14.w),
-                            child: AppText(
-                              str: '大家在看什么'.ts,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          15.verticalSpaceFromWidth,
-                          Obx(
-                            () => controller.goodsLoading.value
-                                ? const Center(child: Indicator())
-                                : Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 14.w),
-                                    child: BeeShopGoodsList(
-                                      isPlatformGoods: true,
-                                      platformGoodsList: controller.goodsList,
-                                    ),
-                                  ),
-                          ),
-                          50.verticalSpaceFromWidth,
-                        ],
+                    AdsCell(type: 5, padding: 14.w),
+                    buildLinks(),
+                    const NoticeWidget(),
+                    categoryBox(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 14.w),
+                      child: AppText(
+                        str: '大家在看什么'.ts,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
+                    15.verticalSpaceFromWidth,
+                    Obx(
+                      () => controller.goodsLoading.value
+                          ? const Center(child: Indicator())
+                          : Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 14.w),
+                              child: BeeShopGoodsList(
+                                isPlatformGoods: true,
+                                platformGoodsList: controller.goodsList,
+                              ),
+                            ),
+                    ),
+                    50.verticalSpaceFromWidth,
                   ],
                 ),
               ),
