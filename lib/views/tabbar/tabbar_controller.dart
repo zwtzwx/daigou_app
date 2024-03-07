@@ -5,13 +5,14 @@ import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/events/application_event.dart';
 import 'package:huanting_shop/events/change_page_index_event.dart';
 import 'package:huanting_shop/events/un_authenticate_event.dart';
-import 'package:huanting_shop/firebase/notification.dart';
 import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:huanting_shop/views/home/home_controller.dart';
 
 class BeeBottomNavLogic extends GlobalLogic {
-  late final pageController;
+  late final PageController pageController;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final selectIndex = 0.obs;
+  final showToTopIcon = false.obs;
   AppStore userInfoModel = Get.find<AppStore>();
 
   @override
@@ -76,6 +77,15 @@ class BeeBottomNavLogic extends GlobalLogic {
       BeeNav.push(BeeNav.login);
       return;
     }
-    pageController.jumpToPage(index);
+    selectIndex.value = index;
+    if (index == 0 && showToTopIcon.value) {
+      Get.find<IndexLogic>().loadingUtil.value.scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+    } else {
+      pageController.jumpToPage(index);
+    }
   }
 }

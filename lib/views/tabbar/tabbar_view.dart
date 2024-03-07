@@ -52,9 +52,12 @@ class BeeBottomNavPage extends GetView<BeeBottomNavLogic> {
                     width: 26.w,
                     height: 26.w,
                   ),
-                  label: '首页'.ts,
+                  label: (controller.selectIndex.value == 0 &&
+                          controller.showToTopIcon.value)
+                      ? '回顶部'.ts
+                      : '首页'.ts,
                   activeIcon: Image.asset(
-                    'assets/images/TabbarIcon/home_sel.png',
+                    'assets/images/TabbarIcon/${controller.selectIndex.value == 0 && controller.showToTopIcon.value ? 'ico_botton_db' : 'home_sel'}.png',
                     width: 26.w,
                     height: 26.w,
                   ),

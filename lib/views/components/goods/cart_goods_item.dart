@@ -10,6 +10,7 @@ import 'package:huanting_shop/models/shop/cart_model.dart';
 import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/shop/cart/cart_controller.dart';
 import 'package:huanting_shop/views/shop/goods_detail/goods_detail_binding.dart';
 import 'package:huanting_shop/views/shop/goods_detail/goods_detail_view.dart';
 
@@ -23,6 +24,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
     this.onStep,
     this.onChangeQty,
     this.orderStatusName,
+    this.showDelete = false,
     this.otherWiget,
     this.goodsToDetail = true,
   }) : super(key: key);
@@ -35,6 +37,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
   final String? orderStatusName;
   final Widget? otherWiget;
   final bool goodsToDetail;
+  final bool showDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +47,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(8.r),
       ),
+      margin: EdgeInsets.only(bottom: previewMode ? 0 : 10.h),
       padding: previewMode
           ? null
           : EdgeInsets.symmetric(horizontal: 5.w, vertical: 10.h),
@@ -63,7 +67,6 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                 .every((e) => checkedIds!.contains(e.id)),
                             shape: const CircleBorder(),
                             activeColor: AppColors.primary,
-                            checkColor: Colors.black,
                             onChanged: (value) {
                               if (onChecked != null) {
                                 onChecked!(
@@ -129,7 +132,6 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                   value: checkedIds!.contains(sku.id),
                                   shape: const CircleBorder(),
                                   activeColor: AppColors.primary,
-                                  checkColor: Colors.black,
                                   onChanged: (value) {
                                     if (onChecked != null) {
                                       onChecked!([sku.id]);
@@ -176,18 +178,19 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                   TextSpan(
                                       style: TextStyle(
                                         fontSize: 14.sp,
-                                        color: const Color(0xFFFF5138),
+                                        color: AppColors.textDark,
                                       ),
                                       children: [
                                         TextSpan(
                                           text: currencyModel.value?.code ?? '',
                                         ),
                                         TextSpan(
-                                          text: (sku.price).rate(
-                                            needFormat: false,
-                                            showPriceSymbol: false,
-                                            showInt: true,
-                                          ),
+                                          text: ' ' +
+                                              (sku.price).rate(
+                                                needFormat: false,
+                                                showPriceSymbol: false,
+                                                showInt: true,
+                                              ),
                                           // text: previewMode
                                           //     ? (sku.price).rate(
                                           //         needFormat: false,
@@ -203,117 +206,134 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                       ]),
                                 ),
                               ),
-                              previewMode
-                                  ? AppText(
-                                      str: '×${sku.quantity}',
-                                      fontSize: 12,
-                                    )
-                                  : sku.changeQty
-                                      ? Row(
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                if (sku.quantity <=
-                                                    (sku.skuInfo
-                                                            ?.minOrderQuantity ??
-                                                        1)) return;
-                                                onStep!(
-                                                    -(sku.skuInfo
-                                                            ?.batchNumber ??
-                                                        1),
-                                                    sku);
-                                              },
-                                              child: ClipOval(
-                                                child: Container(
-                                                  width: 24.w,
-                                                  height: 24.w,
-                                                  alignment: Alignment.center,
-                                                  color: sku.quantity <=
-                                                          (sku.skuInfo
-                                                                  ?.minOrderQuantity ??
-                                                              1)
-                                                      ? const Color(0xFFF0F0F0)
-                                                      : AppColors.primary,
-                                                  child: Icon(
-                                                    Icons.remove,
-                                                    size: 14.sp,
+                              if (showDelete)
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.find<CartController>()
+                                        .onCartDelete(context, sku.id);
+                                  },
+                                  child: Icon(
+                                    Icons.remove_circle,
+                                    color: AppColors.primary,
+                                    size: 20.sp,
+                                  ),
+                                )
+                              else
+                                previewMode
+                                    ? AppText(
+                                        str: '×${sku.quantity}',
+                                        fontSize: 12,
+                                      )
+                                    : sku.changeQty
+                                        ? Row(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  if (sku.quantity <=
+                                                      (sku.skuInfo
+                                                              ?.minOrderQuantity ??
+                                                          1)) return;
+                                                  onStep!(
+                                                      -(sku.skuInfo
+                                                              ?.batchNumber ??
+                                                          1),
+                                                      sku);
+                                                },
+                                                child: ClipOval(
+                                                  child: Container(
+                                                    width: 24.w,
+                                                    height: 24.w,
+                                                    alignment: Alignment.center,
                                                     color: sku.quantity <=
                                                             (sku.skuInfo
                                                                     ?.minOrderQuantity ??
                                                                 1)
                                                         ? const Color(
-                                                            0xFFBBBBBB)
-                                                        : Colors.black,
+                                                            0xFFF0F0F0)
+                                                        : AppColors.primary,
+                                                    child: Icon(
+                                                      Icons.remove,
+                                                      size: 14.sp,
+                                                      color: sku.quantity <=
+                                                              (sku.skuInfo
+                                                                      ?.minOrderQuantity ??
+                                                                  1)
+                                                          ? const Color(
+                                                              0xFFBBBBBB)
+                                                          : Colors.white,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            Container(
+                                              Container(
+                                                height: 20.h,
+                                                alignment: Alignment.center,
+                                                width: 40.w,
+                                                child: AppText(
+                                                  str: sku.quantity.toString(),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  onStep!(
+                                                      sku.skuInfo
+                                                              ?.batchNumber ??
+                                                          1,
+                                                      sku);
+                                                },
+                                                child: ClipOval(
+                                                  child: Container(
+                                                    width: 24.w,
+                                                    height: 24.w,
+                                                    alignment: Alignment.center,
+                                                    color: AppColors.primary,
+                                                    child: Icon(
+                                                      Icons.add,
+                                                      size: 14.sp,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        : GestureDetector(
+                                            onTap: () {
+                                              onChangeQty!(sku);
+                                            },
+                                            child: Container(
                                               height: 20.h,
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10.w),
                                               alignment: Alignment.center,
-                                              width: 40.w,
-                                              child: AppText(
-                                                str: sku.quantity.toString(),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                onStep!(
-                                                    sku.skuInfo?.batchNumber ??
-                                                        1,
-                                                    sku);
-                                              },
-                                              child: ClipOval(
-                                                child: Container(
-                                                  width: 24.w,
-                                                  height: 24.w,
-                                                  alignment: Alignment.center,
-                                                  color: AppColors.primary,
-                                                  child: Icon(
-                                                    Icons.add,
-                                                    size: 14.sp,
-                                                  ),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                  color:
+                                                      const Color(0xFFEEEEEE),
                                                 ),
+                                                borderRadius:
+                                                    BorderRadius.circular(4.r),
                                               ),
-                                            ),
-                                          ],
-                                        )
-                                      : GestureDetector(
-                                          onTap: () {
-                                            onChangeQty!(sku);
-                                          },
-                                          child: Container(
-                                            height: 20.h,
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 10.w),
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border.all(
-                                                color: const Color(0xFFEEEEEE),
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(4.r),
-                                            ),
-                                            child: Text.rich(
-                                              TextSpan(
-                                                children: [
-                                                  const TextSpan(text: 'x'),
-                                                  TextSpan(
-                                                    text:
-                                                        sku.quantity.toString(),
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 14),
-                                                  ),
-                                                ],
+                                              child: Text.rich(
+                                                TextSpan(
+                                                  children: [
+                                                    const TextSpan(text: 'x'),
+                                                    TextSpan(
+                                                      text: sku.quantity
+                                                          .toString(),
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 14),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
                             ],
                           ),
                         ],

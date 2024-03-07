@@ -125,6 +125,8 @@ import 'package:huanting_shop/views/user/coupon/bindings.dart';
 import 'package:huanting_shop/views/user/coupon/view.dart';
 import 'package:huanting_shop/views/user/forget_password/forget_password_binding.dart';
 import 'package:huanting_shop/views/user/forget_password/forget_password_page.dart';
+import 'package:huanting_shop/views/user/logged_guide/binding.dart';
+import 'package:huanting_shop/views/user/logged_guide/view.dart';
 import 'package:huanting_shop/views/user/profile/profile_binding.dart';
 import 'package:huanting_shop/views/user/profile/profile_view.dart';
 import 'package:huanting_shop/views/user/register/register_binding.dart';
@@ -213,6 +215,7 @@ class BeeNav {
   static const String guide = '/guide'; // 新手指引
   static const String localeSetting = '/localeSetting'; // 语言、货币设置
   static const String customer = '/customer'; // 客服
+  static const String loggedGuide = '/loggedGuide'; // 登录后指引
 
   static const String groupCenter = '/groupCenter'; // 拼团中心
   static const String groupCreate = '/groupCreate'; // 创建拼团
@@ -247,6 +250,7 @@ class BeeNav {
     login,
     goodsCategory,
     register,
+    loggedGuide,
     track,
     shopCenter,
     guide,
@@ -297,6 +301,11 @@ class BeeNav {
       name: guide,
       page: () => const GuideView(),
       binding: GuideBinding(),
+    ),
+    GetPage(
+      name: loggedGuide,
+      page: () => const LoggedGuideView(),
+      binding: LoggedGuideBinding(),
     ),
     GetPage(
       name: customer,

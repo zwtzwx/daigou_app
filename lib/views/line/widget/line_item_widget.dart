@@ -137,6 +137,7 @@ class LineItemWidget extends StatelessWidget {
                                     str: e.name,
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
+                                    color: Colors.white,
                                   ),
                                 ),
                               )

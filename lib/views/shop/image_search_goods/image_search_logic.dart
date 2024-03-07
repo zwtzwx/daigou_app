@@ -32,7 +32,7 @@ class GoodsImageSearchLogic extends GlobalLogic with WidgetsBindingObserver {
     }
     cameraCtl.value = CameraController(
       camera,
-      ResolutionPreset.medium,
+      ResolutionPreset.ultraHigh,
       enableAudio: false,
     );
     try {

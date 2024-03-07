@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/models/goods_category_model.dart';
+import 'package:huanting_shop/services/goods_service.dart';
 import 'package:huanting_shop/services/shop_service.dart';
 
 class GoodsCategoryController extends GlobalLogic {
@@ -8,6 +9,7 @@ class GoodsCategoryController extends GlobalLogic {
   final topCategory = Rxn<GoodsCategoryModel?>();
   final isLoading = true.obs;
   bool searchAutoFocus = false;
+  bool pickerProps = false; // 是否是选择物品属性
 
   @override
   onInit() {
@@ -15,12 +17,15 @@ class GoodsCategoryController extends GlobalLogic {
     if (Get.arguments?['autoFocus'] != null) {
       searchAutoFocus = true;
     }
+    pickerProps = Get.arguments?['props'] ?? false;
     getClassification();
   }
 
   // 物品分类
   getClassification() async {
-    var data = await ShopService.getCategoryList();
+    var data = await (pickerProps
+        ? GoodsService.getCategoryList()
+        : ShopService.getCategoryList());
 
     categories.value = data;
     if (data.isNotEmpty) {

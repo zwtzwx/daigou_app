@@ -2,6 +2,7 @@
   货物分类
  */
 import 'package:huanting_shop/config/app_config.dart';
+import 'package:huanting_shop/models/goods_props.dart';
 
 class GoodsCategoryModel {
   late int id;
@@ -16,6 +17,7 @@ class GoodsCategoryModel {
   int? daigouEnabled;
   // late PivotModel? pivot;
   List<GoodsCategoryModel>? children;
+  List<ParcelPropsModel>? props;
   bool select = false;
 
   GoodsCategoryModel({
@@ -46,6 +48,12 @@ class GoodsCategoryModel {
       json['children'].forEach((v) {
         children!.add(GoodsCategoryModel.fromJson(v));
       });
+    }
+    if (json['props'] is List) {
+      props = [];
+      for (var item in json['props']) {
+        props!.add(ParcelPropsModel.fromJson(item));
+      }
     }
     if (json['img'] is String) {
       if (json['img'].startsWith('/')) {

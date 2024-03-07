@@ -17,7 +17,7 @@ class PlatformGoodsController extends GlobalLogic {
   List<Map<String, String>> platforms = [
     {'name': '1688', 'value': '1688'},
     {'name': '淘宝', 'value': 'taobao'},
-    {'name': '京东', 'value': 'jd'},
+    // {'name': '京东', 'value': 'jd'},
   ];
 
   @override

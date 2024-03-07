@@ -25,14 +25,10 @@ class AbnomalParcelPage extends GetView<AbnomalParcelLogic> {
     return Scaffold(
         appBar: AppBar(
           leading: const BackButton(color: Colors.black),
-          backgroundColor: Colors.white,
-          elevation: 0.5,
           centerTitle: true,
           title: AppText(
             str: '异常件认领'.ts,
-            color: AppColors.textBlack,
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
+            fontSize: 17,
           ),
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),

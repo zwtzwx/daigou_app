@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/goods_category_model.dart';
 import 'package:huanting_shop/views/components/base_search.dart';
 import 'package:huanting_shop/views/components/caption.dart';
@@ -17,10 +19,13 @@ class GoodsCategoryView extends GetView<GoodsCategoryController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: BaseSearch(autoFocus: controller.searchAutoFocus),
-        backgroundColor: Colors.white,
+        title: controller.pickerProps
+            ? AppText(
+                str: '物品分类'.ts,
+                fontSize: 17,
+              )
+            : BaseSearch(autoFocus: controller.searchAutoFocus),
         leading: const BackButton(color: Colors.black),
-        elevation: 0,
       ),
       backgroundColor: AppColors.bgGray,
       body: Obx(
@@ -112,13 +117,17 @@ class GoodsCategoryView extends GetView<GoodsCategoryController> {
             var child = model[index];
             return GestureDetector(
               onTap: () {
-                Get.to(PlatformGoodsListView(controllerTag: child.name),
-                    arguments: {
-                      'keyword': child.nameCn,
-                      'origin': child.name,
-                      'hideSearch': true,
-                    },
-                    binding: PlatformGoodsBinding(tag: child.name));
+                if (controller.pickerProps) {
+                  BeeNav.pop(child);
+                } else {
+                  Get.to(PlatformGoodsListView(controllerTag: child.name),
+                      arguments: {
+                        'keyword': child.nameCn,
+                        'origin': child.name,
+                        'hideSearch': true,
+                      },
+                      binding: PlatformGoodsBinding(tag: child.name));
+                }
               },
               child: Container(
                 color: Colors.transparent,

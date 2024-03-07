@@ -1,3 +1,4 @@
+import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
@@ -14,11 +15,12 @@ class BeeWebviewLogic extends GlobalLogic {
   final bgColor = RxnString(null);
 
   @override
-  void onReady() {
-    super.onReady();
+  void onInit() {
+    super.onInit();
     var arguments = Get.arguments;
     url.value = arguments["url"];
     title.value = arguments["title"];
+    print('title $title, $url');
     time.value = arguments['time'];
     if (arguments['color'] != null) {
       bgColor.value = arguments['color'];

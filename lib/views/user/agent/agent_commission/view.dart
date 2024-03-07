@@ -169,7 +169,6 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
                   child: Obx(
                     () => Checkbox.adaptive(
                       activeColor: AppColors.primary,
-                      checkColor: AppColors.textDark,
                       value: controller.selModelList.contains(model),
                       shape: const CircleBorder(),
                       onChanged: (value) {

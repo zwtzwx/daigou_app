@@ -50,7 +50,6 @@ class BeeGroupParcelSelectView extends GetView<BeeGroupParcelSelectController> {
                               value: controller.selectAll.value,
                               shape: const CircleBorder(),
                               activeColor: AppColors.primary,
-                              checkColor: Colors.black,
                               onChanged: (value) {
                                 controller.onAllChecked();
                               },

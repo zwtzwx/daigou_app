@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/route_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/views/components/button/main_button.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/input/base_input.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:huanting_shop/views/line/query/line_query_controller.dart';
-import 'package:huanting_shop/views/parcel/widget/prop_sheet_cell.dart';
 
 class LineQueryView extends GetView<LineQueryController> {
   const LineQueryView({Key? key}) : super(key: key);
@@ -179,21 +178,26 @@ class LineQueryView extends GetView<LineQueryController> {
             ],
           ),
           20.verticalSpaceFromWidth,
-          queryTitle('物品属性'.ts),
+          queryTitle('物品分类'.ts),
           15.verticalSpaceFromWidth,
           GestureDetector(
-            onTap: () {
-              Get.bottomSheet(
-                PropSheetCell(
-                  goodsPropsList: controller.propList,
-                  propSingle: false,
-                  prop: controller.selectPropList,
-                  onConfirm: (data) {
-                    controller.selectPropList.value = data;
-                  },
-                ),
-                backgroundColor: Colors.white,
-              );
+            onTap: () async {
+              var s =
+                  await BeeNav.push(BeeNav.goodsCategory, arg: {'props': true});
+              if (s != null) {
+                controller.category.value = s;
+              }
+              // Get.bottomSheet(
+              //   PropSheetCell(
+              //     goodsPropsList: controller.propList,
+              //     propSingle: false,
+              //     prop: controller.selectPropList,
+              //     onConfirm: (data) {
+              //       controller.selectPropList.value = data;
+              //     },
+              //   ),
+              //   backgroundColor: Colors.white,
+              // );
             },
             child: Container(
               color: Colors.transparent,
@@ -202,13 +206,11 @@ class LineQueryView extends GetView<LineQueryController> {
                   Expanded(
                     child: Obx(
                       () => AppText(
-                        str: controller.selectPropList.isNotEmpty
-                            ? controller.selectPropList
-                                .map((ele) => ele.name)
-                                .join('、')
-                            : '请选择物品属性'.ts,
+                        str: controller.category.value != null
+                            ? controller.category.value!.name
+                            : '请选择物品分类'.ts,
                         fontSize: 14,
-                        color: controller.selectPropList.isNotEmpty
+                        color: controller.category.value != null
                             ? AppColors.textDark
                             : AppColors.textGrayC9,
                       ),

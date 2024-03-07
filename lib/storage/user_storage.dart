@@ -11,6 +11,7 @@ class UserStorage {
   static String deviceToken = 'device-token';
   static String accountInfo = 'account-info';
   static String versionTime = 'version-time';
+  static String newUser = 'new-user';
 
   static void clearToken() {
     // SharedPreferences sp = await SharedPreferences.getInstance();
@@ -87,5 +88,16 @@ class UserStorage {
   static int? getVersionTime() {
     SharedPreferences sp = Get.find<SharedPreferences>();
     return sp.getInt(versionTime);
+  }
+
+  // 是否第一次登录
+  static void setNewUser() {
+    SharedPreferences sp = Get.find<SharedPreferences>();
+    sp.setInt(newUser, 0);
+  }
+
+  static int getNewUser() {
+    SharedPreferences sp = Get.find<SharedPreferences>();
+    return sp.getInt(newUser) ?? 1;
   }
 }

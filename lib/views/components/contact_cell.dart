@@ -71,7 +71,7 @@ class _CartCellState extends State<CartCell>
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                       padding:
-                          EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.w),
+                          EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.w),
                       child: AppText(
                         str: cartCount.toString(),
                         fontSize: 10,

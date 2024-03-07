@@ -131,9 +131,10 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                       '',
                                 ),
                                 TextSpan(
-                                  text: controller.shopOrderValue.rate(
-                                      needFormat: false,
-                                      showPriceSymbol: false),
+                                  text: ' ' +
+                                      controller.shopOrderValue.rate(
+                                          needFormat: false,
+                                          showPriceSymbol: false),
                                   style: const TextStyle(
                                     fontSize: 18,
                                   ),
@@ -474,7 +475,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppText(
-              str: '增值服务'.ts,
+              str: '到仓服务'.ts,
               fontSize: 14,
             ),
             5.verticalSpace,
@@ -648,7 +649,6 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                         value: controller.orderServiceIds.contains(service.id),
                         shape: const CircleBorder(),
                         activeColor: AppColors.primary,
-                        checkColor: Colors.black,
                         onChanged: (value) {
                           if (value!) {
                             controller.orderServiceIds.add(service.id);
@@ -713,12 +713,14 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
   Widget shopCell() {
     return Obx(
       () => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ...controller.goodsList.map(
             (shop) => baseBox(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.h),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     BeeShopOrderGoodsItem(
                       cartModel: shop,
@@ -760,58 +762,65 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                   ),
                                 ],
                               ),
-                              5.verticalSpace,
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Icon(
-                                    Icons.info_outline,
-                                    color: AppColors.textGrayC9,
-                                    size: 16.sp,
+                              8.verticalSpace,
+                              Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w, vertical: 8.h),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFFFF1F1),
+                                    borderRadius: BorderRadius.circular(6.r),
                                   ),
-                                  5.horizontalSpace,
-                                  Expanded(
-                                    child: AppText(
-                                      str: '代购服务费'.ts +
-                                          '：' +
-                                          (shop.service?.remark ?? '') +
-                                          ' ' +
-                                          controller.getServiceStr(
-                                              shop.service!.feeType!,
-                                              shop.service!.fee!),
-                                      fontSize: 10,
-                                      color: AppColors.textGrayC9,
-                                      lines: 4,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      AppText(
+                                        str: '代购服务费'.ts +
+                                            '：' +
+                                            (shop.service?.remark ?? ''),
+                                        fontSize: 10,
+                                        color: const Color(0xFFE44444),
+                                        lines: 4,
+                                      ),
+                                      2.verticalSpaceFromWidth,
+                                      AppText(
+                                        str: controller.getServiceStr(
+                                            shop.service!.feeType!,
+                                            shop.service!.fee!),
+                                        fontSize: 10,
+                                        color: const Color(0xFFE44444),
+                                        lines: 4,
+                                      ),
+                                    ],
+                                  )),
                             ],
                           )
                         : AppGaps.empty,
-                    10.verticalSpace,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AppText(
-                          str: '订单备注'.ts,
-                          fontSize: 14,
-                        ),
-                        5.horizontalSpace,
-                        Expanded(
-                          child: BaseInput(
-                            controller: shop.remarkController!,
-                            focusNode: shop.remarkNode,
-                            hintText: '选填'.ts,
-                            autoShowRemove: false,
-                            autoRemoveController: false,
-                            maxLength: 300,
-                            textInputAction: TextInputAction.done,
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                      ],
+                    15.verticalSpace,
+                    AppText(
+                      str: '订单备注'.ts,
+                      fontSize: 14,
                     ),
+                    8.verticalSpaceFromWidth,
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.bgGray,
+                        borderRadius: BorderRadius.circular(6.r),
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: BaseInput(
+                        board: true,
+                        controller: shop.remarkController!,
+                        focusNode: shop.remarkNode,
+                        hintText: '选填，可填写您对商品的要求'.ts,
+                        autoShowRemove: false,
+                        autoRemoveController: false,
+                        maxLength: 300,
+                        textInputAction: TextInputAction.done,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12.w),
+                      ),
+                    ),
+                    20.verticalSpaceFromWidth,
                     controller.parcelAddService.isNotEmpty
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -819,8 +828,9 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                               AppGaps.line,
                               10.verticalSpace,
                               AppText(
-                                str: '增值服务'.ts,
+                                str: '到仓服务'.ts,
                                 fontSize: 14,
+                                fontWeight: FontWeight.bold,
                               ),
                               ...controller.parcelAddService.map(
                                 (service) => Padding(
@@ -846,7 +856,6 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                               .contains(service.id),
                                           shape: const CircleBorder(),
                                           activeColor: AppColors.primary,
-                                          checkColor: Colors.black,
                                           onChanged: (value) {
                                             controller.onParcelServiceChecked(
                                                 shop, service.id);

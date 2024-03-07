@@ -55,7 +55,6 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
                         height: 24,
                         child: Checkbox(
                           activeColor: AppColors.primary,
-                          checkColor: Colors.black,
                           shape: const CircleBorder(),
                           value: controller.isDefault.value,
                           onChanged: (value) {

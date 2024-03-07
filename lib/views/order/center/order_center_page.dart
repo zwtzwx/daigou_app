@@ -2,6 +2,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/events/application_event.dart';
 import 'package:huanting_shop/events/list_refresh_event.dart';
 import 'package:huanting_shop/extension/translation.dart';
@@ -40,32 +41,46 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
         ),
         leadingWidth: 25.w,
         leading: Padding(
-            padding: EdgeInsets.only(left: 5.w),
+            padding: EdgeInsets.only(left: 12.w),
             child: const BackButton(color: Colors.black)),
         bottom: tabListCell() as PreferredSizeWidget,
-        // actions: [
-        //   GestureDetector(
-        //     child: Container(
-        //       color: Colors.white,
-        //       margin: EdgeInsets.only(right: 14.w),
-        //       child: Column(
-        //         mainAxisAlignment: MainAxisAlignment.center,
-        //         children: [
-        //           LoadAssetImage(
-        //             'Transport/ico_bkdd',
-        //             width: 20.w,
-        //           ),
-        //           2.verticalSpaceFromWidth,
-        //           AppText(
-        //             str: '补款订单'.ts,
-        //             fontSize: 10,
-        //             color: AppColors.textNormal,
-        //           )
-        //         ],
-        //       ),
-        //     ),
-        //   ),
-        // ],
+        actions: [
+          // GestureDetector(
+          //   child: Container(
+          //     color: Colors.white,
+          //     margin: EdgeInsets.only(right: 14.w),
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       children: [
+          //         LoadAssetImage(
+          //           'Transport/ico_bkdd',
+          //           width: 20.w,
+          //         ),
+          //         2.verticalSpaceFromWidth,
+          //         AppText(
+          //           str: '补款订单'.ts,
+          //           fontSize: 10,
+          //           color: AppColors.textNormal,
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          GestureDetector(
+            onTap: () {
+              BeeNav.push(BeeNav.noOwnerList);
+            },
+            child: Container(
+              alignment: Alignment.center,
+              color: Colors.transparent,
+              margin: EdgeInsets.only(right: 14.w, left: 10.w),
+              child: AppText(
+                str: '认领'.ts,
+                fontSize: 12,
+              ),
+            ),
+          ),
+        ],
       ),
       backgroundColor: AppColors.bgGray,
       bottomNavigationBar: Obx(
@@ -91,7 +106,6 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
                                     child: Checkbox(
                                       shape: const CircleBorder(),
                                       activeColor: AppColors.primary,
-                                      checkColor: Colors.black,
                                       value: controller.checkedIds.isNotEmpty &&
                                           controller.checkedIds.length ==
                                               controller.allParcels.length,

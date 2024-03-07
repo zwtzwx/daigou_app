@@ -74,7 +74,6 @@ class BeePackageItem extends StatelessWidget {
                                                 .contains(model.id),
                                             shape: const CircleBorder(),
                                             activeColor: AppColors.primary,
-                                            checkColor: Colors.black,
                                             onChanged: (value) {
                                               if (onChecked != null) {
                                                 onChecked!(model.id);

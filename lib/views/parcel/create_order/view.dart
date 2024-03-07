@@ -482,7 +482,6 @@ class BeePackingView extends GetView<BeePackingLogic> {
               value: checked,
               onChanged: onChecked,
               activeColor: AppColors.primary,
-              checkColor: AppColors.textDark,
             ),
           ),
           10.horizontalSpace,

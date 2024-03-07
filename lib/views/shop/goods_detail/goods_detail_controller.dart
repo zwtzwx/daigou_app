@@ -7,6 +7,7 @@ import 'package:get/state_manager.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/events/application_event.dart';
+import 'package:huanting_shop/events/cart_count_refresh_event.dart';
 import 'package:huanting_shop/events/change_goods_info_event.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/shop/goods_comment_model.dart';
@@ -67,12 +68,22 @@ class GoodsDetailController extends GlobalLogic {
     });
   }
 
+  String get platformName {
+    switch (goodsModel.value?.platform) {
+      case '1688':
+        return '1688';
+      case 'taobao':
+        return '淘宝';
+      case 'pinduoduo':
+        return '拼多多';
+      case 'jd':
+        return '京东';
+    }
+    return '';
+  }
+
   // 以图搜物
   void onPhotoSearch() async {
-    // var cameras = await availableCameras();
-    // if (cameras.isNotEmpty) {
-    //   BeeNav.push(BeeNav.imageSearch, arg: {'device': cameras.first});
-    // }
     String url = goodsModel.value!.images!.first;
     Get.to(
       GoodsImageSearchResultPage(
@@ -161,6 +172,7 @@ class GoodsDetailController extends GlobalLogic {
     });
     if (res) {
       Get.find<AppStore>().getCartCount();
+      ApplicationEvent.getInstance().event.fire(CartCountRefreshEvent());
     }
   }
 
@@ -201,6 +213,7 @@ class GoodsDetailController extends GlobalLogic {
     });
     if (res) {
       Get.find<AppStore>().getCartCount();
+      ApplicationEvent.getInstance().event.fire(CartCountRefreshEvent());
     }
   }
 

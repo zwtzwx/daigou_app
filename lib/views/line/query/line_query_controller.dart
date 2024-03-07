@@ -4,9 +4,8 @@ import 'package:get/state_manager.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/models/goods_props.dart';
+import 'package:huanting_shop/models/goods_category_model.dart';
 import 'package:huanting_shop/models/warehouse_model.dart';
-import 'package:huanting_shop/services/goods_service.dart';
 import 'package:huanting_shop/services/warehouse_service.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 
@@ -19,11 +18,12 @@ class LineQueryController extends GlobalLogic {
   final FocusNode wideNode = FocusNode();
   final TextEditingController highController = TextEditingController();
   final FocusNode highNode = FocusNode();
-  final selectPropList = RxList<ParcelPropsModel>();
-  final propList = RxList<ParcelPropsModel>();
+  // final selectPropList = RxList<ParcelPropsModel>();
+  // final propList = RxList<ParcelPropsModel>();
   final list = RxList<WareHouseModel>();
   final selectCountry = Rxn<CountryModel?>();
   final selectWareHouse = Rxn<WareHouseModel?>();
+  final category = Rxn<GoodsCategoryModel?>();
 
   @override
   void onInit() {
@@ -52,15 +52,15 @@ class LineQueryController extends GlobalLogic {
         selectCountry.value = selectWareHouse.value!.countries!.first;
       }
     }
-    getProps();
+    // getProps();
   }
 
-  getProps() async {
-    var propData = await GoodsService.getPropList({
-      'country_id': selectCountry.value?.id,
-    });
-    propList.value = propData;
-  }
+  // getProps() async {
+  //   var propData = await GoodsService.getPropList({
+  //     'country_id': selectCountry.value?.id,
+  //   });
+  //   propList.value = propData;
+  // }
 
   // 选择国家
   onCountry() async {
@@ -72,8 +72,8 @@ class LineQueryController extends GlobalLogic {
     } else {
       selectCountry.value = (s as CountryModel);
     }
-    selectPropList.clear();
-    getProps();
+    // selectPropList.clear();
+    // getProps();
   }
 
   // 重量加减
@@ -85,14 +85,14 @@ class LineQueryController extends GlobalLogic {
   }
 
   // 选择属性
-  onProps(ParcelPropsModel prop) {
-    int index = selectPropList.indexWhere((e) => e.id == prop.id);
-    if (index != -1) {
-      selectPropList.removeAt(index);
-    } else {
-      selectPropList.add(prop);
-    }
-  }
+  // onProps(ParcelPropsModel prop) {
+  //   int index = selectPropList.indexWhere((e) => e.id == prop.id);
+  //   if (index != -1) {
+  //     selectPropList.removeAt(index);
+  //   } else {
+  //     selectPropList.add(prop);
+  //   }
+  // }
 
   getWarehousePicker() {
     return list
@@ -111,6 +111,9 @@ class LineQueryController extends GlobalLogic {
     if (weightController.text.isEmpty) {
       showToast('请输入重量');
       return;
+    } else if (category.value == null) {
+      showToast('请选择物品分类');
+      return;
     }
 
     Map<String, dynamic> dic = {
@@ -120,8 +123,8 @@ class LineQueryController extends GlobalLogic {
       'width': wideController.text,
       'height': highController.text,
       'weight': num.parse(weightController.text) * 1000,
-      'props': selectPropList.map((ele) => ele.id).toList(),
-      'propList': selectPropList,
+      'props': (category.value!.props ?? []).map((e) => e.id).toList(),
+      'propList': category.value!.props ?? [],
       'warehouse_id': selectWareHouse.value?.id ?? '',
       'warehouseName': selectWareHouse.value?.warehouseName ?? '',
     };

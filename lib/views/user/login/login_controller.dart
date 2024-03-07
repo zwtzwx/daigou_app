@@ -13,7 +13,6 @@ import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/country_model.dart';
 import 'package:huanting_shop/models/token_model.dart';
 import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/services/common_service.dart';
 import 'package:huanting_shop/services/user_service.dart';
 import 'package:huanting_shop/storage/user_storage.dart';
 
@@ -170,7 +169,11 @@ class BeeSignInLogic extends GlobalLogic {
       //     'token': dt,
       //   });
       // }
-      BeeNav.pop();
+      if (UserStorage.getNewUser() == 1) {
+        BeeNav.redirect(BeeNav.loggedGuide);
+      } else {
+        BeeNav.pop();
+      }
     } catch (e) {
       showToast(e.toString());
     }

@@ -277,6 +277,9 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                 ),
                 10.horizontalSpace,
                 GestureDetector(
+                  onTap: () {
+                    BeeNav.push(BeeNav.customer);
+                  },
                   child: LoadAssetImage(
                     'Center/ico_kf',
                     width: 28.w,

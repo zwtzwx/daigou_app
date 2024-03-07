@@ -20,20 +20,10 @@ class CartView extends GetView<CartController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        elevation: 0,
-        leading: const BackButton(color: Colors.black),
-        title: AppText(
-          str: '购物车'.ts,
-          fontSize: 17,
-        ),
-      ),
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.bgGray,
       bottomSheet: Obx(() => controller.showCartList.isNotEmpty
           ? Container(
-              padding: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 20.h),
+              padding: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 25.h),
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -54,7 +44,6 @@ class CartView extends GetView<CartController> {
                         value: controller.allChecked.value,
                         shape: const CircleBorder(),
                         activeColor: AppColors.primary,
-                        checkColor: Colors.black,
                         onChanged: (value) {
                           controller.onAllCheck(value!);
                         },
@@ -73,11 +62,9 @@ class CartView extends GetView<CartController> {
                         ? SizedBox(
                             height: 30.h,
                             child: BeeButton(
-                              backgroundColor: const Color(0xFFFF4949),
-                              img: ImgItem(
-                                'Shop/ico_sc',
-                                width: 18.w,
-                              ),
+                              backgroundColor: const Color(0xFFFFD8D8),
+                              textColor: AppColors.primary,
+                              text: '删除',
                               onPressed: () {
                                 controller.onCartDelete(context);
                               },
@@ -89,8 +76,8 @@ class CartView extends GetView<CartController> {
                                 () => Text.rich(
                                   TextSpan(
                                     style: TextStyle(
-                                      color: const Color(0xFFFF6868),
-                                      fontSize: 14.sp,
+                                      color: AppColors.textDark,
+                                      fontSize: 12.sp,
                                       fontWeight: FontWeight.bold,
                                     ),
                                     children: [
@@ -100,9 +87,10 @@ class CartView extends GetView<CartController> {
                                             '',
                                       ),
                                       TextSpan(
-                                        text: controller.totalCheckedPrice.rate(
-                                            needFormat: false,
-                                            showPriceSymbol: false),
+                                        text: ' ' +
+                                            controller.totalCheckedPrice.rate(
+                                                needFormat: false,
+                                                showPriceSymbol: false),
                                         style: TextStyle(
                                           fontSize: 16.sp,
                                         ),
@@ -115,7 +103,7 @@ class CartView extends GetView<CartController> {
                               SizedBox(
                                 height: 30.h,
                                 child: BeeButton(
-                                  text: '提交',
+                                  text: '提交订单',
                                   borderRadis: 999,
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -188,7 +176,7 @@ class CartView extends GetView<CartController> {
                           },
                           child: AppText(
                             str: controller.configState.value
-                                ? '退出'.ts
+                                ? '退出管理'.ts
                                 : '管理'.ts,
                             fontSize: 14,
                             color: controller.configState.value
@@ -207,6 +195,7 @@ class CartView extends GetView<CartController> {
                                 cartModel: cart,
                                 checkedIds: controller.checkedList,
                                 onStep: controller.onSkuQty,
+                                showDelete: controller.configState.value,
                                 onChecked: controller.onChecked,
                                 onChangeQty: (CartSkuModel value) {
                                   controller.onChangeQty(value);
@@ -250,7 +239,7 @@ class CartView extends GetView<CartController> {
           ImgItem(
             'https://api-jiyun-v3.haiouoms.com/storage/admin/20230826-u0MsFIRRUF396f7D.png',
             width: 200.w,
-            placeholderWidget: SizedBox(),
+            placeholderWidget: const SizedBox(),
           ),
           10.verticalSpace,
           Obx(

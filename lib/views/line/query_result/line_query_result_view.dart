@@ -163,7 +163,7 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
           ),
           AppGaps.line,
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+            padding: EdgeInsets.fromLTRB(10, 10.h, 10, 5.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -171,7 +171,7 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                   str: '物品属性'.ts,
                   fontSize: 14,
                 ),
-                AppGaps.hGap10,
+                10.horizontalSpace,
                 Flexible(
                   child: Wrap(
                     children: ((controller.postDic.value?['propList'] ?? [])
@@ -186,6 +186,7 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                               child: AppText(
                                 str: prop.name ?? '',
                                 fontSize: 12,
+                                color: Colors.white,
                               ),
                             ))
                         .toList(),

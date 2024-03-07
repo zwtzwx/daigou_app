@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:huanting_shop/config/color_config.dart';
 
 class Indicator extends StatelessWidget {

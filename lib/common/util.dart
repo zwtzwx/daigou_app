@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fluwx/fluwx.dart';
 import 'package:get/instance_manager.dart';
 import 'package:huanting_shop/config/app_config.dart';
 import 'package:huanting_shop/config/routers.dart';
@@ -152,6 +151,7 @@ class CommonMethods {
 
   // 客服
   static void onCustomerContact([String type = 'wx']) async {
+    print(type);
     if (type == 'whatsapp') {
       const contact = '+8618163665594';
       String whatsappURlAndroid = 'whatsapp://send?phone=' + contact + '&text=';
@@ -168,13 +168,7 @@ class CommonMethods {
         }
       }
     } else {
-      var fluwx = Fluwx();
-      fluwx.open(
-        target: CustomerServiceChat(
-          corpId: 'ww956f22ae6465bb51',
-          url: 'https://work.weixin.qq.com/kfid/kfc6427e510860ac433',
-        ),
-      );
+      WechatConfig().onCustomer();
     }
   }
 

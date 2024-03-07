@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
-import 'package:huanting_shop/common/util.dart';
 import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/user_info_model.dart';
@@ -41,6 +41,61 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                   child: SafeArea(
                     child: Row(
                       children: [
+                        GestureDetector(
+                          onTap: () {
+                            BeeNav.push(BeeNav.cart);
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Obx(
+                              () {
+                                var cartCount =
+                                    Get.find<AppStore>().cartCount.value;
+                                return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        LoadAssetImage(
+                                          'Home/ico_gwc',
+                                          width: 26.w,
+                                          height: 26.w,
+                                        ),
+                                        if (cartCount != 0)
+                                          Positioned(
+                                            right: -4.w,
+                                            top: -4.w,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: AppColors.primary,
+                                                borderRadius:
+                                                    BorderRadius.circular(8.r),
+                                              ),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 5.w,
+                                                  vertical: 1.w),
+                                              child: AppText(
+                                                str: cartCount.toString(),
+                                                fontSize: 10,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                    AppText(
+                                      str: '购物车'.ts,
+                                      fontSize: 12,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        14.horizontalSpace,
                         Expanded(
                           child: SizedBox(
                             height: 38.h,
@@ -145,53 +200,6 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                   ),
                   if (controller.prcent.value > 0)
                     const Expanded(child: BaseSearch()),
-                  10.horizontalSpace,
-                  Container(
-                    width: 30.w,
-                    height: 30.w,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: controller.prcent.value > 0
-                          ? Colors.transparent
-                          : Colors.black.withOpacity(0.5),
-                    ),
-                    padding: EdgeInsets.all(4.w),
-                    child: Obx(
-                      () {
-                        var cartCount = Get.find<AppStore>().cartCount.value;
-                        return Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            LoadAssetImage(
-                              'Home/ico_gwc',
-                              color: controller.prcent.value > 0
-                                  ? Colors.black
-                                  : Colors.white,
-                            ),
-                            if (cartCount != 0)
-                              Positioned(
-                                right: -4.w,
-                                top: -4.w,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primary,
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 5.w, vertical: 1.w),
-                                  child: AppText(
-                                    str: cartCount.toString(),
-                                    fontSize: 10,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -291,13 +299,17 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                     children: [
                       WidgetSpan(
                         child: controller.isPlatformGoods.value
-                            ? Padding(
-                                padding: EdgeInsets.only(right: 5.w),
-                                child: ImgItem(
-                                  CommonMethods.getPlatformIcon(
-                                      controller.goodsModel.value?.platform),
-                                  width: 20.w,
-                                  height: 20.w,
+                            ? Container(
+                                margin: EdgeInsets.only(right: 5.w),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFFF9A3E),
+                                  borderRadius: BorderRadius.circular(2.r),
+                                ),
+                                padding: EdgeInsets.all(2.w),
+                                child: AppText(
+                                  str: controller.platformName.ts,
+                                  color: Colors.white,
+                                  fontSize: 8,
                                 ),
                               )
                             : AppGaps.empty,
@@ -543,7 +555,14 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
             ),
           ),
           Obx(() => controller.goodsModel.value!.desc!.isNotEmpty
-              ? Html(data: controller.goodsModel.value!.desc)
+              ? Html(
+                  data: controller.goodsModel.value!.desc,
+                  style: {
+                    'img': Style(
+                      width: Width(330.w, Unit.px),
+                    ),
+                  },
+                )
               : AppGaps.empty),
         ],
       ),

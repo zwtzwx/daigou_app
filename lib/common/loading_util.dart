@@ -17,6 +17,7 @@ class LoadingUtil<T> {
   void initListener(
     Function callback, {
     bool recordPosition = false,
+    Function(double value)? onPositionChange,
   }) {
     callback();
     scrollController.addListener(() {
@@ -27,6 +28,9 @@ class LoadingUtil<T> {
       }
       if (recordPosition) {
         position.value = scrollController.position.pixels;
+        if (onPositionChange != null) {
+          onPositionChange(scrollController.position.pixels);
+        }
       }
     });
   }

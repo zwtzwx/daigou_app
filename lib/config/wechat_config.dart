@@ -38,4 +38,19 @@ class WechatConfig {
       }
     });
   }
+
+  onCustomer() {
+    _fluwx.isWeChatInstalled.then((installed) {
+      if (installed) {
+        _fluwx.open(
+          target: CustomerServiceChat(
+            corpId: 'ww956f22ae6465bb51',
+            url: 'https://work.weixin.qq.com/kfid/kfc6427e510860ac433',
+          ),
+        );
+      } else {
+        EasyLoading.showToast('请先安装微信'.ts);
+      }
+    });
+  }
 }

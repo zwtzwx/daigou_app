@@ -5,7 +5,6 @@ import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/events/application_event.dart';
 import 'package:huanting_shop/events/cart_count_refresh_event.dart';
-import 'package:huanting_shop/events/language_change_event.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/shop/cart_model.dart';
 import 'package:huanting_shop/models/shop/platform_goods_model.dart';
@@ -34,13 +33,13 @@ class CartController extends GlobalLogic {
         .listen((event) {
       getCartGoods();
     });
-    ApplicationEvent.getInstance()
-        .event
-        .on<LanguageChangeEvent>()
-        .listen((event) {
-      loadingUtil.value.clear();
-      getRecommendGoods();
-    });
+    // ApplicationEvent.getInstance()
+    //     .event
+    //     .on<LanguageChangeEvent>()
+    //     .listen((event) {
+    //   loadingUtil.value.clear();
+    //   getRecommendGoods();
+    // });
   }
 
   getCartNum() async {
@@ -155,12 +154,14 @@ class CartController extends GlobalLogic {
     });
   }
 
-  void onCartDelete(BuildContext context) async {
-    if (checkedList.isEmpty) return;
+  void onCartDelete(BuildContext context, [int? id]) async {
+    if (checkedList.isEmpty && id == null) return;
     var confirmed =
         await BaseDialog.cupertinoConfirmDialog(context, '您确定要删除吗'.ts);
     if (confirmed == true) {
-      var res = await ShopService.deleteCartGoods({'ids': checkedList});
+      var res = await ShopService.deleteCartGoods({
+        'ids': id != null ? [id] : checkedList
+      });
       if (res) {
         checkedList.clear();
         allChecked.value = false;

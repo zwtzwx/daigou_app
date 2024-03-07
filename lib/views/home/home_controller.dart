@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:huanting_shop/common/loading_util.dart';
 import 'package:huanting_shop/common/version_util.dart';
@@ -26,6 +27,7 @@ import 'package:huanting_shop/views/components/update_dialog.dart';
 import 'package:huanting_shop/views/home/widget/ad_dialog.dart';
 
 import 'package:huanting_shop/views/home/widget/annoucement_dialog.dart';
+import 'package:huanting_shop/views/tabbar/tabbar_controller.dart';
 
 class IndexLogic extends GlobalLogic {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -38,6 +40,7 @@ class IndexLogic extends GlobalLogic {
       LoadingUtil<PlatformGoodsModel>().obs;
   final goodsLoading = true.obs;
   final RxList<GoodsCategoryModel> categoryList = <GoodsCategoryModel>[].obs;
+  final tabController = Get.find<BeeBottomNavLogic>();
   final agentStatus = 3.obs;
 
   @override
@@ -50,7 +53,13 @@ class IndexLogic extends GlobalLogic {
     getCategory();
     getAds();
     getAgentStatus();
-    loadingUtil.value.initListener(getRecommendGoods);
+    loadingUtil.value.initListener(
+      getRecommendGoods,
+      recordPosition: true,
+      onPositionChange: (value) {
+        tabController.showToTopIcon.value = value > 300.h;
+      },
+    );
     ApplicationEvent.getInstance()
         .event
         .on<LanguageChangeEvent>()

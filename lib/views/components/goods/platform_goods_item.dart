@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/common/util.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/shop/platform_goods_model.dart';
@@ -68,18 +67,18 @@ class PlatformGoodsCell extends StatelessWidget {
                               height: 1.2,
                             ),
                             children: [
-                              WidgetSpan(
-                                child: Padding(
-                                  padding: EdgeInsets.only(right: 5.w),
-                                  child: ImgItem(
-                                    CommonMethods.getPlatformIcon(
-                                        goods.platform),
-                                    width: 16.w,
-                                    height: 16.w,
-                                  ),
-                                ),
-                                alignment: PlaceholderAlignment.middle,
-                              ),
+                              // WidgetSpan(
+                              //   child: Padding(
+                              //     padding: EdgeInsets.only(right: 5.w),
+                              //     child: ImgItem(
+                              //       CommonMethods.getPlatformIcon(
+                              //           goods.platform),
+                              //       width: 16.w,
+                              //       height: 16.w,
+                              //     ),
+                              //   ),
+                              //   alignment: PlaceholderAlignment.middle,
+                              // ),
                               TextSpan(text: goods.title.wordBreak),
                             ],
                           ),
