@@ -45,7 +45,7 @@ class BeeQusView extends GetView<BeeQusLogic> {
         BeeNav.push(BeeNav.webview, arg: {
           'url': model.content,
           'title': model.title,
-          'time': model.createdAt
+          'time': '',
         });
       },
       child: Obx(

@@ -13,7 +13,6 @@ import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/views/components/base_search.dart';
 import 'package:huanting_shop/views/components/button/main_button.dart';
 import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/contact_cell.dart';
 import 'package:huanting_shop/views/components/empty_app_bar.dart';
 import 'package:huanting_shop/views/components/error_box.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
@@ -118,7 +117,6 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
             remarkCell(),
           ],
         ),
-        const ContactCell(),
         Positioned(
           child: Obx(
             () => Container(
@@ -241,9 +239,9 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                           ),
                           children: [
                             TextSpan(
-                              text:
-                                  controller.currencyModel.value?.symbol ?? '',
+                              text: controller.currencyModel.value?.code ?? '',
                             ),
+                            WidgetSpan(child: 5.horizontalSpace),
                             TextSpan(
                               text: ((controller.sku.value?.price ??
                                           controller.goodsModel.value?.price ??
@@ -353,8 +351,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   AppText(
-                                    str: controller
-                                            .currencyModel.value?.symbol ??
+                                    str: controller.currencyModel.value?.code ??
                                         '',
                                     fontSize: 14,
                                   ),

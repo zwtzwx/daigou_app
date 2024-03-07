@@ -40,7 +40,10 @@ class GoodsSkuModel {
         json['properties_name'].isNotEmpty) {
       propertiesName = json['properties_name'];
       for (var str in properties!.split(';')) {
-        var propStr = str + ':';
+        var propStr = str
+                .replaceAll(RegExp(r'\('), '\\(')
+                .replaceAll(RegExp(r'\)'), '\\)') +
+            ':';
         propertiesName = propertiesName!.replaceAll(RegExp(propStr), '');
       }
     } else {

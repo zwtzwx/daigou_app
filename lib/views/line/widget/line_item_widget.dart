@@ -74,7 +74,7 @@ class LineItemWidget extends StatelessWidget {
                   text: TextSpan(
                     style: const TextStyle(color: AppColors.textRed),
                     children: [
-                      TextSpan(text: (currencyModel?.symbol ?? '')),
+                      TextSpan(text: (currencyModel?.code ?? '')),
                       TextSpan(
                         text:
                             (model.expireFee ?? 0).rate(showPriceSymbol: false),

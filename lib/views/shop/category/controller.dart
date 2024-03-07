@@ -7,10 +7,14 @@ class GoodsCategoryController extends GlobalLogic {
   final categories = <GoodsCategoryModel>[].obs;
   final topCategory = Rxn<GoodsCategoryModel?>();
   final isLoading = true.obs;
+  bool searchAutoFocus = false;
 
   @override
   onInit() {
     super.onInit();
+    if (Get.arguments?['autoFocus'] != null) {
+      searchAutoFocus = true;
+    }
     getClassification();
   }
 

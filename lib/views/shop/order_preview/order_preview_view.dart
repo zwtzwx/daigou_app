@@ -127,9 +127,8 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                               ),
                               children: [
                                 TextSpan(
-                                  text:
-                                      controller.currencyModel.value?.symbol ??
-                                          '',
+                                  text: controller.currencyModel.value?.code ??
+                                      '',
                                 ),
                                 TextSpan(
                                   text: controller.shopOrderValue.rate(

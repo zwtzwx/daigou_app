@@ -23,8 +23,10 @@ class BaseSearch extends StatefulWidget {
     this.needCheck = true,
     this.initData,
     this.goPlatformGoods = true,
+    this.readOnly = false,
     this.whiteBg = false,
     this.showScan = true,
+    this.autoFocus = false,
   }) : super(key: key);
   final String hintText;
   final String searchText;
@@ -34,6 +36,8 @@ class BaseSearch extends StatefulWidget {
   final bool goPlatformGoods;
   final bool showScan;
   final bool whiteBg;
+  final bool readOnly;
+  final bool autoFocus;
 
   @override
   State<BaseSearch> createState() => _SearchCellState();
@@ -51,6 +55,9 @@ class _SearchCellState extends State<BaseSearch> {
     if (widget.initData != null) {
       controller.text = widget.initData!;
       keyword = widget.initData!;
+    }
+    if (widget.autoFocus) {
+      focusNode.requestFocus();
     }
     if (!widget.showScan) {
       focusNode.addListener(listenFocus);
@@ -127,6 +134,7 @@ class _SearchCellState extends State<BaseSearch> {
                 isSearchInput: true,
                 maxLength: 200,
                 autoShowRemove: false,
+                readOnly: widget.readOnly,
                 textInputAction: TextInputAction.search,
                 hintStyle:
                     TextStyle(fontSize: 12.sp, color: AppColors.textGrayC9),

@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/common/util.dart';
+import 'package:get/get.dart';
+import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
+import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
 
-class ContactCell extends StatefulWidget {
-  const ContactCell({Key? key}) : super(key: key);
+class CartCell extends StatefulWidget {
+  const CartCell({Key? key}) : super(key: key);
 
   @override
-  State<ContactCell> createState() => _ContactCellState();
+  State<CartCell> createState() => _CartCellState();
 }
 
-class _ContactCellState extends State<ContactCell>
+class _CartCellState extends State<CartCell>
     with AutomaticKeepAliveClientMixin {
   late double topOffset;
-  bool maskShow = false;
 
   @override
   void initState() {
@@ -24,112 +24,74 @@ class _ContactCellState extends State<ContactCell>
     topOffset = 320.h;
   }
 
-  onMaskShow() {
-    bool value = !maskShow;
-    setState(() {
-      maskShow = value;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Positioned(
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        child: Stack(
-          children: [
-            Positioned(
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              child: Offstage(
-                offstage: !maskShow,
-                child: GestureDetector(
-                  onTap: onMaskShow,
-                  child: Container(
-                    color: const Color(0x99000000),
+      right: 12.w,
+      top: topOffset,
+      child: GestureDetector(
+        onPanUpdate: (detail) {
+          onDrag(detail.delta);
+        },
+        onTap: () {
+          BeeNav.push(BeeNav.cart);
+        },
+        child: Container(
+          width: 58.w,
+          height: 58.w,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0x140F3057),
+                offset: Offset(0, 5.w),
+                blurRadius: 19.r,
+                spreadRadius: 2.r,
+              ),
+            ],
+          ),
+          padding: EdgeInsets.all(11.w),
+          child: Obx(() {
+            var cartCount = Get.find<AppStore>().cartCount.value;
+            return Stack(
+              clipBehavior: Clip.none,
+              children: [
+                const ImgItem(
+                  'Center/ico_gwc',
+                ),
+                if (cartCount != 0)
+                  Positioned(
+                    right: -1.w,
+                    top: -1.w,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.w),
+                      child: AppText(
+                        str: cartCount.toString(),
+                        fontSize: 10,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-            Positioned(
-              right: 82.w,
-              top: topOffset - 75.w,
-              child: Offstage(
-                offstage: !maskShow,
-                child: buildHelpList(),
-              ),
-            ),
-            Positioned(
-              right: 12.w,
-              top: topOffset,
-              child: GestureDetector(
-                  onPanUpdate: (detail) {
-                    onDrag(detail.delta);
-                  },
-                  onTap: onMaskShow,
-                  child: ImgItem(
-                    'Home/contact',
-                    width: 50.w,
-                    height: 50.w,
-                  )),
-            ),
-          ],
-        ));
-  }
-
-  Widget buildHelpList() {
-    List<Map<String, dynamic>> list = [
-      {'name': '微信', 'icon': 'Home/wx-info', 'type': 'wx'},
-      {'name': 'WhatsApp', 'icon': 'Home/whatsaspp-info', 'type': 'whatsapp'},
-    ];
-    return Column(
-      children: list
-          .map(
-            (e) => GestureDetector(
-              onTap: () {
-                CommonMethods.onCustomerContact(e['type']);
-              },
-              child: Container(
-                height: 88.w,
-                width: 88.w,
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
-                margin: EdgeInsets.only(bottom: 10.h),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(18.r),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ImgItem(
-                      e['icon']!,
-                      width: 38.w,
-                    ),
-                    2.verticalSpaceFromWidth,
-                    AppText(
-                      str: (e['name']! as String).ts,
-                      fontSize: 12,
-                      lines: 2,
-                      alignment: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )
-          .toList(),
+              ],
+            );
+          }),
+        ),
+      ),
     );
   }
 
   void onDrag(Offset offset) {
     double dy = 0;
     // 垂直方向偏移量不能小于0不能大于屏幕最大高度
-    var maxTopOffset = ScreenUtil().statusBarHeight + 135.w;
+    var maxTopOffset = ScreenUtil().statusBarHeight + 50.h;
     if (topOffset + offset.dy <= maxTopOffset) {
       dy = maxTopOffset;
     } else if (topOffset + offset.dy >= (1.sh - 230.h)) {

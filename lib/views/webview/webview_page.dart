@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:huanting_shop/common/hex_to_color.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,18 +29,25 @@ class BeeWebView extends GetView<BeeWebviewLogic> {
                 child: Column(
                 children: <Widget>[
                   SizedBox(
-                      width: ScreenUtil().screenWidth,
-                      child: Container(
-                          margin: const EdgeInsets.all(10),
-                          child: Html(
-                            style: {
-                              "*": Style(
-                                  fontSize: FontSize.large,
-                                  lineHeight: LineHeight.number(1.2))
-                            },
-                            data: controller.url.value ?? '',
-                            // onLinkTap: (linkUrl) {},
-                          ))),
+                    width: ScreenUtil().screenWidth,
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: Html(
+                        style: {
+                          "*": Style(
+                            fontSize: FontSize.large,
+                            lineHeight: LineHeight.number(1.2),
+                          ),
+                          'img': Style(
+                            width: Width(375.w, Unit.auto),
+                          ),
+                        },
+
+                        data: controller.url.value ?? '',
+                        // onLinkTap: (linkUrl) {},
+                      ),
+                    ),
+                  ),
                   Container(
                     margin: const EdgeInsets.only(right: 15),
                     alignment: Alignment.centerRight,
@@ -50,11 +58,15 @@ class BeeWebView extends GetView<BeeWebviewLogic> {
                   )
                 ],
               )),
-        backgroundColor: Colors.white,
+        backgroundColor: controller.bgColor.value != null
+            ? HexToColor(controller.bgColor.value!)
+            : Colors.white,
         appBar: AppBar(
           elevation: 0,
           centerTitle: true,
-          backgroundColor: Colors.white,
+          backgroundColor: controller.bgColor.value != null
+              ? HexToColor(controller.bgColor.value!)
+              : Colors.white,
           //设置为白色字体
           iconTheme: const IconThemeData(
             color: Colors.black, //修改颜色

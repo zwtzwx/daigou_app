@@ -19,7 +19,7 @@ class CommentPage extends GetView<CommentController> {
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.white,
-        elevation: 0.5,
+        elevation: 0,
         centerTitle: true,
         title: AppText(
           str: '用户评价'.ts,

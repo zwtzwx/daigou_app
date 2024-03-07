@@ -1,9 +1,8 @@
-import 'dart:io';
-import 'package:fluwx/fluwx.dart';
 import 'package:get/get.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/global_inject.dart';
 import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/config/wechat_config.dart';
 import 'package:huanting_shop/events/application_event.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
@@ -32,13 +31,6 @@ void main() async {
   // await Firebase.initializeApp();
 
   runApp(const MyApp());
-
-  if (Platform.isAndroid) {
-    // 设置状态栏背景及颜色
-    SystemUiOverlayStyle systemUiOverlayStyle =
-        const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-  }
 }
 
 class MyApp extends StatefulWidget {
@@ -60,17 +52,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _initFluwx();
-  }
-
-  _initFluwx() async {
-    Fluwx fluwx = Fluwx();
-    fluwx.registerApi(
-      appId: "wxb1290b1691a16593",
-      doOnAndroid: true,
-      doOnIOS: true,
-      universalLink: "https://jiyun-demo.yunliantiao.com/app/",
-    );
+    WechatConfig().initConfig();
   }
 
   initClipboadListener() {
@@ -214,15 +196,20 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) => GetMaterialApp(
         color: Colors.white,
         theme: ThemeData(
-          pageTransitionsTheme: PageTransitionsTheme(
-            builders: <TargetPlatform, PageTransitionsBuilder>{
-              TargetPlatform.iOS: createTransition(),
-              TargetPlatform.android: createTransition(),
-            },
-          ),
-          primaryColor: AppColors.primary,
-          canvasColor: Colors.white,
-        ),
+            pageTransitionsTheme: PageTransitionsTheme(
+              builders: <TargetPlatform, PageTransitionsBuilder>{
+                TargetPlatform.iOS: createTransition(),
+                TargetPlatform.android: createTransition(),
+              },
+            ),
+            primaryColor: AppColors.primary,
+            canvasColor: Colors.white,
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              centerTitle: true,
+              systemOverlayStyle: SystemUiOverlayStyle.dark,
+            )),
         showSemanticsDebugger: false,
         debugShowCheckedModeBanner: false,
         getPages: BeeNav.routes,

@@ -21,20 +21,17 @@ class BeeSupportView extends GetView<BeeSupportLogic> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
-        centerTitle: true,
         title: AppText(
           str: '帮助中心'.ts,
           fontSize: 17,
         ),
-        backgroundColor: Colors.white,
-        elevation: 0.1,
         bottom: TabBar(
           controller: controller.tabController,
           isScrollable: true,
           tabs: ['公告', '常见问题', '禁运物品', '新手指引']
               .map(
                 (e) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.only(top: 5.h, bottom: 10.h),
                   child: AppText(
                     str: e.ts,
                     lines: 2,
@@ -191,7 +188,7 @@ class __ArticleListState extends State<_ArticleList> {
         BeeNav.push(BeeNav.webview, arg: {
           'url': model.content,
           'title': model.title,
-          'time': model.createdAt
+          'time': '',
         });
       },
       child: Container(

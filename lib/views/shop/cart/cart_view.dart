@@ -96,7 +96,7 @@ class CartView extends GetView<CartController> {
                                     children: [
                                       TextSpan(
                                         text: controller
-                                                .currencyModel.value?.symbol ??
+                                                .currencyModel.value?.code ??
                                             '',
                                       ),
                                       TextSpan(

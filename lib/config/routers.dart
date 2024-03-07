@@ -23,6 +23,8 @@ import 'package:huanting_shop/views/group/group_order/bindings.dart';
 import 'package:huanting_shop/views/group/group_order/view.dart';
 import 'package:huanting_shop/views/group/group_order_process/bindings.dart';
 import 'package:huanting_shop/views/group/group_order_process/view.dart';
+import 'package:huanting_shop/views/help/customer/binding.dart';
+import 'package:huanting_shop/views/help/customer/view.dart';
 import 'package:huanting_shop/views/help/guide/guide_binding.dart';
 import 'package:huanting_shop/views/help/guide/guide_view.dart';
 import 'package:huanting_shop/views/help/help_center/bindings.dart';
@@ -127,6 +129,8 @@ import 'package:huanting_shop/views/user/profile/profile_binding.dart';
 import 'package:huanting_shop/views/user/profile/profile_view.dart';
 import 'package:huanting_shop/views/user/register/register_binding.dart';
 import 'package:huanting_shop/views/user/register/register_page.dart';
+import 'package:huanting_shop/views/user/setting_locale/binding.dart';
+import 'package:huanting_shop/views/user/setting_locale/view.dart';
 import 'package:huanting_shop/views/user/setting_password/setting_password_binding.dart';
 import 'package:huanting_shop/views/user/setting_password/setting_password_view.dart';
 import 'package:huanting_shop/views/user/station/station_binding.dart';
@@ -207,6 +211,8 @@ class BeeNav {
   static const String createOrder = '/createOrder'; // 合箱
   static const String chromeLogin = '/chromeLogin'; // chorme 插件扫码登录
   static const String guide = '/guide'; // 新手指引
+  static const String localeSetting = '/localeSetting'; // 语言、货币设置
+  static const String customer = '/customer'; // 客服
 
   static const String groupCenter = '/groupCenter'; // 拼团中心
   static const String groupCreate = '/groupCreate'; // 创建拼团
@@ -251,6 +257,7 @@ class BeeNav {
     help,
     question,
     comment,
+    customer,
     chromeLogin,
   ];
 
@@ -292,6 +299,11 @@ class BeeNav {
       binding: GuideBinding(),
     ),
     GetPage(
+      name: customer,
+      page: () => const CustomerView(),
+      binding: CustomerBinding(),
+    ),
+    GetPage(
       name: editParcel,
       page: () => const BeePackageUpdatePage(),
       binding: BeePackageUpdateBinding(),
@@ -310,6 +322,11 @@ class BeeNav {
       name: webview,
       page: () => const BeeWebView(),
       binding: BeeWebviewBinding(),
+    ),
+    GetPage(
+      name: localeSetting,
+      page: () => const SettingLocaleView(),
+      binding: SettingLocaleBinding(),
     ),
     GetPage(
       name: password,

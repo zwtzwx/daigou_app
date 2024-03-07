@@ -11,7 +11,7 @@ extension RateConvert on num {
     var localizationInfo = Get.find<AppStore>().localModel;
     var rate = currency.value?.rate ?? 1;
     var currencySymbol =
-        currency.value?.symbol ?? localizationInfo?.currencySymbol ?? '';
+        currency.value?.code ?? localizationInfo?.currency ?? '';
     num value = (this * rate / (needFormat ? 100 : 1));
     var len = showInt && value.ceil() == value ? 0 : 2;
     return (showPriceSymbol ? currencySymbol : '') + value.toStringAsFixed(len);

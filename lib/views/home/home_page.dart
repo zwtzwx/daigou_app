@@ -1,28 +1,22 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/views/components/ad_cell.dart';
-import 'package:huanting_shop/views/components/base_search.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/contact_cell.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
 import 'package:huanting_shop/views/components/goods/goods_list_cell.dart';
-import 'package:huanting_shop/views/components/indicator.dart';
-import 'package:huanting_shop/views/components/language_cell/language_cell.dart';
 import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:huanting_shop/views/components/loading_cell.dart';
 import 'package:huanting_shop/views/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:huanting_shop/views/home/widget/header.dart';
 import 'package:huanting_shop/views/home/widget/notice_widget.dart';
 import 'package:huanting_shop/views/shop/platform_goods/platform_goods_binding.dart';
 import 'package:huanting_shop/views/shop/platform_goods/platform_goods_list_view.dart';
-import 'package:sticky_headers/sticky_headers.dart';
 
 class IndexPage extends GetView<IndexLogic> {
   const IndexPage({Key? key}) : super(key: key);
@@ -32,7 +26,7 @@ class IndexPage extends GetView<IndexLogic> {
     return AnnotatedRegion(
       child: Scaffold(
         primary: false,
-        appBar: HomeHeader(),
+        appBar: const HomeHeader(),
         key: controller.scaffoldKey,
         body: GestureDetector(
           onTap: () {
@@ -45,6 +39,7 @@ class IndexPage extends GetView<IndexLogic> {
                 color: AppColors.primary,
                 child: ListView(
                   shrinkWrap: true,
+                  controller: controller.loadingUtil.value.scrollController,
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: [
                     AdsCell(type: 5, padding: 14.w),
@@ -53,29 +48,36 @@ class IndexPage extends GetView<IndexLogic> {
                     categoryBox(),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 14.w),
-                      child: AppText(
-                        str: '大家在看什么'.ts,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                      child: Obx(
+                        () => AppText(
+                          str: '大家在看什么'.ts,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     15.verticalSpaceFromWidth,
                     Obx(
-                      () => controller.goodsLoading.value
-                          ? const Center(child: Indicator())
-                          : Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 14.w),
-                              child: BeeShopGoodsList(
-                                isPlatformGoods: true,
-                                platformGoodsList: controller.goodsList,
-                              ),
-                            ),
+                      () => Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 14.w),
+                        child: BeeShopGoodsList(
+                          isPlatformGoods: true,
+                          platformGoodsList: controller.loadingUtil.value.list,
+                        ),
+                      ),
+                    ),
+                    Obx(
+                      () => Center(
+                        child: LoadingCell(
+                          util: controller.loadingUtil.value,
+                        ),
+                      ),
                     ),
                     50.verticalSpaceFromWidth,
                   ],
                 ),
               ),
-              const ContactCell(),
+              const CartCell(),
             ],
           ),
         ),
@@ -212,7 +214,8 @@ class IndexPage extends GetView<IndexLogic> {
       {
         'label': '提交转运',
         'icon': 'Home/ico_zydd',
-        'route': BeeNav.forecast,
+        'route': BeeNav.orderCenter,
+        'params': 1
       },
     ];
     return Container(

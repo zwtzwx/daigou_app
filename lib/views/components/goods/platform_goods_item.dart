@@ -96,7 +96,7 @@ class PlatformGoodsCell extends StatelessWidget {
                       ),
                       children: [
                         TextSpan(
-                          text: (currency?.symbol ?? '') + ' ',
+                          text: (currency?.code ?? '') + ' ',
                         ),
                         TextSpan(
                           text: (goods.price ?? 0)

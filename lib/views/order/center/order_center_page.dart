@@ -172,7 +172,7 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
                         ? AppColors.textDark
                         : AppColors.textNormal,
                   ),
-                  5.verticalSpaceFromWidth,
+                  7.verticalSpaceFromWidth,
                   Container(
                     width: 30.w,
                     height: 3.h,

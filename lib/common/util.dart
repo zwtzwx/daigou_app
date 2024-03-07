@@ -5,6 +5,7 @@ import 'package:fluwx/fluwx.dart';
 import 'package:get/instance_manager.dart';
 import 'package:huanting_shop/config/app_config.dart';
 import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/config/wechat_config.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/ads_pic_model.dart';
 import 'package:huanting_shop/models/self_pickup_station_order_model.dart';
@@ -218,30 +219,34 @@ class CommonMethods {
 
   // 轮播图跳转
   static void onAdLink(BannerModel model) {
-    if (model.linkType == 1 && !model.linkPath.startsWith('/pages')) {
+    if (model.linkType == 1) {
       // 应用内
-      var paths = model.linkPath.split('?');
-      if (paths.first.startsWith('/lottery')) {
-        // 抽奖页面
-        String token = Get.find<AppStore>().token.value;
-        if (token.isEmpty) {
-          BeeNav.push(BeeNav.login);
-        } else {
-          String uuid = AppConfig.getUUID();
-          String api = AppConfig.getBaseApi();
-          var parsedQuery = Uri.splitQueryString(paths[1]);
-          BeeNav.push(BeeNav.webview, arg: {
-            'title': '抽奖'.ts,
-            'url':
-                'https://yingxiao.haiousaas.com/pages/reward/index?token=$token&api_url=$api&env=App&&UUID=$uuid&reward_id=${parsedQuery['id']}'
-          });
-        }
+      if (model.linkPath.startsWith('/pages')) {
+        WechatConfig().openMiniProgram(model.fullPath, model.linkPath);
       } else {
-        if (paths.length > 1) {
-          var parsedQuery = Uri.splitQueryString(paths[1]);
-          BeeNav.push(paths[0], arg: parsedQuery);
+        var paths = model.linkPath.split('?');
+        if (paths.first.startsWith('/lottery')) {
+          // 抽奖页面
+          String token = Get.find<AppStore>().token.value;
+          if (token.isEmpty) {
+            BeeNav.push(BeeNav.login);
+          } else {
+            String uuid = AppConfig.getUUID();
+            String api = AppConfig.getBaseApi();
+            var parsedQuery = Uri.splitQueryString(paths[1]);
+            BeeNav.push(BeeNav.webview, arg: {
+              'title': '抽奖'.ts,
+              'url':
+                  'https://yingxiao.haiousaas.com/pages/reward/index?token=$token&api_url=$api&env=App&&UUID=$uuid&reward_id=${parsedQuery['id']}'
+            });
+          }
         } else {
-          BeeNav.push(model.linkPath);
+          if (paths.length > 1) {
+            var parsedQuery = Uri.splitQueryString(paths[1]);
+            BeeNav.push(paths[0], arg: parsedQuery);
+          } else {
+            BeeNav.push(model.linkPath);
+          }
         }
       }
     } else if (model.linkType == 2 || model.linkType == 3) {

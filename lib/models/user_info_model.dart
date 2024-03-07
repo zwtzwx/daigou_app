@@ -1,9 +1,11 @@
 import 'package:get/state_manager.dart';
 import 'package:huanting_shop/models/currency_rate_model.dart';
+import 'package:huanting_shop/models/language_model.dart';
 import 'package:huanting_shop/models/localization_model.dart';
 import 'package:huanting_shop/models/user_model.dart';
 import 'package:huanting_shop/models/user_order_count_model.dart';
 import 'package:huanting_shop/services/common_service.dart';
+import 'package:huanting_shop/services/language_service.dart';
 import 'package:huanting_shop/services/localization_service.dart';
 import 'package:huanting_shop/services/shop_service.dart';
 import 'package:huanting_shop/services/user_service.dart';
@@ -18,6 +20,7 @@ class AppStore {
   final rateList = <CurrencyRateModel>[].obs;
   final _localModel = Rxn<LocalizationModel?>();
   final amountInfo = Rxn<UserOrderCountModel?>();
+  final langList = <LanguageModel>[].obs;
   int shopPlatformType = 1;
   final cartCount = 0.obs;
 
@@ -29,6 +32,7 @@ class AppStore {
     accountInfo.value = UserStorage.getAccountInfo();
     refreshToken();
     initCurrency();
+    getLanguages();
   }
 
   saveInfo(String t, UserModel u) {
@@ -82,10 +86,10 @@ class AppStore {
     var data = await LocalizationService.getInfo();
     _localModel.value = data;
     if (currencyModel.value == null) {
-      // 默认哈萨克斯坦货币
+      // 默认美金
       var _data = CurrencyRateModel(
-        code: currency?['code'] ?? data?.currency ?? '',
-        symbol: currency?['symbol'] ?? data?.currencySymbol,
+        code: currency?['code'] ?? 'USD',
+        symbol: currency?['symbol'] ?? '\$',
       );
       if (_data.code != data?.currency) {
         // 获取对应的汇率
@@ -102,6 +106,13 @@ class AppStore {
     currencyModel.value = data;
   }
 
+  // 获取语言列表
+  getLanguages() async {
+    var data = await LanguageService.getLanguage();
+    langList.value = data;
+  }
+
+  // 包裹、订单数量、余额
   getBaseCountInfo() async {
     if (token.value.isEmpty) return;
     amountInfo.value = await UserService.getOrderDataCount();

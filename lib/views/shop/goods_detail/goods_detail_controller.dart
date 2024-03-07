@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +18,8 @@ import 'package:huanting_shop/services/shop_service.dart';
 import 'package:huanting_shop/services/warehouse_service.dart';
 import 'package:huanting_shop/views/components/caption.dart';
 import 'package:huanting_shop/views/components/goods/sku_bottom_sheet.dart';
+import 'package:huanting_shop/views/shop/image_search_goods_list/binding.dart';
+import 'package:huanting_shop/views/shop/image_search_goods_list/view.dart';
 import 'package:huanting_shop/views/shop/widget/goods_comments_sheet.dart';
 
 class GoodsDetailController extends GlobalLogic {
@@ -68,10 +69,18 @@ class GoodsDetailController extends GlobalLogic {
 
   // 以图搜物
   void onPhotoSearch() async {
-    var cameras = await availableCameras();
-    if (cameras.isNotEmpty) {
-      BeeNav.push(BeeNav.imageSearch, arg: {'device': cameras.first});
-    }
+    // var cameras = await availableCameras();
+    // if (cameras.isNotEmpty) {
+    //   BeeNav.push(BeeNav.imageSearch, arg: {'device': cameras.first});
+    // }
+    String url = goodsModel.value!.images!.first;
+    Get.to(
+      GoodsImageSearchResultPage(
+        controllerTag: url,
+      ),
+      arguments: {'url': url},
+      binding: GoodsImageSearchResultBinding(tag: url),
+    );
   }
 
   // 仓库列表
@@ -282,7 +291,7 @@ class GoodsDetailController extends GlobalLogic {
         freightFee: freightFee,
         warehouse: selectedWarehouse.value,
         warehouseList: warehouseList,
-        currencySymbol: currencyModel.value?.symbol,
+        currencySymbol: currencyModel.value?.code,
         onSkuChange: (value) {
           sku.value = value;
         },

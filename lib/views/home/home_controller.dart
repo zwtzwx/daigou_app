@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:huanting_shop/common/loading_util.dart';
 import 'package:huanting_shop/common/version_util.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/config/routers.dart';
@@ -33,7 +34,8 @@ class IndexLogic extends GlobalLogic {
 
   final userModel = Get.find<AppStore>().userInfo;
   final noticeList = <AnnouncementModel>[].obs;
-  final goodsList = <PlatformGoodsModel>[].obs;
+  final Rx<LoadingUtil<PlatformGoodsModel>> loadingUtil =
+      LoadingUtil<PlatformGoodsModel>().obs;
   final goodsLoading = true.obs;
   final RxList<GoodsCategoryModel> categoryList = <GoodsCategoryModel>[].obs;
   final agentStatus = 3.obs;
@@ -44,16 +46,16 @@ class IndexLogic extends GlobalLogic {
     getAnnoucementList();
     getIndexAnnoucement();
     getLatestApkInfo();
-    getRecommendGoods();
+
     getCategory();
     getAds();
     getAgentStatus();
+    loadingUtil.value.initListener(getRecommendGoods);
     ApplicationEvent.getInstance()
         .event
         .on<LanguageChangeEvent>()
         .listen((event) {
-      getCategory();
-      getRecommendGoods();
+      handleRefresh();
     });
     ApplicationEvent.getInstance().event.on<LoginedEvent>().listen((event) {
       getAgentStatus();
@@ -122,14 +124,6 @@ class IndexLogic extends GlobalLogic {
     }
   }
 
-  // 是否有未读消息
-  // onGetUnReadNotice() async {
-  //   var token = Get.find<AppStore>().token.value;
-  //   if (token.isEmpty) return;
-  //   var res = await CommonService.hasUnReadInfo();
-  //   noticeUnRead.value = res;
-  // }
-
   // 获取弹窗、活动广告
   getAds() async {
     List<BannerModel> result = await AdsService.getList({"source": 4});
@@ -148,15 +142,37 @@ class IndexLogic extends GlobalLogic {
 
   // 推荐商品
   getRecommendGoods() async {
-    var data = await ShopService.getCachedGoodsList();
-    goodsLoading.value = false;
-    if (data != null) {
-      goodsList.value = data;
+    if (loadingUtil.value.isLoading) return;
+    loadingUtil.value.isLoading = true;
+    loadingUtil.refresh();
+    try {
+      var data = await ShopService.getDaigouGoods({
+        'page': ++loadingUtil.value.pageIndex,
+        'page_size': 10,
+        'platform': '1688',
+        'keyword': '服饰'
+      });
+      loadingUtil.value.isLoading = false;
+      if (data['dataList'] != null) {
+        loadingUtil.value.list.addAll(data['dataList']);
+        if (data['dataList'].isEmpty && data['pageIndex'] == 1) {
+          loadingUtil.value.isEmpty = true;
+        } else if (data['total'] == data['pageIndex']) {
+          loadingUtil.value.hasMoreData = false;
+        }
+      }
+    } catch (e) {
+      loadingUtil.value.isLoading = false;
+      loadingUtil.value.pageIndex--;
+      loadingUtil.value.hasError = true;
+    } finally {
+      loadingUtil.refresh();
     }
   }
 
   // 页面刷新
   Future<void> handleRefresh() async {
+    loadingUtil.value.clear();
     await getAds();
     await getRecommendGoods();
     await getCategory();

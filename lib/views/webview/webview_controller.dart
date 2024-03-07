@@ -11,6 +11,7 @@ class BeeWebviewLogic extends GlobalLogic {
   final url = RxnString(null);
   final title = RxnString(null);
   final time = RxnString(null);
+  final bgColor = RxnString(null);
 
   @override
   void onReady() {
@@ -19,6 +20,9 @@ class BeeWebviewLogic extends GlobalLogic {
     url.value = arguments["url"];
     title.value = arguments["title"];
     time.value = arguments['time'];
+    if (arguments['color'] != null) {
+      bgColor.value = arguments['color'];
+    }
     if ((url.value ?? '').startsWith('http')) {
       webController = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)

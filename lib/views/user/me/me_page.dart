@@ -1,9 +1,7 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/instance_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
 import 'package:huanting_shop/models/user_model.dart';
 import 'package:huanting_shop/views/components/base_dialog.dart';
 import 'package:huanting_shop/views/components/caption.dart';
@@ -12,10 +10,6 @@ import 'package:huanting_shop/views/components/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:huanting_shop/views/user/me/me_controller.dart';
-
-/*
-  我的
-*/
 
 class BeeCenterPage extends GetView<BeeCenterLogic> {
   const BeeCenterPage({Key? key}) : super(key: key);
@@ -45,7 +39,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                   userInfo(),
                 ],
               ),
-              10.verticalSpaceFromWidth,
+              12.verticalSpaceFromWidth,
               toolList(),
               30.verticalSpaceFromWidth,
             ],
@@ -56,56 +50,84 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
   }
 
   Widget toolList() {
-    List<Map<String, dynamic>> list1 = [
-      {
-        'name': '地址簿',
-        'icon': 'Center/ico_dzb',
-        'route': BeeNav.addressList,
-        'params': {'select': 0},
-      },
-      {
-        'name': '推广联盟',
-        'icon': 'Center/ico_tglm',
-        'route': BeeNav.agentApplyInstruct,
-      },
-      {
-        'name': '余额',
-        'icon': 'Center/ico_ye',
-        'route': BeeNav.recharge,
-      },
-      {
-        'name': '我的积分',
-        'icon': 'Center/ico_jf',
-        'route': BeeNav.vip,
-      },
-      {
-        'name': '我的评论',
-        'icon': 'Center/ico_pl',
-        'route': BeeNav.comment,
-      },
-      {
-        'name': '我的咨询',
-        'icon': 'Center/ico_zx',
-        'route': BeeNav.shopOrderChat,
-      },
-      {
-        'name': '帮助中心',
-        'icon': 'Center/ico_bzzx',
-        'route': BeeNav.help,
-      },
-      {
-        'name': '账号安全',
-        'icon': 'Center/ico_zhaq',
-        'route': BeeNav.profile,
-      },
-      {
-        'name': '退出登录',
-        'icon': 'Center/ico_tc',
-      },
+    List<List<Map<String, dynamic>>> list = [
+      [
+        {
+          'name': '语言/币种',
+          'icon': 'Center/ico_yy',
+          'route': BeeNav.localeSetting,
+        },
+        {
+          'name': '地址簿',
+          'icon': 'Center/ico_dzb',
+          'route': BeeNav.addressList,
+          'params': {'select': 0},
+        },
+        {
+          'name': '余额',
+          'icon': 'Center/ico_ye',
+          'route': BeeNav.recharge,
+        },
+        {
+          'name': '我的积分',
+          'icon': 'Center/ico_jf',
+          'route': BeeNav.vip,
+        },
+        {
+          'name': '我的评论',
+          'icon': 'Center/ico_pl',
+          'route': BeeNav.comment,
+        },
+        {
+          'name': '我的咨询',
+          'icon': 'Center/ico_zx',
+          'route': BeeNav.shopOrderChat,
+        },
+        {
+          'name': '推广联盟',
+          'icon': 'Center/ico_tglm',
+          'route': BeeNav.agentApplyInstruct,
+        },
+      ],
+      [
+        {
+          'name': '中国仓库',
+          'icon': 'Center/ico_ck',
+          'route': BeeNav.warehouse,
+        },
+        {
+          'name': '邮寄其他包裹',
+          'icon': 'Center/ico_bg',
+          'route': BeeNav.forecast,
+        },
+      ],
+      [
+        {
+          'name': '帮助中心',
+          'icon': 'Center/ico_bzzx',
+          'route': BeeNav.help,
+        },
+        {
+          'name': '账号安全',
+          'icon': 'Center/ico_zhaq',
+          'route': BeeNav.profile,
+        },
+        {
+          'name': '退出登录',
+          'icon': 'Center/ico_tc',
+        },
+      ],
     ];
-    return buildListView(
-      list1,
-      iconWidth: 30.w,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: list
+          .map(
+            (e) => buildListView(
+              e,
+              iconWidth: 30.w,
+            ),
+          )
+          .toList(),
     );
   }
 
@@ -116,7 +138,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
     double? iconWidth,
   }) {
     var listView = Container(
-      margin: EdgeInsets.symmetric(horizontal: 14.w),
+      margin: EdgeInsets.fromLTRB(14.w, 0, 14.w, 10.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8.r),
@@ -166,7 +188,6 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                           () => AppText(
                             str: (list[index]['name']! as String).ts,
                             fontSize: 14,
-                            color: AppColors.textNormal,
                             lines: 2,
                           ),
                         ),
@@ -175,7 +196,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                       if (list[index]['route'] != null)
                         Icon(
                           Icons.arrow_forward_ios,
-                          size: 14.sp,
+                          size: 13.sp,
                           color: AppColors.textNormal,
                         ),
                     ],
@@ -193,33 +214,12 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
   Widget userInfo() {
     var headerView = Obx(() {
       UserModel? userModel = controller.userInfoModel.userInfo.value;
-      List<Map<String, String>> list = [
-        {
-          'label': '问题订单',
-          'icon': 'Center/ico_wtdd',
-          'route': BeeNav.probleShopOrder,
-        },
-        {
-          'label': '购物车',
-          'icon': 'Center/ico_gwc',
-          'route': BeeNav.cart,
-        },
-        {
-          'label': '异常件认领',
-          'icon': 'Center/ico_ycjrl',
-          'route': BeeNav.noOwnerList,
-        },
-      ];
+
       List<Map<String, String>> list2 = [
         {
           'label': '我的订单',
           'icon': 'Center/ico_wddd',
           'route': BeeNav.shopOrderList,
-        },
-        {
-          'label': '我的仓库',
-          'icon': 'Center/ico_wdck',
-          'route': BeeNav.warehouse,
         },
         {
           'label': '运费试算',
@@ -275,85 +275,17 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                     ],
                   ),
                 ),
+                10.horizontalSpace,
+                GestureDetector(
+                  child: LoadAssetImage(
+                    'Center/ico_kf',
+                    width: 28.w,
+                    height: 28.w,
+                  ),
+                ),
               ],
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            margin: EdgeInsets.symmetric(horizontal: 14.w),
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: list
-                  .map(
-                    (e) => Flexible(
-                      child: GestureDetector(
-                        onTap: () {
-                          BeeNav.push(e['route']!);
-                        },
-                        child: Container(
-                          color: Colors.transparent,
-                          child: Column(
-                            children: [
-                              if (e['route'] == BeeNav.cart)
-                                Obx(() {
-                                  var cartCount =
-                                      Get.find<AppStore>().cartCount.value;
-                                  return Stack(
-                                    clipBehavior: Clip.none,
-                                    children: [
-                                      LoadAssetImage(
-                                        e['icon']!,
-                                        width: 40.w,
-                                        height: 40.w,
-                                      ),
-                                      if (cartCount != 0)
-                                        Positioned(
-                                          right: -5.w,
-                                          top: 0,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: AppColors.themeRed,
-                                              borderRadius:
-                                                  BorderRadius.circular(10.r),
-                                            ),
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 6.w, vertical: 2.w),
-                                            child: AppText(
-                                              str: cartCount.toString(),
-                                              fontSize: 10,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                    ],
-                                  );
-                                })
-                              else
-                                LoadAssetImage(
-                                  e['icon']!,
-                                  width: 40.w,
-                                  height: 40.w,
-                                ),
-                              4.verticalSpace,
-                              AppText(
-                                str: e['label']!.ts,
-                                fontSize: 14,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
-          10.verticalSpaceFromWidth,
           Container(
             decoration: BoxDecoration(
               color: Colors.white,

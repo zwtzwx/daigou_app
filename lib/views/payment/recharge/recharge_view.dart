@@ -383,9 +383,9 @@ class RechargeView extends GetView<RechargeController> {
                               text: TextSpan(
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: controller
-                                            .currencyModel.value?.symbol ??
-                                        '',
+                                    text:
+                                        controller.currencyModel.value?.code ??
+                                            '',
                                     style: const TextStyle(
                                       color: AppColors.textRed,
                                       fontSize: 15.0,

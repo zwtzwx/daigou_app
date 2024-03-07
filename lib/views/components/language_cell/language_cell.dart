@@ -28,7 +28,7 @@ class LanguageCell extends GetView<LanguageCellController> {
                 () => AppText(
                   str: controller.i10n.language.split('_').last +
                       (controller.currency.value != null
-                          ? '/${controller.currency.value!.symbol}'
+                          ? '/${controller.currency.value!.code}'
                           : ''),
                 ),
               ),

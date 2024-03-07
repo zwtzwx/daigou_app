@@ -123,7 +123,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                       RichText(
                         text: TextSpan(children: [
                           TextSpan(
-                            text: controller.currencyModel.value?.symbol ?? '',
+                            text: controller.currencyModel.value?.code ?? '',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20.sp,

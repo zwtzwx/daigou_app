@@ -39,34 +39,40 @@ class NoticeWidget extends StatelessWidget {
               ),
             ),
             Expanded(
-                child: Swiper(
-              loop: list.length > 1,
-              autoplay: list.length > 1,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    BeeNav.push(BeeNav.webview,
-                        arg: {'type': 'notice', 'id': list[index].id});
-                  },
-                  child: Container(
-                    height: 36.h,
-                    alignment: Alignment.centerLeft,
-                    child: AppText(
-                      str: list[index].title,
-                      fontSize: 14,
-                      color: AppColors.textNormal,
+              child: Swiper(
+                loop: list.length > 1,
+                autoplay: list.length > 1,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      BeeNav.push(BeeNav.webview,
+                          arg: {'type': 'notice', 'id': list[index].id});
+                    },
+                    child: Container(
+                      height: 36.h,
+                      alignment: Alignment.centerLeft,
+                      child: AppText(
+                        str: list[index].title,
+                        fontSize: 14,
+                        color: AppColors.textNormal,
+                      ),
                     ),
-                  ),
-                );
-              },
-              itemCount: list.length,
-            )),
+                  );
+                },
+                itemCount: list.length,
+              ),
+            ),
             5.horizontalSpace,
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 14.sp,
-              color: AppColors.textNormal,
+            GestureDetector(
+              onTap: () {
+                BeeNav.push(BeeNav.help);
+              },
+              child: Icon(
+                Icons.arrow_forward_ios,
+                size: 14.sp,
+                color: AppColors.textNormal,
+              ),
             ),
           ],
         ),

@@ -180,8 +180,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                       ),
                                       children: [
                                         TextSpan(
-                                          text:
-                                              currencyModel.value?.symbol ?? '',
+                                          text: currencyModel.value?.code ?? '',
                                         ),
                                         TextSpan(
                                           text: (sku.price).rate(

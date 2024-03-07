@@ -126,7 +126,7 @@ class ShopService {
       if (res.ok) {
         goods = PlatformGoodsModel.fromJson(res.data);
       } else {
-        EasyLoading.showError(res.msg ?? '');
+        EasyLoading.showError('小海鸥没能及时找到该商品，可以先留下这件商品的信息，小海鸥将全力采购'.ts);
       }
     });
     if (goods != null && LanguageStore.getLanguage() != 'zh_CN') {

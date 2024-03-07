@@ -60,7 +60,7 @@ class TransportPayPage extends GetView<TransportPayController> {
                                     height: 40,
                                     child: AppText(
                                       str: (controller
-                                              .currencyModel.value?.symbol ??
+                                              .currencyModel.value?.code ??
                                           ''),
                                       fontSize: 20,
                                       color: AppColors.textRed,

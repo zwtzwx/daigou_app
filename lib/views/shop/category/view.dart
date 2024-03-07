@@ -17,7 +17,7 @@ class GoodsCategoryView extends GetView<GoodsCategoryController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const BaseSearch(),
+        title: BaseSearch(autoFocus: controller.searchAutoFocus),
         backgroundColor: Colors.white,
         leading: const BackButton(color: Colors.black),
         elevation: 0,
@@ -136,6 +136,7 @@ class GoodsCategoryView extends GetView<GoodsCategoryController> {
                       str: child.name,
                       fontSize: 14,
                       lines: 2,
+                      alignment: TextAlign.center,
                     )
                   ],
                 ),
