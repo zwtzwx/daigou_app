@@ -97,12 +97,20 @@ class _MyAppState extends State<MyApp> {
       var url = await CommonService.getGoodsUrl(params);
 
       if (url != null) {
-        Get.to(GoodsDetailView(goodsId: url),
-            arguments: {'url': url}, binding: GoodsDetailBinding(tag: url));
+        BeeNav.toPage(
+          GoodsDetailView(goodsId: url),
+          arguments: {'url': url},
+          binding: GoodsDetailBinding(tag: url),
+          authCheck: true,
+        );
       }
     } else {
-      Get.to(GoodsDetailView(goodsId: data),
-          arguments: {'url': data}, binding: GoodsDetailBinding(tag: data));
+      BeeNav.toPage(
+        GoodsDetailView(goodsId: data),
+        arguments: {'url': data},
+        binding: GoodsDetailBinding(tag: data),
+        authCheck: true,
+      );
     }
   }
 

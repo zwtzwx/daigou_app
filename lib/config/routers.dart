@@ -670,6 +670,20 @@ class BeeNav {
     }
   }
 
+  static Future<dynamic>? toPage(
+    dynamic page, {
+    dynamic arguments,
+    Bindings? binding,
+    bool authCheck = false,
+  }) {
+    AppStore userInfo = Get.find<AppStore>();
+    if (!authCheck || userInfo.token.value.isNotEmpty) {
+      return Get.to(page, arguments: arguments, binding: binding);
+    } else {
+      return Get.toNamed(login);
+    }
+  }
+
   static void pop([dynamic arguments]) {
     Get.back(result: arguments);
   }

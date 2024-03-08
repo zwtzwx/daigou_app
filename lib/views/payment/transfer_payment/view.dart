@@ -303,7 +303,8 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: AppText(
                   str: '复制'.ts,
-                  fontSize: 13,
+                  fontSize: 12,
+                  color: Colors.white,
                 ),
               ),
             )
@@ -360,7 +361,8 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       child: AppText(
                         str: '复制'.ts,
-                        fontSize: 13,
+                        fontSize: 12,
+                        color: Colors.white,
                       ),
                     ),
                   )

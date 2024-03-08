@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/shop/platform_goods_model.dart';
@@ -25,9 +26,12 @@ class PlatformGoodsCell extends StatelessWidget {
     final currency = Get.find<AppStore>().currencyModel.value;
     return GestureDetector(
       onTap: () {
-        Get.to(GoodsDetailView(goodsId: goods.id.toString()),
-            arguments: {'url': goods.detailUrl},
-            binding: GoodsDetailBinding(tag: goods.id.toString()));
+        BeeNav.toPage(
+          GoodsDetailView(goodsId: goods.id.toString()),
+          arguments: {'url': goods.detailUrl},
+          binding: GoodsDetailBinding(tag: goods.id.toString()),
+          authCheck: true,
+        );
       },
       child: Container(
         width: width,

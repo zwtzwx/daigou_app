@@ -34,47 +34,51 @@ class IndexPage extends GetView<IndexLogic> {
           },
           child: Stack(
             children: [
-              RefreshIndicator(
-                onRefresh: controller.handleRefresh,
-                color: AppColors.primary,
-                child: ListView(
-                  shrinkWrap: true,
-                  controller: controller.loadingUtil.value.scrollController,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  children: [
-                    AdsCell(type: 5, padding: 14.w),
-                    buildLinks(),
-                    const NoticeWidget(),
-                    categoryBox(),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 14.w),
-                      child: Obx(
-                        () => AppText(
-                          str: '大家在看什么'.ts,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    15.verticalSpaceFromWidth,
-                    Obx(
-                      () => Padding(
+              Container(
+                constraints: BoxConstraints(minHeight: 1.sh),
+                child: RefreshIndicator(
+                  onRefresh: controller.handleRefresh,
+                  color: AppColors.primary,
+                  child: ListView(
+                    shrinkWrap: true,
+                    controller: controller.loadingUtil.value.scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: [
+                      AdsCell(type: 5, padding: 14.w),
+                      buildLinks(),
+                      const NoticeWidget(),
+                      categoryBox(),
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 14.w),
-                        child: BeeShopGoodsList(
-                          isPlatformGoods: true,
-                          platformGoodsList: controller.loadingUtil.value.list,
+                        child: Obx(
+                          () => AppText(
+                            str: '大家在看什么'.ts,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    Obx(
-                      () => Center(
-                        child: LoadingCell(
-                          util: controller.loadingUtil.value,
+                      15.verticalSpaceFromWidth,
+                      Obx(
+                        () => Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 14.w),
+                          child: BeeShopGoodsList(
+                            isPlatformGoods: true,
+                            platformGoodsList:
+                                controller.loadingUtil.value.list,
+                          ),
                         ),
                       ),
-                    ),
-                    50.verticalSpaceFromWidth,
-                  ],
+                      Obx(
+                        () => Center(
+                          child: LoadingCell(
+                            util: controller.loadingUtil.value,
+                          ),
+                        ),
+                      ),
+                      50.verticalSpaceFromWidth,
+                    ],
+                  ),
                 ),
               ),
               const CartCell(),

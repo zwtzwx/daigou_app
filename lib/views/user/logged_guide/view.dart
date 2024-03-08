@@ -100,17 +100,17 @@ class LoggedGuideView extends GetView<LoggedGuideController> {
   }
 
   Widget buildLanguagePicker() {
-    return Column(
-      children: [
-        LoadAssetImage(
-          'Home/lag',
-          width: 146.w,
-          height: 146.w,
-        ),
-        30.verticalSpaceFromWidth,
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 28.w),
-          child: Expanded(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 28.w),
+      child: Column(
+        children: [
+          LoadAssetImage(
+            'Home/lag',
+            width: 146.w,
+            height: 146.w,
+          ),
+          30.verticalSpaceFromWidth,
+          Expanded(
             child: Obx(
               () => GridView.builder(
                 shrinkWrap: true,
@@ -154,23 +154,23 @@ class LoggedGuideView extends GetView<LoggedGuideController> {
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget buildCurrencyPicker() {
-    return Column(
-      children: [
-        LoadAssetImage(
-          'Home/cur',
-          width: 146.w,
-          height: 146.w,
-        ),
-        30.verticalSpaceFromWidth,
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 28.w),
-          child: Expanded(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 28.w),
+      child: Column(
+        children: [
+          LoadAssetImage(
+            'Home/cur',
+            width: 146.w,
+            height: 146.w,
+          ),
+          30.verticalSpaceFromWidth,
+          Expanded(
             child: Obx(
               () => GridView.builder(
                 shrinkWrap: true,
@@ -215,8 +215,8 @@ class LoggedGuideView extends GetView<LoggedGuideController> {
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

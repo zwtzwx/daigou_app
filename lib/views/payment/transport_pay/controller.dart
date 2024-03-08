@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluwx/fluwx.dart';
 import 'package:get/get.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/config/wechat_config.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/order_model.dart';
 import 'package:huanting_shop/models/pay_type_model.dart';
@@ -45,6 +47,14 @@ class TransportPayController extends GlobalLogic {
       previewOrder();
     }
     created();
+
+    // 监听微信支付结果
+    WechatConfig().onAddListener(onListenWechatResonse);
+  }
+
+  @override
+  onClose() {
+    WechatConfig().onRemoveListener(onListenWechatResonse);
   }
 
   created() async {
@@ -59,6 +69,17 @@ class TransportPayController extends GlobalLogic {
         vipInfo.pointStatus == 1 &&
         vipInfo.ruleStatus.pointDecrease) {
       pointShow.value = true;
+    }
+  }
+
+  onListenWechatResonse(respsonse) {
+    if (respsonse is WeChatPaymentResponse) {
+      if (respsonse.isSuccessful) {
+        showSuccess('支付成功');
+        onPayResult({'ok': true});
+      } else {
+        showError(respsonse.errStr ?? '支付失败');
+      }
     }
   }
 
@@ -116,7 +137,7 @@ class TransportPayController extends GlobalLogic {
     PayTypeModel model = selectedPayType.value!;
     if (model.name == 'wechat') {
       // 微信付款
-      // weChatPayMethod();
+      wechatPay();
     } else if (model.name == 'alipay') {
       // 支付宝付款
       // onAliPay();
@@ -184,6 +205,24 @@ class TransportPayController extends GlobalLogic {
     }
     onPayResult(result);
   }
+
+  // 微信支付
+  wechatPay() async {
+    Map<String, dynamic> map = {
+      'point': orderModel.value!.point,
+      'is_use_point': orderModel.value!.isusepoint,
+      'type': '4', // app支付
+      'point_amount': orderModel.value!.pointamount,
+      'version': 'v3'
+    };
+    BalanceService.orderWechatPay(orderModel.value!.id, map, (data) {
+      Map appconfig = data.data;
+      WechatConfig().onPay(appconfig);
+    }, (message) => {});
+  }
+
+  // paypal
+  paypalPay() async {}
 
   // 支付结果
   onPayResult(Map result) {

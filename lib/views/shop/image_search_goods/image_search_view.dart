@@ -12,76 +12,68 @@ class GoodsImageSearchPage extends GetView<GoodsImageSearchLogic> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          Obx(
-            () => controller.cameraCtl.value != null &&
-                    controller.cameraCtl.value!.value.isInitialized
-                ? Column(
+      body: Obx(
+        () => Column(
+          children: [
+            if (controller.cameraCtl.value != null &&
+                controller.cameraCtl.value!.value.isInitialized) ...[
+              CameraPreview(
+                controller.cameraCtl.value!,
+                child: Container(
+                  alignment: Alignment.topCenter,
+                  padding: EdgeInsets.fromLTRB(
+                      15.w, ScreenUtil().statusBarHeight + 10.w, 15.w, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        height: 1.sh,
-                        width: 1.sw,
-                        child: CameraPreview(
-                          controller.cameraCtl.value!,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.fromLTRB(
-                                    15.w,
-                                    ScreenUtil().statusBarHeight + 10.w,
-                                    15.w,
-                                    0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const BackButton(
-                                      color: Colors.white,
-                                    ),
-                                    GestureDetector(
-                                      onTap: controller.onPickerImage,
-                                      child: Icon(
-                                        Icons.photo_library_outlined,
-                                        color: Colors.white,
-                                        size: 25.sp,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              InkResponse(
-                                onTap: controller.onTakePhoto,
-                                child: Container(
-                                  width: 55.w,
-                                  height: 55.w,
-                                  margin: EdgeInsets.only(bottom: 100.h),
-                                  padding: EdgeInsets.all(5.w),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: 3.w,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.r),
-                                  ),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: AppColors.primary,
-                                      borderRadius: BorderRadius.circular(10.r),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                      const BackButton(
+                        color: Colors.white,
+                      ),
+                      GestureDetector(
+                        onTap: controller.onPickerImage,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.black12,
+                            shape: BoxShape.circle,
+                          ),
+                          padding: const EdgeInsets.all(12),
+                          child: Icon(
+                            Icons.photo_library_outlined,
+                            color: Colors.white,
+                            size: 25.sp,
                           ),
                         ),
                       ),
                     ],
-                  )
-                : AppGaps.empty,
-          ),
-        ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.center,
+                  child: InkResponse(
+                    onTap: controller.onTakePhoto,
+                    child: Container(
+                      width: 55.w,
+                      height: 55.w,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      padding: EdgeInsets.all(3.w),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ]
+          ],
+        ),
       ),
     );
   }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/route_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
 import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/translation.dart';
@@ -92,12 +91,19 @@ class _SearchCellState extends State<BaseSearch> {
     } else if (widget.goPlatformGoods) {
       if (value.startsWith('http')) {
         // 商品链接直接跳转到详情
-        Get.to(GoodsDetailView(goodsId: value),
-            arguments: {'url': value}, binding: GoodsDetailBinding(tag: value));
+        BeeNav.toPage(
+          GoodsDetailView(goodsId: value),
+          arguments: {'url': value},
+          binding: GoodsDetailBinding(tag: value),
+          authCheck: true,
+        );
       } else {
-        Get.to(PlatformGoodsListView(controllerTag: value),
-            arguments: {'keyword': value, 'origin': value},
-            binding: PlatformGoodsBinding(tag: value));
+        BeeNav.toPage(
+          PlatformGoodsListView(controllerTag: value),
+          arguments: {'keyword': value, 'origin': value},
+          binding: PlatformGoodsBinding(tag: value),
+          authCheck: true,
+        );
       }
       controller.text = '';
       keyword = '';

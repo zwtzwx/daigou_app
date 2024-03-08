@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluwx/fluwx.dart';
 import 'package:get/instance_manager.dart';
 // import 'package:fluwx/fluwx.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/config/wechat_config.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/pay_type_model.dart';
 import 'package:huanting_shop/models/shop/problem_order_model.dart';
@@ -35,21 +37,25 @@ class ShopOrderPayController extends GlobalLogic {
     }
     getBalance();
     getPayTypes();
+
+    // 监听微信支付结果
+    WechatConfig().onAddListener(onListenWechatResonse);
   }
 
   @override
-  void onReady() {
-    super.onReady();
-    // wechatResponse =
-    //     weChatResponseEventHandler.distinct((a, b) => a == b).listen((res) {
-    //   if (res is WeChatPaymentResponse) {
-    //     if (res.isSuccessful) {
-    //       onPaySuccess();
-    //     } else {
-    //       showError('支付失败');
-    //     }
-    //   }
-    // });
+  onClose() {
+    WechatConfig().onRemoveListener(onListenWechatResonse);
+  }
+
+  onListenWechatResonse(respsonse) {
+    if (respsonse is WeChatPaymentResponse) {
+      if (respsonse.isSuccessful) {
+        showSuccess('支付成功');
+        onPaySuccess();
+      } else {
+        showError(respsonse.errStr ?? '支付失败');
+      }
+    }
   }
 
   // 获取支付信息
@@ -85,7 +91,9 @@ class ShopOrderPayController extends GlobalLogic {
     if (selectedPayType.value == null) {
       return showToast('请选择支付方式');
     }
-    if (selectedPayType.value!.name == 'balance') {
+    if (selectedPayType.value!.name == 'wechat') {
+      onWechatPay();
+    } else if (selectedPayType.value!.name == 'balance') {
       var result = await BaseDialog.confirmDialog(context, '您确认使用余额支付吗'.ts);
       if (result == true) {
         onBalancePay();
@@ -113,23 +121,7 @@ class ShopOrderPayController extends GlobalLogic {
     Map<String, dynamic> map = {'type': 4, 'id': ids};
     var appconfig = await ShopService.payByWechat(map);
     if (appconfig != null) {
-      // isWeChatInstalled.then(
-      //   (installed) {
-      //     if (installed) {
-      //       payWithWeChat(
-      //         appId: appconfig['appid'].toString(),
-      //         partnerId: appconfig['partnerid'].toString(),
-      //         prepayId: appconfig['prepayid'].toString(),
-      //         packageValue: appconfig['package'].toString(),
-      //         nonceStr: appconfig['noncestr'].toString(),
-      //         timeStamp: appconfig['timestamp'],
-      //         sign: appconfig['sign'].toString(),
-      //       ).then((data) {});
-      //     } else {
-      //       showToast('请先安装微信');
-      //     }
-      //   },
-      // );
+      WechatConfig().onPay(appconfig);
     }
   }
 

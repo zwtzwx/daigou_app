@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluwx/fluwx.dart';
 import 'package:get/state_manager.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
 import 'package:huanting_shop/config/routers.dart';
+import 'package:huanting_shop/config/wechat_config.dart';
 import 'package:huanting_shop/models/default_amount_model.dart';
 import 'package:huanting_shop/models/pay_type_model.dart';
 import 'package:huanting_shop/services/balance_service.dart';
@@ -29,12 +31,26 @@ class RechargeController extends GlobalLogic {
     super.onInit();
     created();
     getBalance();
+    // 监听微信支付结果
+    WechatConfig().onAddListener(onListenWechatResonse);
   }
 
   @override
   onClose() {
     otherPriceController.dispose();
     otherPriceNode.dispose();
+    WechatConfig().onRemoveListener(onListenWechatResonse);
+  }
+
+  onListenWechatResonse(respsonse) {
+    if (respsonse is WeChatPaymentResponse) {
+      if (respsonse.isSuccessful) {
+        showSuccess('支付成功');
+        getBalance();
+      } else {
+        showError(respsonse.errStr ?? '支付失败');
+      }
+    }
   }
 
   created() async {
@@ -69,31 +85,10 @@ class RechargeController extends GlobalLogic {
       'trans_rate': currency?.rate ?? 1,
     };
 
-    /*
-      获取微信支付配置
-     */
     BalanceService.rechargePayByWeChat(map, (data) {
       if (data.ok) {
-        // Map appconfig = data.data;
-        // isWeChatInstalled.then((installed) {
-        //   if (installed) {
-        //     payWithWeChat(
-        //       appId: appconfig['appid'].toString(),
-        //       partnerId: appconfig['partnerid'].toString(),
-        //       prepayId: appconfig['prepayid'].toString(),
-        //       packageValue: appconfig['package'].toString(),
-        //       nonceStr: appconfig['noncestr'].toString(),
-        //       timeStamp: appconfig['timestamp'],
-        //       sign: appconfig['sign'].toString(),
-        //     ).then((data) {
-        //       if (kDebugMode) {
-        //         print("---》$data");
-        //       }
-        //     });
-        //   } else {
-        //     CommonMethods.showToast("请先安装微信");
-        //   }
-        // });
+        Map appconfig = data.data;
+        WechatConfig().onPay(appconfig);
       }
     }, (message) => null);
   }

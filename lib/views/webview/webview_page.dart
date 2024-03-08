@@ -72,6 +72,7 @@ class BeeWebView extends GetView<BeeWebviewLogic> {
               str: controller.title.value ?? '',
               fontSize: 17,
             ),
+            leading: const BackButton(color: Colors.black),
           ),
         ),
         onWillPop: () async {

@@ -63,6 +63,7 @@ class BalanceService {
         if (list[item] == 1) {
           if (noBalanceType && item == "balance") continue;
           if (noDelivery && item == 'on_delivery') continue;
+          if (item == 'paypal') continue;
           PayTypeModel payModel = PayTypeModel.empty();
           payModel.name = item;
           payModel.enabled = 1;

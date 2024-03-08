@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/route_manager.dart';
 import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/extension/translation.dart';
 import 'package:huanting_shop/models/shop/goods_model.dart';
@@ -28,9 +28,12 @@ class BeeShopGoods extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(GoodsDetailView(goodsId: goods.id.toString()),
-            arguments: {'id': goods.id},
-            binding: GoodsDetailBinding(tag: goods.id.toString()));
+        BeeNav.toPage(
+          GoodsDetailView(goodsId: goods.id.toString()),
+          arguments: {'id': goods.id},
+          binding: GoodsDetailBinding(tag: goods.id.toString()),
+          authCheck: true,
+        );
       },
       child: Container(
         width: width,

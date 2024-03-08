@@ -53,4 +53,34 @@ class WechatConfig {
       }
     });
   }
+
+  onPay(Map appconfig) async {
+    _fluwx.isWeChatInstalled.then((installed) {
+      if (installed) {
+        _fluwx.pay(
+          which: Payment(
+            appId: appconfig['appid'].toString(),
+            partnerId: appconfig['partnerid'].toString(),
+            prepayId: appconfig['prepayid'].toString(),
+            packageValue: appconfig['package'].toString(),
+            nonceStr: appconfig['noncestr'].toString(),
+            timestamp: appconfig['timestamp'],
+            sign: appconfig['sign'].toString(),
+          ),
+        );
+      } else {
+        EasyLoading.showToast('请先安装微信'.ts);
+      }
+    });
+  }
+
+  // 监听支付
+  onAddListener(Function(WeChatResponse) listener) {
+    _fluwx.addSubscriber(listener);
+  }
+
+  // 移除监听
+  onRemoveListener(Function(WeChatResponse) listener) {
+    _fluwx.removeSubscriber(listener);
+  }
 }

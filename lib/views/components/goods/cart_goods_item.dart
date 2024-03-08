@@ -5,6 +5,7 @@ import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:huanting_shop/common/util.dart';
 import 'package:huanting_shop/config/color_config.dart';
+import 'package:huanting_shop/config/routers.dart';
 import 'package:huanting_shop/extension/rate_convert.dart';
 import 'package:huanting_shop/models/shop/cart_model.dart';
 import 'package:huanting_shop/models/user_info_model.dart';
@@ -106,15 +107,20 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
               onTap: goodsToDetail
                   ? () {
                       if (cartModel.shopId.toString() == '-1') {
-                        Get.to(GoodsDetailView(goodsId: sku.goodsId.toString()),
-                            arguments: {'id': sku.goodsId},
-                            binding: GoodsDetailBinding(
-                                tag: sku.goodsId.toString()));
+                        BeeNav.toPage(
+                          GoodsDetailView(goodsId: sku.goodsId.toString()),
+                          arguments: {'id': sku.goodsId},
+                          binding:
+                              GoodsDetailBinding(tag: sku.goodsId.toString()),
+                          authCheck: true,
+                        );
                       } else {
-                        Get.to(GoodsDetailView(goodsId: sku.id.toString()),
-                            arguments: {'url': sku.platformUrl},
-                            binding:
-                                GoodsDetailBinding(tag: sku.id.toString()));
+                        BeeNav.toPage(
+                          GoodsDetailView(goodsId: sku.id.toString()),
+                          arguments: {'url': sku.platformUrl},
+                          binding: GoodsDetailBinding(tag: sku.id.toString()),
+                          authCheck: true,
+                        );
                       }
                     }
                   : null,

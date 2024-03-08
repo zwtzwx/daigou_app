@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/state_manager.dart';
 import 'package:huanting_shop/config/base_conctroller.dart';
@@ -16,6 +17,7 @@ class BeeCenterLogic extends GlobalLogic {
   AppStore userInfoModel = Get.find<AppStore>();
   final agentStatus = Rxn<UserAgentStatusModel?>();
   final noticeUnRead = false.obs;
+  final showMiniHeader = false.obs;
   @override
   void onInit() {
     super.onInit();
@@ -33,6 +35,9 @@ class BeeCenterLogic extends GlobalLogic {
     // });
     created();
     // onGetUnReadNotice();
+    scrollController.addListener(() {
+      showMiniHeader.value = scrollController.position.pixels > 100.h;
+    });
   }
 
   // 是否有未读消息

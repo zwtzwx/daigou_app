@@ -24,24 +24,70 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
       body: RefreshIndicator(
         onRefresh: controller.handleRefresh,
         color: AppColors.textRed,
-        child: SafeArea(
-          child: ListView(
-            physics: const AlwaysScrollableScrollPhysics(),
+        child: Obx(
+          () => Stack(
             children: [
-              Stack(
+              ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                controller: controller.scrollController,
                 children: [
-                  const Positioned(
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    child: LoadAssetImage('Center/bg', fit: BoxFit.fitWidth),
+                  Stack(
+                    children: [
+                      const Positioned(
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        child:
+                            LoadAssetImage('Center/bg', fit: BoxFit.fitWidth),
+                      ),
+                      userInfo(),
+                    ],
                   ),
-                  userInfo(),
+                  12.verticalSpaceFromWidth,
+                  toolList(),
+                  30.verticalSpaceFromWidth,
                 ],
               ),
-              12.verticalSpaceFromWidth,
-              toolList(),
-              30.verticalSpaceFromWidth,
+              if (controller.showMiniHeader.value)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(
+                        16.w, kToolbarHeight + 5.h, 16.w, 5.h),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFFDEEEC),
+                    ),
+                    child: SizedBox(
+                      height: 25.h,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: AppText(
+                              str: controller
+                                      .userInfoModel.userInfo.value?.name ??
+                                  '',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          10.horizontalSpace,
+                          GestureDetector(
+                            onTap: () {
+                              BeeNav.push(BeeNav.customer);
+                            },
+                            child: LoadAssetImage(
+                              'Center/ico_kf',
+                              width: 28.w,
+                              height: 28.w,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
