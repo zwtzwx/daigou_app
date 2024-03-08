@@ -33,8 +33,8 @@ class BeeParcelClaimLogic extends GlobalLogic {
     argusmentParcelModel.value = arguments!['order'] as ParcelModel;
 
     String s1 = argusmentParcelModel.value.expressNum!;
-    headerStr.value = s1.split('****')[0];
-    footerStr.value = s1.split('****')[1];
+    headerStr.value = s1.split(RegExp(r'\*{1,}'))[0];
+    footerStr.value = s1.split(RegExp(r'\*{1,}'))[1];
     getSyncsList();
   }
 

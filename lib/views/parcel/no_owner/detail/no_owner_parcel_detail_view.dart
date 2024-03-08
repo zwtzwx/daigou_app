@@ -55,12 +55,14 @@ class BeeParcelClaimPage extends GetView<BeeParcelClaimLogic> {
 
   Widget buildSubViews(BuildContext context) {
     var content = Column(
-      children: <Widget>[
-        SizedBox(
+      children: [
+        Container(
+          color: Colors.white,
           width: ScreenUtil().screenWidth,
           child: InputTextItem(
             leftFlex: 3,
             rightFlex: 8,
+            flag: false,
             title: '快递单号'.ts,
             inputText: Container(
               alignment: Alignment.center,
@@ -94,27 +96,29 @@ class BeeParcelClaimPage extends GetView<BeeParcelClaimLogic> {
             ),
           ),
         ),
-        const SizedBox(
-          height: 15,
-        ),
-        Obx(
-          () => controller.syncsList.isNotEmpty
-              ? InputTextItem(
-                  title: '认领并填入已预报包裹信息',
-                  leftFlex: 8,
-                  rightFlex: 2,
-                  inputText: SizedBox(
-                    height: 55,
-                    width: 100,
-                    child: Switch.adaptive(
-                      value: controller.flag.value,
-                      activeColor: AppColors.primary,
-                      onChanged: (value) {
-                        controller.flag.value = value;
-                      },
-                    ),
-                  ))
-              : Container(),
+        15.verticalSpaceFromWidth,
+        Container(
+          color: Colors.white,
+          child: Obx(
+            () => controller.syncsList.isNotEmpty
+                ? InputTextItem(
+                    title: '认领并填入已预报包裹信息',
+                    leftFlex: 8,
+                    rightFlex: 2,
+                    flag: false,
+                    inputText: SizedBox(
+                      height: 55,
+                      width: 100,
+                      child: Switch.adaptive(
+                        value: controller.flag.value,
+                        activeColor: AppColors.primary,
+                        onChanged: (value) {
+                          controller.flag.value = value;
+                        },
+                      ),
+                    ))
+                : Container(),
+          ),
         ),
         Obx(
           () => controller.flag.value
@@ -165,7 +169,9 @@ class BeeParcelClaimPage extends GetView<BeeParcelClaimLogic> {
                           );
                         });
                   },
-                  child: InputTextItem(
+                  child: Container(
+                    color: Colors.white,
+                    child: InputTextItem(
                       title: '同步包裹'.ts,
                       inputText: Container(
                         alignment: Alignment.center,
@@ -186,8 +192,9 @@ class BeeParcelClaimPage extends GetView<BeeParcelClaimLogic> {
                             ),
                           ],
                         ),
-                      )),
-                )
+                      ),
+                    ),
+                  ))
               : Container(),
         ),
         const SizedBox(
