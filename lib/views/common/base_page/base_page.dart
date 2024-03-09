@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/events/un_authenticate_event.dart';
-import 'package:huanting_shop/views/components/button/plain_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/events/un_authenticate_event.dart';
+import 'package:shop_app_client/views/components/button/plain_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
 class BasePage extends StatelessWidget {
   const BasePage({
     Key? key,
     this.appBar,
     this.primary = true,
-    this.backgroundColor = AppColors.bgGray,
+    this.backgroundColor = AppStyles.bgGray,
     required this.body,
     this.bottomNavigationBar,
     required this.getPageData,
@@ -31,7 +31,7 @@ class BasePage extends StatelessWidget {
       key: key,
       primary: primary,
       appBar: appBar,
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       bottomNavigationBar: bottomNavigationBar,
       body: FutureBuilder(
         future: onPageLoad(),

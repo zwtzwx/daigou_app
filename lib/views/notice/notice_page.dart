@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/text_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/notice_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
-import 'package:huanting_shop/views/notice/notice_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/text_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/notice_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
+import 'package:shop_app_client/views/notice/notice_controller.dart';
 
 class InformationView extends GetView<InformationLogic> {
   const InformationView({Key? key}) : super(key: key);
@@ -17,14 +17,14 @@ class InformationView extends GetView<InformationLogic> {
       appBar: AppBar(
         centerTitle: true,
         title: AppText(
-          str: '通知'.ts,
+          str: '通知'.inte,
           fontSize: 18,
         ),
         elevation: 0.5,
         backgroundColor: Colors.white,
         leading: const BackButton(color: Colors.black),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: RefreshView(
         renderItem: noticeItemCell,
         refresh: controller.loadList,
@@ -44,7 +44,7 @@ class InformationView extends GetView<InformationLogic> {
           border: Border(
             top: index == 0
                 ? BorderSide.none
-                : const BorderSide(color: AppColors.line),
+                : const BorderSide(color: AppStyles.line),
           ),
         ),
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
@@ -60,7 +60,7 @@ class InformationView extends GetView<InformationLogic> {
                     children: [
                       Text(
                         model.title ?? '',
-                        style: AppTextStyles.textBoldDark14,
+                        style: SizeConfig.textBoldDark14,
                       ),
                       model.read == 0
                           ? Positioned(
@@ -69,7 +69,7 @@ class InformationView extends GetView<InformationLogic> {
                                 child: Container(
                                   width: 8,
                                   height: 8,
-                                  color: AppColors.textRed,
+                                  color: AppStyles.textRed,
                                 ),
                               ),
                             )
@@ -80,7 +80,7 @@ class InformationView extends GetView<InformationLogic> {
                 AppGaps.hGap5,
                 AppText(
                   str: model.createdAt ?? '',
-                  color: AppColors.textGray,
+                  color: AppStyles.textGray,
                   fontSize: 12,
                 )
               ],

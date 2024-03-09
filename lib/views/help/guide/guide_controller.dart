@@ -1,6 +1,6 @@
-import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
 
-class GuideController extends GlobalLogic {
+class GuideController extends GlobalController {
   List<Map<String, String>> processList = [
     {'icon': 'ico_vip', 'title': '注册成为会员', 'subTitle': '成为 HAIOU SAAS 会员'},
     {'icon': 'ico_decfk', 'title': '第一次付款', 'subTitle': '在线支付代购商品费用'},

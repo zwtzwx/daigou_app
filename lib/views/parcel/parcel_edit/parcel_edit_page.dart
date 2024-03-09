@@ -3,19 +3,19 @@
 */
 
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/express_company_model.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/express_company_model.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/views/parcel/parcel_edit/parcel_edit_controller.dart';
-import 'package:huanting_shop/views/parcel/widget/prop_sheet_cell.dart';
+import 'package:shop_app_client/views/parcel/parcel_edit/parcel_edit_controller.dart';
+import 'package:shop_app_client/views/parcel/widget/prop_sheet_cell.dart';
 
 class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
   const BeePackageUpdatePage({Key? key}) : super(key: key);
@@ -29,12 +29,12 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
         elevation: 0,
         centerTitle: true,
         title: AppText(
-          str: '修改包裹'.ts,
+          str: '修改包裹'.inte,
           fontSize: 17,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: SingleChildScrollView(
         child: SafeArea(
             child: Obx(() => controller.isLoadingLocal.value
@@ -66,8 +66,8 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
     Picker(
       adapter: PickerDataAdapter(
           data: getExpressItem(controller.expressCompanyList)),
-      cancelText: '取消'.ts,
-      confirmText: '确认'.ts,
+      cancelText: '取消'.inte,
+      confirmText: '确认'.inte,
       selectedTextStyle: const TextStyle(color: Colors.blue, fontSize: 12),
       onCancel: () {},
       onConfirm: (Picker picker, List value) {
@@ -80,7 +80,7 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
   // 快递单号、快递公司
   Widget goodsCell(BuildContext context) {
     return Container(
-      color: AppColors.white,
+      color: AppStyles.white,
       margin: const EdgeInsets.only(top: 15),
       child: Column(
         children: <Widget>[
@@ -90,7 +90,7 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: AppText(
               fontWeight: FontWeight.bold,
-              str: '商品信息'.ts,
+              str: '商品信息'.inte,
             ),
           ),
           AppGaps.line,
@@ -106,8 +106,8 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: AppText(
-                    str: '物品属性'.ts,
-                    color: AppColors.textNormal,
+                    str: '物品属性'.inte,
+                    color: AppStyles.textNormal,
                   ),
                 ),
                 10.horizontalSpace,
@@ -131,7 +131,7 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                               });
                         },
                         child: Container(
-                          color: AppColors.white,
+                          color: AppStyles.white,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
@@ -148,7 +148,7 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                               ),
                               const Icon(
                                 Icons.keyboard_arrow_right,
-                                color: AppColors.textGray,
+                                color: AppStyles.textGray,
                               ),
                             ],
                           ),
@@ -166,13 +166,13 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: AppText(
-                    str: '商品备注'.ts,
-                    color: AppColors.textNormal,
+                    str: '商品备注'.inte,
+                    color: AppStyles.textNormal,
                   ),
                 ),
                 Expanded(
                     child: BaseInput(
-                  hintText: '请输入备注'.ts,
+                  hintText: '请输入备注'.inte,
                   controller: controller.remarkController,
                   focusNode: controller.remarkNode,
                   contentPadding: const EdgeInsets.all(0),
@@ -205,13 +205,13 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
               Container(
                 alignment: Alignment.centerLeft,
                 child: AppText(
-                  str: '物品名称'.ts,
-                  color: AppColors.textNormal,
+                  str: '物品名称'.inte,
+                  color: AppStyles.textNormal,
                 ),
               ),
               Expanded(
                   child: BaseInput(
-                hintText: '请输入物品名称'.ts,
+                hintText: '请输入物品名称'.inte,
                 controller: controller.packgeNameController,
                 focusNode: controller.packageNameNode,
                 contentPadding: const EdgeInsets.all(0),
@@ -234,13 +234,13 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
               Container(
                 alignment: Alignment.centerLeft,
                 child: AppText(
-                  str: '物品总价'.ts,
-                  color: AppColors.textNormal,
+                  str: '物品总价'.inte,
+                  color: AppStyles.textNormal,
                 ),
               ),
               Expanded(
                   child: BaseInput(
-                hintText: '请输入物品总价'.ts,
+                hintText: '请输入物品总价'.inte,
                 controller: controller.packgeValueController,
                 focusNode: controller.packageValueNode,
                 contentPadding: const EdgeInsets.all(0),
@@ -267,13 +267,13 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
               Container(
                 alignment: Alignment.centerLeft,
                 child: AppText(
-                  str: '物品数量'.ts,
-                  color: AppColors.textNormal,
+                  str: '物品数量'.inte,
+                  color: AppStyles.textNormal,
                 ),
               ),
               Expanded(
                   child: BaseInput(
-                hintText: '请输入物品数量'.ts,
+                hintText: '请输入物品数量'.inte,
                 controller: controller.packgeQtyController,
                 focusNode: controller.packageQtyNode,
                 contentPadding: const EdgeInsets.all(0),
@@ -305,7 +305,7 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: AppText(
               fontWeight: FontWeight.bold,
-              str: '包裹信息'.ts,
+              str: '包裹信息'.inte,
             ),
           ),
           AppGaps.line,
@@ -319,8 +319,8 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: AppText(
-                    str: '快递名称'.ts,
-                    color: AppColors.textNormal,
+                    str: '快递名称'.inte,
+                    color: AppStyles.textNormal,
                   ),
                 ),
                 Expanded(
@@ -329,7 +329,7 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                           onPickerExpressName(context);
                         },
                         child: Container(
-                          color: AppColors.white,
+                          color: AppStyles.white,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
@@ -340,7 +340,7 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                               ),
                               const Icon(
                                 Icons.keyboard_arrow_right,
-                                color: AppColors.textGray,
+                                color: AppStyles.textGray,
                               ),
                             ],
                           ),
@@ -358,8 +358,8 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: AppText(
-                    str: '快递单号'.ts,
-                    color: AppColors.textNormal,
+                    str: '快递单号'.inte,
+                    color: AppStyles.textNormal,
                   ),
                 ),
                 AppText(
@@ -378,8 +378,8 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: AppText(
-                    str: '发往国家'.ts,
-                    color: AppColors.textNormal,
+                    str: '发往国家'.inte,
+                    color: AppStyles.textNormal,
                   ),
                 ),
                 Expanded(
@@ -389,7 +389,7 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                           controller.goCountry();
                         },
                         child: Container(
-                          color: AppColors.white,
+                          color: AppStyles.white,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
@@ -404,7 +404,7 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                                       : controller.countryModel.value!.name!),
                               const Icon(
                                 Icons.keyboard_arrow_right,
-                                color: AppColors.textGray,
+                                color: AppStyles.textGray,
                               ),
                             ],
                           ),
@@ -423,8 +423,8 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: AppText(
-                    str: '发往仓库'.ts,
-                    color: AppColors.textNormal,
+                    str: '发往仓库'.inte,
+                    color: AppStyles.textNormal,
                   ),
                 ),
                 Expanded(
@@ -439,8 +439,8 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                             adapter: PickerDataAdapter(
                                 data:
                                     getWarehouseItem(controller.wareHouseList)),
-                            cancelText: '取消'.ts,
-                            confirmText: '确认'.ts,
+                            cancelText: '取消'.inte,
+                            confirmText: '确认'.inte,
                             selectedTextStyle: const TextStyle(
                                 color: Colors.blue, fontSize: 12),
                             onCancel: () {},
@@ -451,7 +451,7 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                           ).showModal(context);
                         },
                         child: Container(
-                          color: AppColors.white,
+                          color: AppStyles.white,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
@@ -467,7 +467,7 @@ class BeePackageUpdatePage extends GetView<BeePackageUpdateLogic> {
                                               null))
                                   ? const Icon(
                                       Icons.keyboard_arrow_right,
-                                      color: AppColors.textGray,
+                                      color: AppStyles.textGray,
                                     )
                                   : Container()
                             ],

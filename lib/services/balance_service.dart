@@ -2,12 +2,13 @@
   余额类的服务
   余额列表，充值之类
  */
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/default_amount_model.dart';
-import 'package:huanting_shop/models/order_transaction_model.dart';
-import 'package:huanting_shop/models/pay_type_model.dart';
-import 'package:huanting_shop/models/user_recharge_model.dart';
-import 'package:huanting_shop/services/base_service.dart';
+import 'package:dio/dio.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/default_amount_model.dart';
+import 'package:shop_app_client/models/order_transaction_model.dart';
+import 'package:shop_app_client/models/pay_type_model.dart';
+import 'package:shop_app_client/models/user_recharge_model.dart';
+import 'package:shop_app_client/services/base_service.dart';
 
 class BalanceService {
   // 订单支付方式列表
@@ -51,7 +52,7 @@ class BalanceService {
       {noBalanceType = false, noDelivery = true, onOther = false}) async {
     List<PayTypeModel> result = <PayTypeModel>[];
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(payTypeApi, queryParameters: null)
         .then((response) {
       Map list = response.data;
@@ -89,7 +90,7 @@ class BalanceService {
       {Map<String, dynamic>? params}) async {
     List<DefaultAmountModel> result = <DefaultAmountModel>[];
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(defaultAmountApi, queryParameters: params)
         .then((response) {
       response.data.forEach((item) {
@@ -106,8 +107,14 @@ class BalanceService {
   */
   static Future rechargePayByWeChat(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    return await BeeRequest.instance
-        .post(balancePayByWechatApi, data: params)
+    return await ApiConfig.instance
+        .post(
+      balancePayByWechatApi,
+      data: params,
+      options: Options(extra: {
+        'showSuccess': false,
+      }),
+    )
         .then((response) {
       if (response.ok) {
         onSuccess(response);
@@ -127,7 +134,7 @@ class BalanceService {
 
     List<OrderTransactionModel> dataList = <OrderTransactionModel>[];
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(transactionHistoryApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -154,7 +161,7 @@ class BalanceService {
 
     List<UserRechargeModel> dataList = <UserRechargeModel>[];
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(rechargeApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -176,7 +183,7 @@ class BalanceService {
    */
   static Future<Map> buyVipTransfer(Map params) async {
     Map result = {"ok": false, "msg": null};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(buyVipTransApi, data: params)
         .then((response) => {
               result = {
@@ -193,7 +200,7 @@ class BalanceService {
    */
   static Future<Map> buyVipBalance(Map params) async {
     Map result = {"ok": false, "msg": null};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(buyVipBalanceApi, data: params)
         .then((response) => {
               result = {
@@ -210,7 +217,7 @@ class BalanceService {
    */
   static Future<Map> rechargeTransfer(Map params) async {
     Map result = {"ok": false, "msg": null};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(rechargeTransApi, data: params)
         .then((response) => {
               result = {
@@ -227,7 +234,7 @@ class BalanceService {
    */
   static Future<Map> orderPayTransfer(Map params) async {
     Map result = {"ok": false, "msg": null};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(orderTransApi, data: params)
         .then((response) => {
               result = {
@@ -244,7 +251,7 @@ class BalanceService {
    */
   static Future<Map> orderBalancePay(Map params) async {
     Map result = {'ok': false, 'msg': null};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(balancePayOrder, data: params)
         .then((response) => {
               result = {
@@ -261,8 +268,14 @@ class BalanceService {
    */
   static Future orderWechatPay(int id, Map<String, dynamic> params,
       OnSuccess onSuccess, OnFail onFail) async {
-    return await BeeRequest.instance
-        .post(orderPayWeChatApi.replaceAll(':id', id.toString()), data: params)
+    return await ApiConfig.instance
+        .post(
+      orderPayWeChatApi.replaceAll(':id', id.toString()),
+      data: params,
+      options: Options(extra: {
+        'showSuccess': false,
+      }),
+    )
         .then((response) {
       if (response.ok) {
         onSuccess(response);
@@ -277,7 +290,7 @@ class BalanceService {
    */
   static Future<Map> orderOnDelivery(Map params) async {
     Map result = {'ok': false, 'msg': null};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(onDeliveryPayOrder, data: params)
         .then((response) => {
               result = {
@@ -294,7 +307,7 @@ class BalanceService {
    */
   static Future buyVipWechatPay(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    return await BeeRequest.instance
+    return await ApiConfig.instance
         .post(buyVipWechatPayApi, data: params)
         .then((response) {
       if (response.ok) {
@@ -308,7 +321,7 @@ class BalanceService {
   // 订单转账支付
   static Future<Map> onShopOrderTransfer(Map<String, dynamic> params) async {
     Map res = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(shopOrderTransferApi, data: params)
         .then((response) {
       res = {
@@ -322,7 +335,7 @@ class BalanceService {
   // 补款订单转账支付
   static Future<Map> onProblemOrderTransfer(Map<String, dynamic> params) async {
     Map res = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(problemOrderTransferApi, data: params)
         .then((response) {
       res = {

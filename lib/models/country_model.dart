@@ -1,5 +1,5 @@
-import 'package:huanting_shop/models/area_model.dart';
-import 'package:huanting_shop/models/pivot_model.dart';
+import 'package:shop_app_client/models/area_model.dart';
+import 'package:shop_app_client/models/pivot_model.dart';
 
 /*
   国家

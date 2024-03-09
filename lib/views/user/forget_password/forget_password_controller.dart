@@ -4,26 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/logined_event.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/models/token_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/services/common_service.dart';
-import 'package:huanting_shop/services/user_service.dart';
-import 'package:huanting_shop/storage/user_storage.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/logined_event.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/country_model.dart';
+import 'package:shop_app_client/models/token_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/services/common_service.dart';
+import 'package:shop_app_client/services/user_service.dart';
+import 'package:shop_app_client/storage/user_storage.dart';
 
-class BeeResetPwdLogic extends GlobalLogic {
+class BeeResetPwdLogic extends GlobalController {
   final loginType = 2.obs; //  1 手机号 2 邮箱
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final sent = '发送验证码'.ts.obs;
+  final sent = '发送验证码'.inte.obs;
 
   final isButtonEnable = true.obs;
 
@@ -31,7 +31,7 @@ class BeeResetPwdLogic extends GlobalLogic {
 
   final count = 60.obs;
 
-  final codeColor = AppColors.textBlack.obs;
+  final codeColor = AppStyles.textBlack.obs;
 
   // 新号码
   final TextEditingController mobileNumberController = TextEditingController();
@@ -51,7 +51,7 @@ class BeeResetPwdLogic extends GlobalLogic {
 
   // 选择手机区号
   void onTimezone() async {
-    var s = await BeeNav.push(BeeNav.country);
+    var s = await GlobalPages.push(GlobalPages.country);
     if (s != null) {
       CountryModel a = s as CountryModel;
       areaNumber.value = a.timezone!;
@@ -98,7 +98,7 @@ class BeeResetPwdLogic extends GlobalLogic {
       //当按钮可点击时
       isButtonEnable.value = false; //按钮状态标记
       _initTimer();
-      codeColor.value = AppColors.textGray;
+      codeColor.value = AppStyles.textGray;
     }
   }
 
@@ -109,10 +109,10 @@ class BeeResetPwdLogic extends GlobalLogic {
         timer.cancel(); //倒计时结束取消定时器
         isButtonEnable.value = true; //按钮可点击
         count.value = 60; //重置时间
-        codeColor.value = AppColors.textBlack;
-        sent.value = '发送验证码'.ts; //重置按钮文本
+        codeColor.value = AppStyles.textBlack;
+        sent.value = '发送验证码'.inte; //重置按钮文本
       } else {
-        sent.value = '重新发送'.ts + '($count)'; //更新文本内容
+        sent.value = '重新发送'.inte + '($count)'; //更新文本内容
       }
     });
   }
@@ -140,17 +140,17 @@ class BeeResetPwdLogic extends GlobalLogic {
           tokenModel.tokenType + ' ' + tokenModel.accessToken,
           tokenModel.user!);
 
-      String? dt = UserStorage.getDeviceToken();
+      String? dt = CommonStorage.getDeviceToken();
       if (dt != null) {
         await CommonService.saveDeviceToken({
           'type': 1,
           'token': dt,
         });
       }
-      BeeNav.redirect(BeeNav.home);
+      GlobalPages.redirect(GlobalPages.home);
     } catch (err) {
       EasyLoading.dismiss();
-      CommonMethods.showToast(err.toString());
+      BaseUtils.showToast(err.toString());
     }
   }
 

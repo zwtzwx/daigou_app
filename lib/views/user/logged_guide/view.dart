@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/user/logged_guide/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/empty_app_bar.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/user/logged_guide/controller.dart';
 
 class LoggedGuideView extends GetView<LoggedGuideController> {
   const LoggedGuideView({Key? key}) : super(key: key);
@@ -44,7 +44,7 @@ class LoggedGuideView extends GetView<LoggedGuideController> {
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
                       child: Obx(
                         () => AppText(
-                          str: '跳过'.ts,
+                          str: '跳过'.inte,
                           fontSize: 13,
                         ),
                       ),
@@ -77,7 +77,7 @@ class LoggedGuideView extends GetView<LoggedGuideController> {
                       onTap: controller.onSkip,
                       child: Container(
                         decoration: const BoxDecoration(
-                          color: AppColors.primary,
+                          color: AppStyles.primary,
                           shape: BoxShape.circle,
                         ),
                         width: 56.w,
@@ -133,7 +133,7 @@ class LoggedGuideView extends GetView<LoggedGuideController> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: controller.i10n.language == item.languageCode
-                            ? AppColors.primary
+                            ? AppStyles.primary
                             : Colors.white,
                         borderRadius: BorderRadius.circular(16.r),
                       ),
@@ -144,7 +144,7 @@ class LoggedGuideView extends GetView<LoggedGuideController> {
                         fontSize: 14,
                         color: controller.i10n.language == item.languageCode
                             ? Colors.white
-                            : AppColors.textDark,
+                            : AppStyles.textDark,
                         lines: 2,
                         alignment: TextAlign.center,
                       ),
@@ -192,7 +192,7 @@ class LoggedGuideView extends GetView<LoggedGuideController> {
                         decoration: BoxDecoration(
                           color:
                               controller.currencyModel.value?.code == item.code
-                                  ? AppColors.primary
+                                  ? AppStyles.primary
                                   : Colors.white,
                           borderRadius: BorderRadius.circular(16.r),
                         ),
@@ -204,7 +204,7 @@ class LoggedGuideView extends GetView<LoggedGuideController> {
                           color:
                               controller.currencyModel.value?.code == item.code
                                   ? Colors.white
-                                  : AppColors.textDark,
+                                  : AppStyles.textDark,
                           lines: 2,
                           alignment: TextAlign.center,
                         ),

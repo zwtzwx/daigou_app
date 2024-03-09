@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/services/common_service.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/services/common_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 /*
   上传图片
  */
-class ImageUpload {
+class ImagePickers {
   /*
     图片选择
     不带编辑
@@ -26,23 +26,23 @@ class ImageUpload {
       builder: (BuildContext context) =>
           child ??
           CupertinoActionSheet(
-            title: Text('请选择上传方式'.ts),
+            title: Text('请选择上传方式'.inte),
             actions: <Widget>[
               CupertinoActionSheetAction(
-                child: Text('相册'.ts),
+                child: Text('相册'.inte),
                 onPressed: () {
                   Navigator.pop(context, 'gallery');
                 },
               ),
               CupertinoActionSheetAction(
-                child: Text('照相机'.ts),
+                child: Text('照相机'.inte),
                 onPressed: () {
                   Navigator.pop(context, 'camera');
                 },
               ),
             ],
             cancelButton: CupertinoActionSheetAction(
-              child: Text('取消'.ts),
+              child: Text('取消'.inte),
               isDefaultAction: true,
               onPressed: () {
                 Navigator.pop(context, 'Cancel');
@@ -64,7 +64,7 @@ class ImageUpload {
           maxHeight: 800,
         );
         if (croppedFile != null) {
-          EasyLoading.show(status: '上传中'.ts);
+          EasyLoading.show(status: '上传中'.inte);
           String imageUrl =
               await CommonService.uploadImage(File(croppedFile.path));
           EasyLoading.dismiss();
@@ -113,13 +113,13 @@ class ImageUpload {
                   ],
             uiSettings: [
               AndroidUiSettings(
-                  toolbarTitle: '编辑图片'.ts,
+                  toolbarTitle: '编辑图片'.inte,
                   toolbarColor: Colors.deepOrange,
                   toolbarWidgetColor: Colors.white,
                   initAspectRatio: CropAspectRatioPreset.original,
                   lockAspectRatio: false),
               IOSUiSettings(
-                title: '编辑图片'.ts,
+                title: '编辑图片'.inte,
               ),
             ]);
         if (croppedFile != null) {

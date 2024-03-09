@@ -1,46 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/common/loading_util.dart';
-import 'package:huanting_shop/common/version_util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/language_change_event.dart';
-import 'package:huanting_shop/events/logined_event.dart';
-import 'package:huanting_shop/models/ads_pic_model.dart';
+import 'package:shop_app_client/common/loading_util.dart';
+import 'package:shop_app_client/common/version_util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/language_change_event.dart';
+import 'package:shop_app_client/events/logined_event.dart';
+import 'package:shop_app_client/models/ads_pic_model.dart';
 
-import 'package:huanting_shop/models/announcement_model.dart';
-import 'package:huanting_shop/models/goods_category_model.dart';
-import 'package:huanting_shop/models/language_model.dart';
-import 'package:huanting_shop/models/shop/platform_goods_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/services/ads_service.dart';
-import 'package:huanting_shop/services/announcement_service.dart';
-import 'package:huanting_shop/services/common_service.dart';
-import 'package:huanting_shop/services/shop_service.dart';
-import 'package:huanting_shop/services/user_service.dart';
-import 'package:huanting_shop/state/i10n.dart';
-import 'package:huanting_shop/storage/annoucement_storage.dart';
-import 'package:huanting_shop/storage/user_storage.dart';
-import 'package:huanting_shop/views/components/update_dialog.dart';
-import 'package:huanting_shop/views/home/widget/ad_dialog.dart';
+import 'package:shop_app_client/models/announcement_model.dart';
+import 'package:shop_app_client/models/goods_category_model.dart';
+import 'package:shop_app_client/models/language_model.dart';
+import 'package:shop_app_client/models/shop/platform_goods_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/services/ads_service.dart';
+import 'package:shop_app_client/services/announcement_service.dart';
+import 'package:shop_app_client/services/common_service.dart';
+import 'package:shop_app_client/services/shop_service.dart';
+import 'package:shop_app_client/services/user_service.dart';
+import 'package:shop_app_client/state/i10n.dart';
+import 'package:shop_app_client/storage/annoucement_storage.dart';
+import 'package:shop_app_client/storage/user_storage.dart';
+import 'package:shop_app_client/views/components/update_dialog.dart';
+import 'package:shop_app_client/views/home/widget/ad_dialog.dart';
 
-import 'package:huanting_shop/views/home/widget/annoucement_dialog.dart';
-import 'package:huanting_shop/views/tabbar/tabbar_controller.dart';
+import 'package:shop_app_client/views/home/widget/annoucement_dialog.dart';
+import 'package:shop_app_client/views/tabbar/tabbar_controller.dart';
 
-class IndexLogic extends GlobalLogic {
+class IndexLogic extends GlobalController {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final I10n i10n = Get.find<I10n>();
+  final Locale i10n = Get.find<Locale>();
   RxList<LanguageModel> langList = <LanguageModel>[].obs;
 
   final userModel = Get.find<AppStore>().userInfo;
   final noticeList = <AnnouncementModel>[].obs;
-  final Rx<LoadingUtil<PlatformGoodsModel>> loadingUtil =
-      LoadingUtil<PlatformGoodsModel>().obs;
+  final Rx<ListLoadingModel<PlatformGoodsModel>> loadingUtil =
+      ListLoadingModel<PlatformGoodsModel>().obs;
   final goodsLoading = true.obs;
   final RxList<GoodsCategoryModel> categoryList = <GoodsCategoryModel>[].obs;
-  final tabController = Get.find<BeeBottomNavLogic>();
+  final tabController = Get.find<TabbarManager>();
   final agentStatus = 3.obs;
 
   @override
@@ -75,8 +75,8 @@ class IndexLogic extends GlobalLogic {
   getLatestApkInfo() async {
     var res = await CommonService.getLatestApkInfo();
     if (res != null) {
-      var needUpdate = await VersionUtils.isAppUpdatedRequired(res.version);
-      var lastTime = UserStorage.getVersionTime();
+      var needUpdate = await UpdateConfig.isAppUpdatedRequired(res.version);
+      var lastTime = CommonStorage.getVersionTime();
       var nowTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       if (needUpdate && (lastTime == null || lastTime + 24 * 3600 < nowTime)) {
         Get.dialog(UpdateDialog(appModel: res), barrierDismissible: false);
@@ -110,9 +110,9 @@ class IndexLogic extends GlobalLogic {
   // 最新公告
   getIndexAnnoucement() async {
     var data = await AnnouncementService.getLatest();
-    String uniqueId = AnnoucementStorage.getUniqueId();
+    String uniqueId = NoticeStorage.getUniqueId();
     if (data != null && data.uniqueId != uniqueId) {
-      AnnoucementStorage.setUniqueId(data.uniqueId);
+      NoticeStorage.setUniqueId(data.uniqueId);
       onShowAnnoucement(data);
     }
   }
@@ -124,7 +124,7 @@ class IndexLogic extends GlobalLogic {
       barrierDismissible: false,
     );
     if (detail) {
-      BeeNav.push(BeeNav.webview, arg: {
+      GlobalPages.push(GlobalPages.webview, arg: {
         'id': data.id,
         'title': data.title,
         'time': data.createdAt,
@@ -185,5 +185,6 @@ class IndexLogic extends GlobalLogic {
     await getAds();
     await getRecommendGoods();
     await getCategory();
+    await getAnnoucementList();
   }
 }

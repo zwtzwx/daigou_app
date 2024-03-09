@@ -1,5 +1,5 @@
-import 'package:huanting_shop/config/app_config.dart';
-import 'package:huanting_shop/interceptors/auth_interceptor.dart';
+import 'package:shop_app_client/config/app_config.dart';
+import 'package:shop_app_client/interceptors/auth_interceptor.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
@@ -7,11 +7,11 @@ import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:flutter/foundation.dart';
-import 'package:huanting_shop/interceptors/response_interceptor.dart';
+import 'package:shop_app_client/interceptors/response_interceptor.dart';
 import '../config/http_config.dart';
 
-class AppDio with DioMixin implements Dio {
-  AppDio({BaseOptions? options, HttpConfig? dioConfig}) {
+class BaseDio with DioMixin implements Dio {
+  BaseDio({BaseOptions? options, WebConfiguration? dioConfig}) {
     options ??= BaseOptions(
       // baseUrl: dioConfig?.baseUrl,
       contentType: 'application/json',
@@ -19,7 +19,7 @@ class AppDio with DioMixin implements Dio {
       sendTimeout: dioConfig?.sendTimeout,
       receiveTimeout: dioConfig?.receiveTimeout,
     )..headers = dioConfig?.headers;
-    options.baseUrl = AppConfig.getBaseApi(); //基础API
+    options.baseUrl = BaseUrls.getBaseApi(); //基础API
     this.options = options;
 
     // DioCacheManager
@@ -33,7 +33,7 @@ class AppDio with DioMixin implements Dio {
     );
     interceptors.add(DioCacheInterceptor(options: cacheOptions));
     //权限验证中间件，加入TOKEN
-    interceptors.add(AuthInterceptor());
+    interceptors.add(BaseInterceptor());
 
     // Cookie管理
     if (dioConfig?.cookiesPath?.isNotEmpty ?? false) {
@@ -78,8 +78,8 @@ class AppDio with DioMixin implements Dio {
         return "PROXY $proxy";
       };
       return null;
-      // you can also create a BeeRequest to dio
-      // return BeeRequest();
+      // you can also create a ApiConfig to dio
+      // return ApiConfig();
     };
   }
 }

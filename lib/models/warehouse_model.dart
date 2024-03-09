@@ -1,4 +1,4 @@
-import 'package:huanting_shop/models/country_model.dart';
+import 'package:shop_app_client/models/country_model.dart';
 
 /*
   仓库信息

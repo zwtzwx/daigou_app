@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/goods_props.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/goods_props.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
 // 物品属性
 class PropSheetCell extends StatefulWidget {
@@ -48,7 +48,7 @@ class _PropSheetCellState extends State<PropSheetCell> {
               margin: const EdgeInsets.only(left: 15),
               alignment: Alignment.centerLeft,
               child: AppText(
-                str: '物品属性'.ts,
+                str: '物品属性'.inte,
                 fontSize: 19,
               ),
             ),
@@ -88,12 +88,12 @@ class _PropSheetCellState extends State<PropSheetCell> {
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
                             color: selectProp.contains(propmodel.id)
-                                ? AppColors.primary
-                                : AppColors.white,
+                                ? AppStyles.primary
+                                : AppStyles.white,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(4.0)),
                             border:
-                                Border.all(width: 1, color: AppColors.line)),
+                                Border.all(width: 1, color: AppStyles.line)),
                         alignment: Alignment.center,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -104,7 +104,7 @@ class _PropSheetCellState extends State<PropSheetCell> {
                                 lines: 2,
                                 color: selectProp.contains(propmodel.id)
                                     ? Colors.white
-                                    : AppColors.textDark),
+                                    : AppStyles.textDark),
                           ],
                         ),
                       ),

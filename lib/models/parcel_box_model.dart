@@ -1,4 +1,4 @@
-import 'package:huanting_shop/models/parcel_model.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
 
 /*
  * 包裹箱

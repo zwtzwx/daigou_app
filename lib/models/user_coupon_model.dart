@@ -2,7 +2,7 @@
   优惠券
   券的生命周期，包括券的使用信息
  */
-import 'package:huanting_shop/models/user_coupon_item_model.dart';
+import 'package:shop_app_client/models/user_coupon_item_model.dart';
 
 class UserCouponModel {
   late int id;

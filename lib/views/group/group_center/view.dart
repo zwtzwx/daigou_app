@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/group_model.dart';
-import 'package:huanting_shop/views/components/button/plain_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/components/loading_cell.dart';
-import 'package:huanting_shop/views/group/group_center/controller.dart';
-import 'package:huanting_shop/views/group/widget/group_item_cell.dart';
-import 'package:huanting_shop/views/group/widget/public_group_item_cell.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/group_model.dart';
+import 'package:shop_app_client/views/components/button/plain_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/empty_app_bar.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/components/loading_cell.dart';
+import 'package:shop_app_client/views/group/group_center/controller.dart';
+import 'package:shop_app_client/views/group/widget/group_item_cell.dart';
+import 'package:shop_app_client/views/group/widget/public_group_item_cell.dart';
 
 class BeeGroupView extends GetView<BeeGroupController> {
   const BeeGroupView({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class BeeGroupView extends GetView<BeeGroupController> {
       backgroundColor: Colors.white,
       body: RefreshIndicator(
         onRefresh: controller.onRefresh,
-        color: AppColors.primary,
+        color: AppStyles.primary,
         child: ListView(
           controller: controller.loadingUtil.value.scrollController,
           children: [
@@ -76,7 +76,7 @@ class BeeGroupView extends GetView<BeeGroupController> {
         groupModel: groupModel,
         localizationModel: controller.localModel,
         onConfirm: () {
-          BeeNav.push(BeeNav.groupDetail, arg: {'id': groupModel.id});
+          GlobalPages.push(GlobalPages.groupDetail, arg: {'id': groupModel.id});
         },
       );
     }
@@ -138,7 +138,7 @@ class BeeGroupView extends GetView<BeeGroupController> {
                 borderColor: Colors.white,
                 textColor: Colors.white,
                 onPressed: () async {
-                  var s = await BeeNav.push(BeeNav.groupCreate);
+                  var s = await GlobalPages.push(GlobalPages.groupCreate);
                   if (s != null) {
                     controller.onRefresh();
                   }
@@ -206,21 +206,21 @@ class BeeGroupView extends GetView<BeeGroupController> {
                             decoration: BoxDecoration(
                               color: controller.groupStatus.value == e['value']
                                   ? Colors.white
-                                  : AppColors.bgGray,
+                                  : AppStyles.bgGray,
                               borderRadius: BorderRadius.circular(999),
                               border: Border.all(
                                   width: 1,
                                   color:
                                       controller.groupStatus.value == e['value']
-                                          ? AppColors.groupText
-                                          : AppColors.bgGray),
+                                          ? AppStyles.groupText
+                                          : AppStyles.bgGray),
                             ),
                             child: AppText(
                               str: e['name'],
                               fontSize: 13,
                               color: controller.groupStatus.value == e['value']
-                                  ? AppColors.groupText
-                                  : AppColors.textBlack,
+                                  ? AppStyles.groupText
+                                  : AppStyles.textBlack,
                             ),
                           ),
                         ),
@@ -239,7 +239,7 @@ class BeeGroupView extends GetView<BeeGroupController> {
     return GestureDetector(
       onTap: () {
         if (type == 3) {
-          BeeNav.push(BeeNav.groupOrder);
+          GlobalPages.push(GlobalPages.groupOrder);
         } else {
           controller.groupType.value = type;
 
@@ -255,12 +255,12 @@ class BeeGroupView extends GetView<BeeGroupController> {
             color: Colors.transparent,
             border: Border(
               bottom: controller.groupType.value == type
-                  ? const BorderSide(color: AppColors.primary, width: 3)
+                  ? const BorderSide(color: AppStyles.primary, width: 3)
                   : BorderSide.none,
             ),
           ),
           child: AppText(
-            str: title.ts,
+            str: title.inte,
             fontWeight: controller.groupType.value == type
                 ? FontWeight.bold
                 : FontWeight.normal,
@@ -279,7 +279,7 @@ class BeeGroupView extends GetView<BeeGroupController> {
         Container(
           margin: const EdgeInsets.only(bottom: 20),
           decoration: BoxDecoration(
-            border: Border.all(color: AppColors.line),
+            border: Border.all(color: AppStyles.line),
             borderRadius: BorderRadius.circular(5),
           ),
           child: Row(
@@ -289,7 +289,7 @@ class BeeGroupView extends GetView<BeeGroupController> {
                   controller: controller.keywordController,
                   focusNode: controller.keywordNode,
                   textInputAction: TextInputAction.search,
-                  hintText: '请搜索拼团号/邮编/国家'.ts,
+                  hintText: '请搜索拼团号/邮编/国家'.inte,
                   isCollapsed: true,
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -306,7 +306,7 @@ class BeeGroupView extends GetView<BeeGroupController> {
                   color: Colors.white,
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: AppText(
-                    str: '搜索'.ts,
+                    str: '搜索'.inte,
                   ),
                 ),
               ),
@@ -316,7 +316,7 @@ class BeeGroupView extends GetView<BeeGroupController> {
         Row(
           children: [
             AppText(
-              str: '排序'.ts,
+              str: '排序'.inte,
               fontSize: 12,
             ),
             10.horizontalSpace,
@@ -341,21 +341,21 @@ class BeeGroupView extends GetView<BeeGroupController> {
                               decoration: BoxDecoration(
                                 color: controller.sortIndex.value == e
                                     ? Colors.white
-                                    : AppColors.bgGray,
+                                    : AppStyles.bgGray,
                                 borderRadius: BorderRadius.circular(999),
                                 border: Border.all(
                                     width: 1,
                                     color: controller.sortIndex.value == e
-                                        ? AppColors.groupText
-                                        : AppColors.bgGray),
+                                        ? AppStyles.groupText
+                                        : AppStyles.bgGray),
                               ),
                               child: Obx(
                                 () => AppText(
-                                  str: sortList[e].ts,
+                                  str: sortList[e].inte,
                                   fontSize: 10.sp,
                                   color: controller.sortIndex.value == e
-                                      ? AppColors.groupText
-                                      : AppColors.textBlack,
+                                      ? AppStyles.groupText
+                                      : AppStyles.textBlack,
                                 ),
                               ),
                             ),

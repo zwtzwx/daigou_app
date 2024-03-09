@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/localization_model.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/localization_model.dart';
 
 class LocalizationService {
   // 列表
@@ -11,7 +11,7 @@ class LocalizationService {
   static Future<LocalizationModel?> getInfo(
       [Map<String, dynamic>? params]) async {
     LocalizationModel? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(LISTAPI, queryParameters: params)
         .then(
             (response) => {result = LocalizationModel.fromJson(response.data)})

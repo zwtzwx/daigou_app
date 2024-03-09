@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/withdrawal_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
-import 'package:huanting_shop/views/user/agent/agent_commission/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/withdrawal_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
+import 'package:shop_app_client/views/user/agent/agent_commission/controller.dart';
 
 class AgentCommissionPage extends GetView<AgentCommissionController> {
   const AgentCommissionPage({Key? key}) : super(key: key);
@@ -22,8 +22,8 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
         elevation: 0.1,
         centerTitle: true,
         title: AppText(
-          str: '提现'.ts,
-          color: AppColors.textBlack,
+          str: '提现'.inte,
+          color: AppStyles.textBlack,
           fontSize: 17,
         ),
       ),
@@ -50,22 +50,23 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 AppText(
-                                  str: '共计'.ts + '：',
+                                  str: '共计'.inte + '：',
                                 ),
                                 Obx(
                                   () => AppText(
-                                    str: controller.selectNum.value.rate(),
-                                    color: AppColors.textRed,
+                                    str: controller.selectNum.value
+                                        .priceConvert(),
+                                    color: AppStyles.textRed,
                                   ),
                                 )
                               ],
                             ),
                             Obx(
                               () => AppText(
-                                str: '( ${'{count}条记录'.tsArgs({
+                                str: '( ${'{count}条记录'.inArgs({
                                       'count': controller.selModelList.length
                                     })} )',
-                                color: AppColors.textGray,
+                                color: AppStyles.textGray,
                               ),
                             ),
                           ],
@@ -76,10 +77,10 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
                       child: GestureDetector(
                         onTap: controller.onApply,
                         child: Container(
-                          color: AppColors.primary,
+                          color: AppStyles.primary,
                           alignment: Alignment.center,
                           child: AppText(
-                            str: '提交'.ts,
+                            str: '提交'.inte,
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
@@ -139,9 +140,9 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
         child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             decoration: const BoxDecoration(
-              color: AppColors.white,
+              color: AppStyles.white,
               border: Border(
-                bottom: BorderSide(color: AppColors.line),
+                bottom: BorderSide(color: AppStyles.line),
               ),
             ),
             child: Row(
@@ -152,23 +153,23 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
                 //   child: model.settled == 0
                 //       ? const Icon(
                 //           Icons.circle,
-                //           color: AppColors.textGrayC,
+                //           color: AppStyles.textGrayC,
                 //         )
                 //       : widget.params['selList'].contains(model)
                 //           ? const Icon(
                 //               Icons.check_circle,
-                //               color: AppColors.green,
+                //               color: AppStyles.green,
                 //             )
                 //           : const Icon(
                 //               Icons.radio_button_off,
-                //               color: AppColors.bgGray,
+                //               color: AppStyles.bgGray,
                 //             ),
                 // ),
                 Opacity(
                   opacity: model.settled == 0 ? 0.3 : 1,
                   child: Obx(
                     () => Checkbox.adaptive(
-                      activeColor: AppColors.primary,
+                      activeColor: AppStyles.primary,
                       value: controller.selModelList.contains(model),
                       shape: const CircleBorder(),
                       onChanged: (value) {
@@ -202,16 +203,16 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
                                   str: model.createdAt,
                                   fontSize: 13,
                                   color: model.settled == 0
-                                      ? AppColors.textGray
+                                      ? AppStyles.textGray
                                       : Colors.black,
                                 ),
                                 5.horizontalSpace,
                                 model.settled == 0
                                     ? Flexible(
                                         child: AppText(
-                                          str: '等待确认'.ts,
+                                          str: '等待确认'.inte,
                                           fontSize: 13,
-                                          color: AppColors.textRed,
+                                          color: AppStyles.textRed,
                                         ),
                                       )
                                     : AppGaps.empty,
@@ -219,7 +220,7 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
                             ),
                           ),
                           AppText(
-                            str: model.orderAmount.rate(),
+                            str: model.orderAmount.priceConvert(),
                             fontSize: 13,
                           ),
                         ],
@@ -232,7 +233,7 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
                             str: model.orderNumber,
                             fontSize: 13,
                             color: model.settled == 0
-                                ? AppColors.textGray
+                                ? AppStyles.textGray
                                 : Colors.black,
                           ),
                           Flexible(
@@ -241,14 +242,15 @@ class AgentCommissionPage extends GetView<AgentCommissionController> {
                               children: [
                                 Flexible(
                                   child: AppText(
-                                    str: '佣金'.ts + '：',
+                                    str: '佣金'.inte + '：',
                                     fontSize: 13,
                                   ),
                                 ),
                                 AppText(
-                                  str: '+' + model.commissionAmount.rate(),
+                                  str: '+' +
+                                      model.commissionAmount.priceConvert(),
                                   fontSize: 13,
-                                  color: AppColors.textRed,
+                                  color: AppStyles.textRed,
                                 ),
                               ],
                             ),

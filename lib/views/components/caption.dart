@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/config/color_config.dart';
+import 'package:shop_app_client/config/color_config.dart';
 
 class AppText extends StatelessWidget {
   const AppText(
       {Key? key,
       this.str = "",
-      this.color = AppColors.textBlack,
+      this.color = AppStyles.textBlack,
       this.fontSize = 15,
       this.fontWeight = FontWeight.w400,
       this.lines = 1,

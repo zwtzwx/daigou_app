@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/models/additional_model.dart';
-import 'package:huanting_shop/models/concat_info_model.dart';
-import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/models/goods_category_model.dart';
-import 'package:huanting_shop/models/goods_props.dart';
-import 'package:huanting_shop/models/parcel_goods_model.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
+import 'package:shop_app_client/models/additional_model.dart';
+import 'package:shop_app_client/models/concat_info_model.dart';
+import 'package:shop_app_client/models/country_model.dart';
+import 'package:shop_app_client/models/goods_category_model.dart';
+import 'package:shop_app_client/models/goods_props.dart';
+import 'package:shop_app_client/models/parcel_goods_model.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
 
 //定义枚举类型
 enum ParcelStatus { forecast, inWarehouse }

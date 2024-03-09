@@ -2,19 +2,19 @@
 
 import 'dart:io';
 
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/alphabetical_country_model.dart';
-import 'package:huanting_shop/models/app_version_model.dart';
-import 'package:huanting_shop/models/banners_model.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/alphabetical_country_model.dart';
+import 'package:shop_app_client/models/app_version_model.dart';
+import 'package:shop_app_client/models/banners_model.dart';
 import 'package:dio/dio.dart';
-import 'package:huanting_shop/models/captcha_model.dart';
-import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/models/currency_rate_model.dart';
-import 'package:huanting_shop/models/notice_model.dart';
-import 'package:huanting_shop/models/shop/platform_goods_model.dart';
-import 'package:huanting_shop/services/shop_service.dart';
-import 'package:huanting_shop/storage/language_storage.dart';
+import 'package:shop_app_client/models/captcha_model.dart';
+import 'package:shop_app_client/models/country_model.dart';
+import 'package:shop_app_client/models/currency_rate_model.dart';
+import 'package:shop_app_client/models/notice_model.dart';
+import 'package:shop_app_client/models/shop/platform_goods_model.dart';
+import 'package:shop_app_client/services/shop_service.dart';
+import 'package:shop_app_client/storage/language_storage.dart';
 
 //通用服务
 class CommonService {
@@ -57,7 +57,7 @@ class CommonService {
       [Map<String, dynamic>? params]) async {
     Map<String, dynamic>? result;
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(_TERMS_API, queryParameters: params)
         .then((response) => {result = response.data});
     return result;
@@ -67,7 +67,7 @@ class CommonService {
   static Future<BannersModel?> getAllBannersInfo(
       [Map<String, dynamic>? params]) async {
     BannersModel? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(_ALL_BANNERS_API, queryParameters: params)
         .then((response) => {result = BannersModel.fromJson(response.data)});
     return result;
@@ -90,7 +90,7 @@ class CommonService {
 
     String result = "";
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(
       uploadImageApi,
       data: formData,
@@ -109,7 +109,7 @@ class CommonService {
   static Future<List<AlphabeticalCountryModel>> getCountryListByAlphabetical(
       [Map<String, dynamic>? params]) async {
     List<AlphabeticalCountryModel> dataList = <AlphabeticalCountryModel>[];
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(countryListApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -131,7 +131,7 @@ class CommonService {
   static Future<List<CountryModel>> getCountryList(
       [Map<String, dynamic>? params]) async {
     List<CountryModel> dataList = [];
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(countriesApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -148,13 +148,13 @@ class CommonService {
     用于消息推送
    */
   static Future<void> saveDeviceToken(Map<String, dynamic> params) async {
-    await BeeRequest.instance.put(deviceTokenApi, data: params);
+    await ApiConfig.instance.put(deviceTokenApi, data: params);
   }
 
   // 刷新 token
   static Future<String?> refreshToken() async {
     String? token;
-    await BeeRequest.instance.post(refreshTokenApi).then((res) {
+    await ApiConfig.instance.post(refreshTokenApi).then((res) {
       if (res.ok) {
         token = '${res.data['token_type']} ${res.data['access_token']}';
       }
@@ -165,7 +165,7 @@ class CommonService {
   // 获取图形验证码
   static Future<CaptchaModel?> getCaptcha() async {
     CaptchaModel? captcha;
-    await BeeRequest.instance.get(captchaApi).then((res) {
+    await ApiConfig.instance.get(captchaApi).then((res) {
       if (res.ok) {
         captcha = CaptchaModel.formJson(res.data['captcha']);
       }
@@ -177,7 +177,7 @@ class CommonService {
   static Future<Map> getNoticeList(Map<String, dynamic> params) async {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': params['page']};
     List<NoticeModel> dataList = [];
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(noticeListApi, queryParameters: params)
         .then((response) {
       if (response.ret) {
@@ -198,7 +198,7 @@ class CommonService {
   // 消息设为已读
   static Future<bool> onNoticeRead(Map<String, dynamic> params) async {
     bool res = false;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(noticeReadApi,
             data: params, options: Options(extra: {'showSuccess': false}))
         .then((response) {
@@ -210,7 +210,7 @@ class CommonService {
   // 是否有未读消息
   static Future<bool> hasUnReadInfo() async {
     bool res = false;
-    await BeeRequest.instance.get(unReadNoticeApi).then((response) {
+    await ApiConfig.instance.get(unReadNoticeApi).then((response) {
       if (response.ok) {
         res = response.data['no_read_count'] > 0;
       }
@@ -223,7 +223,7 @@ class CommonService {
    */
   static Future<List<CurrencyRateModel>> getRateList() async {
     List<CurrencyRateModel> datas = [];
-    await BeeRequest().get(exchangeRateApi).then((res) {
+    await ApiConfig().get(exchangeRateApi).then((res) {
       if (res.ok) {
         res.data.forEach((item) => datas.add(CurrencyRateModel.from(item)));
       }
@@ -234,7 +234,7 @@ class CommonService {
   // 获取商品链接
   static Future<String?> getGoodsUrl(Map<String, dynamic> params) async {
     String? url;
-    await BeeRequest()
+    await ApiConfig()
         .get(goodsUrlApi,
             queryParameters: params, options: Options(extra: {'loading': true}))
         .then((res) {
@@ -248,7 +248,7 @@ class CommonService {
   // chorme 插件登录
   static Future<bool> onChromeLogin(Map<String, dynamic> params) async {
     bool result = false;
-    await BeeRequest()
+    await ApiConfig()
         .post(chromeLoginApi, data: params)
         .then((res) => result = res.ok);
     return result;
@@ -257,7 +257,7 @@ class CommonService {
   // 获取最新版本 apk 信息
   static Future<AppVersionModel?> getLatestApkInfo() async {
     AppVersionModel? result;
-    await BeeRequest().get(latestApkApi).then((res) {
+    await ApiConfig().get(latestApkApi).then((res) {
       if (res.ok && res.data != null) {
         result = AppVersionModel.fromJson(res.data);
       }
@@ -272,7 +272,7 @@ class CommonService {
       'total': (params['page'] ?? 1) + 1,
       'pageIndex': params['page'] ?? 1
     };
-    await BeeRequest()
+    await ApiConfig()
         .post(goodsQueryByImgApi,
             data: params,
             options: Options(extra: {
@@ -295,7 +295,7 @@ class CommonService {
     });
     if (result['dataList'] != null &&
         result['dataList'].isNotEmpty &&
-        LanguageStore.getLanguage() != 'zh_CN') {
+        LocaleStorage.getLanguage() != 'zh_CN') {
       await Future.wait((result['dataList'] as List<PlatformGoodsModel>)
           .where((e) => e.title.contianCN)
           .map((PlatformGoodsModel e) {

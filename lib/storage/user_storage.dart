@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:get/instance_manager.dart';
-import 'package:huanting_shop/models/user_model.dart';
+import 'package:shop_app_client/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserStorage {
+class CommonStorage {
   static String tokenSpKey = "jiyun-token";
   static String userInfo = 'jiyun-user-info';
   static String agentStatus = 'agentStatus';

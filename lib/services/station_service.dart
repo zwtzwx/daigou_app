@@ -1,5 +1,5 @@
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/self_pickup_station_model.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/self_pickup_station_model.dart';
 
 /*
   自提点
@@ -10,7 +10,7 @@ class StationService {
   static Future<Map> getList([Map<String, dynamic>? params]) async {
     var page = params?['page'] ?? 1;
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(
       listApi,
       queryParameters: params,

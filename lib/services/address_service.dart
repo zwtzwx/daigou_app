@@ -1,5 +1,5 @@
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/receiver_address_model.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/receiver_address_model.dart';
 
 class AddressService {
   // 列表
@@ -13,7 +13,7 @@ class AddressService {
       [Map<String, dynamic>? params]) async {
     List<ReceiverAddressModel> dataList =
         List<ReceiverAddressModel>.empty(growable: true);
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(listApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -30,7 +30,7 @@ class AddressService {
    */
   static Future<bool> deleteReciever(int id) async {
     bool result = false;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .delete(addressOneApi.replaceAll(':id', id.toString()),
             queryParameters: null)
         .then((response) {
@@ -45,7 +45,7 @@ class AddressService {
    */
   static Future<Map> updateReciever(int id, Map<String, dynamic> params) async {
     Map result = {'ok': false, 'msg': null};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(addressOneApi.replaceAll(':id', id.toString()), data: params)
         .then((response) {
       result = {
@@ -62,7 +62,7 @@ class AddressService {
    */
   static Future<Map> addReciever(Map<String, dynamic> params) async {
     Map result = {'ok': false, 'msg': null};
-    await BeeRequest.instance.post(listApi, data: params).then((response) {
+    await ApiConfig.instance.post(listApi, data: params).then((response) {
       result = {
         'ok': response.ok,
         'msg': response.msg ?? response.error!.message
@@ -77,7 +77,7 @@ class AddressService {
    */
   static Future<ReceiverAddressModel?> getDefaultAddress() async {
     ReceiverAddressModel? address;
-    await BeeRequest.instance.get(addressDefaultApi).then((response) {
+    await ApiConfig.instance.get(addressDefaultApi).then((response) {
       if (response.ok && response.data != null) {
         address = ReceiverAddressModel.fromJson(response.data);
       }
@@ -90,7 +90,7 @@ class AddressService {
    */
   static Future<ReceiverAddressModel?> getAddressDetail(int id) async {
     ReceiverAddressModel? address;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(addressOneApi.replaceAll(':id', id.toString()))
         .then((response) {
       if (response.ok) {

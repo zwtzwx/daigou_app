@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/ads_pic_model.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/ads_pic_model.dart';
 
 class AdsService {
   // 列表
@@ -11,7 +11,7 @@ class AdsService {
   static Future<List<BannerModel>> getList(
       [Map<String, dynamic>? params]) async {
     List<BannerModel> result = [];
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(LISTAPI, queryParameters: params)
         .then((response) => {
               response.data.forEach((good) {

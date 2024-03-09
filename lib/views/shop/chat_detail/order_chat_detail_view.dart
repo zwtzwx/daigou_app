@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/shop/consult_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/shop/chat_detail/order_chat_detail_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/shop/consult_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/shop/chat_detail/order_chat_detail_controller.dart';
 
 class ShopChatDetailView extends GetView<ShopOrderChatDetailController> {
   const ShopChatDetailView({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class ShopChatDetailView extends GetView<ShopOrderChatDetailController> {
         centerTitle: true,
         title: Obx(
           () => AppText(
-            str: '订单'.ts + (controller.order.value?.orderSn ?? ''),
+            str: '订单'.inte + (controller.order.value?.orderSn ?? ''),
             fontSize: 17,
           ),
         ),
@@ -47,7 +47,7 @@ class ShopChatDetailView extends GetView<ShopOrderChatDetailController> {
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 7.h, horizontal: 10.w),
                   autoRemoveController: false,
-                  hintText: '发消息'.ts + '...',
+                  hintText: '发消息'.inte + '...',
                   maxLength: 300,
                   border: OutlineInputBorder(
                     gapPadding: 0,
@@ -61,7 +61,7 @@ class ShopChatDetailView extends GetView<ShopOrderChatDetailController> {
                 onTap: controller.onSendMessage,
                 child: Icon(
                   Icons.send_rounded,
-                  color: AppColors.textDark,
+                  color: AppStyles.textDark,
                   size: 30.sp,
                 ),
               ),
@@ -90,7 +90,7 @@ class ShopChatDetailView extends GetView<ShopOrderChatDetailController> {
           child: AppText(
             str: time,
             fontSize: 10,
-            color: AppColors.textGrayC9,
+            color: AppStyles.textGrayC9,
           ),
         ),
         ...message.map(
@@ -166,7 +166,7 @@ class ShopChatDetailView extends GetView<ShopOrderChatDetailController> {
                                   horizontal: 8.w, vertical: 9.h),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.r),
-                                color: AppColors.bgGray,
+                                color: AppStyles.bgGray,
                               ),
                               child: Text(
                                 e.content ?? '',

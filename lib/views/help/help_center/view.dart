@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/announcement_model.dart';
-import 'package:huanting_shop/models/article_model.dart';
-import 'package:huanting_shop/services/announcement_service.dart';
-import 'package:huanting_shop/services/article_service.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
-import 'package:huanting_shop/views/help/help_center/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/announcement_model.dart';
+import 'package:shop_app_client/models/article_model.dart';
+import 'package:shop_app_client/services/announcement_service.dart';
+import 'package:shop_app_client/services/article_service.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
+import 'package:shop_app_client/views/help/help_center/controller.dart';
 
 class BeeSupportView extends GetView<BeeSupportLogic> {
   const BeeSupportView({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class BeeSupportView extends GetView<BeeSupportLogic> {
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
         title: AppText(
-          str: '帮助中心'.ts,
+          str: '帮助中心'.inte,
           fontSize: 17,
         ),
         bottom: TabBar(
@@ -33,21 +33,21 @@ class BeeSupportView extends GetView<BeeSupportLogic> {
                 (e) => Padding(
                   padding: EdgeInsets.only(top: 5.h, bottom: 10.h),
                   child: AppText(
-                    str: e.ts,
+                    str: e.inte,
                     lines: 2,
                     alignment: TextAlign.center,
                   ),
                 ),
               )
               .toList(),
-          labelColor: AppColors.primary,
-          indicatorColor: AppColors.primary,
+          labelColor: AppStyles.primary,
+          indicatorColor: AppStyles.primary,
           onTap: (value) {
             controller.pageController.jumpToPage(value);
           },
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: PageView.builder(
         itemCount: 4,
         controller: controller.pageController,
@@ -109,7 +109,7 @@ class _AnnouncementListState extends State<_AnnouncementList> {
   Widget buildBottomListCell(int index, AnnouncementModel model) {
     return GestureDetector(
       onTap: () async {
-        BeeNav.push(BeeNav.webview, arg: {
+        GlobalPages.push(GlobalPages.webview, arg: {
           'url': model.content,
           'title': model.title,
           'time': model.createdAt
@@ -118,7 +118,7 @@ class _AnnouncementListState extends State<_AnnouncementList> {
       child: Container(
         margin: EdgeInsets.only(top: 10.h),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: AppStyles.white,
           borderRadius: BorderRadius.circular(5.r),
         ),
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
@@ -132,7 +132,7 @@ class _AnnouncementListState extends State<_AnnouncementList> {
             5.verticalSpaceFromWidth,
             AppText(
               str: model.createdAt,
-              color: AppColors.textGrayC,
+              color: AppStyles.textGrayC,
               fontSize: 14,
             ),
           ],
@@ -185,7 +185,7 @@ class __ArticleListState extends State<_ArticleList> {
     ArticleModel model = articles[index];
     return GestureDetector(
       onTap: () async {
-        BeeNav.push(BeeNav.webview, arg: {
+        GlobalPages.push(GlobalPages.webview, arg: {
           'url': model.content,
           'title': model.title,
           'time': '',
@@ -195,7 +195,7 @@ class __ArticleListState extends State<_ArticleList> {
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
         margin: EdgeInsets.only(top: 10.h),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: AppStyles.white,
           borderRadius: BorderRadius.circular(5.r),
         ),
         child: Column(
@@ -208,7 +208,7 @@ class __ArticleListState extends State<_ArticleList> {
             5.verticalSpaceFromWidth,
             AppText(
               str: model.createdAt ?? '',
-              color: AppColors.textGrayC,
+              color: AppStyles.textGrayC,
               fontSize: 14,
             ),
           ],
@@ -226,9 +226,9 @@ class __ArticleListState extends State<_ArticleList> {
           Padding(
             padding: EdgeInsets.only(top: 5.h),
             child: Text(
-              '加载中'.ts + '...',
+              '加载中'.inte + '...',
               style: TextStyle(
-                color: AppColors.textGray,
+                color: AppStyles.textGray,
                 fontSize: 14.sp,
               ),
             ),

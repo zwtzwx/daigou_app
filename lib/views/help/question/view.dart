@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/article_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/help/question/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/article_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/help/question/controller.dart';
 
 class BeeQusView extends GetView<BeeQusLogic> {
   const BeeQusView({Key? key}) : super(key: key);
@@ -22,11 +22,11 @@ class BeeQusView extends GetView<BeeQusLogic> {
         centerTitle: true,
         title: Obx(
           () => AppText(
-            str: controller.pageTitle.value.ts,
+            str: controller.pageTitle.value.inte,
           ),
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: SafeArea(
         child: Obx(
           () => ListView.builder(
@@ -42,7 +42,7 @@ class BeeQusView extends GetView<BeeQusLogic> {
     ArticleModel model = controller.articles[index];
     return GestureDetector(
       onTap: () async {
-        BeeNav.push(BeeNav.webview, arg: {
+        GlobalPages.push(GlobalPages.webview, arg: {
           'url': model.content,
           'title': model.title,
           'time': '',
@@ -55,11 +55,11 @@ class BeeQusView extends GetView<BeeQusLogic> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 13, horizontal: 15),
                 decoration: const BoxDecoration(
-                  color: AppColors.white,
+                  color: AppStyles.white,
                   border: Border(
                       bottom: BorderSide(
                           width: 1,
-                          color: AppColors.line,
+                          color: AppStyles.line,
                           style: BorderStyle.solid)),
                 ),
                 child: AppText(
@@ -68,11 +68,11 @@ class BeeQusView extends GetView<BeeQusLogic> {
               )
             : Container(
                 decoration: const BoxDecoration(
-                  color: AppColors.white,
+                  color: AppStyles.white,
                   border: Border(
                       bottom: BorderSide(
                           width: 1,
-                          color: AppColors.line,
+                          color: AppStyles.line,
                           style: BorderStyle.solid)),
                 ),
                 // height: 100,
@@ -92,13 +92,13 @@ class BeeQusView extends GetView<BeeQusLogic> {
                           child: AppText(
                             str: model.title,
                             fontSize: 18,
-                            color: AppColors.textBlack,
+                            color: AppStyles.textBlack,
                           ),
                         ),
                         SizedBox(
                           child: AppText(
                             str: model.updatedAt!,
-                            color: AppColors.textGrayC,
+                            color: AppStyles.textGrayC,
                           ),
                         ),
                       ],

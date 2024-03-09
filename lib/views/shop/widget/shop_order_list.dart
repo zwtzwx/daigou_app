@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/list_refresh_event.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/models/shop/shop_order_model.dart';
-import 'package:huanting_shop/services/shop_service.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/shop_order_item.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/shop/order/shop_order_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/list_refresh_event.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/models/shop/shop_order_model.dart';
+import 'package:shop_app_client/services/shop_service.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/shop_order_item.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/shop/order/shop_order_controller.dart';
 
 class ShopOrderList extends StatefulWidget {
   const ShopOrderList({
@@ -83,7 +83,7 @@ class _ShopOrderListState extends State<ShopOrderList> {
   void orderPay({
     required String orderSn,
   }) async {
-    var s = await BeeNav.push(BeeNav.shopOrderPay, arg: {
+    var s = await GlobalPages.push(GlobalPages.shopOrderPay, arg: {
       'order': [orderSn],
       'fromOrderList': true,
     });
@@ -98,10 +98,11 @@ class _ShopOrderListState extends State<ShopOrderList> {
   void toTransportDetail(ParcelModel package) {
     if (package.orderId != null) {
       // 跳转到订单详情
-      BeeNav.push(BeeNav.orderDetail, arg: {'id': package.orderId});
+      GlobalPages.push(GlobalPages.orderDetail, arg: {'id': package.orderId});
     } else {
       // 跳转到包裹详情
-      BeeNav.push(BeeNav.parcelDetail, arg: {'id': package.id, 'edit': false});
+      GlobalPages.push(GlobalPages.parcelDetail,
+          arg: {'id': package.id, 'edit': false});
     }
   }
 
@@ -113,7 +114,7 @@ class _ShopOrderListState extends State<ShopOrderList> {
   }) async {
     var confirmed = await BaseDialog.cupertinoConfirmDialog(
       context,
-      '您确定要取消订单吗'.ts,
+      '您确定要取消订单吗'.inte,
     );
     if (confirmed != true) return;
     var res = await ShopService.orderCancel(orderId);
@@ -155,9 +156,9 @@ class _ShopOrderListState extends State<ShopOrderList> {
             Container(
               constraints: BoxConstraints(maxWidth: 270.w),
               child: AppText(
-                str: '您还没有任何订单，去下单吧'.ts + '~',
+                str: '您还没有任何订单，去下单吧'.inte + '~',
                 fontSize: 12,
-                color: AppColors.textGrayC9,
+                color: AppStyles.textGrayC9,
                 alignment: TextAlign.center,
                 lineHeight: 1.8,
                 lines: 10,

@@ -1,6 +1,6 @@
-import 'package:huanting_shop/models/area_model.dart';
-import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/models/self_pickup_station_model.dart';
+import 'package:shop_app_client/models/area_model.dart';
+import 'package:shop_app_client/models/country_model.dart';
+import 'package:shop_app_client/models/self_pickup_station_model.dart';
 
 /*
   收件人地址

@@ -2,14 +2,14 @@
   快递跟踪
 */
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/models/tracking_model.dart';
-import 'package:huanting_shop/views/components/banner.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/models/tracking_model.dart';
+import 'package:shop_app_client/views/components/banner.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/empty_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/views/order/tracking/tracking_controller.dart';
+import 'package:shop_app_client/views/order/tracking/tracking_controller.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class BeeOrderTrackPage extends GetView<BeeOrderTrackLogic> {
@@ -20,7 +20,7 @@ class BeeOrderTrackPage extends GetView<BeeOrderTrackLogic> {
     return Scaffold(
       appBar: const EmptyAppBar(),
       primary: false,
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -46,7 +46,7 @@ class BeeOrderTrackPage extends GetView<BeeOrderTrackLogic> {
 
   Widget bannerCell() {
     var headerView = Container(
-        color: AppColors.bgGray,
+        color: AppStyles.bgGray,
         child: Stack(
           children: <Widget>[
             SizedBox(
@@ -82,7 +82,7 @@ class BeeOrderTrackPage extends GetView<BeeOrderTrackLogic> {
           indicator: Icon(
             i == 0 ? Icons.check_circle : Icons.circle,
             size: 17,
-            color: i == 0 ? AppColors.green : Colors.grey[300],
+            color: i == 0 ? AppStyles.green : Colors.grey[300],
           ),
           iconStyle: i == 0
               ? IconStyle(
@@ -98,7 +98,7 @@ class BeeOrderTrackPage extends GetView<BeeOrderTrackLogic> {
             AppText(
               str: model.ftime,
               fontSize: 14,
-              color: AppColors.textGray,
+              color: AppStyles.textGray,
             ),
             AppGaps.vGap10,
             AppText(
@@ -110,7 +110,7 @@ class BeeOrderTrackPage extends GetView<BeeOrderTrackLogic> {
         ),
         beforeLineStyle: LineStyle(
           thickness: 2,
-          color: (i == 0 || i == 1) ? AppColors.green : Colors.grey[300]!,
+          color: (i == 0 || i == 1) ? AppStyles.green : Colors.grey[300]!,
         ),
         afterLineStyle: i > 0
             ? LineStyle(

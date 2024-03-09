@@ -1,8 +1,8 @@
 /*
   代理佣金
  */
-import 'package:huanting_shop/models/order_model.dart';
-import 'package:huanting_shop/models/user_model.dart';
+import 'package:shop_app_client/models/order_model.dart';
+import 'package:shop_app_client/models/user_model.dart';
 
 class AgentCommissionsModel {
   late int id;

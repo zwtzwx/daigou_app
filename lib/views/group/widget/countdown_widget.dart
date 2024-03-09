@@ -2,16 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
 class CountdownWidget extends StatefulWidget {
   const CountdownWidget({
     Key? key,
     required this.total,
     this.fontSize = 13,
-    this.color = AppColors.groupText,
+    this.color = AppStyles.groupText,
     this.showSeconds = true,
     this.fontWeight = FontWeight.normal,
     this.orderPay = false,
@@ -86,67 +86,67 @@ class _CountdownWidgetState extends State<CountdownWidget> {
           text: TextSpan(
               style: TextStyle(
                 fontSize: 12.sp,
-                color: AppColors.textGrayC9,
+                color: AppStyles.textGrayC9,
               ),
               children: [
             TextSpan(
-              text: '支付剩余'.ts,
+              text: '支付剩余'.inte,
             ),
             TextSpan(
               text: day > 0 ? '$day' : '',
               style: const TextStyle(
-                color: AppColors.textRed,
+                color: AppStyles.textRed,
                 fontWeight: FontWeight.bold,
               ),
             ),
             TextSpan(
-              text: day > 0 ? '天'.ts : '',
+              text: day > 0 ? '天'.inte : '',
             ),
             TextSpan(
               text: hour > 0 ? '$hour' : '',
               style: const TextStyle(
-                color: AppColors.textRed,
+                color: AppStyles.textRed,
                 fontWeight: FontWeight.bold,
               ),
             ),
             TextSpan(
-              text: hour > 0 ? '小时'.ts : '',
+              text: hour > 0 ? '小时'.inte : '',
             ),
             TextSpan(
               text: '$minutes',
               style: const TextStyle(
-                color: AppColors.textRed,
+                color: AppStyles.textRed,
                 fontWeight: FontWeight.bold,
               ),
             ),
             TextSpan(
-              text: '分'.ts,
+              text: '分'.inte,
             ),
             TextSpan(
               text: '$seconds',
               style: const TextStyle(
-                color: AppColors.textRed,
+                color: AppStyles.textRed,
                 fontWeight: FontWeight.bold,
               ),
             ),
             TextSpan(
-              text: '秒'.ts,
+              text: '秒'.inte,
             ),
           ]));
     }
     return widget.showSeconds
         ? AppText(
-            str: (day > 0 ? '$day ${'天'.ts} ' : '') +
+            str: (day > 0 ? '$day ${'天'.inte} ' : '') +
                 '${padTime(hour)}:${padTime(minutes)}:${padTime(seconds)}',
             fontSize: widget.fontSize,
             color: widget.color,
             fontWeight: widget.fontWeight,
           )
         : AppText(
-            str: '剩余'.ts +
+            str: '剩余'.inte +
                 (day > 0
-                    ? '$day${'天'.ts}$hour${'小时'.ts}'
-                    : '$hour${'小时'.ts}$minutes${'分钟'.ts}'),
+                    ? '$day${'天'.inte}$hour${'小时'.inte}'
+                    : '$hour${'小时'.inte}$minutes${'分钟'.inte}'),
             fontSize: widget.fontSize,
             color: widget.color,
           );

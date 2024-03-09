@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/shop/shop_order_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/button/plain_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/cart_goods_item.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/shop/shop_order_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/button/plain_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/cart_goods_item.dart';
 
 class BeeShopOrder extends StatelessWidget {
   const BeeShopOrder({
@@ -27,7 +27,7 @@ class BeeShopOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        BeeNav.push(BeeNav.shopOrderDetail, arg: {'id': model.id});
+        GlobalPages.push(GlobalPages.shopOrderDetail, arg: {'id': model.id});
       },
       child: Container(
         decoration: BoxDecoration(
@@ -63,11 +63,12 @@ class BeeShopOrder extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AppText(
-                        str: '国内运费'.ts,
+                        str: '国内运费'.inte,
                         fontSize: 14,
                       ),
                       AppText(
-                        str: (model.freightFee ?? 0).rate(needFormat: false),
+                        str: (model.freightFee ?? 0)
+                            .priceConvert(needFormat: false),
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -78,11 +79,12 @@ class BeeShopOrder extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AppText(
-                        str: '服务费'.ts,
+                        str: '服务费'.inte,
                         fontSize: 14,
                       ),
                       AppText(
-                        str: (model.serviceFee ?? 0).rate(needFormat: false),
+                        str: (model.serviceFee ?? 0)
+                            .priceConvert(needFormat: false),
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -93,14 +95,15 @@ class BeeShopOrder extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AppText(
-                        str: '总金额'.ts,
+                        str: '总金额'.inte,
                         fontSize: 14,
                       ),
                       AppText(
-                        str: (model.amount ?? 0).rate(needFormat: false),
+                        str:
+                            (model.amount ?? 0).priceConvert(needFormat: false),
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.textRed,
+                        color: AppStyles.textRed,
                       ),
                     ],
                   ),
@@ -115,8 +118,8 @@ class BeeShopOrder extends StatelessWidget {
                               ),
                               child: HollowButton(
                                 text: '取消订单',
-                                borderColor: AppColors.textGrayC,
-                                textColor: AppColors.textNormal,
+                                borderColor: AppStyles.textGrayC,
+                                textColor: AppStyles.textNormal,
                                 onPressed: () {
                                   onCancel!();
                                   // orderCancel(

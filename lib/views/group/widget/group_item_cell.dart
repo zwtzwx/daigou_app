@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/group_model.dart';
-import 'package:huanting_shop/models/localization_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/group_model.dart';
+import 'package:shop_app_client/models/localization_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 
 class GroupItemCell extends StatelessWidget {
   const GroupItemCell({
@@ -52,10 +52,10 @@ class GroupItemCell extends StatelessWidget {
                   str: groupModel.name!,
                 ),
                 AppText(
-                  str: CommonMethods.getGroupStatusName(groupModel.status!).ts,
+                  str: BaseUtils.getGroupStatusName(groupModel.status!).inte,
                   color: groupModel.status == 0
-                      ? AppColors.primary
-                      : AppColors.textBlack,
+                      ? AppStyles.primary
+                      : AppStyles.textBlack,
                 ),
               ],
             ),
@@ -78,7 +78,7 @@ class GroupItemCell extends StatelessWidget {
                     children: [
                       AppText(
                         str: groupModel.expressLine?.referenceTime ?? '',
-                        color: AppColors.green,
+                        color: AppStyles.green,
                         fontSize: 12,
                       ),
                       const Padding(
@@ -91,7 +91,7 @@ class GroupItemCell extends StatelessWidget {
                       ),
                       AppText(
                         str: groupModel.expressLine?.name ?? '',
-                        color: AppColors.groupText,
+                        color: AppStyles.groupText,
                         fontSize: 12,
                       )
                     ],
@@ -124,12 +124,12 @@ class GroupItemCell extends StatelessWidget {
               TextSpan(
                 style: const TextStyle(
                   fontSize: 14,
-                  color: AppColors.textBlack,
+                  color: AppStyles.textBlack,
                 ),
                 children: [
                   TextSpan(
-                    text: '已入库包裹重量'.ts + '：',
-                    style: const TextStyle(color: AppColors.textGray),
+                    text: '已入库包裹重量'.inte + '：',
+                    style: const TextStyle(color: AppStyles.textGray),
                   ),
                   TextSpan(
                     text: ((groupModel.packageWeight ?? 0) / 1000)

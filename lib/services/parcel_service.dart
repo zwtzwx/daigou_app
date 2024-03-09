@@ -1,9 +1,9 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:dio/dio.dart';
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/models/value_added_service_model.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/models/value_added_service_model.dart';
 
 import 'base_service.dart';
 
@@ -28,7 +28,7 @@ class ParcelService {
   // 新增预报
   static Future store(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(_BATCHAPI, data: params)
         .then((response) => {
               if (response.ok)
@@ -48,7 +48,7 @@ class ParcelService {
   static Future<bool> update(int id, Map<String, dynamic> params) async {
     bool result = false;
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(parcelOneApi.replaceAll(':id', id.toString()), data: params)
         .then((response) => {result = (response.ok)});
 
@@ -60,7 +60,7 @@ class ParcelService {
       [Map<String, dynamic>? params]) async {
     List<ValueAddedServiceModel> result =
         List<ValueAddedServiceModel>.empty(growable: true);
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(_VALUEADDEDSERVICE_API, queryParameters: params)
         .then((response) => {
               response.data?.forEach((good) {
@@ -82,7 +82,7 @@ class ParcelService {
     List<ParcelModel> dataList = <ParcelModel>[];
 
     //为啥API是POST
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(noOwnerListApi,
             data: params,
             options: Options(extra: {
@@ -109,7 +109,7 @@ class ParcelService {
    */
   static Future<List<ParcelModel>> getSyncsList() async {
     List<ParcelModel> result = List<ParcelModel>.empty(growable: true);
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(syncListApi, queryParameters: null)
         .then((response) => {
               response.data?.forEach((good) {
@@ -124,16 +124,16 @@ class ParcelService {
    */
   static Future<Map> setNoOwnerToMe(int id, ParcelModel parcel) async {
     Map result = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
-        .put(noOwnerOneApi.replaceAll(':id', id.toString()), data: {
-      "express_num": parcel.expressNum,
-      "sync_id": parcel.id
-    }).then((response) => {
-              result = {
-                'ok': response.ok,
-                'msg': response.msg ?? response.error?.message,
-              }
-            });
+    await ApiConfig.instance.put(noOwnerOneApi.replaceAll(':id', id.toString()),
+        data: {
+          "express_num": parcel.expressNum,
+          "sync_id": parcel.id
+        }).then((response) => {
+          result = {
+            'ok': response.ok,
+            'msg': response.msg ?? response.error?.message,
+          }
+        });
 
     return result;
   }
@@ -146,7 +146,7 @@ class ParcelService {
 
     List<ParcelModel> dataList = <ParcelModel>[];
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(parcelListApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -167,7 +167,7 @@ class ParcelService {
    */
   static Future<bool> delete(int id) async {
     bool result = false;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .delete(parcelOneApi.replaceAll(':id', id.toString()))
         .then((response) => {result = response.ok});
 
@@ -177,7 +177,7 @@ class ParcelService {
   // 更新包裹数据
   static Future<ParcelModel?> getDetail(int id) async {
     ParcelModel? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(parcelOneApi.replaceAll(':id', id.toString()))
         .then((response) {
       if (response.ok) {
@@ -192,7 +192,7 @@ class ParcelService {
    */
   static Future<int> getNotConfirmedParcelCount() async {
     int count = 0;
-    await BeeRequest.instance.get(notConfirmedApi).then((res) {
+    await ApiConfig.instance.get(notConfirmedApi).then((res) {
       if (res.ok) {
         count = res.data['count'];
       }

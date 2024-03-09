@@ -4,26 +4,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/cart_count_refresh_event.dart';
-import 'package:huanting_shop/events/change_goods_info_event.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/shop/goods_comment_model.dart';
-import 'package:huanting_shop/models/shop/goods_sku_model.dart';
-import 'package:huanting_shop/models/shop/platform_goods_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
-import 'package:huanting_shop/services/shop_service.dart';
-import 'package:huanting_shop/services/warehouse_service.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/sku_bottom_sheet.dart';
-import 'package:huanting_shop/views/shop/image_search_goods_list/binding.dart';
-import 'package:huanting_shop/views/shop/image_search_goods_list/view.dart';
-import 'package:huanting_shop/views/shop/widget/goods_comments_sheet.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/cart_count_refresh_event.dart';
+import 'package:shop_app_client/events/change_goods_info_event.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/shop/goods_comment_model.dart';
+import 'package:shop_app_client/models/shop/goods_sku_model.dart';
+import 'package:shop_app_client/models/shop/platform_goods_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
+import 'package:shop_app_client/services/shop_service.dart';
+import 'package:shop_app_client/services/warehouse_service.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/sku_bottom_sheet.dart';
+import 'package:shop_app_client/views/shop/image_search_goods_list/binding.dart';
+import 'package:shop_app_client/views/shop/image_search_goods_list/view.dart';
+import 'package:shop_app_client/views/shop/widget/goods_comments_sheet.dart';
 
-class GoodsDetailController extends GlobalLogic {
+class GoodsDetailController extends GlobalController {
   final isPlatformGoods = false.obs; // 是否是代购商品
   String platformGoodsUrl = '';
   int? goodsId;
@@ -264,7 +264,7 @@ class GoodsDetailController extends GlobalLogic {
         }
       ]
     };
-    BeeNav.push(BeeNav.orderPreview, arg: {
+    GlobalPages.push(GlobalPages.orderPreview, arg: {
       'from': 'platformGoods',
       'platformGoods': true,
       'goodsInfo': params,
@@ -280,7 +280,7 @@ class GoodsDetailController extends GlobalLogic {
           : sku.value?.id,
       'quantity': qty.value,
     };
-    BeeNav.push(BeeNav.orderPreview, arg: {
+    GlobalPages.push(GlobalPages.orderPreview, arg: {
       'from': 'selfGoods',
       'goodsInfo': params,
     });
@@ -289,7 +289,7 @@ class GoodsDetailController extends GlobalLogic {
   bool onCheckLogin() {
     String token = Get.find<AppStore>().token.value;
     if (token.isEmpty) {
-      BeeNav.push(BeeNav.login);
+      GlobalPages.push(GlobalPages.login);
     }
     return token.isNotEmpty;
   }
@@ -356,8 +356,8 @@ class GoodsDetailController extends GlobalLogic {
                     ),
                   ))
               .toList()),
-      cancelText: '取消'.ts,
-      confirmText: '确认'.ts,
+      cancelText: '取消'.inte,
+      confirmText: '确认'.inte,
       selectedTextStyle: const TextStyle(color: Colors.blue, fontSize: 12),
       onConfirm: (Picker picker, List value) {
         selectedWarehouse.value = warehouseList[value.first];

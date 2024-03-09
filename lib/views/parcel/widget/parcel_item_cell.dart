@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/localization_model.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/button/plain_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/localization_model.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/button/plain_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 
 class BeePackageItem extends StatelessWidget {
   const BeePackageItem({
@@ -34,7 +34,7 @@ class BeePackageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          BeeNav.push(BeeNav.parcelDetail,
+          GlobalPages.push(GlobalPages.parcelDetail,
               arg: {'id': model.id, 'edit': false});
         },
         child: Container(
@@ -63,7 +63,7 @@ class BeePackageItem extends StatelessWidget {
                                 ? (model.notConfirmed == 1
                                     ? const Icon(
                                         Icons.error_outline,
-                                        color: AppColors.textRed,
+                                        color: AppStyles.textRed,
                                       )
                                     : Obx(
                                         () => SizedBox(
@@ -73,7 +73,7 @@ class BeePackageItem extends StatelessWidget {
                                             value: (checkedIds ?? [])
                                                 .contains(model.id),
                                             shape: const CircleBorder(),
-                                            activeColor: AppColors.primary,
+                                            activeColor: AppStyles.primary,
                                             onChanged: (value) {
                                               if (onChecked != null) {
                                                 onChecked!(model.id);
@@ -97,7 +97,7 @@ class BeePackageItem extends StatelessWidget {
                                     onTap: () {
                                       BaseDialog.normalDialog(
                                         context,
-                                        title: '异常件提示'.ts,
+                                        title: '异常件提示'.inte,
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 20, horizontal: 15),
@@ -112,7 +112,7 @@ class BeePackageItem extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 2, horizontal: 5),
                                       child: AppText(
-                                        str: '异常件'.ts,
+                                        str: '异常件'.inte,
                                         color: Colors.white,
                                         fontSize: 12,
                                       ),
@@ -123,7 +123,7 @@ class BeePackageItem extends StatelessWidget {
                             Icon(
                               Icons.arrow_forward_ios,
                               size: 14.sp,
-                              color: AppColors.textGrayC9,
+                              color: AppStyles.textGrayC9,
                             )
                           ],
                         ),
@@ -137,7 +137,7 @@ class BeePackageItem extends StatelessWidget {
                           const EdgeInsets.only(top: 20, left: 15, right: 15),
                       child: AppText(
                         str: model.remark!,
-                        color: AppColors.textRed,
+                        color: AppStyles.textRed,
                         lines: 30,
                       ),
                     )
@@ -170,7 +170,7 @@ class BeePackageItem extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
-                        color: AppColors.bgGray,
+                        color: AppStyles.bgGray,
                       ),
                       width: double.infinity,
                       padding: const EdgeInsets.all(10),
@@ -185,7 +185,7 @@ class BeePackageItem extends StatelessWidget {
                           10.verticalSpaceFromWidth,
                           AppText(
                             str: '${model.packageName} ' +
-                                (model.packageValue!).rate(),
+                                (model.packageValue!).priceConvert(),
                           ),
                         ],
                       ),
@@ -195,10 +195,10 @@ class BeePackageItem extends StatelessWidget {
                         ? Padding(
                             padding: const EdgeInsets.only(bottom: 3),
                             child: AppText(
-                              str: '称重重量'.ts +
+                              str: '称重重量'.inte +
                                   '：${((model.countWeight ?? 0) / 1000).toStringAsFixed(2)}${localModel?.weightSymbol}',
                               fontSize: 13,
-                              color: AppColors.textGrayC9,
+                              color: AppStyles.textGrayC9,
                             ),
                           )
                         : AppGaps.empty,
@@ -206,28 +206,28 @@ class BeePackageItem extends StatelessWidget {
                         ? Padding(
                             padding: const EdgeInsets.only(bottom: 3),
                             child: AppText(
-                              str: '入库尺寸'.ts +
+                              str: '入库尺寸'.inte +
                                   '：'
                                       '${((model.length ?? 0) / 100).toStringAsFixed(2)}*'
                                       '${((model.width ?? 0) / 100).toStringAsFixed(2)}*'
                                       '${((model.height ?? 0) / 100).toStringAsFixed(2)}${localModel?.lengthSymbol}',
                               fontSize: 13,
-                              color: AppColors.textGrayC9,
+                              color: AppStyles.textGrayC9,
                             ),
                           )
                         : AppGaps.empty,
                     AppText(
-                      str: '提交时间'.ts + '：${model.createdAt ?? ''}',
+                      str: '提交时间'.inte + '：${model.createdAt ?? ''}',
                       fontSize: 13,
-                      color: AppColors.textGrayC9,
+                      color: AppStyles.textGrayC9,
                     ),
                     model.status == 2
                         ? Padding(
                             padding: const EdgeInsets.only(top: 3),
                             child: AppText(
-                              str: '入库时间'.ts + '：${model.inStorageAt ?? ''}',
+                              str: '入库时间'.inte + '：${model.inStorageAt ?? ''}',
                               fontSize: 13,
-                              color: AppColors.textGrayC9,
+                              color: AppStyles.textGrayC9,
                             ),
                           )
                         : AppGaps.empty,
@@ -240,16 +240,16 @@ class BeePackageItem extends StatelessWidget {
                             child: RichText(
                               text: TextSpan(children: [
                                 TextSpan(
-                                  text: '${'免费仓储'.ts}：',
+                                  text: '${'免费仓储'.inte}：',
                                   style: const TextStyle(
                                     fontSize: 13,
-                                    color: AppColors.textGrayC9,
+                                    color: AppStyles.textGrayC9,
                                   ),
                                 ),
                                 model.freeTime! >= 0
                                     ? TextSpan(
                                         text: '还剩{freeTime}天，超期收费{price}/天'
-                                            .tsArgs(
+                                            .inArgs(
                                           {
                                             'freeTime': model.freeTime,
                                             'price':
@@ -261,22 +261,22 @@ class BeePackageItem extends StatelessWidget {
                                         ),
                                         style: const TextStyle(
                                           fontSize: 13,
-                                          color: AppColors.textGrayC9,
+                                          color: AppStyles.textGrayC9,
                                         ),
                                       )
                                     : TextSpan(children: [
                                         TextSpan(
-                                          text: '已超期{freeTime}天'.tsArgs(
+                                          text: '已超期{freeTime}天'.inArgs(
                                             {'freeTime': -model.freeTime!},
                                           ),
                                           style: const TextStyle(
                                             fontSize: 13,
-                                            color: AppColors.textRed,
+                                            color: AppStyles.textRed,
                                           ),
                                         ),
                                         TextSpan(
                                           text: '，' +
-                                              '超期收费{price}/天'.tsArgs(
+                                              '超期收费{price}/天'.inArgs(
                                                 {
                                                   'price': ((model.warehouse
                                                                   ?.storeFee ??
@@ -287,7 +287,7 @@ class BeePackageItem extends StatelessWidget {
                                               ),
                                           style: const TextStyle(
                                             fontSize: 13,
-                                            color: AppColors.textGrayC9,
+                                            color: AppStyles.textGrayC9,
                                           ),
                                         ),
                                       ])
@@ -311,11 +311,11 @@ class BeePackageItem extends StatelessWidget {
                                 height: 30.h,
                                 child: HollowButton(
                                   text: '删除',
-                                  borderColor: AppColors.textGray,
-                                  textColor: AppColors.textNormal,
+                                  borderColor: AppStyles.textGray,
+                                  textColor: AppStyles.textNormal,
                                   onPressed: () async {
                                     var data = await BaseDialog.confirmDialog(
-                                        context, '确定要删除吗'.ts + '？');
+                                        context, '确定要删除吗'.inte + '？');
                                     if (data != null) {
                                       onDeleteParcel!();
                                     }
@@ -329,7 +329,7 @@ class BeePackageItem extends StatelessWidget {
                           child: BeeButton(
                             text: model.notConfirmed == 1 ? '补全信息' : '修改',
                             onPressed: () {
-                              BeeNav.push(BeeNav.editParcel,
+                              GlobalPages.push(GlobalPages.editParcel,
                                   arg: {'id': model.id, 'edit': true});
                             },
                           ),
@@ -352,7 +352,7 @@ class BeePackageItem extends StatelessWidget {
       widgets.add(Container(
         padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
         decoration: BoxDecoration(
-          color: AppColors.primary,
+          color: AppStyles.primary,
           borderRadius: BorderRadius.circular(2.r),
         ),
         child: AppText(

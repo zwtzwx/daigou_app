@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/text_config.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/text_config.dart';
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/views/components/keyboard_number_done.dart';
+import 'package:shop_app_client/views/components/keyboard_number_done.dart';
 
 class BaseInput extends StatefulWidget {
   const BaseInput(
@@ -31,7 +31,7 @@ class BaseInput extends StatefulWidget {
       this.onSubmitted,
       this.style,
       this.isCollapsed = false,
-      this.hintStyle = AppTextStyles.textGray14,
+      this.hintStyle = SizeConfig.textGray14,
       this.showDone = true,
       this.textInputAction = TextInputAction.next,
       this.autoRemoveController = true,
@@ -131,7 +131,7 @@ class _BaseInputState extends State<BaseInput> {
   @override
   Widget build(BuildContext context) {
     var inputDecoration = InputDecoration(
-        fillColor: widget.board ? AppColors.bgGray : Colors.white,
+        fillColor: widget.board ? AppStyles.bgGray : Colors.white,
         filled: true,
         contentPadding: widget.contentPadding,
         hintText: widget.hintText,
@@ -145,7 +145,7 @@ class _BaseInputState extends State<BaseInput> {
                 child: const Icon(
                   Icons.cancel,
                   size: 20,
-                  color: AppColors.textGray,
+                  color: AppStyles.textGray,
                 ),
                 onTap: () {
                   setState(() {
@@ -172,7 +172,7 @@ class _BaseInputState extends State<BaseInput> {
         readOnly: widget.readOnly,
         focusNode: widget.focusNode,
         onEditingComplete: widget.onEditingComplete,
-        style: widget.style ?? AppTextStyles.middleText,
+        style: widget.style ?? SizeConfig.middleText,
         maxLength: widget.maxLength,
         textAlign: widget.textAlign,
         maxLines: widget.maxLines,

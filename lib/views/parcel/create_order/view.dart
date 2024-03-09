@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/insurance_item_model.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/models/tariff_item_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
-import 'package:huanting_shop/views/line/widget/line_item_widget.dart';
-import 'package:huanting_shop/views/parcel/create_order/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/insurance_item_model.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/models/tariff_item_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
+import 'package:shop_app_client/views/line/widget/line_item_widget.dart';
+import 'package:shop_app_client/views/parcel/create_order/controller.dart';
 
 class BeePackingView extends GetView<BeePackingLogic> {
   const BeePackingView({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
           ),
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -41,7 +41,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
                 margin: EdgeInsets.fromLTRB(14.w, 15.h, 14.w, 10.h),
                 child: AppText(
                   str: '您本次选择{count}个包裹'
-                      .tsArgs({'count': controller.packageList.length}),
+                      .inArgs({'count': controller.packageList.length}),
                   fontSize: 14,
                 ),
               ),
@@ -125,7 +125,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
                     Row(
                       children: <Widget>[
                         AppText(
-                          str: (model.packageValue ?? 0).rate(),
+                          str: (model.packageValue ?? 0).priceConvert(),
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
@@ -173,12 +173,12 @@ class BeePackingView extends GetView<BeePackingLogic> {
                   decoration: const BoxDecoration(
                     borderRadius:
                         BorderRadius.horizontal(right: Radius.circular(999)),
-                    color: AppColors.primary,
+                    color: AppStyles.primary,
                   ),
                   padding:
                       EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
                   child: AppText(
-                    str: '收货地址'.ts,
+                    str: '收货地址'.inte,
                     fontSize: 12,
                   ),
                 ),
@@ -188,8 +188,8 @@ class BeePackingView extends GetView<BeePackingLogic> {
                           str: controller.selectedAddressModel.value!
                                       .addressType ==
                                   1
-                              ? '送货上门'.ts
-                              : '自提收货'.ts,
+                              ? '送货上门'.inte
+                              : '自提收货'.inte,
                           fontSize: 13,
                           alignment: TextAlign.right,
                         ),
@@ -212,7 +212,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
                           ),
                           2.horizontalSpace,
                           AppText(
-                            str: '请选择收货地址'.ts,
+                            str: '请选择收货地址'.inte,
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           )
@@ -297,7 +297,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
                 children: [
                   Expanded(
                     child: AppText(
-                      str: '物流方案'.ts,
+                      str: '物流方案'.inte,
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -314,7 +314,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
           Obx(() => controller.shipLineModel.value != null
               ? Container(
                   decoration: const BoxDecoration(
-                    border: Border(top: BorderSide(color: AppColors.line)),
+                    border: Border(top: BorderSide(color: AppStyles.line)),
                   ),
                   padding: EdgeInsets.only(top: 10.h, bottom: 15.h),
                   child: LineItemWidget(
@@ -380,7 +380,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
             child: AppText(
-              str: '增值服务'.ts,
+              str: '增值服务'.inte,
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
@@ -400,9 +400,9 @@ class BeePackingView extends GetView<BeePackingLogic> {
                     onChecked: (value) {
                       controller.insuranceServices.value = value!;
                     },
-                    name: '保险服务'.ts,
+                    name: '保险服务'.inte,
                     price: num.parse(controller.firstStr.value)
-                        .rate(needFormat: false),
+                        .priceConvert(needFormat: false),
                     remark: controller.insuranceModel.value!.explanation,
                   ),
                 if ((controller.tariffModel.value?.enabled == 1 &&
@@ -415,9 +415,9 @@ class BeePackingView extends GetView<BeePackingLogic> {
                     onChecked: (value) {
                       controller.customsService.value = value!;
                     },
-                    name: '关税服务'.ts,
+                    name: '关税服务'.inte,
                     price: num.parse(controller.secondStr.value)
-                        .rate(needFormat: false),
+                        .priceConvert(needFormat: false),
                     remark: controller.tariffModel.value!.explanation,
                   ),
                 // 订单增值服务
@@ -432,7 +432,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
                       }
                     },
                     name: service.name!,
-                    price: service.price!.rate(),
+                    price: service.price!.priceConvert(),
                     remark: service.remark,
                   ),
                 ),
@@ -481,7 +481,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
             child: Checkbox.adaptive(
               value: checked,
               onChanged: onChecked,
-              activeColor: AppColors.primary,
+              activeColor: AppStyles.primary,
             ),
           ),
           10.horizontalSpace,
@@ -489,7 +489,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
             child: RichText(
               text: TextSpan(
                 style: TextStyle(
-                  color: AppColors.textDark,
+                  color: AppStyles.textDark,
                   fontSize: 14.sp,
                 ),
                 children: [
@@ -514,7 +514,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
                         },
                         child: Icon(
                           Icons.help,
-                          color: AppColors.green,
+                          color: AppStyles.green,
                           size: 18.sp,
                         ),
                       ),
@@ -541,13 +541,13 @@ class BeePackingView extends GetView<BeePackingLogic> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           AppText(
-            str: '备注'.ts,
+            str: '备注'.inte,
             fontWeight: FontWeight.bold,
           ),
           10.verticalSpaceFromWidth,
           Container(
             decoration: BoxDecoration(
-              color: AppColors.bgGray,
+              color: AppStyles.bgGray,
               borderRadius: BorderRadius.circular(8.r),
             ),
             clipBehavior: Clip.antiAlias,
@@ -560,7 +560,7 @@ class BeePackingView extends GetView<BeePackingLogic> {
               maxLength: 200,
               autoRemoveController: false,
               keyboardType: TextInputType.multiline,
-              hintText: '请输入打包备注'.ts,
+              hintText: '请输入打包备注'.inte,
               contentPadding: EdgeInsets.all(10.w),
             ),
           ),

@@ -1,7 +1,7 @@
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/text_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/text_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -50,7 +50,7 @@ class SearchBarWidgetState extends State<SearchBar> {
       height: 30,
       child: TextField(
         textAlign: TextAlign.start,
-        cursorColor: AppColors.textGray,
+        cursorColor: AppStyles.textGray,
         focusNode: widget.focusNode,
         controller: widget.controller,
         autofocus: false,
@@ -82,9 +82,9 @@ class SearchBarWidgetState extends State<SearchBar> {
           ),
           suffixIcon: _action(),
           filled: false,
-          hintText: '输入关键字查询'.ts,
-          hintStyle: AppTextStyles.textGray14,
-          fillColor: AppColors.bgGray,
+          hintText: '输入关键字查询'.inte,
+          hintStyle: SizeConfig.textGray14,
+          fillColor: AppStyles.bgGray,
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.circular(6),
@@ -100,9 +100,9 @@ class SearchBarWidgetState extends State<SearchBar> {
       width: 70,
       margin: const EdgeInsets.only(right: 10),
       child: RawMaterialButton(
-        fillColor: AppColors.primary,
+        fillColor: AppStyles.primary,
         child: AppText(
-          str: '搜索'.ts,
+          str: '搜索'.inte,
           color: Colors.white,
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -118,7 +118,7 @@ class SearchBarWidgetState extends State<SearchBar> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-      color: AppColors.white,
+      color: AppStyles.white,
       alignment: Alignment.center,
       child: _searchPanel(),
     );

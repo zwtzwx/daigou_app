@@ -2,7 +2,7 @@
   订单异常说明
  */
 
-import 'package:huanting_shop/config/app_config.dart';
+import 'package:shop_app_client/config/app_config.dart';
 
 class OrderExceptionalModel {
   late int id;
@@ -33,7 +33,7 @@ class OrderExceptionalModel {
     restoreRemark = json['restore_remark'];
     List<String> list = [];
     for (var item in json['images']) {
-      list.add(AppConfig.getImageApi() + item);
+      list.add(BaseUrls.getImageApi() + item);
     }
     images = list;
     operator = json['operator'];

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
-import 'package:huanting_shop/views/group/group_choose_parcel/controller.dart';
-import 'package:huanting_shop/views/parcel/widget/parcel_item_cell.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
+import 'package:shop_app_client/views/group/group_choose_parcel/controller.dart';
+import 'package:shop_app_client/views/parcel/widget/parcel_item_cell.dart';
 
 class BeeGroupParcelSelectView extends GetView<BeeGroupParcelSelectController> {
   const BeeGroupParcelSelectView({Key? key}) : super(key: key);
@@ -22,16 +22,16 @@ class BeeGroupParcelSelectView extends GetView<BeeGroupParcelSelectController> {
           elevation: 0.5,
           leading: const BackButton(color: Colors.black),
           title: AppText(
-            str: '选择包裹'.ts,
+            str: '选择包裹'.inte,
             fontSize: 18,
           ),
         ),
-        backgroundColor: AppColors.bgGray,
+        backgroundColor: AppStyles.bgGray,
         bottomNavigationBar: Container(
           padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
           decoration: const BoxDecoration(
               color: Colors.white,
-              border: Border(top: BorderSide(color: AppColors.line))),
+              border: Border(top: BorderSide(color: AppStyles.line))),
           child: SafeArea(
             child: Obx(
               () => Row(
@@ -49,7 +49,7 @@ class BeeGroupParcelSelectView extends GetView<BeeGroupParcelSelectController> {
                             child: Checkbox(
                               value: controller.selectAll.value,
                               shape: const CircleBorder(),
-                              activeColor: AppColors.primary,
+                              activeColor: AppStyles.primary,
                               onChanged: (value) {
                                 controller.onAllChecked();
                               },
@@ -57,17 +57,17 @@ class BeeGroupParcelSelectView extends GetView<BeeGroupParcelSelectController> {
                           ),
                           2.horizontalSpace,
                           AppText(
-                            str: '全选'.ts,
+                            str: '全选'.inte,
                           ),
                         ],
                       ),
                       2.verticalSpace,
                       AppText(
-                        str: '已选{count}件'.tsArgs({
+                        str: '已选{count}件'.inArgs({
                               'count': controller.selectedParcelList.length,
                             }) +
-                            '，${'预估'.ts} ${(controller.selectedWeight / 1000).toStringAsFixed(2)}${controller.localModel?.weightSymbol}',
-                        color: AppColors.textGray,
+                            '，${'预估'.inte} ${(controller.selectedWeight / 1000).toStringAsFixed(2)}${controller.localModel?.weightSymbol}',
+                        color: AppStyles.textGray,
                         fontSize: 14,
                       ),
                     ],

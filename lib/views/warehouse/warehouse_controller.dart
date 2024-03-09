@@ -1,12 +1,12 @@
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/models/user_model.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
-import 'package:huanting_shop/services/warehouse_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/models/user_model.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
+import 'package:shop_app_client/services/warehouse_service.dart';
 
-class BeeCangKuLogic extends GlobalLogic {
+class BeeCangKuLogic extends GlobalController {
   final warehouseList = <WareHouseModel>[].obs;
   final isLoading = false.obs;
   UserModel? userModel = Get.find<AppStore>().userInfo.value;

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/config/wechat_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/order_model.dart';
-import 'package:huanting_shop/models/pay_type_model.dart';
-import 'package:huanting_shop/models/user_coupon_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/models/user_vip_price_model.dart';
-import 'package:huanting_shop/services/balance_service.dart';
-import 'package:huanting_shop/services/order_service.dart';
-import 'package:huanting_shop/services/user_service.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/config/wechat_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/order_model.dart';
+import 'package:shop_app_client/models/pay_type_model.dart';
+import 'package:shop_app_client/models/user_coupon_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/models/user_vip_price_model.dart';
+import 'package:shop_app_client/services/balance_service.dart';
+import 'package:shop_app_client/services/order_service.dart';
+import 'package:shop_app_client/services/user_service.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
 
-class TransportPayController extends GlobalLogic {
+class TransportPayController extends GlobalController {
   final payTypeList = <PayTypeModel>[].obs;
   final selectedPayType = Rxn<PayTypeModel?>();
   final RxNum myBalance = RxNum(0);
@@ -158,7 +158,7 @@ class TransportPayController extends GlobalLogic {
       // 余额付款订单
       var result = await BaseDialog.confirmDialog(
         context,
-        '您确认使用余额支付吗'.ts,
+        '您确认使用余额支付吗'.inte,
       );
       if (result != null) {
         payByBalance();
@@ -166,14 +166,14 @@ class TransportPayController extends GlobalLogic {
     } else {
       if (payModel.value == 0) {
         // 充值会员转账
-        BeeNav.push(BeeNav.paymentTransfer, arg: {
+        GlobalPages.push(GlobalPages.paymentTransfer, arg: {
           'transferType': 0,
           'contentModel': vipPriceModel.value!,
           'payModel': model,
         });
       } else if (payModel.value == 1) {
         // 订单付款转账
-        BeeNav.push(BeeNav.paymentTransfer, arg: {
+        GlobalPages.push(GlobalPages.paymentTransfer, arg: {
           'transferType': 2,
           'contentModel': orderModel.value,
           'payModel': model,
@@ -228,7 +228,7 @@ class TransportPayController extends GlobalLogic {
   onPayResult(Map result) {
     if (result['ok']) {
       Get.find<AppStore>().getBaseCountInfo();
-      BeeNav.pop('succeed');
+      GlobalPages.pop('succeed');
     }
   }
 

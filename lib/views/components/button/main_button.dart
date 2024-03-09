@@ -1,8 +1,8 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 
 class BeeButton extends StatelessWidget {
@@ -13,7 +13,7 @@ class BeeButton extends StatelessWidget {
     this.elevation = 0,
     this.borderRadis = 999,
     this.fontWeight = FontWeight.bold,
-    this.backgroundColor = AppColors.primary,
+    this.backgroundColor = AppStyles.primary,
     this.textColor = Colors.white,
     this.img,
     this.onPressed,
@@ -56,7 +56,7 @@ class BeeButton extends StatelessWidget {
         child: img ??
             Obx(
               () => AppText(
-                str: text!.ts,
+                str: text!.inte,
                 color: textColor,
                 fontSize: fontSize,
                 fontWeight: fontWeight,

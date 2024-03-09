@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/user/setting_locale/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/user/setting_locale/controller.dart';
 
 class SettingLocaleView extends GetView<SettingLocaleController> {
   const SettingLocaleView({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class SettingLocaleView extends GetView<SettingLocaleController> {
     return Scaffold(
       appBar: AppBar(
         title: AppText(
-          str: '语言/币种'.ts,
+          str: '语言/币种'.inte,
           fontSize: 17,
         ),
         leading: const BackButton(color: Colors.black),
@@ -65,7 +65,7 @@ class SettingLocaleView extends GetView<SettingLocaleController> {
                 children: [
                   Expanded(
                     child: AppText(
-                      str: (e['label'] as String).ts,
+                      str: (e['label'] as String).inte,
                       fontSize: 16,
                     ),
                   ),
@@ -78,7 +78,7 @@ class SettingLocaleView extends GetView<SettingLocaleController> {
                   Icon(
                     Icons.arrow_forward_ios,
                     size: 13.sp,
-                    color: AppColors.textNormal,
+                    color: AppStyles.textNormal,
                   ),
                 ],
               ),

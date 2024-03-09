@@ -1,8 +1,8 @@
 import 'package:get/instance_manager.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
 
 extension RateConvert on num {
-  String rate({
+  String priceConvert({
     bool showPriceSymbol = true,
     bool needFormat = true,
     bool showInt = false,

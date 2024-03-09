@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/common/fade_route.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/comment_model.dart';
-import 'package:huanting_shop/views/common/comment/controller.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/components/photo_view_gallery_screen.dart';
+import 'package:shop_app_client/common/fade_route.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/comment_model.dart';
+import 'package:shop_app_client/views/common/comment/controller.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/components/photo_view_gallery_screen.dart';
 
 class CommentPage extends GetView<CommentController> {
   const CommentPage({Key? key}) : super(key: key);
@@ -22,8 +22,8 @@ class CommentPage extends GetView<CommentController> {
         elevation: 0,
         centerTitle: true,
         title: AppText(
-          str: '用户评价'.ts,
-          color: AppColors.textBlack,
+          str: '用户评价'.inte,
+          color: AppStyles.textBlack,
           fontSize: 17,
         ),
       ),
@@ -33,7 +33,7 @@ class CommentPage extends GetView<CommentController> {
 
   Widget buildListView() {
     var listView = Container(
-      color: AppColors.bgGray,
+      color: AppStyles.bgGray,
       child: RefreshView(
         renderItem: buildBottomListCell,
         refresh: controller.loadList,
@@ -46,7 +46,7 @@ class CommentPage extends GetView<CommentController> {
   Widget buildBottomListCell(int index, CommentModel model) {
     return Container(
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: AppStyles.white,
           borderRadius: BorderRadius.all(Radius.circular(14.r)),
         ),
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
@@ -80,7 +80,7 @@ class CommentPage extends GetView<CommentController> {
                           AppText(
                             str: model.createdAt.split(' ').first,
                             fontSize: 14,
-                            color: AppColors.textGrayC,
+                            color: AppStyles.textGrayC,
                           ),
                         ],
                       ),
@@ -111,7 +111,7 @@ class CommentPage extends GetView<CommentController> {
                   children: <Widget>[
                     Icon(
                       Icons.location_on,
-                      color: AppColors.textGray,
+                      color: AppStyles.textGray,
                       size: 15.sp,
                     ),
                     5.horizontalSpace,
@@ -176,7 +176,7 @@ class CommentPage extends GetView<CommentController> {
   Widget buildMoreSupportType(int index, CommentModel model) {
     return model.images.isNotEmpty
         ? Container(
-            color: AppColors.white,
+            color: AppStyles.white,
             padding: const EdgeInsets.only(top: 0),
             child: GridView.builder(
                 shrinkWrap: true,
@@ -206,7 +206,7 @@ class CommentPage extends GetView<CommentController> {
           // NinePictureAllScreenShow(model.images, index);
         },
         child: Container(
-          color: AppColors.white,
+          color: AppStyles.white,
           child: ImgItem(
             model.images[index],
             fit: BoxFit.fitWidth,

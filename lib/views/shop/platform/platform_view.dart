@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/goods_list_cell.dart';
-import 'package:huanting_shop/views/components/goods/search_input.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/components/loading_cell.dart';
-import 'package:huanting_shop/views/shop/platform/platform_controller.dart';
-import 'package:huanting_shop/views/shop/widget/app_bar_bottom.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/goods_list_cell.dart';
+import 'package:shop_app_client/views/components/goods/search_input.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/components/loading_cell.dart';
+import 'package:shop_app_client/views/shop/platform/platform_controller.dart';
+import 'package:shop_app_client/views/shop/widget/app_bar_bottom.dart';
 
 class PlatformView extends GetView<PlatformController> {
   const PlatformView({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class PlatformView extends GetView<PlatformController> {
       appBar: AppBar(
         elevation: 0,
         title: AppText(
-          str: controller.getPlatformName().ts,
+          str: controller.getPlatformName().inte,
           fontSize: 17,
         ),
         backgroundColor: Colors.white,
@@ -38,10 +38,10 @@ class PlatformView extends GetView<PlatformController> {
           ),
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: RefreshIndicator(
         onRefresh: controller.handleRefresh,
-        color: AppColors.primary,
+        color: AppStyles.primary,
         child: ListView(
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
@@ -50,7 +50,7 @@ class PlatformView extends GetView<PlatformController> {
             Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.white, AppColors.bgGray],
+                  colors: [Colors.white, AppStyles.bgGray],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   stops: [0.1, 0.3],

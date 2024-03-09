@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/views/shop/category/controller.dart';
+import 'package:shop_app_client/views/shop/category/controller.dart';
 
 class GoodsCategoryBinding extends Bindings {
   @override

@@ -1,15 +1,15 @@
 /*
   代理信息
  */
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/agent_commission_record_model.dart';
-import 'package:huanting_shop/models/agent_data_count_model.dart';
-import 'package:huanting_shop/models/agent_model.dart';
-import 'package:huanting_shop/models/bank_model.dart';
-import 'package:huanting_shop/models/user_model.dart';
-import 'package:huanting_shop/models/withdrawal_item_model.dart';
-import 'package:huanting_shop/models/withdrawal_model.dart';
-import 'package:huanting_shop/services/base_service.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/agent_commission_record_model.dart';
+import 'package:shop_app_client/models/agent_data_count_model.dart';
+import 'package:shop_app_client/models/agent_model.dart';
+import 'package:shop_app_client/models/bank_model.dart';
+import 'package:shop_app_client/models/user_model.dart';
+import 'package:shop_app_client/models/withdrawal_item_model.dart';
+import 'package:shop_app_client/models/withdrawal_model.dart';
+import 'package:shop_app_client/services/base_service.dart';
 import 'package:flutter/foundation.dart';
 
 class AgentService {
@@ -58,7 +58,7 @@ class AgentService {
   static Future<AgentDataCountModel?> getDataCount() async {
     AgentDataCountModel? result;
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(agentSubCountApi, queryParameters: null)
         .then((response) =>
             {result = AgentDataCountModel.fromJson(response.data)})
@@ -74,7 +74,7 @@ class AgentService {
   static Future<AgentModel?> getProfile() async {
     AgentModel? result;
 
-    await BeeRequest.instance.get(agentProfileApi).then((response) {
+    await ApiConfig.instance.get(agentProfileApi).then((response) {
       if (kDebugMode) {
         print(response);
       }
@@ -89,7 +89,7 @@ class AgentService {
   static Future<Map> applyWithDraw(Map params) async {
     Map result = {'ok': false, 'msg': ''};
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(agentCommissionWithdrawApi, data: params)
         .then((response) => {
               result = {
@@ -111,7 +111,7 @@ class AgentService {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<WithdrawalModel> dataList = <WithdrawalModel>[];
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(availableWithDrawApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -135,7 +135,7 @@ class AgentService {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<WithdrawalModel> dataList = <WithdrawalModel>[];
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(withdrawedApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -156,7 +156,7 @@ class AgentService {
    */
   static Future<WithdrawalItemModel?> getWithdrawDetail(int id) async {
     WithdrawalItemModel? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(withdrawDetailApi.replaceAll(':id', id.toString()))
         .then((res) => result = WithdrawalItemModel.fromJson(res.data));
     return result;
@@ -172,7 +172,7 @@ class AgentService {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<WithdrawalItemModel> dataList = <WithdrawalItemModel>[];
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(allWithDrawApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -196,7 +196,7 @@ class AgentService {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<AgentCommissionRecordModel> dataList = <AgentCommissionRecordModel>[];
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(commissionListApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -217,7 +217,7 @@ class AgentService {
    */
   static Future<Map> applyAgent([Map<String, dynamic>? params]) async {
     Map result = {"ok": false, "msg": ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(applyAgentApi, data: params)
         .then((response) => {
               result = {
@@ -237,7 +237,7 @@ class AgentService {
     var page = (params is Map) ? params!['page'] : 1;
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<UserModel> dataList = [];
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(agentSubApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -263,7 +263,7 @@ class AgentService {
 
     List<BankModel> dataList = <BankModel>[];
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(bankListApi, queryParameters: params)
         .then((response) {
       response.data?.forEach((item) {
@@ -284,7 +284,7 @@ class AgentService {
   */
   static Future<void> agentBind(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    await BeeRequest.instance.put(agentBindApi, data: params).then((response) {
+    await ApiConfig.instance.put(agentBindApi, data: params).then((response) {
       if (response.ok) {
         onSuccess(response.msg);
       } else {
@@ -296,7 +296,7 @@ class AgentService {
   // 已提现金额
   static Future<Map?> getAgentCommissionInfo() async {
     Map? res;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(
       agentCommissionInfoApi,
     )

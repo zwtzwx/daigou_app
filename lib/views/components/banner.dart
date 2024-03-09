@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/models/banners_model.dart';
-import 'package:huanting_shop/services/common_service.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/models/banners_model.dart';
+import 'package:shop_app_client/services/common_service.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 
 /*
   顶部 banner 图

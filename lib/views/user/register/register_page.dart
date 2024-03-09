@@ -3,15 +3,15 @@
 */
 
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/user/register/register_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/user/register/register_controller.dart';
 
 class BeeSignUpPage extends GetView<BeeSignUpLogic> {
   const BeeSignUpPage({Key? key}) : super(key: key);
@@ -30,7 +30,7 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
           fontSize: 17,
         ),
       ),
-      backgroundColor: AppColors.white,
+      backgroundColor: AppStyles.white,
       // bottomNavigationBar: buildOtherSignIn(),
       body: SingleChildScrollView(
         child: Column(
@@ -92,9 +92,9 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
                       },
                       child: AppText(
                         str: controller.loginType.value == 1
-                            ? '邮箱注册'.ts
-                            : '手机号注册'.ts,
-                        color: AppColors.primary,
+                            ? '邮箱注册'.inte
+                            : '手机号注册'.inte,
+                        color: AppStyles.primary,
                       ),
                     )
                   : const SizedBox()),
@@ -106,10 +106,10 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
   inPutEmailNumber(BuildContext context) {
     var inputAccountView = Container(
       decoration: const BoxDecoration(
-        color: AppColors.white,
+        color: AppStyles.white,
         border: Border(
             bottom: BorderSide(
-                width: 1, color: AppColors.line, style: BorderStyle.solid)),
+                width: 1, color: AppStyles.line, style: BorderStyle.solid)),
       ),
       padding: EdgeInsets.symmetric(vertical: 5.h),
       child: Row(
@@ -123,7 +123,7 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
                   style: const TextStyle(color: Colors.black87),
                   controller: controller.emailController,
                   decoration: InputDecoration(
-                    hintText: '请输入邮箱'.ts,
+                    hintText: '请输入邮箱'.inte,
                     enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide.none,
                     ),
@@ -149,12 +149,12 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
           style: const TextStyle(color: Colors.black87),
           controller: controller.inviteController,
           decoration: InputDecoration(
-            hintText: '请输入邀请码(选填)'.ts,
+            hintText: '请输入邀请码(选填)'.inte,
             enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.line),
+              borderSide: BorderSide(color: AppStyles.line),
             ),
             focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.line),
+              borderSide: BorderSide(color: AppStyles.line),
             ),
           ),
         ),
@@ -166,10 +166,10 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
   inPutVeritfyNumber(BuildContext context) {
     var inputVerifyNumber = Container(
       decoration: const BoxDecoration(
-        color: AppColors.white,
+        color: AppStyles.white,
         border: Border(
             bottom: BorderSide(
-                width: 1, color: AppColors.line, style: BorderStyle.solid)),
+                width: 1, color: AppStyles.line, style: BorderStyle.solid)),
       ),
       padding: EdgeInsets.symmetric(vertical: 5.h),
       child: Row(
@@ -183,7 +183,7 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
                 style: const TextStyle(color: Colors.black87),
                 controller: controller.validationController,
                 decoration: InputDecoration(
-                  hintText: '请输入验证码'.ts,
+                  hintText: '请输入验证码'.inte,
                   enabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide.none,
                   ),
@@ -218,11 +218,11 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
   passwordCell(BuildContext context) {
     var passwordCell = Container(
       decoration: const BoxDecoration(
-        color: AppColors.white,
+        color: AppStyles.white,
         border: Border(
           bottom: BorderSide(
             width: 1,
-            color: AppColors.line,
+            color: AppStyles.line,
             style: BorderStyle.solid,
           ),
         ),
@@ -235,7 +235,7 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
           style: const TextStyle(color: Colors.black87),
           controller: controller.passwordController,
           decoration: InputDecoration(
-            hintText: '请输入密码'.ts,
+            hintText: '请输入密码'.inte,
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide.none,
             ),
@@ -252,10 +252,10 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
   inputPhoneView(BuildContext context) {
     var inputAccountView = Container(
       decoration: const BoxDecoration(
-        color: AppColors.white,
+        color: AppStyles.white,
         border: Border(
             bottom: BorderSide(
-                width: 1, color: AppColors.line, style: BorderStyle.solid)),
+                width: 1, color: AppStyles.line, style: BorderStyle.solid)),
       ),
       padding: EdgeInsets.symmetric(vertical: 5.h),
       child: Row(
@@ -278,7 +278,7 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
                               .formatTimezone(controller.areaNumber.value),
                       style: const TextStyle(
                         fontSize: 16.0, //textsize
-                        color: AppColors.textNormal,
+                        color: AppStyles.textNormal,
                       ),
                     ),
                   ),
@@ -286,7 +286,7 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
                 const Icon(
                   Icons.arrow_forward_ios,
                   size: 14,
-                  color: AppColors.textNormal,
+                  color: AppStyles.textNormal,
                 ),
               ],
             ),
@@ -300,7 +300,7 @@ class BeeSignUpPage extends GetView<BeeSignUpLogic> {
               style: const TextStyle(color: Colors.black87),
               controller: controller.mobileNumberController,
               decoration: InputDecoration(
-                hintText: '请输入手机号'.ts,
+                hintText: '请输入手机号'.inte,
                 enabledBorder: const UnderlineInputBorder(
                   borderSide: BorderSide.none,
                 ),

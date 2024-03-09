@@ -3,13 +3,13 @@
  */
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/text_config.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/list_refresh_event.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/text_config.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/list_refresh_event.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -166,8 +166,8 @@ class _ListRefreshState extends State<RefreshView> {
                   Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: Text(
-                      '加载中'.ts + '...',
-                      style: AppTextStyles.textGray14,
+                      '加载中'.inte + '...',
+                      style: SizeConfig.textGray14,
                     ),
                   )
                 ]))),
@@ -189,12 +189,12 @@ class _ListRefreshState extends State<RefreshView> {
                   // AgentMsgList msgList = _items[index];
                   // ApiMe.deleteMessage(msgList.id, (data) {
                   //   if (data['ret'].toString() == '1') {
-                  //     CommonMethods.showToast('删除信息成功');
+                  //     BaseUtils.showToast('删除信息成功');
                   //     ApplicationEvent.event
                   //         .fire(ListRefreshEvent('refresh', index));
                   //   }
                   // }, (message) {
-                  //   CommonMethods.showToast(message);
+                  //   BaseUtils.showToast(message);
                   // });
                 },
                 background: Container(
@@ -204,7 +204,7 @@ class _ListRefreshState extends State<RefreshView> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Text(
-                          '删除'.ts,
+                          '删除'.inte,
                           style: const TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.w300,
@@ -271,8 +271,8 @@ class _ListRefreshState extends State<RefreshView> {
                 ),
               ),
               AppText(
-                str: widget.noMessageTip.ts,
-                color: AppColors.textGrayC,
+                str: widget.noMessageTip.inte,
+                color: AppStyles.textGrayC,
               )
             ],
           ),
@@ -292,11 +292,11 @@ class _ListRefreshState extends State<RefreshView> {
             header: ClassicHeader(
               refreshingIcon: const CupertinoActivityIndicator(),
               height: 45.0,
-              releaseText: '松开手刷新'.ts,
-              refreshingText: '刷新中'.ts,
-              completeText: '刷新完成'.ts,
-              failedText: '刷新失败'.ts,
-              idleText: '下拉刷新'.ts,
+              releaseText: '松开手刷新'.inte,
+              refreshingText: '刷新中'.inte,
+              completeText: '刷新完成'.inte,
+              failedText: '刷新失败'.inte,
+              idleText: '下拉刷新'.inte,
             ),
             footer: CustomFooter(
               height: _items.length < 10 ? 0 : 60,
@@ -304,25 +304,25 @@ class _ListRefreshState extends State<RefreshView> {
                 Widget body;
                 if (mode == LoadStatus.idle) {
                   body = Text(
-                    '上拉加载'.ts,
-                    style: AppTextStyles.textGray14,
+                    '上拉加载'.inte,
+                    style: SizeConfig.textGray14,
                   );
                 } else if (mode == LoadStatus.loading) {
                   body = _buildProgressIndicator();
                 } else if (mode == LoadStatus.failed) {
                   body = Text(
-                    '加载失败点击重试'.ts,
-                    style: AppTextStyles.textGray14,
+                    '加载失败点击重试'.inte,
+                    style: SizeConfig.textGray14,
                   );
                 } else if (mode == LoadStatus.canLoading) {
                   body = Text(
-                    '松手加载更多'.ts,
-                    style: AppTextStyles.textGray14,
+                    '松手加载更多'.inte,
+                    style: SizeConfig.textGray14,
                   );
                 } else {
                   body = Text(
-                    '没有更多数据了'.ts,
-                    style: AppTextStyles.textGray14,
+                    '没有更多数据了'.inte,
+                    style: SizeConfig.textGray14,
                   );
                 }
 

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/user_recharge_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
-import 'package:huanting_shop/views/payment/recharge_history/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/user_recharge_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
+import 'package:shop_app_client/views/payment/recharge_history/controller.dart';
 
 class RechargeHistoryPage extends GetView<RechargeHistoryController> {
   const RechargeHistoryPage({Key? key}) : super(key: key);
@@ -17,16 +17,12 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
-        backgroundColor: Colors.white,
-        elevation: 0.5,
-        centerTitle: true,
         title: AppText(
-          str: '充值记录'.ts,
-          color: AppColors.textBlack,
+          str: '充值记录'.inte,
           fontSize: 17,
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: RefreshView(
         renderItem: renderItem,
         refresh: controller.loadList,
@@ -41,12 +37,10 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
 
   Widget cellViews(UserRechargeModel model) {
     var creatView = Container(
-        margin: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
-        // height: 110,
+        margin: EdgeInsets.only(top: 10.h, left: 14.w, right: 14.w),
         decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          border: Border.all(width: 1, color: Colors.white),
+          color: AppStyles.white,
+          borderRadius: BorderRadius.all(Radius.circular(10.r)),
         ),
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
@@ -86,8 +80,8 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
                             alignment: Alignment.centerLeft,
                             child: AppText(
                               alignment: TextAlign.left,
-                              str: '充值金额'.ts,
-                              color: AppColors.textDark,
+                              str: '充值金额'.inte,
+                              color: AppStyles.textDark,
                               fontSize: 17,
                               fontWeight: FontWeight.w500,
                             ),
@@ -95,8 +89,8 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
                           Container(
                             alignment: Alignment.centerRight,
                             child: AppText(
-                              str: model.confirmAmount.rate(),
-                              color: AppColors.textBlack,
+                              str: model.confirmAmount.priceConvert(),
+                              color: AppStyles.textBlack,
                               fontSize: 17,
                             ),
                           )
@@ -113,7 +107,7 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
                             child: AppText(
                               alignment: TextAlign.left,
                               str: model.payType,
-                              color: AppColors.textGray,
+                              color: AppStyles.textGray,
                               fontSize: 14,
                             ),
                           ),
@@ -123,10 +117,10 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
                             child: AppText(
                               alignment: TextAlign.center,
                               str: model.status == 0
-                                  ? '等待客服确认支付'.ts
+                                  ? '等待客服确认支付'.inte
                                   : model.status == 1
-                                      ? '审核通过'.ts
-                                      : '审核失败'.ts,
+                                      ? '审核通过'.inte
+                                      : '审核失败'.inte,
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                             ),
@@ -143,7 +137,7 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
                             child: AppText(
                               alignment: TextAlign.left,
                               str: model.createdAt,
-                              color: AppColors.textGray,
+                              color: AppStyles.textGray,
                               fontSize: 14,
                             ),
                           )
@@ -153,7 +147,7 @@ class RechargeHistoryPage extends GetView<RechargeHistoryController> {
                     model.status == 2
                         ? SizedBox(
                             child: AppText(
-                              str: '${'备注'.ts}：${model.customerRemark}',
+                              str: '${'备注'.inte}：${model.customerRemark}',
                               lines: 20,
                             ),
                           )

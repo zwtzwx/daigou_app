@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/services/parcel_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/services/parcel_service.dart';
 
-class BeeParcelClaimLogic extends GlobalLogic {
+class BeeParcelClaimLogic extends GlobalController {
   final headerStr = ''.obs;
   final footerStr = ''.obs;
 
@@ -65,7 +65,7 @@ class BeeParcelClaimLogic extends GlobalLogic {
     hideLoading();
     if (result['ok']) {
       showSuccess('认领成功').then((value) {
-        BeeNav.pop('success');
+        GlobalPages.pop('success');
       });
     } else {
       showError(result['msg']);

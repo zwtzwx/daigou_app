@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/views/order/comment/controller.dart';
+import 'package:shop_app_client/views/order/comment/controller.dart';
 
 class OrderCommentBinding extends Bindings {
   @override

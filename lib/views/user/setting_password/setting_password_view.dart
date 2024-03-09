@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/input_text_item.dart';
-import 'package:huanting_shop/views/components/input/normal_input.dart';
-import 'package:huanting_shop/views/user/setting_password/setting_password_controller.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/input_text_item.dart';
+import 'package:shop_app_client/views/components/input/normal_input.dart';
+import 'package:shop_app_client/views/user/setting_password/setting_password_controller.dart';
 
 class BeeNewPwdPage extends GetView<BeeNewPwdLogic> {
   const BeeNewPwdPage({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class BeeNewPwdPage extends GetView<BeeNewPwdLogic> {
         centerTitle: true,
         elevation: 0.1,
         title: AppText(
-          str: '修改密码'.ts,
+          str: '修改密码'.inte,
           fontSize: 17,
         ),
       ),
@@ -39,12 +39,12 @@ class BeeNewPwdPage extends GetView<BeeNewPwdLogic> {
       body: Column(
         children: [
           InputTextItem(
-            title: '新密码'.ts,
+            title: '新密码'.inte,
             isRequired: true,
             margin: const EdgeInsets.only(left: 0),
             padding: EdgeInsets.only(left: 14.w),
             inputText: NormalInput(
-              hintText: '请输入新密码'.ts,
+              hintText: '请输入新密码'.inte,
               contentPadding: const EdgeInsets.only(right: 15),
               controller: controller.newPasswordController,
               focusNode: controller.newPaddwordNode,
@@ -59,12 +59,12 @@ class BeeNewPwdPage extends GetView<BeeNewPwdLogic> {
             ),
           ),
           InputTextItem(
-            title: '确认密码'.ts,
+            title: '确认密码'.inte,
             margin: const EdgeInsets.only(left: 0),
             padding: EdgeInsets.only(left: 14.w),
             isRequired: true,
             inputText: NormalInput(
-              hintText: '请确认密码'.ts,
+              hintText: '请确认密码'.inte,
               contentPadding: const EdgeInsets.only(right: 15),
               controller: controller.confirmPasswordController,
               focusNode: controller.confirmPaddwordNode,

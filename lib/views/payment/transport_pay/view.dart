@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/pay_type_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/payment/transport_pay/controller.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/pay_type_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/payment/transport_pay/controller.dart';
 
 class TransportPayPage extends GetView<TransportPayController> {
   const TransportPayPage({Key? key}) : super(key: key);
@@ -20,15 +20,12 @@ class TransportPayPage extends GetView<TransportPayController> {
     return Scaffold(
         appBar: AppBar(
           leading: const BackButton(color: Colors.black),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          centerTitle: true,
           title: AppText(
-            str: '支付订单'.ts,
+            str: '支付订单'.inte,
             fontSize: 17,
           ),
         ),
-        backgroundColor: AppColors.bgGray,
+        backgroundColor: AppStyles.bgGray,
         body: SingleChildScrollView(
           child: SafeArea(
             child: Column(
@@ -38,7 +35,7 @@ class TransportPayPage extends GetView<TransportPayController> {
                   margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
                   padding: const EdgeInsets.only(top: 10),
                   decoration: const BoxDecoration(
-                    color: AppColors.white,
+                    color: AppStyles.white,
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: Column(
@@ -63,7 +60,7 @@ class TransportPayPage extends GetView<TransportPayController> {
                                               .currencyModel.value?.code ??
                                           ''),
                                       fontSize: 20,
-                                      color: AppColors.textRed,
+                                      color: AppStyles.textRed,
                                     ),
                                   ),
                                   Container(
@@ -78,9 +75,10 @@ class TransportPayPage extends GetView<TransportPayController> {
                                                 : (controller.orderModel.value
                                                         ?.discountPaymentFee ??
                                                     0))
-                                            .rate(showPriceSymbol: false),
+                                            .priceConvert(
+                                                showPriceSymbol: false),
                                         fontSize: 35,
-                                        color: AppColors.textRed,
+                                        color: AppStyles.textRed,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -101,7 +99,7 @@ class TransportPayPage extends GetView<TransportPayController> {
                                                         ?.basePrice ==
                                                     0
                                                 ? ''
-                                                : '已省'.ts +
+                                                : '已省'.inte +
                                                     (controller
                                                                 .vipPriceModel
                                                                 .value!
@@ -110,8 +108,8 @@ class TransportPayPage extends GetView<TransportPayController> {
                                                                 .vipPriceModel
                                                                 .value!
                                                                 .price)
-                                                        .rate()
-                                            : '已省'.ts +
+                                                        .priceConvert()
+                                            : '已省'.inte +
                                                 ((controller.orderModel.value
                                                                 ?.couponDiscountFee ??
                                                             0) +
@@ -123,9 +121,9 @@ class TransportPayPage extends GetView<TransportPayController> {
                                                                     ?.pointamount ??
                                                                 0)
                                                             : 0))
-                                                    .rate(),
+                                                    .priceConvert(),
                                         fontSize: 14,
-                                        color: AppColors.textRed,
+                                        color: AppStyles.textRed,
                                       ),
                                     ),
                                   ),
@@ -142,18 +140,19 @@ class TransportPayPage extends GetView<TransportPayController> {
                           children: <Widget>[
                             Obx(
                               () => AppText(
-                                str: '${'余额'.ts}：' +
-                                    (controller.myBalance.value).rate(),
+                                str: '${'余额'.inte}：' +
+                                    (controller.myBalance.value).priceConvert(),
                               ),
                             ),
                             GestureDetector(
                                 onTap: () {
-                                  BeeNav.push(BeeNav.recharge, arg: context);
+                                  GlobalPages.push(GlobalPages.recharge,
+                                      arg: context);
                                 },
                                 child: Row(
                                   children: <Widget>[
                                     AppText(
-                                      str: '充值'.ts,
+                                      str: '充值'.inte,
                                     ),
                                     const Icon(Icons.keyboard_arrow_right)
                                   ],
@@ -175,7 +174,7 @@ class TransportPayPage extends GetView<TransportPayController> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     AppText(
-                                      str: '积分'.ts,
+                                      str: '积分'.inte,
                                     ),
                                     GestureDetector(
                                         onTap: () {
@@ -186,12 +185,12 @@ class TransportPayPage extends GetView<TransportPayController> {
                                             Obx(
                                               () => AppText(
                                                 str: controller.isUsePoint.value
-                                                    ? '-${(controller.orderModel.value!.pointamount).rate()}'
-                                                    : '不使用'.ts,
+                                                    ? '-${(controller.orderModel.value!.pointamount).priceConvert()}'
+                                                    : '不使用'.inte,
                                                 color:
                                                     controller.isUsePoint.value
-                                                        ? AppColors.textRed
-                                                        : AppColors.textBlack,
+                                                        ? AppStyles.textRed
+                                                        : AppStyles.textBlack,
                                               ),
                                             ),
                                             const Icon(
@@ -215,11 +214,12 @@ class TransportPayPage extends GetView<TransportPayController> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     AppText(
-                                      str: '优惠券'.ts,
+                                      str: '优惠券'.inte,
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        var s = await BeeNav.push(BeeNav.coupon,
+                                        var s = await GlobalPages.push(
+                                            GlobalPages.coupon,
                                             arg: {
                                               'select': true,
                                               'lineid': controller.orderModel
@@ -259,14 +259,14 @@ class TransportPayPage extends GetView<TransportPayController> {
                                                                   .orderModel
                                                                   .value!
                                                                   .couponDiscountFee)
-                                                              .rate() +
+                                                              .priceConvert() +
                                                           ')',
-                                                      color: AppColors.textRed,
+                                                      color: AppStyles.textRed,
                                                     ),
                                                   ],
                                                 )
                                               : AppText(
-                                                  str: '不使用'.ts,
+                                                  str: '不使用'.inte,
                                                 ),
                                           const Icon(Icons.keyboard_arrow_right)
                                         ],
@@ -353,7 +353,7 @@ class TransportPayPage extends GetView<TransportPayController> {
           }
         },
         child: Container(
-          color: AppColors.white,
+          color: AppStyles.white,
           padding: const EdgeInsets.only(right: 15, left: 15),
           height: 50,
           width: 1.sw,
@@ -369,16 +369,16 @@ class TransportPayPage extends GetView<TransportPayController> {
                 ),
                 Expanded(
                   child: AppText(
-                    str: CommonMethods.getPayTypeName(typeMap.name).ts,
+                    str: BaseUtils.getPayTypeName(typeMap.name).inte,
                   ),
                 ),
                 controller.selectedPayType.value == typeMap
                     ? const Icon(
                         Icons.check_circle,
-                        color: AppColors.green,
+                        color: AppStyles.green,
                       )
                     : const Icon(Icons.radio_button_unchecked,
-                        color: AppColors.textGray)
+                        color: AppStyles.textGray)
               ],
             ),
           ),
@@ -412,13 +412,13 @@ class TransportPayPage extends GetView<TransportPayController> {
                           width: ScreenUtil().screenWidth,
                           height: 40,
                           child: AppText(
-                            str: '积分抵扣'.ts,
+                            str: '积分抵扣'.inte,
                             fontSize: 20,
-                            color: AppColors.textBlack,
+                            color: AppStyles.textBlack,
                           ),
                         ),
                         AppText(
-                          str: '${'账户剩余积分'.ts}：' +
+                          str: '${'账户剩余积分'.inte}：' +
                               controller.orderModel.value!.userPoint.toString(),
                           fontSize: 14,
                         ),
@@ -442,7 +442,7 @@ class TransportPayPage extends GetView<TransportPayController> {
                             Row(
                               children: <Widget>[
                                 AppText(
-                                  str: '使用{point}积分抵扣'.tsArgs({
+                                  str: '使用{point}积分抵扣'.inArgs({
                                     'point': controller.orderModel.value!.point
                                   }),
                                   fontSize: 14,
@@ -450,20 +450,20 @@ class TransportPayPage extends GetView<TransportPayController> {
                                 AppText(
                                   str:
                                       (controller.orderModel.value!.pointamount)
-                                          .rate(),
+                                          .priceConvert(),
                                   fontSize: 14,
-                                  color: AppColors.textRed,
+                                  color: AppStyles.textRed,
                                 ),
                               ],
                             ),
                             select
                                 ? const Icon(
                                     Icons.check_circle,
-                                    color: AppColors.primary,
+                                    color: AppStyles.primary,
                                   )
                                 : const Icon(
                                     Icons.radio_button_unchecked,
-                                    color: AppColors.textGrayC,
+                                    color: AppStyles.textGrayC,
                                   ),
                           ],
                         )),
@@ -483,7 +483,7 @@ class TransportPayPage extends GetView<TransportPayController> {
                             Row(
                               children: <Widget>[
                                 AppText(
-                                  str: '不使用积分抵扣'.ts,
+                                  str: '不使用积分抵扣'.inte,
                                   fontSize: 14,
                                 ),
                               ],
@@ -491,11 +491,11 @@ class TransportPayPage extends GetView<TransportPayController> {
                             !select
                                 ? const Icon(
                                     Icons.check_circle,
-                                    color: AppColors.primary,
+                                    color: AppStyles.primary,
                                   )
                                 : const Icon(
                                     Icons.radio_button_unchecked,
-                                    color: AppColors.textGrayC,
+                                    color: AppStyles.textGrayC,
                                   ),
                           ],
                         )),

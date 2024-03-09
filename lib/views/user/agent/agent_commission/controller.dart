@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/models/withdrawal_model.dart';
-import 'package:huanting_shop/services/agent_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/models/withdrawal_model.dart';
+import 'package:shop_app_client/services/agent_service.dart';
 
-class AgentCommissionController extends GlobalLogic {
+class AgentCommissionController extends GlobalController {
   final selModelList = <WithdrawalModel>[].obs;
   final allModelList = <WithdrawalModel>[].obs;
 
@@ -20,7 +20,7 @@ class AgentCommissionController extends GlobalLogic {
       showToast('请选择要提现的订单');
       return;
     }
-    BeeNav.push(BeeNav.agentCommissionApply, arg: {'ids': ids});
+    GlobalPages.push(GlobalPages.agentCommissionApply, arg: {'ids': ids});
   }
 
   loadList({type}) async {

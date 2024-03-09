@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/services/language_service.dart';
-import 'package:huanting_shop/storage/language_storage.dart';
+import 'package:shop_app_client/services/language_service.dart';
+import 'package:shop_app_client/storage/language_storage.dart';
 
-class I10n {
+class Locale {
   final RxMap<String, dynamic> _translations = <String, dynamic>{}.obs;
 
   final RxString _language = ''.obs;
@@ -12,9 +12,9 @@ class I10n {
 
   String get language => _language.value;
 
-  I10n() {
-    _language.value = LanguageStore.getLanguage();
-    var translateValue = LanguageStore.geTranslate();
+  Locale() {
+    _language.value = LocaleStorage.getLanguage();
+    var translateValue = LocaleStorage.geTranslate();
     if (translateValue != null) {
       _translations.value = translateValue;
     }
@@ -25,7 +25,7 @@ class I10n {
     var value = await LanguageService.getTransform({'source': 3}, option);
     if (value != null) {
       _translations.value = value;
-      LanguageStore.setTranslate(value);
+      LocaleStorage.setTranslate(value);
     }
   }
 

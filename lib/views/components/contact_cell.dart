@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 
 class CartCell extends StatefulWidget {
   const CartCell({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class _CartCellState extends State<CartCell>
           onDrag(detail.delta);
         },
         onTap: () {
-          BeeNav.push(BeeNav.cart);
+          GlobalPages.push(GlobalPages.cart);
         },
         child: Container(
           width: 58.w,
@@ -67,7 +67,7 @@ class _CartCellState extends State<CartCell>
                     top: -1.w,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: AppColors.primary,
+                        color: AppStyles.primary,
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                       padding:

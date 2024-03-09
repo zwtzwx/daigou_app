@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/agent_commission_record_model.dart';
-import 'package:huanting_shop/models/agent_commissions_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
-import 'package:huanting_shop/views/user/agent/agent_withdraw_record/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/agent_commission_record_model.dart';
+import 'package:shop_app_client/models/agent_commissions_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
+import 'package:shop_app_client/views/user/agent/agent_withdraw_record/controller.dart';
 
 class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
   const AgentWithdrawRecordPage({Key? key}) : super(key: key);
@@ -21,13 +21,13 @@ class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
         ),
         centerTitle: true,
         title: AppText(
-          str: '成交记录'.ts,
+          str: '成交记录'.inte,
           fontSize: 18,
         ),
         elevation: 0.5,
         backgroundColor: Colors.white,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: RefreshView(
         renderItem: renderItem,
         refresh: controller.loadData,
@@ -42,7 +42,7 @@ class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
       child: Obx(
         () => ExpansionPanelList(
           elevation: 0,
-          dividerColor: AppColors.line,
+          dividerColor: AppStyles.line,
           expansionCallback: (index, open) {
             if (open) {
               controller.dataList.remove(model.createdAt);
@@ -65,12 +65,14 @@ class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           AppText(
-                            str: model.orderAmount.rate(),
-                            color: AppColors.textGray,
+                            str: model.orderAmount.priceConvert(),
+                            color: AppStyles.textGray,
                           ),
                           AppText(
-                            str: '佣金'.ts + '：+' + model.commissionAmount.rate(),
-                            color: AppColors.textGray,
+                            str: '佣金'.inte +
+                                '：+' +
+                                model.commissionAmount.priceConvert(),
+                            color: AppStyles.textGray,
                           ),
                         ],
                       ),
@@ -112,9 +114,9 @@ class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
               fontSize: 13,
             ),
             AppText(
-              str: model.orderAmount.rate(),
+              str: model.orderAmount.priceConvert(),
               fontSize: 13,
-              color: AppColors.textGray,
+              color: AppStyles.textGray,
             ),
           ],
         ),
@@ -122,13 +124,13 @@ class AgentWithdrawRecordPage extends GetView<AgentWithdrawRecordController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             AppText(
-              str: '转运单号'.ts + '：' + model.orderNumber,
+              str: '转运单号'.inte + '：' + model.orderNumber,
               fontSize: 13,
             ),
             AppText(
-              str: '佣金'.ts + '：+' + model.commissionAmount.rate(),
+              str: '佣金'.inte + '：+' + model.commissionAmount.priceConvert(),
               fontSize: 13,
-              color: AppColors.textGray,
+              color: AppStyles.textGray,
             ),
           ],
         ),

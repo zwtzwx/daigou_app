@@ -1,15 +1,15 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/user_model.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/user_model.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/empty_app_bar.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/views/user/me/me_controller.dart';
+import 'package:shop_app_client/views/user/me/me_controller.dart';
 
 class BeeCenterPage extends GetView<BeeCenterLogic> {
   const BeeCenterPage({Key? key}) : super(key: key);
@@ -20,10 +20,10 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
       key: controller.scaffoldKey,
       appBar: const EmptyAppBar(),
       primary: false,
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: RefreshIndicator(
         onRefresh: controller.handleRefresh,
-        color: AppColors.textRed,
+        color: AppStyles.textRed,
         child: Obx(
           () => Stack(
             children: [
@@ -75,7 +75,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                           10.horizontalSpace,
                           GestureDetector(
                             onTap: () {
-                              BeeNav.push(BeeNav.customer);
+                              GlobalPages.push(GlobalPages.customer);
                             },
                             child: LoadAssetImage(
                               'Center/ico_kf',
@@ -101,62 +101,62 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
         {
           'name': '语言/币种',
           'icon': 'Center/ico_yy',
-          'route': BeeNav.localeSetting,
+          'route': GlobalPages.localeSetting,
         },
         {
           'name': '地址簿',
           'icon': 'Center/ico_dzb',
-          'route': BeeNav.addressList,
+          'route': GlobalPages.addressList,
           'params': {'select': 0},
         },
         {
           'name': '余额',
           'icon': 'Center/ico_ye',
-          'route': BeeNav.recharge,
+          'route': GlobalPages.recharge,
         },
         {
           'name': '我的积分',
           'icon': 'Center/ico_jf',
-          'route': BeeNav.vip,
+          'route': GlobalPages.vip,
         },
         {
           'name': '我的评论',
           'icon': 'Center/ico_pl',
-          'route': BeeNav.comment,
+          'route': GlobalPages.comment,
         },
         {
           'name': '我的咨询',
           'icon': 'Center/ico_zx',
-          'route': BeeNav.shopOrderChat,
+          'route': GlobalPages.shopOrderChat,
         },
         {
           'name': '推广联盟',
           'icon': 'Center/ico_tglm',
-          'route': BeeNav.agentApplyInstruct,
+          'route': GlobalPages.agentApplyInstruct,
         },
       ],
       [
         {
           'name': '中国仓库',
           'icon': 'Center/ico_ck',
-          'route': BeeNav.warehouse,
+          'route': GlobalPages.warehouse,
         },
         {
           'name': '邮寄其他包裹',
           'icon': 'Center/ico_bg',
-          'route': BeeNav.forecast,
+          'route': GlobalPages.forecast,
         },
       ],
       [
         {
           'name': '帮助中心',
           'icon': 'Center/ico_bzzx',
-          'route': BeeNav.help,
+          'route': GlobalPages.help,
         },
         {
           'name': '账号安全',
           'icon': 'Center/ico_zhaq',
-          'route': BeeNav.profile,
+          'route': GlobalPages.profile,
         },
         {
           'name': '退出登录',
@@ -200,19 +200,19 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () async {
-                  if (list[index]['route'] == BeeNav.agentApplyInstruct) {
+                  if (list[index]['route'] == GlobalPages.agentApplyInstruct) {
                     if (controller.agentStatus.value?.id == 2) return;
                     if (controller.agentStatus.value?.id == 1) {
-                      BeeNav.push(BeeNav.agentCenter);
+                      GlobalPages.push(GlobalPages.agentCenter);
                     } else {
-                      BeeNav.push(list[index]['route']);
+                      GlobalPages.push(list[index]['route']);
                     }
                   } else if (list[index]['route'] != null) {
-                    BeeNav.push(list[index]['route'],
+                    GlobalPages.push(list[index]['route'],
                         arg: list[index]['params']);
                   } else {
                     var res = await BaseDialog.cupertinoConfirmDialog(
-                        context, '确认退出登录吗'.ts + '？');
+                        context, '确认退出登录吗'.inte + '？');
                     if (res == true) {
                       controller.onLogout();
                     }
@@ -232,7 +232,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                       Expanded(
                         child: Obx(
                           () => AppText(
-                            str: (list[index]['name']! as String).ts,
+                            str: (list[index]['name']! as String).inte,
                             fontSize: 14,
                             lines: 2,
                           ),
@@ -243,7 +243,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                         Icon(
                           Icons.arrow_forward_ios,
                           size: 13.sp,
-                          color: AppColors.textNormal,
+                          color: AppStyles.textNormal,
                         ),
                     ],
                   ),
@@ -265,17 +265,17 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
         {
           'label': '我的订单',
           'icon': 'Center/ico_wddd',
-          'route': BeeNav.shopOrderList,
+          'route': GlobalPages.shopOrderList,
         },
         {
           'label': '运费试算',
           'icon': 'Center/ico_yfss',
-          'route': BeeNav.lineQuery,
+          'route': GlobalPages.lineQuery,
         },
         {
           'label': '我的包裹',
           'icon': 'Center/ico_wdbg',
-          'route': BeeNav.orderCenter,
+          'route': GlobalPages.orderCenter,
         },
       ];
 
@@ -324,7 +324,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                 10.horizontalSpace,
                 GestureDetector(
                   onTap: () {
-                    BeeNav.push(BeeNav.customer);
+                    GlobalPages.push(GlobalPages.customer);
                   },
                   child: LoadAssetImage(
                     'Center/ico_kf',
@@ -349,7 +349,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                     (e) => Flexible(
                       child: GestureDetector(
                         onTap: () {
-                          BeeNav.push(e['route']!);
+                          GlobalPages.push(e['route']!);
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -362,7 +362,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                               ),
                               4.verticalSpace,
                               AppText(
-                                str: e['label']!.ts,
+                                str: e['label']!.inte,
                                 fontSize: 12,
                               ),
                             ],

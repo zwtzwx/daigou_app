@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/user_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/user/agent/agent_member/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/user_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/user/agent/agent_member/controller.dart';
 
 class AgentMemberPage extends GetView<AgentMemberController> {
   const AgentMemberPage({Key? key}) : super(key: key);
@@ -18,14 +18,14 @@ class AgentMemberPage extends GetView<AgentMemberController> {
       appBar: AppBar(
         centerTitle: true,
         title: AppText(
-          str: controller.promotionType == 1 ? '已注册好友'.ts : '已下单好友'.ts,
+          str: controller.promotionType == 1 ? '已注册好友'.inte : '已下单好友'.inte,
           fontSize: 17,
         ),
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: SafeArea(
         child: RefreshView(
             renderItem: buildAgentUserView,
@@ -63,9 +63,9 @@ class AgentMemberPage extends GetView<AgentMemberController> {
                   ),
                   5.verticalSpaceFromWidth,
                   AppText(
-                    str: '注册时间'.ts + '  ' + model.createdAt,
+                    str: '注册时间'.inte + '  ' + model.createdAt,
                     fontSize: 12,
-                    color: AppColors.textNormal,
+                    color: AppStyles.textNormal,
                   ),
                 ],
               ),

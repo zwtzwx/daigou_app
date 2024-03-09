@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/group_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/group_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 
 class MemberAvatarWidget extends StatelessWidget {
   const MemberAvatarWidget({
@@ -38,8 +38,8 @@ class MemberAvatarWidget extends StatelessWidget {
                     border: Border.all(width: 3, color: Colors.white),
                     color: (member.isGroupLeader! == 1 &&
                             (member.isSubmitted == 0 || leaderFirst))
-                        ? AppColors.primary
-                        : AppColors.green,
+                        ? AppStyles.primary
+                        : AppStyles.green,
                     borderRadius: BorderRadius.circular(999),
                   ),
                   padding:
@@ -47,8 +47,8 @@ class MemberAvatarWidget extends StatelessWidget {
                   child: AppText(
                     str: (member.isGroupLeader! == 1 &&
                             (member.isSubmitted == 0 || leaderFirst))
-                        ? '团长'.ts
-                        : '已提交'.ts,
+                        ? '团长'.inte
+                        : '已提交'.inte,
                     fontSize: 10,
                     color: (member.isGroupLeader! == 1 &&
                             (member.isSubmitted == 0 || leaderFirst))

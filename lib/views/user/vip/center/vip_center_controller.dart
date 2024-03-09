@@ -1,14 +1,14 @@
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/models/user_model.dart';
-import 'package:huanting_shop/models/user_order_count_model.dart';
-import 'package:huanting_shop/models/user_vip_model.dart';
-import 'package:huanting_shop/services/user_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/models/user_model.dart';
+import 'package:shop_app_client/models/user_order_count_model.dart';
+import 'package:shop_app_client/models/user_vip_model.dart';
+import 'package:shop_app_client/services/user_service.dart';
 
-class BeeSuperUserLogic extends GlobalLogic {
+class BeeSuperUserLogic extends GlobalController {
   final isloading = false.obs;
 
   //各种统计，包括余额
@@ -38,7 +38,7 @@ class BeeSuperUserLogic extends GlobalLogic {
   }
 
   onPay() async {
-    var a = await BeeNav.push('/OrderPayPage', arg: {
+    var a = await GlobalPages.push('/OrderPayPage', arg: {
       'model': userVipModel.value!.priceList[selectButton.value],
       'payModel': 0
     });

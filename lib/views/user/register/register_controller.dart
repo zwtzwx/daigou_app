@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/services/user_service.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/country_model.dart';
+import 'package:shop_app_client/services/user_service.dart';
 
-class BeeSignUpLogic extends GlobalLogic {
+class BeeSignUpLogic extends GlobalController {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   // 新号码
   final TextEditingController mobileNumberController = TextEditingController();
@@ -23,14 +23,14 @@ class BeeSignUpLogic extends GlobalLogic {
   // 邀请码
   final TextEditingController inviteController = TextEditingController();
 
-  RxString pageTitle = '注册'.ts.obs;
+  RxString pageTitle = '注册'.inte.obs;
   RxInt loginType = 2.obs; // 1、手机号验证码 2: 邮箱验证码
-  RxString sent = '获取验证码'.ts.obs;
+  RxString sent = '获取验证码'.inte.obs;
   RxString code = ''.obs;
   RxBool isButtonEnable = true.obs;
   final timer = Rxn<Timer?>();
   RxInt count = 60.obs;
-  Rx<Color> codeColor = AppColors.textBlack.obs;
+  Rx<Color> codeColor = AppStyles.textBlack.obs;
   // 电话区号
   RxString areaNumber = '0086'.obs;
   // 电话号码
@@ -56,7 +56,7 @@ class BeeSignUpLogic extends GlobalLogic {
       var res = await UserService.register(map);
       if (res['ok']) {
         await EasyLoading.showSuccess(res['msg']);
-        BeeNav.pop(loginType.value == 1
+        GlobalPages.pop(loginType.value == 1
             ? mobileNumberController.text
             : emailController.text);
       }
@@ -84,7 +84,7 @@ class BeeSignUpLogic extends GlobalLogic {
         hideLoading();
         showSuccess(data.msg);
 
-        sent.value = '重新发送'.ts + '  ($count)'; //更新文本内容
+        sent.value = '重新发送'.inte + '  ($count)'; //更新文本内容
         buttonClickListen();
       }, (msg) {
         hideLoading();
@@ -95,7 +95,7 @@ class BeeSignUpLogic extends GlobalLogic {
 
   // 选择手机区号
   void onTimezone() async {
-    var s = await BeeNav.push(BeeNav.country);
+    var s = await GlobalPages.push(GlobalPages.country);
     if (s != null) {
       CountryModel a = s as CountryModel;
       areaNumber.value = a.timezone!;
@@ -107,7 +107,7 @@ class BeeSignUpLogic extends GlobalLogic {
     if (isButtonEnable.value) {
       //当按钮可点击时
       isButtonEnable.value = false; //按钮状态标记
-      codeColor.value = AppColors.textGray;
+      codeColor.value = AppStyles.textGray;
       initTimer();
     }
   }
@@ -119,10 +119,10 @@ class BeeSignUpLogic extends GlobalLogic {
         timer.cancel(); //倒计时结束取消定时器
         isButtonEnable.value = true; //按钮可点击
         count.value = 60; //重置时间
-        codeColor.value = AppColors.textBlack;
-        sent.value = '发送验证码'.ts; //重置按钮文本
+        codeColor.value = AppStyles.textBlack;
+        sent.value = '发送验证码'.inte; //重置按钮文本
       } else {
-        sent.value = '重新发送'.ts + ' ($count)'; //更新文本内容
+        sent.value = '重新发送'.inte + ' ($count)'; //更新文本内容
       }
     });
   }

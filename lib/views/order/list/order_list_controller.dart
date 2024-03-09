@@ -1,9 +1,9 @@
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/services/order_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/services/order_service.dart';
 
-class BeeOrdersLogic extends GlobalLogic {
+class BeeOrdersLogic extends GlobalController {
   final pageIndex = 0.obs;
   final pageTitle = ''.obs;
 

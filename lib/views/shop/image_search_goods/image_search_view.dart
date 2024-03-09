@@ -2,8 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/views/shop/image_search_goods/image_search_logic.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/views/shop/image_search_goods/image_search_logic.dart';
 
 class GoodsImageSearchPage extends GetView<GoodsImageSearchLogic> {
   const GoodsImageSearchPage({Key? key}) : super(key: key);
@@ -63,7 +63,7 @@ class GoodsImageSearchPage extends GetView<GoodsImageSearchLogic> {
                       padding: EdgeInsets.all(3.w),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: AppColors.primary,
+                          color: AppStyles.primary,
                           borderRadius: BorderRadius.circular(10.r),
                         ),
                       ),

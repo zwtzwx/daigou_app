@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/cart_goods_item.dart';
-import 'package:huanting_shop/views/components/skeleton/skeleton.dart';
-import 'package:huanting_shop/views/shop/order_detail/order_detail_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/cart_goods_item.dart';
+import 'package:shop_app_client/views/components/skeleton/skeleton.dart';
+import 'package:shop_app_client/views/shop/order_detail/order_detail_controller.dart';
 
 class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
   const ShopOrderDetailView({Key? key}) : super(key: key);
@@ -18,14 +18,14 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
       appBar: AppBar(
         centerTitle: true,
         title: AppText(
-          str: '订单详情'.ts,
+          str: '订单详情'.inte,
           fontSize: 17,
         ),
-        backgroundColor: AppColors.bgGray,
+        backgroundColor: AppStyles.bgGray,
         leading: const BackButton(color: Colors.black),
         elevation: 0,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: Obx(
         () => controller.isLoading.value
             ? Column(
@@ -57,7 +57,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
               )
             : RefreshIndicator(
                 onRefresh: controller.getDetail,
-                color: AppColors.primary,
+                color: AppStyles.primary,
                 child: ListView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: [
@@ -80,21 +80,21 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 10.w),
             decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: AppColors.line)),
+              border: Border(bottom: BorderSide(color: AppStyles.line)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppText(
-                  str: '收货地址'.ts,
+                  str: '收货地址'.inte,
                   fontSize: 14,
                 ),
                 AppText(
                   str: controller.orderModel.value!.address?.addressType == 1
-                      ? '送货上门'.ts
-                      : '自提点提货'.ts,
+                      ? '送货上门'.inte
+                      : '自提点提货'.inte,
                   fontSize: 12,
-                  color: AppColors.textNormal,
+                  color: AppStyles.textNormal,
                 ),
               ],
             ),
@@ -137,7 +137,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
                       str: controller.orderModel.value!.address!.getContent(),
                       lines: 10,
                       fontSize: 12,
-                      color: AppColors.textGrayC9,
+                      color: AppStyles.textGrayC9,
                     ),
                   ],
                 ),
@@ -168,7 +168,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           children: [
             Expanded(
               child: AppText(
-                str: '国内运费'.ts,
+                str: '国内运费'.inte,
                 fontSize: 14,
                 lines: 2,
               ),
@@ -176,7 +176,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
             5.horizontalSpace,
             AppText(
               str: (controller.orderModel.value!.freightFee ?? 0)
-                  .rate(needFormat: false),
+                  .priceConvert(needFormat: false),
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
@@ -187,7 +187,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             AppText(
-              str: '订单备注'.ts,
+              str: '订单备注'.inte,
               fontSize: 14,
             ),
             10.horizontalSpace,
@@ -210,7 +210,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           children: [
             Expanded(
               child: AppText(
-                str: '商品总价'.ts,
+                str: '商品总价'.inte,
                 fontSize: 14,
                 lines: 2,
               ),
@@ -218,7 +218,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
             5.horizontalSpace,
             AppText(
               str: (controller.orderModel.value!.goodsAmount ?? 0)
-                  .rate(needFormat: false),
+                  .priceConvert(needFormat: false),
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
@@ -230,7 +230,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           children: [
             Expanded(
               child: AppText(
-                str: '国内运费'.ts,
+                str: '国内运费'.inte,
                 fontSize: 14,
                 lines: 2,
               ),
@@ -238,7 +238,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
             5.horizontalSpace,
             AppText(
               str: (controller.orderModel.value!.freightFee ?? 0)
-                  .rate(needFormat: false),
+                  .priceConvert(needFormat: false),
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
@@ -250,7 +250,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           children: [
             Expanded(
               child: AppText(
-                str: '增值服务费'.ts,
+                str: '增值服务费'.inte,
                 fontSize: 14,
                 lines: 2,
               ),
@@ -258,7 +258,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
             5.horizontalSpace,
             AppText(
               str: (controller.orderModel.value!.packageServiceFee ?? 0)
-                  .rate(needFormat: false),
+                  .priceConvert(needFormat: false),
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
@@ -272,7 +272,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
                   children: [
                     Expanded(
                       child: AppText(
-                        str: '支付金额'.ts,
+                        str: '支付金额'.inte,
                         fontSize: 14,
                         lines: 2,
                       ),
@@ -280,7 +280,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
                     5.horizontalSpace,
                     AppText(
                       str: (controller.orderModel.value!.amount ?? 0)
-                          .rate(needFormat: false),
+                          .priceConvert(needFormat: false),
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -296,7 +296,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           children: [
             Expanded(
               child: AppText(
-                str: '订单编号'.ts,
+                str: '订单编号'.inte,
                 fontSize: 14,
                 lines: 2,
               ),
@@ -309,7 +309,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
               child: AppText(
                 str: controller.orderModel.value!.orderSn,
                 fontSize: 14,
-                color: AppColors.textGrayC9,
+                color: AppStyles.textGrayC9,
                 decoration: TextDecoration.underline,
               ),
             ),
@@ -321,7 +321,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           children: [
             Expanded(
               child: AppText(
-                str: '提交时间'.ts,
+                str: '提交时间'.inte,
                 fontSize: 14,
                 lines: 2,
               ),
@@ -330,7 +330,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
             AppText(
               str: controller.orderModel.value!.createdAt ?? '',
               fontSize: 14,
-              color: AppColors.textGrayC9,
+              color: AppStyles.textGrayC9,
             ),
           ],
         ),
@@ -347,7 +347,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           children: [
             Expanded(
               child: AppText(
-                str: '打包方式'.ts,
+                str: '打包方式'.inte,
                 fontSize: 14,
                 lines: 2,
               ),
@@ -355,10 +355,10 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
             5.horizontalSpace,
             AppText(
               str: controller.orderModel.value!.expressLine != null
-                  ? '到件即发'.ts
-                  : '集齐再发'.ts,
+                  ? '到件即发'.inte
+                  : '集齐再发'.inte,
               fontSize: 14,
-              color: AppColors.textGrayC9,
+              color: AppStyles.textGrayC9,
             ),
           ],
         ),

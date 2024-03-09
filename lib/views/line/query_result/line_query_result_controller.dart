@@ -1,10 +1,10 @@
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/models/ship_line_model.dart';
-import 'package:huanting_shop/services/ship_line_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/models/ship_line_model.dart';
+import 'package:shop_app_client/services/ship_line_service.dart';
 
-class LineQueryResultController extends GlobalLogic {
+class LineQueryResultController extends GlobalController {
   final lineData = RxList<ShipLineModel>();
   final postDic = Rxn<Map<String, dynamic>?>();
   final isEmpty = false.obs;

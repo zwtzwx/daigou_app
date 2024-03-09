@@ -1,10 +1,10 @@
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/models/user_vip_model.dart';
-import 'package:huanting_shop/services/point_service.dart';
-import 'package:huanting_shop/services/user_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/models/user_vip_model.dart';
+import 'package:shop_app_client/services/point_service.dart';
+import 'package:shop_app_client/services/user_service.dart';
 
-class BeeValuesLogic extends GlobalLogic {
+class BeeValuesLogic extends GlobalController {
   final isloading = false.obs;
   int pageIndex = 0;
   final vipDataModel = Rxn<UserVipModel?>();

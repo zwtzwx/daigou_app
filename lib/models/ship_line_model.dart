@@ -1,10 +1,10 @@
-import 'package:huanting_shop/models/goods_props.dart';
-import 'package:huanting_shop/models/line_icon_model.dart';
-import 'package:huanting_shop/models/price_grade_model.dart';
-import 'package:huanting_shop/models/region_model.dart';
-import 'package:huanting_shop/models/self_pickup_station_model.dart';
-import 'package:huanting_shop/models/ship_line_label_model.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
+import 'package:shop_app_client/models/goods_props.dart';
+import 'package:shop_app_client/models/line_icon_model.dart';
+import 'package:shop_app_client/models/price_grade_model.dart';
+import 'package:shop_app_client/models/region_model.dart';
+import 'package:shop_app_client/models/self_pickup_station_model.dart';
+import 'package:shop_app_client/models/ship_line_label_model.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
 
 /*
   线路渠道

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/group_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/group/group_member_detail/controller.dart';
-import 'package:huanting_shop/views/group/widget/member_avatar_widget.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/group_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/group/group_member_detail/controller.dart';
+import 'package:shop_app_client/views/group/widget/member_avatar_widget.dart';
 
 class BeeGroupUsersView extends GetView<BeeGroupUsersController> {
   const BeeGroupUsersView({Key? key}) : super(key: key);
@@ -19,11 +19,11 @@ class BeeGroupUsersView extends GetView<BeeGroupUsersController> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: AppText(
-          str: '参团详情'.ts,
+          str: '参团详情'.inte,
           fontSize: 17,
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: Obx(() => controller.groupModel.value != null
           ? SingleChildScrollView(
               child: Container(
@@ -46,11 +46,11 @@ class BeeGroupUsersView extends GetView<BeeGroupUsersController> {
                         Text.rich(
                           TextSpan(
                             style: const TextStyle(
-                              color: AppColors.textBlack,
+                              color: AppStyles.textBlack,
                             ),
                             children: [
                               TextSpan(
-                                text: '已提交'.ts + ' ',
+                                text: '已提交'.inte + ' ',
                               ),
                               TextSpan(
                                 text:
@@ -76,7 +76,7 @@ class BeeGroupUsersView extends GetView<BeeGroupUsersController> {
                     AppGaps.vGap10,
                     infoItemCell(
                       '全团已入库包裹数量',
-                      '${controller.groupModel.value!.packagesCount!}${'个'.ts}',
+                      '${controller.groupModel.value!.packagesCount!}${'个'.inte}',
                       isWeight: false,
                     ),
                     infoItemCell(
@@ -102,16 +102,16 @@ class BeeGroupUsersView extends GetView<BeeGroupUsersController> {
       child: Text.rich(
         TextSpan(children: [
           TextSpan(
-            text: label.ts + '*：',
+            text: label.inte + '*：',
             style: const TextStyle(
-              color: AppColors.textGray,
+              color: AppStyles.textGray,
             ),
           ),
           TextSpan(
             text: content +
                 (isWeight ? (controller.localModel?.weightSymbol ?? '') : ''),
             style: const TextStyle(
-              color: AppColors.textDark,
+              color: AppStyles.textDark,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -125,7 +125,7 @@ class BeeGroupUsersView extends GetView<BeeGroupUsersController> {
       padding: const EdgeInsets.only(top: 10, bottom: 20),
       decoration: const BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: AppColors.line),
+          bottom: BorderSide(color: AppStyles.line),
         ),
       ),
       child: Row(
@@ -162,40 +162,40 @@ class BeeGroupUsersView extends GetView<BeeGroupUsersController> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: AppText(
-                              str: '拼团订单号'.ts + '：' + (model.ordern ?? ''),
+                              str: '拼团订单号'.inte + '：' + (model.ordern ?? ''),
                               lines: 2,
-                              color: AppColors.textGray,
+                              color: AppStyles.textGray,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: AppText(
-                              str: '入库重量'.ts +
+                              str: '入库重量'.inte +
                                   '：' +
                                   ((model.weight ?? 0) / 1000)
                                       .toStringAsFixed(2) +
                                   (controller.localModel?.weightSymbol ?? ''),
                               lines: 2,
-                              color: AppColors.textGray,
+                              color: AppStyles.textGray,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: AppText(
-                              str: '入库体积重量'.ts +
+                              str: '入库体积重量'.inte +
                                   '：' +
                                   ((model.volumeWeight ?? 0) / 1000)
                                       .toStringAsFixed(2) +
                                   (controller.localModel?.weightSymbol ?? ''),
                               lines: 2,
-                              color: AppColors.textGray,
+                              color: AppStyles.textGray,
                             ),
                           ),
                         ],
                       )
                     : AppText(
-                        str: '还未提交包裹'.ts,
-                        color: AppColors.textGray,
+                        str: '还未提交包裹'.inte,
+                        color: AppStyles.textGray,
                       ),
               ],
             ),

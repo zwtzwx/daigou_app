@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/withdrawal_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/user/agent/agent_withdraw_detail/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/withdrawal_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/user/agent/agent_withdraw_detail/controller.dart';
 
 class AgentWithdrawDetailPage extends GetView<AgentWithdrawDetailController> {
   const AgentWithdrawDetailPage({Key? key}) : super(key: key);
@@ -18,13 +18,13 @@ class AgentWithdrawDetailPage extends GetView<AgentWithdrawDetailController> {
         ),
         centerTitle: true,
         title: AppText(
-          str: '结算详情'.ts,
+          str: '结算详情'.inte,
           fontSize: 17,
         ),
         elevation: 0.5,
         backgroundColor: Colors.white,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -50,35 +50,35 @@ class AgentWithdrawDetailPage extends GetView<AgentWithdrawDetailController> {
               alignment: Alignment.center,
               child: AppText(
                 fontSize: 22,
-                str: (controller.detailModel.value?.amount ?? 0).rate(),
-                color: AppColors.textRed,
+                str: (controller.detailModel.value?.amount ?? 0).priceConvert(),
+                color: AppStyles.textRed,
               ),
             ),
             AppGaps.vGap20,
             AppText(
-              str:
-                  '流水号'.ts + '：${controller.detailModel.value?.serialNo ?? ''}',
+              str: '流水号'.inte +
+                  '：${controller.detailModel.value?.serialNo ?? ''}',
             ),
             AppGaps.vGap5,
             AppText(
-              str: '收款方式'.ts +
+              str: '收款方式'.inte +
                   '：${controller.detailModel.value?.withdrawTypeName ?? ''}',
             ),
             AppGaps.vGap5,
             AppText(
-              str: '收款账户'.ts +
+              str: '收款账户'.inte +
                   '：${controller.detailModel.value?.user?.name ?? ''}',
             ),
             AppGaps.vGap5,
             AppText(
-              str: '结算状态'.ts +
+              str: '结算状态'.inte +
                   '：' +
                   (controller.detailModel.value?.status == 0
-                      ? '审核中'.ts
+                      ? '审核中'.inte
                       : (controller.detailModel.value?.status == 1
                               ? '审核通过'
                               : '审核拒绝')
-                          .ts),
+                          .inte),
             ),
           ],
         ),
@@ -95,7 +95,7 @@ class AgentWithdrawDetailPage extends GetView<AgentWithdrawDetailController> {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: AppText(
-              str: '结算明细'.ts,
+              str: '结算明细'.inte,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
@@ -118,7 +118,7 @@ class AgentWithdrawDetailPage extends GetView<AgentWithdrawDetailController> {
     return Container(
       decoration: const BoxDecoration(
         border: Border(
-          top: BorderSide(color: AppColors.line),
+          top: BorderSide(color: AppStyles.line),
         ),
       ),
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
@@ -133,7 +133,7 @@ class AgentWithdrawDetailPage extends GetView<AgentWithdrawDetailController> {
                 fontSize: 14,
               ),
               AppText(
-                str: model.orderAmount.rate(),
+                str: model.orderAmount.priceConvert(),
                 fontSize: 14,
               ),
             ],
@@ -143,11 +143,11 @@ class AgentWithdrawDetailPage extends GetView<AgentWithdrawDetailController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AppText(
-                str: '转运单号'.ts + '：' + model.orderNumber,
+                str: '转运单号'.inte + '：' + model.orderNumber,
                 fontSize: 14,
               ),
               AppText(
-                str: '佣金'.ts + '：+' + model.commissionAmount.rate(),
+                str: '佣金'.inte + '：+' + model.commissionAmount.priceConvert(),
                 fontSize: 14,
               ),
             ],

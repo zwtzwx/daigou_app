@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/help/guide/guide_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/empty_app_bar.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/help/guide/guide_controller.dart';
 
 class GuideView extends GetView<GuideController> {
   const GuideView({Key? key}) : super(key: key);
@@ -56,20 +56,20 @@ class GuideView extends GetView<GuideController> {
                     text: TextSpan(
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: AppColors.textDark,
+                        color: AppStyles.textDark,
                         height: 1.8,
                       ),
                       children: [
                         TextSpan(
-                          text: '支持搜索中国大主流电商平台商品代购，也可以提供需要代购商品的连接，点击手动'.ts,
+                          text: '支持搜索中国大主流电商平台商品代购，也可以提供需要代购商品的连接，点击手动'.inte,
                         ),
                         WidgetSpan(
                           child: GestureDetector(
                             onTap: () {
-                              BeeNav.push(BeeNav.manualOrder);
+                              GlobalPages.push(GlobalPages.manualOrder);
                             },
                             child: AppText(
-                              str: '【${'填写提交代购单'.ts}】',
+                              str: '【${'填写提交代购单'.inte}】',
                               fontSize: 12,
                               color: const Color(0xFFF14D50),
                             ),
@@ -101,7 +101,7 @@ class GuideView extends GetView<GuideController> {
                                   ),
                                   5.verticalSpaceFromWidth,
                                   AppText(
-                                    str: e['title']!.ts,
+                                    str: e['title']!.inte,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     lines: 2,
@@ -109,9 +109,9 @@ class GuideView extends GetView<GuideController> {
                                   ),
                                   8.verticalSpaceFromWidth,
                                   AppText(
-                                    str: e['subTitle']!.ts,
+                                    str: e['subTitle']!.inte,
                                     fontSize: 12,
-                                    color: AppColors.textNormal,
+                                    color: AppStyles.textNormal,
                                     lines: 4,
                                     alignment: TextAlign.center,
                                   ),
@@ -139,14 +139,14 @@ class GuideView extends GetView<GuideController> {
                                 height: 84.w,
                               ),
                               AppText(
-                                str: (e.value['title'] as String).ts,
+                                str: (e.value['title'] as String).inte,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                               15.verticalSpaceFromWidth,
                               AppText(
                                 str: '0${e.key + 1}. ' +
-                                    (e.value['subTitle'] as String).ts,
+                                    (e.value['subTitle'] as String).inte,
                                 fontSize: 14,
                                 lines: 10,
                                 lineHeight: 1.6,
@@ -154,11 +154,11 @@ class GuideView extends GetView<GuideController> {
                               10.verticalSpaceFromWidth,
                               ...(e.value['contents'] as List).map(
                                 (content) => AppText(
-                                  str: (content as String).ts,
+                                  str: (content as String).inte,
                                   fontSize: 12,
                                   lines: 20,
                                   lineHeight: 2,
-                                  color: AppColors.textNormal,
+                                  color: AppStyles.textNormal,
                                 ),
                               ),
                             ],
@@ -199,7 +199,7 @@ class GuideView extends GetView<GuideController> {
                     ),
                   ),
                   AppText(
-                    str: title.ts,
+                    str: title.inte,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/views/user/setting_locale/controller.dart';
+import 'package:shop_app_client/views/user/setting_locale/controller.dart';
 
 class SettingLocaleBinding extends Bindings {
   @override

@@ -3,32 +3,32 @@ import 'package:flutter_picker/flutter_picker.dart';
 import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/un_authenticate_event.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/models/express_company_model.dart';
-import 'package:huanting_shop/models/goods_props.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/models/receiver_address_model.dart';
-import 'package:huanting_shop/models/self_pickup_station_model.dart';
-import 'package:huanting_shop/models/ship_line_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/models/user_model.dart';
-import 'package:huanting_shop/models/value_added_service_model.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
-import 'package:huanting_shop/services/common_service.dart';
-import 'package:huanting_shop/services/express_company_service.dart';
-import 'package:huanting_shop/services/goods_service.dart';
-import 'package:huanting_shop/services/parcel_service.dart';
-import 'package:huanting_shop/services/warehouse_service.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/parcel/widget/batch_forecast.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/un_authenticate_event.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/country_model.dart';
+import 'package:shop_app_client/models/express_company_model.dart';
+import 'package:shop_app_client/models/goods_props.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/models/receiver_address_model.dart';
+import 'package:shop_app_client/models/self_pickup_station_model.dart';
+import 'package:shop_app_client/models/ship_line_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/models/user_model.dart';
+import 'package:shop_app_client/models/value_added_service_model.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
+import 'package:shop_app_client/services/common_service.dart';
+import 'package:shop_app_client/services/express_company_service.dart';
+import 'package:shop_app_client/services/goods_service.dart';
+import 'package:shop_app_client/services/parcel_service.dart';
+import 'package:shop_app_client/services/warehouse_service.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/parcel/widget/batch_forecast.dart';
 
-class BeeParcelCreateLogic extends GlobalLogic {
+class BeeParcelCreateLogic extends GlobalController {
   ScrollController scrollController = ScrollController();
   FocusNode blankNode = FocusNode();
   final selectedCountryModel = Rxn<CountryModel?>();
@@ -72,7 +72,7 @@ class BeeParcelCreateLogic extends GlobalLogic {
         .on<UnAuthenticateEvent>()
         .listen((event) {
       showToast('登录凭证已失效');
-      BeeNav.push(BeeNav.login);
+      GlobalPages.push(GlobalPages.login);
     });
     created();
     loadInitData();
@@ -130,8 +130,8 @@ class BeeParcelCreateLogic extends GlobalLogic {
     var data = await BaseDialog.showBottomActionSheet<int?>(
       context: context,
       list: [
-        {'id': 1, 'name': '集齐再发'.ts},
-        {'id': 2, 'name': '到件即发'.ts},
+        {'id': 1, 'name': '集齐再发'.inte},
+        {'id': 2, 'name': '到件即发'.inte},
       ],
     );
     if (data != null) {
@@ -141,7 +141,7 @@ class BeeParcelCreateLogic extends GlobalLogic {
 
   // 到件即发选择收件地址
   onAddress() async {
-    var s = await BeeNav.push(BeeNav.addressList, arg: {'select': 1});
+    var s = await GlobalPages.push(GlobalPages.addressList, arg: {'select': 1});
     if (s == null) return;
 
     addressModel.value = s as ReceiverAddressModel;
@@ -167,7 +167,8 @@ class BeeParcelCreateLogic extends GlobalLogic {
       'props': propIds.toList(),
       'postcode': addressModel.value?.postcode,
     };
-    var s = await BeeNav.push(BeeNav.lineQueryResult, arg: {"data": params});
+    var s = await GlobalPages.push(GlobalPages.lineQueryResult,
+        arg: {"data": params});
     if (s == null) return;
 
     lineModel.value = s as ShipLineModel;
@@ -214,7 +215,7 @@ class BeeParcelCreateLogic extends GlobalLogic {
     ParcelService.store(params, (data) {
       if (data.ok) {
         // Get.find<AppStore>().getBaseCountInfo();
-        BeeNav.pop();
+        GlobalPages.pop();
       }
     }, (message) {});
   }
@@ -262,8 +263,8 @@ class BeeParcelCreateLogic extends GlobalLogic {
                 ),
               )
               .toList()),
-      cancelText: '取消'.ts,
-      confirmText: '确认'.ts,
+      cancelText: '取消'.inte,
+      confirmText: '确认'.inte,
       selectedTextStyle: const TextStyle(color: Colors.blue, fontSize: 12),
       onCancel: () {},
       onConfirm: (Picker picker, List value) {
@@ -321,7 +322,7 @@ class BeeParcelCreateLogic extends GlobalLogic {
   // 删除包裹
   onDeleteParcel(int index) async {
     blankNode.requestFocus();
-    var data = await BaseDialog.confirmDialog(Get.context!, '您确定要删除这个包裹吗'.ts);
+    var data = await BaseDialog.confirmDialog(Get.context!, '您确定要删除这个包裹吗'.inte);
     if (data != null) {
       var removeItem = formData.removeAt(index);
       removeItem.value.editControllers!.dispose();
@@ -333,8 +334,8 @@ class BeeParcelCreateLogic extends GlobalLogic {
     if (selectedCountryModel.value?.id != null) {
       Picker(
         adapter: PickerDataAdapter(data: getPickerWareHouse(wareHouseList)),
-        cancelText: '取消'.ts,
-        confirmText: '确认'.ts,
+        cancelText: '取消'.inte,
+        confirmText: '确认'.inte,
         selectedTextStyle: const TextStyle(color: Colors.blue, fontSize: 12),
         onCancel: () {},
         onConfirm: (Picker picker, List value) {

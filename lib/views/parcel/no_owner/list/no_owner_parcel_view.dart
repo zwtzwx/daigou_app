@@ -6,16 +6,16 @@
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/search_input.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/search_input.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:huanting_shop/views/parcel/no_owner/list/no_owner_parcel_controller.dart';
+import 'package:shop_app_client/views/parcel/no_owner/list/no_owner_parcel_controller.dart';
 
 class AbnomalParcelPage extends GetView<AbnomalParcelLogic> {
   const AbnomalParcelPage({Key? key}) : super(key: key);
@@ -27,12 +27,12 @@ class AbnomalParcelPage extends GetView<AbnomalParcelLogic> {
           leading: const BackButton(color: Colors.black),
           centerTitle: true,
           title: AppText(
-            str: '异常件认领'.ts,
+            str: '异常件认领'.inte,
             fontSize: 17,
           ),
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
-        backgroundColor: AppColors.bgGray,
+        backgroundColor: AppStyles.bgGray,
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
@@ -64,7 +64,7 @@ class AbnomalParcelPage extends GetView<AbnomalParcelLogic> {
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       color: Colors.white,
       child: SearchCell(
-        hintText: '请输入快递单号'.ts,
+        hintText: '请输入快递单号'.inte,
         onSearch: (value) {
           controller.keyword = value;
           controller.onSearch();
@@ -77,7 +77,7 @@ class AbnomalParcelPage extends GetView<AbnomalParcelLogic> {
     return Container(
       margin: const EdgeInsets.only(left: 15, top: 10, right: 15),
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-      color: AppColors.white,
+      color: AppStyles.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -88,7 +88,7 @@ class AbnomalParcelPage extends GetView<AbnomalParcelLogic> {
                 Row(
                   children: <Widget>[
                     AppText(
-                      str: '快递单号'.ts + '：',
+                      str: '快递单号'.inte + '：',
                       fontSize: 14,
                     ),
                     AppText(
@@ -99,9 +99,9 @@ class AbnomalParcelPage extends GetView<AbnomalParcelLogic> {
                 ),
                 5.verticalSpaceFromWidth,
                 AppText(
-                  str: '${'入库时间'.ts}：' + (model.inStorageAt ?? ""),
+                  str: '${'入库时间'.inte}：' + (model.inStorageAt ?? ""),
                   fontSize: 13,
-                  color: AppColors.textGray,
+                  color: AppStyles.textGray,
                 ),
               ],
             ),

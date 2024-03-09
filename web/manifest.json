@@ -1,6 +1,6 @@
 {
-    "name": "huanting_shop",
-    "short_name": "huanting_shop",
+    "name": "shop_app_client",
+    "short_name": "shop_app_client",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

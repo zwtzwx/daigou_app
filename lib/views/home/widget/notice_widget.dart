@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/home/home_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/home/home_controller.dart';
 
 class NoticeWidget extends StatelessWidget {
   const NoticeWidget({Key? key}) : super(key: key);
@@ -34,7 +34,7 @@ class NoticeWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 8.w, right: 16.w),
               child: AppText(
-                str: '公告'.ts,
+                str: '公告'.inte,
                 fontSize: 16,
               ),
             ),
@@ -46,7 +46,7 @@ class NoticeWidget extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      BeeNav.push(BeeNav.webview,
+                      GlobalPages.push(GlobalPages.webview,
                           arg: {'type': 'notice', 'id': list[index].id});
                     },
                     child: Container(
@@ -55,7 +55,7 @@ class NoticeWidget extends StatelessWidget {
                       child: AppText(
                         str: list[index].title,
                         fontSize: 14,
-                        color: AppColors.textNormal,
+                        color: AppStyles.textNormal,
                       ),
                     ),
                   );
@@ -66,12 +66,12 @@ class NoticeWidget extends StatelessWidget {
             5.horizontalSpace,
             GestureDetector(
               onTap: () {
-                BeeNav.push(BeeNav.help);
+                GlobalPages.push(GlobalPages.help);
               },
               child: Icon(
                 Icons.arrow_forward_ios,
                 size: 14.sp,
-                color: AppColors.textNormal,
+                color: AppStyles.textNormal,
               ),
             ),
           ],

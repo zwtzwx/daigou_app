@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/goods_list_cell.dart';
-import 'package:huanting_shop/views/components/loading_cell.dart';
-import 'package:huanting_shop/views/shop/image_search_goods_list/logics.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/goods_list_cell.dart';
+import 'package:shop_app_client/views/components/loading_cell.dart';
+import 'package:shop_app_client/views/shop/image_search_goods_list/logics.dart';
 
 class GoodsImageSearchResultPage extends GetView<GoodsImageSearchResultLogic> {
   const GoodsImageSearchResultPage({
@@ -25,15 +25,15 @@ class GoodsImageSearchResultPage extends GetView<GoodsImageSearchResultLogic> {
         centerTitle: true,
         leading: const BackButton(color: Colors.black),
         title: AppText(
-          str: '代购商品'.ts,
+          str: '代购商品'.inte,
         ),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: RefreshIndicator(
         onRefresh: controller.onRefresh,
-        color: AppColors.primary,
+        color: AppStyles.primary,
         child: ListView(
           controller: controller.loadingUtil.value.scrollController,
           children: [

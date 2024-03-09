@@ -1,15 +1,15 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/common/http_response.dart';
-import 'package:huanting_shop/exceptions/login_error_exception.dart';
-import 'package:huanting_shop/models/token_model.dart';
-import 'package:huanting_shop/models/user_agent_status_model.dart';
-import 'package:huanting_shop/models/user_model.dart';
-import 'package:huanting_shop/models/user_order_count_model.dart';
-import 'package:huanting_shop/models/user_vip_model.dart';
-import 'package:huanting_shop/services/base_service.dart';
-import 'package:huanting_shop/storage/user_storage.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/common/http_response.dart';
+import 'package:shop_app_client/exceptions/login_error_exception.dart';
+import 'package:shop_app_client/models/token_model.dart';
+import 'package:shop_app_client/models/user_agent_status_model.dart';
+import 'package:shop_app_client/models/user_model.dart';
+import 'package:shop_app_client/models/user_order_count_model.dart';
+import 'package:shop_app_client/models/user_vip_model.dart';
+import 'package:shop_app_client/services/base_service.dart';
+import 'package:shop_app_client/storage/user_storage.dart';
 
 class UserService {
   // 登录
@@ -67,7 +67,7 @@ class UserService {
   // 微信登陆switch
   static Future<Map> isShowWechat() async {
     Map? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(WeChatSwitch)
         .then((response) => {result = response.data}, onError: (ret, msg) {
       result = {
@@ -85,8 +85,8 @@ class UserService {
 
       var token = tokenModel.tokenType + ' ' + tokenModel.accessToken;
       //存入storage 方便下次启动读取
-      UserStorage.setToken(token);
-      UserStorage.setUserInfo(tokenModel.user!);
+      CommonStorage.setToken(token);
+      CommonStorage.setUserInfo(tokenModel.user!);
 
       return tokenModel;
     } else {
@@ -97,7 +97,7 @@ class UserService {
   // 注册
   static Future<Map> register(Map<String, dynamic> params) async {
     Map res = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(UserService.registerApi, data: params)
         .then((response) {
       res = {
@@ -112,7 +112,7 @@ class UserService {
   // 账号密码登录
   static Future<TokenModel?> login(Map<String, dynamic> params) async {
     TokenModel? token;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(UserService.LOGIN, data: params)
         .then((response) {
       token = _loginResult(response);
@@ -125,7 +125,7 @@ class UserService {
   static Future<TokenModel?> loginWithFirebase(
       Map<String, dynamic> params) async {
     TokenModel? token;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(UserService.LoginWithFirebase, data: params)
         .then((response) {
       token = _loginResult(response);
@@ -141,7 +141,7 @@ class UserService {
       'code': params['code'],
     };
     TokenModel? token;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(LoginWithWeChat, data: params)
         .then((response) {
       token = _loginResult(response);
@@ -151,7 +151,7 @@ class UserService {
 
   static Future<TokenModel?> loginBy(Map<String, dynamic> params) async {
     TokenModel? token;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(VeritfyCodeLOGIN, data: params)
         .then((response) {
       token = _loginResult(response);
@@ -165,9 +165,7 @@ class UserService {
    */
   static Future getVerifyCode(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    await BeeRequest.instance
-        .post(GETVERIFYCODE, data: params)
-        .then((response) {
+    await ApiConfig.instance.post(GETVERIFYCODE, data: params).then((response) {
       if (response.ok) {
         return onSuccess(response);
       }
@@ -178,7 +176,7 @@ class UserService {
 
   static Future getShareInfo(
       Map<String, dynamic>? params, OnSuccess onSuccess, OnFail onFail) async {
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(USERSHAREINFO, queryParameters: params)
         .then((response) => {
               // String jsonStr = convert.jsonEncode(response.data);
@@ -196,7 +194,7 @@ class UserService {
   static Future<UserOrderCountModel?> getOrderDataCount(
       [Map<String, dynamic>? params]) async {
     UserOrderCountModel? model;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(INDEX, queryParameters: params)
         .then((response) {
       model = UserOrderCountModel.fromJson(response.data);
@@ -211,7 +209,7 @@ class UserService {
   static Future<UserVipModel?> getVipMemberData(
       [Map<String, dynamic>? params]) async {
     UserVipModel? model;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(UserMemberInfo, queryParameters: params)
         .then((response) {
       model = UserVipModel.fromJson(response.data);
@@ -230,7 +228,7 @@ class UserService {
   static Future<UserAgentStatusModel?> getAgentStatus(
       [Map<String, dynamic>? params]) async {
     UserAgentStatusModel? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(AgentStatus, queryParameters: params)
         .then((response) {
       result = UserAgentStatusModel.fromId(response.data);
@@ -244,7 +242,7 @@ class UserService {
   static Future<UserModel?> getProfile() async {
     UserModel? result;
 
-    await BeeRequest.instance.get(userProfileApi).then((response) {
+    await ApiConfig.instance.get(userProfileApi).then((response) {
       result = UserModel.fromJson(response.data);
     });
     return result;
@@ -256,7 +254,7 @@ class UserService {
   static Future<Map> updateByModel(Map<String, dynamic> params) async {
     Map result = {'ok': false, 'msg': ''};
 
-    await BeeRequest.instance.put(userEditApi, data: params).then((response) {
+    await ApiConfig.instance.put(userEditApi, data: params).then((response) {
       result = {
         'ok': response.ok,
         'data': UserModel.fromJson(response.data),
@@ -274,7 +272,7 @@ class UserService {
   static Future<bool> updateByMap(Map<String, dynamic> params) async {
     bool result = false;
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(userEditNameAndAvaterApi, data: params)
         .then((response) {
       result = response.ok;
@@ -288,7 +286,7 @@ class UserService {
    */
   static Future<void> changePhone(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(changePhoneApi, data: params)
         .then((response) {
       if (response.ok) {
@@ -304,7 +302,7 @@ class UserService {
    */
   static Future<void> changeEmail(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(changeEmailApi, data: params)
         .then((response) {
       if (response.ok) {
@@ -320,7 +318,7 @@ class UserService {
    */
   static Future<void> bindEmail(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    await BeeRequest.instance.post(bindEmailApi, data: params).then((response) {
+    await ApiConfig.instance.post(bindEmailApi, data: params).then((response) {
       if (response.ok) {
         onSuccess(response.msg);
       } else {
@@ -335,7 +333,7 @@ class UserService {
   static Future<TokenModel?> resetPaswordAndLogin(
       Map<String, dynamic> params) async {
     TokenModel? token;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(resetPaswordApi, data: params)
         .then((response) {
       token = _loginResult(response);
@@ -348,7 +346,7 @@ class UserService {
    */
   static Future<bool> getThirdLoginStatus() async {
     bool result = false;
-    await BeeRequest.instance.get(thirdLoginStatusApi).then((res) {
+    await ApiConfig.instance.get(thirdLoginStatusApi).then((res) {
       if (res.ok && res.data['status'] == 1) {
         result = true;
       }
@@ -361,7 +359,7 @@ class UserService {
    */
   static Future<Map> userDeletion() async {
     Map result = {'ok': false, 'msg': ''};
-    await BeeRequest.instance.put(deletionApi).then((res) {
+    await ApiConfig.instance.put(deletionApi).then((res) {
       result = {
         'ok': res.ok,
         'msg': res.msg ?? res.error!.message,
@@ -375,7 +373,7 @@ class UserService {
    */
   static Future<Map> onChangePassword(Map<String, dynamic> params) async {
     Map result = {'ok': false, 'msg': ''};
-    await BeeRequest.instance.post(passwordApi, data: params).then((res) {
+    await ApiConfig.instance.post(passwordApi, data: params).then((res) {
       result = {
         'ok': res.ok,
         'msg': res.msg ?? res.error!.message,

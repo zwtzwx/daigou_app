@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //颜色配置
-class AppColors {
+class AppStyles {
   static const Color primary = Color(0xFFFF3A3E);
   static const Color themeRed = Color(0xffe4382d);
   static const Color white = Color(0xFFFFFFFF);
@@ -68,37 +68,37 @@ class AppGaps {
   static Widget line = const SizedBox(
     height: 1,
     width: double.infinity,
-    child: DecoratedBox(decoration: BoxDecoration(color: AppColors.line)),
+    child: DecoratedBox(decoration: BoxDecoration(color: AppStyles.line)),
   );
 
   static Widget verticalBar = const SizedBox(
     height: 44,
     width: 12.5,
-    child: DecoratedBox(decoration: BoxDecoration(color: AppColors.green)),
+    child: DecoratedBox(decoration: BoxDecoration(color: AppStyles.green)),
   );
 
   static Widget br = const SizedBox(
     height: 20,
     width: double.infinity,
-    child: DecoratedBox(decoration: BoxDecoration(color: AppColors.line)),
+    child: DecoratedBox(decoration: BoxDecoration(color: AppStyles.line)),
   );
 
   static Widget lowBr = const SizedBox(
     height: 10,
     width: double.infinity,
-    child: DecoratedBox(decoration: BoxDecoration(color: AppColors.line)),
+    child: DecoratedBox(decoration: BoxDecoration(color: AppStyles.line)),
   );
 
   static Widget lowBr5 = const SizedBox(
     height: 5,
     width: double.infinity,
-    child: DecoratedBox(decoration: BoxDecoration(color: AppColors.line)),
+    child: DecoratedBox(decoration: BoxDecoration(color: AppStyles.line)),
   );
 
   static Widget columnsLine = const SizedBox(
     height: double.infinity,
     width: 1,
-    child: DecoratedBox(decoration: BoxDecoration(color: AppColors.line)),
+    child: DecoratedBox(decoration: BoxDecoration(color: AppStyles.line)),
   );
 
   static const Widget empty = SizedBox();

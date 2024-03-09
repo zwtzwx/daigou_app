@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/list_refresh_event.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/list_refresh_event.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
 
-class BeeOrderIndexLogic extends GlobalLogic
+class BeeOrderIndexLogic extends GlobalController
     with GetSingleTickerProviderStateMixin {
   late final PageController pageController;
   late final TabController tabController;
@@ -83,7 +83,7 @@ class BeeOrderIndexLogic extends GlobalLogic
     }
     List<ParcelModel> checkedList =
         allParcels.where((e) => checkedIds.contains(e.id!)).toList();
-    var s = await BeeNav.push(BeeNav.createOrder, arg: {
+    var s = await GlobalPages.push(GlobalPages.createOrder, arg: {
       'modelList': checkedList,
     });
     if (s == 'succeed') {

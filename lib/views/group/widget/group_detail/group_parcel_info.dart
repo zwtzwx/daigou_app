@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/goods_props.dart';
-import 'package:huanting_shop/models/group_model.dart';
-import 'package:huanting_shop/models/localization_model.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
-import 'package:huanting_shop/services/group_service.dart';
-import 'package:huanting_shop/services/warehouse_service.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/goods_props.dart';
+import 'package:shop_app_client/models/group_model.dart';
+import 'package:shop_app_client/models/localization_model.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
+import 'package:shop_app_client/services/group_service.dart';
+import 'package:shop_app_client/services/warehouse_service.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 
 class MemberGroupParcelInfo extends StatefulWidget {
   const MemberGroupParcelInfo({
@@ -97,14 +97,14 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AppText(
-                          str: '我的参团信息'.ts,
+                          str: '我的参团信息'.inte,
                           fontWeight: FontWeight.bold,
                         ),
                         AppText(
-                          str: CommonMethods.getOrderStatusName(
+                          str: BaseUtils.getOrderStatusName(
                               widget.model.order!.status),
                           fontWeight: FontWeight.bold,
-                          color: AppColors.green,
+                          color: AppStyles.green,
                         ),
                       ],
                     ),
@@ -127,7 +127,7 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
                             AppGaps.vGap4,
                             AppText(
                               str: widget.model.order!.createdAt,
-                              color: AppColors.textGrayC9,
+                              color: AppStyles.textGrayC9,
                               fontSize: 14,
                             ),
                           ],
@@ -145,7 +145,7 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
                 children: [
                   Expanded(
                     child: AppText(
-                      str: '我要参团包裹'.ts + ' (${parcelList.length})',
+                      str: '我要参团包裹'.inte + ' (${parcelList.length})',
                       fontWeight: FontWeight.bold,
                       lines: 4,
                     ),
@@ -158,15 +158,15 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
                           child: Row(
                             children: [
                               AppText(
-                                str: '选择拼团包裹'.ts,
+                                str: '选择拼团包裹'.inte,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.groupText,
+                                color: AppStyles.groupText,
                               ),
                               AppGaps.hGap10,
                               const Icon(
                                 Icons.arrow_forward_ios,
                                 size: 15,
-                                color: AppColors.groupText,
+                                color: AppStyles.groupText,
                               ),
                             ],
                           ),
@@ -213,9 +213,9 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
                           onParcelBack(parcel.id!);
                         },
                         child: AppText(
-                          str: '退回'.ts,
+                          str: '退回'.inte,
                           fontSize: 13,
-                          color: AppColors.green,
+                          color: AppStyles.green,
                         ),
                       )
                     : AppGaps.empty,
@@ -238,7 +238,7 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
                       fontSize: 12,
                     ),
                     AppText(
-                      str: parcel.packageValue!.rate(),
+                      str: parcel.packageValue!.priceConvert(),
                       fontSize: 12,
                     ),
                   ],
@@ -281,7 +281,7 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
       padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
       child: AppText(
         str: prop.name!,
-        color: AppColors.groupText,
+        color: AppStyles.groupText,
         fontSize: 10,
       ),
     );
@@ -291,13 +291,13 @@ class _MemberGroupParcelInfoState extends State<MemberGroupParcelInfo> {
     return Row(
       children: [
         AppText(
-          str: title.ts + '：',
+          str: title.inte + '：',
           fontSize: 11,
         ),
         AppText(
           str: content,
           fontSize: 11,
-          color: AppColors.groupText,
+          color: AppStyles.groupText,
         ),
       ],
     );

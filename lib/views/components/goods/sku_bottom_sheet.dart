@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/shop/goods_props_model.dart';
-import 'package:huanting_shop/models/shop/goods_sku_model.dart';
-import 'package:huanting_shop/models/shop/platform_goods_model.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/shop/goods_props_model.dart';
+import 'package:shop_app_client/models/shop/goods_sku_model.dart';
+import 'package:shop_app_client/models/shop/platform_goods_model.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 
 class BeeShopGoodsSku extends StatefulWidget {
   const BeeShopGoodsSku({
@@ -160,7 +160,7 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
     if (sku == null) {
       for (var ele in propList) {
         if (!tempSelectProps.containsKey(ele.id)) {
-          EasyLoading.showToast('请选择'.ts + ele.name!);
+          EasyLoading.showToast('请选择'.inte + ele.name!);
           return;
         }
       }
@@ -191,9 +191,9 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                     ),
                   ))
               .toList()),
-      cancelText: '取消'.ts,
-      confirmText: '确认'.ts,
-      selectedTextStyle: TextStyle(color: AppColors.primary, fontSize: 12.sp),
+      cancelText: '取消'.inte,
+      confirmText: '确认'.inte,
+      selectedTextStyle: TextStyle(color: AppStyles.primary, fontSize: 12.sp),
       onConfirm: (Picker picker, List value) {
         setState(() {
           selectedWarehouse = widget.warehouseList[value.first];
@@ -243,7 +243,7 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                             TextSpan(
                               text: ((sku?.price ?? widget.model.price ?? 0) *
                                       qty)
-                                  .rate(
+                                  .priceConvert(
                                       needFormat: false,
                                       showPriceSymbol: false),
                               style: TextStyle(
@@ -285,7 +285,7 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                         children: [
                           Expanded(
                             child: AppText(
-                              str: '本地运费'.ts,
+                              str: '本地运费'.inte,
                               fontSize: 14,
                             ),
                           ),
@@ -326,7 +326,7 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                             children: [
                               Expanded(
                                 child: AppText(
-                                  str: '寄往仓库'.ts,
+                                  str: '寄往仓库'.inte,
                                   fontSize: 14,
                                 ),
                               ),
@@ -334,13 +334,13 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                                 str:
                                     selectedWarehouse?.warehouseName ?? '请选择仓库',
                                 fontSize: 14,
-                                color: AppColors.textNormal,
+                                color: AppStyles.textNormal,
                               ),
                               5.horizontalSpace,
                               Icon(
                                 Icons.arrow_forward_ios,
                                 size: 12.sp,
-                                color: AppColors.textNormal,
+                                color: AppStyles.textNormal,
                               ),
                             ],
                           ),
@@ -373,7 +373,7 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                                                 color: tempSelectProps[e.id] ==
                                                         prop.id
                                                     ? const Color(0xFFFFEFEF)
-                                                    : AppColors.bgGray,
+                                                    : AppStyles.bgGray,
                                                 borderRadius:
                                                     BorderRadius.circular(999),
                                               ),
@@ -383,14 +383,14 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                                               child: AppText(
                                                 str: (prop.name ?? '') +
                                                     (prop.noStock
-                                                        ? '(${'缺货'.ts})'
+                                                        ? '(${'缺货'.inte})'
                                                         : ''),
                                                 lines: 4,
                                                 fontSize: 12,
                                                 color: tempSelectProps[e.id] ==
                                                         prop.id
                                                     ? const Color(0xFFFF6868)
-                                                    : AppColors.textGrayC9,
+                                                    : AppStyles.textGrayC9,
                                               ),
                                             ),
                                           ),
@@ -406,7 +406,7 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AppText(
-                          str: '数量'.ts,
+                          str: '数量'.inte,
                           fontSize: 14,
                         ),
                         Row(
@@ -420,7 +420,7 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                                 size: 24,
                                 color:
                                     qty == (widget.model.minOrderQuantity ?? 1)
-                                        ? AppColors.textGray
+                                        ? AppStyles.textGray
                                         : Colors.black,
                               ),
                             ),
@@ -446,7 +446,7 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                                 Icons.add,
                                 size: 24,
                                 color: qty == sku?.quantity
-                                    ? AppColors.textGray
+                                    ? AppStyles.textGray
                                     : Colors.black,
                               ),
                             ),
@@ -463,7 +463,7 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
               height: 35.h,
               width: double.infinity,
               child: BeeButton(
-                text: getTypeName().ts,
+                text: getTypeName().inte,
                 borderRadis: 999,
                 fontWeight: FontWeight.bold,
                 onPressed: () {

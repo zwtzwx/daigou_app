@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
 
-class ShopOrderController extends GlobalLogic with GetTickerProviderStateMixin {
+class ShopOrderController extends GlobalController
+    with GetTickerProviderStateMixin {
   final PageController pageController = PageController(initialPage: 0);
   late final TabController tabController;
   final tabIndex = 0.obs;

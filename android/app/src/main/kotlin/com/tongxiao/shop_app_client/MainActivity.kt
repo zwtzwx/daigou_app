@@ -1,4 +1,4 @@
-package com.yunliantiao.jiyun_app_client
+package com.tongxiao.shop_app_client
 
 import io.flutter.embedding.android.FlutterActivity
 

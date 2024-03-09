@@ -3,16 +3,16 @@
  */
 
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/receiver_address_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/receiver_address_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/user/address/list/address_list_controller.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/user/address/list/address_list_controller.dart';
 
 class BeeShippingPage extends GetView<BeeShippingLogic> {
   const BeeShippingPage({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
           elevation: 0,
           centerTitle: true,
           title: AppText(
-            str: '地址管理'.ts,
+            str: '地址管理'.inte,
             fontSize: 17,
           ),
         ),
@@ -38,7 +38,7 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
             child: BeeButton(
               text: '添加地址',
               onPressed: () {
-                BeeNav.push(BeeNav.addressAddEdit, arg: {
+                GlobalPages.push(GlobalPages.addressAddEdit, arg: {
                   'isEdit': '0',
                   'addressType': controller.addressType.value
                 });
@@ -46,7 +46,7 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
             ),
           ),
         ),
-        backgroundColor: AppColors.bgGray,
+        backgroundColor: AppStyles.bgGray,
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
@@ -90,19 +90,19 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: controller.addressType.value == index + 1
-                            ? AppColors.primary
+                            ? AppStyles.primary
                             : Colors.white,
                         borderRadius: BorderRadius.circular(5.r),
                       ),
                       child: AppText(
-                        str: title[index].ts,
+                        str: title[index].inte,
                         fontSize: 14,
                         fontWeight: controller.addressType.value == index + 1
                             ? FontWeight.bold
                             : FontWeight.normal,
                         color: controller.addressType.value == index + 1
                             ? Colors.white
-                            : AppColors.textDark,
+                            : AppStyles.textDark,
                       ),
                     ),
                   ),
@@ -138,7 +138,7 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
       child: Container(
         margin: EdgeInsets.fromLTRB(12.w, 10.h, 12.w, 0),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: AppStyles.white,
           borderRadius: BorderRadius.circular(5.r),
         ),
         padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
@@ -156,7 +156,7 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
                           text: TextSpan(
                             style: TextStyle(
                               fontSize: 15.sp,
-                              color: AppColors.textDark,
+                              color: AppStyles.textDark,
                             ),
                             children: [
                               TextSpan(
@@ -179,14 +179,14 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 10.w),
                                           decoration: BoxDecoration(
-                                            color: AppColors.primary,
+                                            color: AppStyles.primary,
                                             borderRadius:
                                                 BorderRadius.circular(999),
                                           ),
                                           alignment: Alignment.center,
                                           height: 15.h,
                                           child: AppText(
-                                            str: '默认'.ts,
+                                            str: '默认'.inte,
                                             fontSize: 10,
                                           ),
                                         ),
@@ -216,7 +216,7 @@ class BeeShippingPage extends GetView<BeeShippingLogic> {
                   10.horizontalSpace,
                   GestureDetector(
                     onTap: () {
-                      BeeNav.push(BeeNav.addressAddEdit, arg: {
+                      GlobalPages.push(GlobalPages.addressAddEdit, arg: {
                         'id': model.id,
                         'isEdit': '1',
                         'addressType': model.addressType ?? 1,

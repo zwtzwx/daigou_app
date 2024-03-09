@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/services/group_service.dart';
-import 'package:huanting_shop/services/parcel_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/services/group_service.dart';
+import 'package:shop_app_client/services/parcel_service.dart';
 
-class BeeGroupParcelSelectController extends GlobalLogic {
+class BeeGroupParcelSelectController extends GlobalController {
   int pageIndex = 0;
   final selectedParcelList = <int>[].obs;
   List<ParcelModel> allParcelList = [];
@@ -82,7 +82,7 @@ class BeeGroupParcelSelectController extends GlobalLogic {
     var res = await GroupService.onGroupAddParcel(
         Get.arguments['id'], {'package_ids': selectedParcelList});
     if (res['ok']) {
-      BeeNav.pop(true);
+      GlobalPages.pop(true);
     }
   }
 }

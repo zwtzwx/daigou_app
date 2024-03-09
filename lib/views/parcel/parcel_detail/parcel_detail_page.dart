@@ -4,18 +4,18 @@
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/common/fade_route.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/parcel_goods_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/components/photo_view_gallery_screen.dart';
+import 'package:shop_app_client/common/fade_route.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/parcel_goods_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/components/photo_view_gallery_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:huanting_shop/views/parcel/parcel_detail/parcel_detail_controller.dart';
+import 'package:shop_app_client/views/parcel/parcel_detail/parcel_detail_controller.dart';
 
 /*
   包裹详情
@@ -33,14 +33,14 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
         elevation: 0.5,
         centerTitle: true,
         title: AppText(
-          str: '包裹详情'.ts,
-          color: AppColors.textBlack,
+          str: '包裹详情'.inte,
+          color: AppStyles.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: SingleChildScrollView(
         child: Obx(() => controller.isLoadingLocal.value
             ? Column(
@@ -58,7 +58,7 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
   Widget goodsInfoCell() {
     return Container(
       decoration: const BoxDecoration(
-        color: AppColors.white,
+        color: AppStyles.white,
       ),
       margin: const EdgeInsets.symmetric(vertical: 15),
       width: double.infinity,
@@ -70,7 +70,7 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: AppText(
               fontWeight: FontWeight.bold,
-              str: '商品信息'.ts,
+              str: '商品信息'.inte,
             ),
           ),
           AppGaps.line,
@@ -87,8 +87,8 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: AppText(
-                    str: '物品属性'.ts,
-                    color: AppColors.textNormal,
+                    str: '物品属性'.inte,
+                    color: AppStyles.textNormal,
                   ),
                 ),
                 AppText(
@@ -111,8 +111,8 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: AppText(
-                    str: '商品备注'.ts,
-                    color: AppColors.textNormal,
+                    str: '商品备注'.inte,
+                    color: AppStyles.textNormal,
                   ),
                 ),
                 Expanded(
@@ -147,8 +147,8 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
               Container(
                 alignment: Alignment.centerLeft,
                 child: AppText(
-                  str: '物品名称'.ts,
-                  color: AppColors.textNormal,
+                  str: '物品名称'.inte,
+                  color: AppStyles.textNormal,
                 ),
               ),
               AppText(
@@ -167,13 +167,13 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
               Container(
                 alignment: Alignment.centerLeft,
                 child: AppText(
-                  str: '物品总价'.ts,
-                  color: AppColors.textNormal,
+                  str: '物品总价'.inte,
+                  color: AppStyles.textNormal,
                 ),
               ),
               AppText(
                   str: controller.parcelModel.value!.packageValue!
-                      .rate(showPriceSymbol: false, showInt: true))
+                      .priceConvert(showPriceSymbol: false, showInt: true))
             ],
           ),
         ),
@@ -187,8 +187,8 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
               Container(
                 alignment: Alignment.centerLeft,
                 child: AppText(
-                  str: '物品数量'.ts,
-                  color: AppColors.textNormal,
+                  str: '物品数量'.inte,
+                  color: AppStyles.textNormal,
                 ),
               ),
               AppText(
@@ -214,21 +214,21 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
               children: [
                 Expanded(
                   child: AppText(
-                    str: '物品名称'.ts,
-                    color: AppColors.textNormal,
+                    str: '物品名称'.inte,
+                    color: AppStyles.textNormal,
                   ),
                   flex: 2,
                 ),
                 Expanded(
                   child: AppText(
-                    str: '物品价值'.ts,
-                    color: AppColors.textNormal,
+                    str: '物品价值'.inte,
+                    color: AppStyles.textNormal,
                   ),
                 ),
                 Expanded(
                   child: AppText(
-                    str: '数量'.ts,
-                    color: AppColors.textNormal,
+                    str: '数量'.inte,
+                    color: AppStyles.textNormal,
                   ),
                 ),
               ],
@@ -252,7 +252,7 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: AppColors.line)),
+        border: Border(top: BorderSide(color: AppStyles.line)),
       ),
       child: Row(
         children: [
@@ -290,7 +290,7 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: AppText(
               fontWeight: FontWeight.bold,
-              str: '包裹信息'.ts,
+              str: '包裹信息'.inte,
             ),
           ),
           AppGaps.line,
@@ -303,8 +303,8 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: AppText(
-                    str: '快递名称'.ts,
-                    color: AppColors.textNormal,
+                    str: '快递名称'.inte,
+                    color: AppStyles.textNormal,
                   ),
                 ),
                 AppText(
@@ -323,8 +323,8 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: AppText(
-                    str: '快递单号'.ts,
-                    color: AppColors.textNormal,
+                    str: '快递单号'.inte,
+                    color: AppStyles.textNormal,
                   ),
                 ),
                 Row(
@@ -340,7 +340,7 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
                               text: controller.parcelModel.value!.expressNum ??
                                   ''),
                         ).then((value) {
-                          EasyLoading.showSuccess('复制成功'.ts);
+                          EasyLoading.showSuccess('复制成功'.inte);
                         });
                       },
                       child: Icon(
@@ -363,8 +363,8 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
                 SizedBox(
                   width: 80,
                   child: AppText(
-                    str: '发往国家'.ts,
-                    color: AppColors.textNormal,
+                    str: '发往国家'.inte,
+                    color: AppStyles.textNormal,
                   ),
                 ),
                 AppText(
@@ -385,8 +385,8 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
                 SizedBox(
                   width: 80,
                   child: AppText(
-                    str: '转运仓库'.ts,
-                    color: AppColors.textNormal,
+                    str: '转运仓库'.inte,
+                    color: AppStyles.textNormal,
                   ),
                 ),
                 AppText(
@@ -412,8 +412,8 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 AppText(
-                  str: '物品照片'.ts,
-                  color: AppColors.textNormal,
+                  str: '物品照片'.inte,
+                  color: AppStyles.textNormal,
                 ),
                 controller.parcelModel.value?.packagePictures != null
                     ? Expanded(
@@ -455,7 +455,7 @@ class BeePackageDetailPage extends GetView<BeePackageDetailLogic> {
           )));
         },
         child: Container(
-          color: AppColors.white,
+          color: AppStyles.white,
           alignment: Alignment.topCenter,
           child: ImgItem(
             imgList[index],

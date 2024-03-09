@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 
-class LoadingUtil<T> {
+class ListLoadingModel<T> {
   ScrollController scrollController = ScrollController();
 
   int pageIndex = 0;
@@ -12,7 +12,7 @@ class LoadingUtil<T> {
   final position = 0.0.obs;
   List<T> list = [];
 
-  LoadingUtil();
+  ListLoadingModel();
 
   void initListener(
     Function callback, {

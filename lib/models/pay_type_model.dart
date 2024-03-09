@@ -1,8 +1,8 @@
 /*
   支付方式
  */
-import 'package:huanting_shop/models/current_currency_model.dart';
-import 'package:huanting_shop/models/payment_setting_model.dart';
+import 'package:shop_app_client/models/current_currency_model.dart';
+import 'package:shop_app_client/models/payment_setting_model.dart';
 
 class PayTypeModel {
   late int id;

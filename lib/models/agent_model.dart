@@ -3,8 +3,8 @@
   基础信息
  */
 
-import 'package:huanting_shop/models/agent_commissions_model.dart';
-import 'package:huanting_shop/models/user_model.dart';
+import 'package:shop_app_client/models/agent_commissions_model.dart';
+import 'package:shop_app_client/models/user_model.dart';
 
 class AgentModel {
   late int id;

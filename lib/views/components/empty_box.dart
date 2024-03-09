@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 
 Widget emptyBox([String? content]) {
   return Column(
@@ -19,8 +19,8 @@ Widget emptyBox([String? content]) {
             ),
             Obx(
               () => AppText(
-                str: (content ?? '暂无内容').ts,
-                color: AppColors.textGray,
+                str: (content ?? '暂无内容').inte,
+                color: AppStyles.textGray,
               ),
             ),
           ],

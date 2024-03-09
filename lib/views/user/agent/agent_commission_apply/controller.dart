@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/services/agent_service.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/services/agent_service.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
-class AgentCommissionApplyController extends GlobalLogic {
+class AgentCommissionApplyController extends GlobalController {
 // 收款方式
   final withdrawType = Rxn<int?>();
   // 账号
@@ -47,26 +47,26 @@ class AgentCommissionApplyController extends GlobalLogic {
               onPressed: () {
                 Navigator.pop(context, 1);
               },
-              child: AppText(str: '余额提现'.ts),
+              child: AppText(str: '余额提现'.inte),
             ),
             CupertinoActionSheetAction(
               onPressed: () {
                 Navigator.pop(context, 2);
               },
-              child: AppText(str: '微信提现'.ts),
+              child: AppText(str: '微信提现'.inte),
             ),
             CupertinoActionSheetAction(
               onPressed: () {
                 Navigator.pop(context, 3);
               },
-              child: AppText(str: '支付宝提现'.ts),
+              child: AppText(str: '支付宝提现'.inte),
             ),
           ],
           cancelButton: CupertinoActionSheetAction(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: AppText(str: '取消'.ts),
+            child: AppText(str: '取消'.inte),
           ),
         );
       },

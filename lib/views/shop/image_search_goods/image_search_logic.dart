@@ -5,14 +5,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/common/upload_util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/services/common_service.dart';
-import 'package:huanting_shop/views/shop/image_search_goods_list/binding.dart';
-import 'package:huanting_shop/views/shop/image_search_goods_list/view.dart';
+import 'package:shop_app_client/common/upload_util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/services/common_service.dart';
+import 'package:shop_app_client/views/shop/image_search_goods_list/binding.dart';
+import 'package:shop_app_client/views/shop/image_search_goods_list/view.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class GoodsImageSearchLogic extends GlobalLogic with WidgetsBindingObserver {
+class GoodsImageSearchLogic extends GlobalController
+    with WidgetsBindingObserver {
   final cameraCtl = Rxn<CameraController?>();
 
   @override
@@ -79,7 +80,7 @@ class GoodsImageSearchLogic extends GlobalLogic with WidgetsBindingObserver {
 
   // 从相册中选择
   void onPickerImage() async {
-    String? path = await ImageUpload.imagePickerByLibray();
+    String? path = await ImagePickers.imagePickerByLibray();
     if (path != null) {
       String imageUrl = await CommonService.uploadImage(File(path),
           options: Options(extra: {

@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/common/upload_util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/payment_setting_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/payment/transfer_payment/controller.dart';
+import 'package:shop_app_client/common/upload_util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/payment_setting_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/payment/transfer_payment/controller.dart';
 
 class TransferPaymentPage extends GetView<TransferPaymentController> {
   const TransferPaymentPage({Key? key}) : super(key: key);
@@ -26,12 +26,12 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
         elevation: 0,
         centerTitle: true,
         title: AppText(
-          str: '转账支付'.ts,
+          str: '转账支付'.inte,
           fontSize: 17,
           fontWeight: FontWeight.w400,
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(controller.blankNode);
@@ -44,7 +44,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                 margin: EdgeInsets.symmetric(horizontal: 14.w),
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
                 decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: AppStyles.white,
                   borderRadius: BorderRadius.all(Radius.circular(8.r)),
                 ),
                 child: Obx(
@@ -60,7 +60,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                 margin: EdgeInsets.symmetric(horizontal: 14.w),
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
                 decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: AppStyles.white,
                   borderRadius: BorderRadius.all(Radius.circular(8.r)),
                 ),
                 child: Column(
@@ -83,13 +83,13 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                           alignment: Alignment.centerLeft,
                           width: 100.w,
                           child: AppText(
-                            str: '转账账号'.ts,
+                            str: '转账账号'.inte,
                             fontSize: 14,
                           ),
                         ),
                         Expanded(
                           child: BaseInput(
-                            hintText: '请输入您的转账账号'.ts,
+                            hintText: '请输入您的转账账号'.inte,
                             textAlign: TextAlign.left,
                             controller: controller.transferAccountController,
                             focusNode: controller.transferAccountNode,
@@ -170,7 +170,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
       child: Stack(children: <Widget>[
         url.isNotEmpty
             ? Container(
-                color: AppColors.bgGray,
+                color: AppStyles.bgGray,
                 height: (ScreenUtil().screenWidth - 60 - 15) / 4,
                 width: (ScreenUtil().screenWidth - 60 - 15) / 4,
                 child: ImgItem(
@@ -180,17 +180,17 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
               )
             : Container(
                 alignment: Alignment.center,
-                color: AppColors.bgGray,
+                color: AppStyles.bgGray,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const Icon(
                       Icons.add,
                       size: 30,
-                      color: AppColors.textGray,
+                      color: AppStyles.textGray,
                     ),
                     AppText(
-                      str: '添加图片'.ts,
+                      str: '添加图片'.inte,
                       fontSize: 10,
                     )
                   ],
@@ -209,18 +209,18 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                     },
                     child: Container(
                       decoration: const BoxDecoration(
-                          color: AppColors.textGrayC,
+                          color: AppStyles.textGrayC,
                           borderRadius: BorderRadius.all(Radius.circular(7))),
                       child: const Icon(
                         Icons.close,
-                        color: AppColors.white,
+                        color: AppStyles.white,
                         size: 18,
                       ),
                     ))
                 : Container()),
       ]),
       onTap: () {
-        ImageUpload.imagePicker(
+        ImagePickers.imagePicker(
           onSuccessCallback: (image) async {
             String imageUrl = image;
             if (controller.selectImg.length == 3) {
@@ -236,23 +236,23 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
           },
           context: context,
           child: CupertinoActionSheet(
-            title: Text('请选择上传方式'.ts),
+            title: Text('请选择上传方式'.inte),
             actions: <Widget>[
               CupertinoActionSheetAction(
-                child: Text('相册'.ts),
+                child: Text('相册'.inte),
                 onPressed: () {
                   Navigator.pop(context, 'gallery');
                 },
               ),
               CupertinoActionSheetAction(
-                child: Text('照相机'.ts),
+                child: Text('照相机'.inte),
                 onPressed: () {
                   Navigator.pop(context, 'camera');
                 },
               ),
             ],
             cancelButton: CupertinoActionSheetAction(
-              child: Text('取消'.ts),
+              child: Text('取消'.inte),
               isDefaultAction: true,
               onPressed: () {
                 Navigator.pop(context, 'Cancel');
@@ -299,10 +299,10 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                 padding: const EdgeInsets.only(
                     top: 5, bottom: 5, right: 10, left: 10),
                 decoration: const BoxDecoration(
-                    color: AppColors.primary,
+                    color: AppStyles.primary,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: AppText(
-                  str: '复制'.ts,
+                  str: '复制'.inte,
                   fontSize: 12,
                   color: Colors.white,
                 ),
@@ -325,7 +325,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
               : controller.modelType.value == 2
                   ? (controller.orderModel.value!.discountPaymentFee / 100)
                   : (controller.amount.value ?? 0))
-          .rate(needFormat: false)
+          .priceConvert(needFormat: false)
     ];
 
     for (var i = 0; i < listTitle.length; i++) {
@@ -336,14 +336,14 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
             SizedBox(
               width: 90.w,
               child: AppText(
-                str: listTitle[i].ts,
+                str: listTitle[i].inte,
                 fontSize: 14,
               ),
             ),
             Expanded(
               child: AppText(
                 str: listContent[i],
-                color: i == 1 ? AppColors.textRed : AppColors.textBlack,
+                color: i == 1 ? AppStyles.textRed : AppStyles.textBlack,
                 fontSize: 14,
               ),
             ),
@@ -357,10 +357,10 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
                       padding: const EdgeInsets.only(
                           top: 5, bottom: 5, right: 10, left: 10),
                       decoration: const BoxDecoration(
-                          color: AppColors.primary,
+                          color: AppStyles.primary,
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       child: AppText(
-                        str: '复制'.ts,
+                        str: '复制'.inte,
                         fontSize: 12,
                         color: Colors.white,
                       ),
@@ -381,7 +381,7 @@ class TransferPaymentPage extends GetView<TransferPaymentController> {
           SizedBox(
             width: 90.w,
             child: AppText(
-              str: '温馨提示'.ts,
+              str: '温馨提示'.inte,
               fontSize: 14,
               lines: 2,
             ),

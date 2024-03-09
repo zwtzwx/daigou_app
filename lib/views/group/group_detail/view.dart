@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/common/fade_route.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/group_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/group/group_detail/controller.dart';
-import 'package:huanting_shop/views/group/widget/countdown_widget.dart';
-import 'package:huanting_shop/views/group/widget/distance_widget.dart';
-import 'package:huanting_shop/views/group/widget/group_detail/group_parcel_info.dart';
-import 'package:huanting_shop/views/group/widget/member_avatar_widget.dart';
-import 'package:huanting_shop/views/group/widget/triangle_painter.dart';
+import 'package:shop_app_client/common/fade_route.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/group_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/group/group_detail/controller.dart';
+import 'package:shop_app_client/views/group/widget/countdown_widget.dart';
+import 'package:shop_app_client/views/group/widget/distance_widget.dart';
+import 'package:shop_app_client/views/group/widget/group_detail/group_parcel_info.dart';
+import 'package:shop_app_client/views/group/widget/member_avatar_widget.dart';
+import 'package:shop_app_client/views/group/widget/triangle_painter.dart';
 
 import '../../components/photo_view_gallery_screen.dart';
 
@@ -32,11 +32,11 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: AppText(
-          str: '拼团详情'.ts,
+          str: '拼团详情'.inte,
           fontSize: 18,
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       bottomNavigationBar: Obx(
         () => controller.model.value?.status == 0
             ? Container(
@@ -68,7 +68,7 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                                   height: 50,
                                   child: BeeButton(
                                     text: '取消拼团',
-                                    backgroundColor: AppColors.primary,
+                                    backgroundColor: AppStyles.primary,
                                     onPressed: () {
                                       controller.onCancelGroup(context);
                                     },
@@ -179,11 +179,11 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                     padding:
                         const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
                     decoration: BoxDecoration(
-                      color: AppColors.groupText,
+                      color: AppStyles.groupText,
                       borderRadius: BorderRadius.circular(999),
                     ),
                     child: AppText(
-                      str: '团长'.ts,
+                      str: '团长'.inte,
                       color: Colors.white,
                       fontSize: 9,
                     ),
@@ -219,8 +219,8 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: AppText(
-                              str: '认证团长'.ts,
-                              color: AppColors.groupText,
+                              str: '认证团长'.inte,
+                              color: AppStyles.groupText,
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
                             ),
@@ -256,7 +256,7 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
               margin: const EdgeInsets.only(top: 8),
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
               decoration: BoxDecoration(
-                color: AppColors.groupText,
+                color: AppStyles.groupText,
                 borderRadius: BorderRadius.circular(18),
               ),
               child: Row(
@@ -266,7 +266,7 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                     child: AppText(
                       str: controller.model.value!.remark!.isNotEmpty
                           ? controller.model.value!.remark!
-                          : '团长什么都没说'.ts,
+                          : '团长什么都没说'.inte,
                       color: Colors.white,
                       lines: 20,
                     ),
@@ -299,7 +299,7 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
               left: 20,
               child: CustomPaint(
                 painter: TrianglePainer(
-                  strokeColor: AppColors.groupText,
+                  strokeColor: AppStyles.groupText,
                   strokeWidth: 10,
                   paintingStyle: PaintingStyle.fill,
                 ),
@@ -328,18 +328,18 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AppText(
-                str: '拼团发货渠道'.ts,
+                str: '拼团发货渠道'.inte,
                 fontWeight: FontWeight.bold,
               ),
               GestureDetector(
                 onTap: () {
-                  BeeNav.push(BeeNav.lineDetail, arg: {
+                  GlobalPages.push(GlobalPages.lineDetail, arg: {
                     'id': controller.model.value!.expressLine?.id,
                     'type': 1
                   });
                 },
                 child: AppText(
-                  str: '查看渠道规则'.ts,
+                  str: '查看渠道规则'.inte,
                   fontSize: 13,
                 ),
               ),
@@ -364,7 +364,7 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                     AppText(
                       str: controller.model.value!.expressLine?.referenceTime ??
                           '',
-                      color: AppColors.green,
+                      color: AppStyles.green,
                       fontSize: 12,
                     ),
                     const Padding(
@@ -377,7 +377,7 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                     ),
                     AppText(
                       str: controller.model.value!.expressLine?.name ?? '',
-                      color: AppColors.groupText,
+                      color: AppStyles.groupText,
                       fontSize: 12,
                     )
                   ],
@@ -421,17 +421,17 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                     },
                     child: const Icon(
                       Icons.copy_rounded,
-                      color: AppColors.green,
+                      color: AppStyles.green,
                       size: 16,
                     ),
                   ),
                 ],
               ),
               AppText(
-                str: CommonMethods.getGroupStatusName(
+                str: BaseUtils.getGroupStatusName(
                     controller.model.value!.status!),
                 color: controller.model.value!.status == 0
-                    ? AppColors.groupText
+                    ? AppStyles.groupText
                     : Colors.black,
                 fontWeight: FontWeight.bold,
               ),
@@ -456,9 +456,9 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             AppText(
-                              str: '距离你约'.ts,
+                              str: '距离你约'.inte,
                               fontSize: 12,
-                              color: AppColors.green,
+                              color: AppStyles.green,
                             ),
                             DistanceWidget(
                               startPosition: controller.coordinate.value!,
@@ -490,7 +490,7 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                             CountdownWidget(
                               total: controller.model.value!.endUntil ?? 0,
                               showSeconds: false,
-                              color: AppColors.green,
+                              color: AppStyles.green,
                             ),
                             controller.model.value!.isGroupLeader!
                                 ? GestureDetector(
@@ -530,7 +530,7 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                   },
                   child: const Icon(
                     Icons.phone_forwarded_rounded,
-                    color: AppColors.green,
+                    color: AppStyles.green,
                     size: 18,
                   ),
                 ),
@@ -556,7 +556,7 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
       decoration: BoxDecoration(
         border: Border(
           bottom: showBorder
-              ? const BorderSide(color: AppColors.line)
+              ? const BorderSide(color: AppStyles.line)
               : BorderSide.none,
         ),
       ),
@@ -565,8 +565,8 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
         crossAxisAlignment: crossAxisAlignment,
         children: [
           AppText(
-            str: label.ts,
-            color: AppColors.textGrayC,
+            str: label.inte,
+            color: AppStyles.textGrayC,
             fontSize: 13,
           ),
           AppGaps.hGap15,
@@ -599,7 +599,7 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppText(
-                      str: '成员'.ts +
+                      str: '成员'.inte +
                           ' (${controller.model.value!.membersCount})',
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
@@ -607,11 +607,11 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                     controller.model.value!.isGroupLeader!
                         ? GestureDetector(
                             onTap: () {
-                              BeeNav.push(BeeNav.groupMemberDetail,
+                              GlobalPages.push(GlobalPages.groupMemberDetail,
                                   arg: {'id': controller.model.value!.id});
                             },
                             child: AppText(
-                              str: '查看参团详情'.ts,
+                              str: '查看参团详情'.inte,
                               fontSize: 13,
                             ),
                           )
@@ -647,9 +647,9 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AppText(
-                        str: '全团已入库'.ts,
+                        str: '全团已入库'.inte,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.green,
+                        color: AppStyles.green,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -673,7 +673,7 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   decoration: const BoxDecoration(
                     border: Border(
-                      top: BorderSide(color: AppColors.line),
+                      top: BorderSide(color: AppStyles.line),
                     ),
                   ),
                   child: Row(
@@ -709,13 +709,13 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
                                   decoration: const BoxDecoration(
                                     color: Colors.transparent,
                                     border: Border(
-                                      left: BorderSide(color: AppColors.line),
+                                      left: BorderSide(color: AppStyles.line),
                                     ),
                                   ),
                                   alignment: Alignment.center,
                                   child: AppText(
-                                    str: '退出拼团'.ts,
-                                    color: AppColors.primary,
+                                    str: '退出拼团'.inte,
+                                    color: AppStyles.primary,
                                   ),
                                 ),
                               ),
@@ -734,12 +734,12 @@ class BeeGroupDetailView extends GetView<BeeGroupDetailController> {
     return Row(
       children: [
         AppText(
-          str: label.ts + '：',
+          str: label.inte + '：',
         ),
         AppText(
           str: (weight / 1000).toStringAsFixed(2) +
               (controller.localModel?.weightSymbol ?? ''),
-          color: AppColors.textRed,
+          color: AppStyles.textRed,
           fontWeight: FontWeight.bold,
         ),
       ],

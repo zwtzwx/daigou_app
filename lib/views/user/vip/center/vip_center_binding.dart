@@ -1,5 +1,5 @@
 import 'package:get/instance_manager.dart';
-import 'package:huanting_shop/views/user/vip/center/vip_center_controller.dart';
+import 'package:shop_app_client/views/user/vip/center/vip_center_controller.dart';
 
 class BeeSuperUserBinding extends Bindings {
   @override

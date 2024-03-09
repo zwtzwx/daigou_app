@@ -1,7 +1,7 @@
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/services/balance_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/services/balance_service.dart';
 
-class RechargeHistoryController extends GlobalLogic {
+class RechargeHistoryController extends GlobalController {
   RechargeHistoryController();
 
   int pageIndex = 0;

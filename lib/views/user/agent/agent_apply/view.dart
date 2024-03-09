@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
-import 'package:huanting_shop/views/components/input/input_text_item.dart';
-import 'package:huanting_shop/views/user/agent/agent_apply/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
+import 'package:shop_app_client/views/components/input/input_text_item.dart';
+import 'package:shop_app_client/views/user/agent/agent_apply/controller.dart';
 
 class AgentApplyPage extends GetView<AgentApplyController> {
   const AgentApplyPage({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class AgentApplyPage extends GetView<AgentApplyController> {
           elevation: 0.1,
           centerTitle: true,
           title: AppText(
-            str: '申请代理'.ts,
+            str: '申请代理'.inte,
             fontSize: 17,
           ),
         ),
@@ -34,7 +34,7 @@ class AgentApplyPage extends GetView<AgentApplyController> {
                 onPressed: controller.onSubmit,
               )),
         ),
-        backgroundColor: AppColors.bgGray,
+        backgroundColor: AppStyles.bgGray,
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
@@ -46,7 +46,7 @@ class AgentApplyPage extends GetView<AgentApplyController> {
                   child: Column(
                     children: <Widget>[
                       InputTextItem(
-                          title: '姓名'.ts,
+                          title: '姓名'.inte,
                           isRequired: true,
                           inputText: Container(
                             alignment: Alignment.center,
@@ -55,7 +55,7 @@ class AgentApplyPage extends GetView<AgentApplyController> {
                               children: <Widget>[
                                 Expanded(
                                     child: BaseInput(
-                                  hintText: '请输入您的姓名'.ts,
+                                  hintText: '请输入您的姓名'.inte,
                                   textAlign: TextAlign.left,
                                   controller: controller.mobileNumberController,
                                   focusNode: controller.mobileNumber,
@@ -72,10 +72,10 @@ class AgentApplyPage extends GetView<AgentApplyController> {
                             ),
                           )),
                       InputTextItem(
-                          title: '联系电话'.ts,
+                          title: '联系电话'.inte,
                           isRequired: true,
                           inputText: BaseInput(
-                            hintText: '请输入联系电话'.ts,
+                            hintText: '请输入联系电话'.inte,
                             textAlign: TextAlign.left,
                             controller: controller.oldNumberController,
                             focusNode: controller.oldNumber,
@@ -89,7 +89,7 @@ class AgentApplyPage extends GetView<AgentApplyController> {
                             },
                           )),
                       InputTextItem(
-                          title: '联系邮箱'.ts,
+                          title: '联系邮箱'.inte,
                           isRequired: true,
                           flag: false,
                           inputText: Container(
@@ -99,7 +99,7 @@ class AgentApplyPage extends GetView<AgentApplyController> {
                               children: <Widget>[
                                 Expanded(
                                     child: BaseInput(
-                                  hintText: '请输入邮箱号'.ts,
+                                  hintText: '请输入邮箱号'.inte,
                                   textAlign: TextAlign.left,
                                   controller: controller.validationController,
                                   focusNode: controller.validation,

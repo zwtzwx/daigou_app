@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/list_refresh_event.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/base_search.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/shop/order/shop_order_controller.dart';
-import 'package:huanting_shop/views/shop/widget/shop_order_list.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/list_refresh_event.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/base_search.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/shop/order/shop_order_controller.dart';
+import 'package:shop_app_client/views/shop/widget/shop_order_list.dart';
 
 class ShopOrderView extends GetView<ShopOrderController> {
   const ShopOrderView({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class ShopOrderView extends GetView<ShopOrderController> {
         title: BaseSearch(
           showScan: false,
           needCheck: false,
-          hintText: '名称/主订单/商品单号'.ts,
+          hintText: '名称/主订单/商品单号'.inte,
           onSearch: (value) {
             controller.keyword = value;
             ApplicationEvent.getInstance()
@@ -38,7 +38,7 @@ class ShopOrderView extends GetView<ShopOrderController> {
         actions: [
           GestureDetector(
             onTap: () {
-              BeeNav.push(BeeNav.probleShopOrder);
+              GlobalPages.push(GlobalPages.probleShopOrder);
             },
             child: Container(
               color: Colors.white,
@@ -52,9 +52,9 @@ class ShopOrderView extends GetView<ShopOrderController> {
                   ),
                   2.verticalSpaceFromWidth,
                   AppText(
-                    str: '问题订单'.ts,
+                    str: '问题订单'.inte,
                     fontSize: 10,
-                    color: AppColors.textNormal,
+                    color: AppStyles.textNormal,
                   )
                 ],
               ),
@@ -64,7 +64,7 @@ class ShopOrderView extends GetView<ShopOrderController> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: PageView.builder(
         itemCount: 7,
         onPageChanged: (value) {
@@ -103,13 +103,13 @@ class ShopOrderView extends GetView<ShopOrderController> {
             () => Column(
               children: [
                 AppText(
-                  str: tabs[index].ts,
+                  str: tabs[index].inte,
                   fontWeight: controller.tabIndex.value == index
                       ? FontWeight.bold
                       : FontWeight.normal,
                   color: controller.tabIndex.value == index
-                      ? AppColors.textDark
-                      : AppColors.textNormal,
+                      ? AppStyles.textDark
+                      : AppStyles.textNormal,
                   fontSize: controller.tabIndex.value == index ? 16 : 14,
                 ),
                 3.verticalSpaceFromWidth,
@@ -118,7 +118,7 @@ class ShopOrderView extends GetView<ShopOrderController> {
                   height: 3.h,
                   decoration: BoxDecoration(
                     color: controller.tabIndex.value == index
-                        ? AppColors.primary
+                        ? AppStyles.primary
                         : Colors.white,
                     borderRadius: BorderRadius.circular(2.h),
                   ),

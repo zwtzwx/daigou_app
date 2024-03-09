@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/goods_category_model.dart';
-import 'package:huanting_shop/views/components/base_search.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/shop/category/controller.dart';
-import 'package:huanting_shop/views/shop/platform_goods/platform_goods_binding.dart';
-import 'package:huanting_shop/views/shop/platform_goods/platform_goods_list_view.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/goods_category_model.dart';
+import 'package:shop_app_client/views/components/base_search.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/shop/category/controller.dart';
+import 'package:shop_app_client/views/shop/platform_goods/platform_goods_binding.dart';
+import 'package:shop_app_client/views/shop/platform_goods/platform_goods_list_view.dart';
 
 class GoodsCategoryView extends GetView<GoodsCategoryController> {
   const GoodsCategoryView({Key? key}) : super(key: key);
@@ -21,17 +21,17 @@ class GoodsCategoryView extends GetView<GoodsCategoryController> {
       appBar: AppBar(
         title: controller.pickerProps
             ? AppText(
-                str: '物品分类'.ts,
+                str: '物品分类'.inte,
                 fontSize: 17,
               )
             : BaseSearch(autoFocus: controller.searchAutoFocus),
         leading: const BackButton(color: Colors.black),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: Obx(
         () => controller.isLoading.value
             ? const Center(
-                child: CircularProgressIndicator(color: AppColors.primary),
+                child: CircularProgressIndicator(color: AppStyles.primary),
               )
             : Column(
                 children: [
@@ -118,7 +118,7 @@ class GoodsCategoryView extends GetView<GoodsCategoryController> {
             return GestureDetector(
               onTap: () {
                 if (controller.pickerProps) {
-                  BeeNav.pop(child);
+                  GlobalPages.pop(child);
                 } else {
                   Get.to(PlatformGoodsListView(controllerTag: child.name),
                       arguments: {

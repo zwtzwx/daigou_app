@@ -5,8 +5,8 @@ import 'dart:convert' as convert;
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/storage/user_storage.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/storage/user_storage.dart';
 
 class Notifications {
   static final FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -24,7 +24,7 @@ class Notifications {
   static void getToken() async {
     String? token = await messaging.getToken();
     if (token != null) {
-      UserStorage.setDeviceToken(token);
+      CommonStorage.setDeviceToken(token);
     }
   }
 
@@ -112,12 +112,13 @@ class Notifications {
   static void onMessage(Map<String, dynamic>? data) {
     if (data == null) return;
     if (data['type'] == '1') {
-      BeeNav.push(BeeNav.orderCenter, arg: 1);
+      GlobalPages.push(GlobalPages.orderCenter, arg: 1);
     } else if (data['type'] == '7') {
-      BeeNav.push(BeeNav.webview,
+      GlobalPages.push(GlobalPages.webview,
           arg: {'type': 'notice', 'id': int.parse(data['value'])});
     } else if (data['type'] == '8') {
-      BeeNav.push(BeeNav.orderDetail, arg: {'id': num.parse(data['value'])});
+      GlobalPages.push(GlobalPages.orderDetail,
+          arg: {'id': num.parse(data['value'])});
     }
   }
 }

@@ -1,5 +1,5 @@
 import 'package:get/instance_manager.dart';
-import 'package:huanting_shop/views/shop/goods_detail/goods_detail_controller.dart';
+import 'package:shop_app_client/views/shop/goods_detail/goods_detail_controller.dart';
 
 class GoodsDetailBinding extends Bindings {
   final String tag;

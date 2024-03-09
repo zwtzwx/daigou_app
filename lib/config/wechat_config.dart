@@ -1,6 +1,6 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluwx/fluwx.dart';
-import 'package:huanting_shop/extension/translation.dart';
+import 'package:shop_app_client/extension/translation.dart';
 
 class WechatConfig {
   static WechatConfig? _instance;
@@ -34,7 +34,7 @@ class WechatConfig {
           ),
         );
       } else {
-        EasyLoading.showToast('请先安装微信'.ts);
+        EasyLoading.showToast('请先安装微信'.inte);
       }
     });
   }
@@ -49,7 +49,7 @@ class WechatConfig {
           ),
         );
       } else {
-        EasyLoading.showToast('请先安装微信'.ts);
+        EasyLoading.showToast('请先安装微信'.inte);
       }
     });
   }
@@ -69,7 +69,7 @@ class WechatConfig {
           ),
         );
       } else {
-        EasyLoading.showToast('请先安装微信'.ts);
+        EasyLoading.showToast('请先安装微信'.inte);
       }
     });
   }

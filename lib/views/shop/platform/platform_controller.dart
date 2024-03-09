@@ -1,15 +1,15 @@
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/common/loading_util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/models/goods_category_model.dart';
-import 'package:huanting_shop/models/shop/platform_goods_model.dart';
-import 'package:huanting_shop/services/shop_service.dart';
+import 'package:shop_app_client/common/loading_util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/models/goods_category_model.dart';
+import 'package:shop_app_client/models/shop/platform_goods_model.dart';
+import 'package:shop_app_client/services/shop_service.dart';
 
-class PlatformController extends GlobalLogic {
+class PlatformController extends GlobalController {
   String platform = '';
   final RxList<GoodsCategoryModel> categoryList = <GoodsCategoryModel>[].obs;
-  final loadingUtil = LoadingUtil<PlatformGoodsModel>().obs;
+  final loadingUtil = ListLoadingModel<PlatformGoodsModel>().obs;
   String keyword = '';
 
   @override

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
-import 'package:huanting_shop/common/fade_route.dart';
-import 'package:huanting_shop/common/loading_util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/shop/goods_comment_model.dart';
-import 'package:huanting_shop/services/shop_service.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/components/loading_cell.dart';
-import 'package:huanting_shop/views/components/photo_view_gallery_screen.dart';
+import 'package:shop_app_client/common/fade_route.dart';
+import 'package:shop_app_client/common/loading_util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/shop/goods_comment_model.dart';
+import 'package:shop_app_client/services/shop_service.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/components/loading_cell.dart';
+import 'package:shop_app_client/views/components/photo_view_gallery_screen.dart';
 
 class GoodsCommentsList extends StatefulWidget {
   const GoodsCommentsList({
@@ -33,8 +33,8 @@ class GoodsCommentsList extends StatefulWidget {
 }
 
 class _GoodsCommentsListState extends State<GoodsCommentsList> {
-  final LoadingUtil<GoodsCommentModel> loadingUtil =
-      LoadingUtil<GoodsCommentModel>();
+  final ListLoadingModel<GoodsCommentModel> loadingUtil =
+      ListLoadingModel<GoodsCommentModel>();
 
   @override
   void initState() {
@@ -84,7 +84,7 @@ class _GoodsCommentsListState extends State<GoodsCommentsList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.bgGray,
+      color: AppStyles.bgGray,
       margin: EdgeInsets.only(
         top: ScreenUtil().statusBarHeight + 20.h,
       ),
@@ -99,7 +99,7 @@ class _GoodsCommentsListState extends State<GoodsCommentsList> {
                 children: [
                   Expanded(
                     child: AppText(
-                      str: '商品评价'.ts + '(${widget.total})',
+                      str: '商品评价'.inte + '(${widget.total})',
                     ),
                   ),
                   GestureDetector(
@@ -109,7 +109,7 @@ class _GoodsCommentsListState extends State<GoodsCommentsList> {
                     child: Icon(
                       Icons.close,
                       size: 22.sp,
-                      color: AppColors.textGrayC9,
+                      color: AppStyles.textGrayC9,
                     ),
                   ),
                 ],
@@ -136,11 +136,11 @@ class _GoodsCommentsListState extends State<GoodsCommentsList> {
                               ),
                               5.verticalSpaceFromWidth,
                               AppText(
-                                str: '规格'.ts +
+                                str: '规格'.inte +
                                     '：' +
                                     (item.value.actionSku ?? ''),
                                 fontSize: 13,
-                                color: AppColors.textGrayC,
+                                color: AppStyles.textGrayC,
                                 lines: 3,
                               ),
                               8.verticalSpaceFromWidth,
@@ -186,7 +186,7 @@ class _GoodsCommentsListState extends State<GoodsCommentsList> {
                                                             BoxConstraints(
                                                           maxWidth: 80.w,
                                                         ),
-                                                        color: AppColors.bgGray,
+                                                        color: AppStyles.bgGray,
                                                       ),
                                                     ),
                                                   )),

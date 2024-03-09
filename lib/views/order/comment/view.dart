@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/order/comment/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/order/comment/controller.dart';
 
 class OrderCommentView extends GetView<OrderCommentController> {
   const OrderCommentView({Key? key}) : super(key: key);
@@ -18,13 +18,13 @@ class OrderCommentView extends GetView<OrderCommentController> {
         centerTitle: true,
         leading: const BackButton(color: Colors.black),
         title: AppText(
-          str: '我要评价'.ts,
+          str: '我要评价'.inte,
           fontSize: 17,
         ),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -40,7 +40,7 @@ class OrderCommentView extends GetView<OrderCommentController> {
   Widget contentCell() {
     var headerView = Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: AppStyles.white,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         border: Border.all(width: 1, color: Colors.white),
       ),
@@ -51,7 +51,7 @@ class OrderCommentView extends GetView<OrderCommentController> {
           Container(
             margin: EdgeInsets.only(top: 10.h, left: 12.w),
             child: AppText(
-              str: '订单号'.ts + '：' + controller.model.orderSn,
+              str: '订单号'.inte + '：' + controller.model.orderSn,
               fontSize: 14,
             ),
           ),
@@ -62,7 +62,7 @@ class OrderCommentView extends GetView<OrderCommentController> {
                 margin: EdgeInsets.only(left: 12.w),
                 alignment: Alignment.centerLeft,
                 child: AppText(
-                  str: '综合评分'.ts,
+                  str: '综合评分'.inte,
                   fontSize: 14,
                 ),
               ),
@@ -91,10 +91,10 @@ class OrderCommentView extends GetView<OrderCommentController> {
               keyboardType: TextInputType.multiline,
               autofocus: true,
               decoration: InputDecoration.collapsed(
-                hintText: '请描述你对本次集运的体验'.ts,
+                hintText: '请描述你对本次集运的体验'.inte,
                 hintStyle: TextStyle(
                   fontSize: 12.sp,
-                  color: AppColors.textGrayC9,
+                  color: AppStyles.textGrayC9,
                 ),
               ),
             ),
@@ -104,7 +104,7 @@ class OrderCommentView extends GetView<OrderCommentController> {
           Padding(
             padding: EdgeInsets.only(left: 12.w, bottom: 10.h),
             child: AppText(
-              str: '添加图片'.ts,
+              str: '添加图片'.inte,
               fontSize: 14,
             ),
           ),
@@ -141,14 +141,14 @@ class OrderCommentView extends GetView<OrderCommentController> {
           },
           child: Container(
             alignment: Alignment.center,
-            color: AppColors.bgGray,
+            color: AppStyles.bgGray,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Icon(
                   Icons.add,
                   size: 35.sp,
-                  color: AppColors.textGray,
+                  color: AppStyles.textGray,
                 ),
               ],
             ),
@@ -163,7 +163,7 @@ class OrderCommentView extends GetView<OrderCommentController> {
     return Stack(
       children: <Widget>[
         Container(
-          color: AppColors.bgGray,
+          color: AppStyles.bgGray,
           child: ImgItem(
             url,
             fit: BoxFit.cover,
@@ -178,11 +178,11 @@ class OrderCommentView extends GetView<OrderCommentController> {
             },
             child: Container(
               decoration: const BoxDecoration(
-                  color: AppColors.textGrayC,
+                  color: AppStyles.textGrayC,
                   borderRadius: BorderRadius.all(Radius.circular(7))),
               child: const Icon(
                 Icons.close,
-                color: AppColors.white,
+                color: AppStyles.white,
                 size: 18,
               ),
             ),

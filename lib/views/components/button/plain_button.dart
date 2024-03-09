@@ -1,7 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 
 class HollowButton extends StatefulWidget {
@@ -14,8 +14,8 @@ class HollowButton extends StatefulWidget {
     this.visualDensity,
     this.borderWidth = 1,
     this.textFontWeight = FontWeight.w500,
-    this.borderColor = AppColors.primary,
-    this.textColor = AppColors.primary,
+    this.borderColor = AppStyles.primary,
+    this.textColor = AppStyles.primary,
     this.onPressed,
   }) : super(key: key);
   final String text;
@@ -55,7 +55,7 @@ class _PlainButtonState extends State<HollowButton> {
         ),
       ),
       child: AppText(
-        str: widget.text.ts,
+        str: widget.text.inte,
         fontSize: widget.fontSize,
         color: widget.textColor,
         fontWeight: widget.textFontWeight,

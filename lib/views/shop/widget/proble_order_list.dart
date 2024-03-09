@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/list_refresh_event.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/shop/problem_order_model.dart';
-import 'package:huanting_shop/services/shop_service.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/button/plain_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/cart_goods_item.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/list_refresh_event.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/shop/problem_order_model.dart';
+import 'package:shop_app_client/services/shop_service.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/button/plain_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/cart_goods_item.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
 
 class ProbleShopOrder extends StatefulWidget {
   const ProbleShopOrder({
@@ -62,8 +62,8 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
 
   // 补款
   void onOrderAddtionalFee(ProblemOrderModel order) async {
-    var s =
-        await BeeNav.push(BeeNav.shopOrderPay, arg: {'problemOrder': order});
+    var s = await GlobalPages.push(GlobalPages.shopOrderPay,
+        arg: {'problemOrder': order});
     if (s != null) {
       ApplicationEvent.getInstance()
           .event
@@ -73,7 +73,8 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
 
   // 咨询
   void onChat(ProblemOrderModel order) async {
-    BeeNav.push(BeeNav.shopOrderChatDetail, arg: {'consult': order.consult});
+    GlobalPages.push(GlobalPages.shopOrderChatDetail,
+        arg: {'consult': order.consult});
   }
 
   @override
@@ -109,42 +110,43 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
               previewMode: true,
               otherWiget: model.problemType == 2
                   ? AppText(
-                      str: (model.status == 1 ? '待补款'.ts : '补款成功'.ts) +
+                      str: (model.status == 1 ? '待补款'.inte : '补款成功'.inte) +
                           '：' +
                           num.parse(model.amount ?? '0')
-                              .rate(needFormat: false),
+                              .priceConvert(needFormat: false),
                       color: model.status == 1
                           ? const Color(0xFFFFAF44)
-                          : AppColors.textGrayC9,
+                          : AppStyles.textGrayC9,
                     )
                   : (model.problemType == 3
                       ? AppText(
                           color: model.status == 0
-                              ? AppColors.textRed
-                              : AppColors.textGrayC9,
-                          str: (model.status == 0 ? '待退款'.ts : '退款成功'.ts) +
+                              ? AppStyles.textRed
+                              : AppStyles.textGrayC9,
+                          str: (model.status == 0 ? '待退款'.inte : '退款成功'.inte) +
                               '：' +
                               num.parse(model.amount ?? '0')
-                                  .rate(needFormat: false))
+                                  .priceConvert(needFormat: false))
                       : null))),
           12.verticalSpace,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AppText(
-                str: '国内运费'.ts,
+                str: '国内运费'.inte,
                 fontSize: 14,
               ),
               AppText(
-                str: (model.order?.freightFee ?? 0).rate(needFormat: false),
+                str: (model.order?.freightFee ?? 0)
+                    .priceConvert(needFormat: false),
                 fontSize: 14,
-                color: AppColors.textGrayC9,
+                color: AppStyles.textGrayC9,
               ),
             ],
           ),
           12.verticalSpace,
           AppText(
-            str: '问题描述'.ts,
+            str: '问题描述'.inte,
             fontSize: 14,
           ),
           5.verticalSpace,
@@ -153,7 +155,7 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
                 ? (model.problemSkus!.first.remark ?? '')
                 : '',
             fontSize: 12,
-            color: AppColors.textGrayC9,
+            color: AppStyles.textGrayC9,
             lines: 5,
           ),
           [0, 1].contains(model.status)
@@ -169,8 +171,8 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
                         height: 30.h,
                         child: HollowButton(
                           text: '咨询',
-                          textColor: AppColors.textDark,
-                          borderColor: AppColors.textGrayC,
+                          textColor: AppStyles.textDark,
+                          borderColor: AppStyles.textGrayC,
                           onPressed: () {
                             onChat(model);
                           },
@@ -232,16 +234,16 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: processType == index
-                              ? AppColors.primary
+                              ? AppStyles.primary
                               : Colors.white,
                           borderRadius: BorderRadius.circular(999),
                         ),
                         child: AppText(
-                          str: types[index].ts,
+                          str: types[index].inte,
                           fontSize: 14,
                           color: processType == index
                               ? Colors.white
-                              : AppColors.textNormal,
+                              : AppStyles.textNormal,
                         ),
                       ),
                     ))

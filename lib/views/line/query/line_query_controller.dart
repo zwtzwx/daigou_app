@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/models/goods_category_model.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
-import 'package:huanting_shop/services/warehouse_service.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/models/country_model.dart';
+import 'package:shop_app_client/models/goods_category_model.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
+import 'package:shop_app_client/services/warehouse_service.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
-class LineQueryController extends GlobalLogic {
+class LineQueryController extends GlobalController {
   final TextEditingController weightController = TextEditingController();
   final FocusNode weightNode = FocusNode();
   final TextEditingController longController = TextEditingController();
@@ -64,7 +64,7 @@ class LineQueryController extends GlobalLogic {
 
   // 选择国家
   onCountry() async {
-    var s = await BeeNav.push(BeeNav.country,
+    var s = await GlobalPages.push(GlobalPages.country,
         arg: {'warehouseId': selectWareHouse.value!.id, 'showArea': 1});
     if (s == null) return;
     if (s is Map) {
@@ -128,6 +128,7 @@ class LineQueryController extends GlobalLogic {
       'warehouse_id': selectWareHouse.value?.id ?? '',
       'warehouseName': selectWareHouse.value?.warehouseName ?? '',
     };
-    BeeNav.push(BeeNav.lineQueryResult, arg: {"data": dic, "query": true});
+    GlobalPages.push(GlobalPages.lineQueryResult,
+        arg: {"data": dic, "query": true});
   }
 }

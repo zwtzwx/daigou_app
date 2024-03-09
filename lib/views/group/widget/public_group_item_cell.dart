@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/coordinate_model.dart';
-import 'package:huanting_shop/models/group_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/group/widget/distance_widget.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/coordinate_model.dart';
+import 'package:shop_app_client/models/group_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/group/widget/distance_widget.dart';
 
 class PublicGroupItemCell extends StatelessWidget {
   const PublicGroupItemCell({
@@ -19,7 +19,7 @@ class PublicGroupItemCell extends StatelessWidget {
   final CoordinateModel? coordinate;
 
   void _toGroupDetail(BuildContext context) {
-    BeeNav.push(BeeNav.groupDetail, arg: {'id': model.id});
+    GlobalPages.push(GlobalPages.groupDetail, arg: {'id': model.id});
   }
 
   @override
@@ -91,7 +91,7 @@ class PublicGroupItemCell extends StatelessWidget {
                     children: [
                       AppText(
                         str: model.expressLine?.referenceTime ?? '',
-                        color: AppColors.green,
+                        color: AppStyles.green,
                         fontSize: 12,
                       ),
                       const Padding(
@@ -104,7 +104,7 @@ class PublicGroupItemCell extends StatelessWidget {
                       ),
                       AppText(
                         str: model.expressLine?.name ?? '',
-                        color: AppColors.groupText,
+                        color: AppStyles.groupText,
                         fontSize: 10,
                       )
                     ],
@@ -120,8 +120,8 @@ class PublicGroupItemCell extends StatelessWidget {
               child: Row(
                 children: [
                   AppText(
-                    str: '地址'.ts,
-                    color: AppColors.textGrayC,
+                    str: '地址'.inte,
+                    color: AppStyles.textGrayC,
                     fontSize: 13,
                   ),
                   AppGaps.hGap10,
@@ -151,8 +151,8 @@ class PublicGroupItemCell extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AppText(
-                    str: '截团时间'.ts,
-                    color: AppColors.textGrayC,
+                    str: '截团时间'.inte,
+                    color: AppStyles.textGrayC,
                     fontSize: 13,
                   ),
                   AppText(
@@ -192,7 +192,7 @@ class PublicGroupItemCell extends StatelessWidget {
                       AppGaps.hGap5,
                       AppText(
                         str: '已有{count}人加入此团'
-                            .tsArgs({'count': model.membersCount.toString()}),
+                            .inArgs({'count': model.membersCount.toString()}),
                         fontSize: 13,
                       ),
                     ],
@@ -203,7 +203,7 @@ class PublicGroupItemCell extends StatelessWidget {
                   fontSize: 14,
                   borderRadis: 999,
                   fontWeight: FontWeight.bold,
-                  backgroundColor: AppColors.primary,
+                  backgroundColor: AppStyles.primary,
                   onPressed: () {
                     _toGroupDetail(context);
                   },

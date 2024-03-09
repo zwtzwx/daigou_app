@@ -1,17 +1,18 @@
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/common/loading_util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/models/shop/category_model.dart';
-import 'package:huanting_shop/models/shop/goods_model.dart';
-import 'package:huanting_shop/services/shop_service.dart';
+import 'package:shop_app_client/common/loading_util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/models/shop/category_model.dart';
+import 'package:shop_app_client/models/shop/goods_model.dart';
+import 'package:shop_app_client/services/shop_service.dart';
 
 /*
   自营商城中心
  */
-class ShopCenterController extends GlobalLogic {
+class ShopCenterController extends GlobalController {
   final RxList<CategoryModel> categories = <CategoryModel>[].obs;
-  final Rx<LoadingUtil<GoodsModel>> loadingUtil = LoadingUtil<GoodsModel>().obs;
+  final Rx<ListLoadingModel<GoodsModel>> loadingUtil =
+      ListLoadingModel<GoodsModel>().obs;
 
   @override
   onInit() {
@@ -59,12 +60,12 @@ class ShopCenterController extends GlobalLogic {
 
   // 商品列表
   void onCategory(int id) {
-    BeeNav.push(BeeNav.goodsList, arg: {'id': id});
+    GlobalPages.push(GlobalPages.goodsList, arg: {'id': id});
   }
 
   // 搜索商品
   void onSearch(String value) {
-    BeeNav.push(BeeNav.goodsList, arg: {'keyword': value});
+    GlobalPages.push(GlobalPages.goodsList, arg: {'keyword': value});
   }
 
   @override

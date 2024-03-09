@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/ad_cell.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/goods_list_cell.dart';
-import 'package:huanting_shop/views/components/goods/search_input.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/components/loading_cell.dart';
-import 'package:huanting_shop/views/components/skeleton/skeleton.dart';
-import 'package:huanting_shop/views/shop/platform_center/platform_shop_center_controller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/ad_cell.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/goods_list_cell.dart';
+import 'package:shop_app_client/views/components/goods/search_input.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/components/loading_cell.dart';
+import 'package:shop_app_client/views/components/skeleton/skeleton.dart';
+import 'package:shop_app_client/views/shop/platform_center/platform_shop_center_controller.dart';
 
 class SelfShopWidget extends GetView<PlatformShopCenterController> {
   const SelfShopWidget({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class SelfShopWidget extends GetView<PlatformShopCenterController> {
           10.verticalSpaceFromWidth,
           SearchCell(
             onSearch: (value) {
-              BeeNav.push(BeeNav.goodsList, arg: {'keyword': value});
+              GlobalPages.push(GlobalPages.goodsList, arg: {'keyword': value});
             },
             cleanContentWhenSearch: true,
           ),
@@ -37,7 +37,7 @@ class SelfShopWidget extends GetView<PlatformShopCenterController> {
           15.verticalSpaceFromWidth,
           Obx(
             () => AppText(
-              str: '热销商品'.ts,
+              str: '热销商品'.inte,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),

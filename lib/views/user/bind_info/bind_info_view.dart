@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/input_text_item.dart';
-import 'package:huanting_shop/views/components/input/normal_input.dart';
-import 'package:huanting_shop/views/user/bind_info/bind_info_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/input_text_item.dart';
+import 'package:shop_app_client/views/components/input/normal_input.dart';
+import 'package:shop_app_client/views/user/bind_info/bind_info_controller.dart';
 
 class BeePhonePage extends GetView<BeePhoneLogic> {
   const BeePhonePage({Key? key}) : super(key: key);
@@ -24,16 +24,16 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
           () => AppText(
             str: controller.flagBool.value == 1
                 ? controller.phoneFlag.value
-                    ? '更改手机号'.ts
-                    : '绑定手机'.ts
+                    ? '更改手机号'.inte
+                    : '绑定手机'.inte
                 : controller.emailFlag.value
-                    ? '更换邮箱'.ts
-                    : '绑定邮箱'.ts,
+                    ? '更换邮箱'.inte
+                    : '绑定邮箱'.inte,
             fontSize: 17,
           ),
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       bottomNavigationBar: SafeArea(
         child: Container(
           height: 38.h,
@@ -57,14 +57,15 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
                 InputTextItem(
                   margin: const EdgeInsets.only(left: 0),
                   padding: EdgeInsets.only(left: 14.w),
-                  title: controller.flagBool.value == 1 ? '联系电话'.ts : '现邮箱'.ts,
+                  title:
+                      controller.flagBool.value == 1 ? '联系电话'.inte : '现邮箱'.inte,
                   inputText: Container(
                     height: 55,
                     alignment: Alignment.centerLeft,
                     child: AppText(
                       str: controller.flagBool.value == 1
-                          ? controller.userInfo?.phone ?? '无'.ts
-                          : controller.userInfo?.email ?? '无'.ts,
+                          ? controller.userInfo?.phone ?? '无'.inte
+                          : controller.userInfo?.email ?? '无'.inte,
                     ),
                   ),
                 ),
@@ -72,7 +73,8 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
                   height: 55,
                   margin: const EdgeInsets.only(left: 0),
                   padding: EdgeInsets.only(left: 14.w),
-                  title: controller.flagBool.value == 2 ? '新邮箱'.ts : '新号码'.ts,
+                  title:
+                      controller.flagBool.value == 2 ? '新邮箱'.inte : '新号码'.inte,
                   inputText: Container(
                     alignment: Alignment.center,
                     child: Row(
@@ -92,7 +94,7 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
                                     const Icon(
                                       Icons.arrow_forward_ios,
                                       size: 14,
-                                      color: AppColors.textNormal,
+                                      color: AppStyles.textNormal,
                                     ),
                                     AppGaps.hGap5,
                                   ],
@@ -102,8 +104,8 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
                         Expanded(
                             child: NormalInput(
                           hintText: controller.flagBool.value == 2
-                              ? '请输入新邮箱'.ts
-                              : '请输入新号码'.ts,
+                              ? '请输入新邮箱'.inte
+                              : '请输入新号码'.inte,
                           textAlign: TextAlign.left,
                           contentPadding: const EdgeInsets.only(left: 0),
                           controller: controller.newNumberController,
@@ -123,7 +125,7 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
                   ),
                 ),
                 InputTextItem(
-                  title: '验证码'.ts,
+                  title: '验证码'.inte,
                   margin: const EdgeInsets.only(left: 0),
                   padding: EdgeInsets.only(left: 14.w),
                   isRequired: true,
@@ -135,7 +137,7 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
                       children: <Widget>[
                         Expanded(
                             child: NormalInput(
-                          hintText: '请输入验证码'.ts,
+                          hintText: '请输入验证码'.inte,
                           textAlign: TextAlign.left,
                           contentPadding: const EdgeInsets.only(left: 0),
                           controller: controller.validationController,
@@ -156,8 +158,8 @@ class BeePhonePage extends GetView<BeePhoneLogic> {
                             child: BeeButton(
                               text: controller.sent.value,
                               backgroundColor: controller.isButtonEnable.value
-                                  ? AppColors.primary
-                                  : AppColors.bgGray,
+                                  ? AppStyles.primary
+                                  : AppStyles.bgGray,
                               textColor: controller.isButtonEnable.value
                                   ? Colors.white
                                   : Colors.grey,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/self_pickup_station_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/user/station_select/station_select_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/self_pickup_station_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/user/station_select/station_select_controller.dart';
 
 class StationSelectView extends GetView<StationSelectController> {
   const StationSelectView({Key? key}) : super(key: key);
@@ -18,11 +18,11 @@ class StationSelectView extends GetView<StationSelectController> {
         elevation: 0.5,
         centerTitle: true,
         title: AppText(
-          str: '选择自提点'.ts,
+          str: '选择自提点'.inte,
           fontSize: 18,
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: Obx(
         () => ListView.builder(
           itemCount: controller.stationList.length,
@@ -41,9 +41,9 @@ class StationSelectView extends GetView<StationSelectController> {
       },
       child: Container(
         decoration: BoxDecoration(
-            color: AppColors.white,
+            color: AppStyles.white,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
-            border: Border.all(width: 1, color: AppColors.white)),
+            border: Border.all(width: 1, color: AppStyles.white)),
         margin: const EdgeInsets.only(top: 15, right: 15, left: 15),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         child: Column(
@@ -76,33 +76,33 @@ class StationSelectView extends GetView<StationSelectController> {
             //   spacing: 10,
             //   children: [
             //     Text(
-            //       '${'包裹限重'.ts}：' +
+            //       '${'包裹限重'.inte}：' +
             //           ((model.limitOneWeight ?? 0) < 1000000
             //               ? ((model.limitOneWeight! / 1000).toString())
-            //               : '无'.ts),
+            //               : '无'.inte),
             //     ),
             //     Text(
-            //       '${'包裹单边限长'.ts}：' +
+            //       '${'包裹单边限长'.inte}：' +
             //           ((model.limitLength ?? 0) < 1000000
             //               ? ((model.limitLength! / 100).toString())
-            //               : '无'.ts),
+            //               : '无'.inte),
             //     ),
             //     Text(
-            //       '${'整票限重'.ts}：' +
+            //       '${'整票限重'.inte}：' +
             //           ((model.limitManyWeight ?? 0) < 1000000
             //               ? ((model.limitManyWeight! / 1000).toString())
-            //               : '无'.ts),
+            //               : '无'.inte),
             //     ),
             //   ],
             // ),
             // Spaces.vGap4,
             // AppText(
-            //   str: '${'营业时间'.ts}：${model.openingHours ?? ''}',
+            //   str: '${'营业时间'.inte}：${model.openingHours ?? ''}',
             //   lines: 4,
             // ),
             // Spaces.vGap4,
             // AppText(
-            //   str: '${'公告'.ts}：${model.announcement ?? ''}',
+            //   str: '${'公告'.inte}：${model.announcement ?? ''}',
             //   lines: 5,
             // ),
           ],

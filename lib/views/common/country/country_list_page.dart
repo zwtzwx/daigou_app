@@ -4,14 +4,14 @@
 */
 
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/common/hex_to_color.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/views/common/country/country_controller.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/search_input.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/common/hex_to_color.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/country_model.dart';
+import 'package:shop_app_client/views/common/country/country_controller.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/search_input.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -27,7 +27,7 @@ class CountryListView extends GetView<CountryController> {
           elevation: 0.5,
           centerTitle: true,
           title: AppText(
-            str: '选择国家或地区'.ts,
+            str: '选择国家或地区'.inte,
             fontSize: 18,
           ),
           actions: [
@@ -35,13 +35,13 @@ class CountryListView extends GetView<CountryController> {
               onPressed: controller.onSearch,
               child: Obx(
                 () => AppText(
-                  str: !controller.isSearch.value ? '搜索'.ts : '取消'.ts,
+                  str: !controller.isSearch.value ? '搜索'.inte : '取消'.inte,
                 ),
               ),
             ),
           ],
         ),
-        backgroundColor: AppColors.bgGray,
+        backgroundColor: AppStyles.bgGray,
         body: Obx(() {
           return controller.isSearch.value
               ? Column(
@@ -78,8 +78,8 @@ class CountryListView extends GetView<CountryController> {
                                   ),
                                 ),
                                 AppText(
-                                  str: '没有匹配的国家'.ts,
-                                  color: AppColors.textGrayC,
+                                  str: '没有匹配的国家'.inte,
+                                  color: AppStyles.textGrayC,
                                 )
                               ],
                             ))
@@ -106,7 +106,7 @@ class CountryListView extends GetView<CountryController> {
                                                 int index2) {
                                               return GestureDetector(
                                                 child: Container(
-                                                  color: AppColors.white,
+                                                  color: AppStyles.white,
                                                   padding:
                                                       const EdgeInsets.only(
                                                           left: 15),
@@ -116,7 +116,7 @@ class CountryListView extends GetView<CountryController> {
                                                           50,
                                                   child: Padding(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         vertical: 10),
                                                     child: Row(
                                                       children: <Widget>[
@@ -176,7 +176,7 @@ class CountryListView extends GetView<CountryController> {
                                       width: 50,
                                       child: AppText(
                                         str: controller.dataList[index].letter,
-                                        color: AppColors.main,
+                                        color: AppStyles.main,
                                       )),
                                   onTap: () {
                                     var height = index * 25.0;

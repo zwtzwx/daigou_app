@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
 class TitleCell extends StatelessWidget {
   const TitleCell({
@@ -29,7 +29,7 @@ class TitleCell extends StatelessWidget {
               children: [
                 Obx(
                   () => AppText(
-                    str: title.ts,
+                    str: title.inte,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
@@ -47,15 +47,15 @@ class TitleCell extends StatelessWidget {
                     children: [
                       Obx(
                         () => AppText(
-                          str: '更多'.ts,
+                          str: '更多'.inte,
                           fontSize: 14,
-                          color: AppColors.textNormal,
+                          color: AppStyles.textNormal,
                         ),
                       ),
                       5.horizontalSpace,
                       const Icon(
                         Icons.arrow_forward_ios,
-                        color: AppColors.textNormal,
+                        color: AppStyles.textNormal,
                         size: 14,
                       ),
                     ],

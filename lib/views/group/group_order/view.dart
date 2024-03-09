@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/group_order_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/group/group_order/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/group_order_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/group/group_order/controller.dart';
 
 class BeeGroupOrderView extends GetView<GroupOrderController> {
   const BeeGroupOrderView({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
         leading: const BackButton(color: Colors.black),
         centerTitle: true,
         title: AppText(
-          str: '我的团单'.ts,
+          str: '我的团单'.inte,
           fontSize: 17,
         ),
         elevation: 0.5,
@@ -32,18 +32,18 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: AppText(
-                str: '未签收'.ts,
+                str: '未签收'.inte,
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: AppText(
-                str: '已签收'.ts,
+                str: '已签收'.inte,
               ),
             ),
           ],
-          labelColor: AppColors.primary,
-          indicatorColor: AppColors.primary,
+          labelColor: AppStyles.primary,
+          indicatorColor: AppStyles.primary,
           onTap: (value) {
             controller.tabController.animateTo(value);
 
@@ -51,7 +51,7 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
           },
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: PageView.builder(
         physics: const NeverScrollableScrollPhysics(),
         itemCount: 2,
@@ -73,7 +73,7 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
   Widget groupOrderItemCell(int index, GroupOrderModel model) {
     return GestureDetector(
       onTap: () {
-        BeeNav.push(BeeNav.groupOrderPorcess, arg: {'id': model.id});
+        GlobalPages.push(GlobalPages.groupOrderPorcess, arg: {'id': model.id});
       },
       child: Container(
         decoration: const BoxDecoration(
@@ -103,8 +103,8 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
                 ),
                 10.horizontalSpace,
                 AppText(
-                  str: '${'子订单'.ts}：${model.subOrdersCount}',
-                  color: AppColors.textGray,
+                  str: '${'子订单'.inte}：${model.subOrdersCount}',
+                  color: AppStyles.textGray,
                   fontSize: 13,
                 ),
               ],
@@ -154,8 +154,8 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
                     ),
                     AppText(
                       str: model.station == null
-                          ? '送货上门'.ts
-                          : '${'自提收货'.ts}-${model.station!.name}',
+                          ? '送货上门'.inte
+                          : '${'自提收货'.inte}-${model.station!.name}',
                     ),
                   ],
                 ),
@@ -164,7 +164,7 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
                     ? Column(
                         children: [
                           AppText(
-                            str: '打包进度'.ts,
+                            str: '打包进度'.inte,
                           ),
                           AppText(
                             str: '${model.finished}/${model.all}',
@@ -176,7 +176,7 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
                     ? Column(
                         children: [
                           AppText(
-                            str: '支付进度'.ts,
+                            str: '支付进度'.inte,
                           ),
                           AppText(
                             str: '${model.finished}/${model.all}',
@@ -188,7 +188,7 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
                     ? Column(
                         children: [
                           AppText(
-                            str: '签收进度'.ts,
+                            str: '签收进度'.inte,
                           ),
                           AppText(
                             str: '${model.finished}/${model.all}',
@@ -203,8 +203,8 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppText(
-                  str: '${'提交时间'.ts}：${model.createdAt}',
-                  color: AppColors.textGray,
+                  str: '${'提交时间'.inte}：${model.createdAt}',
+                  color: AppStyles.textGray,
                 ),
               ],
             ),
@@ -215,7 +215,7 @@ class BeeGroupOrderView extends GetView<GroupOrderController> {
                     child: BeeButton(
                       text: '团长代付',
                       onPressed: () {
-                        BeeNav.push(BeeNav.transportPay, arg: {
+                        GlobalPages.push(GlobalPages.transportPay, arg: {
                           'id': model.id,
                           'payModel': 1,
                           'deliveryStatus': 1,

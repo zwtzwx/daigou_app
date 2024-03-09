@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/line/query/line_query_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/line/query/line_query_controller.dart';
 
 class LineQueryView extends GetView<LineQueryController> {
   const LineQueryView({Key? key}) : super(key: key);
@@ -25,9 +25,9 @@ class LineQueryView extends GetView<LineQueryController> {
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppStyles.primary,
           title: AppText(
-            str: '运费估算'.ts,
+            str: '运费估算'.inte,
             fontSize: 17,
             color: Colors.white,
           ),
@@ -59,7 +59,7 @@ class LineQueryView extends GetView<LineQueryController> {
       text: TextSpan(
         style: TextStyle(
           fontSize: 14.sp,
-          color: AppColors.textDark,
+          color: AppStyles.textDark,
           fontWeight: FontWeight.w500,
         ),
         children: [
@@ -70,7 +70,7 @@ class LineQueryView extends GetView<LineQueryController> {
             const TextSpan(
               text: '*',
               style: TextStyle(
-                color: AppColors.textRed,
+                color: AppStyles.textRed,
               ),
             ),
         ],
@@ -88,18 +88,18 @@ class LineQueryView extends GetView<LineQueryController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          queryTitle('重量'.ts + '(${controller.localModel?.weightSymbol})'),
+          queryTitle('重量'.inte + '(${controller.localModel?.weightSymbol})'),
           BaseInput(
             isCollapsed: true,
             autoShowRemove: false,
             controller: controller.weightController,
             focusNode: controller.weightNode,
-            hintText: '请输入包裹重量'.ts,
-            hintStyle: TextStyle(color: AppColors.textGrayC9, fontSize: 12.sp),
+            hintText: '请输入包裹重量'.inte,
+            hintStyle: TextStyle(color: AppStyles.textGrayC9, fontSize: 12.sp),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
           ),
           15.verticalSpaceFromWidth,
-          queryTitle('包裹尺寸'.ts + '(${controller.localModel?.lengthSymbol})',
+          queryTitle('包裹尺寸'.inte + '(${controller.localModel?.lengthSymbol})',
               isRequired: false),
           15.verticalSpaceFromWidth,
           Row(
@@ -120,10 +120,10 @@ class LineQueryView extends GetView<LineQueryController> {
                     autoShowRemove: false,
                     contentPadding: EdgeInsets.symmetric(vertical: 8.h),
                     hintStyle:
-                        TextStyle(color: AppColors.textGrayC9, fontSize: 12.sp),
+                        TextStyle(color: AppStyles.textGrayC9, fontSize: 12.sp),
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
-                    hintText: '长'.ts,
+                    hintText: '长'.inte,
                   ),
                 ),
               ),
@@ -143,11 +143,11 @@ class LineQueryView extends GetView<LineQueryController> {
                     focusNode: controller.wideNode,
                     autoShowRemove: false,
                     hintStyle:
-                        TextStyle(color: AppColors.textGrayC9, fontSize: 12.sp),
+                        TextStyle(color: AppStyles.textGrayC9, fontSize: 12.sp),
                     contentPadding: EdgeInsets.symmetric(vertical: 8.h),
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
-                    hintText: '宽'.ts,
+                    hintText: '宽'.inte,
                   ),
                 ),
               ),
@@ -167,23 +167,23 @@ class LineQueryView extends GetView<LineQueryController> {
                     focusNode: controller.highNode,
                     autoShowRemove: false,
                     hintStyle:
-                        TextStyle(color: AppColors.textGrayC9, fontSize: 12.sp),
+                        TextStyle(color: AppStyles.textGrayC9, fontSize: 12.sp),
                     contentPadding: EdgeInsets.symmetric(vertical: 8.h),
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
-                    hintText: '高'.ts,
+                    hintText: '高'.inte,
                   ),
                 ),
               ),
             ],
           ),
           20.verticalSpaceFromWidth,
-          queryTitle('物品分类'.ts),
+          queryTitle('物品分类'.inte),
           15.verticalSpaceFromWidth,
           GestureDetector(
             onTap: () async {
-              var s =
-                  await BeeNav.push(BeeNav.goodsCategory, arg: {'props': true});
+              var s = await GlobalPages.push(GlobalPages.goodsCategory,
+                  arg: {'props': true});
               if (s != null) {
                 controller.category.value = s;
               }
@@ -208,18 +208,18 @@ class LineQueryView extends GetView<LineQueryController> {
                       () => AppText(
                         str: controller.category.value != null
                             ? controller.category.value!.name
-                            : '请选择物品分类'.ts,
+                            : '请选择物品分类'.inte,
                         fontSize: 14,
                         color: controller.category.value != null
-                            ? AppColors.textDark
-                            : AppColors.textGrayC9,
+                            ? AppStyles.textDark
+                            : AppStyles.textGrayC9,
                       ),
                     ),
                   ),
                   10.horizontalSpace,
                   Icon(
                     Icons.arrow_forward_ios,
-                    color: AppColors.textNormal,
+                    color: AppStyles.textNormal,
                     size: 12.sp,
                   ),
                 ],
@@ -241,7 +241,7 @@ class LineQueryView extends GetView<LineQueryController> {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: AppColors.line)),
+        border: Border(bottom: BorderSide(color: AppStyles.line)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -251,14 +251,14 @@ class LineQueryView extends GetView<LineQueryController> {
               children: [
                 Flexible(
                   child: AppText(
-                    str: label.ts,
+                    str: label.inte,
                     lines: 3,
                   ),
                 ),
                 AppGaps.hGap5,
                 Flexible(
                   child: AppText(
-                    str: '必填'.ts,
+                    str: '必填'.inte,
                     color: const Color(0xFFF68456),
                     fontSize: 14,
                     lines: 3,
@@ -275,10 +275,10 @@ class LineQueryView extends GetView<LineQueryController> {
                 child: Row(
                   children: [
                     AppText(
-                      str: value ?? '请选择'.ts,
+                      str: value ?? '请选择'.inte,
                       color: (value != null && value.isNotEmpty)
-                          ? AppColors.textDark
-                          : AppColors.textGray,
+                          ? AppStyles.textDark
+                          : AppStyles.textGray,
                     ),
                     Icon(
                       Icons.arrow_forward_ios,
@@ -295,7 +295,7 @@ class LineQueryView extends GetView<LineQueryController> {
   Widget shipInfo(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: AppStyles.primary,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(40.r),
           bottomRight: Radius.circular(40.r),
@@ -312,8 +312,8 @@ class LineQueryView extends GetView<LineQueryController> {
                 Picker(
                   adapter:
                       PickerDataAdapter(data: controller.getWarehousePicker()),
-                  cancelText: '取消'.ts,
-                  confirmText: '确认'.ts,
+                  cancelText: '取消'.inte,
+                  confirmText: '确认'.inte,
                   selectedTextStyle:
                       const TextStyle(color: Colors.blue, fontSize: 12),
                   onCancel: () {},
@@ -331,7 +331,7 @@ class LineQueryView extends GetView<LineQueryController> {
                       () => AppText(
                         str: controller.selectWareHouse.value != null
                             ? controller.selectWareHouse.value!.warehouseName!
-                            : '请选择'.ts,
+                            : '请选择'.inte,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -339,7 +339,7 @@ class LineQueryView extends GetView<LineQueryController> {
                     ),
                     5.verticalSpaceFromWidth,
                     AppText(
-                      str: '出发地'.ts,
+                      str: '出发地'.inte,
                       fontSize: 12,
                       color: Colors.white,
                     ),
@@ -367,7 +367,7 @@ class LineQueryView extends GetView<LineQueryController> {
                       () => AppText(
                         str: controller.selectCountry.value != null
                             ? controller.selectCountry.value!.name!
-                            : '请选择'.ts,
+                            : '请选择'.inte,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -375,7 +375,7 @@ class LineQueryView extends GetView<LineQueryController> {
                     ),
                     5.verticalSpaceFromWidth,
                     AppText(
-                      str: '收货地'.ts,
+                      str: '收货地'.inte,
                       fontSize: 12,
                       color: Colors.white,
                     ),

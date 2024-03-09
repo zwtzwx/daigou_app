@@ -7,20 +7,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/language_change_event.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/currency_rate_model.dart';
-import 'package:huanting_shop/models/language_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/services/language_service.dart';
-import 'package:huanting_shop/state/i10n.dart';
-import 'package:huanting_shop/storage/language_storage.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/language_change_event.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/currency_rate_model.dart';
+import 'package:shop_app_client/models/language_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/services/language_service.dart';
+import 'package:shop_app_client/state/i10n.dart';
+import 'package:shop_app_client/storage/language_storage.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
 class LanguageCellController extends GetxController {
   final RxList<LanguageModel> langList = <LanguageModel>[].obs;
-  final I10n i10n = Get.find<I10n>();
+  final Locale i10n = Get.find<Locale>();
   final currency = Get.find<AppStore>().currencyModel;
 
   @override
@@ -57,7 +57,7 @@ class LanguageCellController extends GetxController {
         builder: (context) {
           return CupertinoActionSheet(
             title: AppText(
-              str: '设置'.ts,
+              str: '设置'.inte,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
@@ -80,7 +80,7 @@ class LanguageCellController extends GetxController {
                         children: [
                           Expanded(
                             child: Text(
-                              (e['label'] as String).ts,
+                              (e['label'] as String).inte,
                               style: TextStyle(
                                 fontSize: 15.sp,
                               ),
@@ -109,7 +109,7 @@ class LanguageCellController extends GetxController {
                 Navigator.pop(context);
               },
               child: Text(
-                '取消'.ts,
+                '取消'.inte,
               ),
             ),
           );
@@ -134,12 +134,12 @@ class LanguageCellController extends GetxController {
         onPressed: () {
           Get.back();
         },
-        child: Text('取消'.ts),
+        child: Text('取消'.inte),
       ),
     ));
     if (rate != null) {
       if (rate.code == currency.value?.code) return;
-      LanguageStore.setCurrency(jsonEncode({
+      LocaleStorage.setCurrency(jsonEncode({
         'code': rate.code,
         'symbol': rate.symbol,
       }));
@@ -164,13 +164,13 @@ class LanguageCellController extends GetxController {
         onPressed: () {
           Get.back();
         },
-        child: Text('取消'.ts),
+        child: Text('取消'.inte),
       ),
     ));
     if (code != null) {
-      String languge = LanguageStore.getLanguage();
+      String languge = LocaleStorage.getLanguage();
       if (code == languge) return;
-      LanguageStore.setLanguage(code);
+      LocaleStorage.setLanguage(code);
       i10n.setLanguage(code);
       await i10n.loadTranslations(Options(extra: {'loading': true}));
       ApplicationEvent.getInstance().event.fire(LanguageChangeEvent());

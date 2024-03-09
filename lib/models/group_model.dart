@@ -1,9 +1,9 @@
-import 'package:huanting_shop/models/coordinate_model.dart';
-import 'package:huanting_shop/models/order_model.dart';
-import 'package:huanting_shop/models/receiver_address_model.dart';
-import 'package:huanting_shop/models/region_model.dart';
-import 'package:huanting_shop/models/self_pickup_station_model.dart';
-import 'package:huanting_shop/models/ship_line_model.dart';
+import 'package:shop_app_client/models/coordinate_model.dart';
+import 'package:shop_app_client/models/order_model.dart';
+import 'package:shop_app_client/models/receiver_address_model.dart';
+import 'package:shop_app_client/models/region_model.dart';
+import 'package:shop_app_client/models/self_pickup_station_model.dart';
+import 'package:shop_app_client/models/ship_line_model.dart';
 
 class GroupModel {
   String? country;

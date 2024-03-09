@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/cart_goods_item.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
-import 'package:huanting_shop/views/shop/order_preview/order_preview_controller.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/cart_goods_item.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
+import 'package:shop_app_client/views/shop/order_preview/order_preview_controller.dart';
 
 class OrderPreviewView extends GetView<OrderPreviewController> {
   const OrderPreviewView({Key? key}) : super(key: key);
@@ -22,14 +22,14 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
       appBar: AppBar(
         centerTitle: true,
         title: AppText(
-          str: '确认订单'.ts,
+          str: '确认订单'.inte,
           fontSize: 17,
         ),
         leading: const BackButton(color: Colors.black),
         elevation: 0,
-        backgroundColor: AppColors.bgGray,
+        backgroundColor: AppStyles.bgGray,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       bottomNavigationBar: Container(
         color: Colors.white,
         child: SafeArea(
@@ -52,7 +52,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                     child: Obx(
                       () => Checkbox.adaptive(
                         shape: const CircleBorder(),
-                        activeColor: AppColors.primary,
+                        activeColor: AppStyles.primary,
                         value: controller.agreeProtocol.value,
                         onChanged: (value) {
                           if (value == null) return;
@@ -67,21 +67,21 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                       text: TextSpan(
                         style: TextStyle(
                           fontSize: 12.sp,
-                          color: AppColors.textNormal,
+                          color: AppStyles.textNormal,
                         ),
                         children: [
                           TextSpan(
-                            text: '我已阅读与同意'.ts,
+                            text: '我已阅读与同意'.inte,
                           ),
                           WidgetSpan(
                             alignment: PlaceholderAlignment.middle,
                             child: GestureDetector(
                               onTap: () {
-                                BeeNav.push(BeeNav.webview,
+                                GlobalPages.push(GlobalPages.webview,
                                     arg: {'type': 'article', 'id': 4179});
                               },
                               child: AppText(
-                                str: '《${'禁购商品声明'.ts}》',
+                                str: '《${'禁购商品声明'.inte}》',
                                 fontSize: 12,
                                 color: const Color(0xFF5CADF6),
                               ),
@@ -91,11 +91,11 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                             alignment: PlaceholderAlignment.middle,
                             child: GestureDetector(
                               onTap: () {
-                                BeeNav.push(BeeNav.webview,
+                                GlobalPages.push(GlobalPages.webview,
                                     arg: {'type': 'article', 'id': 4180});
                               },
                               child: AppText(
-                                str: '《${'免责声明'.ts}》',
+                                str: '《${'免责声明'.inte}》',
                                 fontSize: 12,
                                 color: const Color(0xFF5CADF6),
                               ),
@@ -121,7 +121,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                           () => Text.rich(
                             TextSpan(
                               style: TextStyle(
-                                color: AppColors.textRed,
+                                color: AppStyles.textRed,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -132,7 +132,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                 ),
                                 TextSpan(
                                   text: ' ' +
-                                      controller.shopOrderValue.rate(
+                                      controller.shopOrderValue.priceConvert(
                                           needFormat: false,
                                           showPriceSymbol: false),
                                   style: const TextStyle(
@@ -144,7 +144,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                           ),
                         ),
                         AppText(
-                          str: '待支付总价(国际运费需另计)'.ts,
+                          str: '待支付总价(国际运费需另计)'.inte,
                           fontSize: 12,
                         ),
                       ],
@@ -200,9 +200,9 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                           child: serviceCell(context),
                         ),
                         AppText(
-                          str: '注：以上预估集运费用，会在仓库打包后支付'.ts + '。',
+                          str: '注：以上预估集运费用，会在仓库打包后支付'.inte + '。',
                           fontSize: 12,
-                          color: AppColors.textRed,
+                          color: AppStyles.textRed,
                           lines: 2,
                         ),
                         15.verticalSpace,
@@ -246,16 +246,16 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: controller.shipModel.value == index
-                                ? AppColors.primary
+                                ? AppStyles.primary
                                 : Colors.white,
                             borderRadius: BorderRadius.circular(999),
                           ),
                           child: AppText(
-                            str: types[index].ts,
+                            str: types[index].inte,
                             fontSize: 14,
                             color: controller.shipModel.value == index
-                                ? AppColors.textDark
-                                : AppColors.textGrayC9,
+                                ? AppStyles.textDark
+                                : AppStyles.textGrayC9,
                           ),
                         ),
                       ),
@@ -279,21 +279,21 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                     margin: EdgeInsets.only(bottom: 10.h),
                     padding: EdgeInsets.only(bottom: 10.w),
                     decoration: const BoxDecoration(
-                      border: Border(bottom: BorderSide(color: AppColors.line)),
+                      border: Border(bottom: BorderSide(color: AppStyles.line)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AppText(
-                          str: '收货地址'.ts,
+                          str: '收货地址'.inte,
                           fontSize: 14,
                         ),
                         AppText(
                           str: controller.address.value!.addressType == 1
-                              ? '送货上门'.ts
-                              : '自提点提货'.ts,
+                              ? '送货上门'.inte
+                              : '自提点提货'.inte,
                           fontSize: 12,
-                          color: AppColors.textNormal,
+                          color: AppStyles.textNormal,
                         ),
                       ],
                     ),
@@ -315,7 +315,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                         color: Colors.transparent,
                         child: controller.address.value == null
                             ? AppText(
-                                str: '请选择地址'.ts,
+                                str: '请选择地址'.inte,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
                               )
@@ -356,7 +356,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                 const Icon(
                   Icons.arrow_forward_ios,
                   size: 16,
-                  color: AppColors.textNormal,
+                  color: AppStyles.textNormal,
                 ),
               ],
             ),
@@ -383,7 +383,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                 children: [
                   Expanded(
                     child: AppText(
-                      str: '物流方案'.ts,
+                      str: '物流方案'.inte,
                       fontSize: 14,
                       lines: 3,
                     ),
@@ -392,7 +392,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                   const Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
-                    color: AppColors.textNormal,
+                    color: AppStyles.textNormal,
                   ),
                 ],
               ),
@@ -422,22 +422,22 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                         AppText(
                           str:
                               controller.lineModel.value!.region!.referenceTime,
-                          color: AppColors.textGrayC9,
+                          color: AppStyles.textGrayC9,
                           fontSize: 14,
                         ),
                         AppText(
-                          str: CommonMethods.getLineModelName(
+                          str: BaseUtils.getLineModelName(
                                   controller.lineModel.value!.mode)
-                              .ts,
+                              .inte,
                           fontSize: 14,
-                          color: AppColors.textGrayC9,
+                          color: AppStyles.textGrayC9,
                         ),
                       ],
                     ),
                     15.verticalSpace,
                     GestureDetector(
                       onTap: () {
-                        BeeNav.push(BeeNav.lineDetail, arg: {
+                        GlobalPages.push(GlobalPages.lineDetail, arg: {
                           'line': controller.lineModel.value,
                           'type': 2
                         });
@@ -446,13 +446,13 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           AppText(
-                            str: '查看详情'.ts,
-                            color: AppColors.textGrayC9,
+                            str: '查看详情'.inte,
+                            color: AppStyles.textGrayC9,
                             fontSize: 14,
                           ),
                           Icon(
                             Icons.arrow_forward_ios,
-                            color: AppColors.textGrayC9,
+                            color: AppStyles.textGrayC9,
                             size: 15.sp,
                           ),
                         ],
@@ -475,7 +475,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppText(
-              str: '到仓服务'.ts,
+              str: '到仓服务'.inte,
               fontSize: 14,
             ),
             5.verticalSpace,
@@ -491,11 +491,11 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //             children: [
             //               AppText(
-            //                 str: '保险服务'.ts,
+            //                 str: '保险服务'.inte,
             //                 fontSize: 14,
             //               ),
             //               Switch.adaptive(
-            //                 activeColor: AppColors.primary,
+            //                 activeColor: AppStyles.primary,
             //                 value: controller.insuranceChecked.value,
             //                 onChanged: (value) {
             //                   controller.insuranceChecked.value = value;
@@ -510,7 +510,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //               clipBehavior: Clip.none,
             //               padding: EdgeInsets.symmetric(horizontal: 10.w),
             //               decoration: BoxDecoration(
-            //                 color: AppColors.bgGray,
+            //                 color: AppStyles.bgGray,
             //                 borderRadius: BorderRadius.circular(999),
             //               ),
             //               child: BaseInput(
@@ -521,7 +521,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //                 focusNode: controller.insuranceNode,
             //                 autoShowRemove: false,
             //                 autoRemoveController: false,
-            //                 hintText: '请输入保价金额'.ts,
+            //                 hintText: '请输入保价金额'.inte,
             //                 textInputAction: TextInputAction.done,
             //                 keyboardType: const TextInputType.numberWithOptions(
             //                     decimal: true),
@@ -533,23 +533,23 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //                   text: TextSpan(
             //                       style: TextStyle(
             //                         fontSize: 12.sp,
-            //                         color: AppColors.textGrayC9,
+            //                         color: AppStyles.textGrayC9,
             //                       ),
             //                       children: [
-            //                       TextSpan(text: '保险费用'.ts + '：'),
+            //                       TextSpan(text: '保险费用'.inte + '：'),
             //                       TextSpan(
             //                         text: controller.insuranceFee.value
             //                             .toStringAsFixed(2),
             //                         style: const TextStyle(
             //                           fontWeight: FontWeight.bold,
-            //                           color: AppColors.textRed,
+            //                           color: AppStyles.textRed,
             //                         ),
             //                       ),
             //                     ]))
             //               : AppText(
-            //                   str: '未选择保险'.ts,
+            //                   str: '未选择保险'.inte,
             //                   fontSize: 12,
-            //                   color: AppColors.textGrayC9,
+            //                   color: AppStyles.textGrayC9,
             //                 ),
             //           8.verticalSpace,
             //           AppGaps.line,
@@ -567,11 +567,11 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //             children: [
             //               AppText(
-            //                 str: '关税服务'.ts,
+            //                 str: '关税服务'.inte,
             //                 fontSize: 14,
             //               ),
             //               Switch.adaptive(
-            //                 activeColor: AppColors.primary,
+            //                 activeColor: AppStyles.primary,
             //                 value: controller.tariffChecked.value,
             //                 onChanged: (value) {
             //                   controller.tariffChecked.value = value;
@@ -584,22 +584,22 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //                   text: TextSpan(
             //                       style: TextStyle(
             //                         fontSize: 12.sp,
-            //                         color: AppColors.textGrayC9,
+            //                         color: AppStyles.textGrayC9,
             //                       ),
             //                       children: [
-            //                       TextSpan(text: '关税费用'.ts + '：'),
+            //                       TextSpan(text: '关税费用'.inte + '：'),
             //                       TextSpan(
             //                         text: controller.tariffValue,
             //                         style: const TextStyle(
             //                           fontWeight: FontWeight.bold,
-            //                           color: AppColors.textRed,
+            //                           color: AppStyles.textRed,
             //                         ),
             //                       ),
             //                     ]))
             //               : AppText(
-            //                   str: '未选择关税'.ts,
+            //                   str: '未选择关税'.inte,
             //                   fontSize: 12,
-            //                   color: AppColors.textGrayC9,
+            //                   color: AppStyles.textGrayC9,
             //                 ),
             //           8.verticalSpace,
             //           AppGaps.line,
@@ -629,13 +629,13 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                             child: Icon(
                               Icons.info_outline,
                               size: 18.sp,
-                              color: AppColors.textGrayC9,
+                              color: AppStyles.textGrayC9,
                             ),
                           )
                         : AppGaps.empty,
                     Expanded(
                       child: AppText(
-                        str: (service.price ?? 0).rate(),
+                        str: (service.price ?? 0).priceConvert(),
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         alignment: TextAlign.right,
@@ -648,7 +648,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                       child: Checkbox(
                         value: controller.orderServiceIds.contains(service.id),
                         shape: const CircleBorder(),
-                        activeColor: AppColors.primary,
+                        activeColor: AppStyles.primary,
                         onChanged: (value) {
                           if (value!) {
                             controller.orderServiceIds.add(service.id);
@@ -688,7 +688,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
             //           child: Checkbox(
             //             value: controller.lineServiceIds.contains(service.id),
             //             shape: const CircleBorder(),
-            //             activeColor: AppColors.primary,
+            //             activeColor: AppStyles.primary,
             //             checkColor: Colors.black,
             //             onChanged: (value) {
             //               if (service.isForced == 1) return;
@@ -731,11 +731,12 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AppText(
-                          str: '国内运费'.ts,
+                          str: '国内运费'.inte,
                           fontSize: 14,
                         ),
                         AppText(
-                          str: (shop.freightFee ?? 0).rate(needFormat: false),
+                          str: (shop.freightFee ?? 0)
+                              .priceConvert(needFormat: false),
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
@@ -751,12 +752,12 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   AppText(
-                                    str: '代购服务费'.ts,
+                                    str: '代购服务费'.inte,
                                     fontSize: 14,
                                   ),
                                   AppText(
                                     str: (shop.service?.serviceFee ?? 0)
-                                        .rate(needFormat: false),
+                                        .priceConvert(needFormat: false),
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -775,7 +776,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                         CrossAxisAlignment.stretch,
                                     children: [
                                       AppText(
-                                        str: '代购服务费'.ts +
+                                        str: '代购服务费'.inte +
                                             '：' +
                                             (shop.service?.remark ?? ''),
                                         fontSize: 10,
@@ -798,13 +799,13 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                         : AppGaps.empty,
                     15.verticalSpace,
                     AppText(
-                      str: '订单备注'.ts,
+                      str: '订单备注'.inte,
                       fontSize: 14,
                     ),
                     8.verticalSpaceFromWidth,
                     Container(
                       decoration: BoxDecoration(
-                        color: AppColors.bgGray,
+                        color: AppStyles.bgGray,
                         borderRadius: BorderRadius.circular(6.r),
                       ),
                       clipBehavior: Clip.antiAlias,
@@ -812,7 +813,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                         board: true,
                         controller: shop.remarkController!,
                         focusNode: shop.remarkNode,
-                        hintText: '选填，可填写您对商品的要求'.ts,
+                        hintText: '选填，可填写您对商品的要求'.inte,
                         autoShowRemove: false,
                         autoRemoveController: false,
                         maxLength: 300,
@@ -828,7 +829,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                               AppGaps.line,
                               10.verticalSpace,
                               AppText(
-                                str: '到仓服务'.ts,
+                                str: '到仓服务'.inte,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -844,7 +845,8 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                         ),
                                       ),
                                       AppText(
-                                        str: (service.charge ?? 0).rate(),
+                                        str: (service.charge ?? 0)
+                                            .priceConvert(),
                                         fontSize: 14,
                                       ),
                                       10.horizontalSpace,
@@ -855,7 +857,7 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                                           value: shop.addServiceIds!
                                               .contains(service.id),
                                           shape: const CircleBorder(),
-                                          activeColor: AppColors.primary,
+                                          activeColor: AppStyles.primary,
                                           onChanged: (value) {
                                             controller.onParcelServiceChecked(
                                                 shop, service.id);
@@ -880,13 +882,13 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                 const Icon(
                   Icons.info_outline,
                   size: 16,
-                  color: AppColors.textGrayC9,
+                  color: AppStyles.textGrayC9,
                 ),
                 2.horizontalSpace,
                 AppText(
-                  str: '不含国际运费'.ts,
+                  str: '不含国际运费'.inte,
                   fontSize: 10,
-                  color: AppColors.textGrayC9,
+                  color: AppStyles.textGrayC9,
                 ),
               ],
             ),

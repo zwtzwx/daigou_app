@@ -1,8 +1,8 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/config/color_config.dart';
+import 'package:shop_app_client/config/color_config.dart';
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
 class InputTextItem extends StatefulWidget {
   const InputTextItem(
@@ -51,10 +51,10 @@ class _InputTextItemState extends State<InputTextItem> {
           : EdgeInsets.only(left: 14.w),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: widget.bgColor ?? AppColors.white,
+        color: widget.bgColor ?? AppStyles.white,
         border: Border(
           bottom: widget.flag
-              ? const BorderSide(color: AppColors.line)
+              ? const BorderSide(color: AppStyles.line)
               : BorderSide.none,
         ),
       ),
@@ -69,12 +69,12 @@ class _InputTextItemState extends State<InputTextItem> {
                 widget.isRequired
                     ? const AppText(
                         str: '*',
-                        color: AppColors.textRed,
+                        color: AppStyles.textRed,
                       )
                     : AppGaps.empty,
                 Flexible(
                   child: AppText(
-                    str: (widget.title).ts,
+                    str: (widget.title).inte,
                     fontSize: 14,
                   ),
                 ),

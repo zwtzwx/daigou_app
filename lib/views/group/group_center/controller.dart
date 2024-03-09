@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/common/loading_util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/models/coordinate_model.dart';
-import 'package:huanting_shop/models/group_model.dart';
-import 'package:huanting_shop/services/common_service.dart';
-import 'package:huanting_shop/services/group_service.dart';
+import 'package:shop_app_client/common/loading_util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/models/coordinate_model.dart';
+import 'package:shop_app_client/models/group_model.dart';
+import 'package:shop_app_client/services/common_service.dart';
+import 'package:shop_app_client/services/group_service.dart';
 
-class BeeGroupController extends GlobalLogic {
+class BeeGroupController extends GlobalController {
   final TextEditingController keywordController = TextEditingController();
   final FocusNode keywordNode = FocusNode();
 
@@ -18,7 +18,7 @@ class BeeGroupController extends GlobalLogic {
   final locationStr = Rxn<String?>();
   final banner = ''.obs;
   final coordinate = Rxn<CoordinateModel?>();
-  final loadingUtil = LoadingUtil<GroupModel>().obs;
+  final loadingUtil = ListLoadingModel<GroupModel>().obs;
 
   @override
   void onInit() {

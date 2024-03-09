@@ -1,8 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/goods_category_model.dart';
-import 'package:huanting_shop/models/goods_props.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/goods_category_model.dart';
+import 'package:shop_app_client/models/goods_props.dart';
 
 class GoodsService {
   // 获取可以选择属性列表
@@ -17,7 +17,7 @@ class GoodsService {
       [Map<String, dynamic>? params]) async {
     List<ParcelPropsModel> result =
         List<ParcelPropsModel>.empty(growable: true);
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(PROPLIST, queryParameters: params)
         .then((response) => {
               response.data?.forEach((good) {
@@ -30,7 +30,7 @@ class GoodsService {
   // 获取属性配置
   static Future<bool> getPropConfig() async {
     bool result = false;
-    await BeeRequest.instance.get(propConfigApi).then((res) {
+    await ApiConfig.instance.get(propConfigApi).then((res) {
       if (res.ok) {
         result = res.data['package_prop'] == 1;
       }
@@ -44,7 +44,7 @@ class GoodsService {
     List<GoodsCategoryModel> result =
         List<GoodsCategoryModel>.empty(growable: true);
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(CATEGORIES, queryParameters: params)
         .then((response) {
       if (response.data != null) {

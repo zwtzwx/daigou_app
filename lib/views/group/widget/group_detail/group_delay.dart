@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/services/group_service.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/services/group_service.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
 class CountdownDelay extends StatefulWidget {
   const CountdownDelay({
@@ -54,7 +54,7 @@ class _CountdownDelayState extends State<CountdownDelay> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             AppText(
-              str: '延长拼团天数'.ts,
+              str: '延长拼团天数'.inte,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
@@ -64,7 +64,7 @@ class _CountdownDelayState extends State<CountdownDelay> {
                 Expanded(
                   flex: 1,
                   child: AppText(
-                    str: '延长'.ts,
+                    str: '延长'.inte,
                     fontSize: 14,
                   ),
                 ),
@@ -76,7 +76,7 @@ class _CountdownDelayState extends State<CountdownDelay> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(999),
                       border: Border.all(
-                        color: AppColors.line,
+                        color: AppStyles.line,
                       ),
                     ),
                     child: Row(
@@ -97,7 +97,7 @@ class _CountdownDelayState extends State<CountdownDelay> {
                             decoration: const BoxDecoration(
                               border: Border.symmetric(
                                 vertical: BorderSide(
-                                  color: AppColors.line,
+                                  color: AppStyles.line,
                                 ),
                               ),
                             ),

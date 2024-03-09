@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/models/withdrawal_item_model.dart';
-import 'package:huanting_shop/services/agent_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/models/withdrawal_item_model.dart';
+import 'package:shop_app_client/services/agent_service.dart';
 
-class AgentWithdrawDetailController extends GlobalLogic {
+class AgentWithdrawDetailController extends GlobalController {
   final detailModel = Rxn<WithdrawalItemModel?>();
 
   /// 在 widget 内存中分配后立即调用。

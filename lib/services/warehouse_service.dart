@@ -1,8 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:huanting_shop/common/http_client.dart';
+import 'package:shop_app_client/common/http_client.dart';
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
 
 class WarehouseService extends ChangeNotifier {
   // 获取包裹的仓库数据
@@ -16,7 +16,7 @@ class WarehouseService extends ChangeNotifier {
   static Future<List<WareHouseModel>> getList(
       [Map<String, dynamic>? params]) async {
     List<WareHouseModel> result = [];
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(LISTAPI, queryParameters: params)
         .then((response) => {
               response.data.forEach((good) {
@@ -31,7 +31,7 @@ class WarehouseService extends ChangeNotifier {
   static Future<List<WareHouseModel>> getSimpleList(
       [Map<String, dynamic>? params]) async {
     List<WareHouseModel> result = [];
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(simpleListApi, queryParameters: params)
         .then((response) => {
               response.data.forEach((good) {
@@ -45,7 +45,7 @@ class WarehouseService extends ChangeNotifier {
   // 获取某个国家的仓库列表
   static Future<WareHouseModel?> getDefaultWarehouse() async {
     WareHouseModel? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(defaultApi)
         .then((response) => {
               if (response.ok && response.data != null)

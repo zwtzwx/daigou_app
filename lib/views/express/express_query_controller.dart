@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/models/tracking_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/services/tracking_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/models/tracking_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/services/tracking_service.dart';
 
-class BeeTrackingController extends GlobalLogic {
+class BeeTrackingController extends GlobalController {
   final TextEditingController expressNumController = TextEditingController();
   final FocusNode expressNumNode = FocusNode();
   // 物流信息列表
@@ -21,7 +21,7 @@ class BeeTrackingController extends GlobalLogic {
       showToast('请输入快递单号');
       return;
     } else if (token.isEmpty) {
-      BeeNav.push(BeeNav.login);
+      GlobalPages.push(GlobalPages.login);
       return;
     }
     showLoading();

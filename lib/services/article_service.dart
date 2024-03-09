@@ -1,6 +1,6 @@
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/article_model.dart';
-import 'package:huanting_shop/services/base_service.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/article_model.dart';
+import 'package:shop_app_client/services/base_service.dart';
 
 class ArticleService {
   // 列表
@@ -14,7 +14,7 @@ class ArticleService {
       [Map<String, dynamic>? params]) async {
     List<ArticleModel> dataList = <ArticleModel>[];
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(listApi, queryParameters: params)
         .then((response) {
       var list = response.data;
@@ -29,7 +29,7 @@ class ArticleService {
   // 投诉建议
   static void onSuggestion(
       Map<String, dynamic> params, OnSuccess onSuccess, OnFail onFail) async {
-    await BeeRequest.instance.post(suggestionApi, data: params).then((res) {
+    await ApiConfig.instance.post(suggestionApi, data: params).then((res) {
       if (res.ok) {
         onSuccess(res.msg);
       } else {
@@ -42,7 +42,7 @@ class ArticleService {
   static Future<ArticleModel?> getDetail(dynamic id) async {
     ArticleModel? data;
 
-    await BeeRequest.instance.get(listApi + '/$id').then((response) {
+    await ApiConfig.instance.get(listApi + '/$id').then((response) {
       if (response.ok) {
         data = ArticleModel.fromJson(response.data);
       }

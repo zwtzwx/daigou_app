@@ -1,11 +1,11 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:dio/dio.dart';
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/insurance_model.dart';
-import 'package:huanting_shop/models/ship_line_model.dart';
-import 'package:huanting_shop/models/tariff_model.dart';
-import 'package:huanting_shop/models/value_added_service_model.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/insurance_model.dart';
+import 'package:shop_app_client/models/ship_line_model.dart';
+import 'package:shop_app_client/models/tariff_model.dart';
+import 'package:shop_app_client/models/value_added_service_model.dart';
 
 /*
   渠道
@@ -29,7 +29,7 @@ class ShipLineService {
       {Map<String, dynamic>? params, Options? option}) async {
     List<ShipLineModel> list = [];
     Map result = {'ok': false, 'msg': '', 'list': list};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(LISTAPI,
             data: params, options: Options(extra: {'showSuccess': false}))
         .then((response) {
@@ -48,7 +48,7 @@ class ShipLineService {
   // 渠道详情
   static Future<ShipLineModel?> getDetail(int id) async {
     ShipLineModel? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(DETAILAPI.replaceAll(':id', id.toString()))
         .then((res) => {result = ShipLineModel.fromJson(res.data)});
     return result;
@@ -59,7 +59,7 @@ class ShipLineService {
    */
   static Future<InsuranceModel?> getInsurance() async {
     InsuranceModel? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(hasInsuranceApi)
         .then((response) => {result = InsuranceModel.fromJson(response.data)});
 
@@ -72,7 +72,7 @@ class ShipLineService {
   static Future<TariffModel?> getTariff() async {
     TariffModel? result;
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(tariffConfigApi)
         .then((res) => {result = TariffModel.fromJson(res.data)});
 
@@ -85,7 +85,7 @@ class ShipLineService {
   static Future<List<ValueAddedServiceModel>> getValueAddedServiceList(
       [Map<String, dynamic>? params]) async {
     List<ValueAddedServiceModel> result = [];
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(addValueServiceApi, queryParameters: params)
         .then((response) => {
               response.data.forEach((item) {

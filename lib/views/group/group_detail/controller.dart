@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/models/coordinate_model.dart';
-import 'package:huanting_shop/models/group_model.dart';
-import 'package:huanting_shop/services/group_service.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
-import 'package:huanting_shop/views/group/widget/group_detail/group_delay.dart';
-import 'package:huanting_shop/views/group/widget/group_detail/leader_tip.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/models/coordinate_model.dart';
+import 'package:shop_app_client/models/group_model.dart';
+import 'package:shop_app_client/services/group_service.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
+import 'package:shop_app_client/views/group/widget/group_detail/group_delay.dart';
+import 'package:shop_app_client/views/group/widget/group_detail/leader_tip.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class BeeGroupDetailController extends GlobalLogic {
+class BeeGroupDetailController extends GlobalController {
   final model = Rxn<GroupModel?>();
   final tipsContent = Rxn<String?>();
   final protocolContent = Rxn<String?>();
@@ -63,7 +63,7 @@ class BeeGroupDetailController extends GlobalLogic {
   }
 
   void onChooseParcel([Function? callback]) async {
-    var s = await BeeNav.push(BeeNav.groupParcelSelect,
+    var s = await GlobalPages.push(GlobalPages.groupParcelSelect,
         arg: {'id': model.value!.id, 'warehouseId': model.value!.warehouseId});
     if (s != null) {
       getDetail();
@@ -163,7 +163,8 @@ class BeeGroupDetailController extends GlobalLogic {
 
   // 提交拼团货物
   void onSubmitParcel() async {
-    var s = await BeeNav.push(BeeNav.createOrder, arg: {'id': model.value!.id});
+    var s = await GlobalPages.push(GlobalPages.createOrder,
+        arg: {'id': model.value!.id});
     if (s != null) {
       getDetail();
     }

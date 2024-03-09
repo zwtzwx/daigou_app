@@ -1,22 +1,22 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/global_inject.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/config/wechat_config.dart';
-import 'package:huanting_shop/events/application_event.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/global_inject.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/config/wechat_config.dart';
+import 'package:shop_app_client/events/application_event.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/services/common_service.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/shop/goods_detail/goods_detail_binding.dart';
-import 'package:huanting_shop/views/shop/goods_detail/goods_detail_view.dart';
-import 'package:huanting_shop/views/tabbar/tabbar_binding.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/services/common_service.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/shop/goods_detail/goods_detail_binding.dart';
+import 'package:shop_app_client/views/shop/goods_detail/goods_detail_view.dart';
+import 'package:shop_app_client/views/tabbar/tabbar_binding.dart';
 
 void main() async {
   SystemUiOverlayStyle systemUiOverlayStyle =
@@ -26,7 +26,7 @@ void main() async {
 
   //传入可能的登录用户
   await dotenv.load(fileName: ".env");
-  await InstanceInit.init();
+  await GlobalInject.init();
   // 初始化 Firebase
   // await Firebase.initializeApp();
 
@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
       var url = await CommonService.getGoodsUrl(params);
 
       if (url != null) {
-        BeeNav.toPage(
+        GlobalPages.toPage(
           GoodsDetailView(goodsId: url),
           arguments: {'url': url},
           binding: GoodsDetailBinding(tag: url),
@@ -105,7 +105,7 @@ class _MyAppState extends State<MyApp> {
         );
       }
     } else {
-      BeeNav.toPage(
+      GlobalPages.toPage(
         GoodsDetailView(goodsId: data),
         arguments: {'url': data},
         binding: GoodsDetailBinding(tag: data),
@@ -129,7 +129,7 @@ class _MyAppState extends State<MyApp> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 40.w),
               child: Text(
-                '监测到一个商品链接，是否立即跳转到商品详情'.ts,
+                '监测到一个商品链接，是否立即跳转到商品详情'.inte,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -138,7 +138,7 @@ class _MyAppState extends State<MyApp> {
               height: 40.h,
               decoration: const BoxDecoration(
                 border: Border(
-                  top: BorderSide(color: AppColors.line),
+                  top: BorderSide(color: AppStyles.line),
                 ),
               ),
               child: Row(
@@ -154,9 +154,9 @@ class _MyAppState extends State<MyApp> {
                             alignment: Alignment.center,
                             color: Colors.transparent,
                             child: AppText(
-                              str: '取消'.ts,
+                              str: '取消'.inte,
                               alignment: TextAlign.center,
-                              color: AppColors.textGrayC9,
+                              color: AppStyles.textGrayC9,
                             ),
                           ),
                         )),
@@ -172,9 +172,9 @@ class _MyAppState extends State<MyApp> {
                           alignment: Alignment.center,
                           color: Colors.transparent,
                           child: AppText(
-                            str: '确定'.ts,
+                            str: '确定'.inte,
                             alignment: TextAlign.center,
-                            color: AppColors.primary,
+                            color: AppStyles.primary,
                           ),
                         ),
                       ),
@@ -210,7 +210,7 @@ class _MyAppState extends State<MyApp> {
                 TargetPlatform.android: createTransition(),
               },
             ),
-            primaryColor: AppColors.primary,
+            primaryColor: AppStyles.primary,
             canvasColor: Colors.white,
             appBarTheme: const AppBarTheme(
               backgroundColor: Colors.white,
@@ -220,9 +220,9 @@ class _MyAppState extends State<MyApp> {
             )),
         showSemanticsDebugger: false,
         debugShowCheckedModeBanner: false,
-        getPages: BeeNav.routes,
-        initialRoute: BeeNav.home,
-        initialBinding: BeeBottomNavBinding(),
+        getPages: GlobalPages.routes,
+        initialRoute: GlobalPages.home,
+        initialBinding: TabbarLinker(),
         builder: EasyLoading.init(),
         onReady: () {
           initClipboadListener();

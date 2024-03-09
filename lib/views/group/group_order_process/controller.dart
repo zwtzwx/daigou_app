@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/models/group_order_model.dart';
-import 'package:huanting_shop/services/group_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/models/group_order_model.dart';
+import 'package:shop_app_client/services/group_service.dart';
 
-class BeeGroupOrderDetailController extends GlobalLogic {
+class BeeGroupOrderDetailController extends GlobalController {
   final orderModel = Rxn<GroupOrderModel?>();
 
   @override
@@ -24,7 +24,7 @@ class BeeGroupOrderDetailController extends GlobalLogic {
 
   // 支付
   void onPay() async {
-    BeeNav.push(BeeNav.transportPay, arg: {
+    GlobalPages.push(GlobalPages.transportPay, arg: {
       'id': orderModel.value!.id,
       'payModel': 1,
       'deliveryStatus': 1,

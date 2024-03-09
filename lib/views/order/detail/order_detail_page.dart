@@ -2,22 +2,22 @@
   订单详细
  */
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/common/fade_route.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/parcel_box_model.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/button/plain_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/components/photo_view_gallery_screen.dart';
+import 'package:shop_app_client/common/fade_route.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/parcel_box_model.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/button/plain_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/components/photo_view_gallery_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/views/order/detail/order_detail_controller.dart';
+import 'package:shop_app_client/views/order/detail/order_detail_controller.dart';
 
 class BeeOrderPage extends GetView<BeeOrderLogic> {
   const BeeOrderPage({Key? key}) : super(key: key);
@@ -27,17 +27,17 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
     return Scaffold(
         appBar: AppBar(
           leading: const BackButton(color: Colors.white),
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppStyles.primary,
           elevation: 0,
           centerTitle: true,
           title: AppText(
-            str: '订单详情'.ts,
+            str: '订单详情'.inte,
             fontSize: 17,
             color: Colors.white,
           ),
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
-        backgroundColor: AppColors.bgGray,
+        backgroundColor: AppStyles.bgGray,
         bottomNavigationBar: Obx(() => bottomButton(context)),
         body: SingleChildScrollView(
           child: Obx(
@@ -92,7 +92,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                 height: 26.h,
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                color: AppColors.primary,
+                color: AppStyles.primary,
                 child: AppText(
                   str: address.countryName,
                   fontSize: 12,
@@ -105,9 +105,9 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
           AppGaps.line,
           12.verticalSpaceFromWidth,
           AppText(
-            str: '收货地址'.ts,
+            str: '收货地址'.inte,
             fontSize: 13,
-            color: AppColors.textGray,
+            color: AppStyles.textGray,
           ),
           AppGaps.vGap5,
           AppText(
@@ -123,8 +123,8 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
           5.verticalSpaceFromWidth,
           AppText(
             str: controller.model.value!.station != null
-                ? '${'自提收货'.ts}-${controller.model.value!.station!.name}'
-                : '送货上门'.ts,
+                ? '${'自提收货'.inte}-${controller.model.value!.station!.name}'
+                : '送货上门'.inte,
           ),
         ],
       ),
@@ -141,8 +141,8 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            str: '客服备注'.ts,
-            color: AppColors.textGray,
+            str: '客服备注'.inte,
+            color: AppStyles.textGray,
           ),
           Container(
             margin: const EdgeInsets.only(top: 5),
@@ -206,8 +206,8 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
         //         crossAxisAlignment: CrossAxisAlignment.start,
         //         children: [
         //           AppText(
-        //             str: '打包视频'.ts,
-        //             color: AppColors.textGray,
+        //             str: '打包视频'.inte,
+        //             color: AppStyles.textGray,
         //           ),
         //           AppGaps.vGap10,
         //           ...controller.packVideoManager.map((e) {
@@ -231,8 +231,8 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
               child: Column(
                 children: [
                   AppText(
-                    str: '打包照片'.ts,
-                    color: AppColors.textGray,
+                    str: '打包照片'.inte,
+                    color: AppStyles.textGray,
                   ),
                   AppGaps.vGap10,
                   controller.model.value!.packPictures.isNotEmpty
@@ -262,8 +262,8 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
               child: Column(
                 children: [
                   AppText(
-                    str: '物品照片'.ts,
-                    color: AppColors.textGray,
+                    str: '物品照片'.inte,
+                    color: AppStyles.textGray,
                   ),
                   AppGaps.vGap10,
                   controller.model.value!.inWarehousePictures.isNotEmpty
@@ -309,7 +309,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
         ((boxModel.volumeWeight ?? 0) / 1000).toStringAsFixed(2) +
         controller.localModel!.weightSymbol;
     return baseInfoItem(
-      '${'包裹'.ts} ${index + 1}',
+      '${'包裹'.inte} ${index + 1}',
       labelColor: Colors.black,
       leftFlex: 0,
       // bottom: index == model!.boxes.length - 1 ? 0 : 15,
@@ -322,7 +322,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                 Padding(
                   padding: const EdgeInsets.only(left: 15),
                   child: AppText(
-                    str: '实重'.ts,
+                    str: '实重'.inte,
                   ),
                 ),
                 AppText(
@@ -338,7 +338,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                 Padding(
                   padding: const EdgeInsets.only(left: 15),
                   child: AppText(
-                    str: '体积重'.ts,
+                    str: '体积重'.inte,
                   ),
                 ),
                 AppText(
@@ -375,7 +375,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                           ? AppText(
                               str: controller.getPriceStr(
                                   controller.model.value!.price!.originPrice),
-                              color: AppColors.textGray,
+                              color: AppStyles.textGray,
                               fontSize: 13,
                               decoration: TextDecoration.lineThrough,
                             )
@@ -413,7 +413,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                 AppText(
                   str: controller.model.value!.valueAddedService.isNotEmpty
                       ? '+${controller.getPriceStr(valueAddAmount)}'
-                      : '无'.ts,
+                      : '无'.inte,
                 ),
                 ...controller.model.value!.valueAddedService.map((e) {
                   return AppText(
@@ -459,7 +459,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                                     },
                                     child: const Icon(
                                       Icons.info_outline,
-                                      color: AppColors.green,
+                                      color: AppStyles.green,
                                       size: 18,
                                     ),
                                   )
@@ -540,9 +540,9 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
             '支付状态',
             text: controller.model.value!.transaction.isNotEmpty
                 ? (controller.model.value!.transaction[0].type == 1
-                    ? '支付成功'.ts
+                    ? '支付成功'.inte
                     : (controller.model.value!.transaction[0].type == 2
-                        ? '退款成功'.ts
+                        ? '退款成功'.inte
                         : ''))
                 : '',
           ),
@@ -588,15 +588,15 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
           Flexible(
             flex: leftFlex ?? 1,
             child: AppText(
-              str: label.ts,
-              color: labelColor ?? AppColors.textGray,
+              str: label.inte,
+              color: labelColor ?? AppStyles.textGray,
               lines: 2,
             ),
           ),
           content ??
               AppText(
-                str: text ?? '无'.ts,
-                color: redText ? AppColors.textRed : AppColors.textBlack,
+                str: text ?? '无'.inte,
+                color: redText ? AppStyles.textRed : AppStyles.textBlack,
               ),
         ],
       ),
@@ -610,7 +610,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
       decoration: const BoxDecoration(
         color: Colors.white,
         border: Border(
-          top: BorderSide(color: AppColors.line),
+          top: BorderSide(color: AppStyles.line),
         ),
       ),
       child: SafeArea(
@@ -623,10 +623,10 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                 child: HollowButton(
                   text: '联系客服',
                   onPressed: () async {
-                    CommonMethods.onCustomerContact();
+                    BaseUtils.onCustomerContact();
                   },
-                  textColor: AppColors.textDark,
-                  borderColor: AppColors.textGrayC,
+                  textColor: AppStyles.textDark,
+                  borderColor: AppStyles.textGrayC,
                 ),
               ),
             ),
@@ -638,7 +638,8 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                 child: BeeButton(
                   text: controller.model.value?.status == 12 ? '重新支付' : '去付款',
                   onPressed: () async {
-                    var s = await BeeNav.push(BeeNav.transportPay, arg: {
+                    var s =
+                        await GlobalPages.push(GlobalPages.transportPay, arg: {
                       'id': controller.model.value?.id,
                       'payModel': 1,
                       'deliveryStatus':
@@ -659,7 +660,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                     text: '确认收货',
                     onPressed: () async {
                       var data = await BaseDialog.confirmDialog(
-                          context, '请确认您已收到货'.ts);
+                          context, '请确认您已收到货'.inte);
                       if (data != null) {
                         controller.onSign();
                       }
@@ -722,9 +723,9 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            str: '转运订单号'.ts,
+            str: '转运订单号'.inte,
             fontSize: 13,
-            color: AppColors.textGray,
+            color: AppStyles.textGray,
           ),
           10.verticalSpaceFromWidth,
           Row(
@@ -747,9 +748,9 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
           ),
           10.verticalSpaceFromWidth,
           AppText(
-            str: '包含的包裹'.ts,
+            str: '包含的包裹'.inte,
             fontSize: 13,
-            color: AppColors.textGray,
+            color: AppStyles.textGray,
           ),
           10.verticalSpaceFromWidth,
           Wrap(
@@ -758,7 +759,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
             children: controller.model.value!.packages.map((e) {
               return GestureDetector(
                 onTap: () {
-                  BeeNav.push(BeeNav.parcelDetail, arg: {
+                  GlobalPages.push(GlobalPages.parcelDetail, arg: {
                     "edit": false,
                     'id': e.id,
                   });
@@ -787,7 +788,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
 
   Widget firstView() {
     return Container(
-      color: AppColors.primary,
+      color: AppStyles.primary,
       child: Column(
         children: <Widget>[
           Container(
@@ -795,7 +796,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
             padding: const EdgeInsets.only(top: 30, left: 15),
             width: ScreenUtil().screenWidth,
             child: AppText(
-              str: controller.statusStr.value.ts,
+              str: controller.statusStr.value.inte,
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.white,

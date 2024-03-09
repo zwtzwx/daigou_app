@@ -1,8 +1,8 @@
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/models/withdrawal_item_model.dart';
-import 'package:huanting_shop/services/agent_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/models/withdrawal_item_model.dart';
+import 'package:shop_app_client/services/agent_service.dart';
 
-class AgentCommissionHistoryController extends GlobalLogic {
+class AgentCommissionHistoryController extends GlobalController {
   int pageIndex = 0;
 
   //提现记录列表

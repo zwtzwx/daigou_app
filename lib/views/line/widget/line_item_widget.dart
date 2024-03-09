@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/instance_manager.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/ship_line_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/ship_line_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
 class LineItemWidget extends StatelessWidget {
   const LineItemWidget({
@@ -37,7 +37,7 @@ class LineItemWidget extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: AppStyles.white,
           borderRadius: BorderRadius.all(Radius.circular(10.r)),
         ),
         margin: margin ?? EdgeInsets.fromLTRB(14.w, 12.h, 14.w, 0),
@@ -55,8 +55,8 @@ class LineItemWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
                 child: AppText(
                   str: model.isDelivery == 0
-                      ? '派送'.ts
-                      : (model.isDelivery == 1 ? '自提'.ts : '派送/自提'.ts),
+                      ? '派送'.inte
+                      : (model.isDelivery == 1 ? '自提'.inte : '派送/自提'.inte),
                   color: Colors.white,
                   fontSize: 12,
                 ),
@@ -72,12 +72,12 @@ class LineItemWidget extends StatelessWidget {
                 ),
                 RichText(
                   text: TextSpan(
-                    style: const TextStyle(color: AppColors.textRed),
+                    style: const TextStyle(color: AppStyles.textRed),
                     children: [
                       TextSpan(text: (currencyModel?.code ?? '')),
                       TextSpan(
-                        text:
-                            (model.expireFee ?? 0).rate(showPriceSymbol: false),
+                        text: (model.expireFee ?? 0)
+                            .priceConvert(showPriceSymbol: false),
                         style: TextStyle(fontSize: 22.sp),
                       ),
                     ],
@@ -94,8 +94,8 @@ class LineItemWidget extends StatelessWidget {
                   fontSize: 13,
                 ),
                 AppText(
-                  str: '预估运费'.ts,
-                  color: AppColors.textRed,
+                  str: '预估运费'.inte,
+                  color: AppStyles.textRed,
                   fontSize: 12,
                 ),
               ],
@@ -105,7 +105,7 @@ class LineItemWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppText(
-                  str: '计费重'.ts +
+                  str: '计费重'.inte +
                       '：' +
                       ((model.countWeight ?? 0) / 1000).toStringAsFixed(2) +
                       (localModel?.weightSymbol ?? ''),
@@ -114,7 +114,7 @@ class LineItemWidget extends StatelessWidget {
                 ),
                 10.horizontalSpace,
                 AppText(
-                  str: CommonMethods.getLineModelName(model.mode).ts,
+                  str: BaseUtils.getLineModelName(model.mode).inte,
                   fontSize: 12,
                 ),
               ],
@@ -129,7 +129,7 @@ class LineItemWidget extends StatelessWidget {
                           children: model.labels!
                               .map(
                                 (e) => Container(
-                                  color: AppColors.primary,
+                                  color: AppStyles.primary,
                                   margin: const EdgeInsets.only(right: 5),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10, vertical: 2),
@@ -147,12 +147,12 @@ class LineItemWidget extends StatelessWidget {
                     : AppGaps.empty,
                 GestureDetector(
                     onTap: () {
-                      BeeNav.push(BeeNav.lineDetail,
+                      GlobalPages.push(GlobalPages.lineDetail,
                           arg: {'line': model, 'type': 2});
                     },
                     child: AppText(
-                      str: '查看详情'.ts,
-                      color: AppColors.textGrayC9,
+                      str: '查看详情'.inte,
+                      color: AppStyles.textGrayC9,
                       fontSize: 12,
                     )),
               ],

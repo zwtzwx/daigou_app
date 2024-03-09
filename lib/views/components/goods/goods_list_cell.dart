@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/models/shop/goods_model.dart';
-import 'package:huanting_shop/models/shop/platform_goods_model.dart';
-import 'package:huanting_shop/views/components/goods/goods_item.dart';
-import 'package:huanting_shop/views/components/goods/platform_goods_item.dart';
+import 'package:shop_app_client/models/shop/goods_model.dart';
+import 'package:shop_app_client/models/shop/platform_goods_model.dart';
+import 'package:shop_app_client/views/components/goods/goods_item.dart';
+import 'package:shop_app_client/views/components/goods/platform_goods_item.dart';
 
 class BeeShopGoodsList extends StatelessWidget {
   const BeeShopGoodsList({

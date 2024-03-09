@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/receiver_address_refresh_event.dart';
-import 'package:huanting_shop/models/area_model.dart';
-import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/models/receiver_address_model.dart';
-import 'package:huanting_shop/models/self_pickup_station_model.dart';
-import 'package:huanting_shop/services/address_service.dart';
-import 'package:huanting_shop/services/common_service.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/receiver_address_refresh_event.dart';
+import 'package:shop_app_client/models/area_model.dart';
+import 'package:shop_app_client/models/country_model.dart';
+import 'package:shop_app_client/models/receiver_address_model.dart';
+import 'package:shop_app_client/models/self_pickup_station_model.dart';
+import 'package:shop_app_client/services/address_service.dart';
+import 'package:shop_app_client/services/common_service.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
-class BeeAddressInfoLogic extends GlobalLogic {
+class BeeAddressInfoLogic extends GlobalController {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final textEditingController = TextEditingController();
 
@@ -150,7 +150,7 @@ class BeeAddressInfoLogic extends GlobalLogic {
         ApplicationEvent.getInstance()
             .event
             .fire(ReceiverAddressRefreshEvent());
-        BeeNav.pop();
+        GlobalPages.pop();
       });
     } else {
       showError('删除失败');
@@ -174,7 +174,7 @@ class BeeAddressInfoLogic extends GlobalLogic {
 
   // 选择国家
   void onStationSelect() async {
-    var s = await BeeNav.push(BeeNav.stationSelect,
+    var s = await GlobalPages.push(GlobalPages.stationSelect,
         arg: {'country_id': countryModel.value?.id ?? ''});
     if (s == null) return;
     station.value = s;
@@ -218,7 +218,7 @@ class BeeAddressInfoLogic extends GlobalLogic {
         ApplicationEvent.getInstance()
             .event
             .fire(ReceiverAddressRefreshEvent());
-        BeeNav.pop();
+        GlobalPages.pop();
       });
     } else {
       showError(result['msg']);

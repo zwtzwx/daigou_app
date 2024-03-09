@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/region_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/skeleton/skeleton.dart';
-import 'package:huanting_shop/views/line/detail/line_detail_controller.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/region_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/skeleton/skeleton.dart';
+import 'package:shop_app_client/views/line/detail/line_detail_controller.dart';
 
 class LineDetailView extends GetView<LineDetailController> {
   const LineDetailView({Key? key}) : super(key: key);
@@ -23,11 +23,11 @@ class LineDetailView extends GetView<LineDetailController> {
         elevation: 0,
         centerTitle: true,
         title: AppText(
-          str: '详情'.ts,
+          str: '详情'.inte,
           fontSize: 17,
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: Obx(
         () => controller.loading.value
             ? Container(
@@ -83,9 +83,9 @@ class LineDetailView extends GetView<LineDetailController> {
                 Expanded(
                   flex: 2,
                   child: AppText(
-                    str: '目的地'.ts,
+                    str: '目的地'.inte,
                     fontSize: 12,
-                    color: AppColors.textGray,
+                    color: AppStyles.textGray,
                   ),
                 ),
                 10.horizontalSpace,
@@ -105,16 +105,16 @@ class LineDetailView extends GetView<LineDetailController> {
               Expanded(
                 flex: 2,
                 child: AppText(
-                  str: '计费方式'.ts,
+                  str: '计费方式'.inte,
                   fontSize: 12,
-                  color: AppColors.textGray,
+                  color: AppStyles.textGray,
                 ),
               ),
               10.horizontalSpace,
               Expanded(
                 flex: 7,
                 child: AppText(
-                  str: CommonMethods.getLineModelName(
+                  str: BaseUtils.getLineModelName(
                       controller.lineModel.value?.mode ?? 0),
                   fontSize: 12,
                 ),
@@ -127,18 +127,19 @@ class LineDetailView extends GetView<LineDetailController> {
               Expanded(
                 flex: 2,
                 child: AppText(
-                  str: '体积计算'.ts,
+                  str: '体积计算'.inte,
                   fontSize: 12,
-                  color: AppColors.textGray,
+                  color: AppStyles.textGray,
                 ),
               ),
               10.horizontalSpace,
               Expanded(
                 flex: 7,
                 child: AppText(
-                  str: '(${'长'.ts} (${controller.localModel?.lengthSymbol}) x '
-                      '${'宽'.ts} (${controller.localModel?.lengthSymbol}) x '
-                      '${'高'.ts} (${controller.localModel?.lengthSymbol})) ÷ ${controller.lineModel.value?.factor}',
+                  str:
+                      '(${'长'.inte} (${controller.localModel?.lengthSymbol}) x '
+                      '${'宽'.inte} (${controller.localModel?.lengthSymbol}) x '
+                      '${'高'.inte} (${controller.localModel?.lengthSymbol})) ÷ ${controller.lineModel.value?.factor}',
                   fontSize: 12,
                 ),
               ),
@@ -151,17 +152,17 @@ class LineDetailView extends GetView<LineDetailController> {
                 Expanded(
                   flex: 2,
                   child: AppText(
-                    str: '预估运费'.ts,
+                    str: '预估运费'.inte,
                     fontSize: 12,
-                    color: AppColors.textGray,
+                    color: AppStyles.textGray,
                   ),
                 ),
                 10.horizontalSpace,
                 Expanded(
                   flex: 7,
                   child: AppText(
-                    str: controller.lineModel.value!.expireFee!.rate(),
-                    color: AppColors.textRed,
+                    str: controller.lineModel.value!.expireFee!.priceConvert(),
+                    color: AppStyles.textRed,
                   ),
                 ),
               ],
@@ -178,7 +179,7 @@ class LineDetailView extends GetView<LineDetailController> {
                         EdgeInsets.symmetric(horizontal: 3.w, vertical: 5.h),
                     child: Obx(
                       () => AppText(
-                        str: e.value.ts,
+                        str: e.value.inte,
                         fontSize: 14,
                         fontWeight: controller.tabIndex.value == e.key
                             ? FontWeight.bold
@@ -189,7 +190,7 @@ class LineDetailView extends GetView<LineDetailController> {
                 )
                 .toList(),
             controller: controller.tabController,
-            indicatorColor: AppColors.primary,
+            indicatorColor: AppStyles.primary,
             indicatorSize: TabBarIndicatorSize.label,
             indicatorWeight: 3,
             onTap: (index) {
@@ -239,9 +240,9 @@ class LineDetailView extends GetView<LineDetailController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText(
-                str: '运送时效'.ts,
+                str: '运送时效'.inte,
                 fontSize: 12,
-                color: AppColors.textGray,
+                color: AppStyles.textGray,
               ),
               8.verticalSpaceFromWidth,
               AppText(
@@ -301,7 +302,7 @@ class LineDetailView extends GetView<LineDetailController> {
       Padding(
           padding: EdgeInsets.only(top: 15.h, bottom: 10.h),
           child: AppText(
-            str: '渠道增值服务'.ts,
+            str: '渠道增值服务'.inte,
             fontSize: 14,
             fontWeight: FontWeight.bold,
             lines: 2,
@@ -314,27 +315,29 @@ class LineDetailView extends GetView<LineDetailController> {
       // 1 运费比例 2固定费用 3单箱固定费用 4单位计费重量固定费用 5单位实际重量固定费用 6申报价值比列
       switch (item.type) {
         case 1:
-          first = '实际运费'.ts;
+          first = '实际运费'.inte;
           second = (item.value / 100).toStringAsFixed(2) + '%';
           break;
         case 2:
-          second = item.value.rate();
+          second = item.value.priceConvert();
           break;
         case 3:
-          second = item.value.rate() + '/${'箱'.ts}';
+          second = item.value.priceConvert() + '/${'箱'.inte}';
           break;
         case 4:
-          second =
-              item.value.rate() + '/' + controller.localModel!.weightSymbol;
-          third = '(${'计费重'.ts})';
+          second = item.value.priceConvert() +
+              '/' +
+              controller.localModel!.weightSymbol;
+          third = '(${'计费重'.inte})';
           break;
         case 5:
-          second =
-              item.value.rate() + '/' + controller.localModel!.weightSymbol;
-          third = '(${'实重'.ts})';
+          second = item.value.priceConvert() +
+              '/' +
+              controller.localModel!.weightSymbol;
+          third = '(${'实重'.inte})';
           break;
         case 6:
-          second = '申报价值'.ts + (item.value / 100).toString() + '%';
+          second = '申报价值'.inte + (item.value / 100).toString() + '%';
           break;
         default:
       }
@@ -354,15 +357,15 @@ class LineDetailView extends GetView<LineDetailController> {
                       ),
                       AppText(
                         str: item.isForced == 0
-                            ? '（${'可选'.ts}）'
-                            : '（${'必选'.ts}）',
+                            ? '（${'可选'.inte}）'
+                            : '（${'必选'.inte}）',
                         fontSize: 13,
                       ),
                       item.remark.isNotEmpty
                           ? InkResponse(
                               child: Icon(
                                 Icons.error_outline_outlined,
-                                color: AppColors.green,
+                                color: AppStyles.green,
                                 size: 20.sp,
                               ),
                               onTap: () {
@@ -384,21 +387,21 @@ class LineDetailView extends GetView<LineDetailController> {
                             TextSpan(
                               text: first + ' ',
                               style: TextStyle(
-                                  color: AppColors.textDark,
+                                  color: AppStyles.textDark,
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.w400),
                             ),
                             TextSpan(
                               text: second + ' ',
                               style: TextStyle(
-                                color: AppColors.textBlack,
+                                color: AppStyles.textBlack,
                                 fontSize: 13.sp,
                               ),
                             ),
                             TextSpan(
                               text: third,
                               style: TextStyle(
-                                color: AppColors.textDark,
+                                color: AppStyles.textDark,
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -434,7 +437,7 @@ class LineDetailView extends GetView<LineDetailController> {
         children: <Widget>[
           Flexible(
             child: AppText(
-              str: title.ts,
+              str: title.inte,
               fontSize: 13,
               lines: 2,
             ),
@@ -444,7 +447,7 @@ class LineDetailView extends GetView<LineDetailController> {
             child: AppText(
               str: content,
               fontSize: 13,
-              color: textColor ?? AppColors.textBlack,
+              color: textColor ?? AppStyles.textBlack,
               lines: 2,
               alignment: TextAlign.end,
             ),
@@ -459,9 +462,9 @@ class LineDetailView extends GetView<LineDetailController> {
     listWidget.add(Container(
       alignment: Alignment.centerLeft,
       child: AppText(
-        str: '计费标准'.ts,
+        str: '计费标准'.inte,
         fontSize: 12,
-        color: AppColors.textGray,
+        color: AppStyles.textGray,
       ),
     ));
     String contentSymbol = controller.lineModel.value!.baseMode == 0
@@ -472,20 +475,20 @@ class LineDetailView extends GetView<LineDetailController> {
       for (var item in model.prices!) {
         String titleStr;
         if (listWidget.length == 1) {
-          titleStr = '首重'.ts +
+          titleStr = '首重'.inte +
               '（' +
               (item.start / 1000).toStringAsFixed(2) +
               (controller.localModel?.weightSymbol ?? '') +
               '）';
         } else {
-          titleStr = '续重'.ts +
+          titleStr = '续重'.inte +
               '（' +
               (item.start / 1000).toStringAsFixed(2) +
               (controller.localModel?.weightSymbol ?? '') +
               '）';
         }
         num price = item.price;
-        String contentStr = price.rate() +
+        String contentStr = price.priceConvert() +
             '/' +
             (listWidget.length == 1
                 ? (item.start / 1000).toStringAsFixed(2)
@@ -513,11 +516,12 @@ class LineDetailView extends GetView<LineDetailController> {
           String priceStr = '0.00';
 
           if (basePrice != 0 && price != 0) {
-            priceStr = '${basePrice.rate()}+${price.rate()}/$contentSymbol';
+            priceStr =
+                '${basePrice.priceConvert()}+${price.priceConvert()}/$contentSymbol';
           } else if (basePrice != 0) {
-            priceStr = basePrice.rate();
+            priceStr = basePrice.priceConvert();
           } else if (price != 0) {
-            priceStr = price.rate() + '/$contentSymbol';
+            priceStr = price.priceConvert() + '/$contentSymbol';
           }
           newPirces[titleStr] = priceStr;
         }
@@ -530,15 +534,15 @@ class LineDetailView extends GetView<LineDetailController> {
       // 单位价格 + 阶梯总价模式
       for (var item in model.prices!) {
         if (item.type == 3) {
-          String titleStr = '单位价格'.ts;
-          String contentStr = item.price.rate() + '/$contentSymbol';
+          String titleStr = '单位价格'.inte;
+          String contentStr = item.price.priceConvert() + '/$contentSymbol';
           listWidget.add(descriptItem(titleStr, contentStr));
         } else {
           String titleStr = (item.start / 1000).toStringAsFixed(2) +
               '~' +
               (item.end / 1000).toStringAsFixed(2) +
               contentSymbol;
-          String contentStr = item.price.rate();
+          String contentStr = item.price.priceConvert();
           listWidget.add(descriptItem(titleStr, contentStr));
         }
       }
@@ -547,21 +551,21 @@ class LineDetailView extends GetView<LineDetailController> {
       int k = 0;
       for (var item in model.prices!) {
         if (item.type == 0) {
-          String titleStr = '首重'.ts +
+          String titleStr = '首重'.inte +
               (item.start / 1000).toStringAsFixed(2) +
               contentSymbol +
               '）';
           num price = item.price;
-          String contentStr = price.rate() +
+          String contentStr = price.priceConvert() +
               '/' +
               (item.start / 1000).toStringAsFixed(2) +
               contentSymbol;
           listWidget.add(descriptItem(titleStr, contentStr));
         } else {
           ++k;
-          String titleStr = '总重'.ts + k.toString();
+          String titleStr = '总重'.inte + k.toString();
           num price = item.price;
-          String contentStr = price.rate() +
+          String contentStr = price.priceConvert() +
               '/' +
               (item.unitWeight != null
                   ? (item.unitWeight! / 1000).toStringAsFixed(2)
@@ -570,7 +574,7 @@ class LineDetailView extends GetView<LineDetailController> {
           listWidget.add(descriptItem(titleStr, contentStr));
         }
       }
-      String titleStr = '最大限重'.ts;
+      String titleStr = '最大限重'.inte;
       String contentStr =
           (controller.lineModel.value!.maxWeight! / 1000).toStringAsFixed(2) +
               contentSymbol;
@@ -609,14 +613,14 @@ class LineDetailView extends GetView<LineDetailController> {
           ),
         ));
         for (var item in sortPrices[key]!) {
-          String titleStr = '续重'.ts;
+          String titleStr = '续重'.inte;
           if (item.type == 6) {
-            titleStr = '首重'.ts +
+            titleStr = '首重'.inte +
                 '(${(item.firstWeight / 1000).toStringAsFixed(2)}$contentSymbol)';
           }
           num? unitPrice = item.type == 6 ? item.firstWeight : item.unitWeight;
           num? price = item.price;
-          String contentStr = (price ?? 0).rate() +
+          String contentStr = (price ?? 0).priceConvert() +
               '/' +
               ((unitPrice ?? 0) / 1000).toStringAsFixed(2) +
               contentSymbol;
@@ -633,40 +637,40 @@ class LineDetailView extends GetView<LineDetailController> {
     for (var rule in model.rules!) {
       String contentStr = '${contents.length + 1}、';
       for (var subItem in rule.conditions!) {
-        contentStr += '({condition})时'.tsArgs({
+        contentStr += '({condition})时'.inArgs({
               'condition': subItem.paramName +
                   subItem.comparison +
                   subItem.value.toString()
             }) +
             '，';
         if (rule.type == 1) {
-          contentStr += '限定【按订单收费】'.ts + rule.value.rate();
+          contentStr += '限定【按订单收费】'.inte + rule.value.priceConvert();
         } else if (rule.type == 2) {
-          contentStr += '限定【按箱收费】'.ts + rule.value.rate();
+          contentStr += '限定【按箱收费】'.inte + rule.value.priceConvert();
         } else if (rule.type == 3) {
-          contentStr += '限定【按单位计费重量收费】'.ts + rule.value.rate();
+          contentStr += '限定【按单位计费重量收费】'.inte + rule.value.priceConvert();
         } else if (rule.type == 4) {
-          contentStr += '限定【限制出仓】'.ts;
+          contentStr += '限定【限制出仓】'.inte;
         }
         if (rule.minCharge != 0) {
-          contentStr += '（${'最低收费'.ts}' + rule.minCharge.rate() + ',';
+          contentStr += '（${'最低收费'.inte}' + rule.minCharge.priceConvert() + ',';
         }
         if (rule.maxCharge != 0) {
-          contentStr += '（${'最高收费'.ts}' + rule.maxCharge.rate() + '）';
+          contentStr += '（${'最高收费'.inte}' + rule.maxCharge.priceConvert() + '）';
         }
       }
       contents.add(contentStr);
     }
-    String tips = '${'注'.ts} '
-        '${controller.lineModel.value?.ruleFeeMode == 0 ? '以上规则【同时收取】'.ts : '以上规则【每个分区仅按最高项规则收取】'}'
-        '，${'最高收费'.ts}'
-        '${controller.lineModel.value?.maxRuleFee == 0 ? '无上限'.ts : controller.lineModel.value?.maxRuleFee.rate()}';
+    String tips = '${'注'.inte} '
+        '${controller.lineModel.value?.ruleFeeMode == 0 ? '以上规则【同时收取】'.inte : '以上规则【每个分区仅按最高项规则收取】'}'
+        '，${'最高收费'.inte}'
+        '${controller.lineModel.value?.maxRuleFee == 0 ? '无上限'.inte : controller.lineModel.value?.maxRuleFee.priceConvert()}';
     contents.add(tips);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppText(
-          str: '渠道规则'.ts,
+          str: '渠道规则'.inte,
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ),

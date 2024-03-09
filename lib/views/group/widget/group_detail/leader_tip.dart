@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:huanting_shop/common/upload_util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/services/group_service.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/common/upload_util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/services/group_service.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 
 class LeaderTip extends StatefulWidget {
   const LeaderTip({
@@ -63,7 +63,7 @@ class _LeaderTipState extends State<LeaderTip> {
   }
 
   onUploadImg() async {
-    ImageUpload.imagePicker(
+    ImagePickers.imagePicker(
       context: context,
       onSuccessCallback: (img) async {
         setState(() {
@@ -83,7 +83,7 @@ class _LeaderTipState extends State<LeaderTip> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             AppText(
-              str: '延长拼团天数'.ts,
+              str: '延长拼团天数'.inte,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
@@ -99,7 +99,7 @@ class _LeaderTipState extends State<LeaderTip> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: AppColors.bgGray,
+                        color: AppStyles.bgGray,
                       ),
                       child: BaseInput(
                         board: true,
@@ -140,7 +140,7 @@ class _LeaderTipState extends State<LeaderTip> {
         width: 100,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: AppColors.bgGray,
+          color: AppStyles.bgGray,
         ),
         child: image == null
             ? Column(
@@ -151,8 +151,8 @@ class _LeaderTipState extends State<LeaderTip> {
                     width: 28,
                   ),
                   AppText(
-                    str: '上传图片'.ts,
-                    color: AppColors.textGrayC,
+                    str: '上传图片'.inte,
+                    color: AppStyles.textGrayC,
                   ),
                 ],
               )

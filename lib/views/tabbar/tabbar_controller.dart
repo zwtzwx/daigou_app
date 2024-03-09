@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/change_page_index_event.dart';
-import 'package:huanting_shop/events/un_authenticate_event.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/views/home/home_controller.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/change_page_index_event.dart';
+import 'package:shop_app_client/events/un_authenticate_event.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/views/home/home_controller.dart';
 
-class BeeBottomNavLogic extends GlobalLogic {
+class TabbarManager extends GlobalController {
   late final PageController pageController;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final selectIndex = 0.obs;
@@ -74,7 +74,7 @@ class BeeBottomNavLogic extends GlobalLogic {
   void onTap(int index) async {
     //Token存在Model状态管理器中的
     if (userInfoModel.token.value.isEmpty && index != 0) {
-      BeeNav.push(BeeNav.login);
+      GlobalPages.push(GlobalPages.login);
       return;
     }
     selectIndex.value = index;

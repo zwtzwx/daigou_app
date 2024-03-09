@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/views/user/agent/agent_center/controller.dart';
+import 'package:shop_app_client/views/user/agent/agent_center/controller.dart';
 
 class AgentCenterBinding extends Bindings {
   @override

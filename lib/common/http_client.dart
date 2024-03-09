@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:huanting_shop/common/app_dio.dart';
-import 'package:huanting_shop/common/http_response.dart';
-import 'package:huanting_shop/transformer/http_parse.dart';
-import 'package:huanting_shop/transformer/http_transformer.dart';
+import 'package:shop_app_client/common/app_dio.dart';
+import 'package:shop_app_client/common/http_response.dart';
+import 'package:shop_app_client/transformer/http_parse.dart';
+import 'package:shop_app_client/transformer/http_transformer.dart';
 
 enum Methods { get, post, put, delete }
 
@@ -22,17 +22,17 @@ extension MethodStr on Methods {
   }
 }
 
-class BeeRequest {
-  late final AppDio _dio;
+class ApiConfig {
+  late final BaseDio _dio;
 
-  static late final BeeRequest instance = BeeRequest();
+  static late final ApiConfig instance = ApiConfig();
 
-  factory BeeRequest() {
-    return BeeRequest._internal();
+  factory ApiConfig() {
+    return ApiConfig._internal();
   }
 
-  BeeRequest._internal() {
-    _dio = AppDio();
+  ApiConfig._internal() {
+    _dio = BaseDio();
   }
 
   Future<HttpResponse> _request(

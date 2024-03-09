@@ -3,15 +3,15 @@
 */
 
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/user/login/login_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/user/login/login_controller.dart';
 
 class BeeSignInPage extends GetView<BeeSignInLogic> {
   const BeeSignInPage({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
           fontSize: 17,
         ),
       ),
-      backgroundColor: AppColors.white,
+      backgroundColor: AppStyles.white,
       body: SingleChildScrollView(
         child: SizedBox(
           child: Column(
@@ -59,19 +59,19 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
   //                 Expanded(
   //                   child: Container(
   //                     height: 1,
-  //                     color: AppColors.textGray,
+  //                     color: AppStyles.textGray,
   //                   ),
   //                 ),
   //                 AppGaps.hGap5,
   //                 AppText(
   //                   str: Translation.t(context, '其它登录方式'),
-  //                   color: AppColors.textGray,
+  //                   color: AppStyles.textGray,
   //                 ),
   //                 AppGaps.hGap5,
   //                 Expanded(
   //                   child: Container(
   //                     height: 1,
-  //                     color: AppColors.textGray,
+  //                     color: AppStyles.textGray,
   //                   ),
   //                 ),
   //               ],
@@ -96,7 +96,7 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
   //                     children: [
   //                       Container(
   //                         decoration: BoxDecoration(
-  //                           border: Border.all(color: AppColors.textGray),
+  //                           border: Border.all(color: AppStyles.textGray),
   //                           shape: BoxShape.circle,
   //                         ),
   //                         padding: const EdgeInsets.all(7),
@@ -162,7 +162,7 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
   */
   Widget loginCell(BuildContext context) {
     return Container(
-        color: AppColors.white,
+        color: AppStyles.white,
         padding: const EdgeInsets.only(right: 40, left: 40),
         child: Column(
           children: [
@@ -177,7 +177,7 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
                         controller.onLoginType(2);
                       },
                       child: AppText(
-                        str: '邮箱登录'.ts,
+                        str: '邮箱登录'.inte,
                         fontSize: controller.loginType.value == 2 ? 17 : 16,
                         fontWeight: controller.loginType.value == 2
                             ? FontWeight.bold
@@ -191,7 +191,7 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
                         controller.onLoginType(1);
                       },
                       child: AppText(
-                        str: '手机号登录'.ts,
+                        str: '手机号登录'.inte,
                         fontSize: controller.loginType.value == 1 ? 17 : 16,
                         fontWeight: controller.loginType.value == 1
                             ? FontWeight.bold
@@ -221,12 +221,12 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
                 //         child: Checkbox(
                 //           value: controller.saveAccount.value,
                 //           onChanged: controller.onSaveAccount,
-                //           activeColor: AppColors.primary,
+                //           activeColor: AppStyles.primary,
                 //         ),
                 //       ),
                 //       AppGaps.hGap10,
                 //       AppText(
-                //         str: '记住密码'.ts,
+                //         str: '记住密码'.inte,
                 //       ),
                 //     ],
                 //   ),
@@ -235,8 +235,8 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
                     child: GestureDetector(
                   onTap: controller.toForgetPassword,
                   child: AppText(
-                    str: '忘记密码'.ts + '？',
-                    color: AppColors.green,
+                    str: '忘记密码'.inte + '？',
+                    color: AppStyles.green,
                     alignment: TextAlign.end,
                     lines: 2,
                   ),
@@ -258,10 +258,10 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
               child: GestureDetector(
                 onTap: controller.onRegister,
                 child: AppText(
-                  str: '注册'.ts,
+                  str: '注册'.inte,
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
+                  color: AppStyles.primary,
                 ),
               ),
             ),
@@ -272,10 +272,10 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
   inPutEmailNumber(BuildContext context) {
     var inputAccountView = Container(
       decoration: const BoxDecoration(
-        color: AppColors.white,
+        color: AppStyles.white,
         border: Border(
             bottom: BorderSide(
-                width: 1, color: AppColors.line, style: BorderStyle.solid)),
+                width: 1, color: AppStyles.line, style: BorderStyle.solid)),
       ),
       padding: EdgeInsets.symmetric(vertical: 5.h),
       child: Obx(
@@ -283,7 +283,7 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
           style: const TextStyle(color: Colors.black87),
           controller: controller.emailController,
           decoration: InputDecoration(
-              hintText: '请输入邮箱'.ts,
+              hintText: '请输入邮箱'.inte,
               enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide.none,
               ),
@@ -302,10 +302,10 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
   inPutVeritfyNumber(BuildContext context) {
     var inputVerifyNumber = Container(
       decoration: const BoxDecoration(
-        color: AppColors.white,
+        color: AppStyles.white,
         border: Border(
             bottom: BorderSide(
-                width: 1, color: AppColors.line, style: BorderStyle.solid)),
+                width: 1, color: AppStyles.line, style: BorderStyle.solid)),
       ),
       padding: EdgeInsets.symmetric(vertical: 5.h),
       child: TextField(
@@ -313,7 +313,7 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
         style: const TextStyle(color: Colors.black87),
         controller: controller.validationController,
         decoration: InputDecoration(
-            hintText: '请输入密码'.ts,
+            hintText: '请输入密码'.inte,
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide.none,
             ),
@@ -332,11 +332,11 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
   // captchaVerify(BuildContext context) {
   //   var captchaVerify = Container(
   //     decoration: const BoxDecoration(
-  //       color: AppColors.white,
+  //       color: AppStyles.white,
   //       border: Border(
   //           bottom: BorderSide(
   //               width: 0.5,
-  //               color: AppColors.line,
+  //               color: AppStyles.line,
   //               style: BorderStyle.solid)),
   //     ),
   //     alignment: Alignment.center,
@@ -350,12 +350,12 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
   //               style: const TextStyle(color: Colors.black87),
   //               controller: controller.captchaController,
   //               decoration: InputDecoration(
-  //                   hintText: '请输入图形验证码'.ts,
+  //                   hintText: '请输入图形验证码'.inte,
   //                   enabledBorder: const UnderlineInputBorder(
-  //                     borderSide: BorderSide(color: AppColors.line),
+  //                     borderSide: BorderSide(color: AppStyles.line),
   //                   ),
   //                   focusedBorder: const UnderlineInputBorder(
-  //                     borderSide: BorderSide(color: AppColors.line),
+  //                     borderSide: BorderSide(color: AppStyles.line),
   //                   )),
   //               onSubmitted: (res) {
   //                 FocusScope.of(context).requestFocus(controller.validation);
@@ -379,10 +379,10 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
   inputPhoneView(BuildContext context) {
     var inputAccountView = Container(
       decoration: const BoxDecoration(
-        color: AppColors.white,
+        color: AppStyles.white,
         border: Border(
           bottom: BorderSide(
-              width: 1, color: AppColors.line, style: BorderStyle.solid),
+              width: 1, color: AppStyles.line, style: BorderStyle.solid),
         ),
       ),
       padding: EdgeInsets.symmetric(vertical: 5.h),
@@ -426,7 +426,7 @@ class BeeSignInPage extends GetView<BeeSignInLogic> {
               style: const TextStyle(color: Colors.black87),
               controller: controller.mobileNumberController,
               decoration: InputDecoration(
-                hintText: '请输入手机号'.ts,
+                hintText: '请输入手机号'.inte,
                 enabledBorder: const UnderlineInputBorder(
                   borderSide: BorderSide.none,
                 ),

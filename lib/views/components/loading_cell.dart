@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/common/loading_util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/empty_box.dart';
-import 'package:huanting_shop/views/components/error_box.dart';
+import 'package:shop_app_client/common/loading_util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/empty_box.dart';
+import 'package:shop_app_client/views/components/error_box.dart';
 
 class LoadingCell extends StatelessWidget {
   const LoadingCell({
@@ -16,7 +16,7 @@ class LoadingCell extends StatelessWidget {
     this.emptyHeight,
     this.emptyText,
   }) : super(key: key);
-  final LoadingUtil util;
+  final ListLoadingModel util;
   final Function? onRefresh;
   final double? emptyHeight;
   final String? emptyText;
@@ -31,12 +31,12 @@ class LoadingCell extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CupertinoActivityIndicator(color: AppColors.textNormal),
+            const CupertinoActivityIndicator(color: AppStyles.textNormal),
             5.horizontalSpace,
             Obx(
               () => AppText(
-                str: '加载中'.ts + '...',
-                color: AppColors.textNormal,
+                str: '加载中'.inte + '...',
+                color: AppStyles.textNormal,
               ),
             ),
           ],
@@ -48,9 +48,9 @@ class LoadingCell extends StatelessWidget {
         child: Center(
           child: Obx(
             () => AppText(
-              str: '没有更多商品了'.ts,
+              str: '没有更多商品了'.inte,
               fontSize: 14,
-              color: AppColors.textNormal,
+              color: AppStyles.textNormal,
             ),
           ),
         ),

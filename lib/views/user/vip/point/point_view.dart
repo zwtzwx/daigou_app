@@ -5,17 +5,17 @@
  */
 
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/user_point_item_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/user_point_item_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/empty_app_bar.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/user/vip/point/point_controller.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/user/vip/point/point_controller.dart';
 
 class IntergralPage extends GetView<IntergralLogic> {
   const IntergralPage({Key? key}) : super(key: key);
@@ -25,7 +25,7 @@ class IntergralPage extends GetView<IntergralLogic> {
     return Scaffold(
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: RefreshView(
         renderItem: buildCellForFirstListView,
         refresh: controller.loadList,
@@ -39,7 +39,7 @@ class IntergralPage extends GetView<IntergralLogic> {
       height: 55,
       margin: const EdgeInsets.only(right: 15, left: 15),
       width: ScreenUtil().screenWidth - 30,
-      color: AppColors.white,
+      color: AppStyles.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
@@ -75,7 +75,7 @@ class IntergralPage extends GetView<IntergralLogic> {
                     ? '+' + model.value.toString()
                     : '-' + model.value.toString(),
                 fontSize: 15,
-                color: model.type == 1 ? AppColors.textDark : AppColors.textRed,
+                color: model.type == 1 ? AppStyles.textDark : AppStyles.textRed,
               ),
             ),
           ),
@@ -124,29 +124,29 @@ class IntergralPage extends GetView<IntergralLogic> {
                       str: (controller.userPointModel.value?.point ?? 0)
                           .toString(),
                       fontSize: 30,
-                      color: AppColors.vipNormal,
+                      color: AppStyles.vipNormal,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   AppGaps.vGap5,
                   AppText(
-                    str: '可用积分'.ts,
-                    color: AppColors.vipNormal,
+                    str: '可用积分'.inte,
+                    color: AppStyles.vipNormal,
                   ),
                   AppGaps.vGap15,
                   AppText(
-                    str: '使用规则'.ts +
+                    str: '使用规则'.inte +
                         '：' +
                         (controller.userPointModel.value?.configPoint ?? 0)
                             .toString() +
-                        '${'积分'.ts}=' +
+                        '${'积分'.inte}=' +
                         num.parse((controller
                                     .userPointModel.value?.configAmount ??
                                 '0'))
-                            .rate(needFormat: false)
+                            .priceConvert(needFormat: false)
                             .toString(),
                     fontSize: 14,
-                    color: AppColors.vipNormal,
+                    color: AppStyles.vipNormal,
                   ),
                 ],
               ),
@@ -159,7 +159,7 @@ class IntergralPage extends GetView<IntergralLogic> {
               child: Container(
                   height: 55,
                   width: ScreenUtil().screenWidth - 30,
-                  color: AppColors.white,
+                  color: AppStyles.white,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
@@ -168,7 +168,7 @@ class IntergralPage extends GetView<IntergralLogic> {
                         child: Container(
                           alignment: Alignment.center,
                           child: AppText(
-                            str: '类型'.ts,
+                            str: '类型'.inte,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -179,7 +179,7 @@ class IntergralPage extends GetView<IntergralLogic> {
                         child: Container(
                           alignment: Alignment.center,
                           child: AppText(
-                            str: '时间'.ts,
+                            str: '时间'.inte,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -190,7 +190,7 @@ class IntergralPage extends GetView<IntergralLogic> {
                         child: Container(
                             alignment: Alignment.center,
                             child: AppText(
-                              str: '明细'.ts,
+                              str: '明细'.inte,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             )),

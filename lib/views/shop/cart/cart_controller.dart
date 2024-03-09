@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/common/loading_util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/cart_count_refresh_event.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/shop/cart_model.dart';
-import 'package:huanting_shop/models/shop/platform_goods_model.dart';
-import 'package:huanting_shop/services/shop_service.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:shop_app_client/common/loading_util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/cart_count_refresh_event.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/shop/cart_model.dart';
+import 'package:shop_app_client/models/shop/platform_goods_model.dart';
+import 'package:shop_app_client/services/shop_service.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
 
-class CartController extends GlobalLogic {
-  final Rx<LoadingUtil<PlatformGoodsModel>> loadingUtil =
-      LoadingUtil<PlatformGoodsModel>().obs;
+class CartController extends GlobalController {
+  final Rx<ListLoadingModel<PlatformGoodsModel>> loadingUtil =
+      ListLoadingModel<PlatformGoodsModel>().obs;
   final cartLoading = false.obs;
   List<CartModel> allCartList = [];
   final showCartList = <CartModel>[].obs;
@@ -147,7 +147,7 @@ class CartController extends GlobalLogic {
       return;
     }
 
-    BeeNav.push(BeeNav.orderPreview, arg: {
+    GlobalPages.push(GlobalPages.orderPreview, arg: {
       'ids': checkedList,
       'from': 'cart',
       'platformGoods': cartType.value == 1,
@@ -157,7 +157,7 @@ class CartController extends GlobalLogic {
   void onCartDelete(BuildContext context, [int? id]) async {
     if (checkedList.isEmpty && id == null) return;
     var confirmed =
-        await BaseDialog.cupertinoConfirmDialog(context, '您确定要删除吗'.ts);
+        await BaseDialog.cupertinoConfirmDialog(context, '您确定要删除吗'.inte);
     if (confirmed == true) {
       var res = await ShopService.deleteCartGoods({
         'ids': id != null ? [id] : checkedList

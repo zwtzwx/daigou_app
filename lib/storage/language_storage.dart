@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LanguageStore {
+class LocaleStorage {
   static const String languageKey = 'language';
   static const String translateKey = 'translate';
   static const String currencyKey = 'currency';

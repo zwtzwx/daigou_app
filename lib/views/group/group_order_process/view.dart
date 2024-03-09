@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/group/group_order_process/controller.dart';
-import 'package:huanting_shop/views/group/widget/member_avatar_widget.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/group/group_order_process/controller.dart';
+import 'package:shop_app_client/views/group/widget/member_avatar_widget.dart';
 
 import '../../../models/order_model.dart';
 
@@ -23,11 +23,11 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: AppText(
-          str: '团单进度'.ts,
+          str: '团单进度'.inte,
           fontSize: 17,
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       bottomNavigationBar: Obx(
         () => ((controller.orderModel.value?.status == 2 ||
                     controller.orderModel.value?.status == 12) &&
@@ -45,7 +45,7 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
                           ? '立即支付'
                           : '重新支付',
                       onPressed: () {
-                        BeeNav.push(BeeNav.transportPay, arg: {
+                        GlobalPages.push(GlobalPages.transportPay, arg: {
                           'id': controller.orderModel.value!.id,
                           'payModel': 1,
                           'deliveryStatus': 1,
@@ -80,7 +80,7 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
                         Text.rich(
                           TextSpan(
                             style: const TextStyle(
-                              color: AppColors.textBlack,
+                              color: AppStyles.textBlack,
                             ),
                             children: [
                               TextSpan(
@@ -88,7 +88,7 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
                                     .getOrderStatus(
                                         controller.orderModel.value!.status!,
                                         controller.orderModel.value!.mode!)
-                                    .ts,
+                                    .inte,
                               ),
                               TextSpan(
                                 text: (controller.orderModel.value!.status ==
@@ -130,7 +130,7 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
                             children: [
                               infoItemCell(
                                 '全团已入库包裹数量',
-                                '${controller.orderModel.value!.packagesCount!}${'个'.ts}',
+                                '${controller.orderModel.value!.packagesCount!}${'个'.inte}',
                                 isWeight: false,
                               ),
                               infoItemCell(
@@ -176,14 +176,14 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
                                     fontSize: 17,
                                   ),
                                   children: [
-                                    TextSpan(text: '合计应付'.ts + '：'),
+                                    TextSpan(text: '合计应付'.inte + '：'),
                                     TextSpan(
                                       text: (controller.orderModel.value!
                                                   .actualPaymentFee ??
                                               0)
-                                          .rate(),
+                                          .priceConvert(),
                                       style: const TextStyle(
-                                        color: AppColors.textRed,
+                                        color: AppStyles.textRed,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -206,16 +206,16 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
       child: Text.rich(
         TextSpan(children: [
           TextSpan(
-            text: label.ts + '*：',
+            text: label.inte + '*：',
             style: const TextStyle(
-              color: AppColors.textGray,
+              color: AppStyles.textGray,
             ),
           ),
           TextSpan(
             text: content +
                 (isWeight ? (controller.localModel?.weightSymbol ?? '') : ''),
             style: const TextStyle(
-              color: AppColors.textDark,
+              color: AppStyles.textDark,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -229,7 +229,7 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
       padding: const EdgeInsets.only(top: 10, bottom: 20),
       decoration: const BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: AppColors.line),
+          bottom: BorderSide(color: AppStyles.line),
         ),
       ),
       child: Row(
@@ -274,9 +274,9 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: AppText(
-                    str: '拼团订单号'.ts + '：' + model.orderSn,
+                    str: '拼团订单号'.inte + '：' + model.orderSn,
                     lines: 2,
-                    color: AppColors.textGray,
+                    color: AppStyles.textGray,
                   ),
                 ),
                 controller.orderModel.value!.status == 1
@@ -286,25 +286,25 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: AppText(
-                              str: '入库重量'.ts +
+                              str: '入库重量'.inte +
                                   '：' +
                                   ((model.exceptWeight ?? 0) / 1000)
                                       .toStringAsFixed(2) +
                                   (controller.localModel?.weightSymbol ?? ''),
                               lines: 2,
-                              color: AppColors.textGray,
+                              color: AppStyles.textGray,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: AppText(
-                              str: '入库体积重量'.ts +
+                              str: '入库体积重量'.inte +
                                   '：' +
                                   ((model.exceptVolumeWeight ?? 0) / 1000)
                                       .toStringAsFixed(2) +
                                   (controller.localModel?.weightSymbol ?? ''),
                               lines: 2,
-                              color: AppColors.textGray,
+                              color: AppStyles.textGray,
                             ),
                           ),
                         ],
@@ -318,23 +318,23 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: AppText(
-                              str: '出库箱数'.ts +
+                              str: '出库箱数'.inte +
                                   '：' +
                                   (model.boxesCount ?? 0).toString(),
                               lines: 2,
-                              color: AppColors.textGray,
+                              color: AppStyles.textGray,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: AppText(
-                              str: '计费重量'.ts +
+                              str: '计费重量'.inte +
                                   '：' +
                                   (model.paymentWeight / 1000)
                                       .toStringAsFixed(2) +
                                   (controller.localModel?.weightSymbol ?? ''),
                               lines: 2,
-                              color: AppColors.textGray,
+                              color: AppStyles.textGray,
                             ),
                           ),
                         ],
@@ -344,18 +344,18 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
                     ? Row(
                         children: [
                           AppText(
-                            str: '应付'.ts + '：',
+                            str: '应付'.inte + '：',
                           ),
                           AppText(
-                            str: model.actualPaymentFee.rate(),
-                            color: AppColors.textRed,
+                            str: model.actualPaymentFee.priceConvert(),
+                            color: AppStyles.textRed,
                             fontWeight: FontWeight.bold,
                           ),
                           // AppGaps.hGap5,
                           // GestureDetector(
                           //   child: const Icon(
                           //     Icons.info_outline,
-                          //     color: AppColors.green,
+                          //     color: AppStyles.green,
                           //     size: 20,
                           //   ),
                           // ),
@@ -375,23 +375,23 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
     if (controller.orderModel.value!.status == 1) {
       widget = groupBuyingStatus == 1
           ? AppText(
-              str: '已打包'.ts,
+              str: '已打包'.inte,
             )
           : AppText(
-              str: '未打包'.ts,
-              color: AppColors.textRed,
+              str: '未打包'.inte,
+              color: AppStyles.textRed,
             );
     } else if (controller.orderModel.value!.status == 2) {
       widget = Text.rich(TextSpan(children: [
         TextSpan(
-          text: (status == 2 ? '待支付' : '已支付').ts,
+          text: (status == 2 ? '待支付' : '已支付').inte,
           style: TextStyle(
-            color: status == 2 ? AppColors.textRed : AppColors.textGray,
+            color: status == 2 ? AppStyles.textRed : AppStyles.textGray,
           ),
         ),
         TextSpan(
           text: (status == 11 || status == 12)
-              ? (status == 11 ? '待审核' : '审核拒绝').ts
+              ? (status == 11 ? '待审核' : '审核拒绝').inte
               : '',
           style: const TextStyle(
             color: Colors.black,
@@ -400,8 +400,8 @@ class BeeGroupOrderDetailView extends GetView<BeeGroupOrderDetailController> {
       ]));
     } else {
       widget = AppText(
-        str: (status == 4 ? '未签收' : '已签收').ts,
-        color: status == 4 ? AppColors.textGray : Colors.black,
+        str: (status == 4 ? '未签收' : '已签收').inte,
+        color: status == 4 ? AppStyles.textGray : Colors.black,
       );
     }
     return widget;

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(huanting_shop LANGUAGES CXX)
+project(shop_app_client LANGUAGES CXX)
 
-set(BINARY_NAME "huanting_shop")
+set(BINARY_NAME "shop_app_client")
 
 cmake_policy(SET CMP0063 NEW)
 

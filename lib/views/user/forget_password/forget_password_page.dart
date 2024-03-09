@@ -4,14 +4,14 @@
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/user/forget_password/forget_password_controller.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/user/forget_password/forget_password_controller.dart';
 
 class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
   const BeeResetPwdPage({Key? key}) : super(key: key);
@@ -26,12 +26,12 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
         elevation: 0,
         centerTitle: true,
         title: AppText(
-          str: '忘记密码'.ts,
+          str: '忘记密码'.inte,
           fontSize: 17,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
-      backgroundColor: AppColors.white,
+      backgroundColor: AppStyles.white,
       body: SafeArea(
         child: ListView(
           shrinkWrap: true,
@@ -65,7 +65,7 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
   */
   Widget loginSubmitCell(BuildContext context) {
     return Container(
-        color: AppColors.white,
+        color: AppStyles.white,
         padding: const EdgeInsets.only(right: 40, left: 40),
         child: Column(
           children: <Widget>[
@@ -91,9 +91,9 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
                     },
                     child: AppText(
                       str: controller.loginType.value == 1
-                          ? '邮箱验证'.ts
-                          : '手机号验证'.ts,
-                      color: AppColors.primary,
+                          ? '邮箱验证'.inte
+                          : '手机号验证'.inte,
+                      color: AppStyles.primary,
                     ),
                   )),
             ),
@@ -105,10 +105,10 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
     var inputAccountView = Container(
       margin: const EdgeInsets.only(right: 10, left: 10),
       decoration: const BoxDecoration(
-        color: AppColors.white,
+        color: AppStyles.white,
         border: Border(
             bottom: BorderSide(
-                width: 1, color: AppColors.line, style: BorderStyle.solid)),
+                width: 1, color: AppStyles.line, style: BorderStyle.solid)),
       ),
       padding: EdgeInsets.symmetric(vertical: 5.h),
       child: Row(
@@ -122,7 +122,7 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
                   style: const TextStyle(color: Colors.black87),
                   controller: controller.emailController,
                   decoration: InputDecoration(
-                      hintText: '请输入新密码'.ts,
+                      hintText: '请输入新密码'.inte,
                       enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
@@ -144,10 +144,10 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
     var inputVerifyNumber = Container(
       margin: const EdgeInsets.only(left: 10, right: 10),
       decoration: const BoxDecoration(
-        color: AppColors.white,
+        color: AppStyles.white,
         border: Border(
             bottom: BorderSide(
-                width: 1, color: AppColors.line, style: BorderStyle.solid)),
+                width: 1, color: AppStyles.line, style: BorderStyle.solid)),
       ),
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(vertical: 5.h),
@@ -161,7 +161,7 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
               style: const TextStyle(color: Colors.black87),
               controller: controller.validationController,
               decoration: InputDecoration(
-                  hintText: '请输入验证码'.ts,
+                  hintText: '请输入验证码'.inte,
                   enabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide.none,
                   ),
@@ -198,10 +198,10 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
     var inputAccountView = Container(
       margin: const EdgeInsets.only(left: 10, right: 10),
       decoration: const BoxDecoration(
-        color: AppColors.white,
+        color: AppStyles.white,
         border: Border(
             bottom: BorderSide(
-                width: 1, color: AppColors.line, style: BorderStyle.solid)),
+                width: 1, color: AppStyles.line, style: BorderStyle.solid)),
       ),
       padding: EdgeInsets.symmetric(vertical: 5.h),
       child: Obx(
@@ -225,14 +225,14 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
                                     controller.areaNumber.value),
                             style: const TextStyle(
                               fontSize: 16.0, //textsize
-                              color: AppColors.textNormal,
+                              color: AppStyles.textNormal,
                             ),
                           ),
                         ),
                         const Icon(
                           Icons.arrow_forward_ios,
                           size: 14,
-                          color: AppColors.textNormal,
+                          color: AppStyles.textNormal,
                         ),
                       ],
                     ),
@@ -250,7 +250,7 @@ class BeeResetPwdPage extends GetView<BeeResetPwdLogic> {
                   decoration: InputDecoration(
                     hintText:
                         (controller.loginType.value == 1 ? '请输入手机号' : '请输入邮箱')
-                            .ts,
+                            .inte,
                     enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide.none,
                     ),

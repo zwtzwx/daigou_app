@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/common/upload_util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/models/coordinate_model.dart';
-import 'package:huanting_shop/models/receiver_address_model.dart';
-import 'package:huanting_shop/models/self_pickup_station_model.dart';
-import 'package:huanting_shop/models/ship_line_model.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
-import 'package:huanting_shop/services/group_service.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:shop_app_client/common/upload_util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/models/coordinate_model.dart';
+import 'package:shop_app_client/models/receiver_address_model.dart';
+import 'package:shop_app_client/models/self_pickup_station_model.dart';
+import 'package:shop_app_client/models/ship_line_model.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
+import 'package:shop_app_client/services/group_service.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
 
-class BeeGroupCreateController extends GlobalLogic {
+class BeeGroupCreateController extends GlobalController {
   final TextEditingController nameController = TextEditingController();
   final FocusNode nameNode = FocusNode();
   final TextEditingController remarkController = TextEditingController();
@@ -54,7 +54,7 @@ class BeeGroupCreateController extends GlobalLogic {
 
   // 地址
   void onAddress() async {
-    var s = await BeeNav.push(BeeNav.addressList, arg: {'select': 1});
+    var s = await GlobalPages.push(GlobalPages.addressList, arg: {'select': 1});
     if (s == null) return;
 
     addressModel.value = s as ReceiverAddressModel;
@@ -82,7 +82,8 @@ class BeeGroupCreateController extends GlobalLogic {
       'sub_area_id': addressModel.value!.subArea?.id ?? '',
       'is_group': 1,
     };
-    var s = await BeeNav.push(BeeNav.lineQueryResult, arg: {"data": dic});
+    var s =
+        await GlobalPages.push(GlobalPages.lineQueryResult, arg: {"data": dic});
     if (s == null) return;
 
     lineModel.value = s as ShipLineModel;
@@ -114,7 +115,7 @@ class BeeGroupCreateController extends GlobalLogic {
 
   // 上传图片
   void onUploadImg(BuildContext context) async {
-    ImageUpload.imagePicker(
+    ImagePickers.imagePicker(
       context: context,
       onSuccessCallback: (img) async {
         image.value = img;
@@ -150,7 +151,7 @@ class BeeGroupCreateController extends GlobalLogic {
       'lng': coordinate.value?.longitude ?? '',
     });
     if (res['ok']) {
-      BeeNav.pop('successed');
+      GlobalPages.pop('successed');
     }
   }
 

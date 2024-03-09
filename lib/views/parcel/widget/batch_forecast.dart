@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
 
 class BatchForecast extends StatefulWidget {
   const BatchForecast({
@@ -21,7 +21,7 @@ class _BatchForecastState extends State<BatchForecast> {
 
   void onAdd() {
     if (numController.text.trim().isEmpty) {
-      EasyLoading.showToast('请输入单号'.ts);
+      EasyLoading.showToast('请输入单号'.inte);
       return;
     }
     List<String> nums = numController.text
@@ -51,7 +51,7 @@ class _BatchForecastState extends State<BatchForecast> {
                 focusNode: null,
                 board: true,
                 contentPadding: EdgeInsets.all(10.w),
-                hintText: '每个单号一行，最多20个单号'.ts,
+                hintText: '每个单号一行，最多20个单号'.inte,
                 maxLines: 5,
                 autoShowRemove: false,
                 minLines: 5,

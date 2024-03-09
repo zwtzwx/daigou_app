@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/order_transaction_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
-import 'package:huanting_shop/views/user/transaction/transaction_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/order_transaction_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
+import 'package:shop_app_client/views/user/transaction/transaction_controller.dart';
 
 class BeeTradePage extends GetView<BeeTradeLogic> {
   const BeeTradePage({Key? key}) : super(key: key);
@@ -21,12 +21,12 @@ class BeeTradePage extends GetView<BeeTradeLogic> {
         elevation: 0.5,
         centerTitle: true,
         title: AppText(
-          str: '财务流水'.ts,
-          color: AppColors.textBlack,
+          str: '财务流水'.inte,
+          color: AppStyles.textBlack,
           fontSize: 18,
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: RefreshView(
         renderItem: renderItem,
         refresh: controller.loadList,
@@ -57,29 +57,29 @@ class BeeTradePage extends GetView<BeeTradeLogic> {
                 Container(
                   alignment: Alignment.center,
                   child: AppText(
-                    str: '金额'.ts,
+                    str: '金额'.inte,
                     fontSize: 18,
                   ),
                 ),
                 Container(
                   alignment: Alignment.center,
                   child: AppText(
-                    str: model.amount.rate(),
+                    str: model.amount.priceConvert(),
                     fontSize: 18,
-                    color: AppColors.textRed,
+                    color: AppStyles.textRed,
                   ),
                 ),
                 AppGaps.vGap15,
                 AppText(
-                  str: '类型'.ts + '：' + controller.getType(model.type).ts,
+                  str: '类型'.inte + '：' + controller.getType(model.type).inte,
                 ),
                 AppGaps.vGap10,
                 ([1, 3].contains(model.type) && model.order != null)
                     ? AppText(
-                        str: '相关订单'.ts + '：' + (model.orderSn ?? ''),
+                        str: '相关订单'.inte + '：' + (model.orderSn ?? ''),
                       )
                     : AppText(
-                        str: '流水号'.ts + '：' + model.serialNo,
+                        str: '流水号'.inte + '：' + model.serialNo,
                       ),
               ],
             ),
@@ -87,13 +87,13 @@ class BeeTradePage extends GetView<BeeTradeLogic> {
           ([1, 3].contains(model.type) && model.order != null)
               ? GestureDetector(
                   onTap: () {
-                    BeeNav.push(BeeNav.orderDetail,
+                    GlobalPages.push(GlobalPages.orderDetail,
                         arg: {'id': model.order!.id});
                   },
                   child: Container(
                     decoration: const BoxDecoration(
                       border: Border(
-                        top: BorderSide(color: AppColors.line),
+                        top: BorderSide(color: AppStyles.line),
                       ),
                       color: Colors.white,
                     ),
@@ -103,7 +103,7 @@ class BeeTradePage extends GetView<BeeTradeLogic> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AppText(
-                          str: '查看详情'.ts,
+                          str: '查看详情'.inte,
                           fontSize: 14,
                         ),
                         const Icon(

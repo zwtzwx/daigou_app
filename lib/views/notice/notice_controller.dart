@@ -1,14 +1,14 @@
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/list_refresh_event.dart';
-import 'package:huanting_shop/events/logined_event.dart';
-import 'package:huanting_shop/events/notice_refresh_event.dart';
-import 'package:huanting_shop/models/notice_model.dart';
-import 'package:huanting_shop/services/common_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/list_refresh_event.dart';
+import 'package:shop_app_client/events/logined_event.dart';
+import 'package:shop_app_client/events/notice_refresh_event.dart';
+import 'package:shop_app_client/models/notice_model.dart';
+import 'package:shop_app_client/services/common_service.dart';
 
-class InformationLogic extends GlobalLogic {
+class InformationLogic extends GlobalController {
   final name = ''.obs;
   int pageIndex = 0;
 
@@ -34,12 +34,12 @@ class InformationLogic extends GlobalLogic {
   onDetail(NoticeModel model, int index) async {
     if (model.value == null) return;
     if (model.type == 1) {
-      await BeeNav.push(BeeNav.orderCenter, arg: 1);
+      await GlobalPages.push(GlobalPages.orderCenter, arg: 1);
     } else if ([2, 3, 5, 6, 8].contains(model.type)) {
-      await BeeNav.push(BeeNav.orderDetail,
+      await GlobalPages.push(GlobalPages.orderDetail,
           arg: {'id': num.parse(model.value!)});
     } else if (model.type == 7) {
-      await BeeNav.push(BeeNav.webview,
+      await GlobalPages.push(GlobalPages.webview,
           arg: {'type': 'notice', 'id': num.parse(model.value!)});
     }
     await onReadInfo(model.id, index);

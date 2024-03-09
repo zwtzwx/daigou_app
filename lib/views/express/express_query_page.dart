@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/tracking_model.dart';
-import 'package:huanting_shop/views/components/banner.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
-import 'package:huanting_shop/views/components/empty_box.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
-import 'package:huanting_shop/views/express/express_query_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/tracking_model.dart';
+import 'package:shop_app_client/views/components/banner.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/empty_app_bar.dart';
+import 'package:shop_app_client/views/components/empty_box.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
+import 'package:shop_app_client/views/express/express_query_controller.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 /*
@@ -25,7 +25,7 @@ class BeeTrackingView extends GetView<BeeTrackingController> {
     return Scaffold(
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -84,7 +84,7 @@ class BeeTrackingView extends GetView<BeeTrackingController> {
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
             child: Obx(
               () => AppText(
-                str: '物流跟踪'.ts,
+                str: '物流跟踪'.inte,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
@@ -95,7 +95,7 @@ class BeeTrackingView extends GetView<BeeTrackingController> {
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               height: 45,
               decoration: BoxDecoration(
-                color: AppColors.bgGray,
+                color: AppStyles.bgGray,
                 borderRadius: BorderRadius.circular(5),
               ),
               child: ClipRRect(
@@ -114,7 +114,7 @@ class BeeTrackingView extends GetView<BeeTrackingController> {
                           maxLength: 50,
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 15),
-                          hintText: '请输入快递单号'.ts,
+                          hintText: '请输入快递单号'.inte,
                           onSubmitted: (data) {
                             controller.onQuery();
                           },
@@ -160,7 +160,7 @@ class BeeTrackingView extends GetView<BeeTrackingController> {
                       indicator: Icon(
                         index == 0 ? Icons.check_circle : Icons.circle,
                         size: 17,
-                        color: index == 0 ? AppColors.green : Colors.grey[300],
+                        color: index == 0 ? AppStyles.green : Colors.grey[300],
                       ),
                       iconStyle: index == 0
                           ? IconStyle(
@@ -176,7 +176,7 @@ class BeeTrackingView extends GetView<BeeTrackingController> {
                         AppText(
                           str: model.ftime,
                           fontSize: 14,
-                          color: AppColors.textGray,
+                          color: AppStyles.textGray,
                         ),
                         AppGaps.vGap10,
                         AppText(
@@ -189,7 +189,7 @@ class BeeTrackingView extends GetView<BeeTrackingController> {
                     beforeLineStyle: LineStyle(
                       thickness: 2,
                       color: (index == 0 || index == 1)
-                          ? AppColors.green
+                          ? AppStyles.green
                           : Colors.grey[300]!,
                     ),
                     afterLineStyle: index > 0

@@ -1,23 +1,23 @@
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/common/loading_util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/language_change_event.dart';
-import 'package:huanting_shop/models/goods_category_model.dart';
-import 'package:huanting_shop/models/shop/category_model.dart';
-import 'package:huanting_shop/models/shop/goods_model.dart';
-import 'package:huanting_shop/models/shop/platform_goods_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/services/shop_service.dart';
+import 'package:shop_app_client/common/loading_util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/language_change_event.dart';
+import 'package:shop_app_client/models/goods_category_model.dart';
+import 'package:shop_app_client/models/shop/category_model.dart';
+import 'package:shop_app_client/models/shop/goods_model.dart';
+import 'package:shop_app_client/models/shop/platform_goods_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/services/shop_service.dart';
 
-class PlatformShopCenterController extends GlobalLogic {
+class PlatformShopCenterController extends GlobalController {
   final RxList<GoodsCategoryModel> categoryList = <GoodsCategoryModel>[].obs;
   final RxList<CategoryModel> selfShopCategories = <CategoryModel>[].obs;
   final categoryIndex = RxnInt();
-  final loadingUtil = LoadingUtil<PlatformGoodsModel>().obs;
-  final selfShopLoadingUtil = LoadingUtil<GoodsModel>().obs;
+  final loadingUtil = ListLoadingModel<PlatformGoodsModel>().obs;
+  final selfShopLoadingUtil = ListLoadingModel<GoodsModel>().obs;
   final platformType = 1.obs; // 1-->代购 2-->自营
   final daigouPlatform = '1688'.obs;
 
@@ -140,7 +140,7 @@ class PlatformShopCenterController extends GlobalLogic {
 
   // 选择自营商品分类
   void onSelfShopCategory(int id) {
-    BeeNav.push(BeeNav.goodsList, arg: {'id': id});
+    GlobalPages.push(GlobalPages.goodsList, arg: {'id': id});
   }
 
   @override

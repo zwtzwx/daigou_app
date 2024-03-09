@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/models/user_coupon_model.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/models/user_coupon_model.dart';
 
-class CouponController extends GlobalLogic
+class CouponController extends GlobalController
     with GetSingleTickerProviderStateMixin {
   final isLoading = false.obs;
   int pageIndex = 0;

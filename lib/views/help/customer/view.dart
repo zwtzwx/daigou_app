@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/banner.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/help/customer/controller.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/banner.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/empty_app_bar.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/help/customer/controller.dart';
 
 class CustomerView extends GetView<CustomerController> {
   const CustomerView({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class CustomerView extends GetView<CustomerController> {
     return Scaffold(
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: Stack(
         children: [
           Positioned(
@@ -44,7 +44,7 @@ class CustomerView extends GetView<CustomerController> {
                     child: const BackButton(color: Colors.black),
                   ),
                   middle: AppText(
-                    str: '客服'.ts,
+                    str: '客服'.inte,
                     fontSize: 17,
                   ),
                 ),
@@ -54,7 +54,7 @@ class CustomerView extends GetView<CustomerController> {
                 padding: EdgeInsets.only(right: 20.w),
                 alignment: Alignment.centerRight,
                 child: AppText(
-                  str: 'HI~\n${'有什么可以帮助您'.ts}！',
+                  str: 'HI~\n${'有什么可以帮助您'.inte}！',
                   fontSize: 14,
                   lines: 10,
                   lineHeight: 1.6,
@@ -64,7 +64,7 @@ class CustomerView extends GetView<CustomerController> {
               ...controller.customers.map(
                 (e) => GestureDetector(
                   onTap: () {
-                    CommonMethods.onCustomerContact(e['type']!);
+                    BaseUtils.onCustomerContact(e['type']!);
                   },
                   child: Container(
                     margin: EdgeInsets.fromLTRB(14.w, 0, 14.w, 10.h),
@@ -87,15 +87,15 @@ class CustomerView extends GetView<CustomerController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AppText(
-                                str: (e['name'] as String).ts,
+                                str: (e['name'] as String).inte,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                               8.verticalSpaceFromWidth,
                               AppText(
-                                str: '${'工作时间'.ts}：${'工作日'.ts}10:00-18:00',
+                                str: '${'工作时间'.inte}：${'工作日'.inte}10:00-18:00',
                                 fontSize: 14,
-                                color: AppColors.textNormal,
+                                color: AppStyles.textNormal,
                               ),
                             ],
                           ),
@@ -104,7 +104,7 @@ class CustomerView extends GetView<CustomerController> {
                         Icon(
                           Icons.arrow_forward_ios,
                           size: 14.sp,
-                          color: AppColors.textNormal,
+                          color: AppStyles.textNormal,
                         ),
                       ],
                     ),

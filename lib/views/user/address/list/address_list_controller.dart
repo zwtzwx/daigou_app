@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/receiver_address_refresh_event.dart';
-import 'package:huanting_shop/models/receiver_address_model.dart';
-import 'package:huanting_shop/services/address_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/receiver_address_refresh_event.dart';
+import 'package:shop_app_client/models/receiver_address_model.dart';
+import 'package:shop_app_client/services/address_service.dart';
 
-class BeeShippingLogic extends GlobalLogic {
+class BeeShippingLogic extends GlobalController {
   List<ReceiverAddressModel> allAddress = [];
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final addressList = <ReceiverAddressModel>[].obs;
@@ -48,7 +48,7 @@ class BeeShippingLogic extends GlobalLogic {
   onSelectAddress(ReceiverAddressModel model) {
     var arguments = Get.arguments;
     if (arguments?['select'] == 1) {
-      BeeNav.pop(model);
+      GlobalPages.pop(model);
     }
   }
 

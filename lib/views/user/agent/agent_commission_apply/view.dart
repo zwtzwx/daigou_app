@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/input_text_item.dart';
-import 'package:huanting_shop/views/components/input/normal_input.dart';
-import 'package:huanting_shop/views/user/agent/agent_commission_apply/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/input_text_item.dart';
+import 'package:shop_app_client/views/components/input/normal_input.dart';
+import 'package:shop_app_client/views/user/agent/agent_commission_apply/controller.dart';
 
 class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
   const AgentCommissionApplyPage({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
         elevation: 0.1,
         centerTitle: true,
         title: AppText(
-          str: '结算账号信息'.ts,
+          str: '结算账号信息'.inte,
           fontSize: 17,
         ),
       ),
@@ -35,7 +35,7 @@ class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
           ),
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -43,7 +43,7 @@ class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
               rightFlex: 7,
               leftFlex: 3,
               isRequired: true,
-              title: '收款方式'.ts,
+              title: '收款方式'.inte,
               inputText: GestureDetector(
                 onTap: () async {
                   controller.showApplyType(context);
@@ -55,9 +55,9 @@ class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
                       Expanded(
                         child: Obx(
                           () => AppText(
-                            str: controller.getWithdrawTypeName().ts,
+                            str: controller.getWithdrawTypeName().inte,
                             color: controller.withdrawType.value == null
-                                ? AppColors.textGray
+                                ? AppStyles.textGray
                                 : Colors.black,
                           ),
                         ),
@@ -77,7 +77,7 @@ class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
                   child: InputTextItem(
                       rightFlex: 7,
                       leftFlex: 3,
-                      title: '账户名'.ts,
+                      title: '账户名'.inte,
                       isRequired: true,
                       inputText: Container(
                         alignment: Alignment.center,
@@ -86,7 +86,7 @@ class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
                           children: <Widget>[
                             Expanded(
                                 child: NormalInput(
-                              hintText: '请输入账户名'.ts,
+                              hintText: '请输入账户名'.inte,
                               textAlign: TextAlign.left,
                               contentPadding: const EdgeInsets.all(0),
                               controller: controller.accountController,
@@ -105,7 +105,7 @@ class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
             InputTextItem(
                 rightFlex: 7,
                 leftFlex: 3,
-                title: '备注'.ts,
+                title: '备注'.inte,
                 inputText: Container(
                   alignment: Alignment.center,
                   child: Row(
@@ -113,7 +113,7 @@ class AgentCommissionApplyPage extends GetView<AgentCommissionApplyController> {
                     children: <Widget>[
                       Expanded(
                           child: NormalInput(
-                        hintText: '请输入备注'.ts,
+                        hintText: '请输入备注'.inte,
                         textAlign: TextAlign.left,
                         contentPadding: const EdgeInsets.all(0),
                         controller: controller.remarkController,

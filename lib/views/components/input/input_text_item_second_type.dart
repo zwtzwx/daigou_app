@@ -1,5 +1,5 @@
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/text_config.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/text_config.dart';
 import 'package:flutter/material.dart';
 
 class InputTextItemSecondType extends StatefulWidget {
@@ -42,7 +42,7 @@ class _InputTextItemSecondTypeState extends State<InputTextItemSecondType> {
         decoration: BoxDecoration(
             border: Border(
           bottom: Divider.createBorderSide(context,
-              color: AppColors.line, width: 1),
+              color: AppStyles.line, width: 1),
         )),
         child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,7 +53,7 @@ class _InputTextItemSecondTypeState extends State<InputTextItemSecondType> {
                   flex: 2,
                   child: Text(
                     widget.title,
-                    style: AppTextStyles.textDark14,
+                    style: SizeConfig.textDark14,
                     textAlign: TextAlign.justify,
                   )),
               Expanded(

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/goods_props.dart';
-import 'package:huanting_shop/models/ship_line_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/line/query_result/line_query_result_controller.dart';
-import 'package:huanting_shop/views/line/widget/line_item_widget.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/goods_props.dart';
+import 'package:shop_app_client/models/ship_line_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/line/query_result/line_query_result_controller.dart';
+import 'package:shop_app_client/views/line/widget/line_item_widget.dart';
 
 class LineQueryResultView extends GetView<LineQueryResultController> {
   const LineQueryResultView({Key? key}) : super(key: key);
@@ -23,13 +23,13 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
           elevation: 0,
           centerTitle: true,
           title: AppText(
-            str: '线路列表'.ts,
-            color: AppColors.textBlack,
+            str: '线路列表'.inte,
+            color: AppStyles.textBlack,
             fontSize: 17,
             fontWeight: FontWeight.w400,
           ),
         ),
-        backgroundColor: AppColors.bgGray,
+        backgroundColor: AppStyles.bgGray,
         body: Obx(
           () => !controller.isEmpty.value
               ? lineListCell()
@@ -48,7 +48,7 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                     ),
                     AppText(
                       str: controller.emptyMsg.value,
-                      color: AppColors.textGrayC,
+                      color: AppStyles.textGrayC,
                     )
                   ],
                 )),
@@ -90,9 +90,9 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                     ),
                     5.verticalSpaceFromWidth,
                     AppText(
-                      str: '出发地'.ts,
+                      str: '出发地'.inte,
                       fontSize: 12,
-                      color: AppColors.textNormal,
+                      color: AppStyles.textNormal,
                     ),
                   ],
                 ),
@@ -111,9 +111,9 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                     ),
                     5.verticalSpaceFromWidth,
                     AppText(
-                      str: '目的地'.ts,
+                      str: '目的地'.inte,
                       fontSize: 12,
-                      color: AppColors.textNormal,
+                      color: AppStyles.textNormal,
                     ),
                   ],
                 ),
@@ -137,9 +137,9 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                     ),
                     AppGaps.vGap4,
                     AppText(
-                      str: '预估重量'.ts,
+                      str: '预估重量'.inte,
                       fontSize: 12,
-                      color: AppColors.textNormal,
+                      color: AppStyles.textNormal,
                     ),
                   ],
                 ),
@@ -152,9 +152,9 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                     ),
                     AppGaps.vGap4,
                     AppText(
-                      str: '体积'.ts,
+                      str: '体积'.inte,
                       fontSize: 12,
-                      color: AppColors.textNormal,
+                      color: AppStyles.textNormal,
                     ),
                   ],
                 ),
@@ -168,7 +168,7 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppText(
-                  str: '物品属性'.ts,
+                  str: '物品属性'.inte,
                   fontSize: 14,
                 ),
                 10.horizontalSpace,
@@ -181,7 +181,7 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
                                   horizontal: 14.w, vertical: 4.h),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(999),
-                                color: AppColors.primary,
+                                color: AppStyles.primary,
                               ),
                               child: AppText(
                                 str: prop.name ?? '',
@@ -210,9 +210,10 @@ class LineQueryResultView extends GetView<LineQueryResultController> {
       model: model,
       onSelect: () {
         if (controller.fromQuery.value) {
-          BeeNav.push(BeeNav.lineDetail, arg: {'line': model, 'type': 2});
+          GlobalPages.push(GlobalPages.lineDetail,
+              arg: {'line': model, 'type': 2});
         } else {
-          BeeNav.pop(model);
+          GlobalPages.pop(model);
         }
       },
     );

@@ -2,8 +2,8 @@
   用户充值记录模型
  */
 
-import 'package:huanting_shop/models/pay_type_model.dart';
-import 'package:huanting_shop/models/user_model.dart';
+import 'package:shop_app_client/models/pay_type_model.dart';
+import 'package:shop_app_client/models/user_model.dart';
 
 class UserRechargeModel {
   late int id;

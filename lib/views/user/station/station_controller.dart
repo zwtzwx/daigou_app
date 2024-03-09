@@ -1,8 +1,8 @@
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/services/station_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/services/station_service.dart';
 
-class StationController extends GlobalLogic {
+class StationController extends GlobalController {
   final pageIndex = 0.obs;
 
   loadList({type}) async {

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/common/fade_route.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/components/photo_view_gallery_screen.dart';
-import 'package:huanting_shop/views/shop/manual_order/controller.dart';
+import 'package:shop_app_client/common/fade_route.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/components/photo_view_gallery_screen.dart';
+import 'package:shop_app_client/views/shop/manual_order/controller.dart';
 
 class ManualOrderView extends GetView<ManualOrderController> {
   const ManualOrderView({Key? key}) : super(key: key);
@@ -21,14 +21,14 @@ class ManualOrderView extends GetView<ManualOrderController> {
       appBar: AppBar(
         centerTitle: true,
         title: AppText(
-          str: '代购代买'.ts,
+          str: '代购代买'.inte,
           fontSize: 17,
         ),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: const BackButton(color: Colors.black),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 14.w),
@@ -78,10 +78,10 @@ class ManualOrderView extends GetView<ManualOrderController> {
                       child: Obx(
                         () => AppText(
                           str: controller.warehouse.value?.warehouseName ??
-                              '请选择仓库'.ts,
+                              '请选择仓库'.inte,
                           color: controller.warehouse.value == null
-                              ? AppColors.textGray
-                              : AppColors.textDark,
+                              ? AppStyles.textGray
+                              : AppStyles.textDark,
                         ),
                       ),
                     ),
@@ -116,7 +116,7 @@ class ManualOrderView extends GetView<ManualOrderController> {
               controller: controller.linkController,
               focusNode: controller.linkNode,
               maxLength: 200,
-              hintText: '请粘贴想购买的商品链接'.ts,
+              hintText: '请粘贴想购买的商品链接'.inte,
               autoShowRemove: false,
               contentPadding: const EdgeInsets.all(0),
             ),
@@ -127,7 +127,7 @@ class ManualOrderView extends GetView<ManualOrderController> {
               controller: controller.platformController,
               focusNode: controller.platformNode,
               maxLength: 100,
-              hintText: '请填写平台'.ts,
+              hintText: '请填写平台'.inte,
               autoShowRemove: false,
               contentPadding: const EdgeInsets.all(0),
             ),
@@ -138,7 +138,7 @@ class ManualOrderView extends GetView<ManualOrderController> {
               controller: controller.nameController,
               focusNode: controller.nameNode,
               maxLength: 100,
-              hintText: '请填写商品名称'.ts,
+              hintText: '请填写商品名称'.inte,
               autoShowRemove: false,
               contentPadding: const EdgeInsets.all(0),
             ),
@@ -151,7 +151,7 @@ class ManualOrderView extends GetView<ManualOrderController> {
               focusNode: controller.specNode,
               maxLength: 100,
               autoShowRemove: false,
-              hintText: '例如颜色：紫色 尺码：XXL'.ts,
+              hintText: '例如颜色：紫色 尺码：XXL'.inte,
               contentPadding: const EdgeInsets.all(0),
             ),
           ),
@@ -172,7 +172,7 @@ class ManualOrderView extends GetView<ManualOrderController> {
                       child: Container(
                         height: 20.h,
                         width: 20.h,
-                        color: AppColors.primary,
+                        color: AppStyles.primary,
                         child: Icon(
                           Icons.remove,
                           size: 18.sp,
@@ -204,7 +204,7 @@ class ManualOrderView extends GetView<ManualOrderController> {
                       child: Container(
                         height: 20.h,
                         width: 20.h,
-                        color: AppColors.primary,
+                        color: AppStyles.primary,
                         child: Icon(
                           Icons.add,
                           size: 18.sp,
@@ -223,7 +223,7 @@ class ManualOrderView extends GetView<ManualOrderController> {
               controller: controller.priceController,
               focusNode: controller.priceNode,
               autoShowRemove: false,
-              hintText: '请输入商品单价'.ts,
+              hintText: '请输入商品单价'.inte,
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
               contentPadding: const EdgeInsets.all(0),
@@ -281,7 +281,7 @@ class ManualOrderView extends GetView<ManualOrderController> {
                                   },
                                   child: Icon(
                                     Icons.cancel_sharp,
-                                    color: AppColors.textRed,
+                                    color: AppStyles.textRed,
                                     size: 18.sp,
                                   ),
                                 ),
@@ -323,7 +323,7 @@ class ManualOrderView extends GetView<ManualOrderController> {
               focusNode: controller.remarkNode,
               maxLength: 300,
               maxLines: 5,
-              hintText: '请填写'.ts,
+              hintText: '请填写'.inte,
               autoShowRemove: false,
               contentPadding: const EdgeInsets.all(0),
             ),
@@ -355,11 +355,11 @@ class ManualOrderView extends GetView<ManualOrderController> {
                       TextSpan(
                         text: isRequired ? '*' : '',
                         style: const TextStyle(
-                          color: AppColors.textRed,
+                          color: AppStyles.textRed,
                         ),
                       ),
                       TextSpan(
-                        text: title.ts,
+                        text: title.inte,
                       ),
                     ],
                   ),
@@ -380,11 +380,11 @@ class ManualOrderView extends GetView<ManualOrderController> {
                       TextSpan(
                         text: isRequired ? '*' : '',
                         style: const TextStyle(
-                          color: AppColors.textRed,
+                          color: AppStyles.textRed,
                         ),
                       ),
                       TextSpan(
-                        text: title.ts,
+                        text: title.inte,
                       ),
                     ],
                   ),

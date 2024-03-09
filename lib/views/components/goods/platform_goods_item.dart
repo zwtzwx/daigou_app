@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/shop/platform_goods_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/shop/goods_detail/goods_detail_binding.dart';
-import 'package:huanting_shop/views/shop/goods_detail/goods_detail_view.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/shop/platform_goods_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/shop/goods_detail/goods_detail_binding.dart';
+import 'package:shop_app_client/views/shop/goods_detail/goods_detail_view.dart';
 
 class PlatformGoodsCell extends StatelessWidget {
   const PlatformGoodsCell({
@@ -26,7 +26,7 @@ class PlatformGoodsCell extends StatelessWidget {
     final currency = Get.find<AppStore>().currencyModel.value;
     return GestureDetector(
       onTap: () {
-        BeeNav.toPage(
+        GlobalPages.toPage(
           GoodsDetailView(goodsId: goods.id.toString()),
           arguments: {'url': goods.detailUrl},
           binding: GoodsDetailBinding(tag: goods.id.toString()),
@@ -75,7 +75,7 @@ class PlatformGoodsCell extends StatelessWidget {
                               //   child: Padding(
                               //     padding: EdgeInsets.only(right: 5.w),
                               //     child: ImgItem(
-                              //       CommonMethods.getPlatformIcon(
+                              //       BaseUtils.getPlatformIcon(
                               //           goods.platform),
                               //       width: 16.w,
                               //       height: 16.w,
@@ -102,8 +102,8 @@ class PlatformGoodsCell extends StatelessWidget {
                           text: (currency?.code ?? '') + ' ',
                         ),
                         TextSpan(
-                          text: (goods.price ?? 0)
-                              .rate(needFormat: false, showPriceSymbol: false),
+                          text: (goods.price ?? 0).priceConvert(
+                              needFormat: false, showPriceSymbol: false),
                           style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
@@ -118,7 +118,7 @@ class PlatformGoodsCell extends StatelessWidget {
                   //   children: [
                   //     Obx(
                   //       () => AppText(
-                  //         str: (goods.price ?? 0).rate(needFormat: false),
+                  //         str: (goods.price ?? 0).priceConvert(needFormat: false),
                   //         fontWeight: FontWeight.bold,
                   //         fontSize: 16,
                   //       ),
@@ -127,10 +127,10 @@ class PlatformGoodsCell extends StatelessWidget {
                   //     Expanded(
                   //       child: Obx(
                   //         () => AppText(
-                  //           str: '{count}人付款'.tsArgs(
+                  //           str: '{count}人付款'.inArgs(
                   //             {'count': goods.sales},
                   //           ),
-                  //           color: AppColors.textGrayC9,
+                  //           color: AppStyles.textGrayC9,
                   //           fontSize: 10,
                   //           alignment: TextAlign.right,
                   //           lines: 2,

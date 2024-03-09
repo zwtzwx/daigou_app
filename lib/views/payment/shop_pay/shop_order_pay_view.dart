@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/pay_type_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/group/widget/countdown_widget.dart';
-import 'package:huanting_shop/views/payment/shop_pay/shop_order_pay_conctroller.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/pay_type_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/group/widget/countdown_widget.dart';
+import 'package:shop_app_client/views/payment/shop_pay/shop_order_pay_conctroller.dart';
 
 class ShopOrderPayView extends GetView<ShopOrderPayController> {
   const ShopOrderPayView({Key? key}) : super(key: key);
@@ -21,11 +21,8 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
-        backgroundColor: Colors.white,
-        elevation: 0.5,
-        centerTitle: true,
         title: AppText(
-          str: '订单支付'.ts,
+          str: '订单支付'.inte,
           fontSize: 17,
         ),
       ),
@@ -50,16 +47,16 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                       text: TextSpan(
                         style: TextStyle(
                           fontSize: 12.sp,
-                          color: AppColors.textDark,
+                          color: AppStyles.textDark,
                         ),
                         children: [
-                          TextSpan(text: '总计'.ts + '：'),
+                          TextSpan(text: '总计'.inte + '：'),
                           TextSpan(
-                            text:
-                                controller.totalAmount.rate(needFormat: false),
+                            text: controller.totalAmount
+                                .priceConvert(needFormat: false),
                             style: TextStyle(
                               fontSize: 16.sp,
-                              color: AppColors.textRed,
+                              color: AppStyles.textRed,
                             ),
                           ),
                         ],
@@ -70,13 +67,13 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                       children: [
                         Icon(
                           Icons.info_outline,
-                          color: AppColors.textGrayC9,
+                          color: AppStyles.textGrayC9,
                           size: 18.sp,
                         ),
                         2.horizontalSpace,
                         AppText(
-                          str: '不含国际运费'.ts,
-                          color: AppColors.textGrayC9,
+                          str: '不含国际运费'.inte,
+                          color: AppStyles.textGrayC9,
                           fontSize: 10,
                         ),
                       ],
@@ -97,7 +94,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
           ],
         )),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -127,7 +124,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20.sp,
-                              color: AppColors.textDark,
+                              color: AppStyles.textDark,
                             ),
                           ),
                           TextSpan(
@@ -135,15 +132,15 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                                 ? num.parse(
                                         controller.problemOrder.value!.amount ??
                                             '0')
-                                    .rate(
+                                    .priceConvert(
                                         showPriceSymbol: false,
                                         needFormat: false)
-                                : controller.totalAmount.rate(
+                                : controller.totalAmount.priceConvert(
                                     showPriceSymbol: false, needFormat: false),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 36.sp,
-                              color: AppColors.textDark,
+                              color: AppStyles.textDark,
                             ),
                           ),
                         ]),
@@ -161,18 +158,19 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           AppText(
-                            str: '${'余额'.ts}：' +
+                            str: '${'余额'.inte}：' +
                                 controller.myBalance.value
-                                    .rate(needFormat: false),
+                                    .priceConvert(needFormat: false),
                           ),
                           GestureDetector(
                             onTap: () {
-                              BeeNav.push(BeeNav.recharge, arg: context);
+                              GlobalPages.push(GlobalPages.recharge,
+                                  arg: context);
                             },
                             child: Row(
                               children: <Widget>[
                                 AppText(
-                                  str: '充值'.ts,
+                                  str: '充值'.inte,
                                 ),
                                 const Icon(
                                   Icons.keyboard_arrow_right,
@@ -239,16 +237,16 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
               15.horizontalSpace,
               Expanded(
                 child: AppText(
-                  str: CommonMethods.getPayTypeName(typeMap.name).ts,
+                  str: BaseUtils.getPayTypeName(typeMap.name).inte,
                 ),
               ),
               Obx(() => controller.selectedPayType.value == typeMap
                   ? const Icon(
                       Icons.check_circle,
-                      color: AppColors.green,
+                      color: AppStyles.green,
                     )
                   : const Icon(Icons.radio_button_unchecked,
-                      color: AppColors.textGray)),
+                      color: AppStyles.textGray)),
             ],
           ),
         ));

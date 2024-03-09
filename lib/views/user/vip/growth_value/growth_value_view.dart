@@ -1,14 +1,14 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/user_point_item_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/user_point_item_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/empty_app_bar.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/views/user/vip/growth_value/growth_value_controller.dart';
+import 'package:shop_app_client/views/user/vip/growth_value/growth_value_controller.dart';
 
 class BeeValuesPage extends GetView<BeeValuesLogic> {
   const BeeValuesPage({Key? key}) : super(key: key);
@@ -18,7 +18,7 @@ class BeeValuesPage extends GetView<BeeValuesLogic> {
     return Scaffold(
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: RefreshView(
         renderItem: buildCellForFirstListView,
         refresh: controller.loadList,
@@ -32,7 +32,7 @@ class BeeValuesPage extends GetView<BeeValuesLogic> {
       height: 55,
       margin: const EdgeInsets.only(right: 15, left: 15),
       width: ScreenUtil().screenWidth - 30,
-      color: AppColors.white,
+      color: AppStyles.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
@@ -45,8 +45,8 @@ class BeeValuesPage extends GetView<BeeValuesLogic> {
                 fontSize: 13,
                 fontWeight: FontWeight.w400,
                 color: model.isValid == 0
-                    ? AppColors.textGrayC
-                    : AppColors.textBlack,
+                    ? AppStyles.textGrayC
+                    : AppStyles.textBlack,
               ),
             ),
           ),
@@ -60,8 +60,8 @@ class BeeValuesPage extends GetView<BeeValuesLogic> {
                 fontSize: 11,
                 fontWeight: FontWeight.w400,
                 color: model.isValid == 0
-                    ? AppColors.textGrayC
-                    : AppColors.textBlack,
+                    ? AppStyles.textGrayC
+                    : AppStyles.textBlack,
               ),
             ),
           ),
@@ -75,10 +75,10 @@ class BeeValuesPage extends GetView<BeeValuesLogic> {
                     : '-' + model.value.toString(),
                 fontSize: 13,
                 color: model.isValid == 0
-                    ? AppColors.textGrayC
+                    ? AppStyles.textGrayC
                     : model.type == 1
-                        ? AppColors.textDark
-                        : AppColors.textRed,
+                        ? AppStyles.textDark
+                        : AppStyles.textRed,
               ),
             ),
           ),
@@ -129,15 +129,15 @@ class BeeValuesPage extends GetView<BeeValuesLogic> {
                               .vipDataModel.value?.profile.currentGrowthValue
                               .toString() ??
                           '',
-                      color: AppColors.vipNormal,
+                      color: AppStyles.vipNormal,
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
                     ),
                   ),
                   AppGaps.vGap5,
                   AppText(
-                    str: '成长值'.ts,
-                    color: AppColors.vipNormal,
+                    str: '成长值'.inte,
+                    color: AppStyles.vipNormal,
                   ),
                   AppGaps.vGap15,
                   Obx(
@@ -145,21 +145,21 @@ class BeeValuesPage extends GetView<BeeValuesLogic> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         AppText(
-                          str: '当前等级'.ts +
+                          str: '当前等级'.inte +
                               '：' +
                               (controller
                                       .vipDataModel.value?.profile.levelName ??
                                   ''),
-                          color: AppColors.vipNormal,
+                          color: AppStyles.vipNormal,
                         ),
                         AppText(
-                          str: '下一等级成长值'.ts +
+                          str: '下一等级成长值'.inte +
                               '：' +
                               (controller.vipDataModel.value?.profile
                                       .nextGrowthValue
                                       .toString() ??
                                   ''),
-                          color: AppColors.vipNormal,
+                          color: AppStyles.vipNormal,
                         ),
                       ],
                     ),
@@ -175,7 +175,7 @@ class BeeValuesPage extends GetView<BeeValuesLogic> {
             child: Container(
               alignment: Alignment.center,
               decoration: const BoxDecoration(
-                color: AppColors.white,
+                color: AppStyles.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10)),
@@ -185,7 +185,7 @@ class BeeValuesPage extends GetView<BeeValuesLogic> {
                   Container(
                       height: 54,
                       decoration: const BoxDecoration(
-                        color: AppColors.white,
+                        color: AppStyles.white,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10)),
@@ -199,7 +199,7 @@ class BeeValuesPage extends GetView<BeeValuesLogic> {
                             child: Container(
                               alignment: Alignment.center,
                               child: AppText(
-                                str: '类型'.ts,
+                                str: '类型'.inte,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -210,7 +210,7 @@ class BeeValuesPage extends GetView<BeeValuesLogic> {
                             child: Container(
                               alignment: Alignment.center,
                               child: AppText(
-                                str: '时间'.ts,
+                                str: '时间'.inte,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -221,7 +221,7 @@ class BeeValuesPage extends GetView<BeeValuesLogic> {
                             child: Container(
                                 alignment: Alignment.center,
                                 child: AppText(
-                                  str: '明细'.ts,
+                                  str: '明细'.inte,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
                                 )),

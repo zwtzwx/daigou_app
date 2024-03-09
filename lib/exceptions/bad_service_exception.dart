@@ -1,4 +1,4 @@
-import 'package:huanting_shop/exceptions/http_exception.dart';
+import 'package:shop_app_client/exceptions/http_exception.dart';
 
 /// 服务端响应错误
 class BadServiceException extends HttpException {

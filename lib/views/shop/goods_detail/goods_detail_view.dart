@@ -5,19 +5,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/views/components/base_search.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
-import 'package:huanting_shop/views/components/error_box.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/components/skeleton/skeleton.dart';
-import 'package:huanting_shop/views/shop/goods_detail/goods_detail_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/views/components/base_search.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/empty_app_bar.dart';
+import 'package:shop_app_client/views/components/error_box.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/components/skeleton/skeleton.dart';
+import 'package:shop_app_client/views/shop/goods_detail/goods_detail_controller.dart';
 
 class GoodsDetailView extends GetView<GoodsDetailController> {
   const GoodsDetailView({Key? key, required this.goodsId}) : super(key: key);
@@ -32,7 +32,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
         child: Scaffold(
           primary: false,
           appBar: const EmptyAppBar(),
-          backgroundColor: AppColors.bgGray,
+          backgroundColor: AppStyles.bgGray,
           bottomNavigationBar: Obx(() => controller.goodsModel.value != null
               ? Container(
                   color: Colors.white,
@@ -43,7 +43,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            BeeNav.push(BeeNav.cart);
+                            GlobalPages.push(GlobalPages.cart);
                           },
                           child: Container(
                             color: Colors.transparent,
@@ -68,7 +68,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                                             top: -4.w,
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                color: AppColors.primary,
+                                                color: AppStyles.primary,
                                                 borderRadius:
                                                     BorderRadius.circular(8.r),
                                               ),
@@ -86,7 +86,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                                       ],
                                     ),
                                     AppText(
-                                      str: '购物车'.ts,
+                                      str: '购物车'.inte,
                                       fontSize: 12,
                                     ),
                                   ],
@@ -102,7 +102,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                             child: BeeButton(
                               text: '加入购物车',
                               backgroundColor: const Color(0xFFFFE1E2),
-                              textColor: AppColors.primary,
+                              textColor: AppStyles.primary,
                               onPressed: () {
                                 controller.showSkuModal('cart');
                               },
@@ -131,7 +131,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
               return Container(
                 alignment: Alignment.center,
                 child: const CircularProgressIndicator(
-                  color: AppColors.primary,
+                  color: AppStyles.primary,
                   strokeWidth: 5,
                 ),
               );
@@ -255,7 +255,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                                           controller.goodsModel.value?.price ??
                                           0) *
                                       (controller.qty.value ?? 1))
-                                  .rate(
+                                  .priceConvert(
                                       showPriceSymbol: false,
                                       needFormat: false),
                               style: TextStyle(
@@ -307,7 +307,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                                 ),
                                 padding: EdgeInsets.all(2.w),
                                 child: AppText(
-                                  str: controller.platformName.ts,
+                                  str: controller.platformName.inte,
                                   color: Colors.white,
                                   fontSize: 8,
                                 ),
@@ -343,9 +343,9 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AppText(
-                          str: '国内运费'.ts,
+                          str: '国内运费'.inte,
                           fontSize: 12,
-                          color: AppColors.textGrayC9,
+                          color: AppStyles.textGrayC9,
                         ),
                         10.verticalSpaceFromWidth,
                         Row(
@@ -373,9 +373,9 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                             ),
                             20.horizontalSpace,
                             AppText(
-                              str: '将寄往'.ts,
+                              str: '将寄往'.inte,
                               fontSize: 14,
-                              color: AppColors.textGrayC9,
+                              color: AppStyles.textGrayC9,
                             ),
                             10.horizontalSpace,
                             GestureDetector(
@@ -385,14 +385,14 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                               child: AppText(
                                 str: controller.selectedWarehouse.value
                                         ?.warehouseName ??
-                                    '选择仓库'.ts,
+                                    '选择仓库'.inte,
                                 fontSize: 14,
                               ),
                             ),
                             5.horizontalSpace,
                             Icon(
                               Icons.arrow_forward_ios,
-                              color: AppColors.textNormal,
+                              color: AppStyles.textNormal,
                               size: 14.sp,
                             ),
                           ],
@@ -429,14 +429,14 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
               children: [
                 Expanded(
                   child: AppText(
-                    str: type == 'sku' ? '选择'.ts : '目的地'.ts,
+                    str: type == 'sku' ? '选择'.inte : '目的地'.inte,
                     fontSize: 12,
-                    color: AppColors.textGrayC9,
+                    color: AppStyles.textGrayC9,
                   ),
                 ),
                 Icon(
                   Icons.arrow_forward_ios,
-                  color: AppColors.textNormal,
+                  color: AppStyles.textNormal,
                   size: 15.sp,
                 ),
               ],
@@ -446,9 +446,9 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
               str: value ??
                   (type == 'sku'
                       ? (controller.sku.value == null
-                          ? '产品规格'.ts
+                          ? '产品规格'.inte
                           : '${controller.sku.value!.propertiesName} x${controller.qty.value}')
-                      : '根据地区进行计算'.ts),
+                      : '根据地区进行计算'.inte),
               fontSize: 14,
               lines: 6,
             ),
@@ -472,7 +472,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
             child: AppText(
               str: controller.isPlatformGoods.value
                   ? controller.goodsModel.value!.nick ?? ''
-                  : '自营商城'.ts,
+                  : '自营商城'.inte,
               lines: 2,
             ),
           ),
@@ -502,14 +502,14 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                         children: [
                           Expanded(
                             child: AppText(
-                              str: '商品评价'.ts +
+                              str: '商品评价'.inte +
                                   '(${controller.commentsTotal.value})',
                             ),
                           ),
                           Icon(
                             Icons.arrow_forward_ios,
                             size: 14.sp,
-                            color: AppColors.textGrayC9,
+                            color: AppStyles.textGrayC9,
                           ),
                         ],
                       ),
@@ -549,7 +549,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
           Container(
             padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 10.h),
             child: AppText(
-              str: '商品详情'.ts,
+              str: '商品详情'.inte,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),

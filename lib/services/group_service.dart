@@ -1,9 +1,9 @@
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/coordinate_model.dart';
-import 'package:huanting_shop/models/group_model.dart';
-import 'package:huanting_shop/models/group_order_model.dart';
-import 'package:huanting_shop/models/group_preview_order_model.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/coordinate_model.dart';
+import 'package:shop_app_client/models/group_model.dart';
+import 'package:shop_app_client/models/group_order_model.dart';
+import 'package:shop_app_client/models/group_preview_order_model.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
 
 class GroupService {
   // 公开拼团列表
@@ -59,7 +59,7 @@ class GroupService {
   static Future<Map> getPublicGroups(Map<String, dynamic> params) async {
     var page = params['page'];
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(publicListApi, queryParameters: params)
         .then((res) {
       List<GroupModel> list = [];
@@ -79,7 +79,7 @@ class GroupService {
   static Future<Map> getMyGroups(Map<String, dynamic> params) async {
     var page = params['page'];
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(myListApi, queryParameters: params)
         .then((res) {
       List<GroupModel> list = [];
@@ -98,7 +98,7 @@ class GroupService {
   // 是否可设为公开拼团
   static Future<bool> getPublicGroupConfig() async {
     bool result = false;
-    await BeeRequest.instance.get(userConfigApi).then((res) {
+    await ApiConfig.instance.get(userConfigApi).then((res) {
       if (res.ok) {
         result = res.data['create_public_group'];
       }
@@ -109,7 +109,7 @@ class GroupService {
   // 拼团规则
   static Future<List<Map>> getGroupProtocol() async {
     List<Map> result = [];
-    await BeeRequest.instance.get(groupProtocolApi).then((res) {
+    await ApiConfig.instance.get(groupProtocolApi).then((res) {
       if (res.ok) {
         res.data.forEach((e) {
           result.add(e);
@@ -122,7 +122,7 @@ class GroupService {
   // 发起拼团
   static Future<Map> onGroupStart(Map<String, dynamic> params) async {
     Map result = {'ok': false, 'msg': ''};
-    await BeeRequest.instance.post(groupBuyApi, data: params).then((res) {
+    await ApiConfig.instance.post(groupBuyApi, data: params).then((res) {
       result = {
         'ok': res.ok,
         'msg': res.msg ?? res.error?.message ?? '',
@@ -134,7 +134,7 @@ class GroupService {
   // 拼团详情
   static Future<GroupModel?> getGroupDetail(int id) async {
     GroupModel? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(groupBuyDetailApi.replaceAll(':id', id.toString()))
         .then((res) {
       if (res.ok) {
@@ -147,7 +147,7 @@ class GroupService {
   // 加入拼团
   static Future<Map> onGroupJoin(int id) async {
     Map result = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(groupJoinApi.replaceAll(':id', id.toString()))
         .then((res) =>
             result = {'ok': res.ok, 'msg': res.msg ?? res.error?.message});
@@ -157,7 +157,7 @@ class GroupService {
   // 退出拼团
   static Future<Map> onGroupExist(int id) async {
     Map result = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(groupExistApi.replaceAll(':id', id.toString()))
         .then((res) =>
             result = {'ok': res.ok, 'msg': res.msg ?? res.error?.message});
@@ -168,7 +168,7 @@ class GroupService {
   static Future<Map> onGroupAddParcel(
       int id, Map<String, dynamic> params) async {
     Map result = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(
           groupAddParcelApi.replaceAll(':id', id.toString()),
           data: params,
@@ -182,7 +182,7 @@ class GroupService {
   static Future<Map> getGroupAddedParcels(
       [Map<String, dynamic>? params]) async {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': 1};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(groupAddedApi, queryParameters: params)
         .then((res) {
       List<GroupModel> list = [];
@@ -197,7 +197,7 @@ class GroupService {
   // 拼团仓详情
   static Future<Map> getGroupAddedParcelsDetail(int id) async {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': 1};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(groupAddedDetailApi.replaceAll(':id', id.toString()))
         .then((res) {
       List<ParcelModel> list = [];
@@ -213,7 +213,7 @@ class GroupService {
   static Future<Map> onGroupParcelReturn(
       int id, Map<String, dynamic> params) async {
     Map result = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(
           groupParcelReturnApi.replaceAll(':id', id.toString()),
           data: params,
@@ -226,7 +226,7 @@ class GroupService {
   // 参团详情
   static Future<GroupModel?> getGroupMemberDetail(int id) async {
     GroupModel? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(groupMemberDetailApi.replaceAll(':id', id.toString()))
         .then((res) {
       if (res.ok) {
@@ -239,7 +239,7 @@ class GroupService {
   // 预览拼团订单
   static Future<GroupPreviewOrderModel?> onGroupOrderPreview(int id) async {
     GroupPreviewOrderModel? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(groupOrderPreviewApi.replaceAll(':id', id.toString()))
         .then((res) {
       if (res.ok) {
@@ -252,7 +252,7 @@ class GroupService {
   // 提交订单
   static Future<Map> onCreatedOrder(int id, Map<String, dynamic> params) async {
     Map result = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(
       createdGroupOrderApi.replaceAll(':id', id.toString()),
       data: params,
@@ -269,7 +269,7 @@ class GroupService {
   // 取消拼团
   static Future<Map> onCancelGroup(int id) async {
     Map result = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(groupCancelApi.replaceAll(':id', id.toString()))
         .then((res) {
       result = {
@@ -283,7 +283,7 @@ class GroupService {
   // 结束拼团
   static Future<Map> onEndGroup(int id) async {
     Map result = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(groupEndApi.replaceAll(':id', id.toString()))
         .then((res) {
       result = {
@@ -298,7 +298,7 @@ class GroupService {
   static Future<Map> getGroupOrders(Map<String, dynamic> params) async {
     var page = params['page'];
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(
       groupOrderListApi,
       queryParameters: params,
@@ -322,7 +322,7 @@ class GroupService {
   // 团单详情
   static Future<GroupOrderModel?> getGroupOrderDetail(int id) async {
     GroupOrderModel? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(groupOrderDetailApi.replaceAll(':id', id.toString()))
         .then((res) {
       if (res.ok) {
@@ -335,7 +335,7 @@ class GroupService {
   // google 逆地址解析
   static Future<String?> onLocationGeocode(Map<String, dynamic> params) async {
     String? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(
       locationGeocodeApi,
       queryParameters: params,
@@ -352,7 +352,7 @@ class GroupService {
   static Future<CoordinateModel?> onAddressGeocode(
       Map<String, dynamic> params) async {
     CoordinateModel? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(
       addressGeocodeApi,
       queryParameters: params,
@@ -371,7 +371,7 @@ class GroupService {
   // static Future<Set<Polyline>> onAddressDirection(
   //     Map<String, dynamic> params) async {
   //   Set<Polyline> list = {};
-  //   await BeeRequest.instance
+  //   await ApiConfig.instance
   //       .get(
   //     coordinateDirectionApi,
   //     queryParameters: params,
@@ -403,7 +403,7 @@ class GroupService {
   static Future<Map<String, dynamic>> onDayDelay(
       int id, Map<String, dynamic> params) async {
     Map<String, dynamic> result = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(
           groupDayDelayApi.replaceAll(':id', id.toString()),
           data: params,
@@ -421,7 +421,7 @@ class GroupService {
   static Future<Map<String, dynamic>> onGroupRemarkChange(
       int id, Map<String, dynamic> params) async {
     Map<String, dynamic> result = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(
           groupRemarkApi.replaceAll(':id', id.toString()),
           data: params,

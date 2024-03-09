@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/common/image_util.dart';
+import 'package:shop_app_client/common/image_util.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/views/components/indicator.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/views/components/indicator.dart';
 
 class ImgItem extends StatelessWidget {
   const ImgItem(this.image,
@@ -36,7 +36,7 @@ class ImgItem extends StatelessWidget {
           : Container(
               padding: EdgeInsets.symmetric(vertical: 10.h),
               alignment: Alignment.center,
-              color: holderColor ?? AppColors.textGrayC,
+              color: holderColor ?? AppStyles.textGrayC,
               child: const Indicator(),
             );
     } else {
@@ -51,7 +51,7 @@ class ImgItem extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10.h),
                     alignment: Alignment.center,
-                    color: holderColor ?? AppColors.textGrayC,
+                    color: holderColor ?? AppStyles.textGrayC,
                     child: const Indicator(),
                   )),
           errorWidget: (context, url, error) => holderImg != null
@@ -61,7 +61,7 @@ class ImgItem extends StatelessWidget {
               : Container(
                   padding: EdgeInsets.symmetric(vertical: 10.h),
                   alignment: Alignment.center,
-                  color: holderColor ?? AppColors.textGrayC,
+                  color: holderColor ?? AppStyles.textGrayC,
                   child: const Indicator(),
                 ),
           width: width,
@@ -98,7 +98,7 @@ class LoadAssetImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      ImageUtil.getImgPath(image, format: format),
+      ImgLoadConfig.getImgPath(image, format: format),
       height: height,
       width: width,
       fit: fit,

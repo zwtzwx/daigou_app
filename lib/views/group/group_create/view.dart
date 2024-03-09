@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
-import 'package:huanting_shop/views/components/input/input_text_item.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/group/group_create/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
+import 'package:shop_app_client/views/components/input/input_text_item.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/group/group_create/controller.dart';
 
 class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
   const BeeGroupCreateView({Key? key}) : super(key: key);
@@ -22,14 +22,14 @@ class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
       appBar: AppBar(
         centerTitle: true,
         title: AppText(
-          str: '发起拼团'.ts,
+          str: '发起拼团'.inte,
           fontSize: 17,
         ),
         backgroundColor: Colors.white,
         leading: const BackButton(color: Colors.black),
         elevation: 0.5,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15),
@@ -72,20 +72,20 @@ class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
                   radius: const Radius.circular(5),
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   borderType: BorderType.RRect,
-                  color: AppColors.groupText,
+                  color: AppStyles.groupText,
                   dashPattern: const [5, 2],
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Icon(
                         Icons.add_circle_outline,
-                        color: AppColors.groupText,
+                        color: AppStyles.groupText,
                       ),
                       AppGaps.hGap5,
                       AppText(
-                        str: '选择收件地址'.ts,
+                        str: '选择收件地址'.inte,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.groupText,
+                        color: AppStyles.groupText,
                       ),
                     ],
                   ),
@@ -121,9 +121,9 @@ class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
                           str: (controller.addressModel.value!.addressType == 1
                                   ? '送货上门'
                                   : '自提点')
-                              .ts,
+                              .inte,
                           fontSize: 12,
-                          color: AppColors.green,
+                          color: AppStyles.green,
                         ),
                       ),
                       GestureDetector(
@@ -217,7 +217,7 @@ class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
               focusNode: controller.nameNode,
               autoShowRemove: false,
               textAlign: TextAlign.right,
-              hintText: '请输入拼团名称'.ts,
+              hintText: '请输入拼团名称'.inte,
               maxLength: 30,
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 16, horizontal: 15),
@@ -233,11 +233,11 @@ class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
                   Obx(
                     () => AppText(
                       str: controller.lineModel.value == null
-                          ? '请选择'.ts
+                          ? '请选择'.inte
                           : controller.lineModel.value!.name,
                       color: controller.lineModel.value == null
-                          ? AppColors.textGray
-                          : AppColors.textBlack,
+                          ? AppStyles.textGray
+                          : AppStyles.textBlack,
                       lines: 2,
                     ),
                   ),
@@ -265,12 +265,12 @@ class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
                         children: [
                           AppText(
                             str: controller.warehoueModel.value == null
-                                ? '请选择'.ts
+                                ? '请选择'.inte
                                 : controller
                                     .warehoueModel.value!.warehouseName!,
                             color: controller.warehoueModel.value == null
-                                ? AppColors.textGray
-                                : AppColors.textBlack,
+                                ? AppStyles.textGray
+                                : AppStyles.textBlack,
                             lines: 2,
                           ),
                           const Padding(
@@ -361,7 +361,7 @@ class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
                   child: Obx(
                     () => Switch.adaptive(
                       value: controller.isPublicGroup.value,
-                      activeColor: AppColors.green,
+                      activeColor: AppStyles.green,
                       onChanged: (value) {
                         if (!controller.createPublic.value) {
                           controller.showToast('暂无权限');
@@ -408,19 +408,19 @@ class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
                 ? Icons.check_circle
                 : Icons.circle_outlined,
             color: controller.protocolAgree.value
-                ? AppColors.green
-                : AppColors.textGray,
+                ? AppStyles.green
+                : AppStyles.textGray,
           ),
           label: Text.rich(
             TextSpan(
-              style: const TextStyle(color: AppColors.textBlack),
+              style: const TextStyle(color: AppStyles.textBlack),
               children: [
                 TextSpan(
-                  text: '已查看并同意'.ts,
+                  text: '已查看并同意'.inte,
                 ),
                 TextSpan(
-                  text: '《${'拼团规则'.ts}》',
-                  style: const TextStyle(color: AppColors.groupText),
+                  text: '《${'拼团规则'.inte}》',
+                  style: const TextStyle(color: AppStyles.groupText),
                 ),
               ],
             ),
@@ -441,7 +441,7 @@ class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            str: '团长有话说'.ts,
+            str: '团长有话说'.inte,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -459,7 +459,7 @@ class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: AppColors.bgGray,
+                      color: AppStyles.bgGray,
                     ),
                     child: BaseInput(
                       board: true,
@@ -472,7 +472,7 @@ class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
                       textInputAction: TextInputAction.newline,
                       contentPadding:
                           const EdgeInsets.symmetric(horizontal: 10),
-                      hintText: '请输入团长的要求和团员们需要注意的事项，以便拼团顺利的进行'.ts,
+                      hintText: '请输入团长的要求和团员们需要注意的事项，以便拼团顺利的进行'.inte,
                     ),
                   ),
                 ),
@@ -494,7 +494,7 @@ class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
           width: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: AppColors.bgGray,
+            color: AppStyles.bgGray,
           ),
           child: controller.image.value == null
               ? Column(
@@ -505,8 +505,8 @@ class BeeGroupCreateView extends GetView<BeeGroupCreateController> {
                       width: 28,
                     ),
                     AppText(
-                      str: '上传图片'.ts,
-                      color: AppColors.textGrayC,
+                      str: '上传图片'.inte,
+                      color: AppStyles.textGrayC,
                     ),
                   ],
                 )

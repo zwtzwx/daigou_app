@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/shop/platform_center/platform_shop_center_controller.dart';
-import 'package:huanting_shop/views/shop/platform_center/widget/daigou_widget.dart';
-import 'package:huanting_shop/views/shop/platform_center/widget/self_shop_widget.dart';
-import 'package:huanting_shop/views/shop/widget/app_bar_bottom.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/shop/platform_center/platform_shop_center_controller.dart';
+import 'package:shop_app_client/views/shop/platform_center/widget/daigou_widget.dart';
+import 'package:shop_app_client/views/shop/platform_center/widget/self_shop_widget.dart';
+import 'package:shop_app_client/views/shop/widget/app_bar_bottom.dart';
 
 class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
   const PlatformShopCenterView({Key? key}) : super(key: key);
@@ -24,7 +24,7 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
       backgroundColor: Colors.white,
       body: RefreshIndicator(
         onRefresh: controller.handleRefresh,
-        color: AppColors.primary,
+        color: AppStyles.primary,
         child: Obx(
           () => ListView(
             shrinkWrap: true,
@@ -67,7 +67,7 @@ class PlatformShopCenterView extends GetView<PlatformShopCenterController> {
                   controller.platformType.value = index + 1;
                 },
                 child: AppText(
-                  str: list[index].ts,
+                  str: list[index].inte,
                   fontSize:
                       controller.platformType.value == index + 1 ? 18 : 16,
                   fontWeight: controller.platformType.value == index + 1

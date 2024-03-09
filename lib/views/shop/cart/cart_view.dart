@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/shop/cart_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/cart_goods_item.dart';
-import 'package:huanting_shop/views/components/goods/goods_list_cell.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/components/loading_cell.dart';
-import 'package:huanting_shop/views/components/skeleton/skeleton.dart';
-import 'package:huanting_shop/views/shop/cart/cart_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/shop/cart_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/cart_goods_item.dart';
+import 'package:shop_app_client/views/components/goods/goods_list_cell.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/components/loading_cell.dart';
+import 'package:shop_app_client/views/components/skeleton/skeleton.dart';
+import 'package:shop_app_client/views/shop/cart/cart_controller.dart';
 
 class CartView extends GetView<CartController> {
   const CartView({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class CartView extends GetView<CartController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       bottomSheet: Obx(() => controller.showCartList.isNotEmpty
           ? Container(
               padding: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 25.h),
@@ -43,7 +43,7 @@ class CartView extends GetView<CartController> {
                       child: Checkbox(
                         value: controller.allChecked.value,
                         shape: const CircleBorder(),
-                        activeColor: AppColors.primary,
+                        activeColor: AppStyles.primary,
                         onChanged: (value) {
                           controller.onAllCheck(value!);
                         },
@@ -53,7 +53,7 @@ class CartView extends GetView<CartController> {
                     Expanded(
                       child: Obx(
                         () => AppText(
-                          str: '全选'.ts,
+                          str: '全选'.inte,
                           fontSize: 14,
                         ),
                       ),
@@ -63,7 +63,7 @@ class CartView extends GetView<CartController> {
                             height: 30.h,
                             child: BeeButton(
                               backgroundColor: const Color(0xFFFFD8D8),
-                              textColor: AppColors.primary,
+                              textColor: AppStyles.primary,
                               text: '删除',
                               onPressed: () {
                                 controller.onCartDelete(context);
@@ -76,7 +76,7 @@ class CartView extends GetView<CartController> {
                                 () => Text.rich(
                                   TextSpan(
                                     style: TextStyle(
-                                      color: AppColors.textDark,
+                                      color: AppStyles.textDark,
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -88,9 +88,10 @@ class CartView extends GetView<CartController> {
                                       ),
                                       TextSpan(
                                         text: ' ' +
-                                            controller.totalCheckedPrice.rate(
-                                                needFormat: false,
-                                                showPriceSymbol: false),
+                                            controller.totalCheckedPrice
+                                                .priceConvert(
+                                                    needFormat: false,
+                                                    showPriceSymbol: false),
                                         style: TextStyle(
                                           fontSize: 16.sp,
                                         ),
@@ -118,7 +119,7 @@ class CartView extends GetView<CartController> {
             )
           : AppGaps.empty),
       body: RefreshIndicator(
-        color: AppColors.primary,
+        color: AppStyles.primary,
         onRefresh: controller.handleRefresh,
         child: ListView(
           shrinkWrap: true,
@@ -176,12 +177,12 @@ class CartView extends GetView<CartController> {
                           },
                           child: AppText(
                             str: controller.configState.value
-                                ? '退出管理'.ts
-                                : '管理'.ts,
+                                ? '退出管理'.inte
+                                : '管理'.inte,
                             fontSize: 14,
                             color: controller.configState.value
                                 ? const Color(0xFFFFA441)
-                                : AppColors.textDark,
+                                : AppStyles.textDark,
                           ),
                         ),
                       ],
@@ -218,10 +219,10 @@ class CartView extends GetView<CartController> {
         controller.getShowCartList();
       },
       child: AppText(
-        str: label.ts +
+        str: label.inte +
             '(${type == 1 ? controller.platformCartSkuNum : controller.cartSkuNum})',
         fontSize: 16,
-        color: AppColors.textDark,
+        color: AppStyles.textDark,
         fontWeight: controller.cartType.value == type
             ? FontWeight.bold
             : FontWeight.w500,
@@ -233,7 +234,6 @@ class CartView extends GetView<CartController> {
     return Container(
       padding: EdgeInsets.only(bottom: 20.h),
       width: double.infinity,
-      color: Colors.white,
       child: Column(
         children: [
           ImgItem(
@@ -244,9 +244,9 @@ class CartView extends GetView<CartController> {
           10.verticalSpace,
           Obx(
             () => AppText(
-              str: '购物车空空如也'.ts + '~',
+              str: '购物车空空如也'.inte + '~',
               fontSize: 12,
-              color: AppColors.textGrayC,
+              color: AppStyles.textGrayC,
             ),
           ),
         ],
@@ -263,7 +263,7 @@ class CartView extends GetView<CartController> {
           margin: EdgeInsets.symmetric(vertical: 15.h, horizontal: 14.w),
           child: Obx(
             () => AppText(
-              str: '推荐'.ts,
+              str: '推荐'.inte,
               fontWeight: FontWeight.bold,
             ),
           ),

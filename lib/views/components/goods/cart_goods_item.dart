@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
-import 'package:get/route_manager.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/models/shop/cart_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/shop/cart/cart_controller.dart';
-import 'package:huanting_shop/views/shop/goods_detail/goods_detail_binding.dart';
-import 'package:huanting_shop/views/shop/goods_detail/goods_detail_view.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/models/shop/cart_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/shop/cart/cart_controller.dart';
+import 'package:shop_app_client/views/shop/goods_detail/goods_detail_binding.dart';
+import 'package:shop_app_client/views/shop/goods_detail/goods_detail_view.dart';
 
 class BeeShopOrderGoodsItem extends StatelessWidget {
   const BeeShopOrderGoodsItem({
@@ -67,7 +65,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                             value: cartModel.skus
                                 .every((e) => checkedIds!.contains(e.id)),
                             shape: const CircleBorder(),
-                            activeColor: AppColors.primary,
+                            activeColor: AppStyles.primary,
                             onChanged: (value) {
                               if (onChecked != null) {
                                 onChecked!(
@@ -78,10 +76,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                     )
                   : AppGaps.empty,
               ImgItem(
-                cartModel.shopId.toString() == '-1'
-                    ? 'Shop/zy'
-                    : CommonMethods.getPlatformIcon(
-                        cartModel.skus.first.platform),
+                'Shop/shop',
                 width: 20.w,
               ),
               5.horizontalSpace,
@@ -95,7 +90,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                   ? AppText(
                       str: orderStatusName!,
                       fontSize: 14,
-                      color: AppColors.textGrayC9,
+                      color: AppStyles.textGrayC9,
                       alignment: TextAlign.right,
                     )
                   : AppGaps.empty,
@@ -107,7 +102,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
               onTap: goodsToDetail
                   ? () {
                       if (cartModel.shopId.toString() == '-1') {
-                        BeeNav.toPage(
+                        GlobalPages.toPage(
                           GoodsDetailView(goodsId: sku.goodsId.toString()),
                           arguments: {'id': sku.goodsId},
                           binding:
@@ -115,7 +110,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                           authCheck: true,
                         );
                       } else {
-                        BeeNav.toPage(
+                        GlobalPages.toPage(
                           GoodsDetailView(goodsId: sku.id.toString()),
                           arguments: {'url': sku.platformUrl},
                           binding: GoodsDetailBinding(tag: sku.id.toString()),
@@ -137,7 +132,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                               () => Checkbox(
                                   value: checkedIds!.contains(sku.id),
                                   shape: const CircleBorder(),
-                                  activeColor: AppColors.primary,
+                                  activeColor: AppStyles.primary,
                                   onChanged: (value) {
                                     if (onChecked != null) {
                                       onChecked!([sku.id]);
@@ -170,7 +165,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                               child: AppText(
                                 str: '${info['label']}：${info['value']}',
                                 fontSize: 12,
-                                color: AppColors.textGrayC9,
+                                color: AppStyles.textGrayC9,
                                 lines: 2,
                               ),
                             ),
@@ -184,7 +179,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                   TextSpan(
                                       style: TextStyle(
                                         fontSize: 14.sp,
-                                        color: AppColors.textDark,
+                                        color: AppStyles.textDark,
                                       ),
                                       children: [
                                         TextSpan(
@@ -192,16 +187,16 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                         ),
                                         TextSpan(
                                           text: ' ' +
-                                              (sku.price).rate(
+                                              (sku.price).priceConvert(
                                                 needFormat: false,
                                                 showPriceSymbol: false,
                                                 showInt: true,
                                               ),
                                           // text: previewMode
-                                          //     ? (sku.price).rate(
+                                          //     ? (sku.price).priceConvert(
                                           //         needFormat: false,
                                           //         showPriceSymbol: false)
-                                          //     : (sku.price).rate(
+                                          //     : (sku.price).priceConvert(
                                           //         needFormat: false,
                                           //         showPriceSymbol: false),
                                           style: TextStyle(
@@ -220,7 +215,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                   },
                                   child: Icon(
                                     Icons.remove_circle,
-                                    color: AppColors.primary,
+                                    color: AppStyles.primary,
                                     size: 20.sp,
                                   ),
                                 )
@@ -256,7 +251,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                                                 1)
                                                         ? const Color(
                                                             0xFFF0F0F0)
-                                                        : AppColors.primary,
+                                                        : AppStyles.primary,
                                                     child: Icon(
                                                       Icons.remove,
                                                       size: 14.sp,
@@ -294,7 +289,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                                     width: 24.w,
                                                     height: 24.w,
                                                     alignment: Alignment.center,
-                                                    color: AppColors.primary,
+                                                    color: AppStyles.primary,
                                                     child: Icon(
                                                       Icons.add,
                                                       size: 14.sp,

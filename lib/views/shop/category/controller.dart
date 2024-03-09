@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/models/goods_category_model.dart';
-import 'package:huanting_shop/services/goods_service.dart';
-import 'package:huanting_shop/services/shop_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/models/goods_category_model.dart';
+import 'package:shop_app_client/services/goods_service.dart';
+import 'package:shop_app_client/services/shop_service.dart';
 
-class GoodsCategoryController extends GlobalLogic {
+class GoodsCategoryController extends GlobalController {
   final categories = <GoodsCategoryModel>[].obs;
   final topCategory = Rxn<GoodsCategoryModel?>();
   final isLoading = true.obs;

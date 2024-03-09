@@ -1,7 +1,7 @@
-import 'package:huanting_shop/exceptions/bad_request_exception.dart';
-import 'package:huanting_shop/exceptions/bad_response_exception.dart';
-import 'package:huanting_shop/exceptions/http_exception.dart';
-import 'package:huanting_shop/exceptions/unknown_exception.dart';
+import 'package:shop_app_client/exceptions/bad_request_exception.dart';
+import 'package:shop_app_client/exceptions/bad_response_exception.dart';
+import 'package:shop_app_client/exceptions/http_exception.dart';
+import 'package:shop_app_client/exceptions/unknown_exception.dart';
 
 class HttpResponse {
   late bool ok;

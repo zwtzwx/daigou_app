@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/ad_cell.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/goods_list_cell.dart';
-import 'package:huanting_shop/views/components/goods/search_input.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/components/loading_cell.dart';
-import 'package:huanting_shop/views/components/skeleton/skeleton.dart';
-import 'package:huanting_shop/views/home/widget/title_cell.dart';
-import 'package:huanting_shop/views/shop/center/shop_center_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/ad_cell.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/goods_list_cell.dart';
+import 'package:shop_app_client/views/components/goods/search_input.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/components/loading_cell.dart';
+import 'package:shop_app_client/views/components/skeleton/skeleton.dart';
+import 'package:shop_app_client/views/home/widget/title_cell.dart';
+import 'package:shop_app_client/views/shop/center/shop_center_controller.dart';
 
 class ShopCenterView extends GetView<ShopCenterController> {
   const ShopCenterView({Key? key}) : super(key: key);
@@ -24,12 +24,12 @@ class ShopCenterView extends GetView<ShopCenterController> {
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.white,
         title: AppText(
-          str: '自营商城'.ts,
+          str: '自营商城'.inte,
           fontSize: 18,
         ),
         elevation: 0,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: RefreshIndicator(
         onRefresh: controller.handleRefresh,
         child: ListView(
@@ -40,7 +40,7 @@ class ShopCenterView extends GetView<ShopCenterController> {
             Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.white, AppColors.bgGray],
+                  colors: [Colors.white, AppStyles.bgGray],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   stops: [0.2, 0.4],

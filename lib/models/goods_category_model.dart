@@ -1,8 +1,8 @@
 /*
   货物分类
  */
-import 'package:huanting_shop/config/app_config.dart';
-import 'package:huanting_shop/models/goods_props.dart';
+import 'package:shop_app_client/config/app_config.dart';
+import 'package:shop_app_client/models/goods_props.dart';
 
 class GoodsCategoryModel {
   late int id;
@@ -57,7 +57,7 @@ class GoodsCategoryModel {
     }
     if (json['img'] is String) {
       if (json['img'].startsWith('/')) {
-        image = AppConfig.getImageApi() + json['img'];
+        image = BaseUrls.getImageApi() + json['img'];
       } else {
         image = json['img'];
       }

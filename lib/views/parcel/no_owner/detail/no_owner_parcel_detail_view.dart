@@ -3,17 +3,17 @@
  */
 
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/input_text_item.dart';
-import 'package:huanting_shop/views/components/input/normal_input.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/input_text_item.dart';
+import 'package:shop_app_client/views/components/input/normal_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/views/parcel/no_owner/detail/no_owner_parcel_detail_controller.dart';
+import 'package:shop_app_client/views/parcel/no_owner/detail/no_owner_parcel_detail_controller.dart';
 
 class BeeParcelClaimPage extends GetView<BeeParcelClaimLogic> {
   const BeeParcelClaimPage({Key? key}) : super(key: key);
@@ -27,12 +27,12 @@ class BeeParcelClaimPage extends GetView<BeeParcelClaimLogic> {
         elevation: 0.1,
         centerTitle: true,
         title: AppText(
-          str: '异常件认领'.ts,
+          str: '异常件认领'.inte,
           fontSize: 17,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       bottomNavigationBar: SafeArea(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -63,7 +63,7 @@ class BeeParcelClaimPage extends GetView<BeeParcelClaimLogic> {
             leftFlex: 3,
             rightFlex: 8,
             flag: false,
-            title: '快递单号'.ts,
+            title: '快递单号'.inte,
             inputText: Container(
               alignment: Alignment.center,
               child: Row(
@@ -76,7 +76,7 @@ class BeeParcelClaimPage extends GetView<BeeParcelClaimLogic> {
                   10.horizontalSpace,
                   Expanded(
                       child: NormalInput(
-                    hintText: '请输入中间单号'.ts,
+                    hintText: '请输入中间单号'.inte,
                     contentPadding: const EdgeInsets.only(top: 0),
                     textAlign: TextAlign.left,
                     controller: controller.projectNameController,
@@ -111,7 +111,7 @@ class BeeParcelClaimPage extends GetView<BeeParcelClaimLogic> {
                       width: 100,
                       child: Switch.adaptive(
                         value: controller.flag.value,
-                        activeColor: AppColors.primary,
+                        activeColor: AppStyles.primary,
                         onChanged: (value) {
                           controller.flag.value = value;
                         },
@@ -154,14 +154,14 @@ class BeeParcelClaimPage extends GetView<BeeParcelClaimLogic> {
                                             controller
                                                 .syncsList[index].expressNum!,
                                             style: const TextStyle(
-                                                color: AppColors.textDark)),
+                                                color: AppStyles.textDark)),
                                       ],
                                     ),
                                   ),
                                   onTap: () {
                                     controller.syncsListFirstParcel.value =
                                         controller.syncsList[index];
-                                    BeeNav.pop();
+                                    GlobalPages.pop();
                                   },
                                 );
                               },
@@ -172,7 +172,7 @@ class BeeParcelClaimPage extends GetView<BeeParcelClaimLogic> {
                   child: Container(
                     color: Colors.white,
                     child: InputTextItem(
-                      title: '同步包裹'.ts,
+                      title: '同步包裹'.inte,
                       inputText: Container(
                         alignment: Alignment.center,
                         margin: const EdgeInsets.only(left: 11),

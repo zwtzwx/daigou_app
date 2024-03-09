@@ -1,13 +1,13 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/warehouse/warehouse_controller.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/warehouse/warehouse_controller.dart';
 
 /*
   仓库地址
@@ -25,10 +25,10 @@ class BeeCangKuPage extends GetView<BeeCangKuLogic> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: AppText(
-          str: '仓库地址'.ts,
+          str: '仓库地址'.inte,
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: ListView.builder(
         itemCount: 2,
         itemBuilder: buildListItem,
@@ -47,7 +47,7 @@ class BeeCangKuPage extends GetView<BeeCangKuLogic> {
   Widget bannerCell() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-      color: AppColors.warningText,
+      color: AppStyles.warningText,
       child: Row(
         children: [
           const Icon(
@@ -57,7 +57,7 @@ class BeeCangKuPage extends GetView<BeeCangKuLogic> {
           AppGaps.hGap5,
           Expanded(
             child: AppText(
-              str: '收件人后面的字母和数字是您的唯一标识快递单务必填写'.ts,
+              str: '收件人后面的字母和数字是您的唯一标识快递单务必填写'.inte,
               color: Colors.white,
               fontSize: 13,
               lines: 2,
@@ -99,11 +99,11 @@ class BeeCangKuPage extends GetView<BeeCangKuLogic> {
       '免费仓储',
     ];
 
-    String storeStr = '无限制'.ts;
+    String storeStr = '无限制'.inte;
     if (model.freeStoreDays != null && model.freeStoreDays! > 0) {
       String storeFee = (model.storeFee! / 100).toStringAsFixed(2);
       storeStr = '免费仓储{day}天超期收费{fee}/天'
-          .tsArgs({'day': model.freeStoreDays, 'fee': storeFee});
+          .inArgs({'day': model.freeStoreDays, 'fee': storeFee});
     }
     List<String> contents = [
       model.receiverName!,
@@ -119,7 +119,7 @@ class BeeCangKuPage extends GetView<BeeCangKuLogic> {
         decoration: const BoxDecoration(
           color: Colors.white,
           border: Border(
-            bottom: BorderSide(color: AppColors.line),
+            bottom: BorderSide(color: AppStyles.line),
           ),
         ),
         child: Row(
@@ -127,8 +127,8 @@ class BeeCangKuPage extends GetView<BeeCangKuLogic> {
             SizedBox(
               width: 100,
               child: AppText(
-                str: labels[i].ts,
-                color: AppColors.textGrayC9,
+                str: labels[i].inte,
+                color: AppStyles.textGrayC9,
                 fontSize: 14,
                 lines: 3,
               ),
@@ -182,7 +182,7 @@ class BeeCangKuPage extends GetView<BeeCangKuLogic> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText(
-                str: '温馨提示'.ts + '：',
+                str: '温馨提示'.inte + '：',
                 fontSize: 12,
               ),
               AppGaps.vGap5,
@@ -197,7 +197,7 @@ class BeeCangKuPage extends GetView<BeeCangKuLogic> {
         Container(
           margin: const EdgeInsets.all(15),
           height: 50,
-          color: AppColors.bgGray,
+          color: AppStyles.bgGray,
           child: BeeButton(
             text: '一键复制仓库地址',
             onPressed: () {

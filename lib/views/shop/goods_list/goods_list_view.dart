@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/goods_item.dart';
-import 'package:huanting_shop/views/components/goods/search_input.dart';
-import 'package:huanting_shop/views/components/loading_cell.dart';
-import 'package:huanting_shop/views/shop/goods_list/goods_list_controller.dart';
-import 'package:huanting_shop/views/shop/widget/sliver_header_delegate.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/goods_item.dart';
+import 'package:shop_app_client/views/components/goods/search_input.dart';
+import 'package:shop_app_client/views/components/loading_cell.dart';
+import 'package:shop_app_client/views/shop/goods_list/goods_list_controller.dart';
+import 'package:shop_app_client/views/shop/widget/sliver_header_delegate.dart';
 
 class GoodsListView extends GetView<GoodsListController> {
   const GoodsListView({Key? key}) : super(key: key);
@@ -16,13 +16,13 @@ class GoodsListView extends GetView<GoodsListController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       appBar: AppBar(
         centerTitle: true,
         leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.white,
         title: AppText(
-          str: '自营商城'.ts,
+          str: '自营商城'.inte,
           fontSize: 18,
         ),
         elevation: 0,
@@ -131,21 +131,21 @@ class GoodsListView extends GetView<GoodsListController> {
                                           controller.categoryId.value == e.id
                                               ? BorderSide(
                                                   width: 3.h,
-                                                  color: AppColors.primary,
+                                                  color: AppStyles.primary,
                                                 )
                                               : BorderSide.none,
                                     ),
                                   ),
                                   child: AppText(
-                                    str: index == 0 ? e.name.ts : e.name,
+                                    str: index == 0 ? e.name.inte : e.name,
                                     fontSize: 16,
                                     fontWeight:
                                         controller.categoryId.value == e.id
                                             ? FontWeight.bold
                                             : FontWeight.normal,
                                     color: controller.categoryId.value == e.id
-                                        ? AppColors.textDark
-                                        : AppColors.textGrayC9,
+                                        ? AppStyles.textDark
+                                        : AppStyles.textGrayC9,
                                   ),
                                 ),
                               ),
@@ -176,10 +176,10 @@ class GoodsListView extends GetView<GoodsListController> {
             children: [
               Obx(
                 () => AppText(
-                  str: label.ts,
+                  str: label.inte,
                   color: controller.orderBy.value == value
-                      ? AppColors.textDark
-                      : AppColors.textGrayC9,
+                      ? AppStyles.textDark
+                      : AppStyles.textGrayC9,
                 ),
               ),
               Obx(
@@ -194,8 +194,8 @@ class GoodsListView extends GetView<GoodsListController> {
                       child: Icon(
                         Icons.arrow_drop_up_sharp,
                         color: controller.sortType.value == 'asc'
-                            ? AppColors.textDark
-                            : AppColors.textGrayC9,
+                            ? AppStyles.textDark
+                            : AppStyles.textGrayC9,
                         size: 25,
                       ),
                     ),
@@ -204,8 +204,8 @@ class GoodsListView extends GetView<GoodsListController> {
                       child: Icon(
                         Icons.arrow_drop_down_sharp,
                         color: controller.sortType.value == 'desc'
-                            ? AppColors.textDark
-                            : AppColors.textGrayC9,
+                            ? AppStyles.textDark
+                            : AppStyles.textGrayC9,
                         size: 25,
                       ),
                     ),
@@ -223,10 +223,10 @@ class GoodsListView extends GetView<GoodsListController> {
       },
       child: Obx(
         () => AppText(
-          str: label.ts,
+          str: label.inte,
           color: controller.orderBy.value == value
-              ? AppColors.textDark
-              : AppColors.textGrayC9,
+              ? AppStyles.textDark
+              : AppStyles.textGrayC9,
         ),
       ),
     );

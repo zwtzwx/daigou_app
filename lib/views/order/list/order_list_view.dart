@@ -1,10 +1,10 @@
 import 'package:get/instance_manager.dart';
-import 'package:huanting_shop/models/order_model.dart';
-import 'package:huanting_shop/services/order_service.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
+import 'package:shop_app_client/models/order_model.dart';
+import 'package:shop_app_client/services/order_service.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/views/order/center/order_center_controller.dart';
-import 'package:huanting_shop/views/order/widget/order_item_cell.dart';
+import 'package:shop_app_client/views/order/center/order_center_controller.dart';
+import 'package:shop_app_client/views/order/widget/order_item_cell.dart';
 
 /*
   订单列表

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/list_refresh_event.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/services/parcel_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/list_refresh_event.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/services/parcel_service.dart';
 
-class AbnomalParcelLogic extends GlobalLogic {
+class AbnomalParcelLogic extends GlobalController {
   String keyword = '';
   final FocusNode focusNode = FocusNode();
   int pageIndex = 0;
@@ -34,7 +34,8 @@ class AbnomalParcelLogic extends GlobalLogic {
   }
 
   void toDetail(ParcelModel model) async {
-    var s = await BeeNav.push(BeeNav.noOwnerDetail, arg: {'order': model});
+    var s = await GlobalPages.push(GlobalPages.noOwnerDetail,
+        arg: {'order': model});
     if (s == 'success') {
       ApplicationEvent.getInstance()
           .event

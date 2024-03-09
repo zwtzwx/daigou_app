@@ -2,21 +2,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/ad_cell.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/contact_cell.dart';
-import 'package:huanting_shop/views/components/goods/goods_list_cell.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/components/loading_cell.dart';
-import 'package:huanting_shop/views/home/home_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/ad_cell.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/contact_cell.dart';
+import 'package:shop_app_client/views/components/goods/goods_list_cell.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/components/loading_cell.dart';
+import 'package:shop_app_client/views/home/home_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/views/home/widget/header.dart';
-import 'package:huanting_shop/views/home/widget/notice_widget.dart';
-import 'package:huanting_shop/views/shop/platform_goods/platform_goods_binding.dart';
-import 'package:huanting_shop/views/shop/platform_goods/platform_goods_list_view.dart';
+import 'package:shop_app_client/views/home/widget/header.dart';
+import 'package:shop_app_client/views/home/widget/notice_widget.dart';
+import 'package:shop_app_client/views/shop/platform_goods/platform_goods_binding.dart';
+import 'package:shop_app_client/views/shop/platform_goods/platform_goods_list_view.dart';
 
 class IndexPage extends GetView<IndexLogic> {
   const IndexPage({Key? key}) : super(key: key);
@@ -38,7 +38,7 @@ class IndexPage extends GetView<IndexLogic> {
                 constraints: BoxConstraints(minHeight: 1.sh),
                 child: RefreshIndicator(
                   onRefresh: controller.handleRefresh,
-                  color: AppColors.primary,
+                  color: AppStyles.primary,
                   child: ListView(
                     shrinkWrap: true,
                     controller: controller.loadingUtil.value.scrollController,
@@ -52,7 +52,7 @@ class IndexPage extends GetView<IndexLogic> {
                         padding: EdgeInsets.symmetric(horizontal: 14.w),
                         child: Obx(
                           () => AppText(
-                            str: '大家在看什么'.ts,
+                            str: '大家在看什么'.inte,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
@@ -114,7 +114,7 @@ class IndexPage extends GetView<IndexLogic> {
               Expanded(
                 child: Obx(
                   () => AppText(
-                    str: '精选分类'.ts,
+                    str: '精选分类'.inte,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
@@ -123,12 +123,12 @@ class IndexPage extends GetView<IndexLogic> {
               Obx(
                 () => GestureDetector(
                   onTap: () {
-                    BeeNav.push(BeeNav.goodsCategory);
+                    GlobalPages.push(GlobalPages.goodsCategory);
                   },
                   child: AppText(
-                    str: '查看全部'.ts,
+                    str: '查看全部'.inte,
                     fontSize: 14,
-                    color: AppColors.textNormal,
+                    color: AppStyles.textNormal,
                   ),
                 ),
               ),
@@ -136,7 +136,7 @@ class IndexPage extends GetView<IndexLogic> {
               Icon(
                 Icons.arrow_forward_ios,
                 size: 13.sp,
-                color: AppColors.textNormal,
+                color: AppStyles.textNormal,
               ),
             ],
           ),
@@ -155,7 +155,7 @@ class IndexPage extends GetView<IndexLogic> {
                         arguments: {
                           'keyword': controller.categoryList[index].nameCn,
                           'origin': controller.categoryList[index].name,
-                          'hideSearch': true,
+                          // 'hideSearch': true,
                         },
                         binding: PlatformGoodsBinding(
                             tag: controller.categoryList[index].name));
@@ -203,22 +203,22 @@ class IndexPage extends GetView<IndexLogic> {
       {
         'label': '新手指引',
         'icon': 'Home/ico_xszy',
-        'route': BeeNav.guide,
+        'route': GlobalPages.guide,
       },
       {
         'label': '运费估算',
         'icon': 'Home/ico_yfgs',
-        'route': BeeNav.lineQuery,
+        'route': GlobalPages.lineQuery,
       },
       {
         'label': '推广联盟',
         'icon': 'Home/ico_tglm',
-        'route': BeeNav.agentApplyInstruct,
+        'route': GlobalPages.agentApplyInstruct,
       },
       {
         'label': '提交转运',
         'icon': 'Home/ico_zydd',
-        'route': BeeNav.orderCenter,
+        'route': GlobalPages.orderCenter,
         'params': 1
       },
     ];
@@ -232,11 +232,11 @@ class IndexPage extends GetView<IndexLogic> {
               (e) => Flexible(
                 child: GestureDetector(
                   onTap: () {
-                    if (e['route'] == BeeNav.agentApplyInstruct &&
+                    if (e['route'] == GlobalPages.agentApplyInstruct &&
                         controller.agentStatus.value == 1) {
-                      BeeNav.push(BeeNav.agentCenter);
+                      GlobalPages.push(GlobalPages.agentCenter);
                     } else {
-                      BeeNav.push(e['route']!, arg: e['params']);
+                      GlobalPages.push(e['route']!, arg: e['params']);
                     }
                   },
                   child: Container(
@@ -251,7 +251,7 @@ class IndexPage extends GetView<IndexLogic> {
                         5.verticalSpaceFromWidth,
                         Obx(
                           () => AppText(
-                            str: (e['label']! as String).ts,
+                            str: (e['label']! as String).inte,
                             fontSize: 12,
                           ),
                         ),

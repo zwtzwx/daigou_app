@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/models/shop/platform_goods_service_model.dart';
+import 'package:shop_app_client/models/shop/platform_goods_service_model.dart';
 
 class CartModel {
   dynamic shopId;
@@ -100,7 +100,9 @@ class CartSkuInfoModel {
       picUrl = 'https:$picUrl';
     }
     qty = json['qty'] is String ? int.parse(json['qty']) : (json['qty'] ?? 1);
-    price = json['price'] ?? 0;
+    price = json['price'] is String
+        ? num.parse(json['price'])
+        : (json['price'] ?? 0);
     minOrderQuantity = json['min_order_quantity'];
     batchNumber = json['batch_number'];
     shopName = json['shop_name'];

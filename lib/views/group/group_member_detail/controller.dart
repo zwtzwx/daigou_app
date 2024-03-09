@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/models/group_model.dart';
-import 'package:huanting_shop/services/group_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/models/group_model.dart';
+import 'package:shop_app_client/services/group_service.dart';
 
-class BeeGroupUsersController extends GlobalLogic {
+class BeeGroupUsersController extends GlobalController {
   final groupModel = Rxn<GroupModel?>();
 
   @override

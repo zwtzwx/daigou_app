@@ -4,13 +4,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/shop/platform_goods/platform_goods_binding.dart';
-import 'package:huanting_shop/views/shop/platform_goods/platform_goods_list_view.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/shop/platform_goods/platform_goods_binding.dart';
+import 'package:shop_app_client/views/shop/platform_goods/platform_goods_list_view.dart';
 
 class SearchCell extends StatefulWidget {
   const SearchCell({
@@ -49,7 +49,7 @@ class _SearchCellState extends State<SearchCell> {
 
   void onConfirm(BuildContext context, String value) {
     if (value.trim().isEmpty && widget.needCheck) {
-      EasyLoading.showToast('请输入搜索内容'.ts);
+      EasyLoading.showToast('请输入搜索内容'.inte);
       return;
     }
     focusNode.unfocus();
@@ -68,7 +68,7 @@ class _SearchCellState extends State<SearchCell> {
   void onPhotoSearch() async {
     var cameras = await availableCameras();
     if (cameras.isNotEmpty) {
-      BeeNav.push(BeeNav.imageSearch, arg: {'device': cameras.first});
+      GlobalPages.push(GlobalPages.imageSearch, arg: {'device': cameras.first});
     }
   }
 
@@ -79,7 +79,7 @@ class _SearchCellState extends State<SearchCell> {
       clipBehavior: Clip.none,
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       decoration: BoxDecoration(
-        color: AppColors.bgGray,
+        color: AppStyles.bgGray,
         borderRadius: BorderRadius.circular(14.r),
       ),
       child: Row(
@@ -95,9 +95,9 @@ class _SearchCellState extends State<SearchCell> {
                 maxLength: 50,
                 textInputAction: TextInputAction.search,
                 hintStyle:
-                    TextStyle(fontSize: 12.sp, color: AppColors.textGrayC9),
+                    TextStyle(fontSize: 12.sp, color: AppStyles.textGrayC9),
                 contentPadding: EdgeInsets.symmetric(vertical: 10.h),
-                hintText: widget.hintText.ts,
+                hintText: widget.hintText.inte,
                 onSubmitted: (value) {
                   onConfirm(context, value);
                 },
@@ -111,7 +111,7 @@ class _SearchCellState extends State<SearchCell> {
               child: Icon(
                 Icons.photo_camera_outlined,
                 size: 25.sp,
-                color: AppColors.textNormal,
+                color: AppStyles.textNormal,
               ),
             ),
           ],

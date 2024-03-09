@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/home/home_page.dart';
-import 'package:huanting_shop/views/tabbar/tabbar_controller.dart';
-import 'package:huanting_shop/views/user/me/me_page.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/home/home_page.dart';
+import 'package:shop_app_client/views/tabbar/tabbar_controller.dart';
+import 'package:shop_app_client/views/user/me/me_page.dart';
 
-class BeeBottomNavPage extends GetView<BeeBottomNavLogic> {
-  const BeeBottomNavPage({Key? key}) : super(key: key);
+class TabbarScrren extends GetView<TabbarManager> {
+  const TabbarScrren({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +40,8 @@ class BeeBottomNavPage extends GetView<BeeBottomNavLogic> {
               elevation: 0,
               type: BottomNavigationBarType.fixed,
               onTap: controller.onTap,
-              selectedItemColor: AppColors.textDark,
-              unselectedItemColor: AppColors.textGrayC9,
+              selectedItemColor: AppStyles.textDark,
+              unselectedItemColor: AppStyles.textGrayC9,
               currentIndex: controller.selectIndex.value,
               backgroundColor: Colors.white,
               selectedFontSize: 12,
@@ -54,8 +54,8 @@ class BeeBottomNavPage extends GetView<BeeBottomNavLogic> {
                   ),
                   label: (controller.selectIndex.value == 0 &&
                           controller.showToTopIcon.value)
-                      ? '回顶部'.ts
-                      : '首页'.ts,
+                      ? '回顶部'.inte
+                      : '首页'.inte,
                   activeIcon: Image.asset(
                     'assets/images/TabbarIcon/${controller.selectIndex.value == 0 && controller.showToTopIcon.value ? 'ico_botton_db' : 'home_sel'}.png',
                     width: 26.w,
@@ -68,7 +68,7 @@ class BeeBottomNavPage extends GetView<BeeBottomNavLogic> {
                     width: 26.w,
                     height: 26.w,
                   ),
-                  label: '个人中心'.ts,
+                  label: '个人中心'.inte,
                   activeIcon: Image.asset(
                     'assets/images/TabbarIcon/my_sel.png',
                     width: 26.w,

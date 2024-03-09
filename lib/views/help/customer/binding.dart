@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/views/help/customer/controller.dart';
+import 'package:shop_app_client/views/help/customer/controller.dart';
 
 class CustomerBinding extends Bindings {
   @override

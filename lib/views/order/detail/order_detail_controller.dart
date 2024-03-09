@@ -1,15 +1,15 @@
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/list_refresh_event.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/models/order_model.dart';
-import 'package:huanting_shop/services/order_service.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/list_refresh_event.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/models/order_model.dart';
+import 'package:shop_app_client/services/order_service.dart';
 
-class BeeOrderLogic extends GlobalLogic {
+class BeeOrderLogic extends GlobalController {
   final model = Rxn<OrderModel?>();
   late int orderId;
   final isLoading = false.obs;
@@ -31,7 +31,7 @@ class BeeOrderLogic extends GlobalLogic {
     if (data != null) {
       model.value = data;
       statusStr.value =
-          CommonMethods.getOrderStatusName(data.status, data.stationOrder);
+          BaseUtils.getOrderStatusName(data.status, data.stationOrder);
       isLoading.value = true;
     }
   }
@@ -49,7 +49,8 @@ class BeeOrderLogic extends GlobalLogic {
   }
 
   void onComment() async {
-    var s = await BeeNav.push(BeeNav.orderComment, arg: {'order': model.value});
+    var s = await GlobalPages.push(GlobalPages.orderComment,
+        arg: {'order': model.value});
     if (s == 'success') {
       getOrderDetail();
     }
@@ -63,6 +64,6 @@ class BeeOrderLogic extends GlobalLogic {
   }
 
   String getPriceStr(num? price) {
-    return (price ?? 0).rate();
+    return (price ?? 0).priceConvert();
   }
 }

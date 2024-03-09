@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/localization_model.dart';
-import 'package:huanting_shop/models/user_coupon_model.dart';
-import 'package:huanting_shop/services/coupon_service.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
-import 'package:huanting_shop/views/user/coupon/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/localization_model.dart';
+import 'package:shop_app_client/models/user_coupon_model.dart';
+import 'package:shop_app_client/services/coupon_service.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
+import 'package:shop_app_client/views/user/coupon/controller.dart';
 
 class CouponPage extends GetView<CouponController> {
   const CouponPage({Key? key}) : super(key: key);
@@ -25,12 +25,12 @@ class CouponPage extends GetView<CouponController> {
         elevation: 0,
         centerTitle: true,
         title: AppText(
-          str: '优惠券'.ts,
+          str: '优惠券'.inte,
           fontSize: 17,
         ),
         bottom: TabBar(
-            labelColor: AppColors.primary,
-            indicatorColor: AppColors.primary,
+            labelColor: AppStyles.primary,
+            indicatorColor: AppStyles.primary,
             controller: controller.tabController,
             onTap: (int index) {
               controller.pageController.jumpToPage(index);
@@ -39,13 +39,13 @@ class CouponPage extends GetView<CouponController> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: AppText(
-                  str: '可用'.ts,
+                  str: '可用'.inte,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: AppText(
-                  str: '不可用'.ts,
+                  str: '不可用'.inte,
                 ),
               ),
             ]),
@@ -53,15 +53,15 @@ class CouponPage extends GetView<CouponController> {
       bottomNavigationBar: Obx(
         () => controller.canSelect.value
             ? Container(
-                color: AppColors.white,
+                color: AppStyles.white,
                 padding: const EdgeInsets.only(right: 20, top: 10, bottom: 10),
                 child: SafeArea(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      AppText(str: '可抵扣'.ts + '：'),
+                      AppText(str: '可抵扣'.inte + '：'),
                       AppText(
-                          color: AppColors.textRed,
+                          color: AppStyles.textRed,
                           str: controller.selectCoupon.value?.coupon
                                       ?.discountType ==
                                   2
@@ -74,14 +74,14 @@ class CouponPage extends GetView<CouponController> {
                               : (controller
                                           .selectCoupon.value?.coupon?.amount ??
                                       0)
-                                  .rate()),
+                                  .priceConvert()),
                       10.horizontalSpace,
                       SizedBox(
                         height: 30.h,
                         child: BeeButton(
                           text: '确认',
                           onPressed: () {
-                            BeeNav.pop({
+                            GlobalPages.pop({
                               'confirm': true,
                               'selectCoupon': controller.selectCoupon.value,
                             });
@@ -94,7 +94,7 @@ class CouponPage extends GetView<CouponController> {
               )
             : AppGaps.empty,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: PageView.builder(
           itemCount: 2,
           controller: controller.pageController,
@@ -235,7 +235,7 @@ class CouponsListState extends State<CouponsList> {
                                           TextSpan(
                                             text: ((model.coupon?.weight ?? 0) /
                                                     1000)
-                                                .rate(
+                                                .priceConvert(
                                               showInt: true,
                                               showPriceSymbol: false,
                                               needFormat: false,
@@ -271,7 +271,7 @@ class CouponsListState extends State<CouponsList> {
                                             ),
                                             TextSpan(
                                               text: (model.coupon?.amount ?? 0)
-                                                  .rate(
+                                                  .priceConvert(
                                                       showInt: true,
                                                       showPriceSymbol: false),
                                             ),
@@ -283,29 +283,29 @@ class CouponsListState extends State<CouponsList> {
                                     minHeight: 30.h,
                                   ),
                                   child: AppText(
-                                    str: '满{price}可用'.tsArgs({
+                                    str: '满{price}可用'.inArgs({
                                       'price': model.coupon?.discountType == 2
                                           ? ((model.coupon?.minWeight ?? 0) /
                                                       1000)
-                                                  .rate(
+                                                  .priceConvert(
                                                       showInt: true,
                                                       showPriceSymbol: false,
                                                       needFormat: false) +
                                               (localizationInfo?.weightSymbol ??
                                                   '')
                                           : (model.coupon?.threshold ?? 0)
-                                              .rate()
+                                              .priceConvert()
                                     }),
-                                    color: AppColors.white,
+                                    color: AppStyles.white,
                                     fontSize: 12,
                                   ),
                                 ),
                                 10.verticalSpaceFromWidth,
                                 AppText(
                                   str: model.coupon?.discountType == 0
-                                      ? '抵现券'.ts
-                                      : '抵重券'.ts,
-                                  color: AppColors.white,
+                                      ? '抵现券'.inte
+                                      : '抵重券'.inte,
+                                  color: AppStyles.white,
                                   fontSize: 14,
                                 ),
                                 8.verticalSpaceFromWidth,
@@ -339,11 +339,11 @@ class CouponsListState extends State<CouponsList> {
                             ),
                             5.verticalSpaceFromWidth,
                             AppText(
-                              str: '适用范围'.ts +
+                              str: '适用范围'.inte +
                                   '：' +
                                   ((model.coupon?.scope ?? 0) == 1
-                                      ? '部分线路'.ts
-                                      : '全部范围'.ts),
+                                      ? '部分线路'.inte
+                                      : '全部范围'.inte),
                               fontSize: 12,
                               lines: 2,
                               // fontWeight: FontWeight.bold,
@@ -377,7 +377,7 @@ class CouponsListState extends State<CouponsList> {
                             .map((e) => e['name'])
                             .join(',') ??
                         ''
-                    : '全部范围'.ts),
+                    : '全部范围'.inte),
                 fontSize: 12,
                 lines: 10,
                 // fontWeight: FontWeight.bold,
@@ -385,7 +385,7 @@ class CouponsListState extends State<CouponsList> {
               5.verticalSpace,
               (model.remark ?? '').isNotEmpty
                   ? AppText(
-                      str: '说明'.ts + '：' + model.remark!,
+                      str: '说明'.inte + '：' + model.remark!,
                       fontSize: 12,
                       lines: 5,
                       // fontWeight: FontWeight.bold,

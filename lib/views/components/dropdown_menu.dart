@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/button/plain_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/button/plain_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
 class PlatformDropdownMenu extends StatefulWidget {
   const PlatformDropdownMenu({
@@ -81,7 +81,7 @@ class _PlatformDropdownMenuState extends State<PlatformDropdownMenu> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            str: '购买平台'.ts,
+            str: '购买平台'.inte,
             fontSize: 14,
           ),
           10.verticalSpace,
@@ -102,14 +102,14 @@ class _PlatformDropdownMenuState extends State<PlatformDropdownMenu> {
                       decoration: BoxDecoration(
                           color: platform == e['value']
                               ? const Color(0xFFFFF8D4)
-                              : AppColors.bgGray,
+                              : AppStyles.bgGray,
                           borderRadius: BorderRadius.circular(999)),
                       child: AppText(
-                        str: e['name']!.ts,
+                        str: e['name']!.inte,
                         fontSize: 14,
                         color: platform == e['value']
                             ? Colors.black
-                            : AppColors.textGrayC9,
+                            : AppStyles.textGrayC9,
                       ),
                     ),
                   ),
@@ -125,8 +125,8 @@ class _PlatformDropdownMenuState extends State<PlatformDropdownMenu> {
                 Expanded(
                     child: HollowButton(
                   text: '取消',
-                  textColor: AppColors.textGray,
-                  borderColor: AppColors.textGray,
+                  textColor: AppStyles.textGray,
+                  borderColor: AppStyles.textGray,
                   onPressed: () {
                     widget.onHide();
                   },

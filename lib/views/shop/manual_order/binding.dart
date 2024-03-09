@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/views/shop/manual_order/controller.dart';
+import 'package:shop_app_client/views/shop/manual_order/controller.dart';
 
 class ManualOrderBinding extends Bindings {
   @override

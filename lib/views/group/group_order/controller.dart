@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/services/group_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/services/group_service.dart';
 
-class GroupOrderController extends GlobalLogic
+class GroupOrderController extends GlobalController
     with GetSingleTickerProviderStateMixin {
   late TabController tabController;
   final PageController pageController = PageController();

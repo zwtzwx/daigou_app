@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/shop/problem_order/problem_order_controller.dart';
-import 'package:huanting_shop/views/shop/widget/proble_order_list.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/shop/problem_order/problem_order_controller.dart';
+import 'package:shop_app_client/views/shop/widget/proble_order_list.dart';
 
 class ProblemOrderView extends GetView<ProblemOrderController> {
   const ProblemOrderView({Key? key}) : super(key: key);
@@ -16,10 +16,10 @@ class ProblemOrderView extends GetView<ProblemOrderController> {
       appBar: AppBar(
         centerTitle: true,
         title: AppText(
-          str: '问题商品'.ts,
+          str: '问题商品'.inte,
           fontSize: 17,
         ),
-        backgroundColor: AppColors.bgGray,
+        backgroundColor: AppStyles.bgGray,
         elevation: 0,
         leading: const BackButton(color: Colors.black),
         bottom: TabBar(
@@ -33,7 +33,7 @@ class ProblemOrderView extends GetView<ProblemOrderController> {
           },
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: PageView.builder(
         itemCount: 7,
         onPageChanged: (value) {
@@ -60,21 +60,21 @@ class ProblemOrderView extends GetView<ProblemOrderController> {
               () => Column(
                 children: [
                   AppText(
-                    str: tabs[index].ts,
+                    str: tabs[index].inte,
                     fontWeight: controller.tabIndex.value == index
                         ? FontWeight.bold
                         : FontWeight.normal,
                     color: controller.tabIndex.value == index
-                        ? AppColors.textDark
-                        : AppColors.textNormal,
+                        ? AppStyles.textDark
+                        : AppStyles.textNormal,
                   ),
                   Container(
                     width: 20.w,
                     height: 4.h,
                     decoration: BoxDecoration(
                       color: controller.tabIndex.value == index
-                          ? AppColors.primary
-                          : AppColors.bgGray,
+                          ? AppStyles.primary
+                          : AppStyles.bgGray,
                       borderRadius: BorderRadius.circular(2.h),
                     ),
                   ),

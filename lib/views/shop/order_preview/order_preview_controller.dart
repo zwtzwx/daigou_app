@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/cart_count_refresh_event.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/insurance_item_model.dart';
-import 'package:huanting_shop/models/insurance_model.dart';
-import 'package:huanting_shop/models/receiver_address_model.dart';
-import 'package:huanting_shop/models/ship_line_model.dart';
-import 'package:huanting_shop/models/shop/cart_model.dart';
-import 'package:huanting_shop/models/tariff_item_model.dart';
-import 'package:huanting_shop/models/tariff_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/models/value_added_service_model.dart';
-import 'package:huanting_shop/services/address_service.dart';
-import 'package:huanting_shop/services/parcel_service.dart';
-import 'package:huanting_shop/services/ship_line_service.dart';
-import 'package:huanting_shop/services/shop_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/cart_count_refresh_event.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/insurance_item_model.dart';
+import 'package:shop_app_client/models/insurance_model.dart';
+import 'package:shop_app_client/models/receiver_address_model.dart';
+import 'package:shop_app_client/models/ship_line_model.dart';
+import 'package:shop_app_client/models/shop/cart_model.dart';
+import 'package:shop_app_client/models/tariff_item_model.dart';
+import 'package:shop_app_client/models/tariff_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/models/value_added_service_model.dart';
+import 'package:shop_app_client/services/address_service.dart';
+import 'package:shop_app_client/services/parcel_service.dart';
+import 'package:shop_app_client/services/ship_line_service.dart';
+import 'package:shop_app_client/services/shop_service.dart';
 
-class OrderPreviewController extends GlobalLogic {
+class OrderPreviewController extends GlobalController {
   late Map<String, dynamic> arguments;
   final goodsList = <CartModel>[].obs;
   final shipModel = 0.obs;
@@ -145,7 +145,7 @@ class OrderPreviewController extends GlobalLogic {
 
   // 选择收货地址
   void onAddress() async {
-    var s = await BeeNav.push(BeeNav.addressList, arg: {'select': 1});
+    var s = await GlobalPages.push(GlobalPages.addressList, arg: {'select': 1});
     if (s == null) return;
     address.value = s as ReceiverAddressModel;
     lineModel.value = null;
@@ -196,7 +196,8 @@ class OrderPreviewController extends GlobalLogic {
       'area_id': address.value!.area?.id ?? '',
       'sub_area_id': address.value!.subArea?.id ?? '',
     };
-    var s = await BeeNav.push(BeeNav.lineQueryResult, arg: {"data": dic});
+    var s =
+        await GlobalPages.push(GlobalPages.lineQueryResult, arg: {"data": dic});
     if (s == null) return;
     lineModel.value = s;
     // lineServiceIds.value = (lineModel.value!.region?.services ?? [])
@@ -283,7 +284,7 @@ class OrderPreviewController extends GlobalLogic {
     if (res['ok']) {
       Get.find<AppStore>().getCartCount();
       ApplicationEvent.getInstance().event.fire(CartCountRefreshEvent());
-      BeeNav.redirect(BeeNav.shopOrderPay, {'order': res['order']});
+      GlobalPages.redirect(GlobalPages.shopOrderPay, {'order': res['order']});
     }
   }
 
@@ -309,7 +310,7 @@ class OrderPreviewController extends GlobalLogic {
     params.addAll(getBaseCommitParams(false));
     Map res = await ShopService.platformCustomOrderCreate(params);
     if (res['ok']) {
-      BeeNav.redirect(BeeNav.shopOrderPay, {'order': res['order']});
+      GlobalPages.redirect(GlobalPages.shopOrderPay, {'order': res['order']});
     }
   }
 
@@ -325,7 +326,7 @@ class OrderPreviewController extends GlobalLogic {
     params.addAll(getBaseCommitParams(false));
     Map res = await ShopService.orderCreate(params);
     if (res['ok']) {
-      BeeNav.redirect(BeeNav.shopOrderPay, {'order': res['order']});
+      GlobalPages.redirect(GlobalPages.shopOrderPay, {'order': res['order']});
     }
   }
 
@@ -333,7 +334,7 @@ class OrderPreviewController extends GlobalLogic {
     String content = '';
     switch (type) {
       case 1:
-        content = '实际运费'.ts + (value / 100).toStringAsFixed(2) + '%';
+        content = '实际运费'.inte + (value / 100).toStringAsFixed(2) + '%';
 
         break;
       case 2:
@@ -344,25 +345,25 @@ class OrderPreviewController extends GlobalLogic {
       case 3:
         content = (localModel?.currencySymbol ?? '') +
             (value / 100).toStringAsFixed(2) +
-            '/${'箱'.ts}';
+            '/${'箱'.inte}';
 
         break;
       case 4:
         content = (localModel?.currencySymbol ?? '') +
             (value / 100).toStringAsFixed(2) +
-            '/${localModel?.weightSymbol} (${'计费重'.ts})';
+            '/${localModel?.weightSymbol} (${'计费重'.inte})';
 
         break;
       case 5:
         content = (localModel?.currencySymbol ?? '') +
             (value / 100).toStringAsFixed(2) +
-            '/${localModel?.weightSymbol} (${'实重'.ts})';
+            '/${localModel?.weightSymbol} (${'实重'.inte})';
 
         break;
       case 6:
         content = (localModel?.currencySymbol ?? '') +
             ((value / 10000) * (shopOrderValue / 100)).toStringAsFixed(2) +
-            '/${localModel?.weightSymbol} (${'实重'.ts})';
+            '/${localModel?.weightSymbol} (${'实重'.inte})';
 
         break;
       default:
@@ -398,14 +399,17 @@ class OrderPreviewController extends GlobalLogic {
     String content = '';
     switch (feeType) {
       case 1:
-        content = '固定费用为'.ts + '：' + fee.rate(needFormat: false);
+        content = '固定费用为'.inte + '：' + fee.priceConvert(needFormat: false);
         break;
       case 2:
       case 4:
-        content = '比例值为'.ts + '：' + fee.toStringAsFixed(2) + '%';
+        content = '比例值为'.inte + '：' + fee.toStringAsFixed(2) + '%';
         break;
       case 3:
-        content = '固定费用为'.ts + '：' + fee.rate(needFormat: false) + '/${'件'.ts}';
+        content = '固定费用为'.inte +
+            '：' +
+            fee.priceConvert(needFormat: false) +
+            '/${'件'.inte}';
         break;
     }
     return content;

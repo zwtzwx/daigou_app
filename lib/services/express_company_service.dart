@@ -1,5 +1,5 @@
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/express_company_model.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/express_company_model.dart';
 
 class ExpressCompanyService {
   // 获取支持的快递
@@ -11,7 +11,7 @@ class ExpressCompanyService {
       [Map<String, dynamic>? params]) async {
     List<ExpressCompanyModel> result =
         List<ExpressCompanyModel>.empty(growable: true);
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(LISTAPI, queryParameters: params)
         .then((response) => {
               response.data?.forEach((good) {

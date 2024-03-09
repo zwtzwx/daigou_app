@@ -3,19 +3,19 @@ import 'package:flutter_picker/flutter_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/common/upload_util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
-import 'package:huanting_shop/services/shop_service.dart';
-import 'package:huanting_shop/services/warehouse_service.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/common/upload_util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
+import 'package:shop_app_client/services/shop_service.dart';
+import 'package:shop_app_client/services/warehouse_service.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
-class ManualOrderController extends GlobalLogic {
+class ManualOrderController extends GlobalController {
   final TextEditingController linkController = TextEditingController();
   final FocusNode linkNode = FocusNode();
   final TextEditingController nameController = TextEditingController();
@@ -71,29 +71,29 @@ class ManualOrderController extends GlobalLogic {
 
   // 上传图片
   void onImgUpload(BuildContext context) {
-    ImageUpload.imagePicker(
+    ImagePickers.imagePicker(
       onSuccessCallback: (imageUrl) async {
         imgs.add(imageUrl);
       },
       context: context,
       child: CupertinoActionSheet(
-        title: Text('请选择上传方式'.ts),
+        title: Text('请选择上传方式'.inte),
         actions: <Widget>[
           CupertinoActionSheetAction(
-            child: Text('相册'.ts),
+            child: Text('相册'.inte),
             onPressed: () {
               Navigator.pop(context, 'gallery');
             },
           ),
           CupertinoActionSheetAction(
-            child: Text('照相机'.ts),
+            child: Text('照相机'.inte),
             onPressed: () {
               Navigator.pop(context, 'camera');
             },
           ),
         ],
         cancelButton: CupertinoActionSheetAction(
-          child: Text('取消'.ts),
+          child: Text('取消'.inte),
           isDefaultAction: true,
           onPressed: () {
             Navigator.pop(context, 'Cancel');
@@ -150,7 +150,7 @@ class ManualOrderController extends GlobalLogic {
     if (data != null) {
       showSuccess(data);
       Get.find<AppStore>().getCartCount();
-      BeeNav.pop();
+      GlobalPages.pop();
     }
   }
 
@@ -169,10 +169,10 @@ class ManualOrderController extends GlobalLogic {
                 ),
               )
               .toList()),
-      cancelText: '取消'.ts,
-      confirmText: '确认'.ts,
+      cancelText: '取消'.inte,
+      confirmText: '确认'.inte,
       selectedTextStyle:
-          const TextStyle(color: AppColors.primary, fontSize: 12),
+          const TextStyle(color: AppStyles.primary, fontSize: 12),
       onCancel: () {},
       onConfirm: (Picker picker, List value) {
         warehouse.value = warehouseList[value.first];

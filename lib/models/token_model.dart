@@ -1,4 +1,4 @@
-import 'package:huanting_shop/models/user_model.dart';
+import 'package:shop_app_client/models/user_model.dart';
 
 /*
   登录TOKEN

@@ -1,4 +1,4 @@
-# huanting_shop
+# shop_app_client
 
 A new Flutter project.
 

@@ -5,19 +5,19 @@
 */
 
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/common/hex_to_color.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/user_vip_level_model.dart';
-import 'package:huanting_shop/models/user_vip_price_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/common/hex_to_color.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/user_vip_level_model.dart';
+import 'package:shop_app_client/models/user_vip_price_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/empty_app_bar.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/views/user/vip/center/vip_center_controller.dart';
+import 'package:shop_app_client/views/user/vip/center/vip_center_controller.dart';
 
 /*
   会员中心
@@ -31,16 +31,16 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
     return Scaffold(
       primary: false,
       appBar: const EmptyAppBar(),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       // bottomNavigationBar: Obx(
       //   () => Offstage(
       //     offstage: !controller.isloading.value,
       //     child: Container(
       //       decoration: const BoxDecoration(
-      //         color: AppColors.white,
+      //         color: AppStyles.white,
       //         border: Border(
       //           top: BorderSide(
-      //             color: AppColors.line,
+      //             color: AppStyles.line,
       //           ),
       //         ),
       //       ),
@@ -57,11 +57,11 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
       //                 Row(
       //                   children: <Widget>[
       //                     AppText(
-      //                       str: '合计'.ts + '：',
+      //                       str: '合计'.inte + '：',
       //                       fontWeight: FontWeight.bold,
       //                     ),
       //                     AppText(
-      //                       color: AppColors.textRed,
+      //                       color: AppStyles.textRed,
       //                       str: controller.selectButton.value == 999
       //                           ? '0.00'
       //                           : (controller
@@ -78,7 +78,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
       //                 ),
       //                 AppText(
       //                   str: controller.selectButton.value == 999
-      //                       ? '+ 0 ' + '成长值'.ts
+      //                       ? '+ 0 ' + '成长值'.inte
       //                       : '+' +
       //                           controller
       //                               .userVipModel
@@ -86,9 +86,9 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
       //                               .priceList[controller.selectButton.value]
       //                               .growthValue
       //                               .toString() +
-      //                           '成长值'.ts,
+      //                           '成长值'.inte,
       //                   fontSize: 14,
-      //                   color: AppColors.textGray,
+      //                   color: AppStyles.textGray,
       //                 ),
       //               ],
       //             ),
@@ -126,7 +126,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
       margin: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: AppColors.white,
+        color: AppStyles.white,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,7 +134,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: AppText(
-              str: '成长值说明'.ts,
+              str: '成长值说明'.inte,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
@@ -162,7 +162,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
   // 成长值列表
   buildListView() {
     List<Widget> listV = [];
-    listV.add(buildGrowthValueRow('等级'.ts, '成长值'.ts, isTitle: true));
+    listV.add(buildGrowthValueRow('等级'.inte, '成长值'.inte, isTitle: true));
     for (var i = 0; i < controller.userVipModel.value!.levelList.length; i++) {
       UserVipLevel memModel = controller.userVipModel.value!.levelList[i];
       listV.add(buildGrowthValueRow(
@@ -187,7 +187,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                   isTitle ? const Color(0xFFf2edde) : const Color(0xFFf9f8f4),
               child: AppText(
                 str: label,
-                color: AppColors.vipNormal,
+                color: AppStyles.vipNormal,
               ),
             ),
           ),
@@ -203,7 +203,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                   isTitle ? const Color(0xFFf2edde) : const Color(0xFFf9f8f4),
               child: AppText(
                 str: content,
-                color: AppColors.vipNormal,
+                color: AppStyles.vipNormal,
               ),
             ),
           ),
@@ -220,7 +220,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
       margin: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: AppColors.white,
+        color: AppStyles.white,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,7 +228,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: AppText(
-              str: '购买会员'.ts,
+              str: '购买会员'.inte,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
@@ -266,11 +266,11 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
             decoration: BoxDecoration(
                 color: controller.selectButton.value == index
                     ? const Color(0xFFf9f8f4)
-                    : AppColors.white,
+                    : AppStyles.white,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                   color: controller.selectButton.value == index
-                      ? AppColors.vipNormal
+                      ? AppStyles.vipNormal
                       : const Color(0xFFd9c58d),
                 ),
                 boxShadow: controller.selectButton.value == index
@@ -321,7 +321,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                         //           width:
                         //               (ScreenUtil().screenWidth - 70) / 3 / 3,
                         //           decoration: const BoxDecoration(
-                        //             color: AppColors.textRed,
+                        //             color: AppStyles.textRed,
                         //             borderRadius: BorderRadius.only(
                         //                 topRight: Radius.circular((15)),
                         //                 bottomLeft:
@@ -331,26 +331,27 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                         //             str: Translation.t(context, '活动'),
                         //             fontSize: 9,
                         //             fontWeight: FontWeight.w400,
-                        //             color: AppColors.white,
+                        //             color: AppStyles.white,
                         //           ),
                         //         )
                         //       : Container(),
                         // ),
                         AppText(
                           // 会员价格
-                          str: model.price.rate(),
+                          str: model.price.priceConvert(),
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.textRed,
+                          color: AppStyles.textRed,
                         ),
                         Stack(
                           children: [
                             AppText(
-                              str:
-                                  model.type != 1 ? model.basePrice.rate() : '',
+                              str: model.type != 1
+                                  ? model.basePrice.priceConvert()
+                                  : '',
                               fontSize: 12,
                               fontWeight: FontWeight.w300,
-                              color: AppColors.textGray,
+                              color: AppStyles.textGray,
                             ),
                             Positioned(
                                 top: 7,
@@ -359,7 +360,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                                 left: 0,
                                 child: Container(
                                   height: 1,
-                                  color: AppColors.textGray,
+                                  color: AppStyles.textGray,
                                 ))
                           ],
                         ),
@@ -433,21 +434,21 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AppText(
-                        str: '成长值'.ts,
+                        str: '成长值'.inte,
                         fontSize: 13,
-                        color: AppColors.vipNormal,
+                        color: AppStyles.vipNormal,
                       ),
                       AppGaps.hGap10,
                       Flexible(
                         child: GestureDetector(
                           onTap: () {
-                            BeeNav.push(BeeNav.growthValue);
+                            GlobalPages.push(GlobalPages.growthValue);
                           },
                           child: AppText(
-                            str: '距离下一等级还差{count}成长值'.tsArgs(
+                            str: '距离下一等级还差{count}成长值'.inArgs(
                                     {'count': firstNum < 0 ? 0 : firstNum}) +
                                 ' >',
-                            color: AppColors.vipNormal,
+                            color: AppStyles.vipNormal,
                             lines: 2,
                           ),
                         ),
@@ -459,7 +460,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                     children: [
                       AppText(
                         str: growthValue.toString(),
-                        color: AppColors.vipNormal,
+                        color: AppStyles.vipNormal,
                         fontWeight: FontWeight.bold,
                       ),
                       AppGaps.hGap10,
@@ -476,7 +477,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                                   height: 8,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4),
-                                    color: AppColors.orderLine,
+                                    color: AppStyles.orderLine,
                                   ),
                                 ),
                               ),
@@ -499,7 +500,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                       AppGaps.hGap10,
                       AppText(
                         str: nextLevelGrowthValue.toString(),
-                        color: AppColors.vipNormal,
+                        color: AppStyles.vipNormal,
                         fontSize: 13,
                       ),
                     ],
@@ -531,24 +532,24 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                     AppText(
                       str: controller.userInfo!.name,
                       fontSize: 16,
-                      color: AppColors.vipNormal,
+                      color: AppStyles.vipNormal,
                       fontWeight: FontWeight.bold,
                     ),
                     AppGaps.vGap4,
                     AppText(
                       str: 'ID：${controller.userInfo!.id}',
-                      color: AppColors.vipNormal,
+                      color: AppStyles.vipNormal,
                     ),
                     AppGaps.vGap4,
                     GestureDetector(
                       onTap: () {
-                        BeeNav.push(BeeNav.point);
+                        GlobalPages.push(GlobalPages.point);
                       },
                       child: Row(
                         children: [
                           AppText(
-                            str: '积分'.ts,
-                            color: AppColors.vipNormal,
+                            str: '积分'.inte,
+                            color: AppStyles.vipNormal,
                           ),
                           AppGaps.hGap10,
                           AppText(
@@ -556,7 +557,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                                 (controller.userVipModel.value?.profile.point ??
                                         0)
                                     .toString(),
-                            color: AppColors.vipNormal,
+                            color: AppStyles.vipNormal,
                             fontWeight: FontWeight.bold,
                           ),
                         ],

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/views/user/agent/agent_apply_instruction/controller.dart';
+import 'package:shop_app_client/views/user/agent/agent_apply_instruction/controller.dart';
 
 class AgentApplyInstructionBinding extends Bindings {
   @override

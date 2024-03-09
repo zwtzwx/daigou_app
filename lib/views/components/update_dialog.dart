@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/common/version_util.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/config/text_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/app_version_model.dart';
-import 'package:huanting_shop/storage/user_storage.dart';
+import 'package:shop_app_client/common/version_util.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/config/text_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/app_version_model.dart';
+import 'package:shop_app_client/storage/user_storage.dart';
 
 /*
   升级框
@@ -30,13 +30,13 @@ class _UpdateDialogState extends State<UpdateDialog> {
           Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(vertical: 30),
-            child: Text('新版本更新'.ts, style: AppTextStyles.textBoldDark18),
+            child: Text('新版本更新'.inte, style: SizeConfig.textBoldDark18),
           ),
           Center(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
               child: Text(widget.appModel.content ?? '',
-                  style: AppTextStyles.textDark14),
+                  style: SizeConfig.textDark14),
             ),
           ),
           Padding(
@@ -49,20 +49,19 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   height: 36.0,
                   child: TextButton(
                     onPressed: () {
-                      VersionUtils.jumpToApp();
-                      BeeNav.pop();
+                      UpdateConfig.jumpToApp();
+                      GlobalPages.pop();
                     },
                     style: TextButton.styleFrom(
                         foregroundColor: Colors.black,
-                        backgroundColor: AppColors.primary,
+                        backgroundColor: AppStyles.primary,
                         padding: const EdgeInsets.all(0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
                         )),
                     child: Text(
-                      '立即更新'.ts,
-                      style:
-                          const TextStyle(fontSize: AppTextStyles.defaultSize),
+                      '立即更新'.inte,
+                      style: const TextStyle(fontSize: SizeConfig.defaultSize),
                     ),
                   ),
                 ),
@@ -70,14 +69,14 @@ class _UpdateDialogState extends State<UpdateDialog> {
                 GestureDetector(
                   onTap: () {
                     var time = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-                    UserStorage.setVersionTime(time);
-                    BeeNav.pop();
+                    CommonStorage.setVersionTime(time);
+                    GlobalPages.pop();
                   },
                   child: Text(
-                    '稍后更新'.ts,
+                    '稍后更新'.inte,
                     style: const TextStyle(
-                        color: AppColors.textGrayC9,
-                        fontSize: AppTextStyles.middleSize),
+                        color: AppStyles.textGrayC9,
+                        fontSize: SizeConfig.middleSize),
                   ),
                 ),
                 5.verticalSpace,

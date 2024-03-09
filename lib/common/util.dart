@@ -2,17 +2,17 @@ import 'dart:io';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/instance_manager.dart';
-import 'package:huanting_shop/config/app_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/config/wechat_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/ads_pic_model.dart';
-import 'package:huanting_shop/models/self_pickup_station_order_model.dart';
+import 'package:shop_app_client/config/app_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/config/wechat_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/ads_pic_model.dart';
+import 'package:shop_app_client/models/self_pickup_station_order_model.dart';
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CommonMethods {
+class BaseUtils {
   static void showSnackBar(BuildContext context, String msg,
       [GlobalKey<ScaffoldState>? _scaffoldKey]) {
     if (_scaffoldKey != null) {
@@ -223,13 +223,13 @@ class CommonMethods {
           // 抽奖页面
           String token = Get.find<AppStore>().token.value;
           if (token.isEmpty) {
-            BeeNav.push(BeeNav.login);
+            GlobalPages.push(GlobalPages.login);
           } else {
-            String uuid = AppConfig.getUUID();
-            String api = AppConfig.getBaseApi();
+            String uuid = BaseUrls.getUUID();
+            String api = BaseUrls.getBaseApi();
             var parsedQuery = Uri.splitQueryString(paths[1]);
-            BeeNav.push(BeeNav.webview, arg: {
-              'title': '抽奖'.ts,
+            GlobalPages.push(GlobalPages.webview, arg: {
+              'title': '抽奖'.inte,
               'url':
                   'https://yingxiao.haiousaas.com/pages/reward/index?token=$token&api_url=$api&env=App&&UUID=$uuid&reward_id=${parsedQuery['id']}'
             });
@@ -237,15 +237,15 @@ class CommonMethods {
         } else {
           if (paths.length > 1) {
             var parsedQuery = Uri.splitQueryString(paths[1]);
-            BeeNav.push(paths[0], arg: parsedQuery);
+            GlobalPages.push(paths[0], arg: parsedQuery);
           } else {
-            BeeNav.push(model.linkPath);
+            GlobalPages.push(model.linkPath);
           }
         }
       }
     } else if (model.linkType == 2 || model.linkType == 3) {
       // 外部URL、公众号 URL
-      BeeNav.push(BeeNav.webview,
+      GlobalPages.push(GlobalPages.webview,
           arg: {'url': model.linkPath, 'title': 'Daigou', 'time': ''});
     }
   }

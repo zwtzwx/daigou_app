@@ -1,10 +1,10 @@
 /*
   第三方平台商品（淘宝、京东等）
  */
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/shop/goods_props_model.dart';
-import 'package:huanting_shop/models/shop/goods_sku_model.dart';
-import 'package:huanting_shop/services/shop_service.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/shop/goods_props_model.dart';
+import 'package:shop_app_client/models/shop/goods_sku_model.dart';
+import 'package:shop_app_client/services/shop_service.dart';
 
 class PlatformGoodsModel {
   late String title;

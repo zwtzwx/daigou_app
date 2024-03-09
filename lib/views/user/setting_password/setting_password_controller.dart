@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/services/user_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/services/user_service.dart';
 
-class BeeNewPwdLogic extends GlobalLogic {
+class BeeNewPwdLogic extends GlobalController {
   final TextEditingController newPasswordController = TextEditingController();
   final FocusNode newPaddwordNode = FocusNode();
   final TextEditingController confirmPasswordController =
@@ -23,7 +23,7 @@ class BeeNewPwdLogic extends GlobalLogic {
     if (res['ok']) {
       showSuccess(res['msg']).then((value) async {
         userInfoModel.clear();
-        BeeNav.redirect(BeeNav.login);
+        GlobalPages.redirect(GlobalPages.login);
       });
     } else {
       showError(res['msg']);

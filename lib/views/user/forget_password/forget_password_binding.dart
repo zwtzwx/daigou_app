@@ -1,5 +1,5 @@
 import 'package:get/instance_manager.dart';
-import 'package:huanting_shop/views/user/forget_password/forget_password_controller.dart';
+import 'package:shop_app_client/views/user/forget_password/forget_password_controller.dart';
 
 class BeeResetPwdBinding extends Bindings {
   @override

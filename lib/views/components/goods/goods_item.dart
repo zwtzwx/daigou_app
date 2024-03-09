@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/shop/goods_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/shop/goods_detail/goods_detail_binding.dart';
-import 'package:huanting_shop/views/shop/goods_detail/goods_detail_view.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/shop/goods_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/shop/goods_detail/goods_detail_binding.dart';
+import 'package:shop_app_client/views/shop/goods_detail/goods_detail_view.dart';
 
 class BeeShopGoods extends StatelessWidget {
   const BeeShopGoods({
@@ -28,7 +28,7 @@ class BeeShopGoods extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        BeeNav.toPage(
+        GlobalPages.toPage(
           GoodsDetailView(goodsId: goods.id.toString()),
           arguments: {'id': goods.id},
           binding: GoodsDetailBinding(tag: goods.id.toString()),
@@ -72,14 +72,14 @@ class BeeShopGoods extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 13.sp,
                           height: 1.4,
-                          color: AppColors.textDark,
+                          color: AppStyles.textDark,
                         ),
                         children: [
                           WidgetSpan(
                             child: Padding(
                               padding: EdgeInsets.only(right: 5.w),
                               child: ImgItem(
-                                'Shop/zy',
+                                'Shop/shop',
                                 width: 16.w,
                                 height: 16.w,
                               ),
@@ -97,16 +97,16 @@ class BeeShopGoods extends StatelessWidget {
                   Obx(
                     () => AppText(
                       str: num.parse(goods.goodsLowestPrice ?? '0.00')
-                          .rate(needFormat: false),
+                          .priceConvert(needFormat: false),
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
                   // Obx(
                   //   () => AppText(
-                  //     str: '已卖{count}件'.tsArgs({'count': goods.saleCount}),
+                  //     str: '已卖{count}件'.inArgs({'count': goods.saleCount}),
                   //     fontSize: 10,
-                  //     color: AppColors.textGrayC9,
+                  //     color: AppStyles.textGrayC9,
                   //   ),
                   // ),
                 ],

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class ImageUtil {
+class ImgLoadConfig {
   static ImageProvider getAssetImage(String name, {String format = 'png'}) {
     return AssetImage(getImgPath(name, format: format));
   }

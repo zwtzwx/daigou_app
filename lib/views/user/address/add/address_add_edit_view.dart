@@ -4,19 +4,19 @@
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/input/input_text_item.dart';
-import 'package:huanting_shop/views/components/input/normal_input.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/country_model.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/input/input_text_item.dart';
+import 'package:shop_app_client/views/components/input/normal_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_picker/flutter_picker.dart';
-import 'package:huanting_shop/views/user/address/add/address_add_edit_controller.dart';
+import 'package:shop_app_client/views/user/address/add/address_add_edit_controller.dart';
 
 class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
   const BeeAddressInfoPage({Key? key}) : super(key: key);
@@ -31,14 +31,14 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
         elevation: 0.5,
         centerTitle: true,
         title: AppText(
-          str: !controller.isEdit.value ? '添加地址'.ts : '修改地址'.ts,
-          color: AppColors.textBlack,
+          str: !controller.isEdit.value ? '添加地址'.inte : '修改地址'.inte,
+          color: AppStyles.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       bottomNavigationBar: SafeArea(
         child: Obx(
           () => Container(
@@ -54,7 +54,7 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
                         width: 24,
                         height: 24,
                         child: Checkbox(
-                          activeColor: AppColors.primary,
+                          activeColor: AppStyles.primary,
                           shape: const CircleBorder(),
                           value: controller.isDefault.value,
                           onChanged: (value) {
@@ -64,7 +64,7 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
                       ),
                     ),
                     AppText(
-                      str: '设为默认地址'.ts,
+                      str: '设为默认地址'.inte,
                       fontSize: 14,
                     )
                   ],
@@ -94,7 +94,7 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
                               controller.onDeleteAddress();
                             }
                           },
-                          textColor: AppColors.textRed,
+                          textColor: AppStyles.textRed,
                         ),
                       )
                     : Container(),
@@ -119,9 +119,9 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InputTextItem(
-          title: '收件人'.ts,
+          title: '收件人'.inte,
           inputText: NormalInput(
-            hintText: '请输入收件人名字'.ts,
+            hintText: '请输入收件人名字'.inte,
             textAlign: TextAlign.right,
             contentPadding: const EdgeInsets.only(right: 15),
             controller: controller.recipientNameController,
@@ -137,14 +137,14 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
         ),
         GestureDetector(
           onTap: () async {
-            var s = await BeeNav.push(BeeNav.country);
+            var s = await GlobalPages.push(GlobalPages.country);
             if (s == null) return;
             CountryModel a = s as CountryModel;
             controller.timezone.value = a.timezone!;
             controller.countryModel.value = a;
           },
           child: InputTextItem(
-            title: '电话区号'.ts,
+            title: '电话区号'.inte,
             inputText: Container(
               padding: const EdgeInsets.only(right: 15, left: 0),
               alignment: Alignment.center,
@@ -155,11 +155,11 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
                     child: Obx(() {
                       return AppText(
                         str: controller.timezone.value.isEmpty
-                            ? '请选择电话区号'.ts
+                            ? '请选择电话区号'.inte
                             : controller.timezone.value,
                         color: controller.timezone.value.isEmpty
-                            ? AppColors.textGray
-                            : AppColors.textDark,
+                            ? AppStyles.textGray
+                            : AppStyles.textDark,
                         fontSize: 13,
                         alignment: TextAlign.end,
                       );
@@ -168,7 +168,7 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
                   const Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
-                    color: AppColors.textDark,
+                    color: AppStyles.textDark,
                   ),
                 ],
               ),
@@ -176,9 +176,9 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
           ),
         ),
         InputTextItem(
-          title: '联系电话'.ts,
+          title: '联系电话'.inte,
           inputText: NormalInput(
-            hintText: '请输入联系电话'.ts,
+            hintText: '请输入联系电话'.inte,
             textAlign: TextAlign.right,
             contentPadding: const EdgeInsets.only(right: 15),
             maxLength: 20,
@@ -197,7 +197,7 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
         ),
         GestureDetector(
           onTap: () async {
-            var s = await BeeNav.push(BeeNav.country);
+            var s = await GlobalPages.push(GlobalPages.country);
             if (s == null) {
               return;
             }
@@ -207,7 +207,7 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
             controller.subAreaModel.value = null;
           },
           child: InputTextItem(
-            title: '国家地区'.ts,
+            title: '国家地区'.inte,
             inputText: Container(
               padding: const EdgeInsets.only(right: 15, left: 0),
               alignment: Alignment.center,
@@ -217,18 +217,18 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
                   Obx(
                     () => AppText(
                       str: controller.countryModel.value == null
-                          ? '请选择国家地区'.ts
+                          ? '请选择国家地区'.inte
                           : controller.countryModel.value!.name!,
                       color: controller.countryModel.value == null
-                          ? AppColors.textGray
-                          : AppColors.textDark,
+                          ? AppStyles.textGray
+                          : AppStyles.textDark,
                       fontSize: 13,
                     ),
                   ),
                   const Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
-                    color: AppColors.textDark,
+                    color: AppStyles.textDark,
                   ),
                 ],
               ),
@@ -248,9 +248,9 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InputTextItem(
-          title: '邮编'.ts,
+          title: '邮编'.inte,
           inputText: NormalInput(
-            hintText: '请输入邮编'.ts,
+            hintText: '请输入邮编'.inte,
             contentPadding: const EdgeInsets.only(right: 15),
             textAlign: TextAlign.right,
             controller: controller.zipCodeController,
@@ -265,9 +265,9 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
           ),
         ),
         InputTextItem(
-          title: '门牌号'.ts,
+          title: '门牌号'.inte,
           inputText: NormalInput(
-            hintText: '请输入门牌号'.ts,
+            hintText: '请输入门牌号'.inte,
             contentPadding: const EdgeInsets.only(right: 15),
             textAlign: TextAlign.right,
             controller: controller.doorNoController,
@@ -281,9 +281,9 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
           ),
         ),
         InputTextItem(
-          title: '街道'.ts,
+          title: '街道'.inte,
           inputText: NormalInput(
-            hintText: '请输入街道'.ts,
+            hintText: '请输入街道'.inte,
             contentPadding: const EdgeInsets.only(right: 15),
             textAlign: TextAlign.right,
             controller: controller.streetNameController,
@@ -297,9 +297,9 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
           ),
         ),
         InputTextItem(
-          title: '城市'.ts,
+          title: '城市'.inte,
           inputText: NormalInput(
-            hintText: '请输入城市'.ts,
+            hintText: '请输入城市'.inte,
             contentPadding: const EdgeInsets.only(right: 15),
             textAlign: TextAlign.right,
             controller: controller.cityController,
@@ -328,11 +328,11 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
                 const TextSpan(
                   text: '*',
                   style: TextStyle(
-                    color: AppColors.textRed,
+                    color: AppStyles.textRed,
                   ),
                 ),
                 TextSpan(
-                  text: '自提点'.ts,
+                  text: '自提点'.inte,
                 ),
               ],
             ),
@@ -348,7 +348,7 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(
-                          color: AppColors.primary,
+                          color: AppStyles.primary,
                         ),
                       ),
                       child: Row(
@@ -356,12 +356,12 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
                         children: [
                           const Icon(
                             Icons.add_circle_outline,
-                            color: AppColors.primary,
+                            color: AppStyles.primary,
                           ),
                           AppGaps.hGap5,
                           AppText(
-                            str: '选择自提点'.ts,
-                            color: AppColors.primary,
+                            str: '选择自提点'.inte,
+                            color: AppStyles.primary,
                             fontWeight: FontWeight.bold,
                           ),
                         ],
@@ -373,7 +373,7 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: AppColors.bgGray,
+                        color: AppStyles.bgGray,
                         borderRadius: BorderRadius.circular(5),
                       ),
                       padding: const EdgeInsets.symmetric(
@@ -407,9 +407,9 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
   showPickerDestion(BuildContext context) {
     Picker(
       adapter: PickerDataAdapter(data: getPickerSubView()),
-      title: Text('选择区域'.ts),
-      cancelText: '取消'.ts,
-      confirmText: '确认'.ts,
+      title: Text('选择区域'.inte),
+      cancelText: '取消'.inte,
+      confirmText: '确认'.inte,
       selectedTextStyle: const TextStyle(color: Colors.blue, fontSize: 12),
       onCancel: () {
         // showPicker = false;

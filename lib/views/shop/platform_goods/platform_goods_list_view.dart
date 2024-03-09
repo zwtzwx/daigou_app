@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/base_search.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/platform_goods_item.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/components/loading_cell.dart';
-import 'package:huanting_shop/views/shop/platform_goods/platform_goods_controller.dart';
-import 'package:huanting_shop/views/shop/widget/sliver_header_delegate.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/base_search.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/platform_goods_item.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/components/loading_cell.dart';
+import 'package:shop_app_client/views/shop/platform_goods/platform_goods_controller.dart';
+import 'package:shop_app_client/views/shop/widget/sliver_header_delegate.dart';
 
 class PlatformGoodsListView extends GetView<PlatformGoodsController> {
   const PlatformGoodsListView({Key? key, required this.controllerTag})
@@ -27,7 +27,7 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
           leading: Padding(
               padding: EdgeInsets.only(left: 10.w),
               child: const BackButton(color: Colors.black)),
-          backgroundColor: AppColors.bgGray,
+          backgroundColor: AppStyles.bgGray,
           title: controller.hideSearch
               ? AppText(
                   str: controller.keyword,
@@ -42,12 +42,12 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
           elevation: 0,
           leadingWidth: 40.w,
         ),
-        backgroundColor: AppColors.bgGray,
+        backgroundColor: AppStyles.bgGray,
         body: Stack(
           children: [
             RefreshIndicator(
               onRefresh: controller.handleRefresh,
-              color: AppColors.primary,
+              color: AppStyles.primary,
               child: CustomScrollView(
                 controller: controller.loadingUtil.value.scrollController,
                 slivers: [
@@ -60,7 +60,7 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
                     delegate: SliverHeaderDelegate(
                       maxHeight: 33.h,
                       minHeight: 33.h,
-                      bgColor: AppColors.bgGray,
+                      bgColor: AppStyles.bgGray,
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 12.w),
                         child: Row(
@@ -86,12 +86,12 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
                                                 alignment: Alignment.center,
                                                 height: 20.h,
                                                 child: AppText(
-                                                  str: e['name']!.ts,
+                                                  str: e['name']!.inte,
                                                   color: controller
                                                               .platform.value ==
                                                           e['value']
-                                                      ? AppColors.textDark
-                                                      : AppColors.textGrayC9,
+                                                      ? AppStyles.textDark
+                                                      : AppStyles.textGrayC9,
                                                   fontSize: 16,
                                                 ),
                                               ),
@@ -103,8 +103,8 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
                                                   color: controller
                                                               .platform.value ==
                                                           e['value']
-                                                      ? AppColors.primary
-                                                      : AppColors.bgGray,
+                                                      ? AppStyles.primary
+                                                      : AppStyles.bgGray,
                                                 ),
                                                 width: 22.w,
                                                 height: 3.h,
@@ -224,10 +224,10 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
             children: [
               Obx(
                 () => AppText(
-                  str: label.ts,
+                  str: label.inte,
                   color: ['bid2', '_bid2'].contains(controller.orderBy.value)
-                      ? AppColors.textDark
-                      : AppColors.textGrayC9,
+                      ? AppStyles.textDark
+                      : AppStyles.textGrayC9,
                   fontSize: 14,
                 ),
               ),
@@ -244,8 +244,8 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
                       child: Icon(
                         Icons.arrow_drop_up_sharp,
                         color: controller.orderBy.value == 'bid2'
-                            ? AppColors.textDark
-                            : AppColors.textGrayC9,
+                            ? AppStyles.textDark
+                            : AppStyles.textGrayC9,
                         size: 22.sp,
                       ),
                     ),
@@ -255,8 +255,8 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
                       child: Icon(
                         Icons.arrow_drop_down_sharp,
                         color: controller.orderBy.value == '_bid2'
-                            ? AppColors.textDark
-                            : AppColors.textGrayC9,
+                            ? AppStyles.textDark
+                            : AppStyles.textGrayC9,
                         size: 22.sp,
                       ),
                     ),
@@ -276,10 +276,10 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
           () => Row(
             children: [
               AppText(
-                str: label.ts,
+                str: label.inte,
                 color: controller.platform.value != '1688'
-                    ? AppColors.textDark
-                    : AppColors.textGrayC9,
+                    ? AppStyles.textDark
+                    : AppStyles.textGrayC9,
               ),
               ImgItem(
                 controller.platform.value != '1688'
@@ -302,10 +302,10 @@ class PlatformGoodsListView extends GetView<PlatformGoodsController> {
         height: 20.h,
         child: Obx(
           () => AppText(
-            str: label.ts,
+            str: label.inte,
             color: controller.orderBy.value == value
-                ? AppColors.textDark
-                : AppColors.textGrayC9,
+                ? AppStyles.textDark
+                : AppStyles.textGrayC9,
             fontSize: 14,
           ),
         ),

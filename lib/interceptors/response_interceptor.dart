@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:huanting_shop/common/http_client.dart';
+import 'package:shop_app_client/common/http_client.dart';
 
 class ResponseInterceptor extends Interceptor {
   @override

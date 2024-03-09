@@ -1,10 +1,10 @@
 /*
   积分服务
  */
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/user_point_item_model.dart';
-import 'package:huanting_shop/models/user_point_model.dart';
-import 'package:huanting_shop/models/user_vip_rule_model.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/user_point_item_model.dart';
+import 'package:shop_app_client/models/user_point_model.dart';
+import 'package:shop_app_client/models/user_vip_rule_model.dart';
 
 class PointService {
   // 积分列表integral
@@ -27,7 +27,7 @@ class PointService {
       [Map<String, dynamic>? params]) async {
     UserPointModel? result;
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(summaryApi, queryParameters: params)
         .then((response) => {result = UserPointModel.fromJson(response.data)});
 
@@ -41,7 +41,7 @@ class PointService {
     var page = (params is Map) ? params!['page'] : 1;
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<UserPointItemModel> dataList = [];
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(dataListApi, queryParameters: params)
         .then((response) {
       response.data?.forEach((item) {
@@ -65,7 +65,7 @@ class PointService {
     Map result = {"dataList": null, 'total': 1, 'pageIndex': page};
     List<UserPointItemModel> dataList = [];
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(growthValueListApi, queryParameters: params)
         .then((response) {
       response.data?.forEach((item) {
@@ -86,7 +86,7 @@ class PointService {
   */
   static Future<UserVipRuleModel?> getPointRule() async {
     UserVipRuleModel? result;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(ruleApi)
         .then((res) => result = UserVipRuleModel.fromJson(res.data));
     return result;

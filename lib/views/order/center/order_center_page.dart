@@ -1,18 +1,18 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/list_refresh_event.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/base_search.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/list_refresh_event.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/base_search.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/views/order/center/order_center_controller.dart';
-import 'package:huanting_shop/views/order/list/order_list_view.dart';
-import 'package:huanting_shop/views/parcel/parcel_list/parcel_list_page.dart';
+import 'package:shop_app_client/views/order/center/order_center_controller.dart';
+import 'package:shop_app_client/views/order/list/order_list_view.dart';
+import 'package:shop_app_client/views/parcel/parcel_list/parcel_list_page.dart';
 
 /*
   包裹&订单中心
@@ -31,7 +31,7 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
         title: BaseSearch(
           showScan: false,
           needCheck: false,
-          hintText: '包裹号/订单号'.ts,
+          hintText: '包裹号/订单号'.inte,
           onSearch: (value) {
             controller.keyword = value;
             ApplicationEvent.getInstance()
@@ -58,9 +58,9 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
           //         ),
           //         2.verticalSpaceFromWidth,
           //         AppText(
-          //           str: '补款订单'.ts,
+          //           str: '补款订单'.inte,
           //           fontSize: 10,
-          //           color: AppColors.textNormal,
+          //           color: AppStyles.textNormal,
           //         )
           //       ],
           //     ),
@@ -68,25 +68,25 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
           // ),
           GestureDetector(
             onTap: () {
-              BeeNav.push(BeeNav.noOwnerList);
+              GlobalPages.push(GlobalPages.noOwnerList);
             },
             child: Container(
               alignment: Alignment.center,
               color: Colors.transparent,
               margin: EdgeInsets.only(right: 14.w, left: 10.w),
               child: AppText(
-                str: '认领'.ts,
+                str: '认领'.inte,
                 fontSize: 12,
               ),
             ),
           ),
         ],
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       bottomNavigationBar: Obx(
         () => controller.tabIndex.value == 1
             ? Container(
-                color: AppColors.white,
+                color: AppStyles.white,
                 padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
                 child: SafeArea(
                   child: Row(
@@ -105,7 +105,7 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
                                     height: 20.w,
                                     child: Checkbox(
                                       shape: const CircleBorder(),
-                                      activeColor: AppColors.primary,
+                                      activeColor: AppStyles.primary,
                                       value: controller.checkedIds.isNotEmpty &&
                                           controller.checkedIds.length ==
                                               controller.allParcels.length,
@@ -117,17 +117,17 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
                                 ),
                                 Container(
                                   margin: const EdgeInsets.only(left: 5),
-                                  child: Text('全选'.ts),
+                                  child: Text('全选'.inte),
                                 )
                               ],
                             ),
                             5.verticalSpaceFromWidth,
                             Obx(
                               () => AppText(
-                                str: '已选{count}件'.tsArgs(
+                                str: '已选{count}件'.inArgs(
                                     {'count': controller.checkedIds.length}),
                                 fontSize: 14,
-                                color: AppColors.textGrayC9,
+                                color: AppStyles.textGrayC9,
                               ),
                             ),
                           ],
@@ -178,13 +178,13 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
               () => Column(
                 children: [
                   AppText(
-                    str: tabs[index].ts,
+                    str: tabs[index].inte,
                     fontWeight: controller.tabIndex.value == index
                         ? FontWeight.bold
                         : FontWeight.normal,
                     color: controller.tabIndex.value == index
-                        ? AppColors.textDark
-                        : AppColors.textNormal,
+                        ? AppStyles.textDark
+                        : AppStyles.textNormal,
                   ),
                   7.verticalSpaceFromWidth,
                   Container(
@@ -192,7 +192,7 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
                     height: 3.h,
                     decoration: BoxDecoration(
                       color: controller.tabIndex.value == index
-                          ? AppColors.primary
+                          ? AppStyles.primary
                           : Colors.white,
                       borderRadius: BorderRadius.circular(2.h),
                     ),

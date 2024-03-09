@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/views/components/base_search.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/goods/goods_list_cell.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/components/loading_cell.dart';
-import 'package:huanting_shop/views/shop/platform_center/platform_shop_center_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/views/components/base_search.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/goods/goods_list_cell.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/components/loading_cell.dart';
+import 'package:shop_app_client/views/shop/platform_center/platform_shop_center_controller.dart';
 
 class DaigouWidget extends GetView<PlatformShopCenterController> {
   const DaigouWidget({Key? key}) : super(key: key);
@@ -102,7 +102,7 @@ class DaigouWidget extends GetView<PlatformShopCenterController> {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: controller.categoryIndex.value == index
-                          ? AppColors.primary
+                          ? AppStyles.primary
                           : const Color(
                               0xFFE4E4E4,
                             ),

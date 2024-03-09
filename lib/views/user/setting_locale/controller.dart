@@ -3,17 +3,17 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/language_change_event.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/state/i10n.dart';
-import 'package:huanting_shop/storage/language_storage.dart';
-import 'package:huanting_shop/views/components/action_sheet.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/language_change_event.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/state/i10n.dart';
+import 'package:shop_app_client/storage/language_storage.dart';
+import 'package:shop_app_client/views/components/action_sheet.dart';
 
-class SettingLocaleController extends GlobalLogic {
+class SettingLocaleController extends GlobalController {
   final langList = Get.find<AppStore>().langList;
-  final i10n = Get.find<I10n>();
+  final i10n = Get.find<Locale>();
 
   // 显示语言列表
   showLanguage() {
@@ -23,7 +23,7 @@ class SettingLocaleController extends GlobalLogic {
         onSelected: (index) async {
           var code = langList[index].languageCode;
           if (code == i10n.language) return;
-          LanguageStore.setLanguage(code);
+          LocaleStorage.setLanguage(code);
           i10n.setLanguage(code);
           await i10n.loadTranslations(Options(extra: {'loading': true}));
           ApplicationEvent.getInstance().event.fire(LanguageChangeEvent());
@@ -41,7 +41,7 @@ class SettingLocaleController extends GlobalLogic {
         onSelected: (index) async {
           var rateItem = list[index];
           if (rateItem.code == currencyModel.value?.code) return;
-          LanguageStore.setCurrency(jsonEncode({
+          LocaleStorage.setCurrency(jsonEncode({
             'code': rateItem.code,
             'symbol': rateItem.symbol,
           }));

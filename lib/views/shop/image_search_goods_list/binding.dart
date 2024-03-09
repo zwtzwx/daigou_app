@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/views/shop/image_search_goods_list/logics.dart';
+import 'package:shop_app_client/views/shop/image_search_goods_list/logics.dart';
 
 class GoodsImageSearchResultBinding extends Bindings {
   final String tag;

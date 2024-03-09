@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/insurance_model.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/models/receiver_address_model.dart';
-import 'package:huanting_shop/models/self_pickup_station_model.dart';
-import 'package:huanting_shop/models/ship_line_model.dart';
-import 'package:huanting_shop/models/ship_line_service_model.dart';
-import 'package:huanting_shop/models/tariff_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/models/value_added_service_model.dart';
-import 'package:huanting_shop/services/group_service.dart';
-import 'package:huanting_shop/services/order_service.dart';
-import 'package:huanting_shop/services/ship_line_service.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/insurance_model.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/models/receiver_address_model.dart';
+import 'package:shop_app_client/models/self_pickup_station_model.dart';
+import 'package:shop_app_client/models/ship_line_model.dart';
+import 'package:shop_app_client/models/ship_line_service_model.dart';
+import 'package:shop_app_client/models/tariff_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/models/value_added_service_model.dart';
+import 'package:shop_app_client/services/group_service.dart';
+import 'package:shop_app_client/services/order_service.dart';
+import 'package:shop_app_client/services/ship_line_service.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
 
-class BeePackingLogic extends GlobalLogic {
+class BeePackingLogic extends GlobalController {
   final packageList = <ParcelModel>[].obs;
   final TextEditingController remarkController = TextEditingController();
   // 收件地址
@@ -118,10 +118,10 @@ class BeePackingLogic extends GlobalLogic {
   onAddress() async {
     if (isGroup.value) return;
     // if (tempDelivery.value == null) {
-    //   showToast('请选择收货形式'.ts);
+    //   showToast('请选择收货形式'.inte);
     //   return;
     // }
-    var s = await BeeNav.push(BeeNav.addressList, arg: {'select': 1});
+    var s = await GlobalPages.push(GlobalPages.addressList, arg: {'select': 1});
 
     if (s == null) {
       return;
@@ -160,7 +160,8 @@ class BeePackingLogic extends GlobalLogic {
       'is_delivery': selectedAddressModel.value!.station != null ? 1 : 0,
       'station_id': selectedAddressModel.value!.station?.id ?? '',
     };
-    var s = await BeeNav.push(BeeNav.lineQueryResult, arg: {"data": dic});
+    var s =
+        await GlobalPages.push(GlobalPages.lineQueryResult, arg: {"data": dic});
     if (s == null) {
       return;
     }
@@ -246,7 +247,7 @@ class BeePackingLogic extends GlobalLogic {
     Map data = await OrderService.store(upData);
     if (data['ok']) {
       Get.find<AppStore>().getBaseCountInfo();
-      BeeNav.pop('succeed');
+      GlobalPages.pop('succeed');
     }
   }
 
@@ -269,7 +270,7 @@ class BeePackingLogic extends GlobalLogic {
     };
     var data = await GroupService.onCreatedOrder(Get.arguments['id'], params);
     if (data['ok']) {
-      BeeNav.pop('success');
+      GlobalPages.pop('success');
     }
   }
 
@@ -291,29 +292,29 @@ class BeePackingLogic extends GlobalLogic {
     String value = '';
     switch (item.type) {
       case 1:
-        value = '实际运费'.ts + ' ${(item.value / 100).toStringAsFixed(2)}%';
+        value = '实际运费'.inte + ' ${(item.value / 100).toStringAsFixed(2)}%';
         break;
       case 2:
-        value = item.value.rate();
+        value = item.value.priceConvert();
         break;
       case 3:
-        value = item.value.rate() + '/${'箱'.ts}';
+        value = item.value.priceConvert() + '/${'箱'.inte}';
         break;
       case 4:
-        value = item.value.rate() +
+        value = item.value.priceConvert() +
             '/' +
             localModel!.weightSymbol +
-            ' (${'计费重'.ts})';
+            ' (${'计费重'.inte})';
         break;
       case 5:
-        value = item.value.rate() +
+        value = item.value.priceConvert() +
             '/' +
             localModel!.weightSymbol +
-            ' (${'实重'.ts})';
+            ' (${'实重'.inte})';
         break;
       case 6:
         value = ((item.value / 10000) * (totalValue.value / 100))
-            .rate(needFormat: false);
+            .priceConvert(needFormat: false);
         break;
     }
     return value;

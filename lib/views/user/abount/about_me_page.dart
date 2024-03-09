@@ -1,12 +1,12 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/article_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/article_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:huanting_shop/views/user/abount/about_me_controller.dart';
+import 'package:shop_app_client/views/user/abount/about_me_controller.dart';
 
 /*
   关于我们
@@ -25,13 +25,13 @@ class BeePage extends GetView<BeeLogic> {
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
         title: AppText(
-          str: '关于我们'.ts,
-          color: AppColors.textBlack,
+          str: '关于我们'.inte,
+          color: AppStyles.textBlack,
           fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: Obx(
         () => ListView.builder(
           shrinkWrap: true,
@@ -47,14 +47,14 @@ class BeePage extends GetView<BeeLogic> {
     ArticleModel model = controller.aboutList[index];
 
     return Container(
-        color: AppColors.white,
+        color: AppStyles.white,
         child: ListTile(
           title: AppText(
             str: model.title,
           ),
           trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () {
-            BeeNav.push(BeeNav.webview, arg: {
+            GlobalPages.push(GlobalPages.webview, arg: {
               'url': model.content,
               'title': model.title,
               'time': model.createdAt

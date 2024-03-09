@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/profile_updated_event.dart';
-import 'package:huanting_shop/services/agent_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/profile_updated_event.dart';
+import 'package:shop_app_client/services/agent_service.dart';
 
-class AgentApplyController extends GlobalLogic {
+class AgentApplyController extends GlobalController {
   final TextEditingController oldNumberController = TextEditingController();
   final FocusNode oldNumber = FocusNode();
   // 新号码

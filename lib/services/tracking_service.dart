@@ -2,8 +2,8 @@
   物流
  */
 
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/tracking_model.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/tracking_model.dart';
 
 class TrackingService {
   // 列表
@@ -13,7 +13,7 @@ class TrackingService {
   static Future<List<TrackingModel>> getList(
       [Map<String, dynamic>? params]) async {
     List<TrackingModel> result = [];
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(listApi, queryParameters: params)
         .then((response) {
       var list = response.data;

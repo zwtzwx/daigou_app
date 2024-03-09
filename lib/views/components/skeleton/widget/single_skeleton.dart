@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/views/components/skeleton/skeleton_animation.dart';
-import 'package:huanting_shop/views/components/skeleton/skeleton_decoration.dart';
-import 'package:huanting_shop/views/components/skeleton/widget/skeleton_avatar.dart';
-import 'package:huanting_shop/views/components/skeleton/widget/skeleton_line.dart';
-import 'package:huanting_shop/views/components/skeleton/widget/skeleton_rect.dart';
+import 'package:shop_app_client/views/components/skeleton/skeleton_animation.dart';
+import 'package:shop_app_client/views/components/skeleton/skeleton_decoration.dart';
+import 'package:shop_app_client/views/components/skeleton/widget/skeleton_avatar.dart';
+import 'package:shop_app_client/views/components/skeleton/widget/skeleton_line.dart';
+import 'package:shop_app_client/views/components/skeleton/widget/skeleton_rect.dart';
 
 class SingleSkeleton extends StatefulWidget {
   const SingleSkeleton({

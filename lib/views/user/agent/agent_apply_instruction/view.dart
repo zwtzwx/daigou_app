@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/user/agent/agent_apply_instruction/controller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/empty_app_bar.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/user/agent/agent_apply_instruction/controller.dart';
 
 class AgentApplyInstructionView
     extends GetView<AgentApplyInstructionController> {
@@ -50,7 +50,7 @@ class AgentApplyInstructionView
               text: '申请成为代理',
               backgroundColor: const Color(0xFF3FA2FF),
               onPressed: () {
-                BeeNav.push(BeeNav.agentApply);
+                GlobalPages.push(GlobalPages.agentApply);
               },
             ),
           ),

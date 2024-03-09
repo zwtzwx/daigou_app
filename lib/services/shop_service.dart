@@ -1,19 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/goods_category_model.dart';
-import 'package:huanting_shop/models/shop/cart_model.dart';
-import 'package:huanting_shop/models/shop/category_model.dart';
-import 'package:huanting_shop/models/shop/consult_model.dart';
-import 'package:huanting_shop/models/shop/goods_comment_model.dart';
-import 'package:huanting_shop/models/shop/goods_model.dart';
-import 'package:huanting_shop/models/shop/platform_goods_model.dart';
-import 'package:huanting_shop/models/shop/platform_goods_service_model.dart';
-import 'package:huanting_shop/models/shop/problem_order_model.dart';
-import 'package:huanting_shop/models/shop/shop_order_model.dart';
-import 'package:huanting_shop/storage/language_storage.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/goods_category_model.dart';
+import 'package:shop_app_client/models/shop/cart_model.dart';
+import 'package:shop_app_client/models/shop/category_model.dart';
+import 'package:shop_app_client/models/shop/consult_model.dart';
+import 'package:shop_app_client/models/shop/goods_comment_model.dart';
+import 'package:shop_app_client/models/shop/goods_model.dart';
+import 'package:shop_app_client/models/shop/platform_goods_model.dart';
+import 'package:shop_app_client/models/shop/platform_goods_service_model.dart';
+import 'package:shop_app_client/models/shop/problem_order_model.dart';
+import 'package:shop_app_client/models/shop/shop_order_model.dart';
+import 'package:shop_app_client/storage/language_storage.dart';
 
 class ShopService {
   static const String recommendGoodsApi = 'shop/get-hot-or-recommend';
@@ -62,7 +62,7 @@ class ShopService {
       'dataList': null,
       'totalPage': 1
     };
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(recommendGoodsApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -78,7 +78,7 @@ class ShopService {
   // 代购推荐商品
   static Future<List<PlatformGoodsModel>?> getCachedGoodsList() async {
     List<PlatformGoodsModel>? list;
-    await BeeRequest.instance.get(cacheGoodsApi).then((res) {
+    await ApiConfig.instance.get(cacheGoodsApi).then((res) {
       if (res.ok) {
         list = [];
         res.data.forEach(
@@ -92,7 +92,7 @@ class ShopService {
   static Future<List<CategoryModel>?> getCategories(
       [Map<String, dynamic>? params]) async {
     List<CategoryModel>? list;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(categoryListApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -106,7 +106,7 @@ class ShopService {
   // 商品详情
   static Future<PlatformGoodsModel?> getGoodsDetail(int id) async {
     PlatformGoodsModel? goods;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(goodsDetailApi.replaceAll(':id', id.toString()))
         .then((res) {
       if (res.ok) {
@@ -120,16 +120,16 @@ class ShopService {
   static Future<PlatformGoodsModel?> getDaigouGoodsDetail(
       Map<String, dynamic> params) async {
     PlatformGoodsModel? goods;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(daigouGoodsDetailApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
         goods = PlatformGoodsModel.fromJson(res.data);
       } else {
-        EasyLoading.showError('小海鸥没能及时找到该商品，可以先留下这件商品的信息，小海鸥将全力采购'.ts);
+        EasyLoading.showError('小海鸥没能及时找到该商品，可以先留下这件商品的信息，小海鸥将全力采购'.inte);
       }
     });
-    if (goods != null && LanguageStore.getLanguage() != 'zh_CN') {
+    if (goods != null && LocaleStorage.getLanguage() != 'zh_CN') {
       if (goods!.title.contianCN) {
         await getTranslate(goods!.title)
             .then((data) => goods!.title = data ?? goods!.title);
@@ -148,7 +148,7 @@ class ShopService {
       'dataList': []
     };
     List<GoodsModel>? list;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(goodsListApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -167,7 +167,7 @@ class ShopService {
   // 自营商品 添加商品进购物车
   static Future<bool> onAddCart(Map<String, dynamic> params) async {
     bool res = false;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(
           addCartApi,
           data: params,
@@ -179,7 +179,7 @@ class ShopService {
   // 代购商品 添加购物车
   static Future<bool> onPlatformAddCart(Map<String, dynamic> params) async {
     bool res = false;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(
           addPlatformCartApi,
           data: params,
@@ -192,7 +192,7 @@ class ShopService {
   static Future<List<CartModel>?> getCarts(
       [Map<String, dynamic>? params]) async {
     List<CartModel>? list;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(cartListApi, queryParameters: params)
         .then((res) {
       if (res.ok && res.data.isNotEmpty) {
@@ -209,7 +209,7 @@ class ShopService {
   static Future<bool> updateGoodsQty(
       int id, Map<String, dynamic> params) async {
     bool res = false;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(updateCartGoodsQtyApi.replaceAll(':id', id.toString()),
             data: params)
         .then((response) => res = response.ok);
@@ -219,7 +219,7 @@ class ShopService {
   // 删除购物车商品
   static Future<bool> deleteCartGoods(Map<String, dynamic> params) async {
     bool res = false;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(delCartGoodsApi, data: params)
         .then((response) => res = response.ok);
     return res;
@@ -229,7 +229,7 @@ class ShopService {
   static Future<List<CartModel>?> orderPreview(
       Map<String, dynamic> params) async {
     List<CartModel>? list;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(selfOrderCreateApi,
             queryParameters: params,
             options: Options(contentType: 'application/json'))
@@ -240,7 +240,7 @@ class ShopService {
           list!.add(CartModel.fromJson(item));
         }
       } else {
-        CommonMethods.showToast(res.msg ?? res.error?.message ?? '');
+        BaseUtils.showToast(res.msg ?? res.error?.message ?? '');
       }
     });
     return list;
@@ -249,7 +249,7 @@ class ShopService {
   // 预览订单金额
   static Future<Map?> orderAmountPreview(Map<String, dynamic> params) async {
     Map? res;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(
       orderAmountPreivewApi,
       queryParameters: params,
@@ -265,7 +265,7 @@ class ShopService {
   // 提交自营商店订单
   static Future<Map> orderCreate(Map<String, dynamic> params) async {
     Map res = {'ok': false};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(
           orderCreateApi,
           data: params,
@@ -280,7 +280,7 @@ class ShopService {
   // 提交代购商品订单
   static Future<Map> platformOrderCreate(Map<String, dynamic> params) async {
     Map res = {'ok': false};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(
       orderListApi,
       data: params,
@@ -299,7 +299,7 @@ class ShopService {
   // 自定义商品添加到购物车
   static Future<String?> addCustomToCart(Map<String, dynamic> params) async {
     String? msg;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(addCustomCartApi, data: params)
         .then((response) {
       if (response.ok) {
@@ -312,7 +312,7 @@ class ShopService {
   // 提交自营商品订单
   static Future<CartModel?> selfOrderCreate(Map<String, dynamic> params) async {
     CartModel? model;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(selfOrderCreateApi,
             data: params, options: Options(extra: {'showSuccess': false}))
         .then((res) {
@@ -337,7 +337,7 @@ class ShopService {
   static Future<Map> platformCustomOrderCreate(
       Map<String, dynamic> params) async {
     Map res = {'ok': false};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(
           platformCustomOrderCreateApi,
           data: params,
@@ -359,7 +359,7 @@ class ShopService {
       'dataList': []
     };
     List<ShopOrderModel>? list;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(orderListApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -383,7 +383,7 @@ class ShopService {
       'dataList': []
     };
     List<ProblemOrderModel>? list;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(probleShopOrderApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -403,7 +403,7 @@ class ShopService {
   // 订单详情
   static Future<ShopOrderModel?> getOrderDetail(int id) async {
     ShopOrderModel? order;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(orderDetailApi.replaceAll(':id', id.toString()))
         .then((res) {
       if (res.ok) {
@@ -416,7 +416,7 @@ class ShopService {
   // 取消订单
   static Future<Map> orderCancel(int id) async {
     Map res = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(
           orderCancelApi.replaceAll(':id', id.toString()),
         )
@@ -430,7 +430,7 @@ class ShopService {
   // 余额支付
   static Future<Map> payByBalance(Map<String, dynamic> params) async {
     Map res = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(orderPayByBalanceApi, data: params)
         .then((response) => res = {
               'ok': response.ok,
@@ -442,7 +442,7 @@ class ShopService {
   // 余额支付（订单补款）
   static Future<Map> problemPayByBalance(Map<String, dynamic> params) async {
     Map res = {'ok': false, 'msg': ''};
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(problemOrderPayApi, data: params)
         .then((response) => res = {
               'ok': response.ok,
@@ -454,13 +454,19 @@ class ShopService {
   // 微信支付
   static Future<Map?> payByWechat(Map<String, dynamic> params) async {
     Map? res;
-    await BeeRequest.instance
-        .post(orderPayByWechatApi, data: params)
+    await ApiConfig.instance
+        .post(
+      orderPayByWechatApi,
+      data: params,
+      options: Options(extra: {
+        'showSuccess': false,
+      }),
+    )
         .then((response) {
       if (response.ok) {
         res = response.data;
       } else {
-        CommonMethods.showToast(response.msg ?? response.error?.message ?? '');
+        BaseUtils.showToast(response.msg ?? response.error?.message ?? '');
       }
     });
     return res;
@@ -469,7 +475,7 @@ class ShopService {
   // 订单状态数量统计
   static Future<Map?> getOrderStatusCount() async {
     Map? res;
-    await BeeRequest.instance.get(orderStatusCountApi).then((response) {
+    await ApiConfig.instance.get(orderStatusCountApi).then((response) {
       if (response.ok) {
         res = response.data;
       }
@@ -480,7 +486,7 @@ class ShopService {
   // 购物车商品数量
   static Future<int?> getCartCount() async {
     int? res;
-    await BeeRequest.instance.get(cartCountApi).then((response) {
+    await ApiConfig.instance.get(cartCountApi).then((response) {
       if (response.ok) {
         res = response.data['sku_num'];
       }
@@ -495,7 +501,7 @@ class ShopService {
       'total': (params['page'] ?? 1) + 1,
       'pageIndex': params['page'] ?? 1
     };
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(daigouGoodsApi, queryParameters: params)
         .then((res) {
       if (res.data['items'] != null) {
@@ -513,7 +519,7 @@ class ShopService {
     });
     if (result['dataList'] != null &&
         result['dataList'].isNotEmpty &&
-        LanguageStore.getLanguage() != 'zh_CN') {
+        LocaleStorage.getLanguage() != 'zh_CN') {
       await Future.wait((result['dataList'] as List<PlatformGoodsModel>)
           .where((e) => e.title.contianCN)
           .map((PlatformGoodsModel e) {
@@ -527,7 +533,7 @@ class ShopService {
   static Future<PlatformGoodsServiceModel?> getPlatformGoodsService(
       Map<String, dynamic> params) async {
     PlatformGoodsServiceModel? model;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(platformGoodsOrderServiceApi, queryParameters: params)
         .then((res) {
       if (res.ok && res.data is Map) {
@@ -541,7 +547,7 @@ class ShopService {
   static Future<PlatformGoodsServiceModel?> getCartGoodsService(
       Map<String, dynamic> params) async {
     PlatformGoodsServiceModel? model;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(platformOrderServiceApi, queryParameters: params)
         .then((res) {
       if (res.ok && res.data != null) {
@@ -555,7 +561,7 @@ class ShopService {
   static Future<List<ShopOrderModel>?> getOrderConfirm(
       Map<String, dynamic> params) async {
     List<ShopOrderModel>? list;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(orderConfirmApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -575,7 +581,7 @@ class ShopService {
       'total': (params['page'] ?? 1) + 1,
       'pageIndex': params['page'] ?? 1
     };
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(chatMessageApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
@@ -594,7 +600,7 @@ class ShopService {
   // 发送咨询消息
   static Future<bool> sendMessage(Map<String, dynamic> params) async {
     bool value = false;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(chatMessageApi,
             data: params, options: Options(extra: {'showSuccess': false}))
         .then((res) => value = res.ok);
@@ -604,7 +610,7 @@ class ShopService {
   // 咨询消息设为已读
   static Future<bool> markMessage(id) async {
     bool value = false;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .put(chatMessageMarkApi.replaceAll(':id', id.toString()),
             options: Options(extra: {'loading': false, 'showSuccess': false}))
         .then((res) => value = res.ok);
@@ -617,7 +623,7 @@ class ShopService {
     List<GoodsCategoryModel> result =
         List<GoodsCategoryModel>.empty(growable: true);
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(platformGoodsCategoryApi, queryParameters: params)
         .then((response) {
       if (response.data != null) {
@@ -632,7 +638,7 @@ class ShopService {
   // 代购商品翻译
   static Future<String?> getTranslate(String keyword) async {
     String? translate;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(goodsTranlateApi,
             data: {
               'platform': 'baidu',
@@ -655,7 +661,7 @@ class ShopService {
   // 订单转账支付
   static Future<bool> onOrderTransfer(Map<String, dynamic> params) async {
     bool res = false;
-    await BeeRequest.instance
+    await ApiConfig.instance
         .post(orderTransferPayApi, data: params)
         .then((response) => res = response.ok);
     return res;
@@ -669,7 +675,7 @@ class ShopService {
       'pageIndex': params['page'] ?? 1,
       'dataList': null
     };
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(goodsCommentsApi.replaceAll(':id', id),
             queryParameters: params,
             options: Options(extra: {
@@ -690,7 +696,7 @@ class ShopService {
     });
     if (result['dataList'] != null &&
         result['dataList'].isNotEmpty &&
-        LanguageStore.getLanguage() != 'zh_CN') {
+        LocaleStorage.getLanguage() != 'zh_CN') {
       await Future.wait((result['dataList'] as List<GoodsCommentModel>)
           .map((GoodsCommentModel e) {
         return e.onTranslate();

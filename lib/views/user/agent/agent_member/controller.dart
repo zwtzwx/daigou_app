@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/services/agent_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/services/agent_service.dart';
 
-class AgentMemberController extends GlobalLogic {
+class AgentMemberController extends GlobalController {
   int promotionType = 1;
   int pageIndex = 0;
 

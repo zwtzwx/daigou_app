@@ -4,20 +4,20 @@ import 'package:get/instance_manager.dart';
 // import 'package:fluwx/fluwx.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/config/wechat_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/pay_type_model.dart';
-import 'package:huanting_shop/models/shop/problem_order_model.dart';
-import 'package:huanting_shop/models/shop/shop_order_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/services/balance_service.dart';
-import 'package:huanting_shop/services/shop_service.dart';
-import 'package:huanting_shop/services/user_service.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/config/wechat_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/pay_type_model.dart';
+import 'package:shop_app_client/models/shop/problem_order_model.dart';
+import 'package:shop_app_client/models/shop/shop_order_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/services/balance_service.dart';
+import 'package:shop_app_client/services/shop_service.dart';
+import 'package:shop_app_client/services/user_service.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
 
-class ShopOrderPayController extends GlobalLogic {
+class ShopOrderPayController extends GlobalController {
   final orderList = <ShopOrderModel>[].obs;
   final payTypeList = <PayTypeModel>[].obs;
   final selectedPayType = Rxn<PayTypeModel?>();
@@ -94,13 +94,13 @@ class ShopOrderPayController extends GlobalLogic {
     if (selectedPayType.value!.name == 'wechat') {
       onWechatPay();
     } else if (selectedPayType.value!.name == 'balance') {
-      var result = await BaseDialog.confirmDialog(context, '您确认使用余额支付吗'.ts);
+      var result = await BaseDialog.confirmDialog(context, '您确认使用余额支付吗'.inte);
       if (result == true) {
         onBalancePay();
       }
     } else {
       // 转账支付
-      BeeNav.push(BeeNav.paymentTransfer, arg: {
+      GlobalPages.push(GlobalPages.paymentTransfer, arg: {
         'payModel': payTypeList
             .where((e) => e.name == selectedPayType.value?.name)
             .first,
@@ -118,7 +118,7 @@ class ShopOrderPayController extends GlobalLogic {
   // 微信支付
   void onWechatPay() async {
     List<int> ids = orderList.map((e) => e.id).toList();
-    Map<String, dynamic> map = {'type': 4, 'id': ids};
+    Map<String, dynamic> map = {'type': 4, 'id': ids, 'version': 'v3'};
     var appconfig = await ShopService.payByWechat(map);
     if (appconfig != null) {
       WechatConfig().onPay(appconfig);
@@ -147,9 +147,9 @@ class ShopOrderPayController extends GlobalLogic {
   void onPaySuccess() {
     Get.find<AppStore>().getBaseCountInfo();
     if (problemOrder.value != null || Get.arguments['fromOrderList'] == true) {
-      BeeNav.pop('success');
+      GlobalPages.pop('success');
     } else {
-      BeeNav.redirect(BeeNav.paySuccess, {
+      GlobalPages.redirect(GlobalPages.paySuccess, {
         'fromShop': true,
         'id': orderList.first.id,
       });

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/empty_app_bar.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/user/agent/agent_center/controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/empty_app_bar.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/user/agent/agent_center/controller.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
 class AgentCenterView extends GetView<AgentCenterController> {
@@ -110,7 +110,7 @@ class AgentCenterView extends GetView<AgentCenterController> {
                                             AppText(
                                               alignment: TextAlign.center,
                                               str:
-                                                  '${'邀请码'.ts}: ${controller.userInfo.value?.id ?? ''}',
+                                                  '${'邀请码'.inte}: ${controller.userInfo.value?.id ?? ''}',
                                               fontSize: 14,
                                               color: const Color(0xFF444444),
                                             ),
@@ -157,7 +157,7 @@ class AgentCenterView extends GetView<AgentCenterController> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     AppText(
-                                      str: '已提现金额'.ts,
+                                      str: '已提现金额'.inte,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -186,7 +186,8 @@ class AgentCenterView extends GetView<AgentCenterController> {
                                             () => AppText(
                                               str: controller
                                                   .withdrawedAmount.value
-                                                  .rate(showPriceSymbol: false),
+                                                  .priceConvert(
+                                                      showPriceSymbol: false),
                                               fontSize: 30,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -194,22 +195,22 @@ class AgentCenterView extends GetView<AgentCenterController> {
                                           8.verticalSpaceFromWidth,
                                           GestureDetector(
                                             onTap: () {
-                                              BeeNav.push(
-                                                  BeeNav.agentCommission);
+                                              GlobalPages.push(
+                                                  GlobalPages.agentCommission);
                                             },
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
                                                 AppText(
-                                                  str: '交易记录'.ts,
+                                                  str: '交易记录'.inte,
                                                   fontSize: 14,
-                                                  color: AppColors.textNormal,
+                                                  color: AppStyles.textNormal,
                                                 ),
                                                 3.horizontalSpace,
                                                 Icon(
                                                   Icons.arrow_forward_ios,
-                                                  color: AppColors.textNormal,
+                                                  color: AppStyles.textNormal,
                                                   size: 13.sp,
                                                 )
                                               ],
@@ -237,23 +238,23 @@ class AgentCenterView extends GetView<AgentCenterController> {
                                               6.verticalSpaceFromWidth,
                                               GestureDetector(
                                                 onTap: () {
-                                                  BeeNav.push(
-                                                      BeeNav.agentMember);
+                                                  GlobalPages.push(
+                                                      GlobalPages.agentMember);
                                                 },
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     AppText(
-                                                      str: '已注册好友'.ts,
+                                                      str: '已注册好友'.inte,
                                                       fontSize: 14,
                                                       color:
-                                                          AppColors.textNormal,
+                                                          AppStyles.textNormal,
                                                     ),
                                                     Icon(
                                                       Icons.arrow_forward_ios,
                                                       color:
-                                                          AppColors.textNormal,
+                                                          AppStyles.textNormal,
                                                       size: 13.sp,
                                                     )
                                                   ],
@@ -280,8 +281,8 @@ class AgentCenterView extends GetView<AgentCenterController> {
                                               6.verticalSpaceFromWidth,
                                               GestureDetector(
                                                 onTap: () {
-                                                  BeeNav.push(
-                                                      BeeNav.agentMember,
+                                                  GlobalPages.push(
+                                                      GlobalPages.agentMember,
                                                       arg: 2);
                                                 },
                                                 child: Row(
@@ -289,15 +290,15 @@ class AgentCenterView extends GetView<AgentCenterController> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     AppText(
-                                                      str: '已下单好友'.ts,
+                                                      str: '已下单好友'.inte,
                                                       fontSize: 14,
                                                       color:
-                                                          AppColors.textNormal,
+                                                          AppStyles.textNormal,
                                                     ),
                                                     Icon(
                                                       Icons.arrow_forward_ios,
                                                       color:
-                                                          AppColors.textNormal,
+                                                          AppStyles.textNormal,
                                                       size: 13.sp,
                                                     )
                                                   ],
@@ -327,16 +328,16 @@ class AgentCenterView extends GetView<AgentCenterController> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 AppText(
-                                                  str: '可领取奖金'.ts,
+                                                  str: '可领取奖金'.inte,
                                                   fontSize: 14,
-                                                  color: AppColors.textNormal,
+                                                  color: AppStyles.textNormal,
                                                 ),
                                                 10.verticalSpaceFromWidth,
                                                 Obx(
                                                   () => AppText(
                                                     str: controller
                                                         .withdrawalAmount.value
-                                                        .rate(
+                                                        .priceConvert(
                                                             showPriceSymbol:
                                                                 false),
                                                     fontSize: 20,
@@ -356,8 +357,8 @@ class AgentCenterView extends GetView<AgentCenterController> {
                                               text: '提现',
                                               fontWeight: FontWeight.bold,
                                               onPressed: () {
-                                                BeeNav.push(
-                                                    BeeNav.agentCommissionList);
+                                                GlobalPages.push(GlobalPages
+                                                    .agentCommissionList);
                                               },
                                             ),
                                           )
@@ -417,7 +418,7 @@ class AgentCenterView extends GetView<AgentCenterController> {
                 ),
               ),
               AppText(
-                str: '返佣流程'.ts,
+                str: '返佣流程'.inte,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -436,7 +437,7 @@ class AgentCenterView extends GetView<AgentCenterController> {
                   16.horizontalSpace,
                   Expanded(
                     child: AppText(
-                      str: (e['label'] as String).ts,
+                      str: (e['label'] as String).inte,
                       fontSize: 14,
                       lines: 3,
                     ),

@@ -3,20 +3,20 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/logined_event.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/models/token_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/services/user_service.dart';
-import 'package:huanting_shop/storage/user_storage.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/logined_event.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/country_model.dart';
+import 'package:shop_app_client/models/token_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/services/user_service.dart';
+import 'package:shop_app_client/storage/user_storage.dart';
 
-class BeeSignInLogic extends GlobalLogic {
+class BeeSignInLogic extends GlobalController {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   // 新号码
   final TextEditingController mobileNumberController = TextEditingController();
@@ -25,14 +25,14 @@ class BeeSignInLogic extends GlobalLogic {
   // 验证码
   final TextEditingController validationController = TextEditingController();
   final FocusNode validation = FocusNode();
-  RxString pageTitle = '登录'.ts.obs;
+  RxString pageTitle = '登录'.inte.obs;
   RxInt loginType = 2.obs; // 1、手机号密码 2: 邮箱密码
-  RxString sent = '获取验证码'.ts.obs;
+  RxString sent = '获取验证码'.inte.obs;
   RxString code = ''.obs;
   RxBool isButtonEnable = true.obs;
   final timer = Rxn<Timer?>();
   RxInt count = 60.obs;
-  Rx<Color> codeColor = AppColors.textBlack.obs;
+  Rx<Color> codeColor = AppStyles.textBlack.obs;
   // 电话区号
   RxString areaNumber = '0086'.obs;
   // 电话号码
@@ -94,7 +94,7 @@ class BeeSignInLogic extends GlobalLogic {
           'timezone': areaNumber.value
         });
       } else {
-        CommonMethods.showToast('请输入账号密码'.ts);
+        BaseUtils.showToast('请输入账号密码'.inte);
       }
     } else {
       saveAccount.value = value;
@@ -104,7 +104,8 @@ class BeeSignInLogic extends GlobalLogic {
 
   // 忘记密码
   toForgetPassword() async {
-    BeeNav.push(BeeNav.forgetPassword, arg: {'type': loginType.value});
+    GlobalPages.push(GlobalPages.forgetPassword,
+        arg: {'type': loginType.value});
   }
 
   // 登录
@@ -162,17 +163,17 @@ class BeeSignInLogic extends GlobalLogic {
           tokenModel.user!);
 
       // 保存 device token
-      // String? dt = UserStorage.getDeviceToken();
+      // String? dt = CommonStorage.getDeviceToken();
       // if (dt != null) {
       //   await CommonService.saveDeviceToken({
       //     'type': 1,
       //     'token': dt,
       //   });
       // }
-      if (UserStorage.getNewUser() == 1) {
-        BeeNav.redirect(BeeNav.loggedGuide);
+      if (CommonStorage.getNewUser() == 1) {
+        GlobalPages.redirect(GlobalPages.loggedGuide);
       } else {
-        BeeNav.pop();
+        GlobalPages.pop();
       }
     } catch (e) {
       showToast(e.toString());
@@ -197,7 +198,7 @@ class BeeSignInLogic extends GlobalLogic {
         hideLoading();
         showSuccess(data.msg);
 
-        sent.value = '重新发送'.ts + '  ($count)'; //更新文本内容
+        sent.value = '重新发送'.inte + '  ($count)'; //更新文本内容
         buttonClickListen();
       }, (msg) {
         hideLoading();
@@ -208,7 +209,7 @@ class BeeSignInLogic extends GlobalLogic {
 
   // 选择手机区号
   void onTimezone() async {
-    var s = await BeeNav.push(BeeNav.country);
+    var s = await GlobalPages.push(GlobalPages.country);
     if (s != null) {
       CountryModel a = s as CountryModel;
       areaNumber.value = a.timezone!;
@@ -220,7 +221,7 @@ class BeeSignInLogic extends GlobalLogic {
     if (isButtonEnable.value) {
       //当按钮可点击时
       isButtonEnable.value = false; //按钮状态标记
-      codeColor.value = AppColors.textGray;
+      codeColor.value = AppStyles.textGray;
       initTimer();
     }
   }
@@ -232,10 +233,10 @@ class BeeSignInLogic extends GlobalLogic {
         timer.cancel(); //倒计时结束取消定时器
         isButtonEnable.value = true; //按钮可点击
         count.value = 60; //重置时间
-        codeColor.value = AppColors.textBlack;
-        sent.value = '发送验证码'.ts; //重置按钮文本
+        codeColor.value = AppStyles.textBlack;
+        sent.value = '发送验证码'.inte; //重置按钮文本
       } else {
-        sent.value = '重新发送'.ts + ' ($count)'; //更新文本内容
+        sent.value = '重新发送'.inte + ' ($count)'; //更新文本内容
       }
     });
   }
@@ -247,7 +248,7 @@ class BeeSignInLogic extends GlobalLogic {
 
   // 注册
   void onRegister() async {
-    var s = await BeeNav.push(BeeNav.register);
+    var s = await GlobalPages.push(GlobalPages.register);
     if (s != null) {
       emailController.text = s;
     }

@@ -1,3 +1,3 @@
-import 'package:huanting_shop/config/base_conctroller.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
 
-class AgentApplyInstructionController extends GlobalLogic {}
+class AgentApplyInstructionController extends GlobalController {}

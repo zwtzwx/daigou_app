@@ -4,21 +4,21 @@
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/instance_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/list_refresh_event.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/models/user_info_model.dart';
-import 'package:huanting_shop/services/parcel_service.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/list_refresh_event.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/services/parcel_service.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
-import 'package:huanting_shop/views/order/center/order_center_controller.dart';
-import 'package:huanting_shop/views/parcel/widget/parcel_item_cell.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
+import 'package:shop_app_client/views/order/center/order_center_controller.dart';
+import 'package:shop_app_client/views/parcel/widget/parcel_item_cell.dart';
 
 class ParcelListWidget extends StatefulWidget {
   const ParcelListWidget({
@@ -88,9 +88,9 @@ class _ParcelListWidgetState extends State<ParcelListWidget> {
             constraints: BoxConstraints(maxWidth: 270.w),
             child: AppText(
               str: '订单支付成功后，订单将进入我的包裹，我们将安排运输您的产品。自行购物的商品，给我们提供快递单号，后续将由我们为您服务。'
-                  .ts,
+                  .inte,
               fontSize: 12,
-              color: AppColors.textGrayC9,
+              color: AppStyles.textGrayC9,
               alignment: TextAlign.center,
               lineHeight: 1.8,
               lines: 10,
@@ -103,7 +103,7 @@ class _ParcelListWidgetState extends State<ParcelListWidget> {
             child: BeeButton(
               text: '立即预报',
               onPressed: () {
-                BeeNav.redirect(BeeNav.forecast);
+                GlobalPages.redirect(GlobalPages.forecast);
               },
             ),
           ),

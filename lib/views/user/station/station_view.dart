@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/self_pickup_station_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/components/list_refresh.dart';
-import 'package:huanting_shop/views/user/station/station_controller.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/self_pickup_station_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/components/list_refresh.dart';
+import 'package:shop_app_client/views/user/station/station_controller.dart';
 
 class StationView extends GetView<StationController> {
   const StationView({Key? key}) : super(key: key);
@@ -15,14 +15,14 @@ class StationView extends GetView<StationController> {
       appBar: AppBar(
         centerTitle: true,
         title: AppText(
-          str: '自提点'.ts,
+          str: '自提点'.inte,
           fontSize: 18,
         ),
         elevation: 0.5,
         backgroundColor: Colors.white,
         leading: const BackButton(color: Colors.black),
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: SafeArea(
         child: RefreshView(
           renderItem: renderItem,
@@ -68,15 +68,15 @@ class StationView extends GetView<StationController> {
                       decoration: BoxDecoration(
                         border: Border(
                             bottom: e['label'] != '国家/地区'
-                                ? const BorderSide(color: AppColors.line)
+                                ? const BorderSide(color: AppStyles.line)
                                 : BorderSide.none),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           AppText(
-                            str: (e['label'] as String).ts,
-                            color: AppColors.textGrayC,
+                            str: (e['label'] as String).inte,
+                            color: AppStyles.textGrayC,
                             fontSize: 13,
                           ),
                           AppGaps.vGap4,

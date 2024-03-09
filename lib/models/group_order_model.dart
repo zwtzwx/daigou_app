@@ -1,8 +1,8 @@
-import 'package:huanting_shop/models/order_model.dart';
-import 'package:huanting_shop/models/receiver_address_model.dart';
-import 'package:huanting_shop/models/self_pickup_station_model.dart';
-import 'package:huanting_shop/models/self_pickup_station_order_model.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
+import 'package:shop_app_client/models/order_model.dart';
+import 'package:shop_app_client/models/receiver_address_model.dart';
+import 'package:shop_app_client/models/self_pickup_station_model.dart';
+import 'package:shop_app_client/models/self_pickup_station_order_model.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
 
 class GroupOrderModel {
   late int id;

@@ -1,13 +1,13 @@
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/common/loading_util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/models/shop/platform_goods_model.dart';
-import 'package:huanting_shop/services/common_service.dart';
+import 'package:shop_app_client/common/loading_util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/models/shop/platform_goods_model.dart';
+import 'package:shop_app_client/services/common_service.dart';
 
-class GoodsImageSearchResultLogic extends GlobalLogic {
-  final Rx<LoadingUtil<PlatformGoodsModel>> loadingUtil =
-      LoadingUtil<PlatformGoodsModel>().obs;
+class GoodsImageSearchResultLogic extends GlobalController {
+  final Rx<ListLoadingModel<PlatformGoodsModel>> loadingUtil =
+      ListLoadingModel<PlatformGoodsModel>().obs;
 
   String url = '';
 

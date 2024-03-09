@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/services/common_service.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/services/common_service.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class CodeScanController extends GetxController {
@@ -25,7 +25,7 @@ class CodeScanController extends GetxController {
       'key': data,
     });
     if (res) {
-      BeeNav.pop();
+      GlobalPages.pop();
     } else {
       isRequest = false;
     }

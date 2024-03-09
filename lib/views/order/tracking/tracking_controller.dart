@@ -1,11 +1,11 @@
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/models/tracking_model.dart';
-import 'package:huanting_shop/services/tracking_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/models/tracking_model.dart';
+import 'package:shop_app_client/services/tracking_service.dart';
 
-class BeeOrderTrackLogic extends GlobalLogic {
+class BeeOrderTrackLogic extends GlobalController {
   final isLoading = false.obs;
   final dataList = <TrackingModel>[].obs;
 

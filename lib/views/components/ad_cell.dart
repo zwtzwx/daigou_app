@@ -2,12 +2,12 @@
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/common/util.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/home_refresh_event.dart';
-import 'package:huanting_shop/models/ads_pic_model.dart';
-import 'package:huanting_shop/services/ads_service.dart';
-import 'package:huanting_shop/views/components/load_image.dart';
+import 'package:shop_app_client/common/util.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/home_refresh_event.dart';
+import 'package:shop_app_client/models/ads_pic_model.dart';
+import 'package:shop_app_client/services/ads_service.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 
 class AdsCell extends StatefulWidget {
   const AdsCell({
@@ -63,7 +63,7 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
       child: Swiper(
         onTap: (index) {
           BannerModel model = adList[index];
-          CommonMethods.onAdLink(model);
+          BaseUtils.onAdLink(model);
         },
         itemCount: adList.length,
         scrollDirection: Axis.horizontal,

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/config/wechat_config.dart';
-import 'package:huanting_shop/models/default_amount_model.dart';
-import 'package:huanting_shop/models/pay_type_model.dart';
-import 'package:huanting_shop/services/balance_service.dart';
-import 'package:huanting_shop/services/user_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/config/wechat_config.dart';
+import 'package:shop_app_client/models/default_amount_model.dart';
+import 'package:shop_app_client/models/pay_type_model.dart';
+import 'package:shop_app_client/services/balance_service.dart';
+import 'package:shop_app_client/services/user_service.dart';
 
-class RechargeController extends GlobalLogic {
+class RechargeController extends GlobalController {
   final TextEditingController otherPriceController = TextEditingController();
   final FocusNode otherPriceNode = FocusNode();
 
@@ -108,7 +108,7 @@ class RechargeController extends GlobalLogic {
     if (selectType.first.name == 'wechat') {
       weChatPayMethod();
     } else {
-      BeeNav.push(BeeNav.paymentTransfer, arg: {
+      GlobalPages.push(GlobalPages.paymentTransfer, arg: {
         'transferType': 1,
         'amount': amount.value,
         'payModel': selectType.first,

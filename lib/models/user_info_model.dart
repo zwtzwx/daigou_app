@@ -1,16 +1,16 @@
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/models/currency_rate_model.dart';
-import 'package:huanting_shop/models/language_model.dart';
-import 'package:huanting_shop/models/localization_model.dart';
-import 'package:huanting_shop/models/user_model.dart';
-import 'package:huanting_shop/models/user_order_count_model.dart';
-import 'package:huanting_shop/services/common_service.dart';
-import 'package:huanting_shop/services/language_service.dart';
-import 'package:huanting_shop/services/localization_service.dart';
-import 'package:huanting_shop/services/shop_service.dart';
-import 'package:huanting_shop/services/user_service.dart';
-import 'package:huanting_shop/storage/language_storage.dart';
-import 'package:huanting_shop/storage/user_storage.dart';
+import 'package:shop_app_client/models/currency_rate_model.dart';
+import 'package:shop_app_client/models/language_model.dart';
+import 'package:shop_app_client/models/localization_model.dart';
+import 'package:shop_app_client/models/user_model.dart';
+import 'package:shop_app_client/models/user_order_count_model.dart';
+import 'package:shop_app_client/services/common_service.dart';
+import 'package:shop_app_client/services/language_service.dart';
+import 'package:shop_app_client/services/localization_service.dart';
+import 'package:shop_app_client/services/shop_service.dart';
+import 'package:shop_app_client/services/user_service.dart';
+import 'package:shop_app_client/storage/language_storage.dart';
+import 'package:shop_app_client/storage/user_storage.dart';
 
 class AppStore {
   final token = ''.obs;
@@ -27,9 +27,9 @@ class AppStore {
   LocalizationModel? get localModel => _localModel.value;
 
   AppStore() {
-    token.value = UserStorage.getToken();
-    userInfo.value = UserStorage.getUserInfo();
-    accountInfo.value = UserStorage.getAccountInfo();
+    token.value = CommonStorage.getToken();
+    userInfo.value = CommonStorage.getUserInfo();
+    accountInfo.value = CommonStorage.getAccountInfo();
     refreshToken();
     initCurrency();
     getLanguages();
@@ -52,12 +52,12 @@ class AppStore {
 
   saveAccount(Map data) {
     accountInfo.value = data;
-    UserStorage.setAccountInfo(data);
+    CommonStorage.setAccountInfo(data);
   }
 
   clearAccount() {
     accountInfo.value = null;
-    UserStorage.clearnAccountInfo();
+    CommonStorage.clearnAccountInfo();
   }
 
   clear() {
@@ -65,14 +65,14 @@ class AppStore {
     userInfo.value = null;
     amountInfo.value = null;
     cartCount.value = 0;
-    UserStorage.clearToken();
+    CommonStorage.clearToken();
   }
 
   refreshToken() async {
     if (token.value.isNotEmpty) {
       var res = await CommonService.refreshToken();
       if (res != null) {
-        UserStorage.setToken(res);
+        CommonStorage.setToken(res);
         token.value = res;
         getBaseCountInfo();
         getCartCount();
@@ -81,7 +81,7 @@ class AppStore {
   }
 
   initCurrency() async {
-    var currency = await LanguageStore.getCurrency();
+    var currency = await LocaleStorage.getCurrency();
     rateList.value = await CommonService.getRateList();
     var data = await LocalizationService.getInfo();
     _localModel.value = data;
@@ -120,7 +120,7 @@ class AppStore {
 
   // 购物车商品数量
   void getCartCount() async {
-    var token = UserStorage.getToken();
+    var token = CommonStorage.getToken();
     if (token.isNotEmpty) {
       var data = await ShopService.getCartCount();
       cartCount.value = data ?? 0;

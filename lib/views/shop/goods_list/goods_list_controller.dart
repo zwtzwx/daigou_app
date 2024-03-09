@@ -1,19 +1,20 @@
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/common/loading_util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/models/shop/category_model.dart';
-import 'package:huanting_shop/models/shop/goods_model.dart';
-import 'package:huanting_shop/services/shop_service.dart';
+import 'package:shop_app_client/common/loading_util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/models/shop/category_model.dart';
+import 'package:shop_app_client/models/shop/goods_model.dart';
+import 'package:shop_app_client/services/shop_service.dart';
 
-class GoodsListController extends GlobalLogic {
+class GoodsListController extends GlobalController {
   Map<String, dynamic>? arguments;
   final RxInt categoryId = 0.obs;
   final RxList<CategoryModel> categories = <CategoryModel>[].obs;
   final orderBy = ''.obs;
   final sortType = ''.obs;
   String keyword = '';
-  final Rx<LoadingUtil<GoodsModel>> loadingUtil = LoadingUtil<GoodsModel>().obs;
+  final Rx<ListLoadingModel<GoodsModel>> loadingUtil =
+      ListLoadingModel<GoodsModel>().obs;
 
   @override
   void onInit() {

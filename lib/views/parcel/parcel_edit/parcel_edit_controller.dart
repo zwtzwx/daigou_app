@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/list_refresh_event.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/models/express_company_model.dart';
-import 'package:huanting_shop/models/goods_props.dart';
-import 'package:huanting_shop/models/parcel_model.dart';
-import 'package:huanting_shop/models/value_added_service_model.dart';
-import 'package:huanting_shop/models/warehouse_model.dart';
-import 'package:huanting_shop/services/express_company_service.dart';
-import 'package:huanting_shop/services/goods_service.dart';
-import 'package:huanting_shop/services/parcel_service.dart';
-import 'package:huanting_shop/services/warehouse_service.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/list_refresh_event.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/models/country_model.dart';
+import 'package:shop_app_client/models/express_company_model.dart';
+import 'package:shop_app_client/models/goods_props.dart';
+import 'package:shop_app_client/models/parcel_model.dart';
+import 'package:shop_app_client/models/value_added_service_model.dart';
+import 'package:shop_app_client/models/warehouse_model.dart';
+import 'package:shop_app_client/services/express_company_service.dart';
+import 'package:shop_app_client/services/goods_service.dart';
+import 'package:shop_app_client/services/parcel_service.dart';
+import 'package:shop_app_client/services/warehouse_service.dart';
 
-class BeePackageUpdateLogic extends GlobalLogic {
+class BeePackageUpdateLogic extends GlobalController {
   final TextEditingController packgeNameController = TextEditingController();
   final FocusNode packageNameNode = FocusNode();
   final TextEditingController packgeValueController = TextEditingController();
@@ -69,8 +69,8 @@ class BeePackageUpdateLogic extends GlobalLogic {
       }
       packgeNameController.text = (packageModel.value.packageName ?? '');
       packgeQtyController.text = (packageModel.value.qty ?? '').toString();
-      packgeValueController.text =
-          (packageModel.value.packageValue ?? 0).rate(showPriceSymbol: false);
+      packgeValueController.text = (packageModel.value.packageValue ?? 0)
+          .priceConvert(showPriceSymbol: false);
       remarkController.text = (packageModel.value.remark ?? '');
       isLoadingLocal.value = true;
     }
@@ -150,7 +150,7 @@ class BeePackageUpdateLogic extends GlobalLogic {
           .event
           .fire(ListRefreshEvent(type: 'reset'));
       showSuccess('修改成功').then((value) {
-        BeeNav.pop();
+        GlobalPages.pop();
       });
     } else {
       showError('修改失败');
@@ -159,7 +159,7 @@ class BeePackageUpdateLogic extends GlobalLogic {
 
   // 选择国家
   goCountry() async {
-    var s = await BeeNav.push(BeeNav.country, arg: {
+    var s = await GlobalPages.push(GlobalPages.country, arg: {
       'warehouseId': packageModel.value.warehouse?.id,
     });
     if (s == null) {

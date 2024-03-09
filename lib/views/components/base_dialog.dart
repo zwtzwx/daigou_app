@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/order_model.dart';
-import 'package:huanting_shop/models/parcel_box_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/order_model.dart';
+import 'package:shop_app_client/models/parcel_box_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
 /*
   公共弹窗
@@ -27,7 +27,7 @@ class BaseDialog {
           return AlertDialog(
             title: Container(
               alignment: Alignment.center,
-              child: Text((title ?? '提示').ts),
+              child: Text((title ?? '提示').inte),
             ),
             content: Container(
               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -37,8 +37,8 @@ class BaseDialog {
               showCancelButton
                   ? TextButton(
                       child: AppText(
-                        str: (cancelText ?? '取消').ts,
-                        color: AppColors.textNormal,
+                        str: (cancelText ?? '取消').inte,
+                        color: AppStyles.textNormal,
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
@@ -47,8 +47,8 @@ class BaseDialog {
                   : AppGaps.empty,
               TextButton(
                 child: AppText(
-                  str: (confirmText ?? '确认').ts,
-                  color: AppColors.textBlack,
+                  str: (confirmText ?? '确认').inte,
+                  color: AppStyles.textBlack,
                 ),
                 onPressed: () {
                   Navigator.of(context).pop(true);
@@ -70,7 +70,7 @@ class BaseDialog {
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: Text((title ?? "提示").ts),
+          title: Text((title ?? "提示").inte),
           content: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -78,13 +78,13 @@ class BaseDialog {
           ),
           actions: [
             CupertinoDialogAction(
-              child: Text('取消'.ts),
+              child: Text('取消'.inte),
               onPressed: () {
                 Navigator.pop(context, false);
               },
             ),
             CupertinoDialogAction(
-              child: Text('确定'.ts),
+              child: Text('确定'.inte),
               onPressed: () {
                 Navigator.pop(context, true);
               },
@@ -124,7 +124,7 @@ class BaseDialog {
                               vertical: 10, horizontal: 15),
                           decoration: const BoxDecoration(
                               border: Border(
-                            bottom: BorderSide(color: AppColors.line),
+                            bottom: BorderSide(color: AppStyles.line),
                           )),
                           alignment: Alignment.center,
                           child: AppText(
@@ -143,8 +143,8 @@ class BaseDialog {
                       height: 40,
                       alignment: Alignment.center,
                       child: AppText(
-                          str: (confirmText ?? '确认').ts,
-                          color: AppColors.primary),
+                          str: (confirmText ?? '确认').inte,
+                          color: AppStyles.primary),
                     ),
                   ),
                 ],
@@ -164,7 +164,7 @@ class BaseDialog {
       ParcelBoxModel boxModel = orderModel.boxes[i];
       var view = CupertinoActionSheetAction(
         child: Text(
-          '${'子订单'.ts}-' '${i + 1}',
+          '${'子订单'.inte}-' '${i + 1}',
         ),
         onPressed: () {
           Navigator.of(context)
@@ -179,7 +179,7 @@ class BaseDialog {
           return CupertinoActionSheet(
             actions: list,
             cancelButton: CupertinoActionSheetAction(
-              child: Text('取消'.ts),
+              child: Text('取消'.inte),
               onPressed: () {
                 Navigator.of(context).pop('cancel');
               },
@@ -190,9 +190,10 @@ class BaseDialog {
       return;
     }
     if (result != null && result.isEmpty) {
-      BeeNav.push(BeeNav.orderTracking, arg: {"order_sn": orderModel.orderSn});
+      GlobalPages.push(GlobalPages.orderTracking,
+          arg: {"order_sn": orderModel.orderSn});
     } else {
-      BeeNav.push(BeeNav.orderTracking, arg: {"order_sn": result});
+      GlobalPages.push(GlobalPages.orderTracking, arg: {"order_sn": result});
     }
   }
 
@@ -209,8 +210,8 @@ class BaseDialog {
           actions: list
               .map(
                 (e) => CupertinoActionSheetAction(
-                  child:
-                      Text(translation ? (e['name'] as String).ts : e['name']),
+                  child: Text(
+                      translation ? (e['name'] as String).inte : e['name']),
                   onPressed: () {
                     Navigator.of(context).pop(e['id']);
                   },
@@ -218,7 +219,7 @@ class BaseDialog {
               )
               .toList(),
           cancelButton: CupertinoActionSheetAction(
-            child: Text('取消'.ts),
+            child: Text('取消'.inte),
             onPressed: () {
               Navigator.of(context).pop();
             },

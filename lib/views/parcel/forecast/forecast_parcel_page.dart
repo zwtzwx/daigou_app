@@ -1,24 +1,24 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/config/text_config.dart';
-import 'package:huanting_shop/extension/rate_convert.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/models/ship_line_service_model.dart';
-import 'package:huanting_shop/views/components/base_dialog.dart';
-import 'package:huanting_shop/views/components/button/main_button.dart';
-import 'package:huanting_shop/views/components/button/plain_button.dart';
-import 'package:huanting_shop/views/components/input/base_input.dart';
-import 'package:huanting_shop/views/components/input/input_text_item.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/config/text_config.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/models/country_model.dart';
+import 'package:shop_app_client/models/ship_line_service_model.dart';
+import 'package:shop_app_client/views/components/base_dialog.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
+import 'package:shop_app_client/views/components/button/plain_button.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
+import 'package:shop_app_client/views/components/input/input_text_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_picker/flutter_picker.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/models/express_company_model.dart';
-import 'package:huanting_shop/views/components/caption.dart';
-import 'package:huanting_shop/views/parcel/forecast/forecast_controller.dart';
-import 'package:huanting_shop/views/parcel/widget/prop_sheet_cell.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/models/express_company_model.dart';
+import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/views/parcel/forecast/forecast_controller.dart';
+import 'package:shop_app_client/views/parcel/widget/prop_sheet_cell.dart';
 
 /*
   包裹预报
@@ -31,30 +31,30 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
-        backgroundColor: AppColors.bgGray,
+        backgroundColor: AppStyles.bgGray,
         elevation: 0,
         centerTitle: true,
         title: AppText(
-          str: '提交转运'.ts,
+          str: '提交转运'.inte,
           fontSize: 17,
         ),
         actions: [
           GestureDetector(
             onTap: () {
-              BeeNav.push(BeeNav.orderCenter);
+              GlobalPages.push(GlobalPages.orderCenter);
             },
             child: Container(
               alignment: Alignment.center,
               margin: EdgeInsets.only(right: 15.w),
               child: AppText(
-                str: '到仓商品'.ts,
+                str: '到仓商品'.inte,
                 fontSize: 14,
               ),
             ),
           ),
         ],
       ),
-      backgroundColor: AppColors.bgGray,
+      backgroundColor: AppStyles.bgGray,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -77,7 +77,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                         height: 22.w,
                         child: Checkbox.adaptive(
                           value: controller.agreementBool.value,
-                          activeColor: AppColors.primary,
+                          activeColor: AppStyles.primary,
                           shape: const CircleBorder(),
                           onChanged: (value) {
                             if (value == null) return;
@@ -87,7 +87,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                       )),
                   5.horizontalSpace,
                   AppText(
-                    str: '已阅读并同意'.ts,
+                    str: '已阅读并同意'.inte,
                     fontSize: 14,
                   ),
                   GestureDetector(
@@ -95,7 +95,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                       showProtocol(context);
                     },
                     child: AppText(
-                      str: '《${'转运协议'.ts}》',
+                      str: '《${'转运协议'.inte}》',
                       color: const Color(0xFFFA9601),
                       fontSize: 14,
                     ),
@@ -143,7 +143,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
   Widget shipCountry() {
     return GestureDetector(
       onTap: () async {
-        var tmp = await BeeNav.push(BeeNav.country);
+        var tmp = await GlobalPages.push(GlobalPages.country);
         if (tmp == null) return;
         controller.selectedCountryModel.value = tmp as CountryModel;
         controller.getWarehouseList();
@@ -153,18 +153,18 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
         child: Row(
           children: [
             AppText(
-              str: '寄往国家'.ts,
+              str: '寄往国家'.inte,
               fontSize: 14,
             ),
             Expanded(
               child: Obx(
                 () => AppText(
                   str: controller.selectedCountryModel.value == null
-                      ? '请选择国家'.ts
+                      ? '请选择国家'.inte
                       : controller.selectedCountryModel.value!.name!,
                   color: controller.selectedCountryModel.value == null
-                      ? AppColors.textGrayC9
-                      : AppColors.textDark,
+                      ? AppStyles.textGrayC9
+                      : AppStyles.textDark,
                   fontSize: 12,
                   alignment: TextAlign.right,
                 ),
@@ -174,7 +174,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             Icon(
               Icons.arrow_forward_ios,
               size: 13.sp,
-              color: AppColors.textNormal,
+              color: AppStyles.textNormal,
             )
           ],
         ),
@@ -193,7 +193,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             children: [
               Expanded(
                 child: AppText(
-                  str: '仓库地址'.ts,
+                  str: '仓库地址'.inte,
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
@@ -297,7 +297,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            str: '到件即发'.ts,
+            str: '到件即发'.inte,
             fontWeight: FontWeight.bold,
             fontSize: 13,
           ),
@@ -305,7 +305,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             onTap: controller.onAddress,
             child: Container(
               decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: AppColors.line)),
+                border: Border(bottom: BorderSide(color: AppStyles.line)),
               ),
               padding: EdgeInsets.symmetric(vertical: 13.w),
               child: Row(
@@ -322,14 +322,14 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 AppText(
-                                  str: '收件人信息'.ts,
+                                  str: '收件人信息'.inte,
                                   fontSize: 13,
                                 ),
                                 2.verticalSpace,
                                 AppText(
-                                  str: '点击选择收件人信息'.ts,
+                                  str: '点击选择收件人信息'.inte,
                                   fontSize: 11,
-                                  color: AppColors.textGrayC,
+                                  color: AppStyles.textGrayC,
                                 ),
                               ],
                             )
@@ -367,8 +367,8 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                   ),
                   10.horizontalSpace,
                   AppText(
-                    str: '地址簿'.ts,
-                    color: AppColors.textGrayC,
+                    str: '地址簿'.inte,
+                    color: AppStyles.textGrayC,
                     fontSize: 10,
                   ),
                 ],
@@ -379,7 +379,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             onTap: controller.onLine,
             child: Container(
               decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: AppColors.line)),
+                border: Border(bottom: BorderSide(color: AppStyles.line)),
               ),
               padding: EdgeInsets.symmetric(vertical: 13.w),
               child: Row(
@@ -396,14 +396,14 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 AppText(
-                                  str: '运送方式'.ts,
+                                  str: '运送方式'.inte,
                                   fontSize: 13,
                                 ),
                                 2.verticalSpace,
                                 AppText(
-                                  str: '点击选择运送方式'.ts,
+                                  str: '点击选择运送方式'.inte,
                                   fontSize: 11,
-                                  color: AppColors.textGrayC,
+                                  color: AppStyles.textGrayC,
                                 ),
                               ],
                             )
@@ -416,7 +416,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                                 ),
                                 2.verticalSpace,
                                 AppText(
-                                  str: '时效'.ts +
+                                  str: '时效'.inte +
                                       '：' +
                                       (controller.lineModel.value!.region
                                               ?.referenceTime ??
@@ -429,8 +429,8 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                   ),
                   10.horizontalSpace,
                   AppText(
-                    str: '请选择'.ts,
-                    color: AppColors.textGrayC,
+                    str: '请选择'.inte,
+                    color: AppStyles.textGrayC,
                     fontSize: 10,
                   ),
                 ],
@@ -446,7 +446,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                 : AppGaps.empty,
           ),
           AppText(
-            str: '下单备注'.ts,
+            str: '下单备注'.inte,
             fontWeight: FontWeight.bold,
             fontSize: 13,
           ),
@@ -458,7 +458,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
               focusNode: controller.remarkNode,
               board: true,
               contentPadding: EdgeInsets.all(10.w),
-              hintText: '给打包小哥捎话'.ts,
+              hintText: '给打包小哥捎话'.inte,
               maxLines: 8,
               autoShowRemove: false,
               minLines: 3,
@@ -480,28 +480,28 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
       // 1 运费比例 2固定费用 3单箱固定费用 4单位计费重量固定费用 5单位实际重量固定费用 6申报价值比列
       switch (item.type) {
         case 1:
-          second = '实际运费'.ts + (item.value / 100).toStringAsFixed(2) + '%';
+          second = '实际运费'.inte + (item.value / 100).toStringAsFixed(2) + '%';
           break;
         case 2:
-          second = item.value.rate();
+          second = item.value.priceConvert();
           break;
         case 3:
-          second = item.value.rate() + '/${'箱'.ts}';
+          second = item.value.priceConvert() + '/${'箱'.inte}';
           break;
         case 4:
-          second = item.value.rate() +
+          second = item.value.priceConvert() +
               '/' +
               (controller.localModel?.weightSymbol ?? '');
-          third = '(${'计费重'.ts})';
+          third = '(${'计费重'.inte})';
           break;
         case 5:
-          second = item.value.rate() +
+          second = item.value.priceConvert() +
               '/' +
               (controller.localModel?.weightSymbol ?? '');
-          third = '(${'实重'.ts})';
+          third = '(${'实重'.inte})';
           break;
         case 6:
-          second = '申报价值'.ts + (item.value / 100).toStringAsFixed(2) + '%';
+          second = '申报价值'.inte + (item.value / 100).toStringAsFixed(2) + '%';
 
           break;
         default:
@@ -529,21 +529,21 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                               const TextSpan(
                                 text: ' ',
                                 style: TextStyle(
-                                  color: AppColors.textBlack,
+                                  color: AppStyles.textBlack,
                                   fontSize: 10.0,
                                 ),
                               ),
                               TextSpan(
                                 text: second,
                                 style: const TextStyle(
-                                  color: AppColors.textRed,
+                                  color: AppStyles.textRed,
                                   fontSize: 15.0,
                                 ),
                               ),
                               const TextSpan(
                                 text: ' ',
                                 style: TextStyle(
-                                  color: AppColors.textBlack,
+                                  color: AppStyles.textBlack,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -551,7 +551,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                               TextSpan(
                                 text: third,
                                 style: const TextStyle(
-                                  color: AppColors.textDark,
+                                  color: AppStyles.textDark,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w300,
                                 ),
@@ -566,7 +566,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                               child: IconButton(
                                 icon: const Icon(
                                   Icons.error_outline_outlined,
-                                  color: AppColors.green,
+                                  color: AppStyles.green,
                                   size: 25,
                                 ),
                                 onPressed: () {
@@ -580,7 +580,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                   Obx(
                     () => Switch.adaptive(
                       value: controller.LineServiceId.contains(item.id),
-                      activeColor: AppColors.green,
+                      activeColor: AppStyles.green,
                       onChanged: (value) {
                         if (item.isForced == 1) return;
                         if (controller.LineServiceId.contains(item.id)) {
@@ -604,7 +604,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppText(
-          str: '渠道增值服务'.ts,
+          str: '渠道增值服务'.inte,
           fontWeight: FontWeight.bold,
           fontSize: 13,
         ),
@@ -625,7 +625,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
               text: TextSpan(
                 style: TextStyle(
                   fontSize: 14.sp,
-                  color: AppColors.textDark,
+                  color: AppStyles.textDark,
                 ),
                 children: [
                   TextSpan(
@@ -636,8 +636,8 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                     child: Padding(
                       padding: EdgeInsets.only(left: 10.w, right: 5.w),
                       child: AppText(
-                        str: (item.value.charge ?? 0).rate(),
-                        color: AppColors.primary,
+                        str: (item.value.charge ?? 0).priceConvert(),
+                        color: AppStyles.primary,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -653,7 +653,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                         },
                         child: Icon(
                           Icons.help,
-                          color: AppColors.green,
+                          color: AppStyles.green,
                           size: 18.sp,
                         ),
                       ),
@@ -664,7 +664,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
           ),
           Switch.adaptive(
             value: item.value.isOpen,
-            activeColor: AppColors.primary,
+            activeColor: AppStyles.primary,
             onChanged: (value) {
               item.value.isOpen = value;
               item.refresh();
@@ -680,7 +680,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            str: '到仓服务'.ts,
+            str: '到仓服务'.inte,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -721,8 +721,8 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             //       adapter: PickerDataAdapter(
             //           data: getPickerExpressCompany(
             //               controller.expressCompanyList)),
-            //       cancelText: '取消'.ts,
-            //       confirmText: '确认'.ts,
+            //       cancelText: '取消'.inte,
+            //       confirmText: '确认'.inte,
             //       selectedTextStyle:
             //           const TextStyle(color: Colors.blue, fontSize: 12),
             //       onCancel: () {},
@@ -735,7 +735,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             //     ).showModal(context);
             //   },
             //   child: InputTextItem(
-            //       title: '快递名称'.ts,
+            //       title: '快递名称'.inte,
             //       leftFlex: 2,
             //       isRequired: true,
             //       bgColor: Colors.transparent,
@@ -746,17 +746,17 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             //           mainAxisAlignment: MainAxisAlignment.end,
             //           children: <Widget>[
             //             Text(
-            //               model.value.expressName ?? '请选择快递名称'.ts,
+            //               model.value.expressName ?? '请选择快递名称'.inte,
             //               style: model.value.expressName != null
-            //                   ? AppTextStyles.textDark14
-            //                   : AppTextStyles.textGray14,
+            //                   ? SizeConfig.textDark14
+            //                   : SizeConfig.textGray14,
             //             ),
             //             const Padding(
             //               padding:
             //                   EdgeInsets.only(right: 15, top: 10, bottom: 10),
             //               child: Icon(
             //                 Icons.arrow_forward_ios,
-            //                 color: AppColors.textBlack,
+            //                 color: AppStyles.textBlack,
             //                 size: 18,
             //               ),
             //             ),
@@ -765,13 +765,13 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             //       )),
             // ),
             InputTextItem(
-              title: '快递单号'.ts,
+              title: '快递单号'.inte,
               leftFlex: 2,
               flag: false,
               isRequired: true,
               margin: const EdgeInsets.only(left: 0),
               inputText: BaseInput(
-                hintText: '请输入快递单号'.ts,
+                hintText: '请输入快递单号'.inte,
                 contentPadding: EdgeInsets.only(right: 13.w),
                 textAlign: TextAlign.right,
                 controller: model.value.editControllers!.numController,
@@ -801,9 +801,9 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                   : null,
             ),
             // InputTextItem(
-            //   title: "物品名称".ts,
+            //   title: "物品名称".inte,
             //   inputText: BaseInput(
-            //     hintText: '请输入物品名称'.ts,
+            //     hintText: '请输入物品名称'.inte,
             //     textAlign: TextAlign.right,
             //     controller: model.value.editControllers!.nameController,
             //     focusNode: model.value.editControllers!.nameNode,
@@ -823,9 +823,9 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             // ),
             // InputTextItem(
             //   leftFlex: 3,
-            //   title: '物品价值'.ts + '(${controller.currencyModel.value?.symbol})',
+            //   title: '物品价值'.inte + '(${controller.currencyModel.value?.symbol})',
             //   inputText: BaseInput(
-            //       hintText: '请输入物品价值'.ts,
+            //       hintText: '请输入物品价值'.inte,
             //       textAlign: TextAlign.right,
             //       controller: model.value.editControllers!.valueController,
             //       contentPadding: EdgeInsets.only(right: 13.w),
@@ -862,7 +862,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                     });
               },
               child: InputTextItem(
-                title: '物品类型'.ts,
+                title: '物品类型'.inte,
                 flag: false,
                 margin: const EdgeInsets.only(left: 0),
                 inputText: Container(
@@ -877,13 +877,13 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                           child: Obx(
                             () => Text(
                               model.value.prop == null
-                                  ? '请选择物品属性'.ts
+                                  ? '请选择物品属性'.inte
                                   : model.value.prop!
                                       .map((e) => e.name)
                                       .join(' '),
                               style: model.value.prop == null
-                                  ? AppTextStyles.textGray14
-                                  : AppTextStyles.textDark14,
+                                  ? SizeConfig.textGray14
+                                  : SizeConfig.textDark14,
                             ),
                           ),
                         ),
@@ -893,7 +893,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                             right: 13.w, top: 8.w, bottom: 8.w, left: 10.w),
                         child: const Icon(
                           Icons.arrow_forward_ios,
-                          color: AppColors.textBlack,
+                          color: AppStyles.textBlack,
                           size: 15,
                         ),
                       ),
@@ -905,7 +905,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             // InputTextItem(
             //     leftFlex: 5,
             //     rightFlex: 5,
-            //     title: '商品数量'.ts,
+            //     title: '商品数量'.inte,
             //     inputText: Row(
             //       mainAxisSize: MainAxisSize.max,
             //       mainAxisAlignment: MainAxisAlignment.end,
@@ -920,8 +920,8 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             //                       ? Icons.remove_circle
             //                       : Icons.remove_circle,
             //                   color: model.value.qty == 1
-            //                       ? AppColors.textGray
-            //                       : AppColors.primary,
+            //                       ? AppStyles.textGray
+            //                       : AppStyles.primary,
             //                   size: 35,
             //                 ),
             //               ),
@@ -950,7 +950,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             //           child: IconButton(
             //               icon: const Icon(
             //                 Icons.add_circle,
-            //                 color: AppColors.primary,
+            //                 color: AppStyles.primary,
             //                 size: 35,
             //               ),
             //               onPressed: () {
@@ -965,7 +965,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             //     )),
             10.verticalSpaceFromWidth,
             AppText(
-              str: '备注'.ts,
+              str: '备注'.inte,
               fontSize: 14,
             ),
             10.verticalSpaceFromWidth,
@@ -976,7 +976,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
               margin: EdgeInsets.only(right: 14.w),
               clipBehavior: Clip.none,
               child: BaseInput(
-                hintText: '请填写备注信息'.ts,
+                hintText: '请填写备注信息'.inte,
                 board: true,
                 minLines: 5,
                 maxLines: 7,

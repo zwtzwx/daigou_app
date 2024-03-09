@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:huanting_shop/common/upload_util.dart';
-import 'package:huanting_shop/config/base_conctroller.dart';
-import 'package:huanting_shop/config/routers.dart';
-import 'package:huanting_shop/events/application_event.dart';
-import 'package:huanting_shop/events/list_refresh_event.dart';
-import 'package:huanting_shop/models/order_model.dart';
-import 'package:huanting_shop/services/comment_service.dart';
+import 'package:shop_app_client/common/upload_util.dart';
+import 'package:shop_app_client/config/base_conctroller.dart';
+import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/events/application_event.dart';
+import 'package:shop_app_client/events/list_refresh_event.dart';
+import 'package:shop_app_client/models/order_model.dart';
+import 'package:shop_app_client/services/comment_service.dart';
 
-class OrderCommentController extends GlobalLogic {
+class OrderCommentController extends GlobalController {
   final TextEditingController contentController = TextEditingController();
   final FocusNode contentNode = FocusNode();
   final tips = ''.obs;
@@ -31,7 +31,7 @@ class OrderCommentController extends GlobalLogic {
   }
 
   onImgUpload() {
-    ImageUpload.imagePicker(
+    ImagePickers.imagePicker(
       context: Get.context!,
       onSuccessCallback: (imageUrl) {
         selectImg.add(imageUrl);
@@ -59,7 +59,7 @@ class OrderCommentController extends GlobalLogic {
       ApplicationEvent.getInstance()
           .event
           .fire(ListRefreshEvent(type: 'refresh'));
-      BeeNav.pop('success');
+      GlobalPages.pop('success');
     }
   }
 }

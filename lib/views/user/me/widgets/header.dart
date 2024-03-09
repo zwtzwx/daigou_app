@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
 class MeHeader extends StatelessWidget implements PreferredSizeWidget {
   const MeHeader({Key? key}) : super(key: key);

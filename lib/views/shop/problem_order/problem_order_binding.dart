@@ -1,5 +1,5 @@
 import 'package:get/instance_manager.dart';
-import 'package:huanting_shop/views/shop/problem_order/problem_order_controller.dart';
+import 'package:shop_app_client/views/shop/problem_order/problem_order_controller.dart';
 
 class ProblemOrderBinding extends Bindings {
   @override

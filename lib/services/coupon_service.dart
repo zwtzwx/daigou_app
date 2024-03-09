@@ -2,8 +2,8 @@
   优惠券服务
  */
 
-import 'package:huanting_shop/common/http_client.dart';
-import 'package:huanting_shop/models/user_coupon_model.dart';
+import 'package:shop_app_client/common/http_client.dart';
+import 'package:shop_app_client/models/user_coupon_model.dart';
 
 class CouponService {
   // 积分列表integral
@@ -17,7 +17,7 @@ class CouponService {
     Map result = {"dataList": [], 'total': 1, 'pageIndex': page};
     List<UserCouponModel> dataList = <UserCouponModel>[];
 
-    await BeeRequest.instance
+    await ApiConfig.instance
         .get(dataListApi, queryParameters: params)
         .then((response) {
       var list = response.data;

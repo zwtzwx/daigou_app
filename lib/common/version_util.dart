@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class VersionUtils {
+class UpdateConfig {
   // 判断 app 版本
   static Future<bool> isAppUpdatedRequired(String latestVersion) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -35,7 +35,7 @@ class VersionUtils {
       launchUrl(Uri.parse('https://apps.apple.com/ru/app/item/id6468028783'));
     } else {
       launchUrl(Uri.parse(
-          'https://play.google.com/store/apps/details?id=com.yunliantiao.jiyun_app_client'));
+          'https://play.google.com/store/apps/details?id=com.tongxiao.shop_app_client'));
     }
   }
 }

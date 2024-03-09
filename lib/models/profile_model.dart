@@ -1,6 +1,6 @@
-import 'package:huanting_shop/models/area_model.dart';
-import 'package:huanting_shop/models/country_model.dart';
-import 'package:huanting_shop/models/sub_area_model.dart';
+import 'package:shop_app_client/models/area_model.dart';
+import 'package:shop_app_client/models/country_model.dart';
+import 'package:shop_app_client/models/sub_area_model.dart';
 
 /*
   个人资料

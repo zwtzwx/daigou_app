@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:huanting_shop/config/color_config.dart';
-import 'package:huanting_shop/extension/translation.dart';
-import 'package:huanting_shop/views/components/caption.dart';
+import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/caption.dart';
 
 class ActionSheet extends StatelessWidget {
   const ActionSheet({
@@ -50,7 +50,7 @@ class ActionSheet extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               border: Border(
-                top: BorderSide(color: AppColors.bgGray, width: 8),
+                top: BorderSide(color: AppStyles.bgGray, width: 8),
               ),
             ),
             child: SafeArea(
@@ -60,7 +60,7 @@ class ActionSheet extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 title: AppText(
-                  str: '取消'.ts,
+                  str: '取消'.inte,
                   alignment: TextAlign.center,
                 ),
               ),
