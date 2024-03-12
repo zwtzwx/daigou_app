@@ -67,6 +67,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                 ? shipWarehouse()
                 : AppGaps.empty),
             Obx(() => parcelListCell()),
+            // parcelListCell(),
             // 再添加一个包裹
             addParcel(),
             addedInfo(context),

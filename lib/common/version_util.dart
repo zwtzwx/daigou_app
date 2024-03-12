@@ -32,7 +32,7 @@ class UpdateConfig {
 
   static void jumpToApp() {
     if (Platform.isIOS) {
-      launchUrl(Uri.parse('https://apps.apple.com/ru/app/item/id6468028783'));
+      launchUrl(Uri.parse('https://apps.apple.com/cn/app/item/id1629807090'));
     } else {
       launchUrl(Uri.parse(
           'https://play.google.com/store/apps/details?id=com.tongxiao.shop_app_client'));

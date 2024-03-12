@@ -368,7 +368,9 @@ class BeeParcelCreateLogic extends GlobalController {
   }
 
   onAdd() {
+    print('触发');
     formData.value.add(ParcelModel.initEdit(num: ('').toString()).obs);
+    formData.refresh();
   }
 
   // 批量添加包裹单号
