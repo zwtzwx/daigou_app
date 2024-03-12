@@ -1,5 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:shop_app_client/config/routers.dart';
 import 'package:shop_app_client/config/text_config.dart';
 import 'package:shop_app_client/extension/rate_convert.dart';
@@ -66,6 +67,8 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                 ? shipWarehouse()
                 : AppGaps.empty),
             Obx(() => parcelListCell()),
+            // 再添加一个包裹
+            addParcel(),
             addedInfo(context),
             Padding(
               padding: EdgeInsets.only(left: 12.w, top: 30.h),
@@ -92,7 +95,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      showProtocol(context);
+                      controller.showProtocol(context);
                     },
                     child: AppText(
                       str: '《${'转运协议'.inte}》',
@@ -108,18 +111,6 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
               padding: EdgeInsets.symmetric(horizontal: 14.w),
               child: Row(
                 children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: 38.h,
-                      child: HollowButton(
-                        onPressed: controller.onBatchAdd,
-                        text: '批量预报',
-                        borderWidth: 2,
-                        textFontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  15.horizontalSpace,
                   Expanded(
                     child: SizedBox(
                       height: 38.h,
@@ -139,6 +130,38 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
     );
   }
 
+
+  Widget addParcel() {
+    return Container(
+      padding: EdgeInsets.only(left: 20,right: 20,bottom: 15),
+      child: GestureDetector(
+        onTap: (){
+          controller.onAdd();
+        },
+        child: DottedBorder(
+            dashPattern: [6, 2],
+            color: Colors.grey,
+            strokeWidth: 1,
+            radius: Radius.circular(10),
+            child: Container(
+              child: SizedBox(
+                  height: 30.h,
+                  child: Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                    ),
+                    child: Text('+添加包裹',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold
+                      ),),
+                  )
+              ),
+            )
+        ),
+      ),
+    );
+  }
   // 寄往国家
   Widget shipCountry() {
     return GestureDetector(
@@ -194,12 +217,12 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
               Expanded(
                 child: AppText(
                   str: '仓库地址'.inte,
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               SizedBox(
-                height: 30.h,
+                height: 20.h,
                 child: BeeButton(
                   text: '复制',
                   onPressed: () {
@@ -214,13 +237,15 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
               ),
             ],
           ),
+          10.verticalSpaceFromWidth,
+          AppGaps.line,
           15.verticalSpaceFromWidth,
           Row(
             children: [
               AppText(
                 str:
                     controller.selectedWarehouseModel.value?.receiverName ?? '',
-                fontSize: 14,
+                fontSize: 12,
               ),
               10.horizontalSpace,
               Expanded(
@@ -229,18 +254,19 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                   fontSize: 14,
                 ),
               ),
-              AppText(
-                str: controller.selectedWarehouseModel.value?.postcode ?? '',
-                fontSize: 14,
-              ),
             ],
           ),
-          10.verticalSpaceFromWidth,
+          5.verticalSpaceFromWidth,
           AppText(
             str: controller.selectedWarehouseModel.value?.address ?? '',
-            fontSize: 14,
+            fontSize: 12,
             lineHeight: 1.4,
             lines: 5,
+          ),
+          5.verticalSpaceFromWidth,
+          AppText(
+            str: controller.selectedWarehouseModel.value?.postcode ?? '',
+            fontSize: 12,
           ),
         ],
       ),
@@ -771,6 +797,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
               isRequired: true,
               margin: const EdgeInsets.only(left: 0),
               inputText: BaseInput(
+                style: TextStyle(fontSize: 20),
                 hintText: '请输入快递单号'.inte,
                 contentPadding: EdgeInsets.only(right: 13.w),
                 textAlign: TextAlign.right,
@@ -1003,6 +1030,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
     );
   }
 
+
   getPickerExpressCompany(List<ExpressCompanyModel> list) {
     List<PickerItem> data = [];
     for (var item in list) {
@@ -1017,19 +1045,5 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
     return data;
   }
 
-  // 转运协议
-  showProtocol(BuildContext context) {
-    BaseDialog.normalDialog(
-      context,
-      title: controller.terms['title'],
-      child: Flexible(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            child: Html(data: controller.terms['content']),
-          ),
-        ),
-      ),
-    );
-  }
+
 }

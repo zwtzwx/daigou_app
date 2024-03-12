@@ -22,6 +22,7 @@ import 'package:shop_app_client/views/components/goods/sku_bottom_sheet.dart';
 import 'package:shop_app_client/views/shop/image_search_goods_list/binding.dart';
 import 'package:shop_app_client/views/shop/image_search_goods_list/view.dart';
 import 'package:shop_app_client/views/shop/widget/goods_comments_sheet.dart';
+import 'package:shop_app_client/utils/fetch_loading.dart';
 
 class GoodsDetailController extends GlobalController {
   final isPlatformGoods = false.obs; // 是否是代购商品
@@ -81,6 +82,7 @@ class GoodsDetailController extends GlobalController {
     }
     return '';
   }
+
 
   // 以图搜物
   void onPhotoSearch() async {

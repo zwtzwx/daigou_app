@@ -218,7 +218,7 @@ class IndexPage extends GetView<IndexLogic> {
       {
         'label': '提交转运',
         'icon': 'Home/ico_zydd',
-        'route': GlobalPages.orderCenter,
+        'route': GlobalPages.forecast,
         'params': 1
       },
     ];

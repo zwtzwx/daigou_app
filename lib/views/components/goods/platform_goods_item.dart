@@ -6,6 +6,7 @@ import 'package:shop_app_client/extension/rate_convert.dart';
 import 'package:shop_app_client/extension/translation.dart';
 import 'package:shop_app_client/models/shop/platform_goods_model.dart';
 import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/utils/fetch_loading.dart';
 import 'package:shop_app_client/views/components/load_image.dart';
 import 'package:shop_app_client/views/shop/goods_detail/goods_detail_binding.dart';
 import 'package:shop_app_client/views/shop/goods_detail/goods_detail_view.dart';
@@ -26,6 +27,13 @@ class PlatformGoodsCell extends StatelessWidget {
     final currency = Get.find<AppStore>().currencyModel.value;
     return GestureDetector(
       onTap: () {
+        // 提前获取接口
+        // fetchLoading fetchloading = fetchLoading(type: 'goods_details');
+        // fetchloading.fetchData({
+        //   'goodsId':goods.id,
+        //   'arguments': {'url': goods.detailUrl},
+        // });
+        // origin
         GlobalPages.toPage(
           GoodsDetailView(goodsId: goods.id.toString()),
           arguments: {'url': goods.detailUrl},

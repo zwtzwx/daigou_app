@@ -69,7 +69,6 @@ dependencies:
   camera: ^0.10.5+5
   sticky_headers: ^0.3.0+2
   fluwx: ^4.4.10
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

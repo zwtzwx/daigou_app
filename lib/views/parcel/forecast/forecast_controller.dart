@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:get/get.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:shop_app_client/config/base_conctroller.dart';
@@ -64,6 +66,7 @@ class BeeParcelCreateLogic extends GlobalController {
 
   UserModel? userModel = Get.find<AppStore>().userInfo.value;
 
+
   @override
   void onInit() {
     super.onInit();
@@ -96,7 +99,9 @@ class BeeParcelCreateLogic extends GlobalController {
       getWarehouseList();
       getProps();
     }
+    showProtocol(Get.context!);
   }
+
 
   //加载页面所需要的数据
   loadInitData() async {
@@ -108,6 +113,22 @@ class BeeParcelCreateLogic extends GlobalController {
     if (_terms != null) {
       terms.value = _terms;
     }
+  }
+
+  // 转运协议
+  showProtocol(BuildContext context) {
+    BaseDialog.normalDialog(
+      context,
+      title: terms['title'],
+      child: Flexible(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            child: Html(data: terms['content']),
+          ),
+        ),
+      ),
+    );
   }
 
   // 物品属性
@@ -138,6 +159,7 @@ class BeeParcelCreateLogic extends GlobalController {
       forecastType.value = data;
     }
   }
+
 
   // 到件即发选择收件地址
   onAddress() async {
@@ -343,6 +365,10 @@ class BeeParcelCreateLogic extends GlobalController {
         },
       ).showModal(context);
     }
+  }
+
+  onAdd() {
+    formData.value.add(ParcelModel.initEdit(num: ('').toString()).obs);
   }
 
   // 批量添加包裹单号

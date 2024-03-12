@@ -41,70 +41,16 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                   child: SafeArea(
                     child: Row(
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            GlobalPages.push(GlobalPages.cart);
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            child: Obx(
-                              () {
-                                var cartCount =
-                                    Get.find<AppStore>().cartCount.value;
-                                return Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Stack(
-                                      clipBehavior: Clip.none,
-                                      children: [
-                                        LoadAssetImage(
-                                          'Home/ico_gwc',
-                                          width: 26.w,
-                                          height: 26.w,
-                                        ),
-                                        if (cartCount != 0)
-                                          Positioned(
-                                            right: -4.w,
-                                            top: -4.w,
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: AppStyles.primary,
-                                                borderRadius:
-                                                    BorderRadius.circular(8.r),
-                                              ),
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 5.w,
-                                                  vertical: 1.w),
-                                              child: AppText(
-                                                str: cartCount.toString(),
-                                                fontSize: 10,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                    AppText(
-                                      str: '购物车'.inte,
-                                      fontSize: 12,
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        14.horizontalSpace,
                         Expanded(
                           child: SizedBox(
-                            height: 38.h,
+                            height: 30.h,
                             child: BeeButton(
-                              text: '加入购物车',
+                              borderRadis: 12,
+                              text: '购买',
                               backgroundColor: const Color(0xFFFFE1E2),
                               textColor: AppStyles.primary,
                               onPressed: () {
-                                controller.showSkuModal('cart');
+                                controller.showSkuModal('buy');
                               },
                             ),
                           ),
@@ -112,11 +58,14 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                         15.horizontalSpace,
                         Expanded(
                           child: SizedBox(
-                            height: 38.h,
+                            height: 30.h,
                             child: BeeButton(
-                              text: '购买',
+                              borderRadis: 12,
+                              text: '加入购物车',
+                              backgroundColor: AppStyles.primary,
+                              textColor: const Color(0xFFFFE1E2),
                               onPressed: () {
-                                controller.showSkuModal('buy');
+                                controller.showSkuModal('cart');
                               },
                             ),
                           ),
@@ -193,13 +142,88 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  BackButton(
-                    color: controller.prcent.value > 0
-                        ? Colors.black
-                        : Colors.white,
-                  ),
+                 GestureDetector(
+                   onTap: (){
+                     Navigator.of(context).pop();
+                   },
+                   child: SizedBox(
+                     child:  Container(
+                       margin:EdgeInsets.only(right: 3),
+                       padding: EdgeInsets.all(6),
+                       decoration: BoxDecoration(
+                           color: Colors.white,
+                           borderRadius: BorderRadius.circular(150)
+                       ),
+                       child:
+                       LoadAssetImage(
+                         'Guide/back-guide',
+                         width: 22.w,
+                         height: 22.w,
+                       ),
+                     ),
+                   ),
+                 ),
                   if (controller.prcent.value > 0)
                     const Expanded(child: BaseSearch()),
+                  GestureDetector(
+                    onTap: () {
+                      GlobalPages.push(GlobalPages.cart);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 3),
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(150)
+                      ),
+                      child: Obx(
+                            () {
+                          var cartCount =
+                              Get.find<AppStore>().cartCount.value;
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  LoadAssetImage(
+                                    'Home/ico_gwc',
+                                    width: 22.w,
+                                    height: 22.w,
+                                  ),
+                                  if (cartCount != 0)
+                                    Positioned(
+                                      right: -4.w,
+                                      top: -4.w,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: AppStyles.primary,
+                                          borderRadius:
+                                          BorderRadius.circular(8.r),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 5.w,
+                                            vertical: 1.w),
+                                        child: AppText(
+                                          str: cartCount.toString(),
+                                          fontSize: 10,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                              // AppText(
+                              //   str: '购物车'.inte,
+                              //   fontSize: 12,
+                              // ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
