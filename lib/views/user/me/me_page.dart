@@ -115,6 +115,11 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
           'route': GlobalPages.recharge,
         },
         {
+          'name': '优惠券',
+          'icon': 'Center/ico_yhq',
+          'route': GlobalPages.coupon,
+        },
+        {
           'name': '我的积分',
           'icon': 'Center/ico_jf',
           'route': GlobalPages.vip,

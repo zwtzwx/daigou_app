@@ -15,7 +15,7 @@ import 'package:shop_app_client/views/user/coupon/controller.dart';
 
 class CouponPage extends GetView<CouponController> {
   const CouponPage({Key? key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +29,11 @@ class CouponPage extends GetView<CouponController> {
           fontSize: 17,
         ),
         bottom: TabBar(
+            padding: EdgeInsets.only(left: 60.w,right: 60.w),
             labelColor: AppStyles.primary,
             indicatorColor: AppStyles.primary,
+            indicatorWeight:4,
+            indicatorPadding: EdgeInsets.symmetric(horizontal:50.w),
             controller: controller.tabController,
             onTap: (int index) {
               controller.pageController.jumpToPage(index);
@@ -173,6 +176,7 @@ class CouponsListState extends State<CouponsList> {
       renderItem: renderItem,
       refresh: loadList,
       more: loadMoreList,
+        isCoupoun:true
     );
   }
 
@@ -192,10 +196,15 @@ class CouponsListState extends State<CouponsList> {
       },
       child: Container(
         margin: EdgeInsets.only(top: 10.h, left: 14.w, right: 14.w),
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
+        // padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10.r),
+          image: DecorationImage(
+            image: widget.params['selectType'] == 1?AssetImage('assets/images/Home/yhq-none.png')
+            :AssetImage('assets/images/Home/yhq.png'),
+            fit: BoxFit.fill, // 完全填充
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,167 +215,178 @@ class CouponsListState extends State<CouponsList> {
                 Expanded(
                   child: Row(
                     children: [
+                      10.horizontalSpace,
                       Expanded(
                         flex: 4,
-                        child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                colorFilter: widget.params['selectType'] == 1
-                                    ? const ColorFilter.mode(
-                                        Color(0xFFBFBFBF), BlendMode.color)
-                                    : null,
-                                image: const AssetImage(
-                                    "assets/images/Center/coupon-new.png"),
-                                fit: BoxFit.contain,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            10.verticalSpace,
+                            Container(
+                              padding: EdgeInsets.only(left: 10),
+                              constraints: BoxConstraints(
+                                minHeight: 20.h,
+                              ),
+                              child: AppText(
+                                str: model.coupon?.name ?? '',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
                             ),
+                            5.verticalSpaceFromWidth,
+                            // 时间
+                            Container(
+                              padding: EdgeInsets.only(left: 10),
+                              child: AppText(
+                                str: model.coupon != null
+                                    ? model.coupon!.effectedAt.substring(0, 10) +
+                                    '-' +
+                                    model.coupon!.expiredAt.substring(0, 10)
+                                    : '',
+                                fontSize: 12,
+                                color: Colors.white,
+                                // fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            5.verticalSpaceFromWidth,
+                            // 适用范围
+                            // AppText(
+                            //   str: '适用范围'.inte +
+                            //       '：' +
+                            //       ((model.coupon?.scope ?? 0) == 1
+                            //           ? '部分线路'.inte
+                            //           : '全部范围'.inte),
+                            //   fontSize: 12,
+                            //   color: Colors.white,
+                            //   lines: 2,
+                            //   // fontWeight: FontWeight.bold,
+                            // ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          // 原来
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                10.verticalSpaceFromWidth,
                                 10.verticalSpaceFromWidth,
                                 model.coupon?.discountType == 2
                                     ? RichText(
-                                        text: TextSpan(
-                                        style: TextStyle(
-                                          fontSize: 20.sp,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
+                                    text: TextSpan(
+                                      style: TextStyle(
+                                        fontSize: 22.sp,
+                                        color: widget.params['selectType'] == 1?Color(0xff959595)
+                                        :Color(0xffE55152),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: ((model.coupon?.weight ?? 0) /
+                                              1000)
+                                              .priceConvert(
+                                            showInt: true,
+                                            showPriceSymbol: false,
+                                            needFormat: false,
+                                          ),
                                         ),
-                                        children: [
-                                          TextSpan(
-                                            text: ((model.coupon?.weight ?? 0) /
-                                                    1000)
-                                                .priceConvert(
-                                              showInt: true,
-                                              showPriceSymbol: false,
-                                              needFormat: false,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: ' ' +
-                                                (localizationInfo
-                                                        ?.weightSymbol ??
-                                                    ''),
-                                            style: TextStyle(
-                                              fontSize: 14.sp,
-                                            ),
-                                          ),
-                                        ],
-                                      ))
-                                    : RichText(
-                                        text: TextSpan(
+                                        TextSpan(
+                                          text: ' ' +
+                                              (localizationInfo
+                                                  ?.weightSymbol ??
+                                                  ''),
                                           style: TextStyle(
-                                            fontSize: 20.sp,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14.sp,
+                                            color: widget.params['selectType'] == 1?Color(0xff959595)
+                                                :Color(0xffE55152),
                                           ),
-                                          children: [
-                                            TextSpan(
-                                              text: (localizationInfo
-                                                          ?.currencySymbol ??
-                                                      '') +
-                                                  ' ',
-                                              style: TextStyle(
-                                                fontSize: 14.sp,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: (model.coupon?.amount ?? 0)
-                                                  .priceConvert(
-                                                      showInt: true,
-                                                      showPriceSymbol: false),
-                                            ),
-                                          ],
+                                        ),
+                                      ],
+                                    ))
+                                    : RichText(
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 22.sp,
+                                      color: widget.params['selectType'] == 1?Color(0xff959595)
+                                          :Color(0xffE55152),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: (localizationInfo
+                                            ?.currencySymbol ??
+                                            '') +
+                                            ' ',
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: widget.params['selectType'] == 1?Color(0xff959595)
+                                              :Color(0xffE55152),
                                         ),
                                       ),
+                                      TextSpan(
+                                        text: (model.coupon?.amount ?? 0)
+                                            .priceConvert(
+                                            showInt: true,
+                                            showPriceSymbol: false),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                                 Container(
+                                  alignment: Alignment.center,
                                   constraints: BoxConstraints(
-                                    minHeight: 30.h,
+                                    // minHeight: 20.h,
                                   ),
                                   child: AppText(
                                     str: '满{price}可用'.inArgs({
                                       'price': model.coupon?.discountType == 2
                                           ? ((model.coupon?.minWeight ?? 0) /
-                                                      1000)
-                                                  .priceConvert(
-                                                      showInt: true,
-                                                      showPriceSymbol: false,
-                                                      needFormat: false) +
-                                              (localizationInfo?.weightSymbol ??
-                                                  '')
+                                          1000)
+                                          .priceConvert(
+                                          showInt: true,
+                                          showPriceSymbol: false,
+                                          needFormat: false) +
+                                          (localizationInfo?.weightSymbol ??
+                                              '')
                                           : (model.coupon?.threshold ?? 0)
-                                              .priceConvert()
+                                          .priceConvert()
                                     }),
-                                    color: AppStyles.white,
-                                    fontSize: 12,
+                                    color: widget.params['selectType'] == 1?Color(0xff959595)
+                                        :Color(0xffE55152),
+                                    fontSize: 10,
                                   ),
                                 ),
                                 10.verticalSpaceFromWidth,
-                                AppText(
-                                  str: model.coupon?.discountType == 0
-                                      ? '抵现券'.inte
-                                      : '抵重券'.inte,
-                                  color: AppStyles.white,
-                                  fontSize: 14,
-                                ),
+                                // AppText(
+                                //   str: model.coupon?.discountType == 0
+                                //       ? '抵现券'.inte
+                                //       : '抵重券'.inte,
+                                //   color: Color(0xffE55152),
+                                //   fontSize: 14,
+                                // ),
                                 8.verticalSpaceFromWidth,
                               ],
                             )),
                       ),
-                      10.horizontalSpace,
-                      Expanded(
-                        flex: 6,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              constraints: BoxConstraints(
-                                minHeight: 35.h,
-                              ),
-                              child: AppText(
-                                str: model.coupon?.name ?? '',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            5.verticalSpaceFromWidth,
-                            AppText(
-                              str: model.coupon != null
-                                  ? model.coupon!.effectedAt.substring(0, 10) +
-                                      '-' +
-                                      model.coupon!.expiredAt.substring(0, 10)
-                                  : '',
-                              fontSize: 12,
-                              // fontWeight: FontWeight.bold,
-                            ),
-                            5.verticalSpaceFromWidth,
-                            AppText(
-                              str: '适用范围'.inte +
-                                  '：' +
-                                  ((model.coupon?.scope ?? 0) == 1
-                                      ? '部分线路'.inte
-                                      : '全部范围'.inte),
-                              fontSize: 12,
-                              lines: 2,
-                              // fontWeight: FontWeight.bold,
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      model.isOpen = !model.isOpen;
-                    });
-                  },
-                  child: Icon(
-                    model.isOpen
-                        ? Icons.keyboard_arrow_down
-                        : Icons.keyboard_arrow_up,
-                    size: 30.sp,
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     setState(() {
+                //       model.isOpen = !model.isOpen;
+                //     });
+                //   },
+                //   child: Icon(
+                //     model.isOpen
+                //         ? Icons.keyboard_arrow_down
+                //         : Icons.keyboard_arrow_up,
+                //     size: 30.sp,
+                //   ),
+                // ),
               ],
             ),
             8.verticalSpaceFromWidth,

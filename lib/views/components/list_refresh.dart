@@ -33,6 +33,7 @@ class RefreshView extends StatefulWidget {
   final double gridViewMainSpace;
   final String? emptyImg;
   final Widget? emptyWidget;
+  final bool isCoupoun;
 
   const RefreshView(
       {Key? key,
@@ -51,6 +52,7 @@ class RefreshView extends StatefulWidget {
       this.gridViewCrossSpace = 10,
       this.gridViewMainSpace = 10,
       this.separator,
+      this.isCoupoun = false,
       this.emptyImg,
       this.emptyWidget,
       this.putAlldatas})
@@ -260,13 +262,13 @@ class _ListRefreshState extends State<RefreshView> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(
+               SizedBox(
                 height: 140,
                 width: 140,
                 child: ImgItem(
                   '',
                   fit: BoxFit.contain,
-                  holderImg: "Home/empty",
+                  holderImg: widget.isCoupoun ? "Home/coupon-empty" : "Home/empty",
                   format: "png",
                 ),
               ),

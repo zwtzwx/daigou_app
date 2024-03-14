@@ -17,10 +17,10 @@ class NoticeWidget extends StatelessWidget {
     return Obx(() {
       var list = Get.find<IndexLogic>().noticeList;
       return Container(
-        height: 36.h,
+        height: 30.h,
         margin: EdgeInsets.symmetric(horizontal: 14.w),
         decoration: BoxDecoration(
-          color: const Color(0xFFF6F7FB),
+          color: const Color(0xffF4F8F9),
           borderRadius: BorderRadius.circular(999),
         ),
         padding: EdgeInsets.symmetric(horizontal: 12.w),

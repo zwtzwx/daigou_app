@@ -6,8 +6,10 @@ import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:shop_app_client/config/color_config.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:shop_app_client/config/routers.dart';
 import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/utils/dotted_painting.dart';
 import 'package:shop_app_client/extension/translation.dart';
 import 'package:shop_app_client/models/user_info_model.dart';
 import 'package:shop_app_client/views/components/base_search.dart';
@@ -115,6 +117,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
           children: [
             baseInfoCell(),
             // optionCell(context),
+           processCell(),
             shopCell(),
             10.verticalSpaceFromWidth,
             Obx(() => commentsCell()),
@@ -478,6 +481,144 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget processCell() {
+    return defaultBoxItem(
+      margin: EdgeInsets.fromLTRB(14.w, 0, 14.w, 10.h),
+      child:Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 5,vertical: 9),
+                decoration: BoxDecoration(
+                  color: Color(0xffFFE6E6),
+                  borderRadius: BorderRadius.all(Radius.circular(4))
+                ),
+                child: AppText(
+                  str: '从商家到海鸥'.inte,
+                  color: Color(0xffFF3A3E),
+                  fontSize: 12,
+                  lines: 5,
+                  // fontWeight: FontWeight.bold,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 5,vertical: 9),
+                decoration: BoxDecoration(
+                    color: Color(0xffFFE6E6),
+                    borderRadius: BorderRadius.all(Radius.circular(4))
+                ),
+                child: AppText(
+                  str: '从海鸥到您'.inte,
+                  color: Color(0xffFF3A3E),
+                  fontSize: 12,
+                  lines: 5,
+                  // fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          9.verticalSpace,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width:8,
+                height: 8,
+                child: ClipOval(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Color(0xffFF3A3E)
+                    ),
+                  ),
+                ),
+              ),
+              // DottedBorder(
+              //   dashPattern: [6, 2],
+              //   color: Color(0xffFF8789),
+              //   strokeWidth: 2,
+              //     child:Container(
+              //       width: 120.w,
+              //     )
+              // ),
+              Container(
+                width: 120.w,
+                child: DottedLine(
+                  direction:Axis.horizontal,
+                  color: Color(0xffFF8789),
+                  height: 2.w,
+                ),
+              ),
+              Container(
+                width:8,
+                height: 8,
+                child: ClipOval(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Color(0xffFF3A3E)
+                    ),
+                  ),
+                ),
+              ),
+              // DottedBorder(
+              //     dashPattern: [6, 2],
+              //     color: Color(0xffFF8789),
+              //     strokeWidth: 2,
+              //     child:Container(
+              //       width: 120.w,
+              //     )
+              // ),
+              Container(
+                width: 120.w,
+                child: DottedLine(
+                  direction:Axis.horizontal,
+                  color: Color(0xffFF8789),
+                  height: 2.w,
+                ),
+              ),
+              Container(
+                width:8,
+                height: 8,
+                child: ClipOval(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Color(0xffFF3A3E)
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          20.verticalSpace,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppText(
+                str: '商家发货'.inte,
+                color: Color(0xff333333),
+                fontSize: 14,
+                // fontWeight: FontWeight.bold,
+              ),
+              AppText(
+                str: '海鸥认证仓库'.inte,
+                color: Color(0xff333333),
+                fontSize: 14,
+                // fontWeight: FontWeight.bold,
+              ),
+              AppText(
+                str: '包裹交付'.inte,
+                color: Color(0xff333333),
+                fontSize: 14,
+                // fontWeight: FontWeight.bold,
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

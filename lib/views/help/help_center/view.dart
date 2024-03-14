@@ -28,6 +28,8 @@ class BeeSupportView extends GetView<BeeSupportLogic> {
         bottom: TabBar(
           controller: controller.tabController,
           isScrollable: true,
+          indicatorWeight:5,
+            indicatorPadding: EdgeInsets.symmetric(horizontal:15.w),
           tabs: ['公告', '常见问题', '禁运物品', '新手指引']
               .map(
                 (e) => Padding(
@@ -40,7 +42,6 @@ class BeeSupportView extends GetView<BeeSupportLogic> {
                 ),
               )
               .toList(),
-          labelColor: AppStyles.primary,
           indicatorColor: AppStyles.primary,
           onTap: (value) {
             controller.pageController.jumpToPage(value);
