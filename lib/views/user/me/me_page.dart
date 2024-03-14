@@ -154,6 +154,11 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
       ],
       [
         {
+          'name': '个人资料',
+          'icon': 'Center/ico_grzl',
+          'route': GlobalPages.help,
+        },
+        {
           'name': '帮助中心',
           'icon': 'Center/ico_bzzx',
           'route': GlobalPages.help,
