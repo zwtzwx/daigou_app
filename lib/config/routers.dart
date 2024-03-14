@@ -121,6 +121,8 @@ import 'package:shop_app_client/views/user/agent/agent_withdraw_record/bindings.
 import 'package:shop_app_client/views/user/agent/agent_withdraw_record/view.dart';
 import 'package:shop_app_client/views/user/bind_info/bind_info_binding.dart';
 import 'package:shop_app_client/views/user/bind_info/bind_info_view.dart';
+import 'package:shop_app_client/views/user/info_change/info_change_binding.dart';
+import 'package:shop_app_client/views/user/info_change/info_change_view.dart';
 import 'package:shop_app_client/views/user/coupon/bindings.dart';
 import 'package:shop_app_client/views/user/coupon/view.dart';
 import 'package:shop_app_client/views/user/forget_password/forget_password_binding.dart';
@@ -167,6 +169,7 @@ class GlobalPages {
   static const String orderDetail = '/order/detail'; // 订单详情
   static const String orderComment = '/order/comment'; // 订单评价
   static const String orderTracking = '/order/tracking'; // 订单物流
+  static const String userInfo = '/user/info';
   static const String warehouse = '/warehouse'; // 仓库
   static const String webview = '/webview';
   static const String transaction = '/transaction'; // 交易记录
@@ -301,6 +304,11 @@ class GlobalPages {
       name: guide,
       page: () => const GuideView(),
       binding: GuideBinding(),
+    ),
+    GetPage(
+      name: userInfo,
+      page: () => const InfoPage(),
+      binding: BeeInfoBinding(),
     ),
     GetPage(
       name: loggedGuide,
