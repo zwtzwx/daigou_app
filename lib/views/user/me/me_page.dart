@@ -122,7 +122,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
         {
           'name': '我的积分',
           'icon': 'Center/ico_jf',
-          'route': GlobalPages.vip,
+          'route': GlobalPages.point,
         },
         {
           'name': '我的评论',
@@ -146,11 +146,11 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
           'icon': 'Center/ico_ck',
           'route': GlobalPages.warehouse,
         },
-        {
-          'name': '邮寄其他包裹',
-          'icon': 'Center/ico_bg',
-          'route': GlobalPages.forecast,
-        },
+        // {
+        //   'name': '邮寄其他包裹',
+        //   'icon': 'Center/ico_bg',
+        //   'route': GlobalPages.forecast,
+        // },
       ],
       [
         {

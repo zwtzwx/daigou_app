@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shop_app_client/extension/translation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:shop_app_client/config/color_config.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
 import 'package:shop_app_client/views/components/caption.dart';
 import 'package:shop_app_client/views/user/info_change/info_change_controller.dart';
 
@@ -23,10 +24,27 @@ class InfoPage extends GetView<BeeInfoLogic> {
           fontSize: 17,
         ),
       ),
+        bottomNavigationBar: Container(
+          padding: EdgeInsets.only(left: 40,right: 40,bottom: 20),
+          child: SizedBox(
+            height: 46,
+            child: BeeButton(
+              text: '保存',
+              backgroundColor: AppStyles.primary,
+              textColor: const Color(0xFFFFE1E2),
+              onPressed: () {
+
+              },
+            ),
+          ),
+        ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             inPutItem(context, '姓名', '请输入真实姓名', controller.nameController),
+            selectTimeZone(context),
+            selectBirthday(context),
+            selectCountry(context),
             inPutItem(context, '联系电话', '请输入收件人电话', controller.phoneController),
             inPutItem(context, '城市', '请输入城市', controller.cityNameController),
             inPutItem(context, '街道', '请输入街道', controller.streetNameController),
@@ -41,8 +59,129 @@ class InfoPage extends GetView<BeeInfoLogic> {
 
 
 
+// 电话区号
+selectTimeZone(BuildContext context) {
+    var selectView = Container(
+      padding: EdgeInsets.only(top: 15,bottom: 15),
+      margin: EdgeInsets.only(left: 10,right: 30),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Color(0xffF1F1F1), width: 1.0),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AppText(
+            str: '电话区号'.inte,
+            color: Color(0xff333333),
+          ),
+          GestureDetector(
+            onTap: controller.onTimezone,
+            child: Row(
+              children: [
+                AppText(
+                  str: controller.timezone.value!=''?'+' +
+                      controller.formatTimezone(
+                          controller.timezone.value):'请选择'.inte,
+                ),
+                AppGaps.hGap4,
+                const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 14,
+                  color: AppStyles.textNormal,
+                ),
+                AppGaps.hGap5,
+              ],
+            ),
+          ),
+        ],
+      )
+    );
+    return selectView;
+}
 
+  selectCountry(BuildContext context) {
+    var selectView = Container(
+        padding: EdgeInsets.only(top: 15,bottom: 15),
+        margin: EdgeInsets.only(left: 10,right: 30),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: Color(0xffF1F1F1), width: 1.0),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            AppText(
+              str: '国家/地区'.inte,
+              color: Color(0xff333333),
+            ),
+            GestureDetector(
+              onTap: controller.onTimezone,
+              child: Row(
+                children: [
+                  AppText(
+                    str: controller.timezone.value!=''?'+' +
+                        controller.formatTimezone(
+                            controller.timezone.value):'请选择'.inte,
+                  ),
+                  AppGaps.hGap4,
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 14,
+                    color: AppStyles.textNormal,
+                  ),
+                  AppGaps.hGap5,
+                ],
+              ),
+            ),
+          ],
+        )
+    );
+    return selectView;
+  }
 
+  selectBirthday(BuildContext context) {
+    var selectView = Container(
+        padding: EdgeInsets.only(top: 15,bottom: 15),
+        margin: EdgeInsets.only(left: 10,right: 30),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: Color(0xffF1F1F1), width: 1.0),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            AppText(
+              str: '生日'.inte,
+              color: Color(0xff333333),
+            ),
+            GestureDetector(
+              onTap: controller.onTimezone,
+              child: Row(
+                children: [
+                  AppText(
+                    str: controller.timezone.value!=''?'+' +
+                        controller.formatTimezone(
+                            controller.timezone.value):'请选择'.inte,
+                  ),
+                  AppGaps.hGap4,
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 14,
+                    color: AppStyles.textNormal,
+                  ),
+                  AppGaps.hGap5,
+                ],
+              ),
+            ),
+          ],
+        )
+    );
+    return selectView;
+  }
 
 
   inPutItem(BuildContext context,String title, String placeholder,TextEditingController _controller) {

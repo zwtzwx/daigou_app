@@ -2,6 +2,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/state_manager.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:shop_app_client/config/routers.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 import 'package:shop_app_client/config/text_config.dart';
 import 'package:shop_app_client/extension/rate_convert.dart';
 import 'package:shop_app_client/extension/translation.dart';
@@ -62,10 +63,10 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
         },
         child: ListView(
           children: [
-            shipCountry(),
             Obx(() => controller.selectedWarehouseModel.value != null
                 ? shipWarehouse()
                 : AppGaps.empty),
+            shipCountry(),
             Obx(() => parcelListCell()),
             // parcelListCell(),
             // 再添加一个包裹
@@ -141,7 +142,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
         },
         child: DottedBorder(
             dashPattern: [6, 2],
-            color: Colors.grey,
+            color: AppStyles.primary,
             strokeWidth: 1,
             radius: Radius.circular(10),
             child: Container(
@@ -150,12 +151,25 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                   child: Container(
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
+                      // color: Colors.white
                     ),
-                    child: Text('+添加包裹',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold
-                      ),),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        LoadAssetImage(
+                          'Center/add-pack',
+                          width: 18.w,
+                          height: 18.w,
+                        ),
+                        2.horizontalSpace,
+                        Text('添加包裹'.inte,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: AppStyles.primary
+                          ),)
+                      ],
+                    ),
                   )
               ),
             )
@@ -791,42 +805,107 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
             //         ),
             //       )),
             // ),
-            InputTextItem(
-              title: '快递单号'.inte,
-              leftFlex: 2,
-              flag: false,
-              isRequired: true,
-              margin: const EdgeInsets.only(left: 0),
-              inputText: BaseInput(
+
+            // InputTextItem(
+            //   title: '快递单号'.inte,
+            //   leftFlex: 2,
+            //   flag: false,
+            //   isRequired: true,
+            //   margin: const EdgeInsets.only(left: 0),
+            //   inputText: BaseInput(
+            //     style: TextStyle(fontSize: 20),
+            //     hintText: '请输入快递单号'.inte,
+            //     contentPadding: EdgeInsets.only(right: 13.w),
+            //     textAlign: TextAlign.right,
+            //     controller: model.value.editControllers!.numController,
+            //     focusNode: model.value.editControllers!.numNode,
+            //     maxLength: 40,
+            //     autoRemoveController: false,
+            //     autoShowRemove: false,
+            //     onChanged: (res) {
+            //       model.value.expressNum = res;
+            //     },
+            //     keyName: '',
+            //   ),
+            //   addedWidget: controller.formData.length > 1
+            //       ? Padding(
+            //           padding: EdgeInsets.only(right: 14.w),
+            //           child: GestureDetector(
+            //             onTap: () {
+            //               controller.onDeleteParcel(index);
+            //             },
+            //             child: Icon(
+            //               Icons.remove_circle,
+            //               color: Colors.red,
+            //               size: 20.sp,
+            //             ),
+            //           ),
+            //         )
+            //       : null,
+            // ),
+            Container(
+              padding: EdgeInsets.only(top: 20),
+              child: Row(
+                children: [
+                  AppText(
+                    str: '快递单号'.inte,
+                    fontSize: 14,
+                    lineHeight: 1.4,
+                    lines: 5,
+                  ),
+                  AppText(
+                    str: '*'.inte,
+                    fontSize: 12,
+                    lineHeight: 1.4,
+                    lines: 5,
+                  ),
+                  Expanded(child: SizedBox()),
+                  controller.formData.length > 1
+                      ? Container(
+                    padding: EdgeInsets.only(right: 14.w),
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.onDeleteParcel(index);
+                      },
+                      child: Icon(
+                        Icons.remove_circle,
+                        color: Colors.red,
+                        size: 20.sp,
+                      ),
+                    ),
+                  )
+                      : Container(),
+                ],
+              ),
+            ),
+            10.verticalSpaceFromWidth,
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4.r),
+              ),
+              margin: EdgeInsets.only(right: 14.w),
+              clipBehavior: Clip.none,
+              child: BaseInput(
                 style: TextStyle(fontSize: 20),
-                hintText: '请输入快递单号'.inte,
-                contentPadding: EdgeInsets.only(right: 13.w),
-                textAlign: TextAlign.right,
+                hintText: '请填写快递单号'.inte,
+                board: true,
+                minLines: 1,
+                maxLines: 1,
+                maxLength: 300,
                 controller: model.value.editControllers!.numController,
                 focusNode: model.value.editControllers!.numNode,
-                maxLength: 40,
-                autoRemoveController: false,
                 autoShowRemove: false,
+                contentPadding: EdgeInsets.all(10.w),
+                keyboardType: TextInputType.multiline,
+                textInputAction: TextInputAction.newline,
+                autoRemoveController: false,
+                onSubmitted: (res) {
+                  FocusScope.of(context).requestFocus(controller.blankNode);
+                },
                 onChanged: (res) {
                   model.value.expressNum = res;
                 },
-                keyName: '',
               ),
-              addedWidget: controller.formData.length > 1
-                  ? Padding(
-                      padding: EdgeInsets.only(right: 14.w),
-                      child: GestureDetector(
-                        onTap: () {
-                          controller.onDeleteParcel(index);
-                        },
-                        child: Icon(
-                          Icons.remove_circle,
-                          color: Colors.red,
-                          size: 20.sp,
-                        ),
-                      ),
-                    )
-                  : null,
             ),
             // InputTextItem(
             //   title: "物品名称".inte,

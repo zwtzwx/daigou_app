@@ -29,9 +29,36 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      primary: false,
-      appBar: const EmptyAppBar(),
-      backgroundColor: AppStyles.bgGray,
+      // primary: false,
+      appBar: AppBar(
+        centerTitle: true,
+        title: AppText(
+          str: '成长等级'.inte,
+          fontSize: 17,
+          color: Colors.white,
+        ),
+        backgroundColor: Color(0xff120909),
+        leading: const BackButton(color: Colors.white),
+        actions: [
+          Row(
+            children: [
+              GestureDetector(
+                  onTap: () {
+                    GlobalPages.push(GlobalPages.growthValue);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(right: 20),
+                    child: AppText(
+                      str: '明细'.inte,
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                  ))
+            ],
+          )
+        ],
+      ),
+      backgroundColor: Color(0xff120909),
       // bottomNavigationBar: Obx(
       //   () => Offstage(
       //     offstage: !controller.isloading.value,
@@ -125,31 +152,33 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: AppStyles.white,
+        borderRadius: BorderRadius.circular(16.r),
+        color: Color(0xffFFFAF3),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
             child: AppText(
               str: '成长值说明'.inte,
               fontSize: 16,
               fontWeight: FontWeight.bold,
+              color: Color(0xff333333),
             ),
           ),
-          AppGaps.line,
+          // AppGaps.line,
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+            padding: const EdgeInsets.only(left: 15,right: 15,bottom: 20),
             child: AppText(
               lines: 99,
               str: controller.userVipModel.value!.levelRemark!,
               fontSize: 14,
+              color: Color(0xff666666),
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(bottom: 30, left: 30, right: 30),
+            padding: const EdgeInsets.only(bottom: 30, left: 15, right: 15),
             child: Column(
               children: buildListView(),
             ),
@@ -162,7 +191,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
   // 成长值列表
   buildListView() {
     List<Widget> listV = [];
-    listV.add(buildGrowthValueRow('等级'.inte, '成长值'.inte, isTitle: true));
+    listV.add(buildGrowthValueRow(''.inte, ''.inte, isTitle: true));
     for (var i = 0; i < controller.userVipModel.value!.levelList.length; i++) {
       UserVipLevel memModel = controller.userVipModel.value!.levelList[i];
       listV.add(buildGrowthValueRow(
@@ -179,15 +208,20 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
       child: Row(
         children: [
           Expanded(
-            flex: 1,
             child: Container(
+              decoration: BoxDecoration(
+                borderRadius:isTitle?BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                ):null,
+                color:
+                isTitle ? const Color(0xFFECBB7C) : const Color(0xFFFCF6EB),
+              ),
               height: 33,
               alignment: Alignment.center,
-              color:
-                  isTitle ? const Color(0xFFf2edde) : const Color(0xFFf9f8f4),
               child: AppText(
                 str: label,
-                color: AppStyles.vipNormal,
+                color: Color(0xffC09052),
+                fontSize: 14,
               ),
             ),
           ),
@@ -195,15 +229,20 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
             width: 1,
           ),
           Expanded(
-            flex: 2,
             child: Container(
               height: 33,
               alignment: Alignment.center,
-              color:
-                  isTitle ? const Color(0xFFf2edde) : const Color(0xFFf9f8f4),
+              decoration: BoxDecoration(
+                borderRadius:isTitle?BorderRadius.only(
+                  topRight: Radius.circular(10),
+                ):null,
+                color:
+                isTitle ? const Color(0xFFECBB7C) : const Color(0xFFFCF6EB),
+              ),
               child: AppText(
                 str: content,
-                color: AppStyles.vipNormal,
+                color: Color(0xffC09052),
+                fontSize: 14,
               ),
             ),
           ),
@@ -397,178 +436,191 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
     if (widthFactor > 1) {
       widthFactor = 1;
     }
-    var headerView = SizedBox(
-      height: ScreenUtil().setHeight(190) + 30,
-      child: Stack(
-        children: <Widget>[
-          Container(
-            height: ScreenUtil().setHeight(180),
-            alignment: Alignment.topLeft,
-            child: ImgItem(
-              'Center/growth-bg',
+    var headerView = Container(
+      padding: EdgeInsets.symmetric(horizontal: 12),
+      child: Container(
+        width: ScreenUtil().screenWidth,
+        height: ScreenUtil().setHeight(168),
+        decoration: BoxDecoration(
+            // color: Colors.red,
+            borderRadius: BorderRadius.circular(14.r),
+            image: DecorationImage(
+              image: AssetImage('assets/images/Center/vip-card.png'),
               fit: BoxFit.fitWidth,
-              width: ScreenUtil().screenWidth,
-            ),
-          ),
-          Positioned(
-            top: ScreenUtil().statusBarHeight,
-            left: 15,
-            child: const BackButton(
-              color: Colors.white,
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 15,
-            right: 15,
-            child: Container(
-              padding: const EdgeInsets.only(
-                  top: 7, bottom: 13, left: 15, right: 15),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.white,
-              ),
-              child: Column(
+            )),
+        child: Column(
+          children: [
+            40.verticalSpace,
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AppText(
-                        str: '成长值'.inte,
-                        fontSize: 13,
-                        color: AppStyles.vipNormal,
+                  Container(
+                    margin: const EdgeInsets.only(right: 15),
+                    width: 42,
+                    height: 42,
+                    child: ClipOval(
+                      child: ImgItem(
+                        controller.userInfo!.avatar,
+                        fit: BoxFit.fitWidth,
+                        holderImg: "Center/logo",
                       ),
-                      AppGaps.hGap10,
-                      Flexible(
-                        child: GestureDetector(
-                          onTap: () {
-                            GlobalPages.push(GlobalPages.growthValue);
-                          },
-                          child: AppText(
-                            str: '距离下一等级还差{count}成长值'.inArgs(
-                                    {'count': firstNum < 0 ? 0 : firstNum}) +
-                                ' >',
-                            color: AppStyles.vipNormal,
-                            lines: 2,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                  AppGaps.vGap15,
-                  Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppText(
-                        str: growthValue.toString(),
-                        color: AppStyles.vipNormal,
+                        str: controller.userInfo!.name,
+                        fontSize: 14,
+                        color: Color(0xffFCF4C7),
                         fontWeight: FontWeight.bold,
                       ),
-                      AppGaps.hGap10,
-                      Expanded(
-                        child: SizedBox(
-                          height: 8,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                child: Container(
-                                  height: 8,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: AppStyles.orderLine,
-                                  ),
-                                ),
-                              ),
-                              FractionallySizedBox(
-                                alignment: Alignment.topLeft,
-                                heightFactor: 1,
-                                widthFactor: widthFactor,
-                                child: Container(
-                                  height: 8,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: HexToColor('#DAB85C'),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      AppGaps.hGap10,
+                      AppGaps.vGap4,
                       AppText(
-                        str: nextLevelGrowthValue.toString(),
-                        color: AppStyles.vipNormal,
-                        fontSize: 13,
+                        str: 'ID：${controller.userInfo!.id}',
+                        color: Color(0xffACABA0),
+                        fontSize: 10,
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-          ),
-          Positioned(
-            top: ScreenUtil().setHeight(90),
-            left: 15,
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 15),
-                  width: 60,
-                  height: 60,
-                  child: ClipOval(
-                    child: ImgItem(
-                      controller.userInfo!.avatar,
-                      fit: BoxFit.fitWidth,
-                      holderImg: "Center/logo",
-                    ),
-                  ),
+            30.verticalSpace,
+            // 进度条
+            Container(
+                padding: const EdgeInsets.only(
+                    top: 7, bottom: 13, left: 15, right: 15),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  // color: Colors.white,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
                   children: [
-                    AppText(
-                      str: controller.userInfo!.name,
-                      fontSize: 16,
-                      color: AppStyles.vipNormal,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    AppGaps.vGap4,
-                    AppText(
-                      str: 'ID：${controller.userInfo!.id}',
-                      color: AppStyles.vipNormal,
-                    ),
-                    AppGaps.vGap4,
-                    GestureDetector(
-                      onTap: () {
-                        GlobalPages.push(GlobalPages.point);
-                      },
-                      child: Row(
+                    Expanded(
+                      flex: 6,
+                      child: Column(
                         children: [
-                          AppText(
-                            str: '积分'.inte,
-                            color: AppStyles.vipNormal,
+                          Row(
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 8,
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        top: 0,
+                                        left: 0,
+                                        right: 0,
+                                        child: Container(
+                                          height: 8,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            color: AppStyles.orderLine,
+                                          ),
+                                        ),
+                                      ),
+                                      FractionallySizedBox(
+                                        alignment: Alignment.topLeft,
+                                        heightFactor: 1,
+                                        widthFactor: widthFactor,
+                                        child: Container(
+                                          height: 8,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            color: HexToColor('#DAB85C'),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          AppGaps.hGap10,
-                          AppText(
-                            str:
-                                (controller.userVipModel.value?.profile.point ??
-                                        0)
-                                    .toString(),
-                            color: AppStyles.vipNormal,
-                            fontWeight: FontWeight.bold,
+                          12.verticalSpace,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AppGaps.hGap10,
+                              Expanded(
+                                  child: Row(
+                                    children: [
+                                      AppText(
+                                        str: growthValue.toString(),
+                                        color: AppStyles.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                      AppText(
+                                        str: '/',
+                                        fontSize: 10,
+                                        color: Colors.white,
+                                      ),
+                                      AppText(
+                                        str: nextLevelGrowthValue.toString(),
+                                        color: AppStyles.white,
+                                        fontSize: 13,
+                                      ),
+                                    ],
+                                  )),
+                              Container(
+                                child: GestureDetector(
+                                  // onTap: () {
+                                  //   GlobalPages.push(GlobalPages.growthValue);
+                                  // },
+                                  child: AppText(
+                                    str: '再获得{count}成长值可升级'.inArgs({
+                                      'count': firstNum < 0 ? 0 : firstNum
+                                    }),
+                                    color: AppStyles.white,
+                                    lines: 2,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ),
+                              Expanded(child: SizedBox())
+                            ],
                           ),
                         ],
                       ),
                     ),
+                    Expanded(child: SizedBox()),
+                    //   积分
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          GlobalPages.push(GlobalPages.point);
+                        },
+                        child: Column(
+                          children: [
+                            AppText(
+                              str: (controller.userVipModel.value
+                                  ?.profile.point ??
+                                  0)
+                                  .toString(),
+                              color: Color(0xffFCF4C7),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                            10.verticalSpace,
+                            AppText(
+                              str: '积分'.inte +'',
+                              color: AppStyles.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
                   ],
-                ),
-              ],
-            ),
-          ),
-        ],
+                )),
+          ],
+        ),
       ),
     );
     return headerView;

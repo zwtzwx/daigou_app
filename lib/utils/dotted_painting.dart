@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 /// 绘制虚线
+/// direction  Axis.horizontal，Axis.vertical 横线竖线
+/// height 高度
+/// width  长度
+/// color  颜色
 class DottedLine extends StatelessWidget {
   final double height;
   final Color color;

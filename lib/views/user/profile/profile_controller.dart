@@ -22,6 +22,10 @@ class BeeUserInfoLogic extends GlobalController {
       'name': '更改密码',
       'route': GlobalPages.password,
     },
+    {
+      'name': '关于我们',
+      'route': GlobalPages.abountMe,
+    },
   ].obs;
 
   final userInfoModel = Get.find<AppStore>();
