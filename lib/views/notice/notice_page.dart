@@ -17,11 +17,11 @@ class InformationView extends GetView<InformationLogic> {
       appBar: AppBar(
         centerTitle: true,
         title: AppText(
-          str: '通知'.inte,
+          str: '我的消息'.inte,
           fontSize: 18,
         ),
-        elevation: 0.5,
-        backgroundColor: Colors.white,
+        // elevation: 0.5,
+        backgroundColor: AppStyles.bgGray,
         leading: const BackButton(color: Colors.black),
       ),
       backgroundColor: AppStyles.bgGray,
@@ -39,13 +39,15 @@ class InformationView extends GetView<InformationLogic> {
         controller.onDetail(model, index);
       },
       child: Container(
+        margin:EdgeInsets.symmetric(horizontal: 14,vertical: 10),
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border(
-            top: index == 0
-                ? BorderSide.none
-                : const BorderSide(color: AppStyles.line),
-          ),
+          borderRadius: BorderRadius.circular(8),
+          // border: Border(
+          //   top: index == 0
+          //       ? BorderSide.none
+          //       : const BorderSide(color: AppStyles.line),
+          // ),
         ),
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
         child: Column(
@@ -58,9 +60,10 @@ class InformationView extends GetView<InformationLogic> {
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      Text(
-                        model.title ?? '',
-                        style: SizeConfig.textBoldDark14,
+                      AppText(
+                        str: model.title ?? '',
+                        fontSize: 12,
+                        color: Color(0xff999999),
                       ),
                       model.read == 0
                           ? Positioned(
@@ -81,14 +84,16 @@ class InformationView extends GetView<InformationLogic> {
                 AppText(
                   str: model.createdAt ?? '',
                   color: AppStyles.textGray,
-                  fontSize: 12,
+                  fontSize: 10,
                 )
               ],
             ),
             AppGaps.vGap10,
-            Text(
-              model.content ?? '',
-            ),
+            AppText(
+              str: model.content ?? '',
+              fontSize: 14,
+              color: Color(0xff333333),
+            )
           ],
         ),
       ),
