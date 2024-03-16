@@ -135,11 +135,6 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
           'route': GlobalPages.shopOrderChat,
         },
         {
-          'name': '我的消息',
-          'icon': 'Center/ico_jf',
-          'route': GlobalPages.notice,
-        },
-        {
           'name': '推广联盟',
           'icon': 'Center/ico_tglm',
           'route': GlobalPages.agentApplyInstruct,
@@ -301,12 +296,24 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                 18.w, ScreenUtil().statusBarHeight + 30.h, 28.w, 20.h),
             child: Row(
               children: [
-                SizedBox(
-                  width: 70.w,
-                  height: 70.w,
-                  child: ClipOval(
-                    child: ImgItem(
-                      userModel?.avatar ?? '',
+                GestureDetector(
+                  onTap: ()async{
+                    //  更换头像
+                    // final pickedFile =
+                    //     await ImagePicker().pickImage(source: ImageSource.gallery);
+                    // print(pickedFile!.path);
+                    // print(userModel?.avatar);
+                    controller.showInfoChange();
+
+                    // controller.onImgUpload();
+                  },
+                  child: SizedBox(
+                    width: 70.w,
+                    height: 70.w,
+                    child: ClipOval(
+                      child: ImgItem(
+                        userModel?.avatar ?? '',
+                      ),
                     ),
                   ),
                 ),

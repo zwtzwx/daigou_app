@@ -33,7 +33,7 @@ class InfoPage extends GetView<BeeInfoLogic> {
               backgroundColor: AppStyles.primary,
               textColor: const Color(0xFFFFE1E2),
               onPressed: () {
-
+                  controller.saveInfo();
               },
             ),
           ),
@@ -42,9 +42,9 @@ class InfoPage extends GetView<BeeInfoLogic> {
         child: Column(
           children: [
             inPutItem(context, '姓名', '请输入真实姓名', controller.nameController),
-            selectTimeZone(context),
-            selectBirthday(context),
-            selectCountry(context),
+            Obx(() => selectTimeZone(context)),
+            Obx(() => selectBirthday(context)),
+            Obx(() => selectCountry(context),),
             inPutItem(context, '联系电话', '请输入收件人电话', controller.phoneController),
             inPutItem(context, '城市', '请输入城市', controller.cityNameController),
             inPutItem(context, '街道', '请输入街道', controller.streetNameController),
@@ -62,7 +62,7 @@ class InfoPage extends GetView<BeeInfoLogic> {
 // 电话区号
 selectTimeZone(BuildContext context) {
     var selectView = Container(
-      padding: EdgeInsets.only(top: 15,bottom: 15),
+      padding: EdgeInsets.only(top: 15,bottom: 15,left: 15),
       margin: EdgeInsets.only(left: 10,right: 30),
       decoration: BoxDecoration(
         border: Border(
@@ -103,7 +103,7 @@ selectTimeZone(BuildContext context) {
 
   selectCountry(BuildContext context) {
     var selectView = Container(
-        padding: EdgeInsets.only(top: 15,bottom: 15),
+        padding: EdgeInsets.only(top: 15,bottom: 15,left: 15),
         margin: EdgeInsets.only(left: 10,right: 30),
         decoration: BoxDecoration(
           border: Border(
@@ -118,13 +118,12 @@ selectTimeZone(BuildContext context) {
               color: Color(0xff333333),
             ),
             GestureDetector(
-              onTap: controller.onTimezone,
+              onTap: controller.onCountry,
               child: Row(
                 children: [
                   AppText(
-                    str: controller.timezone.value!=''?'+' +
-                        controller.formatTimezone(
-                            controller.timezone.value):'请选择'.inte,
+                    str:  controller.selectedCountryModel.value == null?'请选择'.inte:
+                    controller.selectedCountryModel.value!.name!,
                   ),
                   AppGaps.hGap4,
                   const Icon(
@@ -144,7 +143,7 @@ selectTimeZone(BuildContext context) {
 
   selectBirthday(BuildContext context) {
     var selectView = Container(
-        padding: EdgeInsets.only(top: 15,bottom: 15),
+        padding: EdgeInsets.only(top: 15,bottom: 15,left: 15),
         margin: EdgeInsets.only(left: 10,right: 30),
         decoration: BoxDecoration(
           border: Border(
@@ -159,13 +158,15 @@ selectTimeZone(BuildContext context) {
               color: Color(0xff333333),
             ),
             GestureDetector(
-              onTap: controller.onTimezone,
+              onTap: () async{
+                DateTime? time = await controller.showDatePickerForTheme(context);
+                if(time!=null)controller.birth.value = time.toString().split(' ')[0];
+              },
               child: Row(
                 children: [
                   AppText(
-                    str: controller.timezone.value!=''?'+' +
-                        controller.formatTimezone(
-                            controller.timezone.value):'请选择'.inte,
+                    str: controller.birth.value!=''?
+                        controller.birth.value.inte:'请选择'.inte,
                   ),
                   AppGaps.hGap4,
                   const Icon(
@@ -187,13 +188,13 @@ selectTimeZone(BuildContext context) {
   inPutItem(BuildContext context,String title, String placeholder,TextEditingController _controller) {
     var inputAccountView = Container(
       margin: const EdgeInsets.only(right: 10, left: 10),
+      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 5.h),
       decoration: const BoxDecoration(
         color: AppStyles.white,
         border: Border(
             bottom: BorderSide(
                 width: 1, color: AppStyles.line, style: BorderStyle.solid)),
       ),
-      padding: EdgeInsets.symmetric(vertical: 5.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -208,6 +209,7 @@ selectTimeZone(BuildContext context) {
               child: SizedBox(
                 height: 40,
                 child: TextField(
+                  textAlign: TextAlign.right,
                   // obscureText: true,
                   style: const TextStyle(color: Colors.black87),
                   controller: _controller,

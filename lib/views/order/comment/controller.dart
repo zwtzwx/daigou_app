@@ -34,6 +34,7 @@ class OrderCommentController extends GlobalController {
     ImagePickers.imagePicker(
       context: Get.context!,
       onSuccessCallback: (imageUrl) {
+        print(imageUrl);
         selectImg.add(imageUrl);
       },
     );

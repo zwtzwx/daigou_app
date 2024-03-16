@@ -36,6 +36,7 @@ class CouponController extends GlobalController
     tabController.animateTo(index);
   }
 
+
   // 选择优惠券
   void onSelected(UserCouponModel model) {
     if (!canSelect.value) return;

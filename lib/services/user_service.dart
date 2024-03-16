@@ -38,10 +38,13 @@ class UserService {
   // 我的详细信息
   static const String userProfileApi = 'user/me';
 
+  // 获取个人信息
+  static const String userInfoApi = 'user/me';
+
   // 更新个人信息
   static const String userEditProfileApi = 'user/profile';
 
-  // 更新个人资料
+  // 更新个人资料-简略版
   static const String userEditApi = 'user/information';
 
   // 更新用户头像昵称
@@ -75,6 +78,34 @@ class UserService {
       };
     });
     return result!;
+  }
+
+  // 获取个人资料
+  static Future<Map> getUserInfo() async {
+    Map? result;
+    await ApiConfig.instance
+        .get(userInfoApi)
+        .then((response) => {result = response.data!['profile']??{}}, onError: (ret, msg) {
+      result = {
+        "msg": msg,
+      };
+    });
+    return result!;
+  }
+
+  // 更新个人资料
+  static Future<Map> updateUserInfo(Map<String, dynamic> params) async {
+    Map res = {'ok': false, 'msg': ''};
+    await ApiConfig.instance
+        .put(UserService.userEditProfileApi, data: params)
+        .then((response) {
+        res = {
+          'ok': response.ok,
+          'msg': response.msg ?? response.error?.message ?? ''
+        };
+    });
+
+    return res;
   }
 
   // 登录的处理
@@ -269,13 +300,18 @@ class UserService {
     更新个人信息 
     昵称 头像
    */
-  static Future<bool> updateByMap(Map<String, dynamic> params) async {
+  static Future<bool> updateByMap(Map<String, dynamic> params,OnSuccess onSuccess, OnFail onFail) async {
     bool result = false;
 
     await ApiConfig.instance
         .put(userEditNameAndAvaterApi, data: params)
         .then((response) {
       result = response.ok;
+      if(response.ok){
+        onSuccess(response.msg);
+      }else {
+        onFail(response.error!.message);
+      }
     });
 
     return result;
