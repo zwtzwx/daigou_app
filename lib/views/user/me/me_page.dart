@@ -269,6 +269,66 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
     return listView;
   }
 
+  Widget infoCell() {
+    List<Map<String, dynamic>> infoList = [
+      {
+        'name': '余额',
+        'value': controller.myBalance.value
+            .rate(
+          showPriceSymbol: false,
+        )
+            .split('.')
+            .first,
+        'route': GlobalPages.recharge,
+      },
+      {
+        'name': '优惠券',
+        'value': controller.myCouponCount.value.toString(),
+        'route': GlobalPages.coupon,
+      },
+      {
+        'name': '积分',
+        'value': (controller.userPointModel.value?.point ?? 0).toString(),
+        'route': GlobalPages.point,
+      },
+    ];
+
+    return Container(
+        margin: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 0),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 15),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: infoList.map((e) {
+              return Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      GlobalPages.push(e['route']);
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                            child: Obx(
+                                  () => AppText(
+                                str: (e['value']! as String).inte,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
+                        Container(
+                            child: Obx(
+                                  () => AppText(
+                                str: (e['name']! as String).inte,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xff888888),
+                              ),
+                            ))
+                      ],
+                    ),
+                  ));
+            }).toList()));
+  }
+
   Widget userInfo() {
     var headerView = Obx(() {
       UserModel? userModel = controller.userInfoModel.userInfo.value;
