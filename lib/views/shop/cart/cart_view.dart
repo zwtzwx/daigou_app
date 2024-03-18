@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:shop_app_client/config/color_config.dart';
 import 'package:shop_app_client/extension/rate_convert.dart';
 import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/config/routers.dart';
 import 'package:shop_app_client/models/shop/cart_model.dart';
 import 'package:shop_app_client/views/components/button/main_button.dart';
 import 'package:shop_app_client/views/components/caption.dart';
@@ -137,7 +138,7 @@ class CartView extends GetView<CartController> {
                       lineCount: 4,
                     ),
                   )
-                : cartCell()),
+                : cartCell(context)),
             recommendGoodsList(),
             30.verticalSpaceFromWidth,
           ],
@@ -146,7 +147,7 @@ class CartView extends GetView<CartController> {
     );
   }
 
-  Widget cartCell() {
+  Widget cartCell(BuildContext context) {
     return controller.allCartList.isEmpty
         ? emptyCell()
         : Container(
@@ -159,6 +160,16 @@ class CartView extends GetView<CartController> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        GestureDetector(
+                            onTap: (){
+                              Navigator.of(context).pop();
+                            },
+                            child: LoadAssetImage(
+                              'Home/back',
+                              width: 22.w,
+                              height: 22.w,
+                            )
+                        ),
                         Expanded(
                           child: ListView(
                             scrollDirection: Axis.horizontal,

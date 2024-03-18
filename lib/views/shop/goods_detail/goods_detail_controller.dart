@@ -41,6 +41,10 @@ class GoodsDetailController extends GlobalController {
   final ScrollController scrollController = ScrollController();
   final prcent = 0.0.obs;
   num freightFee = 0;
+  // 文字展开与折叠
+  final isExpand = false.obs;
+  final int maxLines = 2;
+
 
   @override
   void onInit() {

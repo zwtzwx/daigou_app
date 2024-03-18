@@ -117,7 +117,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
           children: [
             baseInfoCell(),
             // optionCell(context),
-           processCell(),
+            processCell(),
             shopCell(),
             10.verticalSpaceFromWidth,
             Obx(() => commentsCell()),
@@ -145,27 +145,25 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                 GestureDetector(
-                   onTap: (){
-                     Navigator.of(context).pop();
-                   },
-                   child: SizedBox(
-                     child:  Container(
-                       margin:EdgeInsets.only(right: 3),
-                       padding: EdgeInsets.all(6),
-                       decoration: BoxDecoration(
-                           color: Colors.white,
-                           borderRadius: BorderRadius.circular(150)
-                       ),
-                       child:
-                       LoadAssetImage(
-                         'Guide/back-guide',
-                         width: 22.w,
-                         height: 22.w,
-                       ),
-                     ),
-                   ),
-                 ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: SizedBox(
+                      child: Container(
+                        margin: EdgeInsets.only(right: 3),
+                        padding: EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(150)),
+                        child: LoadAssetImage(
+                          'Guide/back-guide',
+                          width: 22.w,
+                          height: 22.w,
+                        ),
+                      ),
+                    ),
+                  ),
                   if (controller.prcent.value > 0)
                     const Expanded(child: BaseSearch()),
                   GestureDetector(
@@ -176,13 +174,11 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                       margin: EdgeInsets.only(left: 3),
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(150)
-                      ),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(150)),
                       child: Obx(
-                            () {
-                          var cartCount =
-                              Get.find<AppStore>().cartCount.value;
+                        () {
+                          var cartCount = Get.find<AppStore>().cartCount.value;
                           return Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -202,11 +198,10 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                                         decoration: BoxDecoration(
                                           color: AppStyles.primary,
                                           borderRadius:
-                                          BorderRadius.circular(8.r),
+                                              BorderRadius.circular(8.r),
                                         ),
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 5.w,
-                                            vertical: 1.w),
+                                            horizontal: 5.w, vertical: 1.w),
                                         child: AppText(
                                           str: cartCount.toString(),
                                           fontSize: 10,
@@ -236,7 +231,31 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
     );
   }
 
+  double getTextSpanWidth(String text, TextStyle style) {
+    TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    return textPainter.size.width;
+  }
+  int getTextSpanLines(String text, TextStyle style, double maxWidth) {
+    TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      maxLines: 999, // 设置一个很大的值，确保可以计算出所有行数
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: maxWidth);
+
+    return textPainter.computeLineMetrics().length;
+  }
+
   Widget baseInfoCell() {
+    TextStyle style = TextStyle(color: Color(0xff333333), fontSize: 16);
+    double textWidth = ScreenUtil().screenWidth*2-14.w*14.5;
+    print(textWidth);
+    int lines = getTextSpanLines(controller
+        .goodsModel.value!.title.wordBreak+'(测试-日本2月发售)', style, textWidth);
+    print(lines);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -260,6 +279,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
         Obx(
           () => defaultBoxItem(
             margin: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+            // padding: EdgeInsets.all(0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -317,36 +337,71 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                   ],
                 ),
                 6.verticalSpaceFromWidth,
-                Text.rich(
-                  TextSpan(
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      height: 1.5,
-                    ),
-                    children: [
-                      WidgetSpan(
-                        child: controller.isPlatformGoods.value
-                            ? Container(
-                                margin: EdgeInsets.only(right: 5.w),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFFF9A3E),
-                                  borderRadius: BorderRadius.circular(2.r),
-                                ),
-                                padding: EdgeInsets.all(2.w),
-                                child: AppText(
-                                  str: controller.platformName.inte,
-                                  color: Colors.white,
-                                  fontSize: 8,
-                                ),
-                              )
-                            : AppGaps.empty,
-                        alignment: PlaceholderAlignment.middle,
-                      ),
-                      TextSpan(
-                          text: controller.goodsModel.value!.title.wordBreak),
-                    ],
-                  ),
-                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                        flex: 10,
+                        child: Text.rich(
+                          TextSpan(
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              // height: 1.5,
+                            ),
+                            children: [
+                              WidgetSpan(
+                                child: controller.isPlatformGoods.value
+                                    ? Container(
+                                  margin: EdgeInsets.only(right: 5.w),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFFF9A3E),
+                                    borderRadius:
+                                    BorderRadius.circular(2.r),
+                                  ),
+                                  padding: EdgeInsets.all(2.w),
+                                  child: AppText(
+                                    str: controller.platformName.inte,
+                                    color: Colors.white,
+                                    fontSize: 8,
+                                  ),
+                                )
+                                    : AppGaps.empty,
+                                alignment: PlaceholderAlignment.middle,
+                              ),
+                              TextSpan(
+                                  text: controller
+                                      .goodsModel.value!.title.wordBreak,
+                                style: TextStyle(
+                                  color: Color(0xff333333),
+                                  fontSize: 16
+                                )),
+                              TextSpan(
+                                  text: '(测试-日本2月发售)',
+                                  style: TextStyle(
+                                      color: Color(0xff333333),
+                                      fontSize: 16
+                                  )),
+
+
+                            ],
+                          ),
+                          maxLines:controller.isExpand.value?100:controller.maxLines,
+                          overflow: TextOverflow.ellipsis,
+                        ),),
+                    if(lines>1)Expanded(child:
+                        GestureDetector(
+                          onTap: (){
+                            controller.isExpand.value = !controller.isExpand.value;
+                            controller.isExpand.refresh();
+                          },
+                          child: Text(
+                            controller.isExpand.value ? '收起' : '展开',
+                            style: TextStyle(color: AppStyles.primary),
+                          ),
+                        )
+                    )
+                  ],
+                )
               ],
             ),
           ),
@@ -488,17 +543,16 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
   Widget processCell() {
     return defaultBoxItem(
       margin: EdgeInsets.fromLTRB(14.w, 0, 14.w, 10.h),
-      child:Column(
+      child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 5,vertical: 9),
+                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 9),
                 decoration: BoxDecoration(
-                  color: Color(0xffFFE6E6),
-                  borderRadius: BorderRadius.all(Radius.circular(4))
-                ),
+                    color: Color(0xffFFE6E6),
+                    borderRadius: BorderRadius.all(Radius.circular(4))),
                 child: AppText(
                   str: '从商家到海鸥'.inte,
                   color: Color(0xffFF3A3E),
@@ -508,11 +562,10 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 5,vertical: 9),
+                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 9),
                 decoration: BoxDecoration(
                     color: Color(0xffFFE6E6),
-                    borderRadius: BorderRadius.all(Radius.circular(4))
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(4))),
                 child: AppText(
                   str: '从海鸥到您'.inte,
                   color: Color(0xffFF3A3E),
@@ -528,13 +581,11 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width:8,
+                width: 8,
                 height: 8,
                 child: ClipOval(
                   child: Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffFF3A3E)
-                    ),
+                    decoration: BoxDecoration(color: Color(0xffFF3A3E)),
                   ),
                 ),
               ),
@@ -549,19 +600,17 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
               Container(
                 width: 120.w,
                 child: DottedLine(
-                  direction:Axis.horizontal,
+                  direction: Axis.horizontal,
                   color: Color(0xffFF8789),
                   height: 2.w,
                 ),
               ),
               Container(
-                width:8,
+                width: 8,
                 height: 8,
                 child: ClipOval(
                   child: Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffFF3A3E)
-                    ),
+                    decoration: BoxDecoration(color: Color(0xffFF3A3E)),
                   ),
                 ),
               ),
@@ -576,19 +625,17 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
               Container(
                 width: 120.w,
                 child: DottedLine(
-                  direction:Axis.horizontal,
+                  direction: Axis.horizontal,
                   color: Color(0xffFF8789),
                   height: 2.w,
                 ),
               ),
               Container(
-                width:8,
+                width: 8,
                 height: 8,
                 child: ClipOval(
                   child: Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xffFF3A3E)
-                    ),
+                    decoration: BoxDecoration(color: Color(0xffFF3A3E)),
                   ),
                 ),
               ),

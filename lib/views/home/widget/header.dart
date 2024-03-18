@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_app_client/config/routers.dart';
 import 'package:shop_app_client/views/components/base_search.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 
 class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
   const HomeHeader({Key? key}) : super(key: key);
@@ -11,12 +12,31 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.fromLTRB(14.w, kToolbarHeight + 10.h, 14.w, 8.h),
-      child: GestureDetector(
-        onTap: () {
-          GlobalPages.push(GlobalPages.goodsCategory, arg: {'autoFocus': true});
-        },
-        child: const BaseSearch(readOnly: true),
-      ),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 6,
+            child:
+          GestureDetector(
+            onTap: () {
+              GlobalPages.push(GlobalPages.goodsCategory, arg: {'autoFocus': true});
+            },
+            child: const BaseSearch(readOnly: true),
+          ),),
+          Expanded(child:
+          GestureDetector(
+            onTap: (){
+              GlobalPages.push(GlobalPages.notice);
+            },
+            child: LoadAssetImage(
+              'Home/message',
+              width: 22.w,
+              height: 22.w,
+            )
+          )
+          )
+        ],
+      )
     );
   }
 

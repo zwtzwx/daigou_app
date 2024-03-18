@@ -379,7 +379,7 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                                               ),
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 20.w,
-                                                  vertical: 3.w),
+                                                  vertical: 5.w),
                                               child: AppText(
                                                 str: (prop.name ?? '') +
                                                     (prop.noStock
