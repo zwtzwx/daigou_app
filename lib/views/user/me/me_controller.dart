@@ -9,7 +9,9 @@ import 'package:shop_app_client/events/change_page_index_event.dart';
 import 'package:shop_app_client/events/profile_updated_event.dart';
 import 'package:shop_app_client/models/user_agent_status_model.dart';
 import 'package:shop_app_client/models/user_info_model.dart';
+import 'package:shop_app_client/models/user_point_model.dart';
 import 'package:shop_app_client/services/user_service.dart';
+import 'package:shop_app_client/services/point_service.dart';
 import 'package:get/get.dart';
 import 'package:shop_app_client/storage/user_storage.dart';
 
@@ -22,6 +24,11 @@ class BeeCenterLogic extends GlobalController {
   final noticeUnRead = false.obs;
   final showMiniHeader = false.obs;
   final selectImg = <String>[].obs;
+  //我的余额
+  final myBalance = RxNum(0);
+  // 优惠券数量
+  final myCouponCount = RxNum(0);
+  final userPointModel = Rxn<UserPointModel?>();
   @override
   void onInit() {
     super.onInit();
@@ -42,6 +49,7 @@ class BeeCenterLogic extends GlobalController {
     scrollController.addListener(() {
       showMiniHeader.value = scrollController.position.pixels > 100.h;
     });
+    getBalance();
   }
 
   // 是否有未读消息
@@ -51,6 +59,13 @@ class BeeCenterLogic extends GlobalController {
   //   var res = await CommonService.hasUnReadInfo();
   //   noticeUnRead.value = res;
   // }
+
+  void getBalance() async {
+    var userOrderDataCount = await UserService.getOrderDataCount();
+    myBalance.value = userOrderDataCount!.balance ?? 0;
+    myCouponCount.value = userOrderDataCount!.couponCount ?? 0;
+    userPointModel.value = await PointService.getSummary();
+  }
 
   Future<void> created() async {
     var token = userInfoModel.token;
