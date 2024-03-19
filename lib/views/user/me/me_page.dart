@@ -4,6 +4,7 @@ import 'package:shop_app_client/config/routers.dart';
 import 'package:shop_app_client/extension/translation.dart';
 import 'package:shop_app_client/models/user_model.dart';
 import 'package:shop_app_client/views/components/base_dialog.dart';
+import 'package:shop_app_client/extension/rate_convert.dart';
 import 'package:shop_app_client/views/components/caption.dart';
 import 'package:shop_app_client/views/components/empty_app_bar.dart';
 import 'package:shop_app_client/views/components/load_image.dart';
@@ -109,21 +110,21 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
           'route': GlobalPages.addressList,
           'params': {'select': 0},
         },
-        {
-          'name': '余额',
-          'icon': 'Center/ico_ye',
-          'route': GlobalPages.recharge,
-        },
-        {
-          'name': '优惠券',
-          'icon': 'Center/ico_yhq',
-          'route': GlobalPages.coupon,
-        },
-        {
-          'name': '我的积分',
-          'icon': 'Center/ico_jf',
-          'route': GlobalPages.point,
-        },
+        // {
+        //   'name': '余额',
+        //   'icon': 'Center/ico_ye',
+        //   'route': GlobalPages.recharge,
+        // },
+        // {
+        //   'name': '优惠券',
+        //   'icon': 'Center/ico_yhq',
+        //   'route': GlobalPages.coupon,
+        // },
+        // {
+        //   'name': '我的积分',
+        //   'icon': 'Center/ico_jf',
+        //   'route': GlobalPages.point,
+        // },
         {
           'name': '我的评论',
           'icon': 'Center/ico_pl',
@@ -274,11 +275,11 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
       {
         'name': '余额',
         'value': controller.myBalance.value
-            .rate(
-          showPriceSymbol: false,
-        )
-            .split('.')
-            .first,
+    .priceConvert(
+    showPriceSymbol: false,
+    )
+    .split('.')
+        .first,
         'route': GlobalPages.recharge,
       },
       {
@@ -294,7 +295,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
     ];
 
     return Container(
-        margin: EdgeInsets.fromLTRB(14.w, 10.h, 14.w, 0),
+        margin: EdgeInsets.fromLTRB(14.w, 0.h, 14.w, 0),
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 15),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -310,17 +311,19 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                             child: Obx(
                                   () => AppText(
                                 str: (e['value']! as String).inte,
-                                fontSize: 16,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
+                                    color: Color(0xff444444),
                               ),
                             )),
+                        5.verticalSpace,
                         Container(
                             child: Obx(
                                   () => AppText(
                                 str: (e['name']! as String).inte,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xff888888),
+                                color: Color(0xff666666),
                               ),
                             ))
                       ],
@@ -419,6 +422,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
               ],
             ),
           ),
+          infoCell(),
           Container(
             decoration: BoxDecoration(
               color: Colors.white,

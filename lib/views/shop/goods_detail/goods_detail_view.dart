@@ -45,9 +45,8 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                       children: [
                         Expanded(
                           child: SizedBox(
-                            height: 30.h,
+                            height: 35.h,
                             child: BeeButton(
-                              borderRadis: 12,
                               text: '购买',
                               backgroundColor: const Color(0xFFFFE1E2),
                               textColor: AppStyles.primary,
@@ -60,9 +59,8 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                         15.horizontalSpace,
                         Expanded(
                           child: SizedBox(
-                            height: 30.h,
+                            height: 35.h,
                             child: BeeButton(
-                              borderRadis: 12,
                               text: '加入购物车',
                               backgroundColor: AppStyles.primary,
                               textColor: const Color(0xFFFFE1E2),
@@ -254,7 +252,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
     double textWidth = ScreenUtil().screenWidth*2-14.w*14.5;
     print(textWidth);
     int lines = getTextSpanLines(controller
-        .goodsModel.value!.title.wordBreak+'(测试-日本2月发售)', style, textWidth);
+        .goodsModel.value!.title.wordBreak, style, textWidth);
     print(lines);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -375,12 +373,12 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                                   color: Color(0xff333333),
                                   fontSize: 16
                                 )),
-                              TextSpan(
-                                  text: '(测试-日本2月发售)',
-                                  style: TextStyle(
-                                      color: Color(0xff333333),
-                                      fontSize: 16
-                                  )),
+                              // TextSpan(
+                              //     text: '(测试-日本2月发售)',
+                              //     style: TextStyle(
+                              //         color: Color(0xff333333),
+                              //         fontSize: 16
+                              //     )),
 
 
                             ],
@@ -394,9 +392,14 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                             controller.isExpand.value = !controller.isExpand.value;
                             controller.isExpand.refresh();
                           },
-                          child: Text(
-                            controller.isExpand.value ? '收起' : '展开',
-                            style: TextStyle(color: AppStyles.primary),
+                          child: controller.isExpand.value ? LoadAssetImage(
+                            'Home/retract',
+                            width: 20.w,
+                            height: 20.w,
+                          ): LoadAssetImage(
+                            'Home/expand',
+                            width: 20.w,
+                            height: 20.w,
                           ),
                         )
                     )

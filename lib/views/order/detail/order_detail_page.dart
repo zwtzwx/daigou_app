@@ -80,52 +80,76 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
             (address.postcode.isNotEmpty ? ' ${address.postcode}' : '') +
             (address.city.isNotEmpty ? ' ${address.city}' : ''));
     return Container(
-      color: Colors.white,
       padding: const EdgeInsets.all(15),
+      margin: EdgeInsets.symmetric(horizontal: 13.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(6.0),
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10.r),
-            child: UnconstrainedBox(
-              child: Container(
-                height: 26.h,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                color: AppStyles.primary,
-                child: AppText(
-                  str: address.countryName,
-                  fontSize: 12,
-                  color: Colors.white,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10.r),
+                child: UnconstrainedBox(
+                  child: Container(
+                    height: 26.h,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: AppText(
+                        str: address.countryName,
+                        fontSize: 18,
+                        color: Color(0xff333333)
+                    ),
+                  ),
                 ),
               ),
-            ),
+              AppText(
+                color: AppStyles.primary,
+                fontSize: 14,
+                str: controller.model.value!.station != null
+                    ? '${'自提收货'.inte}-${controller.model.value!.station!.name}'
+                    : '送货上门'.inte,
+              ),
+
+            ],
           ),
           12.verticalSpaceFromWidth,
           AppGaps.line,
           12.verticalSpaceFromWidth,
-          AppText(
-            str: '收货地址'.inte,
-            fontSize: 13,
-            color: AppStyles.textGray,
-          ),
-          AppGaps.vGap5,
-          AppText(
-            str: reciverStr,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-          AppGaps.vGap5,
-          AppText(
-            str: addressStr,
-            lines: 4,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppText(
+                str: '收货地址'.inte,
+                fontSize: 14,
+                color: Color(0xff666666),
+              ),
+              20.horizontalSpace,
+              Column(
+                children: [
+                  AppText(
+                    str: reciverStr,
+                    fontSize: 14,
+                    color: Color(0xff333333),
+                  ),
+                  AppGaps.vGap5,
+                  AppText(
+                    str: addressStr,
+                    fontSize: 14,
+                    color: Color(0xff333333),
+                    lines: 4,
+                  ),
+                ],
+              )
+            ],
           ),
           5.verticalSpaceFromWidth,
-          AppText(
-            str: controller.model.value!.station != null
-                ? '${'自提收货'.inte}-${controller.model.value!.station!.name}'
-                : '送货上门'.inte,
-          ),
         ],
       ),
     );
@@ -159,16 +183,25 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
   // 基础订单信息
   Widget baseInfoView() {
     return Container(
-      color: Colors.white,
+      margin: EdgeInsets.symmetric(horizontal: 13.w),
       width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(6.0),
+        ),
+      ),
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          baseInfoItem('提交时间', text: controller.model.value!.createdAt),
-          baseInfoItem('快递类型', text: controller.model.value!.expressName),
+          baseInfoItem('提交时间', text: controller.model.value!.createdAt,
+          labelColor: Color(0xff666666)),
+          baseInfoItem('快递类型', text: controller.model.value!.expressName,
+              labelColor: Color(0xff666666)),
           controller.model.value!.status > 2
-              ? baseInfoItem('物流单号', text: controller.model.value!.logisticsSn)
+              ? baseInfoItem('物流单号', text: controller.model.value!.logisticsSn,
+              labelColor: Color(0xff666666))
               : AppGaps.empty,
           controller.model.value!.status > 1 ? packInfoView() : AppGaps.empty,
         ],
@@ -198,9 +231,9 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                   itemBuilder: boxItem,
                 ))
             : AppGaps.empty,
-        baseInfoItem('称重重量', text: actualWeight),
-        baseInfoItem('计费重量', text: paymentWeight),
-        baseInfoItem('留仓物品', text: controller.model.value!.inWarehouseItem),
+        baseInfoItem('称重重量', text: actualWeight,labelColor: Color(0xff666666)),
+        baseInfoItem('计费重量', text: paymentWeight,labelColor: Color(0xff666666)),
+        baseInfoItem('留仓物品', text: controller.model.value!.inWarehouseItem,labelColor: Color(0xff666666)),
         // controller.packVideoManager.isNotEmpty
         //     ? Column(
         //         crossAxisAlignment: CrossAxisAlignment.start,
@@ -221,18 +254,15 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
         //         ],
         //       )
         //     : AppGaps.empty,
-        AppGaps.line,
-        AppGaps.vGap10,
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(
                     str: '打包照片'.inte,
-                    color: AppStyles.textGray,
+                    color: Color(0xff666666),
                   ),
                   AppGaps.vGap10,
                   controller.model.value!.packPictures.isNotEmpty
@@ -257,40 +287,46 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                 ],
               ),
             ),
-            AppGaps.hGap15,
+            Expanded(child: SizedBox())
+          ],
+        ),
+        Row(
+          children: [
             Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(
                     str: '物品照片'.inte,
-                    color: AppStyles.textGray,
+                    color: Color(0xff666666),
                   ),
                   AppGaps.vGap10,
                   controller.model.value!.inWarehousePictures.isNotEmpty
                       ? GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1,
-                            mainAxisSpacing: 5,
-                            childAspectRatio: 1.5,
-                          ),
-                          itemCount:
-                              controller.model.value!.packPictures.length,
-                          itemBuilder: (context, index) {
-                            return _buildImageItem(
-                                context,
-                                controller
-                                    .model.value!.inWarehousePictures[index],
-                                index);
-                          })
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1,
+                        mainAxisSpacing: 5,
+                        childAspectRatio: 1.5,
+                      ),
+                      itemCount:
+                      controller.model.value!.packPictures.length,
+                      itemBuilder: (context, index) {
+                        return _buildImageItem(
+                            context,
+                            controller
+                                .model.value!.inWarehousePictures[index],
+                            index);
+                      })
                       : AppGaps.empty,
                 ],
               ),
             ),
+            Expanded(child: SizedBox())
           ],
-        ),
+        )
       ],
     );
   }
@@ -358,7 +394,13 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
     num valueAddAmount =
         num.parse(controller.model.value!.valueAddedAmount ?? '0');
     return Container(
-      color: Colors.white,
+      margin: EdgeInsets.symmetric(horizontal: 13.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(6.0),
+        ),
+      ),
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       child: Column(
@@ -387,22 +429,26 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                       ),
                     ],
                   ),
+              labelColor: Color(0xff666666)
                 )
               : AppGaps.empty,
           controller.model.value!.status != 1
               ? baseInfoItem('帮您运费节省',
                   text: controller
-                      .getPriceStr(controller.model.value!.thriftFreightFee))
+                      .getPriceStr(controller.model.value!.thriftFreightFee),
+              labelColor: Color(0xff666666))
               : AppGaps.empty,
           controller.model.value!.insuranceFee > 0
               ? baseInfoItem('保险费',
                   text:
-                      '+${controller.getPriceStr(controller.model.value!.insuranceFee)}')
+                      '+${controller.getPriceStr(controller.model.value!.insuranceFee)}',
+              labelColor: Color(0xff666666))
               : AppGaps.empty,
           controller.model.value!.tariffFee > 0
               ? baseInfoItem('关税',
                   text:
-                      '+${controller.getPriceStr(controller.model.value!.tariffFee)}')
+                      '+${controller.getPriceStr(controller.model.value!.tariffFee)}',
+              labelColor: Color(0xff666666))
               : AppGaps.empty,
           baseInfoItem(
             '订单增值服务',
@@ -422,11 +468,13 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                 }).toList(),
               ],
             ),
+              labelColor: Color(0xff666666)
           ),
           controller.model.value!.lineRuleFee > 0
               ? baseInfoItem('渠道规则费',
                   text:
-                      '+${controller.getPriceStr(controller.model.value!.lineRuleFee)}')
+                      '+${controller.getPriceStr(controller.model.value!.lineRuleFee)}',
+              labelColor: Color(0xff666666))
               : AppGaps.empty,
           controller.model.value!.lineServices.isNotEmpty
               ? baseInfoItem(
@@ -476,6 +524,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                       }).toList(),
                     ],
                   ),
+              labelColor: Color(0xff666666)
                 )
               : AppGaps.empty,
           controller.model.value!.status > 2 &&
@@ -485,6 +534,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                   text: '-' +
                       controller.getPriceStr(
                           controller.model.value!.couponDiscountFee),
+              labelColor: Color(0xff666666)
                 )
               : AppGaps.empty,
           (controller.model.value!.status > 2 &&
@@ -495,6 +545,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                   text: '-' +
                       controller.getPriceStr(
                           controller.model.value!.transaction[0].pointAmount),
+              labelColor: Color(0xff666666)
                 )
               : AppGaps.empty,
           controller.model.value!.status != 1
@@ -502,6 +553,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                   '订单总价',
                   text: controller
                       .getPriceStr(controller.model.value!.actualPaymentFee),
+              labelColor: Color(0xff666666)
                 )
               : AppGaps.empty,
         ],
@@ -512,7 +564,13 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
   // 支付信息
   Widget payInfoView() {
     return Container(
-      color: Colors.white,
+      margin: EdgeInsets.symmetric(horizontal: 13.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(6.0),
+        ),
+      ),
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       child: Column(
@@ -529,13 +587,13 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                                   num.parse(controller
                                       .model.value!.transaction[0].transRate))
                       : ''),
-              redText: true),
+              redText: true,labelColor: Color(0xff666666)),
           baseInfoItem(
             '支付方式',
             text: controller.model.value!.transaction.isNotEmpty
                 ? controller.model.value!.transaction[0].payName
                 : '',
-          ),
+              labelColor: Color(0xff666666)),
           baseInfoItem(
             '支付状态',
             text: controller.model.value!.transaction.isNotEmpty
@@ -545,23 +603,27 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                         ? '退款成功'.inte
                         : ''))
                 : '',
+              labelColor: Color(0xff666666)
           ),
           baseInfoItem(
             '支付单号',
             text: controller.model.value!.transaction.isNotEmpty
                 ? controller.model.value!.transaction[0].serialNo
                 : '',
+              labelColor: Color(0xff666666)
           ),
           baseInfoItem(
             '支付时间',
             text: controller.model.value!.transaction.isNotEmpty
                 ? controller.model.value!.transaction[0].createdAt
                 : '',
+              labelColor: Color(0xff666666)
           ),
           controller.model.value!.status == 5
               ? baseInfoItem(
                   '签收时间',
                   text: controller.model.value!.updatedAt,
+              labelColor: Color(0xff666666)
                 )
               : AppGaps.empty,
         ],
@@ -615,18 +677,18 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
       ),
       child: SafeArea(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Flexible(
+            Expanded(
               child: SizedBox(
-                height: 30.h,
-                child: HollowButton(
+                height: 35.h,
+                child: BeeButton(
                   text: '联系客服',
-                  onPressed: () async {
+                  backgroundColor: const Color(0xFFFFE1E2),
+                  textColor: AppStyles.primary,
+                  onPressed: () async{
                     BaseUtils.onCustomerContact();
                   },
-                  textColor: AppStyles.textDark,
-                  borderColor: AppStyles.textGrayC,
                 ),
               ),
             ),
@@ -634,7 +696,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                 controller.model.value?.paymentStatus == 1)
               Container(
                 margin: EdgeInsets.only(left: 10.w),
-                height: 30.h,
+                height: 35.h,
                 child: BeeButton(
                   text: controller.model.value?.status == 12 ? '重新支付' : '去付款',
                   onPressed: () async {
@@ -652,10 +714,10 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                 ),
               ),
             if (controller.model.value?.status == 4)
-              Flexible(
+              Expanded(
                 child: Container(
                   margin: EdgeInsets.only(left: 10.w),
-                  height: 30.h,
+                  height: 35.h,
                   child: BeeButton(
                     text: '确认收货',
                     onPressed: () async {
@@ -670,7 +732,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
               ),
             if (controller.model.value?.status == 5 &&
                 controller.model.value?.evaluated == 0)
-              Flexible(
+              Expanded(
                 child: Container(
                   margin: EdgeInsets.only(left: 10.w),
                   height: 30.h,
@@ -710,12 +772,12 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
   Widget secondView() {
     return Container(
       padding: const EdgeInsets.only(top: 20, left: 15, right: 15, bottom: 25),
+      margin: EdgeInsets.symmetric(horizontal: 13.w),
       width: ScreenUtil().screenWidth,
       decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.0),
-          topRight: Radius.circular(30.0),
+        borderRadius: BorderRadius.all(
+          Radius.circular(6.0),
         ),
         // border: new Border.all(width: 1, color: Colors.white),
       ),
@@ -725,13 +787,14 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
           AppText(
             str: '转运订单号'.inte,
             fontSize: 13,
-            color: AppStyles.textGray,
+            color: Color(0xff666666),
           ),
           10.verticalSpaceFromWidth,
           Row(
             children: [
               AppText(
                 str: controller.model.value?.orderSn ?? '',
+                fontSize: 16,
               ),
               AppGaps.hGap15,
               GestureDetector(
@@ -750,7 +813,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
           AppText(
             str: '包含的包裹'.inte,
             fontSize: 13,
-            color: AppStyles.textGray,
+            color: Color(0xff666666),
           ),
           10.verticalSpaceFromWidth,
           Wrap(
@@ -767,14 +830,15 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ImgItem(
-                      'Home/parcel',
-                      width: 20.w,
-                      height: 20.w,
-                    ),
-                    AppGaps.hGap10,
+                    // ImgItem(
+                    //   'Home/parcel',
+                    //   width: 20.w,
+                    //   height: 20.w,
+                    // ),
+                    // AppGaps.hGap10,
                     AppText(
                       str: e.expressNum ?? '',
+                      fontSize: 16,
                     )
                   ],
                 ),
@@ -788,21 +852,38 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
 
   Widget firstView() {
     return Container(
-      color: AppStyles.primary,
+        decoration: BoxDecoration(
+        gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [AppStyles.primary,AppStyles.primary, Colors.white, Colors.white],
+        stops: [0.0, 0.539, 0.541, 1.0],
+    )),
       child: Column(
         children: <Widget>[
           Container(
             height: 80,
             padding: const EdgeInsets.only(top: 30, left: 15),
             width: ScreenUtil().screenWidth,
-            child: AppText(
-              str: controller.statusStr.value.inte,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+            child: Row(
+              children: [
+                if (controller.statusStr.value == '已发货')
+                  LoadAssetImage(
+                    'Home/ico_cg',
+                    width: 30.w,
+                    height: 30.w,
+                  ),
+                16.horizontalSpace,
+                AppText(
+                  str: controller.statusStr.value.inte,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                )
+              ],
             ),
           ),
-          secondView(),
+          secondView()
         ],
       ),
     );

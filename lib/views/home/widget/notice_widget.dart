@@ -17,7 +17,7 @@ class NoticeWidget extends StatelessWidget {
     return Obx(() {
       var list = Get.find<IndexLogic>().noticeList;
       return Container(
-        height: 30.h,
+        height: 35.h,
         margin: EdgeInsets.symmetric(horizontal: 14.w),
         decoration: BoxDecoration(
           color: const Color(0xffF4F8F9),
