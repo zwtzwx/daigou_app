@@ -552,31 +552,40 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
+                constraints: BoxConstraints(maxWidth: 90.w),
                 padding: EdgeInsets.symmetric(horizontal: 5, vertical: 9),
                 decoration: BoxDecoration(
                     color: Color(0xffFFE6E6),
                     borderRadius: BorderRadius.all(Radius.circular(4))),
-                child: AppText(
-                  str: '从商家到海鸥'.inte,
-                  color: Color(0xffFF3A3E),
-                  fontSize: 12,
-                  lines: 5,
+                child: Text(
+                  '从商家到海鸥'.inte,
+                  softWrap: true,
+                  textAlign:TextAlign.center,
+                  style: TextStyle(
+                    color: AppStyles.primary,
+                    fontSize: 12,
+                  ),
                   // fontWeight: FontWeight.bold,
                 ),
               ),
               Container(
+                constraints: BoxConstraints(maxWidth: 90.w),
                 padding: EdgeInsets.symmetric(horizontal: 5, vertical: 9),
                 decoration: BoxDecoration(
                     color: Color(0xffFFE6E6),
                     borderRadius: BorderRadius.all(Radius.circular(4))),
-                child: AppText(
-                  str: '从海鸥到您'.inte,
-                  color: Color(0xffFF3A3E),
-                  fontSize: 12,
-                  lines: 5,
+                child: Text(
+                  '从海鸥到您'.inte,
+                  textAlign:TextAlign.center,
+                  softWrap: true,
+                  style: TextStyle(
+                    color: AppStyles.primary,
+                    fontSize: 12,
+                  ),
                   // fontWeight: FontWeight.bold,
                 ),
               ),
+
             ],
           ),
           9.verticalSpace,
@@ -648,23 +657,44 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AppText(
-                str: '商家发货'.inte,
-                color: Color(0xff333333),
-                fontSize: 14,
-                // fontWeight: FontWeight.bold,
+              Container(
+                constraints: BoxConstraints(maxWidth: 80.w),
+                child: Text(
+                  '商家发货'.inte,
+                  textAlign:TextAlign.center,
+                  softWrap: true,
+                  style: TextStyle(
+                    color: Color(0xff333333),
+                    fontSize: 14,
+                  ),
+                  // fontWeight: FontWeight.bold,
+                ),
               ),
-              AppText(
-                str: '海鸥认证仓库'.inte,
-                color: Color(0xff333333),
-                fontSize: 14,
-                // fontWeight: FontWeight.bold,
+              Container(
+                constraints: BoxConstraints(maxWidth: 80.w),
+                child: Text(
+                  '海鸥认证仓库'.inte,
+                  textAlign:TextAlign.center,
+                  softWrap: true,
+                  style: TextStyle(
+                    color: Color(0xff333333),
+                    fontSize: 14,
+                  ),
+                  // fontWeight: FontWeight.bold,
+                ),
               ),
-              AppText(
-                str: '包裹交付'.inte,
-                color: Color(0xff333333),
-                fontSize: 14,
-                // fontWeight: FontWeight.bold,
+              Container(
+                constraints: BoxConstraints(maxWidth: 80.w),
+                child: Text(
+                  '包裹交付'.inte,
+                  textAlign:TextAlign.center,
+                  softWrap: true,
+                  style: TextStyle(
+                    color: Color(0xff333333),
+                    fontSize: 14,
+                  ),
+                  // fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           )

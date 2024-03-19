@@ -21,6 +21,8 @@ class BaseInput extends StatefulWidget {
       this.readOnly = false,
       this.board = false,
       this.onTab,
+      this.isNick = false,
+      this.isCoupon = false,
       this.autoShowRemove = true,
       this.maxLines = 1,
       this.minLines = 1,
@@ -65,6 +67,8 @@ class BaseInput extends StatefulWidget {
   final TextStyle? style;
   final bool isSearchInput;
   final bool showDone;
+  final bool isNick;
+  final bool isCoupon;
   final bool autoRemoveController;
   final InputBorder? border;
 
@@ -131,14 +135,20 @@ class _BaseInputState extends State<BaseInput> {
   @override
   Widget build(BuildContext context) {
     var inputDecoration = InputDecoration(
-        fillColor: widget.board ? AppStyles.bgGray : Colors.white,
+        fillColor: widget.isNick
+            ? Color(0xffFDF3F3)
+            : (widget.board ? AppStyles.bgGray : Colors.white),
         filled: true,
         contentPadding: widget.contentPadding,
         hintText: widget.hintText,
         hintStyle: widget.hintStyle,
         isCollapsed: widget.isCollapsed,
         prefixIcon: widget.prefixIcon,
-        border: widget.border,
+        border: widget.isNick
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12), // 设置圆角半径
+              )
+            : widget.border,
         suffixIcon: (_isShowRemove && _isFoucsed && widget.suffix == null)
             ? GestureDetector(
                 // padding: const EdgeInsets.all(0),
@@ -160,46 +170,55 @@ class _BaseInputState extends State<BaseInput> {
                 })
             : null,
         counterText: "",
-        focusedBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
-        enabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none));
+        focusedBorder: widget.isNick||widget.isCoupon
+            ? OutlineInputBorder(
+                borderRadius:  widget.isNick?BorderRadius.circular(12):BorderRadius.circular(4),
+                borderSide: widget.isCoupon?BorderSide(color: Color(0xff333333)):BorderSide(color: Color(0xffFFA0A0)), // 设置边框颜色
+              )
+            : const UnderlineInputBorder(borderSide: BorderSide.none),
+        enabledBorder: widget.isNick||widget.isCoupon
+            ? OutlineInputBorder(
+                borderRadius: widget.isNick?BorderRadius.circular(12):BorderRadius.circular(4),
+                borderSide: BorderSide(color: Color(0xff999999)), // 设置聚焦时边框颜色
+              )
+            : const UnderlineInputBorder(borderSide: BorderSide.none));
 
     var widgetList = <Widget>[
       TextField(
-        // key: UniqueKey(),
-        enabled: !widget.readOnly,
-        // enableInteractiveSelection: false,
-        cursorColor: Theme.of(context).primaryColor,
-        readOnly: widget.readOnly,
-        focusNode: widget.focusNode,
-        onEditingComplete: widget.onEditingComplete,
-        style: widget.style ?? SizeConfig.middleText,
-        maxLength: widget.maxLength,
-        textAlign: widget.textAlign,
-        maxLines: widget.maxLines,
-        minLines: widget.minLines,
-        obscureText: widget.isScureText,
-        autofocus: widget.autoFocus,
-        controller: widget.controller,
-        textInputAction: widget.textInputAction,
-        autocorrect: false,
-        keyboardType: widget.keyboardType,
-        // enableInteractiveSelection: widget.readOnly,
-        onSubmitted: (string) {
-          if (widget.onSubmitted is Function) widget.onSubmitted!(string);
-        },
-        onChanged: (string) {
-          if (widget.onChanged is Function) widget.onChanged!(string);
-        },
-        onTap: () {
-          if (widget.onTab is Function) widget.onTab!();
-        },
-        // 数字、手机号限制格式为0到9(白名单)， 密码限制不包含汉字（黑名单）
-        // inputFormatters: (widget.keyboardType == TextInputType.number ||
-        //         widget.keyboardType == TextInputType.phone)
-        //     ? [WhitelistingTextInputFormatter(RegExp("[0-9]"))]
-        //     : [BlacklistingTextInputFormatter(RegExp("[\u4e00-\u9fa5]"))],
-        decoration: inputDecoration,
-      ),
+          // key: UniqueKey(),
+          enabled: !widget.readOnly,
+          // enableInteractiveSelection: false,
+          cursorColor: Theme.of(context).primaryColor,
+          readOnly: widget.readOnly,
+          focusNode: widget.focusNode,
+          onEditingComplete: widget.onEditingComplete,
+          style: widget.style ?? SizeConfig.middleText,
+          maxLength: widget.maxLength,
+          textAlign: widget.textAlign,
+          maxLines: widget.maxLines,
+          minLines: widget.minLines,
+          obscureText: widget.isScureText,
+          autofocus: widget.autoFocus,
+          controller: widget.controller,
+          textInputAction: widget.textInputAction,
+          autocorrect: false,
+          keyboardType: widget.keyboardType,
+          // enableInteractiveSelection: widget.readOnly,
+          onSubmitted: (string) {
+            if (widget.onSubmitted is Function) widget.onSubmitted!(string);
+          },
+          onChanged: (string) {
+            if (widget.onChanged is Function) widget.onChanged!(string);
+          },
+          onTap: () {
+            if (widget.onTab is Function) widget.onTab!();
+          },
+          // 数字、手机号限制格式为0到9(白名单)， 密码限制不包含汉字（黑名单）
+          // inputFormatters: (widget.keyboardType == TextInputType.number ||
+          //         widget.keyboardType == TextInputType.phone)
+          //     ? [WhitelistingTextInputFormatter(RegExp("[0-9]"))]
+          //     : [BlacklistingTextInputFormatter(RegExp("[\u4e00-\u9fa5]"))],
+          decoration: inputDecoration),
     ];
 
     if (widget.suffix != null) {

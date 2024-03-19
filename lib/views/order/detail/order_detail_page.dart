@@ -100,7 +100,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                   child: Container(
                     height: 26.h,
                     alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    // padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: AppText(
                         str: address.countryName,
                         fontSize: 18,
@@ -642,7 +642,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
     bool redText = false,
   }) {
     return Padding(
-      padding: EdgeInsets.only(bottom: bottom ?? 15),
+      padding: EdgeInsets.only(bottom: bottom ?? 22),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: crossAxisAlignment,
@@ -651,6 +651,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
             flex: leftFlex ?? 1,
             child: AppText(
               str: label.inte,
+              fontSize: 14,
               color: labelColor ?? AppStyles.textGray,
               lines: 2,
             ),
@@ -658,7 +659,8 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
           content ??
               AppText(
                 str: text ?? '无'.inte,
-                color: redText ? AppStyles.textRed : AppStyles.textBlack,
+                color: redText ? AppStyles.textRed : Color(0xff333333),
+                fontSize: 14,
               ),
         ],
       ),
@@ -856,14 +858,14 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
         gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [AppStyles.primary,AppStyles.primary, Colors.white, Colors.white],
-        stops: [0.0, 0.539, 0.541, 1.0],
+        colors: [AppStyles.primary,AppStyles.primary, Colors.white, AppStyles.bgGray],
+        stops: [0.0, 0.499, 0.50, 1.0],
     )),
       child: Column(
         children: <Widget>[
           Container(
-            height: 80,
-            padding: const EdgeInsets.only(top: 30, left: 15),
+            height: 60,
+            padding: const EdgeInsets.only(left: 15),
             width: ScreenUtil().screenWidth,
             child: Row(
               children: [

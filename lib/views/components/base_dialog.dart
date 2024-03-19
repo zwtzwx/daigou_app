@@ -258,178 +258,216 @@ class BaseDialog {
 
           nickNameController.text = params['name'];
           return AlertDialog(
+            backgroundColor: type==2?Colors.transparent:Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14.0), // 设置圆角半径为10.0
             ),
-            title: type==2?Container(
-              alignment: Alignment.center,
-              child: AppText(str:('修改个人信息').inte,
-                color: Color(0xff333333)),
-            ):Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppText(str:('兑换').inte,
-                    color: Color(0xff333333)),
-                IconTheme(
-                  data: IconThemeData(size: 20.0),
-                  child: IconButton(
-                    icon: Icon(Icons.clear),
-                    splashColor: Colors.transparent, // 去除水波纹效果
-                    highlightColor: Colors.transparent, // 去除点击高亮效果
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ),
-              ],
-            ),
             content: Container(
-              height: type==1?50.h:120.h,
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: type==2?Obx(()=>Column(
+              width: ScreenUtil().screenWidth,
+              padding: EdgeInsets.symmetric(horizontal: 22),
+              height: type==1?140.h:270.h,
+              decoration: type==2?BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                gradient: LinearGradient(
+                  colors: [Color(0xffFFDEDE), Color(0xffFFE5CD)], // 设置渐变颜色
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ):null,
+              child: Column(
                 children: [
-                  GestureDetector(
-                      onTap: (){
-                        ImagePickers.imagePicker(
-                          context: Get.context!,
-                          onSuccessCallback: (imageUrl) {
-                            avatar.value = imageUrl;
-                          },
-                        );
-                      },
-                      child:
-
-                      SizedBox(
-                        width: 60.w,
-                        height: 60.w,
-                        child: ClipOval(
-                          child: ImgItem(
-                            avatar.value ?? 'Center/edit-avatar',
-                          ),
-                        ),
-                      )
-                  ),
-                  20.verticalSpace,
-                  BaseInput(
-                    style: TextStyle(fontSize: 20),
-                    hintText: '请输入新的昵称'.inte,
-                    board: true,
-                    minLines: 1,
-                    maxLines: 1,
-                    maxLength: 300,
-                    suffix: IconTheme(
+                  type==2?Container(
+                    alignment: Alignment.centerRight,
+                    child: IconTheme(
                       data: IconThemeData(size: 20.0),
                       child: IconButton(
                         icon: Icon(Icons.clear),
                         splashColor: Colors.transparent, // 去除水波纹效果
                         highlightColor: Colors.transparent, // 去除点击高亮效果
                         onPressed: () {
-                          // 清空文本框内容的操作
-                          nickNameController.text = '';
+                          Navigator.of(context).pop();
                         },
                       ),
                     ),
-                    controller: nickNameController,
-                    focusNode: nickNameNode,
-                    autoShowRemove: false,
-                    contentPadding: EdgeInsets.all(10.w),
-                    keyboardType: TextInputType.multiline,
-                    textInputAction: TextInputAction.newline,
-                    autoRemoveController: false,
-                    onChanged: (res) {
+                  ):Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AppText(str:('兑换码').inte,
+                          color: Color(0xff333333)),
+                      IconTheme(
+                        data: IconThemeData(size: 20.0),
+                        child: IconButton(
+                          icon: Icon(Icons.clear),
+                          splashColor: Colors.transparent, // 去除水波纹效果
+                          highlightColor: Colors.transparent, // 去除点击高亮效果
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    // padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: type==2?Obx(()=>Column(
+                      children: [
+                        GestureDetector(
+                            onTap: (){
+                              ImagePickers.imagePicker(
+                                context: Get.context!,
+                                onSuccessCallback: (imageUrl) {
+                                  avatar.value = imageUrl;
+                                },
+                              );
+                            },
+                            child:
+                            SizedBox(
+                              width: 90.w,
+                              height: 90.w,
+                              child: ClipOval(
+                                child: ImgItem(
+                                  avatar.value ?? 'Center/edit-avatar',
+                                ),
+                              ),
+                            )
+                        ),
+                        20.verticalSpace,
+                        AppText(
+                          str: '点击修改头像'.inte,
+                          color: AppStyles.textBlack,
+                          fontSize: 14,
+                        ),
+                        20.verticalSpace,
+                        BaseInput(
+                          style: TextStyle(fontSize: 20),
+                          hintText: '请输入新的昵称'.inte,
+                          board: true,
+                          isNick: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12), // 设置圆角半径
+                          ),
+                          minLines: 1,
+                          maxLines: 1,
+                          maxLength: 300,
+                          suffix: IconTheme(
+                            data: IconThemeData(size: 15.0),
+                            child: IconButton(
+                              icon: Icon(Icons.clear),
+                              splashColor: Colors.transparent, // 去除水波纹效果
+                              highlightColor: Colors.transparent, // 去除点击高亮效果
+                              onPressed: () {
+                                // 清空文本框内容的操作
+                                nickNameController.text = '';
+                              },
+                            ),
+                          ),
+                          controller: nickNameController,
+                          focusNode: nickNameNode,
+                          autoShowRemove: false,
+                          contentPadding: EdgeInsets.all(10.w),
+                          keyboardType: TextInputType.multiline,
+                          textInputAction: TextInputAction.newline,
+                          autoRemoveController: false,
+                          onChanged: (res) {
 
-                    },
-                  )
-                ],
-              )):Column(
-                children: [
-                  BaseInput(
-                    style: TextStyle(fontSize: 20),
-                    hintText: '请输入兑换码'.inte,
-                    board: true,
-                    minLines: 1,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black, width: 2.0),
+                          },
+                        )
+                      ],
+                    )):Column(
+                      children: [
+                        BaseInput(
+                          style: TextStyle(fontSize: 20),
+                          hintText: '请输入兑换码'.inte,
+                          board: false,
+                          isCoupon: true,
+                          minLines: 1,
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black, width: 2.0),
+                          ),
+                          maxLines: 1,
+                          // suffix: IconTheme(
+                          //   data: IconThemeData(size: 15.0),
+                          //   child: IconButton(
+                          //     icon: Icon(Icons.clear),
+                          //     splashColor: Colors.transparent, // 去除水波纹效果
+                          //     highlightColor: Colors.transparent, // 去除点击高亮效果
+                          //     onPressed: () {
+                          //       // 清空文本框内容的操作
+                          //       exchangeController.text = '';
+                          //     },
+                          //   ),
+                          // ),
+                          maxLength: 300,
+                          controller: exchangeController,
+                          focusNode: exchangeNode,
+                          autoShowRemove: false,
+                          contentPadding: EdgeInsets.all(10.w),
+                          keyboardType: TextInputType.multiline,
+                          textInputAction: TextInputAction.newline,
+                          autoRemoveController: false,
+                          onChanged: (res) {
+
+                          },
+                        )
+                      ],
                     ),
-                    maxLines: 1,
-                    // suffix: IconTheme(
-                    //   data: IconThemeData(size: 15.0),
-                    //   child: IconButton(
-                    //     icon: Icon(Icons.clear),
-                    //     splashColor: Colors.transparent, // 去除水波纹效果
-                    //     highlightColor: Colors.transparent, // 去除点击高亮效果
-                    //     onPressed: () {
-                    //       // 清空文本框内容的操作
-                    //       exchangeController.text = '';
-                    //     },
-                    //   ),
-                    // ),
-                    maxLength: 300,
-                    controller: exchangeController,
-                    focusNode: exchangeNode,
-                    autoShowRemove: false,
-                    contentPadding: EdgeInsets.all(10.w),
-                    keyboardType: TextInputType.multiline,
-                    textInputAction: TextInputAction.newline,
-                    autoRemoveController: false,
-                    onChanged: (res) {
+                  ),
+                  type==2?15.verticalSpace:21.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 35.h,
+                            child: BeeButton(
+                              onPressed: () {
+                                if(type==2) {
+                                  onPressed({
+                                    'avatar': avatar.value,
+                                    'name': nickNameController.text
+                                  });
+                                }
 
-                    },
-                  )
+                                else {
+                                  onPressed({
+                                    'exchange': exchangeController.text,
+                                  });
+                                }
+                                Navigator.of(context).pop();
+                              },
+                              text: type==1?'兑换':'确认修改',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
             actions: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 35.h,
-                        child: BeeButton(
-                          onPressed: () {
-                            if(type==2) {
-                              onPressed({
-                                'avatar': avatar.value,
-                                'name': nickNameController.text
-                              });
-                            }
 
-                            else {
-                              onPressed({
-                                'exchange': exchangeController.text,
-                              });
-                            }
-                            Navigator.of(context).pop();
-                          },
-                          text: type==1?'兑换':'确认修改',
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              type==2?Padding(
-                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 35.h,
-                        child: BeeButton(
-                          backgroundColor: const Color(0xFFFFE1E2),
-                          textColor: AppStyles.primary,
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          text: '取消',
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ):AppGaps.empty
+              // type==2?Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10),
+              //   child: Row(
+              //     children: [
+              //       Expanded(
+              //         child: SizedBox(
+              //           height: 35.h,
+              //           child: BeeButton(
+              //             backgroundColor: const Color(0xFFFFE1E2),
+              //             textColor: AppStyles.primary,
+              //             onPressed: () {
+              //               Navigator.of(context).pop();
+              //             },
+              //             text: '取消',
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ):AppGaps.empty
             ],
           );
         });

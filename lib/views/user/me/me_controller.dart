@@ -14,6 +14,7 @@ import 'package:shop_app_client/services/user_service.dart';
 import 'package:shop_app_client/services/point_service.dart';
 import 'package:get/get.dart';
 import 'package:shop_app_client/storage/user_storage.dart';
+import 'package:shop_app_client/models/user_vip_model.dart';
 
 class BeeCenterLogic extends GlobalController {
   final ScrollController scrollController = ScrollController();
@@ -24,6 +25,8 @@ class BeeCenterLogic extends GlobalController {
   final noticeUnRead = false.obs;
   final showMiniHeader = false.obs;
   final selectImg = <String>[].obs;
+  //会员中心基础信息
+  final userVipModel = Rxn<UserVipModel?>();
   //我的余额
   final myBalance = RxNum(0);
   // 优惠券数量
@@ -60,6 +63,7 @@ class BeeCenterLogic extends GlobalController {
   //   noticeUnRead.value = res;
   // }
 
+
   void getBalance() async {
     var userOrderDataCount = await UserService.getOrderDataCount();
     myBalance.value = userOrderDataCount!.balance ?? 0;
@@ -70,6 +74,7 @@ class BeeCenterLogic extends GlobalController {
   Future<void> created() async {
     var token = userInfoModel.token;
     if (token.isNotEmpty) {
+      userVipModel.value = await UserService.getVipMemberData();
       agentStatus.value = await UserService.getAgentStatus();
       isloading.value = true;
     }

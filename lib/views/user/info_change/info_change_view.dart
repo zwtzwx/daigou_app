@@ -84,6 +84,8 @@ selectTimeZone(BuildContext context) {
                   str: controller.timezone.value!=''?'+' +
                       controller.formatTimezone(
                           controller.timezone.value):'请选择'.inte,
+                  color: controller.timezone.value!=''?Color(0xff333333):Color(0xff666666),
+                  fontSize: 14,
                 ),
                 AppGaps.hGap4,
                 const Icon(
@@ -124,6 +126,8 @@ selectTimeZone(BuildContext context) {
                   AppText(
                     str:  controller.selectedCountryModel.value == null?'请选择'.inte:
                     controller.selectedCountryModel.value!.name!,
+                    color:controller.selectedCountryModel.value == null?Color(0xff666666):Color(0xff333333),
+                    fontSize: 14,
                   ),
                   AppGaps.hGap4,
                   const Icon(
@@ -167,6 +171,8 @@ selectTimeZone(BuildContext context) {
                   AppText(
                     str: controller.birth.value!=''?
                         controller.birth.value.inte:'请选择'.inte,
+                    color: controller.birth.value!=''?Color(0xff333333):Color(0xff666666),
+                    fontSize: 14,
                   ),
                   AppGaps.hGap4,
                   const Icon(
@@ -188,7 +194,7 @@ selectTimeZone(BuildContext context) {
   inPutItem(BuildContext context,String title, String placeholder,TextEditingController _controller) {
     var inputAccountView = Container(
       margin: const EdgeInsets.only(right: 10, left: 10),
-      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 5.h),
+      padding: EdgeInsets.symmetric(horizontal: 18,vertical: 5.h),
       decoration: const BoxDecoration(
         color: AppStyles.white,
         border: Border(
@@ -204,6 +210,7 @@ selectTimeZone(BuildContext context) {
             AppText(
               str: title.inte,
               color: Color(0xff333333),
+              fontSize: 16,
             ),),
           Expanded(
               child: SizedBox(
@@ -211,10 +218,12 @@ selectTimeZone(BuildContext context) {
                 child: TextField(
                   textAlign: TextAlign.right,
                   // obscureText: true,
-                  style: const TextStyle(color: Colors.black87),
+                  style: const TextStyle(color: Color(0xff333333),
+                  fontSize: 14),
                   controller: _controller,
                   decoration: InputDecoration(
                       hintText: placeholder.inte,
+                      hintStyle: TextStyle(color: Color(0xff999999)),
                       enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide.none,
                       ),

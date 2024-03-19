@@ -499,7 +499,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                 child: Row(
                   children: [
                     Expanded(
-                      flex: 6,
+                      flex: 5,
                       child: Column(
                         children: [
                           Row(
@@ -546,51 +546,53 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               AppGaps.hGap10,
-                              Expanded(
-                                  child: Row(
-                                    children: [
-                                      AppText(
-                                        str: growthValue.toString(),
-                                        color: AppStyles.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                      ),
-                                      AppText(
-                                        str: '/',
-                                        fontSize: 10,
-                                        color: Colors.white,
-                                      ),
-                                      AppText(
-                                        str: nextLevelGrowthValue.toString(),
-                                        color: AppStyles.white,
-                                        fontSize: 13,
-                                      ),
-                                    ],
-                                  )),
-                              Container(
-                                child: GestureDetector(
-                                  // onTap: () {
-                                  //   GlobalPages.push(GlobalPages.growthValue);
-                                  // },
-                                  child: AppText(
-                                    str: '再获得{count}成长值可升级'.inArgs({
-                                      'count': firstNum < 0 ? 0 : firstNum
-                                    }),
+                              Row(
+                                children: [
+                                  AppText(
+                                    str: growthValue.toString(),
                                     color: AppStyles.white,
-                                    lines: 2,
-                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
                                   ),
-                                ),
+                                  AppText(
+                                    str: '/',
+                                    fontSize: 10,
+                                    color: Colors.white,
+                                  ),
+                                  AppText(
+                                    str: nextLevelGrowthValue.toString(),
+                                    color: AppStyles.white,
+                                    fontSize: 13,
+                                  ),
+                                  10.horizontalSpace,
+                                  Container(
+                                    child: GestureDetector(
+                                      // onTap: () {
+                                      //   GlobalPages.push(GlobalPages.growthValue);
+                                      // },
+                                      child: AppText(
+                                        str: '再获得{count}成长值可升级'.inArgs({
+                                          'count': firstNum < 0 ? 0 : firstNum
+                                        }),
+                                        color: AppStyles.white,
+                                        lines: 2,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
+
                               Expanded(child: SizedBox())
                             ],
                           ),
                         ],
                       ),
                     ),
-                    Expanded(child: SizedBox()),
+                    // Expanded(child: SizedBox()),
                     //   积分
                     Expanded(
+                      flex: 2,
                       child: GestureDetector(
                         onTap: () {
                           GlobalPages.push(GlobalPages.point);

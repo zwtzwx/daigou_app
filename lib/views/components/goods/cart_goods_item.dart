@@ -61,7 +61,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                       height: 24.w,
                       margin: EdgeInsets.only(right: 10.w),
                       child: Obx(
-                        () => Checkbox(
+                        () => Checkbox.adaptive(
                             value: cartModel.skus
                                 .every((e) => checkedIds!.contains(e.id)),
                             shape: const CircleBorder(),
@@ -71,7 +71,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                 onChecked!(
                                     cartModel.skus.map((e) => e.id).toList());
                               }
-                            }),
+                            },),
                       ),
                     )
                   : AppGaps.empty,
@@ -129,7 +129,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                             height: 24.w,
                             margin: EdgeInsets.only(right: 10.w),
                             child: Obx(
-                              () => Checkbox(
+                              () => Checkbox.adaptive(
                                   value: checkedIds!.contains(sku.id),
                                   shape: const CircleBorder(),
                                   activeColor: AppStyles.primary,
@@ -137,7 +137,8 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                     if (onChecked != null) {
                                       onChecked!([sku.id]);
                                     }
-                                  }),
+                                  },
+                              ),
                             ),
                           )
                         : AppGaps.empty,

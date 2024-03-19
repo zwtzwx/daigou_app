@@ -41,7 +41,7 @@ class CartView extends GetView<CartController> {
                     SizedBox(
                       width: 24.w,
                       height: 24.w,
-                      child: Checkbox(
+                      child: Checkbox.adaptive(
                         value: controller.allChecked.value,
                         shape: const CircleBorder(),
                         activeColor: AppStyles.primary,
@@ -170,11 +170,12 @@ class CartView extends GetView<CartController> {
                               height: 22.w,
                             )
                         ),
+                        15.horizontalSpace,
                         Expanded(
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: [
-                              cartTypeItem('代购', 1),
+                              cartTypeItem('代购商品', 1),
                               // 15.horizontalSpace,
                               // cartTypeItem('自营', 2),
                             ],

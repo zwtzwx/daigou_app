@@ -322,7 +322,6 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                                   () => AppText(
                                 str: (e['name']! as String).inte,
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
                                 color: Color(0xff666666),
                               ),
                             ))
@@ -358,7 +357,7 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
         children: [
           Container(
             margin: EdgeInsets.fromLTRB(
-                18.w, ScreenUtil().statusBarHeight + 30.h, 28.w, 20.h),
+                18.w, ScreenUtil().statusBarHeight + 30.h, 28.w, 19),
             child: Row(
               children: [
                 GestureDetector(
@@ -389,13 +388,42 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
                     children: <Widget>[
                       Row(
                         children: [
-                          Expanded(
+                          Container(
+                            constraints: BoxConstraints(maxWidth: 140.w),
                             child: AppText(
                               str: userModel?.name ?? '',
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+                         5.horizontalSpace,
+                         GestureDetector(
+                           onTap: (){
+                             GlobalPages.push(GlobalPages.vip);
+                           },
+                           child:  Container(
+                               child: Row(
+                                 crossAxisAlignment: CrossAxisAlignment.center,
+                                 children: [
+                                   ImgItem(
+                                     'Center/V',
+                                     width: 18.w,
+                                     height: 18.w,
+                                   ),
+                                   Obx(() =>  Container(
+                                     alignment: Alignment.center,
+                                     height: 20.w,
+                                     child: AppText(
+                                       str: '${controller.userVipModel.value?.profile.levelName}'.toString(),
+                                       fontSize: 8,
+                                       color: Color(0xff7B551D),
+                                     ),
+                                   )
+                                   )
+                                 ],
+                               )
+                           ),
+                         )
                         ],
                       ),
                       5.verticalSpace,
