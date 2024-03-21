@@ -80,7 +80,7 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                   Obx(() => SizedBox(
                         width: 22.w,
                         height: 22.w,
-                        child: Checkbox.adaptive(
+                        child: Checkbox(
                           value: controller.agreementBool.value,
                           activeColor: AppStyles.primary,
                           shape: const CircleBorder(),
@@ -88,6 +88,16 @@ class BeeParcelCreatePage extends GetView<BeeParcelCreateLogic> {
                             if (value == null) return;
                             controller.agreementBool.value = value;
                           },
+                            side: MaterialStateBorderSide.resolveWith(
+                                    (Set<MaterialState> states) {
+                                  if (states.contains(MaterialState.selected))//修改勾选时边框颜色为红色
+                                    return const BorderSide(width: 0.5, color: Colors.white);
+                                  //修改默认时边框颜色为绿色
+                                  return const BorderSide(
+                                      width: 1, color: Color(0xff999999));
+                                }
+                              // 调整视觉密度
+                            )
                         ),
                       )),
                   5.horizontalSpace,

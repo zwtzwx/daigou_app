@@ -25,6 +25,9 @@ class ShopOrderPayController extends GlobalController {
   final problemOrder = Rxn<ProblemOrderModel?>();
   // StreamSubscription<BaseWeChatResponse>? wechatResponse;
   final endUtil = 0.obs;
+  final hasBalance = false.obs;
+  // 保存余额支付
+  final balancePay = Rxn<PayTypeModel?>();
 
   @override
   void onInit() {
@@ -83,6 +86,13 @@ class ShopOrderPayController extends GlobalController {
     payTypeList.value = await BalanceService.getPayTypeList(
       noDelivery: true,
     );
+    var list = payTypeList
+        .where((e) => e.name == 'balance'&&e.enabled==1);
+    if(list.length > 0) {
+      balancePay.value = list.elementAt(0);
+        hasBalance.value = true;
+    }
+
     hideLoading();
   }
 

@@ -258,14 +258,16 @@ class BaseDialog {
 
           nickNameController.text = params['name'];
           return AlertDialog(
+            contentPadding: EdgeInsets.symmetric(horizontal: 0),
+            elevation: 0,
             backgroundColor: type==2?Colors.transparent:Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14.0), // 设置圆角半径为10.0
             ),
             content: Container(
               width: ScreenUtil().screenWidth,
-              padding: EdgeInsets.symmetric(horizontal: 22),
-              height: type==1?140.h:270.h,
+              padding: EdgeInsets.symmetric(horizontal: type==1?12:22),
+              height: type==1?160.h:300.h,
               decoration: type==2?BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
                 gradient: LinearGradient(
@@ -278,15 +280,15 @@ class BaseDialog {
                 children: [
                   type==2?Container(
                     alignment: Alignment.centerRight,
-                    child: IconTheme(
-                      data: IconThemeData(size: 20.0),
-                      child: IconButton(
-                        icon: Icon(Icons.clear),
-                        splashColor: Colors.transparent, // 去除水波纹效果
-                        highlightColor: Colors.transparent, // 去除点击高亮效果
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).pop();
+                      },
+                      child: LoadAssetImage(
+                        'Center/close',
+                        width: 15.w,
+                        height: 15.w,
                       ),
                     ),
                   ):Row(
@@ -294,19 +296,34 @@ class BaseDialog {
                     children: [
                       AppText(str:('兑换码').inte,
                           color: Color(0xff333333)),
-                      IconTheme(
-                        data: IconThemeData(size: 20.0),
-                        child: IconButton(
-                          icon: Icon(Icons.clear),
-                          splashColor: Colors.transparent, // 去除水波纹效果
-                          highlightColor: Colors.transparent, // 去除点击高亮效果
-                          onPressed: () {
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        child: GestureDetector(
+                          onTap: (){
                             Navigator.of(context).pop();
                           },
+                          child: LoadAssetImage(
+                            'Center/close-coupon',
+                            width: 15.w,
+                            height: 15.w,
+                          ),
                         ),
-                      ),
+                      )
+
+                      // IconTheme(
+                      //   data: IconThemeData(size: 20.0),
+                      //   child: IconButton(
+                      //     icon: Icon(Icons.clear),
+                      //     splashColor: Colors.transparent, // 去除水波纹效果
+                      //     highlightColor: Colors.transparent, // 去除点击高亮效果
+                      //     onPressed: () {
+                      //       Navigator.of(context).pop();
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   ),
+                  if(type==1)10.verticalSpace,
                   Container(
                     // padding: const EdgeInsets.symmetric(vertical: 10),
                     child: type==2?Obx(()=>Column(
@@ -339,7 +356,8 @@ class BaseDialog {
                         ),
                         20.verticalSpace,
                         BaseInput(
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 14,
+                          color: Color(0xff333333)),
                           hintText: '请输入新的昵称'.inte,
                           board: true,
                           isNick: true,
@@ -428,7 +446,6 @@ class BaseDialog {
                                     'name': nickNameController.text
                                   });
                                 }
-
                                 else {
                                   onPressed({
                                     'exchange': exchangeController.text,
@@ -447,7 +464,6 @@ class BaseDialog {
               ),
             ),
             actions: <Widget>[
-
               // type==2?Padding(
               //   padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10),
               //   child: Row(

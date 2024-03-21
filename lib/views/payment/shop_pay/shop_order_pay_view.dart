@@ -20,6 +20,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          backgroundColor: AppStyles.bgGray,
         leading: const BackButton(color: Colors.black),
         title: AppText(
           str: '订单支付'.inte,
@@ -56,7 +57,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                                 .priceConvert(needFormat: false),
                             style: TextStyle(
                               fontSize: 16.sp,
-                              color: AppStyles.textRed,
+                              color: Color(0xff333333),
                             ),
                           ),
                         ],
@@ -65,16 +66,16 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                     2.verticalSpace,
                     Row(
                       children: [
-                        Icon(
-                          Icons.info_outline,
-                          color: AppStyles.textGrayC9,
-                          size: 18.sp,
-                        ),
-                        2.horizontalSpace,
                         AppText(
                           str: '不含国际运费'.inte,
                           color: AppStyles.textGrayC9,
                           fontSize: 10,
+                        ),
+                        2.horizontalSpace,
+                        Icon(
+                          Icons.info_outline,
+                          color: Color(0xff999999),
+                          size: 12.sp,
                         ),
                       ],
                     ),
@@ -153,40 +154,97 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
                             )
                           : AppGaps.empty,
                       10.verticalSpace,
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          AppText(
-                            str: '${'余额'.inte}：' +
-                                controller.myBalance.value
-                                    .priceConvert(needFormat: false),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              GlobalPages.push(GlobalPages.recharge,
-                                  arg: context);
-                            },
-                            child: Row(
-                              children: <Widget>[
-                                AppText(
-                                  str: '充值'.inte,
-                                ),
-                                const Icon(
-                                  Icons.keyboard_arrow_right,
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
                     ],
                   ),
                 ),
               ),
               Obx(
+                  ()=>controller.hasBalance.value? Container(
+                    padding: EdgeInsets.symmetric(horizontal: 18.w,vertical: 20.h),
+                    margin: EdgeInsets.symmetric(horizontal: 14.w),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          child: Row(
+                            children: [
+                              ImgItem(
+                                'Shop/balance_pay',
+                                width: 28.w,
+                              ),
+                              11.horizontalSpace,
+                              AppText(
+                                str: '余额支付'.inte,
+                                fontSize: 14,
+                                color: Color(0xff333333),
+                              ),
+                              Expanded(child: SizedBox()),
+                              GestureDetector(
+                                onTap: (){
+                                  controller.selectedPayType.value = controller.balancePay.value;
+                                },
+                                child: Obx(() => controller.selectedPayType.value == controller.balancePay.value
+                                    ? const Icon(
+                                  Icons.check_circle,
+                                  color: AppStyles.primary,
+                                )
+                                    : const Icon(Icons.radio_button_unchecked,
+                                    color: AppStyles.textGray)),
+                              )
+                            ],
+                          ),
+                        ),
+                        10.verticalSpace,
+                        Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(4.r)),
+                            color: Color(0xffFFECEC),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 12.h),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              AppText(
+                                color: Color(0xff666666),
+                                fontSize: 14,
+                                str: controller.myBalance.value
+                                    .priceConvert(needFormat: false),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  GlobalPages.push(GlobalPages.recharge,
+                                      arg: context);
+                                },
+                                child: Row(
+                                  children: <Widget>[
+                                    AppText(
+                                      str: '充值'.inte,
+                                      fontSize: 14,
+                                      color: AppStyles.primary,
+                                    ),
+                                    const Icon(
+                                      Icons.keyboard_arrow_right,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                  ):AppGaps.empty,
+              ),
+              12.verticalSpace,
+              Obx(
                 () => Container(
-                    height: (controller.payTypeList.length * 50).toDouble(),
+                    height: controller.hasBalance.value?((controller.payTypeList.length - 1)* 50).toDouble()
+                        :(controller.payTypeList.length * 50).toDouble(),
                     clipBehavior: Clip.none,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(8.r)),
@@ -216,7 +274,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
 
   Widget payTypeCell(BuildContext context, int index) {
     PayTypeModel typeMap = controller.payTypeList[index];
-
+    if(typeMap.name=='balance')return Container();
     return GestureDetector(
         onTap: () {
           if (controller.selectedPayType.value == typeMap) return;
@@ -243,7 +301,7 @@ class ShopOrderPayView extends GetView<ShopOrderPayController> {
               Obx(() => controller.selectedPayType.value == typeMap
                   ? const Icon(
                       Icons.check_circle,
-                      color: AppStyles.green,
+                      color: AppStyles.primary,
                     )
                   : const Icon(Icons.radio_button_unchecked,
                       color: AppStyles.textGray)),

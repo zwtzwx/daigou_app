@@ -61,17 +61,28 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                       height: 24.w,
                       margin: EdgeInsets.only(right: 10.w),
                       child: Obx(
-                        () => Checkbox.adaptive(
-                            value: cartModel.skus
-                                .every((e) => checkedIds!.contains(e.id)),
-                            shape: const CircleBorder(),
-                            activeColor: AppStyles.primary,
-                            onChanged: (value) {
-                              if (onChecked != null) {
-                                onChecked!(
-                                    cartModel.skus.map((e) => e.id).toList());
-                              }
-                            },),
+                        () => Checkbox(
+                          value: cartModel.skus
+                              .every((e) => checkedIds!.contains(e.id)),
+                          shape: const CircleBorder(),
+                          activeColor: AppStyles.primary,
+                          onChanged: (value) {
+                            if (onChecked != null) {
+                              onChecked!(
+                                  cartModel.skus.map((e) => e.id).toList());
+                            }
+                          },
+                            side: MaterialStateBorderSide.resolveWith(
+                                    (Set<MaterialState> states) {
+                                      if (states.contains(MaterialState.selected))//修改勾选时边框颜色为红色
+                                      return const BorderSide(width: 0.5, color: Colors.white);
+                                  //修改默认时边框颜色为绿色
+                                  return const BorderSide(
+                                      width: 1, color: Color(0xff999999));
+                                }
+                              // 调整视觉密度
+                            )
+                        ),
                       ),
                     )
                   : AppGaps.empty,
@@ -129,7 +140,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                             height: 24.w,
                             margin: EdgeInsets.only(right: 10.w),
                             child: Obx(
-                              () => Checkbox.adaptive(
+                              () => Checkbox(
                                   value: checkedIds!.contains(sku.id),
                                   shape: const CircleBorder(),
                                   activeColor: AppStyles.primary,
@@ -138,9 +149,17 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                       onChecked!([sku.id]);
                                     }
                                   },
-                              ),
-                            ),
-                          )
+                                  side: MaterialStateBorderSide.resolveWith(
+                                      (Set<MaterialState> states) {
+                                        if (states.contains(MaterialState.selected))//修改勾选时边框颜色为红色
+                                          return const BorderSide(width: 0.5, color: Colors.white);
+                                    //修改默认时边框颜色为绿色
+                                    return const BorderSide(
+                                        width: 1, color: Color(0xff999999));
+                                  }
+                                      // 调整视觉密度
+                                      )),
+                            ))
                         : AppGaps.empty,
                     ClipRRect(
                       borderRadius: BorderRadius.circular(5),

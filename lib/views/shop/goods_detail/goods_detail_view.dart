@@ -10,6 +10,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:shop_app_client/config/routers.dart';
 import 'package:shop_app_client/extension/rate_convert.dart';
 import 'package:shop_app_client/utils/dotted_painting.dart';
+import 'package:shop_app_client/utils/chewie_video.dart';
 import 'package:shop_app_client/extension/translation.dart';
 import 'package:shop_app_client/models/user_info_model.dart';
 import 'package:shop_app_client/views/components/base_search.dart';
@@ -263,14 +264,17 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
             child: Swiper(
               autoplay: (controller.goodsModel.value?.images ?? []).length > 1,
               itemBuilder: (context, index) {
-                return ImgItem(
+                // 返回视频或者图片
+                String type = controller.goodsModel.value!.images![index].substring(controller.goodsModel.value!.images![index].length - 3);
+                if(type=='jpg'||type=='png')return ImgItem(
                   controller.goodsModel.value!.images![index],
                   holderImg: 'Shop/goods_none',
                   fit: BoxFit.cover,
                 );
+                else return ChewieVideoWidget1(controller.goodsModel.value!.images![index]);
               },
               loop: (controller.goodsModel.value?.images ?? []).length > 1,
-              itemCount: controller.goodsModel.value?.images!.length ?? 0,
+              itemCount: controller.goodsModel.value?.images!.length??0,
             ),
           ),
         ),
@@ -548,45 +552,48 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
       margin: EdgeInsets.fromLTRB(14.w, 0, 14.w, 10.h),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                constraints: BoxConstraints(maxWidth: 90.w),
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 9),
-                decoration: BoxDecoration(
-                    color: Color(0xffFFE6E6),
-                    borderRadius: BorderRadius.all(Radius.circular(4))),
-                child: Text(
-                  '从商家到海鸥'.inte,
-                  softWrap: true,
-                  textAlign:TextAlign.center,
-                  style: TextStyle(
-                    color: AppStyles.primary,
-                    fontSize: 12,
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 22),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  constraints: BoxConstraints(maxWidth: 110.w),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+                  decoration: BoxDecoration(
+                      color: Color(0xffFFE6E6),
+                      borderRadius: BorderRadius.all(Radius.circular(4))),
+                  child: Text(
+                    '从商家到海鸥'.inte,
+                    softWrap: true,
+                    textAlign:TextAlign.center,
+                    style: TextStyle(
+                      color: AppStyles.primary,
+                      fontSize: 12,
+                    ),
+                    // fontWeight: FontWeight.bold,
                   ),
-                  // fontWeight: FontWeight.bold,
                 ),
-              ),
-              Container(
-                constraints: BoxConstraints(maxWidth: 90.w),
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 9),
-                decoration: BoxDecoration(
-                    color: Color(0xffFFE6E6),
-                    borderRadius: BorderRadius.all(Radius.circular(4))),
-                child: Text(
-                  '从海鸥到您'.inte,
-                  textAlign:TextAlign.center,
-                  softWrap: true,
-                  style: TextStyle(
-                    color: AppStyles.primary,
-                    fontSize: 12,
+                Container(
+                  constraints: BoxConstraints(maxWidth: 110.w),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+                  decoration: BoxDecoration(
+                      color: Color(0xffFFE6E6),
+                      borderRadius: BorderRadius.all(Radius.circular(4))),
+                  child: Text(
+                    '从海鸥到您'.inte,
+                    textAlign:TextAlign.center,
+                    softWrap: true,
+                    style: TextStyle(
+                      color: AppStyles.primary,
+                      fontSize: 12,
+                    ),
+                    // fontWeight: FontWeight.bold,
                   ),
-                  // fontWeight: FontWeight.bold,
                 ),
-              ),
 
-            ],
+              ],
+            ),
           ),
           9.verticalSpace,
           Row(
@@ -658,7 +665,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                constraints: BoxConstraints(maxWidth: 80.w),
+                constraints: BoxConstraints(maxWidth: 100.w),
                 child: Text(
                   '商家发货'.inte,
                   textAlign:TextAlign.center,
@@ -671,7 +678,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                 ),
               ),
               Container(
-                constraints: BoxConstraints(maxWidth: 80.w),
+                constraints: BoxConstraints(maxWidth: 100.w),
                 child: Text(
                   '海鸥认证仓库'.inte,
                   textAlign:TextAlign.center,
@@ -684,7 +691,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
                 ),
               ),
               Container(
-                constraints: BoxConstraints(maxWidth: 80.w),
+                constraints: BoxConstraints(maxWidth: 100.w),
                 child: Text(
                   '包裹交付'.inte,
                   textAlign:TextAlign.center,

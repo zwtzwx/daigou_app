@@ -25,7 +25,7 @@ class InfoPage extends GetView<BeeInfoLogic> {
         ),
       ),
         bottomNavigationBar: Container(
-          padding: EdgeInsets.only(left: 40,right: 40,bottom: 20),
+          padding: EdgeInsets.only(left:14.w,right:14.w,bottom: 54.h),
           child: SizedBox(
             height: 46,
             child: BeeButton(
@@ -42,14 +42,15 @@ class InfoPage extends GetView<BeeInfoLogic> {
         child: Column(
           children: [
             inPutItem(context, '姓名', '请输入真实姓名', controller.nameController),
-            Obx(() => selectTimeZone(context)),
             Obx(() => selectBirthday(context)),
             Obx(() => selectCountry(context),),
+            Obx(() => selectTimeZone(context)),
             inPutItem(context, '联系电话', '请输入收件人电话', controller.phoneController),
             inPutItem(context, '城市', '请输入城市', controller.cityNameController),
             inPutItem(context, '街道', '请输入街道', controller.streetNameController),
             inPutItem(context, '邮编', '请输入邮编', controller.postCodeController),
             inPutItem(context, '门牌号', '请输入门牌号', controller.doorCodeController),
+            Obx(() => VipCode(context)),
           ],
         ),
       )
@@ -144,6 +145,33 @@ selectTimeZone(BuildContext context) {
     );
     return selectView;
   }
+
+  VipCode(BuildContext context) {
+    var selectView = Container(
+        padding: EdgeInsets.only(top: 15,bottom: 15,left: 15),
+        margin: EdgeInsets.only(left: 10,right: 30),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: Color(0xffF1F1F1), width: 1.0),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            AppText(
+              str: '会员识别码'.inte,
+              color: Color(0xff333333),
+            ),
+            AppText(
+              str: controller.code.value.inte,
+              color: Color(0xff333333),
+            ),
+          ],
+        )
+    );
+    return selectView;
+  }
+
 
   selectBirthday(BuildContext context) {
     var selectView = Container(

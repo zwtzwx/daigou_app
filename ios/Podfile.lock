@@ -110,6 +110,10 @@ PODS:
   - TOCropViewController (2.6.1)
   - url_launcher_ios (0.0.1):
     - Flutter
+  - video_player_avfoundation (0.0.1):
+    - Flutter
+  - wakelock_plus (0.0.1):
+    - Flutter
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
   - WechatOpenSDK-XCFramework (2.0.2)
@@ -133,6 +137,8 @@ DEPENDENCIES:
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
+  - wakelock_plus (from `.symlinks/plugins/wakelock_plus/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
@@ -188,6 +194,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/darwin"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
+  video_player_avfoundation:
+    :path: ".symlinks/plugins/video_player_avfoundation/ios"
+  wakelock_plus:
+    :path: ".symlinks/plugins/wakelock_plus/ios"
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
@@ -212,7 +222,7 @@ SPEC CHECKSUMS:
   image_picker_ios: 99dfe1854b4fa34d0364e74a78448a0151025425
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
-  package_info_plus: fd030dabf36271f146f1f3beacd48f564b0f17f7
+  package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
@@ -222,6 +232,8 @@ SPEC CHECKSUMS:
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   url_launcher_ios: bbd758c6e7f9fd7b5b1d4cde34d2b95fcce5e812
+  video_player_avfoundation: 81e49bb3d9fb63dccf9fa0f6d877dc3ddbeac126
+  wakelock_plus: 8b09852c8876491e4b6d179e17dfe2a0b5f60d47
   webview_flutter_wkwebview: 4f3e50f7273d31e5500066ed267e3ae4309c5ae4
   WechatOpenSDK-XCFramework: acdeeda129efbef9532bca8a10c24e1b4b8c7d69
 

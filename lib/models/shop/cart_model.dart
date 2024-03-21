@@ -103,8 +103,8 @@ class CartSkuInfoModel {
     price = json['price'] is String
         ? num.parse(json['price'])
         : (json['price'] ?? 0);
-    minOrderQuantity = json['min_order_quantity'];
-    batchNumber = json['batch_number'];
+    minOrderQuantity = json['min_order_quantity'] is String ? int.parse(json['min_order_quantity']) : (json['min_order_quantity'] ?? 1);
+    batchNumber = json['batch_number'] is String ? int.parse(json['batch_number']) : (json['batch_number'] ?? 1);
     shopName = json['shop_name'];
     specId = json['spec_id'];
     attributes = [];

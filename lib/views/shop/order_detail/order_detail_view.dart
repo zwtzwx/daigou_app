@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:shop_app_client/config/color_config.dart';
 import 'package:shop_app_client/extension/rate_convert.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 import 'package:shop_app_client/extension/translation.dart';
 import 'package:shop_app_client/views/components/caption.dart';
 import 'package:shop_app_client/views/components/goods/cart_goods_item.dart';
@@ -102,10 +103,10 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
           10.verticalSpace,
           Row(
             children: [
-              Icon(
-                Icons.location_on_outlined,
-                color: const Color(0xFF9D9D9D),
-                size: 30.sp,
+              LoadAssetImage(
+                'Center/address',
+                width: 22.w,
+                height: 22.w,
               ),
               10.horizontalSpace,
               Expanded(

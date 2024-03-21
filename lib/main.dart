@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:shop_app_client/config/color_config.dart';
 import 'package:shop_app_client/config/global_inject.dart';
 import 'package:shop_app_client/config/routers.dart';
+import 'dart:async';
 import 'package:shop_app_client/config/wechat_config.dart';
 import 'package:shop_app_client/events/application_event.dart';
 import 'package:event_bus/event_bus.dart';
@@ -23,14 +24,15 @@ void main() async {
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
   SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   WidgetsFlutterBinding.ensureInitialized();
-
   //传入可能的登录用户
   await dotenv.load(fileName: ".env");
   await GlobalInject.init();
   // 初始化 Firebase
   // await Firebase.initializeApp();
-
-  runApp(const MyApp());
+  Timer(Duration(seconds: 2), () => {
+    runApp(const MyApp())
+  });
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {

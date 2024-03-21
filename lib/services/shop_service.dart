@@ -5,6 +5,7 @@ import 'package:shop_app_client/common/util.dart';
 import 'package:shop_app_client/extension/translation.dart';
 import 'package:shop_app_client/models/goods_category_model.dart';
 import 'package:shop_app_client/models/shop/cart_model.dart';
+import 'package:shop_app_client/config/routers.dart';
 import 'package:shop_app_client/models/shop/category_model.dart';
 import 'package:shop_app_client/models/shop/consult_model.dart';
 import 'package:shop_app_client/models/shop/goods_comment_model.dart';
@@ -124,16 +125,18 @@ class ShopService {
         .get(daigouGoodsDetailApi, queryParameters: params)
         .then((res) {
       if (res.ok) {
-        goods = PlatformGoodsModel.fromJson(res.data);
+        goods = PlatformGoodsModel.videoFromJson(res.data);
       } else {
         EasyLoading.showError('小海鸥没能及时找到该商品，可以先留下这件商品的信息，小海鸥将全力采购'.inte);
+      //   跳转至手动填单页
+        GlobalPages.push(GlobalPages.manualOrder);
       }
     });
     if (goods != null && LocaleStorage.getLanguage() != 'zh_CN') {
-      if (goods!.title.contianCN) {
-        await getTranslate(goods!.title)
-            .then((data) => goods!.title = data ?? goods!.title);
-      }
+      // if (goods!.title.contianCN) {
+      //   await getTranslate(goods!.title)
+      //       .then((data) => goods!.title = data ?? goods!.title);
+      // }
       await goods!.propTs();
     }
     return goods;
@@ -517,15 +520,15 @@ class ShopService {
         }
       }
     });
-    if (result['dataList'] != null &&
-        result['dataList'].isNotEmpty &&
-        LocaleStorage.getLanguage() != 'zh_CN') {
-      await Future.wait((result['dataList'] as List<PlatformGoodsModel>)
-          .where((e) => e.title.contianCN)
-          .map((PlatformGoodsModel e) {
-        return getTranslate(e.title).then((data) => e.title = data ?? e.title);
-      }));
-    }
+    // if (result['dataList'] != null &&
+    //     result['dataList'].isNotEmpty &&
+    //     LocaleStorage.getLanguage() != 'zh_CN') {
+    //   await Future.wait((result['dataList'] as List<PlatformGoodsModel>)
+    //       .where((e) => e.title.contianCN)
+    //       .map((PlatformGoodsModel e) {
+    //     return getTranslate(e.title).then((data) => e.title = data ?? e.title);
+    //   }));
+    // }
     return result;
   }
 

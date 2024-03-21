@@ -24,7 +24,7 @@ class ManualOrderView extends GetView<ManualOrderController> {
           str: '代购代买'.inte,
           fontSize: 17,
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: AppStyles.bgGray,
         elevation: 0,
         leading: const BackButton(color: Colors.black),
       ),
@@ -65,33 +65,138 @@ class ManualOrderView extends GetView<ManualOrderController> {
       child: Column(
         children: [
           _textEdit(
+            isRow:true,
             title: '寄往仓库',
             child: GestureDetector(
               onTap: () {
                 controller.onShowWarehousePicker(context);
               },
               child: Container(
-                margin: EdgeInsets.only(top: 10.h),
+                // margin: EdgeInsets.only(top: 10.h),
                 child: Row(
                   children: [
-                    Expanded(
-                      child: Obx(
+                      Obx(
                         () => AppText(
                           str: controller.warehouse.value?.warehouseName ??
                               '请选择仓库'.inte,
                           color: controller.warehouse.value == null
                               ? AppStyles.textGray
                               : AppStyles.textDark,
+                          fontSize: 14,
                         ),
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 18.sp,
+                    15.horizontalSpace,
+                    LoadAssetImage(
+                      'Home/expand',
+                      width: 16.w,
+                      height: 16.w,
                     ),
                   ],
                 ),
               ),
+            ),
+          ),
+          _textEdit(
+            isRow:true,
+            title: '商品单价',
+            child: BaseInput(
+              controller: controller.priceController,
+              focusNode: controller.priceNode,
+              autoShowRemove: false,
+              hintText: '请输入商品单价'.inte,
+              keyboardType:
+              const TextInputType.numberWithOptions(decimal: true),
+              contentPadding: const EdgeInsets.all(0),
+            ),
+          ),
+          _textEdit(
+            title: '商品数量',
+            isRow: true,
+            child: SizedBox(
+              height: 20.h,
+              width: 100.w,
+              child: Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Obx(() => Container(
+                      decoration: BoxDecoration(
+                        border: new Border.all(color: Color(0xFFEEEEEE), width: 0.5),
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          controller.onQty(-1);
+                        },
+                        child: ClipOval(
+                          child: Container(
+                            height: 20.h,
+                            width: 20.h,
+                            color: AppStyles.white,
+                            child: Icon(
+                              Icons.remove,
+                              size: 12.sp,
+                              color: controller.reduce.value=='1'?Color(0xffBABABA):Color(0xff333333),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: new Border(left: BorderSide(color: Color(0xFFEEEEEE), width: 0.5),
+                        right: BorderSide(color: Color(0xFFEEEEEE), width: 0.5)),
+                      ),
+                      width: 80,
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      child: BaseInput(
+                        isCollapsed: true,
+                        autoShowRemove: false,
+                        textAlign: TextAlign.center,
+                        controller: controller.qtyController,
+                        focusNode: controller.qtyNode,
+                        style: const TextStyle(fontSize: 12),
+                        contentPadding: const EdgeInsets.only(top: 0),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: new Border.all(color: Color(0xFFEEEEEE), width: 0.5),
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          controller.onQty(1);
+                        },
+                        child: ClipOval(
+                          child: Container(
+                            height: 20.h,
+                            width: 20.h,
+                            color: AppStyles.white,
+                            child: Icon(
+                              Icons.add,
+                              size: 12.sp,
+                              color: Color(0xff333333),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          _textEdit(
+            isRow:true,
+            title: '国内运费',
+            child: BaseInput(
+              controller: controller.feeController,
+              focusNode: controller.feeNode,
+              autoShowRemove: false,
+              hintText: '请输入国内运费'.inte,
+              keyboardType:
+              const TextInputType.numberWithOptions(decimal: true),
+              contentPadding: const EdgeInsets.all(0),
             ),
           ),
           10.verticalSpaceFromWidth,
@@ -111,6 +216,7 @@ class ManualOrderView extends GetView<ManualOrderController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _textEdit(
+            isRow: true,
             title: '商品链接',
             child: BaseInput(
               controller: controller.linkController,
@@ -122,17 +228,7 @@ class ManualOrderView extends GetView<ManualOrderController> {
             ),
           ),
           _textEdit(
-            title: '商品平台',
-            child: BaseInput(
-              controller: controller.platformController,
-              focusNode: controller.platformNode,
-              maxLength: 100,
-              hintText: '请填写平台'.inte,
-              autoShowRemove: false,
-              contentPadding: const EdgeInsets.all(0),
-            ),
-          ),
-          _textEdit(
+            isRow: true,
             title: '商品名称',
             child: BaseInput(
               controller: controller.nameController,
@@ -144,158 +240,85 @@ class ManualOrderView extends GetView<ManualOrderController> {
             ),
           ),
           _textEdit(
-            title: '商品规格',
-            isRequired: false,
-            child: BaseInput(
-              controller: controller.specController,
-              focusNode: controller.specNode,
-              maxLength: 100,
-              autoShowRemove: false,
-              hintText: '例如颜色：紫色 尺码：XXL'.inte,
-              contentPadding: const EdgeInsets.all(0),
-            ),
-          ),
-          _textEdit(
-            title: '商品数量',
+            title: '平台',
             isRow: true,
-            child: SizedBox(
-              height: 20.h,
-              width: 100.w,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      controller.onQty(-1);
-                    },
-                    child: ClipOval(
-                      child: Container(
-                        height: 20.h,
-                        width: 20.h,
-                        color: AppStyles.primary,
-                        child: Icon(
-                          Icons.remove,
-                          size: 18.sp,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child: BaseInput(
-                        isCollapsed: true,
-                        autoShowRemove: false,
-                        textAlign: TextAlign.center,
-                        controller: controller.qtyController,
-                        focusNode: controller.qtyNode,
-                        style: const TextStyle(fontSize: 18),
-                        contentPadding: const EdgeInsets.only(top: 0),
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      controller.onQty(1);
-                    },
-                    child: ClipOval(
-                      child: Container(
-                        height: 20.h,
-                        width: 20.h,
-                        color: AppStyles.primary,
-                        child: Icon(
-                          Icons.add,
-                          size: 18.sp,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          _textEdit(
-            title: '商品单价',
             child: BaseInput(
-              controller: controller.priceController,
-              focusNode: controller.priceNode,
+              controller: controller.platformController,
+              focusNode: controller.platformNode,
+              maxLength: 100,
+              hintText: '请填写平台'.inte,
               autoShowRemove: false,
-              hintText: '请输入商品单价'.inte,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
               contentPadding: const EdgeInsets.all(0),
             ),
           ),
           _textEdit(
-            title: '上传图片',
-            isRequired: false,
+            isRow: true,
+            title: '商品图片',
+            isRequired: true,
             child: Container(
               margin: EdgeInsets.only(top: 10.h),
               child: Obx(
-                () => Wrap(
+                    () => Wrap(
                   spacing: 10.w,
                   runSpacing: 10.w,
                   children: [
                     ...controller.imgs.asMap().keys.map(
                           (index) => Stack(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    FadeRoute(
-                                      page: PhotoViewGalleryScreen(
-                                        images: controller.imgs,
-                                        index: index,
-                                        heroTag: '',
-                                      ),
-                                    ),
-                                  );
-                                  // NinePictureAllScreenShow(model.images, index);
-                                },
-                                child: Container(
-                                  width: 75.w,
-                                  height: 75.w,
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    border: Border.all(
-                                      color: const Color(0xFFE1E1E1),
-                                    ),
-                                    borderRadius: BorderRadius.circular(4.r),
-                                  ),
-                                  child: ImgItem(
-                                    controller.imgs[index],
-                                    fit: BoxFit.fill,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                FadeRoute(
+                                  page: PhotoViewGalleryScreen(
+                                    images: controller.imgs,
+                                    index: index,
+                                    heroTag: '',
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                right: 5.w,
-                                top: 5.w,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    controller.imgs.removeAt(index);
-                                  },
-                                  child: Icon(
-                                    Icons.cancel_sharp,
-                                    color: AppStyles.textRed,
-                                    size: 18.sp,
-                                  ),
+                              );
+                              // NinePictureAllScreenShow(model.images, index);
+                            },
+                            child: Container(
+                              width: 60.w,
+                              height: 60.w,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                border: Border.all(
+                                  color: const Color(0xFFE1E1E1),
                                 ),
+                                borderRadius: BorderRadius.circular(4.r),
                               ),
-                            ],
+                              child: ImgItem(
+                                controller.imgs[index],
+                                fit: BoxFit.fill,
+                              ),
+                            ),
                           ),
-                        ),
+                          Positioned(
+                            right: 5.w,
+                            top: 5.w,
+                            child: GestureDetector(
+                              onTap: () {
+                                controller.imgs.removeAt(index);
+                              },
+                              child: Icon(
+                                Icons.cancel_sharp,
+                                color: AppStyles.textRed,
+                                size: 18.sp,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     GestureDetector(
                       onTap: () {
                         controller.onImgUpload(context);
                       },
                       child: Container(
-                        width: 75.w,
-                        height: 75.w,
+                        width: 60.w,
+                        height: 60.w,
                         decoration: BoxDecoration(
                           color: Colors.transparent,
                           border: Border.all(
@@ -316,6 +339,20 @@ class ManualOrderView extends GetView<ManualOrderController> {
             ),
           ),
           _textEdit(
+            isRow: true,
+            title: '商品规格',
+            isRequired: false,
+            child: BaseInput(
+              controller: controller.specController,
+              focusNode: controller.specNode,
+              maxLength: 100,
+              autoShowRemove: false,
+              hintText: '例如颜色：紫色 尺码：XXL'.inte,
+              contentPadding: const EdgeInsets.all(0),
+            ),
+          ),
+          _textEdit(
+            isRow: true,
             title: '商品备注',
             isRequired: false,
             child: BaseInput(
@@ -346,26 +383,29 @@ class ManualOrderView extends GetView<ManualOrderController> {
           ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text.rich(
+                Expanded(
+                  flex: 1,
+                  child: Text.rich(
                   TextSpan(
                     style: TextStyle(
-                      fontSize: 15.sp,
+                      fontSize: 14.sp,
                     ),
                     children: [
                       TextSpan(
-                        text: isRequired ? '*' : '',
-                        style: const TextStyle(
-                          color: AppStyles.textRed,
-                        ),
+                        text: title.inte,
                       ),
                       TextSpan(
-                        text: title.inte,
+                        text: isRequired ? '*' : '',
+                        style: const TextStyle(
+                          color: AppStyles.textBlack,
+                        ),
                       ),
                     ],
                   ),
-                ),
-                10.horizontalSpace,
-                Flexible(child: child),
+                ),),
+                Expanded(
+                    flex: 2,
+                    child: child)
               ],
             )
           : Column(

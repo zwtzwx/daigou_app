@@ -33,6 +33,7 @@ class BeeInfoLogic extends GlobalController {
 
   final timezone = '0086'.obs;
   final birth = ''.obs;
+  final code = ''.obs;
   // final city = ''.obs;
   // final door_no = ''.obs;
   // final phone = ''.obs;
@@ -116,6 +117,7 @@ class BeeInfoLogic extends GlobalController {
      streetNameController.text = res['street']??'';
      birth.value = res['birth']??'';
      timezone.value = res['timezone']??'';
+     code.value = res['personal_code'];
      country_id.value = res['country_id'].toString()??'';
      selectedCountryModel.value = CountryModel.fromJson(res['country']);
 

@@ -108,6 +108,10 @@ class PlatformGoodsCell extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: (currency?.code ?? '') + ' ',
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold,
+                          )
                         ),
                         TextSpan(
                           text: (goods.price ?? 0).priceConvert(

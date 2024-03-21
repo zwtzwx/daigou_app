@@ -30,6 +30,9 @@ class ManualOrderController extends GlobalController {
   final FocusNode remarkNode = FocusNode();
   final TextEditingController priceController = TextEditingController();
   final FocusNode priceNode = FocusNode();
+  final TextEditingController feeController = TextEditingController();
+  final FocusNode feeNode = FocusNode();
+  final Rx<String> reduce = '1'.obs;
 
   final warehouse = Rxn<WareHouseModel?>();
   List<WareHouseModel> warehouseList = [];
@@ -67,6 +70,7 @@ class ManualOrderController extends GlobalController {
     if (step < 0 && qty <= 1) return;
     qty += step;
     qtyController.text = qty.toString();
+    reduce.value = qtyController.text;
   }
 
   // 上传图片
@@ -116,6 +120,10 @@ class ManualOrderController extends GlobalController {
       msg = '请填写商品名称';
     } else if (priceController.text.isEmpty) {
       msg = '请填写商品单价';
+    }else if (feeController.text.isEmpty) {
+      msg = '请填写国内运费';
+    }else if (imgs.isEmpty) {
+      msg = '请上传商品图片';
     }
     if (msg != null) {
       showToast(msg);
@@ -130,6 +138,7 @@ class ManualOrderController extends GlobalController {
       'quantity': num.parse(qtyController.text),
       'amount': num.parse(priceController.text) * num.parse(qtyController.text),
       'remark': remarkController.text,
+      'freight_fee':feeController.text,
       'sku_info': {
         'imgs': imgs,
         'specs': [
@@ -142,7 +151,6 @@ class ManualOrderController extends GlobalController {
         'shop_name': platformController.text,
         'shop_id': DateTime.now().millisecondsSinceEpoch.toString(),
       },
-      'freight_fee': 0,
     };
     showLoading();
     var data = await ShopService.addCustomToCart(params);

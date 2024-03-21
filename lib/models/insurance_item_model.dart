@@ -1,6 +1,7 @@
 class InsuranceItemModel {
   late int id;
   late int insuranceProportion;
+  // late double insuranceProportion;
   late int enabled;
   late int companyId;
   late String createdAt;

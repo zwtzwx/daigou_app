@@ -6,6 +6,7 @@ import 'package:shop_app_client/config/color_config.dart';
 import 'package:shop_app_client/config/routers.dart';
 import 'package:shop_app_client/extension/rate_convert.dart';
 import 'package:shop_app_client/extension/translation.dart';
+import 'package:shop_app_client/views/components/load_image.dart';
 import 'package:shop_app_client/views/components/base_dialog.dart';
 import 'package:shop_app_client/views/components/button/main_button.dart';
 import 'package:shop_app_client/views/components/caption.dart';
@@ -301,11 +302,16 @@ class OrderPreviewView extends GetView<OrderPreviewController> {
                 : AppGaps.empty),
             Row(
               children: [
-                const Icon(
-                  Icons.location_on_outlined,
-                  color: Color(0xFF9D9D9D),
-                  size: 26,
+                LoadAssetImage(
+                  'Center/address',
+                  width: 20.w,
+                  height: 20.w,
                 ),
+                // const Icon(
+                //   Icons.location_on_outlined,
+                //   color: Color(0xFF9D9D9D),
+                //   size: 26,
+                // ),
                 10.horizontalSpace,
                 Obx(
                   () => Expanded(

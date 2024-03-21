@@ -99,7 +99,6 @@ class BeeParcelCreateLogic extends GlobalController {
       getWarehouseList();
       getProps();
     }
-    showProtocol(Get.context!);
   }
 
 
@@ -112,6 +111,7 @@ class BeeParcelCreateLogic extends GlobalController {
     expressCompanyList.value = _expressCompanyList;
     if (_terms != null) {
       terms.value = _terms;
+      showProtocol(Get.context!);
     }
   }
 

@@ -228,7 +228,7 @@ class BaseUtils {
             String uuid = BaseUrls.getUUID();
             String api = BaseUrls.getBaseApi();
             var parsedQuery = Uri.splitQueryString(paths[1]);
-            GlobalPages.push(GlobalPages.webview, arg: {
+            GlobalPages.push(GlobalPages.bannerWebview, arg: {
               'title': '抽奖'.inte,
               'url':
                   'https://yingxiao.haiousaas.com/pages/reward/index?token=$token&api_url=$api&env=App&&UUID=$uuid&reward_id=${parsedQuery['id']}'
@@ -237,7 +237,8 @@ class BaseUtils {
         } else {
           if (paths.length > 1) {
             var parsedQuery = Uri.splitQueryString(paths[1]);
-            GlobalPages.push(paths[0], arg: parsedQuery);
+            // GlobalPages.push(paths[0], arg: parsedQuery);
+            GlobalPages.push(GlobalPages.bannerWebview, arg: parsedQuery);
           } else {
             GlobalPages.push(model.linkPath);
           }

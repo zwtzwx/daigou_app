@@ -173,13 +173,13 @@ class _BaseInputState extends State<BaseInput> {
         focusedBorder: widget.isNick||widget.isCoupon
             ? OutlineInputBorder(
                 borderRadius:  widget.isNick?BorderRadius.circular(12):BorderRadius.circular(4),
-                borderSide: widget.isCoupon?BorderSide(color: Color(0xff333333)):BorderSide(color: Color(0xffFFA0A0)), // 设置边框颜色
+                borderSide: widget.isCoupon?BorderSide(color: Color(0xff333333)):BorderSide(color: AppStyles.primary), // 设置边框颜色
               )
             : const UnderlineInputBorder(borderSide: BorderSide.none),
         enabledBorder: widget.isNick||widget.isCoupon
             ? OutlineInputBorder(
                 borderRadius: widget.isNick?BorderRadius.circular(12):BorderRadius.circular(4),
-                borderSide: BorderSide(color: Color(0xff999999)), // 设置聚焦时边框颜色
+                borderSide:widget.isCoupon?BorderSide(color: Color(0xff999999)): BorderSide(color: Color(0xffFFA0A0)), // 设置聚焦时边框颜色
               )
             : const UnderlineInputBorder(borderSide: BorderSide.none));
 

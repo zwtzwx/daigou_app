@@ -38,7 +38,7 @@ class BeeAddressInfoPage extends GetView<BeeAddressInfoLogic> {
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
-      backgroundColor: AppStyles.bgGray,
+      backgroundColor: AppStyles.white,
       bottomNavigationBar: SafeArea(
         child: Obx(
           () => Container(

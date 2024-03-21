@@ -157,6 +157,8 @@ import 'package:shop_app_client/views/user/login/login_binding.dart';
 import 'package:shop_app_client/views/user/login/login_page.dart';
 import 'package:shop_app_client/views/webview/webview_binding.dart';
 import 'package:shop_app_client/views/webview/webview_page.dart';
+import 'package:shop_app_client/views/banner_webview/webview_binding.dart';
+import 'package:shop_app_client/views/banner_webview/webview_page.dart';
 
 class GlobalPages {
   GlobalPages._();
@@ -172,6 +174,7 @@ class GlobalPages {
   static const String userInfo = '/user/info';
   static const String warehouse = '/warehouse'; // 仓库
   static const String webview = '/webview';
+  static const String bannerWebview = '/bannerWebview';
   static const String transaction = '/transaction'; // 交易记录
   static const String profile = '/profile'; // 个人信息
   static const String changeMobileAndEmail =
@@ -339,6 +342,11 @@ class GlobalPages {
       name: webview,
       page: () => const BeeWebView(),
       binding: BeeWebviewBinding(),
+    ),
+    GetPage(
+      name: bannerWebview,
+      page: () => const BeeBannerWebView(),
+      binding: BeeBannerWebviewBinding(),
     ),
     GetPage(
       name: localeSetting,
