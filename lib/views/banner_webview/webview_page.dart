@@ -17,12 +17,12 @@ class BeeBannerWebView extends GetView<BeeWebviewLogic> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return WillPopScope(
-        child: Scaffold(
+      return
+        Scaffold(
           body: controller.url.value != null &&
               controller.url.value!.startsWith('http') &&
               controller.webController != null
-              ? SizedBox(
+              ?  SizedBox(
             width: ScreenUtil().screenWidth,
             height: ScreenUtil().screenHeight,
             child: WebViewWidget(controller: controller.webController!),
@@ -74,12 +74,8 @@ class BeeBannerWebView extends GetView<BeeWebviewLogic> {
             ),
             leading: const BackButton(color: Colors.black),
           ),
-        ),
-        onWillPop: () async {
-          Get.delete<BeeWebviewLogic>();
-          return true;
-        },
-      );
+        );
+
     });
   }
 }

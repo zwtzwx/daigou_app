@@ -18,8 +18,8 @@ class BeeWebView extends GetView<BeeWebviewLogic> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return WillPopScope(
-        child: Container(
+
+       return Container(
           height: ScreenUtil().screenHeight,
           // decoration: BoxDecoration(
           //     gradient: const LinearGradient(
@@ -48,7 +48,7 @@ class BeeWebView extends GetView<BeeWebviewLogic> {
                 ? SizedBox(
               width: ScreenUtil().screenWidth,
               height: ScreenUtil().screenHeight,
-              child: WebViewWidget(controller: controller.webController!),
+              child:WebViewWidget(controller: controller.webController!),
             )
                 : SingleChildScrollView(
                 child: Container(
@@ -62,8 +62,8 @@ class BeeWebView extends GetView<BeeWebviewLogic> {
                     margin: EdgeInsets.symmetric(horizontal: 15,vertical: 25),
                     padding: EdgeInsets.only(top: 30,bottom: 30),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: Colors.white
+                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.white
                     ),
                     child: Column(
                       children: <Widget>[
@@ -110,12 +110,8 @@ class BeeWebView extends GetView<BeeWebviewLogic> {
                 ? HexToColor(controller.bgColor.value!)
                 : Colors.white,
           ),
-        ),
-        onWillPop: () async {
-          Get.delete<BeeWebviewLogic>();
-          return true;
-        },
-      );
+        );
+
     });
   }
 }
