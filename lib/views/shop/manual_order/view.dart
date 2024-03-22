@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:shop_app_client/common/fade_route.dart';
+import 'package:shop_app_client/config/routers.dart';
 import 'package:shop_app_client/config/color_config.dart';
 import 'package:shop_app_client/extension/translation.dart';
 import 'package:shop_app_client/views/components/button/main_button.dart';
@@ -26,7 +27,13 @@ class ManualOrderView extends GetView<ManualOrderController> {
         ),
         backgroundColor: AppStyles.bgGray,
         elevation: 0,
-        leading: const BackButton(color: Colors.black),
+        leading: IconButton(
+          color: Colors.black,
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            GlobalPages.pop();
+          },
+        ),
       ),
       backgroundColor: AppStyles.bgGray,
       body: SingleChildScrollView(

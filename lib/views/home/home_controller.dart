@@ -75,7 +75,7 @@ class IndexLogic extends GlobalController {
   getLatestApkInfo() async {
     var res = await CommonService.getLatestApkInfo();
     if (res != null) {
-      var needUpdate = await UpdateConfig.isAppUpdatedRequired(res.version);
+      var needUpdate = await VersionUtil.isAppUpdatedRequired(res.version);
       var lastTime = CommonStorage.getVersionTime();
       var nowTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       if (needUpdate && (lastTime == null || lastTime + 24 * 3600 < nowTime)) {

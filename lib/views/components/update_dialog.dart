@@ -49,7 +49,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   height: 36.0,
                   child: TextButton(
                     onPressed: () {
-                      UpdateConfig.jumpToApp();
+                      VersionUtil.jumpToApp();
                       GlobalPages.pop();
                     },
                     style: TextButton.styleFrom(
@@ -61,7 +61,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
                         )),
                     child: Text(
                       '立即更新'.inte,
-                      style: const TextStyle(fontSize: SizeConfig.defaultSize),
+                      style: const TextStyle(fontSize: SizeConfig.defaultSize,
+                      color: Colors.white),
                     ),
                   ),
                 ),

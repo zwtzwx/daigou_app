@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class BaseUrls {
   static String getBaseApi() {
     return dotenv.env['API_URL'] ?? "https://dev-api.haiouoms.com/api/client/";
+    // return dotenv.env['API_URL'] ?? "https://dev-api.haiouoms.com/api/";
   }
 
   static String getUUID() {

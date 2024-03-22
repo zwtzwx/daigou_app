@@ -105,6 +105,10 @@ class _MyAppState extends State<MyApp> {
           binding: GoodsDetailBinding(tag: url),
           authCheck: true,
         );
+      }else {
+      //   跳转手动填单
+        EasyLoading.showToast('未找到商品，请手动填单'.inte);
+        GlobalPages.push(GlobalPages.manualOrder);
       }
     } else {
       GlobalPages.toPage(

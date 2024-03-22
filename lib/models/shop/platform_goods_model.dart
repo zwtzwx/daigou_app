@@ -44,8 +44,8 @@ class PlatformGoodsModel {
     } else {
       sales = json['sales'];
     }
-    mainVideo = json['mainVideo'];
-    detailVideo = json['detailVideo'];
+    mainVideo = json['mainVideo']??'';
+    detailVideo = json['detailVideo']??'';
     id = json['num_iid'];
     // 将视频加入images
     images = [];
@@ -70,6 +70,7 @@ class PlatformGoodsModel {
       // images = [];
       for (var ele in json['item_imgs']) {
         if ((ele as String).startsWith('//')) {
+          if(ele=='')continue;
           images!.add('https:$ele');
         } else {
           images!.add(ele);
@@ -101,6 +102,10 @@ class PlatformGoodsModel {
     }
   }
 
+
+
+
+
   PlatformGoodsModel.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     picUrl = json['pic_url'];
@@ -119,8 +124,6 @@ class PlatformGoodsModel {
       sales = json['sales'];
     }
     id = json['num_iid'];
-    // 将视频加入images
-    images = [];
     platform = json['platform'];
     minOrderQuantity = json['min_order_quantity'] ?? 1;
     batchNumber = json['batch_number'] ?? 1;
@@ -132,9 +135,10 @@ class PlatformGoodsModel {
     }
     desc = json['desc'];
     nick = json['nick'];
-    if (json['item_imgs'] != null) {
+    if (json['item_imgs'] != null&&json['item_imgs']) {
       images = [];
       for (var ele in json['item_imgs']) {
+        if(ele=='')continue;
         if ((ele as String).startsWith('//')) {
           images!.add('https:$ele');
         } else {

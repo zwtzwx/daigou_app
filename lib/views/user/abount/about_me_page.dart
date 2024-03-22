@@ -61,41 +61,46 @@ class BeePage extends GetView<BeeLogic> {
                 color: Color(0xff333333),
               ),
             ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 15),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 15,right: 15,top: 20,bottom: 10),
-                    child: Row(
-                      children: [
-                        AppText(
-                          str: '当前版本'.inte,
-                          fontSize: 16,
-                          color: Color(0xff222222),
-                        ),
-                        Expanded(child: SizedBox()),
-                        AppText(
-                          str: '1.0.1'.inte,
-                          fontSize: 16,
-                          color: Color(0xff222222),
-                        )
-                      ],
+            GestureDetector(
+              onTap: (){
+                  controller.showUpdateDialog();
+              },
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 15),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 15,right: 15,top: 20,bottom: 10),
+                      child: Row(
+                        children: [
+                          AppText(
+                            str: '当前版本'.inte,
+                            fontSize: 16,
+                            color: Color(0xff222222),
+                          ),
+                          Expanded(child: SizedBox()),
+                          AppText(
+                            str: '1.0.1'.inte,
+                            fontSize: 16,
+                            color: Color(0xff222222),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  Obx(
-                        () => ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: renderItem,
-                      itemCount: controller.aboutList.length,
-                    ),
-                  )
-                ],
+                    Obx(
+                          () => ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: renderItem,
+                        itemCount: controller.aboutList.length,
+                      ),
+                    )
+                  ],
+                ),
               ),
             )
           ],

@@ -44,7 +44,7 @@ class CouponService {
     bool result = false;
 
     await ApiConfig.instance
-        .put(exchangeApi, data: params)
+        .post(exchangeApi, data: params)
         .then((response) {
       result = response.ok;
       if(response.ok){

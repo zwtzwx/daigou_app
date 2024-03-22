@@ -1,14 +1,42 @@
+import 'package:flutter/services.dart';
+import 'package:launch_review/launch_review.dart';
+import 'package:package_info/package_info.dart';
 import 'dart:io';
-
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class UpdateConfig {
+class VersionUtil {
+  static const MethodChannel _channel = MethodChannel('version');
+
+  /// 应用安装
+  static void install(String path) {
+    _channel.invokeMethod("install", {'path': path});
+  }
+
+  /// AppStore跳转
+  static void jumpAppStore() {
+    // _channel.invokeListMethod("jumpAppStore");
+    LaunchReview.launch(
+      writeReview: false,
+      androidAppId: "101931221",
+      iOSAppId: "1492557133",
+    );
+  }
+
+
+  static void jumpToApp() {
+    if (Platform.isIOS) {
+      launchUrl(Uri.parse('https://apps.apple.com/cn/app/item/id1629807090'));
+    } else {
+      launchUrl(Uri.parse(
+          'https://play.google.com/store/apps/details?id=com.tongxiao.shop_app_client'));
+    }
+  }
   // 判断 app 版本
   static Future<bool> isAppUpdatedRequired(String latestVersion) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String currentVersion = packageInfo.version;
-
+    print('当前版本');
+    print(currentVersion);
     List<String> latestVersionList = latestVersion.split('.');
     List<String> currentVersionList = currentVersion.split('.');
 
@@ -28,14 +56,5 @@ class UpdateConfig {
       }
     }
     return false;
-  }
-
-  static void jumpToApp() {
-    if (Platform.isIOS) {
-      launchUrl(Uri.parse('https://apps.apple.com/cn/app/item/id1629807090'));
-    } else {
-      launchUrl(Uri.parse(
-          'https://play.google.com/store/apps/details?id=com.tongxiao.shop_app_client'));
-    }
   }
 }

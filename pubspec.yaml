@@ -68,9 +68,13 @@ dependencies:
   package_info_plus: 4.2.0
   camera: ^0.10.5+5
   chewie: ^1.7.5
+  open_file: ^3.3.1
   sticky_headers: ^0.3.0+2
   fluwx: ^4.4.10
+  package_info: ^2.0.2
+  launch_review: ^3.0.1
   video_player: ^2.1.2
+  android_intent: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

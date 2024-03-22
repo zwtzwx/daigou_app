@@ -20,6 +20,8 @@ import 'package:shop_app_client/storage/language_storage.dart';
 class CommonService {
   // 获取协议规则
   static const String _TERMS_API = 'packages/transhipment-rule';
+  //获取版本更新
+  static const String upgradeApi = 'apk';
   // 所有配置图片列表
   static const String _ALL_BANNERS_API = 'mini-setting';
   // 获取国家，排序
@@ -195,6 +197,18 @@ class CommonService {
     return result;
   }
 
+  /*
+    获取版本号
+   */
+  static Future<Map> getVersion() async {
+    Map result = {'version': "", 'remark': "暂无更新", "url": ""};
+    await ApiConfig.instance.get(upgradeApi).then((response) {
+      result = response.data;
+      result["remark"] = result["remark"].toString().replaceAll("\\n", "\n");
+    });
+    return result;
+  }
+
   // 消息设为已读
   static Future<bool> onNoticeRead(Map<String, dynamic> params) async {
     bool res = false;
@@ -239,7 +253,10 @@ class CommonService {
             queryParameters: params, options: Options(extra: {'loading': true}))
         .then((res) {
       if (res.ok) {
-        url = res.data['item']['url'] + '&id=' + res.data['item']['num_iid'];
+        if(res.data['item']['url']!=null)url = res.data['item']['url'] + '&id=' + res.data['item']['num_iid'];
+        else {
+          url = null;
+        }
       }
     });
     return url;
