@@ -267,7 +267,7 @@ class BaseDialog {
             content: Container(
               width: ScreenUtil().screenWidth,
               padding: EdgeInsets.symmetric(horizontal: type==1?12:22),
-              height: type==1?163.h:300.h,
+              height: type==1?164.h:300.h,
               decoration: type==2?BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
                 gradient: LinearGradient(
@@ -430,7 +430,7 @@ class BaseDialog {
                       ],
                     ),
                   ),
-                  type==2?15.verticalSpace:21.verticalSpace,
+                  type==2?13.verticalSpace:21.verticalSpace,
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: Row(

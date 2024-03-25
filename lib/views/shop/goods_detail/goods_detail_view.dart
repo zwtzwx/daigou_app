@@ -262,6 +262,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
           () => SizedBox(
             height: 305.h,
             child: Swiper(
+              autoplayDelay: 8000,
               autoplay: (controller.goodsModel.value?.images ?? []).length > 1,
               itemBuilder: (context, index) {
                 // 返回视频或者图片

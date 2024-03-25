@@ -1,6 +1,6 @@
 class InsuranceItemModel {
   late int id;
-  late int insuranceProportion;
+  late double insuranceProportion;
   // late double insuranceProportion;
   late int enabled;
   late int companyId;
@@ -18,7 +18,7 @@ class InsuranceItemModel {
 
   InsuranceItemModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    insuranceProportion = json['insurance_proportion'];
+    insuranceProportion = json['insurance_proportion'].toDouble();
     enabled = json['enabled'];
     companyId = json['company_id'];
     createdAt = json['created_at'];

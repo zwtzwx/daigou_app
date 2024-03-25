@@ -526,6 +526,10 @@ class OrderModel {
 
     if (json['warehouse'] != null) {
       warehouse = WareHouseModel.fromJson(json['warehouse']);
+    }else {
+      warehouse = WareHouseModel.fromJson({
+        'warehouse_name': ''
+      });
     }
 
     if (json['express_line'] != null) {
@@ -592,6 +596,7 @@ class OrderModel {
       });
     }
   }
+
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

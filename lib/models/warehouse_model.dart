@@ -59,7 +59,7 @@ class WareHouseModel {
 
   WareHouseModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    warehouseName = json['warehouse_name'];
+    warehouseName = json['warehouse_name']??'';
     receiverName = json['receiver_name'];
     timezone = json['timezone'];
     phone = json['phone'];

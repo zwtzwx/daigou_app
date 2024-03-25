@@ -76,7 +76,7 @@ class BeeOrderItem extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                AppText(
+               AppText(
                   str: orderModel.warehouse.warehouseName!,
                 ),
                 ImgItem(

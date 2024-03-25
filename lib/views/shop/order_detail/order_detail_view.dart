@@ -311,7 +311,6 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
                 str: controller.orderModel.value!.orderSn,
                 fontSize: 14,
                 color: AppStyles.textGrayC9,
-                decoration: TextDecoration.underline,
               ),
             ),
           ],

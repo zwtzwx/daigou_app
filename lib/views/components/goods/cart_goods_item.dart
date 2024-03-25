@@ -62,27 +62,28 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                       margin: EdgeInsets.only(right: 10.w),
                       child: Obx(
                         () => Checkbox(
-                          value: cartModel.skus
-                              .every((e) => checkedIds!.contains(e.id)),
-                          shape: const CircleBorder(),
-                          activeColor: AppStyles.primary,
-                          onChanged: (value) {
-                            if (onChecked != null) {
-                              onChecked!(
-                                  cartModel.skus.map((e) => e.id).toList());
-                            }
-                          },
+                            value: cartModel.skus
+                                .every((e) => checkedIds!.contains(e.id)),
+                            shape: const CircleBorder(),
+                            activeColor: AppStyles.primary,
+                            onChanged: (value) {
+                              if (onChecked != null) {
+                                onChecked!(
+                                    cartModel.skus.map((e) => e.id).toList());
+                              }
+                            },
                             side: MaterialStateBorderSide.resolveWith(
-                                    (Set<MaterialState> states) {
-                                      if (states.contains(MaterialState.selected))//修改勾选时边框颜色为红色
-                                      return const BorderSide(width: 0.5, color: Colors.white);
-                                  //修改默认时边框颜色为绿色
-                                  return const BorderSide(
-                                      width: 1, color: Color(0xff999999));
-                                }
-                              // 调整视觉密度
-                            )
-                        ),
+                                (Set<MaterialState> states) {
+                              if (states.contains(
+                                  MaterialState.selected)) //修改勾选时边框颜色为红色
+                                return const BorderSide(
+                                    width: 0.5, color: Colors.white);
+                              //修改默认时边框颜色为绿色
+                              return const BorderSide(
+                                  width: 1, color: Color(0xff999999));
+                            }
+                                // 调整视觉密度
+                                )),
                       ),
                     )
                   : AppGaps.empty,
@@ -151,8 +152,10 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                   },
                                   side: MaterialStateBorderSide.resolveWith(
                                       (Set<MaterialState> states) {
-                                        if (states.contains(MaterialState.selected))//修改勾选时边框颜色为红色
-                                          return const BorderSide(width: 0.5, color: Colors.white);
+                                    if (states.contains(
+                                        MaterialState.selected)) //修改勾选时边框颜色为红色
+                                      return const BorderSide(
+                                          width: 0.5, color: Colors.white);
                                     //修改默认时边框颜色为绿色
                                     return const BorderSide(
                                         width: 1, color: Color(0xff999999));
@@ -179,17 +182,35 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                             str: sku.name,
                             fontSize: 14,
                           ),
-                          ...(sku.skuInfo?.attributes ?? []).map(
-                            (info) => Container(
-                              margin: EdgeInsets.only(top: 3.h),
-                              child: AppText(
-                                str: '${info['label']}：${info['value']}',
-                                fontSize: 12,
-                                color: AppStyles.textGrayC9,
-                                lines: 2,
+                          if (!previewMode)
+                            ...(sku.skuInfo?.attributes ?? []).map(
+                              (info) => Container(
+                                margin: EdgeInsets.only(top: 3.h),
+                                child: AppText(
+                                  str: '${info['label']}：${info['value']}',
+                                  fontSize: 12,
+                                  color: AppStyles.textGrayC9,
+                                  lines: 2,
+                                ),
                               ),
                             ),
-                          ),
+                          if (previewMode)
+                            Row(
+                              children: [
+                                ...(sku.skuInfo?.attributes ?? []).map(
+                                  (info) => Container(
+                                    margin:
+                                        EdgeInsets.only(top: 3.h, right: 5.h),
+                                    child: AppText(
+                                      str: '${info['label']}：${info['value']}',
+                                      fontSize: 12,
+                                      color: AppStyles.textGrayC9,
+                                      lines: 2,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           8.verticalSpace,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -203,8 +224,11 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                       ),
                                       children: [
                                         TextSpan(
-                                          text: currencyModel.value?.code ?? '',
-                                        ),
+                                            text:
+                                                currencyModel.value?.code ?? '',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold)),
                                         TextSpan(
                                           text: ' ' +
                                               (sku.price).priceConvert(
