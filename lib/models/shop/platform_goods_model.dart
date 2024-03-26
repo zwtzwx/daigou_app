@@ -77,6 +77,7 @@ class PlatformGoodsModel {
         }
       }
     }
+
     if (json['skus'] != null && json['skus']['sku'] is List) {
       skus = [];
       for (var ele in json['skus']['sku']) {
@@ -94,6 +95,7 @@ class PlatformGoodsModel {
         skus!.add(GoodsSkuModel.fromJson(ele));
       }
     }
+
     if (json['props_list'] != null) {
       propsList = [];
       for (var ele in json['props_list']) {

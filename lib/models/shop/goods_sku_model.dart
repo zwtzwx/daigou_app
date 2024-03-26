@@ -39,12 +39,14 @@ class GoodsSkuModel {
     if (json['properties_name'] is String &&
         json['properties_name'].isNotEmpty) {
       propertiesName = json['properties_name'];
+      // problem
       for (var str in properties!.split(';')) {
         var propStr = str
                 .replaceAll(RegExp(r'\('), '\\(')
                 .replaceAll(RegExp(r'\)'), '\\)') +
             ':';
-        propertiesName = propertiesName!.replaceAll(RegExp(propStr), '');
+        // propertiesName = propertiesName!.replaceAll(RegExp(propStr), '');
+        propertiesName = propertiesName!.replaceAll(propStr, '');
       }
     } else {
       propertiesName = properties;
