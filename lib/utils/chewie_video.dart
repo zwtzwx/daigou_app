@@ -29,6 +29,7 @@ class _ChewieVideoWidget1State extends State<ChewieVideoWidget1> {
     );
   }
 
+
   @override
   void dispose() {
     _videoPlayerController.dispose();
@@ -42,17 +43,17 @@ class _ChewieVideoWidget1State extends State<ChewieVideoWidget1> {
       body: Center(
         child: Chewie(controller: _chewieController,),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        mini: true,
-        backgroundColor: Colors.white,
-        onPressed: () {
-          // 点击按钮切换到全屏模式
-          _chewieController.enterFullScreen();
-        },
-        child: Icon(Icons.fullscreen,
-        color: Color(0xff333333),),
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: FloatingActionButton(
+      //   mini: true,
+      //   backgroundColor: Colors.white,
+      //   onPressed: () {
+      //     // 点击按钮切换到全屏模式
+      //     _chewieController.enterFullScreen();
+      //   },
+      //   child: Icon(Icons.fullscreen,
+      //   color: Color(0xff333333),),
+      // ),
     );
   }
 }

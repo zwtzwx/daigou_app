@@ -136,13 +136,13 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
           'route': GlobalPages.shopOrderChat,
         },
       ],
-      // [
-      //   {
-      //     'name': '推广联盟',
-      //     'icon': 'Center/ico_tglm',
-      //     'route': GlobalPages.agentApplyInstruct,
-      //   },
-      // ],
+      [
+        {
+          'name': '推广联盟',
+          'icon': 'Center/ico_tglm',
+          'route': GlobalPages.share,
+        },
+      ],
       [
         {
           'name': '中国仓库',

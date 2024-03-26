@@ -31,13 +31,7 @@ class NoticeWidget extends StatelessWidget {
               width: 20.w,
               height: 20.w,
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 8.w, right: 16.w),
-              child: AppText(
-                str: '公告'.inte,
-                fontSize: 16,
-              ),
-            ),
+            8.horizontalSpace,
             Expanded(
               child: Swiper(
                 loop: list.length > 1,

@@ -210,11 +210,11 @@ class IndexPage extends GetView<IndexLogic> {
         'icon': 'Home/ico_yfgs',
         'route': GlobalPages.lineQuery,
       },
-      // {
-      //   'label': '推广联盟',
-      //   'icon': 'Home/ico_tglm',
-      //   'route': GlobalPages.agentApplyInstruct,
-      // },
+      {
+        'label': '推广联盟',
+        'icon': 'Home/ico_tglm',
+        'route': GlobalPages.share,
+      },
       {
         'label': '提交转运',
         'icon': 'Home/ico_zydd',

@@ -39,6 +39,8 @@ import 'package:shop_app_client/views/line/query_result/line_query_result_bindin
 import 'package:shop_app_client/views/line/query_result/line_query_result_view.dart';
 import 'package:shop_app_client/views/notice/notice_binding.dart';
 import 'package:shop_app_client/views/notice/notice_page.dart';
+import 'package:shop_app_client/views/share/share_binding.dart';
+import 'package:shop_app_client/views/share/share_page.dart';
 import 'package:shop_app_client/views/order/center/order_center_binding.dart';
 import 'package:shop_app_client/views/order/center/order_center_page.dart';
 import 'package:shop_app_client/views/order/comment/binding.dart';
@@ -197,6 +199,7 @@ class GlobalPages {
   static const String lineQueryResult = '/lineQueryResult'; // 运费估算
   static const String lineDetail = '/lineDetail'; // 运费估算
   static const String notice = '/notice'; // 消息通知
+  static const String share = '/share';
   static const String recharge = '/rechargePage'; // 充值
   static const String rechargeHistory = '/rechargeHistory'; // 充值
   static const String paymentTransfer = '/paymentTransfer'; // 充值
@@ -512,6 +515,11 @@ class GlobalPages {
       name: notice,
       page: () => const InformationView(),
       binding: InformationBinding(),
+    ),
+    GetPage(
+      name: share,
+      page: () => const shareView(),
+      binding: ShareBinding(),
     ),
     GetPage(
       name: recharge,
