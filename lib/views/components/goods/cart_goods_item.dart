@@ -211,7 +211,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          8.verticalSpace,
+                          23.verticalSpace,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

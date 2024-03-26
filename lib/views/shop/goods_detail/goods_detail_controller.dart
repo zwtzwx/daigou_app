@@ -90,7 +90,17 @@ class GoodsDetailController extends GlobalController {
 
   // 以图搜物
   void onPhotoSearch() async {
-    String url = goodsModel.value!.images!.first;
+    String url = goodsModel.value!.images!.last;
+    int index = 0;
+    // 找到images中第一张扩展名为png/jpg的文件
+    // while(index <goodsModel.value!.images!.length) {
+    //   print(index);
+    //   String type = goodsModel.value!.images![index].substring(goodsModel.value!.images![index].length - 3);
+    //   if(type == 'png'||type== 'jpg') {
+    //     url = goodsModel.value!.images![index];
+    //     break;
+    //   }
+    // }
     Get.to(
       GoodsImageSearchResultPage(
         controllerTag: url,

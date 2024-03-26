@@ -139,6 +139,7 @@ class _SearchCellState extends State<BaseSearch> {
                 isCollapsed: true,
                 isSearchInput: true,
                 maxLength: 200,
+                border: const UnderlineInputBorder(borderSide: BorderSide.none),
                 autoShowRemove: false,
                 readOnly: widget.readOnly,
                 textInputAction: TextInputAction.search,
