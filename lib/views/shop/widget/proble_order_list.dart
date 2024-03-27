@@ -152,7 +152,7 @@ class _ProbleShopOrderState extends State<ProbleShopOrder> {
           5.verticalSpace,
           AppText(
             str: (model.problemSkus ?? []).isNotEmpty
-                ? (model.problemSkus!.first.remark ?? '')
+                ? (model.problemSkus!.first.remark?.inte ?? '')
                 : '',
             fontSize: 12,
             color: AppStyles.textGrayC9,
