@@ -194,7 +194,7 @@ class ShopOrderDetailView extends GetView<ShopOrderDetailController> {
             10.horizontalSpace,
             Expanded(
               child: AppText(
-                str: (controller.orderModel.value!.remark ?? ''),
+                str: (controller.orderModel.value!.remark?.inte ?? ''),
                 fontSize: 14,
                 alignment: TextAlign.right,
                 lines: 3,

@@ -566,6 +566,7 @@ class BeeSuperUserView extends GetView<BeeSuperUserLogic> {
                                   ),
                                   10.horizontalSpace,
                                   Container(
+                                    width: 150.w,
                                     child: GestureDetector(
                                       // onTap: () {
                                       //   GlobalPages.push(GlobalPages.growthValue);

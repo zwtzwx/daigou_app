@@ -63,7 +63,7 @@ class BeeValuesPage extends GetView<BeeValuesLogic> {
                   Container(
                     // alignment: Alignment.center,
                     child: AppText(
-                      str: model.ruleName,
+                      str: model.ruleName.inte,
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                       color: model.isValid == 0

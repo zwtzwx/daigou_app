@@ -375,24 +375,29 @@ class CouponsListState extends State<CouponsList> {
                               alignment: Alignment.center,
                               constraints: BoxConstraints(
                                   // minHeight: 20.h,
+                                maxWidth: 100.w
                                   ),
-                              child: AppText(
-                                str: '满{price}可用'.inArgs({
+                              child: Text(
+                                '满{price}可用'.inArgs({
                                   'price': model.coupon?.discountType == 2
                                       ? ((model.coupon?.minWeight ?? 0) / 1000)
-                                              .priceConvert(
-                                                  showInt: true,
-                                                  showPriceSymbol: false,
-                                                  needFormat: false) +
-                                          (localizationInfo?.weightSymbol ?? '')
+                                      .priceConvert(
+                                      showInt: true,
+                                      showPriceSymbol: false,
+                                      needFormat: false) +
+                                      (localizationInfo?.weightSymbol ?? '')
                                       : (model.coupon?.threshold ?? 0)
-                                          .priceConvert()
+                                      .priceConvert()
                                 }),
-                                color: widget.params['selectType'] == 1
-                                    ? Color(0xff959595)
-                                    : Color(0xffE55152),
-                                fontSize: 10,
-                              ),
+                                softWrap: true,
+                                textAlign:TextAlign.center,
+                                style: TextStyle(
+                                  color: widget.params['selectType'] == 1
+                                      ? Color(0xff959595)
+                                      : Color(0xffE55152),
+                                  fontSize: 10,
+                                ),
+                              )
                             ),
                             10.verticalSpaceFromWidth,
                             // AppText(

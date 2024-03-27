@@ -61,7 +61,7 @@ class InformationView extends GetView<InformationLogic> {
                     clipBehavior: Clip.none,
                     children: [
                       AppText(
-                        str: model.title ?? '',
+                        str: model.title?.inte ?? '',
                         fontSize: 12,
                         color: Color(0xff999999),
                       ),
@@ -90,7 +90,7 @@ class InformationView extends GetView<InformationLogic> {
             ),
             AppGaps.vGap10,
             AppText(
-              str: model.content ?? '',
+              str: model.content?.inte ?? '',
               fontSize: 14,
               color: Color(0xff333333),
             )

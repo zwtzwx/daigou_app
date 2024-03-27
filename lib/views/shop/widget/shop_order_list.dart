@@ -156,7 +156,7 @@ class _ShopOrderListState extends State<ShopOrderList> {
             Container(
               constraints: BoxConstraints(maxWidth: 270.w),
               child: AppText(
-                str: '您还没有任何订单，去下单吧'.inte + '~',
+                str: '您还没有任何订单，去下单吧~'.inte,
                 fontSize: 12,
                 color: AppStyles.textGrayC9,
                 alignment: TextAlign.center,

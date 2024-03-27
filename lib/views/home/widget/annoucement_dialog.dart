@@ -63,7 +63,7 @@ class AnnoucementDialog extends StatelessWidget {
                   SizedBox(
                     width: 100,
                     child: BeeButton(
-                      text: '查看更多'.inte,
+                      text: '查看更多',
                       fontSize: 14,
                       borderRadis: 20.0,
                       backgroundColor: AppStyles.primary,
