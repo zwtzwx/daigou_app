@@ -182,7 +182,6 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                             str: sku.name,
                             fontSize: 14,
                           ),
-                          if (!previewMode)
                             ...(sku.skuInfo?.attributes ?? []).map(
                               (info) => Container(
                                 margin: EdgeInsets.only(top: 3.h),
@@ -194,24 +193,6 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          if (previewMode)
-                            Row(
-                              children: [
-                                ...(sku.skuInfo?.attributes ?? []).map(
-                                  (info) => Container(
-                                    margin:
-                                        EdgeInsets.only(top: 3.h, right: 5.h),
-                                    child: AppText(
-                                      str: '${info['label']}：${info['value']}',
-                                      fontSize: 12,
-                                      color: AppStyles.textGrayC9,
-                                      lines: 2,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          23.verticalSpace,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

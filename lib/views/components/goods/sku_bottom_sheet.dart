@@ -62,7 +62,8 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
     qty = widget.qty ?? 1;
     sku = widget.sku;
     selectedWarehouse = widget.warehouse;
-    priceController.text = widget.freightFee.toString();
+    // priceController.text = widget.freightFee.toString();
+    priceController.text = '';
     propList = [];
     for (GoodsPropsModel prop in (widget.model.propsList ?? [])) {
       List<GoodsPropsModel> children = prop.children!
@@ -172,7 +173,7 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
       widget.onSkuChange(sku);
     }
     Navigator.pop(context);
-    var freight = num.parse(priceController.text);
+    var freight = num.parse(priceController.text!=''?priceController.text:'0');
     if (widget.type == 'cart') {
       widget.onAddCart!(freight, selectedWarehouse);
     } else if (widget.type == 'buy') {
@@ -300,12 +301,13 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                             ),
                           ),
                           SizedBox(
-                            width: 40.w,
+                            width: 45.w,
                             child: BaseInput(
                               controller: priceController,
                               focusNode: priceNode,
                               autoRemoveController: false,
                               showDone: true,
+                              hintText: '请填入'.inte,
                               textAlign: TextAlign.right,
                               autoShowRemove: false,
                               style: TextStyle(fontSize: 14.sp),

@@ -52,7 +52,6 @@ class BeeCenterLogic extends GlobalController {
     scrollController.addListener(() {
       showMiniHeader.value = scrollController.position.pixels > 100.h;
     });
-    getBalance();
   }
 
   // 是否有未读消息
@@ -78,6 +77,7 @@ class BeeCenterLogic extends GlobalController {
       agentStatus.value = await UserService.getAgentStatus();
       isloading.value = true;
     }
+    getBalance();
   }
 
   Future<bool?> showInfoChange() async {
