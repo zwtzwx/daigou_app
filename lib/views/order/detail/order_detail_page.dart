@@ -312,7 +312,7 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
                         childAspectRatio: 1.5,
                       ),
                       itemCount:
-                      controller.model.value!.packPictures.length,
+                      controller.model.value!.inWarehousePictures.length,
                       itemBuilder: (context, index) {
                         return _buildImageItem(
                             context,
@@ -751,11 +751,12 @@ class BeeOrderPage extends GetView<BeeOrderLogic> {
   }
 
   Widget _buildImageItem(context, Map<String, dynamic> picMap, int index) {
+    print(picMap);
     return GestureDetector(
         onTap: () {
           Navigator.of(context).push(FadeRoute(
               page: PhotoViewGalleryScreen(
-            images: controller.model.value!.packPictures, //传入图片list
+            images: [picMap], //传入图片list
             index: index, //传入当前点击的图片的index
             heroTag: '', //传入当前点击的图片的hero tag （可选）
           )));

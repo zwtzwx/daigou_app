@@ -148,6 +148,7 @@ class BeePackingLogic extends GlobalController {
     }
 
     Map<String, dynamic> dic = {
+      'warehouse_id': packageList.map((item) => item.warehouseId).toSet().toList(),
       'country_id': selectedAddressModel.value!.countryId,
       'area_id': selectedAddressModel.value!.area == null
           ? ''

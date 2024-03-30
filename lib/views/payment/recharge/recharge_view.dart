@@ -210,14 +210,14 @@ class RechargeView extends GetView<RechargeController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       AppText(
-                        str: '{count}元'.inArgs({
+                        str: '{count}'.inArgs({
                           'count': model.amount.priceConvert(
-                            showPriceSymbol: false,
+                            showPriceSymbol: true,
                             needFormat: false,
                             showInt: true,
                           )
                         }),
-                        fontSize: 16,
+                        fontSize: 15,
                         fontWeight: FontWeight.w500,
                         color: controller.selectButton.value == index
                             ? Colors.white
@@ -225,14 +225,14 @@ class RechargeView extends GetView<RechargeController> {
                       ),
                       model.complimentaryAmount != 0
                           ? AppText(
-                              str: '送{count}元'.inArgs({
+                              str: '送{count}'.inArgs({
                                 'count': model.complimentaryAmount.priceConvert(
-                                  showPriceSymbol: false,
+                                  showPriceSymbol: true,
                                   needFormat: false,
                                   showInt: true,
                                 )
                               }),
-                              fontSize: 14,
+                              fontSize: 12,
                               color: controller.selectButton.value == index
                                   ? Colors.white
                                   : AppStyles.textBlack,

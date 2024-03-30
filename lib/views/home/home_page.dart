@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -26,7 +27,10 @@ class IndexPage extends GetView<IndexLogic> {
     return AnnotatedRegion(
       child: Scaffold(
         primary: false,
-        appBar: const HomeHeader(),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(55.h + kToolbarHeight),
+          child:  Obx(()=>HomeHeader(hasNotRead: controller.hasNotRead.value)),
+        ),
         key: controller.scaffoldKey,
         body: GestureDetector(
           onTap: () {
@@ -89,6 +93,7 @@ class IndexPage extends GetView<IndexLogic> {
       value: SystemUiOverlayStyle.dark,
     );
   }
+
 
   // 商品分类
   Widget categoryBox() {
@@ -229,7 +234,7 @@ class IndexPage extends GetView<IndexLogic> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: list
             .map(
-              (e) => Flexible(
+              (e) => Expanded(
                 child: GestureDetector(
                   onTap: () {
                     if (e['route'] == GlobalPages.agentApplyInstruct &&
@@ -250,10 +255,12 @@ class IndexPage extends GetView<IndexLogic> {
                         ),
                         5.verticalSpaceFromWidth,
                         Obx(
-                          () => AppText(
-                            str: (e['label']! as String).inte,
-                            fontSize: 12,
-                          ),
+                          () => Text(
+                              (e['label']! as String).inte,
+                            style: TextStyle(
+                              fontSize: 12
+                            ),
+                          )
                         ),
                       ],
                     ),

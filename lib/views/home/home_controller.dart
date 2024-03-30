@@ -42,6 +42,9 @@ class IndexLogic extends GlobalController {
   final RxList<GoodsCategoryModel> categoryList = <GoodsCategoryModel>[].obs;
   final tabController = Get.find<TabbarManager>();
   final agentStatus = 3.obs;
+  // 是否有未读消息
+  final hasNotRead = false.obs;
+
 
   @override
   void onInit() {
@@ -49,10 +52,10 @@ class IndexLogic extends GlobalController {
     getAnnoucementList();
     getIndexAnnoucement();
     getLatestApkInfo();
-
     getCategory();
     getAds();
     getAgentStatus();
+    hasReadMessage();
     loadingUtil.value.initListener(
       getRecommendGoods,
       recordPosition: true,
@@ -179,6 +182,14 @@ class IndexLogic extends GlobalController {
     }
   }
 
+   hasReadMessage() async {
+    var res = await CommonService.hasUnReadInfo();
+    if(res == true) {
+      hasNotRead.value = true;
+      // hasNotRead.refresh();
+    }
+  }
+
   // 页面刷新
   Future<void> handleRefresh() async {
     loadingUtil.value.clear();
@@ -186,5 +197,8 @@ class IndexLogic extends GlobalController {
     await getRecommendGoods();
     await getCategory();
     await getAnnoucementList();
+    //未读消息
+    await hasReadMessage();
+
   }
 }

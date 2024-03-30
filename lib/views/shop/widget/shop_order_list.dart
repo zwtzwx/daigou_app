@@ -43,7 +43,7 @@ class _ShopOrderListState extends State<ShopOrderList> {
       'page': ++page,
       'size': 10,
       'keyword': controller.keyword,
-      'sort': 'asc'
+      'sort': 'desc'
     };
     if (widget.status != 0) {
       for (var i = 0; i < statusList.length; i++) {

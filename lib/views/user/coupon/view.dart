@@ -34,7 +34,8 @@ class CouponPage extends GetView<CouponController> {
             labelColor: AppStyles.primary,
             indicatorColor: AppStyles.primary,
             indicatorWeight: 4,
-            indicatorPadding: EdgeInsets.symmetric(horizontal: 50.w),
+            indicatorPadding: EdgeInsets.symmetric(vertical: 8.w),
+            // indicatorPadding: EdgeInsets.symmetric(horizontal: 50.w),
             controller: controller.tabController,
             onTap: (int index) {
               controller.pageController.jumpToPage(index);

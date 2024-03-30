@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // ignore: must_be_immutable
 class PhotoViewGalleryScreen extends StatefulWidget {
@@ -45,8 +46,12 @@ class _PhotoViewGalleryScreenState extends State<PhotoViewGalleryScreen> {
             child: PhotoViewGallery.builder(
               scrollPhysics: const BouncingScrollPhysics(),
               builder: (BuildContext context, int index) {
+                print('路径');
+                print(widget.images[index]);
+                print(widget.images[index]['url']);
+                String baseImageUrl = '';
                 return PhotoViewGalleryPageOptions(
-                  imageProvider: NetworkImage(widget.images[index]),
+                  imageProvider: NetworkImage(widget.images[index]['full_path']),
                   heroAttributes: widget.heroTag == null
                       ? PhotoViewHeroAttributes(tag: widget.heroTag!)
                       : null,

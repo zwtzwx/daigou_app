@@ -386,6 +386,8 @@ class ShopService {
       'dataList': []
     };
     List<ProblemOrderModel>? list;
+    print('参数');
+    print(params['tackle']);
     await ApiConfig.instance
         .get(probleShopOrderApi, queryParameters: params)
         .then((res) {

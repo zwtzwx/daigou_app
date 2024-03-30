@@ -7,6 +7,7 @@ import 'package:shop_app_client/events/application_event.dart';
 import 'package:shop_app_client/events/cart_count_refresh_event.dart';
 import 'package:shop_app_client/extension/translation.dart';
 import 'package:shop_app_client/models/shop/cart_model.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
 import 'package:shop_app_client/models/shop/platform_goods_model.dart';
 import 'package:shop_app_client/services/shop_service.dart';
 import 'package:shop_app_client/views/components/base_dialog.dart';
@@ -166,6 +167,7 @@ class CartController extends GlobalController {
         checkedList.clear();
         allChecked.value = false;
         getCartGoods();
+        Get.find<AppStore>().getCartCount();
         ApplicationEvent.getInstance().event.fire(CartCountRefreshEvent());
       }
     }

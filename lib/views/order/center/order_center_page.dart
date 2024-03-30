@@ -28,17 +28,17 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: BaseSearch(
+        title: Obx(()=>BaseSearch(
           showScan: false,
           needCheck: false,
-          hintText: '包裹号/订单号'.inte,
+          hintText: (controller.tabIndex.value==0||controller.tabIndex.value==1)?'请输入包裹号'.inte:'请输入订单号'.inte,
           onSearch: (value) {
             controller.keyword = value;
             ApplicationEvent.getInstance()
                 .event
                 .fire(ListRefreshEvent(type: 'refresh'));
           },
-        ),
+        )),
         leadingWidth: 25.w,
         leading: Padding(
             padding: EdgeInsets.only(left: 12.w),

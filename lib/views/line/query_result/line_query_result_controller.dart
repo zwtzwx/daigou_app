@@ -15,6 +15,7 @@ class LineQueryResultController extends GlobalController {
   @override
   void onInit() {
     super.onInit();
+    // 获取路由参数
     var arguments = Get.arguments;
     postDic.value = arguments?['data'];
     if (arguments?['query'] != null) {

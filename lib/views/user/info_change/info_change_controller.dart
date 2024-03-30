@@ -102,7 +102,10 @@ class BeeInfoLogic extends GlobalController {
         'timezone':timezone.value,
         'phone':phoneController.text,
       };
-      await UserService.updateUserInfo(params);
+      var res = await UserService.updateUserInfo(params);
+      if(res['ok']) {
+        Get.offAllNamed(GlobalPages.home, arguments: {'index': 2});
+      }
   }
 
   // 获取个人资料
