@@ -157,7 +157,7 @@ class CouponsListState extends State<CouponsList> {
   loadMoreList() async {
     Map<String, dynamic> params1 = {
       "page": (++pageIndex),
-      "available": widget.params['selectType'] == 0 ? '1' : '0', // 1可用 0不可用
+      "available": widget.params['selectType'] == 0 ? '1' : '2', // 1可用 2不可用
     };
 
     if ((widget.params['lineId'] ?? '').isNotEmpty) {
@@ -167,8 +167,9 @@ class CouponsListState extends State<CouponsList> {
       });
     }
 
+    print('参数');
+    print(params1);
     var data = await CouponService.getList(params1);
-
     return data;
   }
 
