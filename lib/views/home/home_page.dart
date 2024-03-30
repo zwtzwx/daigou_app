@@ -255,10 +255,14 @@ class IndexPage extends GetView<IndexLogic> {
                         ),
                         5.verticalSpaceFromWidth,
                         Obx(
-                          () => Text(
+                          () => Container(
+                            constraints: BoxConstraints(maxWidth: 60.w),
+                            child: Text(
                               (e['label']! as String).inte,
-                            style: TextStyle(
-                              fontSize: 12
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 12,
+                              ),
                             ),
                           )
                         ),
