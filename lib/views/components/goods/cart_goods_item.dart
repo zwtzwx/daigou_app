@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
@@ -8,13 +9,15 @@ import 'package:shop_app_client/extension/rate_convert.dart';
 import 'package:shop_app_client/models/shop/cart_model.dart';
 import 'package:shop_app_client/models/user_info_model.dart';
 import 'package:shop_app_client/views/components/caption.dart';
+import 'package:shop_app_client/extension/translation.dart';
 import 'package:shop_app_client/views/components/load_image.dart';
 import 'package:shop_app_client/views/shop/cart/cart_controller.dart';
+import 'package:shop_app_client/views/components/input/base_input.dart';
 import 'package:shop_app_client/views/shop/goods_detail/goods_detail_binding.dart';
 import 'package:shop_app_client/views/shop/goods_detail/goods_detail_view.dart';
 
 class BeeShopOrderGoodsItem extends StatelessWidget {
-  const BeeShopOrderGoodsItem({
+   BeeShopOrderGoodsItem({
     Key? key,
     this.previewMode = false,
     required this.cartModel,
@@ -37,6 +40,50 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
   final Widget? otherWiget;
   final bool goodsToDetail;
   final bool showDelete;
+
+  Widget inputQuantity(int num,CartSkuModel sku) {
+    final TextEditingController quantityController = TextEditingController();
+    final FocusNode quantityNode = FocusNode();
+    quantityController.text = num.toString();
+    return  // 支持手动输入
+      Container(
+        height: 20.h,
+        alignment: Alignment.center,
+        width: 40.w,
+        child: BaseInput(
+          controller: quantityController,
+          focusNode: quantityNode,
+          autoRemoveController: false,
+          showDone: true,
+          board: true,
+          hintText: '请填入'.inte,
+          textAlign: TextAlign.center,
+          onSubmitted:(value) {
+            print(value);
+            if(value=='') {
+              onStep!(
+                  0,
+                  sku,true);
+            }else {
+              int? number = int.tryParse(value);
+              if(number==null) {
+                  EasyLoading.showError('请输入一个有效整数'.inte);
+              }
+              else onStep!(
+                  int.parse(value),
+                  sku,true);
+            }
+          },
+          autoShowRemove: false,
+          style: TextStyle(fontSize: 14.sp),
+          contentPadding: const EdgeInsets.only(bottom: 10),
+          keyboardType:
+          const TextInputType.numberWithOptions(
+              decimal: true),
+        ),
+
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -263,7 +310,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                                       -(sku.skuInfo
                                                               ?.batchNumber ??
                                                           1),
-                                                      sku);
+                                                      sku,false);
                                                 },
                                                 child: ClipOval(
                                                   child: Container(
@@ -291,15 +338,14 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
+
+                                              // 支持手动输入
                                               Container(
                                                 height: 20.h,
                                                 alignment: Alignment.center,
-                                                width: 40.w,
-                                                child: AppText(
-                                                  str: sku.quantity.toString(),
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
-                                                ),
+                                                width: 45.w,
+                                                child: inputQuantity(sku.quantity,sku),
+
                                               ),
                                               GestureDetector(
                                                 onTap: () {
@@ -307,7 +353,7 @@ class BeeShopOrderGoodsItem extends StatelessWidget {
                                                       sku.skuInfo
                                                               ?.batchNumber ??
                                                           1,
-                                                      sku);
+                                                      sku,false);
                                                 },
                                                 child: ClipOval(
                                                   child: Container(

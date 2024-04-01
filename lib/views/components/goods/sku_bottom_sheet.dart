@@ -92,13 +92,18 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
     super.dispose();
   }
 
-  onQty(int step) {
+  onQty(int step, bool isInput) {
     if ((step < 0 && qty == (widget.model.minOrderQuantity ?? 1)) ||
         qty == sku?.quantity) {
       return;
     }
     setState(() {
-      qty += step;
+      if(isInput){
+        qty=step;
+      }
+      else {
+        qty += step;
+      }
     });
   }
 
@@ -201,6 +206,42 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
         });
       },
     ).showModal(context);
+  }
+
+  Widget inputQty(int num) {
+    final TextEditingController qtyController = TextEditingController();
+    final FocusNode qtyNode = FocusNode();
+    qtyController.text = num.toString();
+    return BaseInput(
+      controller: qtyController,
+      focusNode: qtyNode,
+      autoRemoveController: false,
+      showDone: true,
+      onChanged: (value){
+        if(value == '') {
+          onQty(widget.model.minOrderQuantity??1, true);
+        }
+        else {
+          int? number = int.tryParse(value);
+          if(number==null) {
+            EasyLoading.showError('请输入一个有效整数'.inte);
+          }
+          onQty(int.parse(value), true);
+        }
+      },
+      board: true,
+      hintText: '请填入'.inte,
+      textAlign: TextAlign.center,
+      onSubmitted:(value) {
+
+      },
+      autoShowRemove: false,
+      style: TextStyle(fontSize: 14.sp),
+      contentPadding: const EdgeInsets.only(bottom: 10),
+      keyboardType:
+      const TextInputType.numberWithOptions(
+          decimal: true),
+    );
   }
 
   @override
@@ -415,7 +456,7 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                onQty(-(widget.model.batchNumber ?? 1));
+                                onQty(-(widget.model.batchNumber ?? 1),false);
                               },
                               child: Icon(
                                 Icons.remove,
@@ -435,14 +476,11 @@ class _SKUBottomSheetState extends State<BeeShopGoodsSku> {
                                 borderRadius: BorderRadius.circular(2),
                               ),
                               width: ScreenUtil().setWidth(50),
-                              child: AppText(
-                                str: qty.toString(),
-                                fontWeight: FontWeight.bold,
-                              ),
+                              child: inputQty(qty)
                             ),
                             GestureDetector(
                               onTap: () {
-                                onQty(widget.model.batchNumber ?? 1);
+                                onQty(widget.model.batchNumber ?? 1,false);
                               },
                               child: Icon(
                                 Icons.add,

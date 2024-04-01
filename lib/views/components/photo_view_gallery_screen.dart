@@ -47,15 +47,25 @@ class _PhotoViewGalleryScreenState extends State<PhotoViewGalleryScreen> {
               scrollPhysics: const BouncingScrollPhysics(),
               builder: (BuildContext context, int index) {
                 print('路径');
+                print(widget.images);
                 print(widget.images[index]);
-                print(widget.images[index]['url']);
-                String baseImageUrl = '';
-                return PhotoViewGalleryPageOptions(
-                  imageProvider: NetworkImage(widget.images[index]['full_path']),
-                  heroAttributes: widget.heroTag == null
-                      ? PhotoViewHeroAttributes(tag: widget.heroTag!)
-                      : null,
-                );
+                print(widget.images[index].runtimeType);
+                if(widget.images[index].runtimeType== String) {
+                  return PhotoViewGalleryPageOptions(
+                    imageProvider: NetworkImage(widget.images[index]),
+                    heroAttributes: widget.heroTag == null
+                        ? PhotoViewHeroAttributes(tag: widget.heroTag!)
+                        : null,
+                  );
+                }
+                else {
+                  return PhotoViewGalleryPageOptions(
+                    imageProvider: NetworkImage(widget.images[index]['full_path']),
+                    heroAttributes: widget.heroTag == null
+                        ? PhotoViewHeroAttributes(tag: widget.heroTag!)
+                        : null,
+                  );
+                }
               },
               itemCount: widget.images.length,
               backgroundDecoration: null,

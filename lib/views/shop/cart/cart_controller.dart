@@ -104,14 +104,26 @@ class CartController extends GlobalController {
   }
 
   // 商品加减
-  void onSkuQty(int step, CartSkuModel sku) async {
-    var res = await ShopService.updateGoodsQty(sku.id, {
-      'operate': step > 0 ? '+' : '-',
-      'quantity': step > 0 ? step : -step,
-    });
-    if (res) {
-      sku.quantity += step;
-      showCartList.refresh();
+  void onSkuQty(int step, CartSkuModel sku,bool isInput) async {
+    var res;
+    if(isInput) {
+      res = await ShopService.updateGoodsQty(sku.id, {
+        'operate': '',
+        'quantity': step,
+      });
+      if (res) {
+        sku.quantity = step;
+        showCartList.refresh();
+      }
+    }else {
+      res = await ShopService.updateGoodsQty(sku.id, {
+        'operate': step > 0 ? '+' : '-',
+        'quantity': step > 0 ? step : -step,
+      });
+      if (res) {
+        sku.quantity += step;
+        showCartList.refresh();
+      }
     }
   }
 
