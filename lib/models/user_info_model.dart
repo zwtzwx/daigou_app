@@ -24,6 +24,7 @@ class AppStore {
   int shopPlatformType = 1;
   final cartCount = 0.obs;
   final hasNotRead = false.obs;
+  final bubbleDisappear = false.obs;
 
   LocalizationModel? get localModel => _localModel.value;
 
@@ -76,6 +77,11 @@ class AppStore {
       // print('保存的hasNotRead');
       // print(hasNotRead.value);
     }
+  }
+
+  // 气泡状态
+  saveBubble(bool hasBubble) {
+      bubbleDisappear.value = hasBubble;
   }
 
   refreshToken() async {

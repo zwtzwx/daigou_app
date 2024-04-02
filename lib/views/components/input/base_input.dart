@@ -83,7 +83,6 @@ class _BaseInputState extends State<BaseInput> {
   late bool _isShowRemove;
   bool _isFoucsed = false;
   KeyboardDone? _keyboardDone;
-
   @override
   void initState() {
     super.initState();
@@ -132,8 +131,10 @@ class _BaseInputState extends State<BaseInput> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
+    OverlayEntry _overlayEntry;
     var inputDecoration = InputDecoration(
         fillColor: widget.isNick
             ? Color(0xffFDF3F3)
