@@ -184,10 +184,7 @@ class IndexLogic extends GlobalController {
 
    hasReadMessage() async {
     var res = await CommonService.hasUnReadInfo();
-    if(res == true) {
-      hasNotRead.value = true;
-      // hasNotRead.refresh();
-    }
+      Get.find<AppStore>().saveRead(res);
   }
 
   // 页面刷新

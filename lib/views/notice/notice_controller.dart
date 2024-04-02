@@ -7,6 +7,8 @@ import 'package:shop_app_client/events/logined_event.dart';
 import 'package:shop_app_client/events/notice_refresh_event.dart';
 import 'package:shop_app_client/models/notice_model.dart';
 import 'package:shop_app_client/services/common_service.dart';
+import 'package:get/instance_manager.dart';
+import 'package:shop_app_client/models/user_info_model.dart';
 
 class InformationLogic extends GlobalController {
   final name = ''.obs;
@@ -20,6 +22,11 @@ class InformationLogic extends GlobalController {
     });
   }
 
+  @override
+  void onClose() {
+    hasReadMessage();
+  }
+
   loadList({type}) async {
     pageIndex = 0;
     return await loadMoreList();
@@ -29,6 +36,11 @@ class InformationLogic extends GlobalController {
     return CommonService.getNoticeList({
       'page': ++pageIndex,
     });
+  }
+
+  hasReadMessage() async {
+    var res = await CommonService.hasUnReadInfo();
+    Get.find<AppStore>().saveRead(res);
   }
 
   onDetail(NoticeModel model, int index) async {

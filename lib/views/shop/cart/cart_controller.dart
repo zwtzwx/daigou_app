@@ -108,7 +108,7 @@ class CartController extends GlobalController {
     var res;
     if(isInput) {
       res = await ShopService.updateGoodsQty(sku.id, {
-        'operate': '',
+        'operate': null,
         'quantity': step,
       });
       if (res) {

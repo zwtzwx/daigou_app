@@ -29,7 +29,7 @@ class IndexPage extends GetView<IndexLogic> {
         primary: false,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(55.h + kToolbarHeight),
-          child:  Obx(()=>HomeHeader(hasNotRead: controller.hasNotRead.value)),
+          child:  HomeHeader(),
         ),
         key: controller.scaffoldKey,
         body: GestureDetector(

@@ -23,6 +23,7 @@ class AppStore {
   final langList = <LanguageModel>[].obs;
   int shopPlatformType = 1;
   final cartCount = 0.obs;
+  final hasNotRead = false.obs;
 
   LocalizationModel? get localModel => _localModel.value;
 
@@ -66,6 +67,15 @@ class AppStore {
     amountInfo.value = null;
     cartCount.value = 0;
     CommonStorage.clearToken();
+  }
+
+  // 判断是否有未读消息
+  saveRead(bool read) {
+    if (token.value.isNotEmpty) {
+      hasNotRead.value = read;
+      // print('保存的hasNotRead');
+      // print(hasNotRead.value);
+    }
   }
 
   refreshToken() async {
