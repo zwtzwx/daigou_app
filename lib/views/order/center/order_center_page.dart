@@ -186,7 +186,7 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
                         ? AppStyles.textDark
                         : AppStyles.textNormal,
                   ),
-                  7.verticalSpaceFromWidth,
+                  1.verticalSpaceFromWidth,
                   Container(
                     width: 30.w,
                     height: 3.h,
@@ -197,6 +197,7 @@ class BeeOrderIndexPage extends GetView<BeeOrderIndexLogic> {
                       borderRadius: BorderRadius.circular(2.h),
                     ),
                   ),
+                  5.verticalSpaceFromWidth,
                 ],
               ),
             ),

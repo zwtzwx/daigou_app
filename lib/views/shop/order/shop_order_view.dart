@@ -129,7 +129,7 @@ class ShopOrderView extends GetView<ShopOrderController> {
                       : AppStyles.textNormal,
                   fontSize: controller.tabIndex.value == index ? 16 : 14,
                 ),
-                3.verticalSpaceFromWidth,
+                1.verticalSpaceFromWidth,
                 Container(
                   width: 24.w,
                   height: 3.h,
@@ -140,6 +140,7 @@ class ShopOrderView extends GetView<ShopOrderController> {
                     borderRadius: BorderRadius.circular(2.h),
                   ),
                 ),
+                4.verticalSpaceFromWidth,
               ],
             ),
           ),
