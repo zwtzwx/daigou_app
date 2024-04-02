@@ -19,7 +19,12 @@ class PaySuccessController extends GlobalController {
   }
 
   void onShopCenter() {
-    Get.offAllNamed(GlobalPages.home);
+    if(!isShopOrder.value) {
+      Get.offAllNamed(GlobalPages.home);
+    }else {
+        Get.back();
+        Get.back();
+    }
     // GlobalPages.push(GlobalPages.goodsCategory);
   }
 
