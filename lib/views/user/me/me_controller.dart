@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/state_manager.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:shop_app_client/views/components/base_dialog.dart';
 import 'package:shop_app_client/config/base_conctroller.dart';
 import 'package:shop_app_client/events/application_event.dart';
@@ -32,9 +33,38 @@ class BeeCenterLogic extends GlobalController {
   // 优惠券数量
   final myCouponCount = RxNum(0);
   final userPointModel = Rxn<UserPointModel?>();
+  // 当前网络状态
+  final netWorkDisconnect =  false.obs;
   @override
   void onInit() {
     super.onInit();
+  }
+
+  @override
+  void onReady() async{
+    super.onReady();
+    // 判断网络状态
+    var connectivity = Connectivity();
+    // 初始化时也要判断一下网络
+    var result = await connectivity.checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      netWorkDisconnect.value = true;
+    }else {
+      hasNetWork();
+    }
+    // 监听网络数据变化-真机情况下没问题 第一次不会监测到
+    connectivity.onConnectivityChanged.listen((result) {
+      print(result);
+      if (result == ConnectivityResult.none) {
+        netWorkDisconnect.value = true;
+      }else {
+        netWorkDisconnect.value = false;
+        hasNetWork();
+      }
+    });
+  }
+
+  hasNetWork() {
     ApplicationEvent.getInstance()
         .event
         .on<ProfileUpdateEvent>()

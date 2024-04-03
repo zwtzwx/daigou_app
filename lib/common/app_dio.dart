@@ -1,8 +1,8 @@
 import 'package:shop_app_client/config/app_config.dart';
 import 'package:shop_app_client/interceptors/auth_interceptor.dart';
 import 'package:cookie_jar/cookie_jar.dart';
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
@@ -15,9 +15,9 @@ class BaseDio with DioMixin implements Dio {
     options ??= BaseOptions(
       // baseUrl: dioConfig?.baseUrl,
       contentType: 'application/json',
-      connectTimeout: dioConfig?.connectTimeout,
-      sendTimeout: dioConfig?.sendTimeout,
-      receiveTimeout: dioConfig?.receiveTimeout,
+      connectTimeout: Duration(seconds: dioConfig?.connectTimeout ?? 0),
+      sendTimeout: Duration(seconds: dioConfig?.sendTimeout ?? 0),
+      receiveTimeout:Duration(seconds: dioConfig?.receiveTimeout ?? 0),
     )..headers = dioConfig?.headers;
     options.baseUrl = BaseUrls.getBaseApi(); //基础API
     this.options = options;
@@ -60,7 +60,7 @@ class BaseDio with DioMixin implements Dio {
 
     //httpClientAdapter = DefaultHttpClientAdapter();
     httpClientAdapter = Http2Adapter(ConnectionManager(
-      idleTimeout: 10000,
+      idleTimeout: Duration(seconds: 100),
       onClientCreate: (_, config) => config.onBadCertificate = (_) => true,
     ));
 

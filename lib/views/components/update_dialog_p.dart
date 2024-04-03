@@ -184,8 +184,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
         file.createSync();
       }
       await Dio(BaseOptions(
-        connectTimeout: 1000000,
-        receiveTimeout: 1000000,
+        connectTimeout: 1000000 as Duration,
+        receiveTimeout: 1000000 as Duration,
       )).download(widget.arguments["file_path"], file.path,
           // cancelToken: _cancelToken,
           onReceiveProgress: (int count, int total) {

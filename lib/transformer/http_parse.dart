@@ -66,13 +66,13 @@ bool _isRequestSuccess(int? statusCode) {
 HttpException _parseException(Exception error) {
   if (error is DioError) {
     switch (error.type) {
-      case DioErrorType.connectTimeout:
-      case DioErrorType.receiveTimeout:
-      case DioErrorType.sendTimeout:
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.receiveTimeout:
+      case DioExceptionType.sendTimeout:
         return NetworkException(message: error.message);
-      case DioErrorType.cancel:
+      case DioExceptionType.cancel:
         return CancelException(error.message);
-      case DioErrorType.response:
+      case DioExceptionType.badResponse:
         try {
           int? errCode = error.response?.statusCode;
           switch (errCode) {
@@ -102,7 +102,7 @@ HttpException _parseException(Exception error) {
           return UnknownException(error.message);
         }
 
-      case DioErrorType.other:
+      case DioExceptionType.unknown:
         return NetworkException(message: error.message);
       default:
         return UnknownException(error.message);

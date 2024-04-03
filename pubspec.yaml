@@ -35,9 +35,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   event_bus: ^2.0.0 #事件监听
   shared_preferences: ^2.0.13 # 本地存储、收藏功能
-  dio: ^4.0.4 # 网络请求
-  dio_cache_interceptor: ^3.2.6
-  dio_cookie_manager: ^2.0.0
+  dio: ^5.4.2+1 # 网络请求
+  dio_cache_interceptor: ^3.5.0
+  dio_cookie_manager: ^3.1.1
   pull_to_refresh: ^2.0.0 # 下拉刷新
   flutter_screenutil: ^5.5.3+2 #屏幕适配
   fluttertoast: ^8.0.8 #toast
@@ -48,7 +48,7 @@ dependencies:
   permission_handler: ^9.2.0
   flutter_picker: ^2.0.2
   flutter_html: ^3.0.0-beta.2
-  dio_http2_adapter: ^2.0.0
+  dio_http2_adapter: ^2.5.1
   image_cropper: ^2.0.2
   image_picker: ^0.8.5+3
   photo_view: ^0.14.0

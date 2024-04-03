@@ -11,6 +11,7 @@ import 'package:shop_app_client/views/components/load_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_app_client/views/user/me/me_controller.dart';
+import 'package:shop_app_client/views/components/network_disconnect.dart';
 
 class BeeCenterPage extends GetView<BeeCenterLogic> {
   const BeeCenterPage({Key? key}) : super(key: key);
@@ -25,72 +26,73 @@ class BeeCenterPage extends GetView<BeeCenterLogic> {
       body: RefreshIndicator(
         onRefresh: controller.handleRefresh,
         color: AppStyles.textRed,
-        child: Obx(
-          () => Stack(
-            children: [
-              ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                controller: controller.scrollController,
+        child:Obx(
+              () => controller.netWorkDisconnect.value?NetWorkDisconnect(onPressed: controller.handleRefresh):
+              Stack(
                 children: [
-                  Stack(
+                  ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    controller: controller.scrollController,
                     children: [
-                      const Positioned(
-                        left: 0,
-                        right: 0,
-                        top: 0,
-                        child:
-                            LoadAssetImage('Center/bg', fit: BoxFit.fitWidth),
-                      ),
-                      userInfo(),
-                    ],
-                  ),
-                  12.verticalSpaceFromWidth,
-                  toolList(),
-                  30.verticalSpaceFromWidth,
-                ],
-              ),
-              if (controller.showMiniHeader.value)
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(
-                        16.w, kToolbarHeight + 5.h, 16.w, 5.h),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFFDEEEC),
-                    ),
-                    child: SizedBox(
-                      height: 25.h,
-                      child: Row(
+                      Stack(
                         children: [
-                          Expanded(
-                            child: AppText(
-                              str: controller
-                                      .userInfoModel.userInfo.value?.name ??
-                                  '',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
+                          const Positioned(
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            child:
+                            LoadAssetImage('Center/bg', fit: BoxFit.fitWidth),
                           ),
-                          10.horizontalSpace,
-                          GestureDetector(
-                            onTap: () {
-                              GlobalPages.push(GlobalPages.customer);
-                            },
-                            child: LoadAssetImage(
-                              'Center/ico_kf',
-                              width: 28.w,
-                              height: 28.w,
-                            ),
-                          ),
+                          userInfo(),
                         ],
                       ),
-                    ),
+                      12.verticalSpaceFromWidth,
+                      toolList(),
+                      30.verticalSpaceFromWidth,
+                    ],
                   ),
-                ),
-            ],
-          ),
+                  if (controller.showMiniHeader.value)
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 0,
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(
+                            16.w, kToolbarHeight + 5.h, 16.w, 5.h),
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFFDEEEC),
+                        ),
+                        child: SizedBox(
+                          height: 25.h,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: AppText(
+                                  str: controller
+                                      .userInfoModel.userInfo.value?.name ??
+                                      '',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              10.horizontalSpace,
+                              GestureDetector(
+                                onTap: () {
+                                  GlobalPages.push(GlobalPages.customer);
+                                },
+                                child: LoadAssetImage(
+                                  'Center/ico_kf',
+                                  width: 28.w,
+                                  height: 28.w,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
         ),
       ),
     );

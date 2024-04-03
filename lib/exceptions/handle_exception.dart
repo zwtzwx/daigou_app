@@ -26,8 +26,8 @@ class HandleException {
   static NetErrorException handleException(dynamic error) {
     EasyLoading.dismiss();
     if (error is DioError) {
-      if (error.type == DioErrorType.other ||
-          error.type == DioErrorType.response) {
+      if (error.type == DioExceptionType.unknown ||
+          error.type == DioExceptionType.badResponse) {
         dynamic e = error.error;
         if (e is SocketException) {
           return NetErrorException(socket_error, "网络异常，请检查你的网络");
@@ -36,11 +36,11 @@ class HandleException {
           return NetErrorException(http_error, "服务器异常");
         }
         return NetErrorException(net_error, "网络异常，请检查你的网络");
-      } else if (error.type == DioErrorType.connectTimeout ||
-          error.type == DioErrorType.sendTimeout ||
-          error.type == DioErrorType.receiveTimeout) {
+      } else if (error.type == DioExceptionType.connectionTimeout ||
+          error.type == DioExceptionType.sendTimeout ||
+          error.type == DioExceptionType.receiveTimeout) {
         return NetErrorException(timeout_error, "连接超时");
-      } else if (error.type == DioErrorType.cancel) {
+      } else if (error.type == DioExceptionType.cancel) {
         return NetErrorException(cancel_error, "取消请求");
       } else {
         return NetErrorException(unknown_error, "未知异常");

@@ -3,6 +3,7 @@ import 'package:shop_app_client/models/currency_rate_model.dart';
 import 'package:shop_app_client/models/language_model.dart';
 import 'package:shop_app_client/models/localization_model.dart';
 import 'package:shop_app_client/models/user_model.dart';
+import 'package:shop_app_client/extension/translation.dart';
 import 'package:shop_app_client/models/user_order_count_model.dart';
 import 'package:shop_app_client/services/common_service.dart';
 import 'package:shop_app_client/services/language_service.dart';
@@ -40,9 +41,9 @@ class AppStore {
      var connectivity = Connectivity();
      connectivity.onConnectivityChanged.listen((result) {
        if (result == ConnectivityResult.none) {
-         EasyLoading.showError('请检查网络111');
+         EasyLoading.showError('网络开小差了'.inte+'~');
        }else {
-         EasyLoading.showInfo('有网络了');
+         EasyLoading.showInfo('太好了，网络恢复了'.inte+'~');
          token.value = CommonStorage.getToken();
          userInfo.value = CommonStorage.getUserInfo();
          accountInfo.value = CommonStorage.getAccountInfo();
