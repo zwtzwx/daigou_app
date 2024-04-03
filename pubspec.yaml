@@ -75,6 +75,8 @@ dependencies:
   launch_review: ^3.0.1
   video_player: ^2.1.2
   android_intent: ^2.0.0
+  connectivity_plus: ^2.2.2
+  flutter_offline: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

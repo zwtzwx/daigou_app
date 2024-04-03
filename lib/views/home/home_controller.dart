@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shop_app_client/common/loading_util.dart';
@@ -28,6 +29,7 @@ import 'package:shop_app_client/views/home/widget/ad_dialog.dart';
 
 import 'package:shop_app_client/views/home/widget/annoucement_dialog.dart';
 import 'package:shop_app_client/views/tabbar/tabbar_controller.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class IndexLogic extends GlobalController {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -44,11 +46,51 @@ class IndexLogic extends GlobalController {
   final agentStatus = 3.obs;
   // 是否有未读消息
   final hasNotRead = false.obs;
+  // 当前网络状态
+  final netWorkDisconnect =  false.obs;
 
 
   @override
-  void onInit() {
+  void onInit() async{
     super.onInit();
+  }
+
+  void onReady() async {
+    super.onReady();
+    // 判断网络状态
+    var connectivity = Connectivity();
+    // 初始化时也要判断一下网络
+    var result = await connectivity.checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      netWorkDisconnect.value = true;
+    }else {
+      hasNetWork();
+    }
+    // 监听网络数据变化-真机情况下没问题 第一次不会监测到
+    connectivity.onConnectivityChanged.listen((result) {
+      print(result);
+      if (result == ConnectivityResult.none) {
+        netWorkDisconnect.value = true;
+      }else {
+        netWorkDisconnect.value = false;
+        hasNetWork();
+      }
+    });
+  }
+  // 获取最新版本的安装包
+  getLatestApkInfo() async {
+    var res = await CommonService.getLatestApkInfo();
+    if (res != null) {
+      var needUpdate = await VersionUtil.isAppUpdatedRequired(res.version);
+      var lastTime = CommonStorage.getVersionTime();
+      var nowTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+      if (needUpdate && (lastTime == null || lastTime + 24 * 3600 < nowTime)) {
+        Get.dialog(UpdateDialog(appModel: res), barrierDismissible: false);
+      }
+    }
+  }
+
+  hasNetWork() {
     getAnnoucementList();
     getIndexAnnoucement();
     getLatestApkInfo();
@@ -72,19 +114,6 @@ class IndexLogic extends GlobalController {
     ApplicationEvent.getInstance().event.on<LoginedEvent>().listen((event) {
       getAgentStatus();
     });
-  }
-
-  // 获取最新版本的安装包
-  getLatestApkInfo() async {
-    var res = await CommonService.getLatestApkInfo();
-    if (res != null) {
-      var needUpdate = await VersionUtil.isAppUpdatedRequired(res.version);
-      var lastTime = CommonStorage.getVersionTime();
-      var nowTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-      if (needUpdate && (lastTime == null || lastTime + 24 * 3600 < nowTime)) {
-        Get.dialog(UpdateDialog(appModel: res), barrierDismissible: false);
-      }
-    }
   }
 
   getAgentStatus() async {
@@ -189,13 +218,21 @@ class IndexLogic extends GlobalController {
 
   // 页面刷新
   Future<void> handleRefresh() async {
-    loadingUtil.value.clear();
-    await getAds();
-    await getRecommendGoods();
-    await getCategory();
-    await getAnnoucementList();
-    //未读消息
-    await hasReadMessage();
+    var connectivity = Connectivity();
+    var result = await connectivity.checkConnectivity();
+    if (result != ConnectivityResult.none) {
+      print('尝试重新链接');
+      netWorkDisconnect.value = false;
+      loadingUtil.value.clear();
+      await getAds();
+      await getRecommendGoods();
+      await getCategory();
+      await getAnnoucementList();
+      //未读消息
+      await hasReadMessage();
+    }else {
+      netWorkDisconnect.value = true;
+    }
 
   }
 }

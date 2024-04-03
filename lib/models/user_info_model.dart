@@ -11,6 +11,8 @@ import 'package:shop_app_client/services/shop_service.dart';
 import 'package:shop_app_client/services/user_service.dart';
 import 'package:shop_app_client/storage/language_storage.dart';
 import 'package:shop_app_client/storage/user_storage.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class AppStore {
   final token = ''.obs;
@@ -29,12 +31,26 @@ class AppStore {
   LocalizationModel? get localModel => _localModel.value;
 
   AppStore() {
-    token.value = CommonStorage.getToken();
-    userInfo.value = CommonStorage.getUserInfo();
-    accountInfo.value = CommonStorage.getAccountInfo();
-    refreshToken();
-    initCurrency();
-    getLanguages();
+    judgeNetWork();
+  }
+
+
+   judgeNetWork() async{
+    // 判断网络状态
+     var connectivity = Connectivity();
+     connectivity.onConnectivityChanged.listen((result) {
+       if (result == ConnectivityResult.none) {
+         EasyLoading.showError('请检查网络111');
+       }else {
+         EasyLoading.showInfo('有网络了');
+         token.value = CommonStorage.getToken();
+         userInfo.value = CommonStorage.getUserInfo();
+         accountInfo.value = CommonStorage.getAccountInfo();
+         refreshToken();
+         initCurrency();
+         getLanguages();
+       }
+     });
   }
 
   saveInfo(String t, UserModel u) {

@@ -14,6 +14,7 @@ import 'package:shop_app_client/views/components/load_image.dart';
 import 'package:shop_app_client/views/components/loading_cell.dart';
 import 'package:shop_app_client/views/home/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_app_client/views/components/button/main_button.dart';
 import 'package:shop_app_client/views/home/widget/header.dart';
 import 'package:shop_app_client/views/home/widget/notice_widget.dart';
 import 'package:shop_app_client/views/shop/platform_goods/platform_goods_binding.dart';
@@ -29,10 +30,52 @@ class IndexPage extends GetView<IndexLogic> {
         primary: false,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(55.h + kToolbarHeight),
-          child:  HomeHeader(),
+          child:  Obx(()=>Container(child:
+          !controller.netWorkDisconnect.value?HomeHeader():AppGaps.empty,)),
         ),
         key: controller.scaffoldKey,
-        body: GestureDetector(
+        body: Obx(()=>controller.netWorkDisconnect.value?
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white
+              ),
+              height: ScreenUtil().screenHeight,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    alignment: Alignment.bottomCenter,
+                    width: ScreenUtil().screenWidth,
+                    height: 300.h,
+                    decoration: BoxDecoration(
+                      image:DecorationImage(
+                          image:AssetImage('assets/images/Home/net-disconnect.png')
+                      ),
+                    ),
+                    child: AppText(
+                      str: '暂无网络 请重新尝试'.inte+'~',
+                      fontSize: 12,
+                      color: Color(0xff4F4F4F),
+                    ),
+                  ),
+                  9.verticalSpace,
+                  SizedBox(
+                    height: 30,
+                    child: BeeButton(
+                      text: '点此刷新',
+                      fontSize: 12,
+                      backgroundColor: Color(0xffFFD9D8),
+                      textColor: const Color(0xffF44247),
+                      onPressed: () {
+                        controller.handleRefresh();
+                      },
+                    ),
+                  )
+                ],
+              ),
+            )
+            :
+        GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
           },
@@ -55,7 +98,7 @@ class IndexPage extends GetView<IndexLogic> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 14.w),
                         child: Obx(
-                          () => AppText(
+                              () => AppText(
                             str: '大家在看什么'.inte,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -64,17 +107,17 @@ class IndexPage extends GetView<IndexLogic> {
                       ),
                       15.verticalSpaceFromWidth,
                       Obx(
-                        () => Padding(
+                            () => Padding(
                           padding: EdgeInsets.symmetric(horizontal: 14.w),
                           child: BeeShopGoodsList(
                             isPlatformGoods: true,
                             platformGoodsList:
-                                controller.loadingUtil.value.list,
+                            controller.loadingUtil.value.list,
                           ),
                         ),
                       ),
                       Obx(
-                        () => Center(
+                            () => Center(
                           child: LoadingCell(
                             util: controller.loadingUtil.value,
                           ),
@@ -88,7 +131,7 @@ class IndexPage extends GetView<IndexLogic> {
               const CartCell(),
             ],
           ),
-        ),
+        ),)
       ),
       value: SystemUiOverlayStyle.dark,
     );
