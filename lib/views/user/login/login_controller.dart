@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/state_manager.dart';
 import 'package:shop_app_client/common/util.dart';
@@ -15,6 +16,7 @@ import 'package:shop_app_client/models/token_model.dart';
 import 'package:shop_app_client/models/user_info_model.dart';
 import 'package:shop_app_client/services/user_service.dart';
 import 'package:shop_app_client/storage/user_storage.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class BeeSignInLogic extends GlobalController {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -109,8 +111,15 @@ class BeeSignInLogic extends GlobalController {
   }
 
   // 登录
-  onLogin() {
-    Map<String, dynamic> map;
+  onLogin() async{
+    // 监测网络状态
+    var connectivity = Connectivity();
+    var result = await connectivity.checkConnectivity();
+    if (result == ConnectivityResult.none) {
+        EasyLoading.showError('未检查到网络环境，请检查网络连接'.inte);
+        return;
+    }
+      Map<String, dynamic> map;
     map = {
       'account': loginType.value == 1
           ? mobileNumberController.text
