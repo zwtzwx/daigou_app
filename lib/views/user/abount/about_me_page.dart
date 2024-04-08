@@ -74,7 +74,7 @@ class BeePage extends GetView<BeeLogic> {
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.only(left: 15,right: 15,top: 20,bottom: 10),
+                      padding: EdgeInsets.only(left: 15,right: 20,top: 20,bottom: 10),
                       child: Row(
                         children: [
                           AppText(
@@ -83,11 +83,11 @@ class BeePage extends GetView<BeeLogic> {
                             color: Color(0xff222222),
                           ),
                           Expanded(child: SizedBox()),
-                          AppText(
-                            str: '1.0.1'.inte,
+                          Obx(()=>AppText(
+                            str: controller.nowVersion.value.inte,
                             fontSize: 16,
                             color: Color(0xff222222),
-                          )
+                          ))
                         ],
                       ),
                     ),

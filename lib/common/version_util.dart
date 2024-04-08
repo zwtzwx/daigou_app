@@ -35,8 +35,8 @@ class VersionUtil {
   static Future<bool> isAppUpdatedRequired(String latestVersion) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String currentVersion = packageInfo.version;
-    print('当前版本');
-    print(currentVersion);
+    // print('当前版本');
+    // print(currentVersion);
     List<String> latestVersionList = latestVersion.split('.');
     List<String> currentVersionList = currentVersion.split('.');
 

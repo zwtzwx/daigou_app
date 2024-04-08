@@ -14,10 +14,16 @@ import 'package:package_info/package_info.dart';
 
 class BeeLogic extends GlobalController {
   final aboutList = <ArticleModel>[].obs;
+  final nowVersion = ''.obs;
 
   @override
-  onInit() {
+  onInit() async{
     super.onInit();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String currentVersion = packageInfo.version;
+    print('当前版本');
+    print(currentVersion);
+    nowVersion.value = currentVersion;
     getList();
   }
 
