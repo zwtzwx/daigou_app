@@ -57,7 +57,7 @@ class BeeShopOrderGoodsItemState extends State<BeeShopOrderGoodsItem> {
       builder: (context) => Obx((){
         return Positioned(
           // height: 18.h,
-            left: offset.dx+190.w,
+            left: offset.dx+200.w,
             top: offset.dy + renderBox.size.height-20.h,
             child: AnimatedOpacity(
               duration: Duration(seconds: 2),

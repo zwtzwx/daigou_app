@@ -37,46 +37,47 @@ class ShopOrderView extends GetView<ShopOrderController> {
         bottom: myTabbar() as PreferredSizeWidget,
         actions: [
           GestureDetector(
-            onTap: () {
-              GlobalPages.push(GlobalPages.probleShopOrder);
-            },
-            child: Obx(()=>Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  color: Colors.white,
-                  margin: EdgeInsets.only(right: 14.w),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      LoadAssetImage(
-                        'Transport/ico_wtdd',
-                        width: 20.w,
+              onTap: () {
+                GlobalPages.push(GlobalPages.probleShopOrder);
+              },
+              child: Obx(
+                () => Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      color: Colors.white,
+                      margin: EdgeInsets.only(right: 14.w),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LoadAssetImage(
+                            'Transport/ico_wtdd',
+                            width: 20.w,
+                          ),
+                          2.verticalSpaceFromWidth,
+                          AppText(
+                            str: '问题订单'.inte,
+                            fontSize: 10,
+                            color: AppStyles.textNormal,
+                          )
+                        ],
                       ),
-                      2.verticalSpaceFromWidth,
-                      AppText(
-                        str: '问题订单'.inte,
-                        fontSize: 10,
-                        color: AppStyles.textNormal,
-                      )
-                    ],
-                  ),
-                ),
-                controller.hasProblem.value
-                    ? Positioned(
-                  right: 20.w,
-                  child: ClipOval(
-                    child: Container(
-                      width: 8,
-                      height: 8,
-                      color: AppStyles.textRed,
                     ),
-                  ),
-                )
-                    : AppGaps.empty,
-              ],
-            ),)
-          ),
+                    controller.hasProblem.value
+                        ? Positioned(
+                            right: 20.w,
+                            child: ClipOval(
+                              child: Container(
+                                width: 8,
+                                height: 8,
+                                color: AppStyles.textRed,
+                              ),
+                            ),
+                          )
+                        : AppGaps.empty,
+                  ],
+                ),
+              )),
         ],
         backgroundColor: Colors.white,
         elevation: 0,
