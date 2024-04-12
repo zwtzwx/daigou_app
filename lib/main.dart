@@ -18,6 +18,7 @@ import 'package:shop_app_client/views/components/load_image.dart';
 import 'package:shop_app_client/views/shop/goods_detail/goods_detail_binding.dart';
 import 'package:shop_app_client/views/shop/goods_detail/goods_detail_view.dart';
 import 'package:shop_app_client/views/tabbar/tabbar_binding.dart';
+import 'package:logger/logger.dart';
 
 void main() async {
   SystemUiOverlayStyle systemUiOverlayStyle =
@@ -27,6 +28,7 @@ void main() async {
   //传入可能的登录用户
   await dotenv.load(fileName: ".env");
   await GlobalInject.init();
+
   // 初始化 Firebase
   // await Firebase.initializeApp();
   Timer(Duration(seconds: 2), () => {
@@ -45,6 +47,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  // 创建一个MethodChannel
+  static const platform = const MethodChannel('channel:wakeupSchemeJump');
   _MyAppState() {
     //监听事件
     final eventBus = EventBus(sync: true);
@@ -55,6 +59,21 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     WechatConfig().initConfig();
+    platform.setMethodCallHandler(_handleMethod);
+  }
+
+  Future<dynamic> _handleMethod(MethodCall call) async {
+    print(call.method);
+    print('原生事件监听回调');
+    switch (call.method) {
+      case 'wakeupSchemeJump':
+        String url = call.arguments;
+        // 在这里处理接收到的URL参数
+        print('Received URL: $url');
+        break;
+        default:
+        throw MissingPluginException();
+    }
   }
 
   initClipboadListener() {
@@ -66,6 +85,36 @@ class _MyAppState extends State<MyApp> {
 
       return message;
     });
+  }
+
+  void registerWakeup() {
+    //注册iOS调用flutter方法
+    const channel = MethodChannel('channel:wakeupSchemeJump');
+    channel.setMethodCallHandler((MethodCall call) async {
+      if (call.method == 'wakeupSchemeJump') {
+        Logger().d("call.arguments = ${call.arguments}");
+        return (schemeJump(Get.context!, call.arguments));
+      }
+    });
+  }
+
+  /// 路由跳转 context schemeUrl
+  void schemeJump(BuildContext context, String schemeUrl) {
+    print(schemeUrl);
+    if(schemeUrl.contains('/details')) {
+      //   跳转商品详情页
+      Uri uri = Uri.parse(schemeUrl);
+      Map<String, String> queryParameters = uri.queryParameters;
+      // 传递的参数
+      if(queryParameters['id']!=null&&queryParameters['url']!=null) {
+        GlobalPages.toPage(
+          GoodsDetailView(goodsId: queryParameters['id'].toString()),
+          arguments: {'url': queryParameters['url']},
+          binding: GoodsDetailBinding(tag: queryParameters['id'].toString()),
+          authCheck: true,
+        );
+      }
+    }
   }
 
   void getClipboardData() async {
@@ -232,6 +281,7 @@ class _MyAppState extends State<MyApp> {
         builder: EasyLoading.init(),
         onReady: () {
           initClipboadListener();
+          registerWakeup();
           // getClipboardData();
         },
       ),

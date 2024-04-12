@@ -212,7 +212,10 @@ class BaseUtils {
   }
 
   // 轮播图跳转
-  static void onAdLink(BannerModel model) {
+  static void onAdLink(BannerModel model) async{
+    print('当前链接');
+    print(model.linkPath);
+    print(model.linkType);
     if (model.linkType == 1) {
       // 应用内
       if (model.linkPath.startsWith('/pages')) {
@@ -245,9 +248,15 @@ class BaseUtils {
         }
       }
     } else if (model.linkType == 2 || model.linkType == 3) {
-      // 外部URL、公众号 URL
-      GlobalPages.push(GlobalPages.webview,
-          arg: {'url': model.linkPath, 'title': 'Daigou', 'time': ''});
+      print('外部URL');
+      // 从浏览器打开
+      if (await canLaunchUrl(Uri.parse(model.linkPath))) {
+    await launchUrl(Uri.parse(model.linkPath));
+    }
+
+    // 外部URL、公众号 URL
+      // GlobalPages.push(GlobalPages.webview,
+      //     arg: {'url': model.linkPath, 'title': 'Daigou', 'time': ''});
     }
   }
 }

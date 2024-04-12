@@ -34,6 +34,8 @@ class PlatformGoodsCell extends StatelessWidget {
         //   'arguments': {'url': goods.detailUrl},
         // });
         // origin
+        print(goods.id.toString());
+        print(goods.detailUrl);
         GlobalPages.toPage(
           GoodsDetailView(goodsId: goods.id.toString()),
           arguments: {'url': goods.detailUrl},

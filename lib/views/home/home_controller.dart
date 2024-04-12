@@ -50,10 +50,12 @@ class IndexLogic extends GlobalController {
   final netWorkDisconnect =  false.obs;
 
 
+
   @override
   void onInit() async{
     super.onInit();
   }
+
 
   void onReady() async {
     super.onReady();
@@ -90,6 +92,8 @@ class IndexLogic extends GlobalController {
     }
   }
 
+
+
   hasNetWork() {
     getAnnoucementList();
     getIndexAnnoucement();
@@ -116,6 +120,7 @@ class IndexLogic extends GlobalController {
     });
   }
 
+
   getAgentStatus() async {
     if (userModel.value != null) {
       var data = await UserService.getAgentStatus();
@@ -130,6 +135,8 @@ class IndexLogic extends GlobalController {
     var list = await ShopService.getCategoryList();
     categoryList.value = list;
   }
+
+
 
   // 公告列表
   getAnnoucementList() async {

@@ -24,6 +24,14 @@
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
+	    <dict>
+    	    <key>CFBundleTypeRole</key>
+    		<string>Editor</string>
+    		<key>CFBundleURLSchemes</key>
+    		<array>
+    			<string>wakeupScheme</string>
+    		</array>
+    	</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
@@ -48,16 +56,20 @@
 				<string>wxb1290b1691a16593</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wakeupScheme</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>tel</string>
-		<string>mailto</string>
-		<string>wechat</string>
-		<string>weixinULAPI</string>
-		<string>weixin</string>
+		<string>myapp</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -70,16 +82,18 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>APP需要您的同意，才能访问相机设置个人头像信息、扫描二维码</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>APP需要您的同意获取位置信息显示周边拼团</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>APP需要您的同意获取位置信息显示周边拼团</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>APP需要您的同意获取位置信息显示周边拼团</string>
+	<key>NSPasteboardUsageDescription</key>
+	<string>APP需要您的同意，才能获取剪贴板内容以便识别商品链接</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>APP需要您的同意，才能保存图片到相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>APP需要您的同意，才能访问相册设置个人头像信息</string>
-	<key>NSPasteboardUsageDescription</key>
-	<string>APP需要您的同意，才能获取剪贴板内容以便识别商品链接</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -103,8 +117,6 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
-	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 </dict>
 </plist>

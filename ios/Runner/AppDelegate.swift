@@ -10,4 +10,11 @@ import Flutter
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+
+  override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+             let controller:FlutterViewController = self.window.rootViewController as! FlutterViewController
+             let jumpChannel = FlutterMethodChannel.init(name: "channel:wakeupSchemeJump", binaryMessenger: controller  as! FlutterBinaryMessenger)
+             jumpChannel.invokeMethod("wakeupSchemeJump", arguments: url.relativeString)
+            return true
+        }
 }

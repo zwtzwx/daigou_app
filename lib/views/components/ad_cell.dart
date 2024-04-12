@@ -63,6 +63,7 @@ class HomeAdsState extends State<AdsCell> with AutomaticKeepAliveClientMixin {
       child: Swiper(
         onTap: (index) {
           BannerModel model = adList[index];
+
           BaseUtils.onAdLink(model);
         },
         itemCount: adList.length,

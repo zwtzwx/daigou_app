@@ -77,6 +77,9 @@ dependencies:
   android_intent: ^2.0.0
   connectivity_plus: ^2.2.2
   flutter_offline: ^2.0.0
+  logger: ^2.2.0
+  uni_links: ^0.5.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
