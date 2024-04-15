@@ -19,6 +19,7 @@ import 'package:shop_app_client/views/shop/goods_detail/goods_detail_binding.dar
 import 'package:shop_app_client/views/shop/goods_detail/goods_detail_view.dart';
 import 'package:shop_app_client/views/tabbar/tabbar_binding.dart';
 import 'package:logger/logger.dart';
+import 'package:shop_app_client/storage/user_storage.dart';
 
 void main() async {
   SystemUiOverlayStyle systemUiOverlayStyle =
@@ -276,7 +277,7 @@ class _MyAppState extends State<MyApp> {
         showSemanticsDebugger: false,
         debugShowCheckedModeBanner: false,
         getPages: GlobalPages.routes,
-        initialRoute: GlobalPages.home,
+        initialRoute: CommonStorage.getNewUser() == 1?GlobalPages.loggedGuide:GlobalPages.home,
         initialBinding: TabbarLinker(),
         builder: EasyLoading.init(),
         onReady: () {

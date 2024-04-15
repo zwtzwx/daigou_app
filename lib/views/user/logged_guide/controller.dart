@@ -39,6 +39,7 @@ class LoggedGuideController extends GlobalController {
 
   onSkip() {
     CommonStorage.setNewUser();
-    GlobalPages.pop();
+    // GlobalPages.pop();
+    GlobalPages.push(GlobalPages.home);
   }
 }
