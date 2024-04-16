@@ -810,6 +810,7 @@ class GoodsDetailView extends GetView<GoodsDetailController> {
           Obx(() => controller.goodsModel.value!.desc!.isNotEmpty
               ? Html(
                   data: controller.goodsModel.value!.desc,
+                  shrinkWrap: true,
                   style: {
                     'img': Style(
                       width: Width(330.w, Unit.px),
