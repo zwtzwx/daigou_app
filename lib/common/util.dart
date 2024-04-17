@@ -153,7 +153,7 @@ class BaseUtils {
   static void onCustomerContact([String type = 'wx']) async {
     print(type);
     if (type == 'whatsapp') {
-      const contact = '+8618163665594';
+      const contact = '+8618124122856';
       String whatsappURlAndroid = 'whatsapp://send?phone=' + contact + '&text=';
       String whatappURLIos = "https://wa.me/$contact?text=";
       if (Platform.isIOS) {
