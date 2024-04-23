@@ -86,6 +86,7 @@ class CountryListView extends GetView<CountryController> {
                           : Padding(
                               padding: const EdgeInsets.only(left: 0, right: 0),
                               child: ListView.builder(
+                                  shrinkWrap: true,
                                   controller: controller.scrollController,
                                   itemCount: controller.dataList.length,
                                   itemBuilder:
