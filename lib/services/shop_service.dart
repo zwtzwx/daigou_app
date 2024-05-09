@@ -36,6 +36,7 @@ class ShopService {
   static const String orderStatusCountApi = 'daigou-orders/status/count';
   static const String cartCountApi = 'daigou-carts/sku-num';
   static const String daigouGoodsApi = 'purchase/search/item';
+  static const String newDaigouGoodsApi = 'purchase/recommend/item';
   static const String addCustomCartApi = 'daigou-carts/custom-store';
   static const String daigouGoodsDetailApi = 'purchase/product-info';
   static const String platformGoodsOrderServiceApi =
@@ -507,7 +508,7 @@ class ShopService {
       'pageIndex': params['page'] ?? 1
     };
     await ApiConfig.instance
-        .get(daigouGoodsApi, queryParameters: params)
+        .get(newDaigouGoodsApi, queryParameters: params)
         .then((res) {
       if (res.data['items'] != null) {
         List<PlatformGoodsModel> list = [];
