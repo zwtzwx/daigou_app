@@ -22,9 +22,9 @@ class shareView extends GetView<ShareLogic> {
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/Center/share_bk.png"),
-            fit: BoxFit.fill,
-          )),
+        image: AssetImage("assets/images/Center/share_bk.png"),
+        fit: BoxFit.fill,
+      )),
       child: Scaffold(
         appBar: const EmptyAppBar(),
         backgroundColor: Colors.transparent,
@@ -33,7 +33,8 @@ class shareView extends GetView<ShareLogic> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 80.h), // 设置水平方向的空隙为16.0// 将您的组件放置在Padding内
+                padding: EdgeInsets.only(
+                    top: 80.h), // 设置水平方向的空隙为16.0// 将您的组件放置在Padding内
               ),
               RepaintBoundary(
                 key: controller.globalKey,
@@ -43,9 +44,9 @@ class shareView extends GetView<ShareLogic> {
                   padding: EdgeInsets.only(top: 20),
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage("assets/images/Center/qyCode_bk.png"),
-                        fit: BoxFit.fill,
-                      )),
+                    image: AssetImage("assets/images/Center/qyCode_bk.png"),
+                    fit: BoxFit.fill,
+                  )),
                   child: Column(
                     children: [
                       SizedBox(
@@ -58,7 +59,8 @@ class shareView extends GetView<ShareLogic> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 10.h), // 设置水平方向的空隙为16.0// 将您的组件放置在Padding内
+                        padding: EdgeInsets.only(
+                            top: 10.h), // 设置水平方向的空隙为16.0// 将您的组件放置在Padding内
                       ),
                       AppText(
                         str: userModel?.name ?? '',
@@ -66,13 +68,14 @@ class shareView extends GetView<ShareLogic> {
                         fontWeight: FontWeight.bold,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 10), // 设置水平方向的空隙为16.0// 将您的组件放置在Padding内
+                        padding: EdgeInsets.only(
+                            top: 10), // 设置水平方向的空隙为16.0// 将您的组件放置在Padding内
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           AppText(
-                            str: '邀请码'.inte+'：',
+                            str: '邀请码'.inte + '：',
                             fontSize: 14,
                             color: const Color(0xFF888888),
                           ),
@@ -84,8 +87,9 @@ class shareView extends GetView<ShareLogic> {
                           ),
                           5.horizontalSpace,
                           GestureDetector(
-                            onTap: (){
-                              Clipboard.setData(ClipboardData(text: userModel?.id));
+                            onTap: () {
+                              Clipboard.setData(
+                                  ClipboardData(text: userModel?.id));
                               controller.showToast('邀请码复制成功');
                             },
                             child: AppText(
@@ -97,11 +101,12 @@ class shareView extends GetView<ShareLogic> {
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 40), // 设置水平方向的空隙为16.0// 将您的组件放置在Padding内
+                        padding: EdgeInsets.only(
+                            top: 40), // 设置水平方向的空隙为16.0// 将您的组件放置在Padding内
                       ),
                       Container(
                         child: Image.network(
-                          'https://api-jiyun-v3.haiouoms.com/storage/admin/20240326-vRqum2B3hnaCjdRB.png',
+                          '',
                           width: 200.w,
                           height: 200.w,
                           fit: BoxFit.cover,
@@ -132,5 +137,4 @@ class shareView extends GetView<ShareLogic> {
       ),
     );
   }
-
 }

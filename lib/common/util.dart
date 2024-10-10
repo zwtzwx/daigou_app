@@ -153,7 +153,7 @@ class BaseUtils {
   static void onCustomerContact([String type = 'wx']) async {
     print(type);
     if (type == 'whatsapp') {
-      const contact = '+8618124122856';
+      const contact = '';
       String whatsappURlAndroid = 'whatsapp://send?phone=' + contact + '&text=';
       String whatappURLIos = "https://wa.me/$contact?text=";
       if (Platform.isIOS) {
@@ -212,7 +212,7 @@ class BaseUtils {
   }
 
   // 轮播图跳转
-  static void onAdLink(BannerModel model) async{
+  static void onAdLink(BannerModel model) async {
     print('当前链接');
     print(model.linkPath);
     print(model.linkType);
@@ -227,15 +227,6 @@ class BaseUtils {
           String token = Get.find<AppStore>().token.value;
           if (token.isEmpty) {
             GlobalPages.push(GlobalPages.login);
-          } else {
-            String uuid = BaseUrls.getUUID();
-            String api = BaseUrls.getBaseApi();
-            var parsedQuery = Uri.splitQueryString(paths[1]);
-            GlobalPages.push(GlobalPages.bannerWebview, arg: {
-              'title': '抽奖'.inte,
-              'url':
-                  'https://yingxiao.haiousaas.com/pages/reward/index?token=$token&api_url=$api&env=App&&UUID=$uuid&reward_id=${parsedQuery['id']}'
-            });
           }
         } else {
           if (paths.length > 1) {
@@ -251,10 +242,10 @@ class BaseUtils {
       print('外部URL');
       // 从浏览器打开
       if (await canLaunchUrl(Uri.parse(model.linkPath))) {
-    await launchUrl(Uri.parse(model.linkPath));
-    }
+        await launchUrl(Uri.parse(model.linkPath));
+      }
 
-    // 外部URL、公众号 URL
+      // 外部URL、公众号 URL
       // GlobalPages.push(GlobalPages.webview,
       //     arg: {'url': model.linkPath, 'title': 'Daigou', 'time': ''});
     }

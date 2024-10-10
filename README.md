@@ -1,16 +1,14 @@
-# shop_app_client
+## 介绍
 
-A new Flutter project.
+本应用是提供淘宝、1688等电商平台代购代买服务，同时集成物流转运功能
 
-## Getting Started
+## 注意事项
 
-This project is a starting point for a Flutter application.
+本应用删除了数据接口，只提供UI 部分，数据部分请自行开发
 
-A few resources to get you started if this is your first Flutter project:
+## 安装
+```
+flutter pub get
+```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

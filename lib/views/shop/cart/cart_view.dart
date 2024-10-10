@@ -42,23 +42,24 @@ class CartView extends GetView<CartController> {
                       width: 24.w,
                       height: 24.w,
                       child: Checkbox(
-                        value: controller.allChecked.value,
-                        shape: const CircleBorder(),
-                        activeColor: AppStyles.primary,
-                        onChanged: (value) {
-                          controller.onAllCheck(value!);
-                        },
+                          value: controller.allChecked.value,
+                          shape: const CircleBorder(),
+                          activeColor: AppStyles.primary,
+                          onChanged: (value) {
+                            controller.onAllCheck(value!);
+                          },
                           side: MaterialStateBorderSide.resolveWith(
-                                  (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.selected))//修改勾选时边框颜色为红色
-                                  return const BorderSide(width: 0.5, color: Colors.white);
-                                //修改默认时边框颜色为
-                                return const BorderSide(
-                                    width: 1, color: Color(0xff999999));
-                              }
-                            // 调整视觉密度
-                          )
-                      ),
+                              (Set<MaterialState> states) {
+                            if (states.contains(
+                                MaterialState.selected)) //修改勾选时边框颜色为红色
+                              return const BorderSide(
+                                  width: 0.5, color: Colors.white);
+                            //修改默认时边框颜色为
+                            return const BorderSide(
+                                width: 1, color: Color(0xff999999));
+                          }
+                              // 调整视觉密度
+                              )),
                     ),
                     2.horizontalSpace,
                     Expanded(
@@ -171,15 +172,14 @@ class CartView extends GetView<CartController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               Navigator.of(context).pop();
                             },
                             child: LoadAssetImage(
                               'Home/back',
                               width: 22.w,
                               height: 22.w,
-                            )
-                        ),
+                            )),
                         15.horizontalSpace,
                         Expanded(
                           child: ListView(
@@ -259,7 +259,7 @@ class CartView extends GetView<CartController> {
       child: Column(
         children: [
           ImgItem(
-            'https://api-jiyun-v3.haiouoms.com/storage/admin/20230826-u0MsFIRRUF396f7D.png',
+            '',
             width: 200.w,
             placeholderWidget: const SizedBox(),
           ),

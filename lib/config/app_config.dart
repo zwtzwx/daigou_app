@@ -5,15 +5,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class BaseUrls {
   static String getBaseApi() {
-    return dotenv.env['API_URL'] ?? "https://dev-api.haiouoms.com/api/client/";
-    // return dotenv.env['API_URL'] ?? "https://dev-api.haiouoms.com/api/";
+    return dotenv.env['API_URL'] ?? "";
   }
 
   static String getUUID() {
-    return dotenv.env['UUID'] ?? "4b8ab68b-7cf7-4e3b-9c00-cbd4dbf96f27";
+    return dotenv.env['UUID'] ?? "";
   }
 
   static String getImageApi() {
-    return dotenv.env['IMAGE_URL'] ?? "https://dev-api.haiouoms.com";
+    return dotenv.env['IMAGE_URL'] ?? "";
   }
 }
